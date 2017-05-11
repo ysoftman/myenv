@@ -2,8 +2,8 @@
 
 bash ./installcommon.sh
 zsh ./installprezto.zsh
-bash ./installvimplugin.sh
 bash ./installconfig.sh
+bash ./installvimplugin.sh
 bash ./installbypip.sh
 
 if [[ $(uname) == 'Darwin' ]]; then
