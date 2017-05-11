@@ -4,12 +4,12 @@
 Mac, CentOS, Ubuntu 환경에서 사용 
 
 # 사용방법
-- 전체 백업시
+- 전체 백업
 ```bash
 sh ./backup_my_setting.sh
 ```
 
-- 전체 설치
+- 전체 설치(아래 모든 설치 스크립트 포함)
 ```bash
 sh ./installall.sh
 ```
@@ -17,6 +17,11 @@ sh ./installall.sh
 - 기본 설치 환경 구성(zsh, python, ruby ...), 아래 개별 설치시 선행되어야 함
 ```bash
 sh ./installcommon.sh
+```
+
+- powerline 폰트 설치
+```bash
+sh ./installpowerlinefont.sh
 ```
 
 - zsh 기반 prezto 설치
