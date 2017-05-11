@@ -9,9 +9,9 @@ Mac, CentOS, Ubuntu 환경에서 사용
 sh ./backup_my_setting.sh
 ```
 
-- 전체 복구시
+- 전체 설치
 ```bash
-sh ./restore_my_setting.sh
+sh ./installall.sh
 ```
 
 - 기본 설치 환경 구성(zsh, python, ruby ...), 아래 개별 설치시 선행되어야 함
@@ -22,6 +22,11 @@ sh ./installcommon.sh
 - zsh 기반 prezto shell 설치
 ```bash
 zsh ./installprezto.zsh
+```
+
+- 기본 설정 설치(git config, bashrc, zshrc, vimrc ...)
+```bash
+sh ./installconfig.sh
 ```
 
 - vim 플러그인 설치
@@ -37,6 +42,11 @@ sh ./installbypip.sh
 - brew 로 프로그램 설치(Mac)
 ```bash
 sh ./installbybrew.sh
+```
+
+- mac app 설치(Mac)
+```bash
+sh ./install_mac_app.sh
 ```
 
 # 참고
