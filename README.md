@@ -19,9 +19,14 @@ sh ./installall.sh
 sh ./installcommon.sh
 ```
 
-- zsh 기반 prezto shell 설치
+- zsh 기반 prezto 설치
 ```bash
 zsh ./installprezto.zsh
+```
+
+- zsh 기반 oh-my-zsh 설치
+```bash
+zsh ./installohmyzsh.zsh
 ```
 
 - 기본 설정 설치(git config, bashrc, zshrc, vimrc ...)
