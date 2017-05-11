@@ -1,7 +1,9 @@
 # prezto 사용
-source ~/.zprezto/init.zsh
+#source ~/.zprezto/init.zsh
 
-#ZSH_THEME=robbyrussell
+# oh-my-zsh 사용
+source ~/.oh-my-zsh/templates/zshrc.zsh-template
+
 
 #export LSCOLORS=GxFxCxDxBxegedabagaced
 export CLICOLOR=1

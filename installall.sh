@@ -2,6 +2,7 @@
 
 bash ./installcommon.sh
 zsh ./installprezto.zsh
+zsh ./installohmyzsh.zsh
 bash ./installconfig.sh
 bash ./installvimplugin.sh
 bash ./installbypip.sh
