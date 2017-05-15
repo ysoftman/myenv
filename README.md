@@ -65,3 +65,10 @@ sh ./install_mac_app.sh
 sudo unlink /bin/sh
 sudo ln -s /bin/bash /bin/sh
 ```
+
+- iterm2 설정 
+```  
+color preset : darkside
+font : 12pt monaco
+non-asccii font : 12pt droid sans mono for powerline
+```  
