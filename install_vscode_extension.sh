@@ -19,10 +19,10 @@ code --install-extension mrmlnc.vscode-apache
 code --install-extension ms-vscode.Theme-MaterialKit
 code --install-extension ms-vscode.cpptools
 code --install-extension ms-vscode.csharp
+code --install-extension octref.vetur
 code --install-extension qinjia.view-in-browser
 code --install-extension ravilang.ravi-debug
 code --install-extension robertohuertasm.vscode-icons
 code --install-extension shanoor.vscode-nginx
 code --install-extension timonwong.ansible-autocomplete
-code --install-extension wholroyd.jinja
 code --install-extension xabikos.JavaScriptSnippets
