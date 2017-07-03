@@ -46,7 +46,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 " iterm -> non-ascii font 를 powerline 폰트로 변경 후 사용
-" let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 1
 
 let g:indent_guides_auto_colors = 0
 hi IndentGuidesOdd  ctermbg=black
