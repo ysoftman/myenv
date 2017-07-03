@@ -35,7 +35,7 @@ cp -v ~/.vimrc ./
 
 # backup vscode settings
 mkdir -p .vscode
-cp -v ~/Library/Application\ Support/Code/User/*.json ./.vscode/
+cp -v ~/Library/Application\ Support/Code/User/*.json ./vscode_settings/
 
 # backup vscode extension and make install script
 install_file="install_vscode_extension.sh"
