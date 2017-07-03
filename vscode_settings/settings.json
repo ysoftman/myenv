@@ -1,0 +1,42 @@
+{
+    "go.buildOnSave": true,
+    "go.lintOnSave": true,
+    "go.vetOnSave": true,
+    "go.buildTags": "",
+    "go.buildFlags": [],
+    "go.lintFlags": [],
+    "go.vetFlags": [],
+    "go.coverOnSave": false,
+    "go.useCodeSnippetsOnFunctionSuggest": false,
+    "go.formatOnSave": true,
+    "go.formatTool": "goreturns",
+    "go.gocodeAutoBuild": false,
+    "go.goroot": "/usr/local/go",
+    "go.gopath": "/Users/ysoftman/workspace/gopath",
+
+    "bookmarks.navigateThroughAllFiles": true,
+    
+    "window.zoomLevel": 0,
+    
+    "workbench.statusBar.visible": true,
+    "workbench.activityBar.visible": true,
+    "workbench.sideBar.location": "left",
+
+    "git.confirmSync": false,
+
+    "python.formatting.provider": "autopep8",
+
+    "C_Cpp.clang_format_path": "/usr/local/bin/clang-format",
+    "C_Cpp.clang_format_style": "file",
+    "C_Cpp.clang_format_fallbackStyle": "Visual Studio",
+
+    "vsicons.dontShowNewVersionMessage": true,
+    "editor.wordWrap": "on",
+    "editor.renderWhitespace": "all",
+    "editor.fontFamily": "monaco, menlo",
+    "workbench.colorTheme": "Atom One Dark",
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.welcome.enabled": false,
+
+    "editor.minimap.enabled": false
+}

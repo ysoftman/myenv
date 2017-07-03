@@ -1,0 +1,6 @@
+{
+	// VSCode의 표시 언어를 정의합니다.
+	// 지원되는 언어 목록은 https://go.microsoft.com/fwlink/?LinkId=761051 을(를) 참조하세요.
+	// 값을 변경하려면 VSCode를 다시 시작해야 합니다.
+	"locale":"ko"
+}
