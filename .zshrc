@@ -21,8 +21,11 @@ export PATH="/usr/local/opt/openssl/bin:$PATH"
 alias sn='pmset displaysleepnow'
 alias vi='vim'
 alias ll='ls -ahlG'
+alias gopath='cd $GOPATH'
 alias work='cd ~/workspace'
 alias testcode='cd ~/workspace/test_code'
 
 source .usfrc
+
+export PATH=$PATH:$HOME/workspace/cutstring:
 
