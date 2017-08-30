@@ -25,8 +25,9 @@ alias ll='ls -ahlG'
 alias gopath='cd $GOPATH'
 alias work='cd ~/workspace'
 alias testcode='cd ~/workspace/test_code'
+alias cutstring='$HOME/workspace/cutstring/cutstring'
+alias aleng='cd ~/workspace/aleng/ && aleng && cd -'
 
 source .usfrc
 
-export PATH=$PATH:$HOME/workspace/cutstring:
 
