@@ -9,10 +9,10 @@ source ~/.zprezto/init.zsh
 export CLICOLOR=1
 export GOPATH=$HOME/workspace/gopath
 export PATH=$PATH:$HOME:$GOPATH/bin:
-export PATH=$PATH:~/Library/Python/2.7/bin:
 export PATH=$PATH:/usr/local/opt/openssl/bin:
 
-export PYTHONPATH=$PYTHONPATH:/Library/Python/2.7/site-packages 
+export PYTHONPATH=/Library/Python/2.7/site-packages
+#export PYTHONPATH=/usr/local/lib/python3.6/site-packages
 export EDITOR=vim
 export VISUAL=vim
 
