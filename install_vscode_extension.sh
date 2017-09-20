@@ -7,10 +7,12 @@ code --install-extension akamud.vscode-theme-onedark
 code --install-extension alefragnani.Bookmarks
 code --install-extension dcr30.lualinter
 code --install-extension djabraham.vscode-yaml-validation
+code --install-extension donjayamanne.jquerysnippets
 code --install-extension donjayamanne.python
 code --install-extension fallenwood.vimL
 code --install-extension haaaad.ansible
 code --install-extension itryapitsin.Scala
+code --install-extension johnpapa.Angular2
 code --install-extension lukehoban.Go
 code --install-extension magicstack.MagicPython
 code --install-extension marcostazi.VS-code-vagrantfile
@@ -25,4 +27,5 @@ code --install-extension ravilang.ravi-debug
 code --install-extension robertohuertasm.vscode-icons
 code --install-extension shanoor.vscode-nginx
 code --install-extension timonwong.ansible-autocomplete
+code --install-extension vsmobile.vscode-react-native
 code --install-extension xabikos.JavaScriptSnippets
