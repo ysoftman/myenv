@@ -12,14 +12,12 @@ export PATH=$PATH:$HOME:$GOPATH/bin:
 export PATH=$PATH:/usr/local/opt/openssl/bin:
 
 export PYTHONPATH=/Library/Python/2.7/site-packages
-#export PYTHONPATH=/usr/local/lib/python3.6/site-packages
+#export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python3.6/site-packages
 export EDITOR=vim
 export VISUAL=vim
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# for osx
-alias sn='pmset displaysleepnow'
 alias vi='vim'
 alias ll='ls -ahlG'
 alias gopath='cd $GOPATH'
@@ -28,6 +26,8 @@ alias testcode='cd ~/workspace/test_code'
 alias cutstring='$HOME/workspace/cutstring/cutstring'
 alias aleng='cd ~/workspace/aleng/ && aleng && cd -'
 
-source .usfrc
+# for osx
+alias sn='pmset displaysleepnow'
 
+source ~/workspace/usf-ysoftman/.usfrc
 
