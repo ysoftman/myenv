@@ -15,9 +15,9 @@
     "go.gopath": "/Users/ysoftman/workspace/gopath",
 
     "bookmarks.navigateThroughAllFiles": true,
-    
+
     "window.zoomLevel": 0,
-    
+
     "workbench.statusBar.visible": true,
     "workbench.activityBar.visible": true,
     "workbench.sideBar.location": "left",
@@ -38,5 +38,14 @@
     "workbench.iconTheme": "vscode-icons",
     "workbench.welcome.enabled": false,
 
-    "editor.minimap.enabled": false
+    "editor.minimap.enabled": false,
+
+    "files.associations": {
+        "*.sh*": "shellscript",
+        "*dockerfile*": "dockerfile",
+        "*Dockerfile*": "dockerfile",
+        "*httpd.conf*": "apacheconf",
+        "*nginx.*": "NGINX"
+    }
+
 }
