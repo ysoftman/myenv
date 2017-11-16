@@ -66,6 +66,10 @@
         "command": "editor.action.clipboardPasteAction",
         "when": "editorTextFocus"
     }, {
+        "key": "ctrl+c",
+        "command": "filesExplorer.copy",
+        "when": "explorerViewletVisible && filesExplorerFocus"
+    }, {
         "key": "ctrl+v",
         "command": "filesExplorer.paste",
         "when": "explorerViewletVisible && filesExplorerFocus"
