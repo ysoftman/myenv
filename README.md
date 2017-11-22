@@ -67,8 +67,8 @@ sudo ln -s /bin/bash /bin/sh
 ```
 
 - iterm2 설정 
-```  
-color preset : darkside
+```
+color presets : darkside --> git clone https://github.com/bahlo/iterm-colors
 font : 12pt monaco
 non-asccii font : 12pt droid sans mono for powerline
 ```  
