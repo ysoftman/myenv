@@ -1,4 +1,5 @@
 #!/bin/sh
+code --install-extension DavidAnson.vscode-markdownlint
 code --install-extension DotJoshJohnson.xml
 code --install-extension HookyQR.beautify
 code --install-extension PeterJausovec.vscode-docker
