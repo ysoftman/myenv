@@ -29,5 +29,5 @@ alias aleng='cd ~/workspace/aleng/ && aleng && cd -'
 # for osx
 alias sn='pmset displaysleepnow'
 
-source ~/workspace/usf-ysoftman/.usfrc
+source ~/workspace/usf-ysoftman/usfenv.sh
 
