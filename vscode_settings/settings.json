@@ -34,6 +34,7 @@
     "editor.wordWrap": "on",
     "editor.renderWhitespace": "all",
     "editor.fontFamily": "monaco, menlo",
+    "editor.fontSize": 12,
     "workbench.colorTheme": "Atom One Dark",
     "workbench.iconTheme": "vscode-icons",
     "workbench.welcome.enabled": false,
@@ -46,6 +47,13 @@
         "*Dockerfile*": "dockerfile",
         "*httpd.conf*": "apacheconf",
         "*nginx.*": "NGINX"
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/.vscode": true
     }
-
 }
