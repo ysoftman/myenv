@@ -16,7 +16,7 @@ export PYTHONPATH=/Library/Python/2.7/site-packages
 export EDITOR=vim
 export VISUAL=vim
 
-if [ $(uname) == 'Linux' ]; then
+if [[ $(uname) == 'Linux' ]]; then
     export LANG=ko_KR.utf8
     export LC_ALL=ko_KR.utf8
 fi
