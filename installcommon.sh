@@ -40,7 +40,7 @@ elif [ $(uname) == 'Linux' ]; then
         mv download zsh-5.2.tar.gz
         tar zxvf zsh-5.2.tar.gz
         cd zsh-5.2
-        ./configure && make && sudo make install
+        ./configure && make -j 4 && sudo make install
         /usr/local/bin/zsh --version
     else
         echo "${compare_version} < ${cur_version}"
@@ -61,6 +61,6 @@ if [ -z ${zsh_path} ]; then
 	echo "/usr/local/bin/zsh" >> shells
 	sudo mv -v shells /etc/shells
     # 또는 수동으로 /etc/passwd 파일 수정
-	chsh -s /usr/local/bin/zsh
+	sudo chsh -s /usr/local/bin/zsh
 fi
 rm -fv shells

@@ -218,6 +218,7 @@ set fencs=utf-8,cp949
 set tabstop=4
 set autoindent
 set laststatus=2
+let g:go_version_warning = 0
 ' >> ~/.vimrc
 
 # vim-colors-solarized
