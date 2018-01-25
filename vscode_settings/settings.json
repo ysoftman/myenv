@@ -55,5 +55,9 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         "**/.vscode": true
-    }
+    },
+    "git.autofetch": true,
+    "python.disablePromptForFeatures": [
+        "pylint"
+    ]
 }

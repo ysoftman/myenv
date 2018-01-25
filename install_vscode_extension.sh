@@ -6,6 +6,7 @@ code --install-extension PeterJausovec.vscode-docker
 code --install-extension abusaidm.html-snippets
 code --install-extension akamud.vscode-theme-onedark
 code --install-extension alefragnani.Bookmarks
+code --install-extension bungcip.better-toml
 code --install-extension dbaeumer.vscode-eslint
 code --install-extension dcr30.lualinter
 code --install-extension djabraham.vscode-yaml-validation

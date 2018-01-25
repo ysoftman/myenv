@@ -28,7 +28,8 @@ alias ll='ls -ahlG'
 alias gopath='cd $GOPATH'
 alias work='cd ~/workspace'
 alias testcode='cd ~/workspace/test_code'
-alias cutstring='$HOME/workspace/cutstring/cutstring'
+alias cutstring='${HOME}/workspace/cutstring/cutstring'
+alias enchash='${HOME}/workspace/enchash/enchash'
 alias aleng='cd ~/workspace/aleng/ && aleng && cd -'
 
 # for osx
