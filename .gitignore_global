@@ -14,4 +14,4 @@
 *.pyc
 
 # node 관련
-./node_modules
+node_modules/
