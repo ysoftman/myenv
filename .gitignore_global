@@ -1,0 +1,17 @@
+*~
+
+# mac OS 관련
+.DS_Store
+
+# vscode 관련
+.vscode
+
+# virtualbox, vagrant 관련
+.box
+*.box
+
+# python 관련
+*.pyc
+
+# node 관련
+./node_modules
