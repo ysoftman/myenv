@@ -13,6 +13,7 @@ export VISUAL=vim
 if [[ $(uname) == 'Linux' ]]; then
     export LANG=ko_KR.utf8
     export LC_ALL=ko_KR.utf8
+	export PS1="\u@\h:\w\$"
 fi
 
 alias vi='vim'
