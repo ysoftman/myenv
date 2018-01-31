@@ -9,7 +9,7 @@ if [ $(uname) == 'Darwin' ]; then
 	echo 'OSX Environment'
 	brew install go
 	export GOROOT=/usr/local/bin/go
-	brew install ruby mercurial python cmake ctags
+	brew install perl ruby lua mercurial python cmake ctags
 elif [ $(uname) == 'Linux' ]; then
 	echo 'Linux Environment'
 	# yum 실행보기 
@@ -22,7 +22,7 @@ elif [ $(uname) == 'Linux' ]; then
 	fi
 	sudo ${package_program} install go vim
 	export GOROOT=/usr/bin/go
-	sudo ${package_program} install ruby mercurial python-dev cmake ctags
+	sudo ${package_program} install perl ruby lua mercurial python-dev cmake ctags
 else
 	echo 'Only OS-X or Linux... exit'
 	# 소스 빌드 및 설치
