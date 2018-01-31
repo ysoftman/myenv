@@ -33,13 +33,20 @@ else
 	exit
 fi
 
-# 최신 버전 vim 설치(안정화 버전이 아니기 때문에 필요한 경우만 수동을 직업 수행하자)
+
+# 최신 버전 vim 설치
 # git clone https://github.com/vim/vim.git
-# cd vim/src
-# git pull
-# make distclean 
-# make
-# sudo make install
+wget "https://github.com/vim/vim/archive/v8.0.1432.tar.gz"
+tar zxvf v8.0.1432.tar.gz
+cd vim-8.0.1432/src
+make distclean
+# youcompleteme 플러그인이 python 을 사용하기때문에  python2,3 을 지원하는 vim 으로 빌드되어야 한다.
+# perl, ruby, lua 지원도 포함해두자
+./configure --enable-pythoninterp=yes --enable-python3interp=yes --enable-perlinterp=yes --enable-rubyinterp=yes --enable-luainterp=yes
+make -j 8
+sudo make install
+
+
 
 GOPATH=${HOME}/workspace/gopath
 echo GOPATH=${GOPATH}
