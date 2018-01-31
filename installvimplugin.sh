@@ -9,7 +9,7 @@ if [ $(uname) == 'Darwin' ]; then
 	echo 'OSX Environment'
 	brew install go
 	export GOROOT=/usr/local/bin/go
-	brew install perl ruby lua mercurial python cmake ctags
+	brew install ruby lua mercurial python cmake ctags
 elif [ $(uname) == 'Linux' ]; then
 	echo 'Linux Environment'
 	# yum 실행보기 
@@ -22,7 +22,7 @@ elif [ $(uname) == 'Linux' ]; then
 	fi
 	sudo ${package_program} install go vim
 	export GOROOT=/usr/bin/go
-	sudo ${package_program} install perl ruby lua mercurial python-dev cmake ctags
+	sudo ${package_program} install ruby lua mercurial python-dev cmake ctags
 else
 	echo 'Only OS-X or Linux... exit'
 	# 소스 빌드 및 설치
@@ -41,8 +41,8 @@ tar zxvf v8.0.1432.tar.gz
 cd vim-8.0.1432/src
 make distclean
 # youcompleteme 플러그인이 python 을 사용하기때문에  python2,3 을 지원하는 vim 으로 빌드되어야 한다.
-# perl, ruby, lua 지원도 포함해두자
-./configure --enable-pythoninterp=yes --enable-python3interp=yes --enable-perlinterp=yes --enable-rubyinterp=yes --enable-luainterp=yes
+# ruby, lua 지원도 포함해두자
+./configure --enable-pythoninterp=yes --enable-python3interp=yes --enable-rubyinterp=yes --enable-luainterp=yes
 make -j 8
 sudo make install
 
