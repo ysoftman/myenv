@@ -8,6 +8,9 @@ git config --global alias.st status
 git config --global color.ui auto
 git config --global core.editor vim
 git config --global merge.tool vimdiff
+git config --global user.email "ysoftman@gmail.com"
+git config --global user.name "ysoftman"
+
 
 # git ignore
 cp -fv .gitignore_global ~
