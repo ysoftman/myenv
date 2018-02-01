@@ -9,7 +9,7 @@ if [ $(uname) == 'Darwin' ]; then
 	echo 'OSX Environment'
 	brew install go
 	export GOROOT=/usr/local/bin/go
-	brew install ruby lua mercurial python cmake ctags
+	brew install ruby lua mercurial python cmake ctags python3
 elif [ $(uname) == 'Linux' ]; then
 	echo 'Linux Environment'
 	# yum 실행보기 
@@ -22,7 +22,7 @@ elif [ $(uname) == 'Linux' ]; then
 	fi
 	sudo ${package_program} install go vim
 	export GOROOT=/usr/bin/go
-	sudo ${package_program} install ruby lua mercurial python-dev cmake ctags
+	sudo ${package_program} install ruby lua mercurial python-dev cmake ctags python34-devel
 else
 	echo 'Only OS-X or Linux... exit'
 	# 소스 빌드 및 설치
@@ -35,9 +35,11 @@ fi
 
 
 # 최신 버전 vim 설치
-# git clone https://github.com/vim/vim.git
-wget "https://github.com/vim/vim/archive/v8.0.1432.tar.gz"
-tar zxvf v8.0.1432.tar.gz
+if [ ! -d 'vim-8.0.1432' ]; then
+	# git clone https://github.com/vim/vim.git
+	wget "https://github.com/vim/vim/archive/v8.0.1432.tar.gz"
+	tar zxvf v8.0.1432.tar.gz
+fi
 cd vim-8.0.1432/src
 make distclean
 # youcompleteme 플러그인이 python 을 사용하기때문에  python2,3 을 지원하는 vim 으로 빌드되어야 한다.
