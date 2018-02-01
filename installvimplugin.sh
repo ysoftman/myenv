@@ -213,7 +213,7 @@ call plug#end()
 # vim -c PlugInstall -c qall
 vim +PlugInstall +qall
 # vim 실행 후 GoInstallBinaries 로 go 바이너리설치, $GOPATH/bin 에 필요한 파일들이 설치하고 모두 종료
-vim +silent +GoInstallBinaries +qall
+vim +'silent :GoInstallBinaries' +qall
 
 #######################
 # 사용자 설정
