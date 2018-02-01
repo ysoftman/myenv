@@ -215,6 +215,8 @@ call plug#end()
 # vim -c PlugInstall -c qall
 vim +PlugInstall +qall
 # vim 실행 후 GoInstallBinaries 로 go 바이너리설치, $GOPATH/bin 에 필요한 파일들이 설치하고 모두 종료
+# 처음 GoInstallBinaries 설치시 파일이 없어 설치한다는 메시지가 넘어가기 위해 사용자 입력을 기다리게 되면
+# dockerfile 로 이미지 빌드시(사용자 입력을 받을 수 없게 되어 있어) 문제가 되어 slient 모드로 설치한다.
 vim +'silent :GoInstallBinaries' +qall
 
 #######################
