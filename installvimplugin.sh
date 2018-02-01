@@ -209,8 +209,11 @@ Plug 'junegunn/fzf', { 'dir': '~/.vim/plugged/fzf', 'do': './install --all' }
 Plug 'nathanaelkane/vim-indent-guides'
 call plug#end()
 " >> ~/.vimrc
-vim -c PlugInstall -c qall
-
+# vim 실행 후 PlugInstall 로 Plugin 으로 설정한 플러그인 설치하고 모두 종료
+# vim -c PlugInstall -c qall
+vim +PlugInstall +qall
+# vim 실행 후 GoInstallBinaries 로 go 바이너리설치, $GOPATH/bin 에 필요한 파일들이 설치하고 모두 종료
+vim +GoInstallBinaries +qall
 
 #######################
 # 사용자 설정
@@ -280,11 +283,6 @@ nmap <f10> :NERDTreeToggle<cr>
 nmap <f3> :FZF<cr>
 nmap <f4> :IndentGuidesToggle<cr>
 ' >> ~/.vimrc
-
-# vim 실행 후 PluginInstall 로 Plugin 으로 설정한 플러그인 설치하고 모두 종료
-vim +PluginInstall +qall
-# vim 실행 후 GoInstallBinaries 로 go 바이너리설치, $GOPATH/bin 에 필요한 파일들이 설치하고 모두 종료
-vim +GoInstallBinaries +qall
 
 # 참고, 뉴라인으로 끝나면 이 스크립트가 실행될때마다 뉴라인이 추가된다.
 echo '"""""""""" ysoftman_settings_end' >>  ~/.vimrc
