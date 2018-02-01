@@ -11,6 +11,7 @@ if [[ $(uname) == 'Darwin' ]]; then
     export LSCOLORS='GxFxCxDxBxegedabagaced'
     export CLICOLOR=1
     alias ll='ls -ahlG'
+    alias sn='pmset displaysleepnow'
 elif [[ $(uname) == 'Linux' ]]; then
     export LANG=ko_KR.utf8
     export LC_ALL=ko_KR.utf8
@@ -27,5 +28,3 @@ alias cutstring='${HOME}/workspace/cutstring/cutstring'
 alias enchash='${HOME}/workspace/enchash/enchash'
 alias aleng='cd ~/workspace/aleng/ && aleng && cd -'
 
-# for osx
-alias sn='pmset displaysleepnow'
