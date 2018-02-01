@@ -219,7 +219,11 @@ vim +PlugInstall +qall
 # dockerfile 로 이미지 빌드시(사용자 입력을 받을 수 없게 되어 있어) 문제가 되어 slient 모드로 설치한다.
 vim +'silent :GoInstallBinaries' +qall
 # "The ycmd server SHUT DOWN (restart with :YcmRestartServer)" 메시지가 발생하는 경우가 있어 설치 진행
-~/.vim/plugged/youcompleteme/install.py
+cd ~/.vim/plugged/youcompleteme/
+git submodule update --init --recursive
+./install.py
+cd -
+
 
 #######################
 # 사용자 설정
