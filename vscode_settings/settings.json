@@ -1,4 +1,5 @@
 {
+    "files.eol": "\n",
     "go.buildOnSave": true,
     "go.lintOnSave": true,
     "go.vetOnSave": true,
@@ -13,6 +14,8 @@
     "go.gocodeAutoBuild": false,
     "go.goroot": "/usr/local/go",
     "go.gopath": "/Users/ysoftman/workspace/gopath",
+    // "go.goroot": "c:\\go",
+    // "go.gopath": "d:\\ysoftman\\workspace\\gopath",
 
     "bookmarks.navigateThroughAllFiles": true,
 
@@ -59,5 +62,8 @@
     "git.autofetch": true,
     "python.disablePromptForFeatures": [
         "pylint"
-    ]
+    ],
+    "java.errors.incompleteClasspath.severity": "ignore",
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
+    "explorer.confirmDelete": false
 }
