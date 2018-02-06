@@ -10,4 +10,5 @@ bash ./installbypip.sh
 if [[ $(uname) == 'Darwin' ]]; then
     bash ./installbybrew.sh
     bash ./install_mac_app.sh
+    bash ./install_mac_vscode_settings.sh
 fi
