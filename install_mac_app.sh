@@ -27,8 +27,6 @@ if [[ $(uname) == 'Darwin' ]]; then
         tar zxvf VSCode-darwin-stable.zip
         sudo cp -Rv "Visual Studio Code.app" /Applications
         rm -rfv "Visual Studio Code.app" "VSCode-darwin-stable.zip"
-        cp -fv ./vscode_settings/*.json ~/Library/Application\ Support/Code/User/ 
-        sh ./install_vscode_extension.sh
     fi
 
 
