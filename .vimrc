@@ -7,6 +7,7 @@ set fencs=utf-8,cp949
 set tabstop=4
 set autoindent
 set laststatus=2
+set lines=80
 
 """""""""" ysoftman_settings_start
 call plug#begin('~/.vim/plugged')
@@ -36,6 +37,7 @@ set fencs=utf-8,cp949
 set tabstop=4
 set autoindent
 set laststatus=2
+set lines=80
 
 syntax on
 let g:onedark_termcolors=256
