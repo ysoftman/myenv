@@ -2,8 +2,7 @@
 export GOPATH=$HOME/workspace/gopath
 export PATH=$PATH:$HOME:$GOPATH/bin:
 export PATH=$PATH:/usr/local/opt/openssl/bin:
-export PYTHONPATH=/Library/Python/2.7/site-packages
-#export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python3.6/site-packages
+#export PYTHONPATH=/usr/local/lib/python3.6/site-packages
 export EDITOR=vim
 export VISUAL=vim
 
