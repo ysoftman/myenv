@@ -7,6 +7,7 @@ git config --global alias.ci commit
 git config --global alias.st status
 git config --global color.ui auto
 git config --global core.editor vim
+git config --global core.autocrlf false
 git config --global merge.tool vimdiff
 git config --global user.email "ysoftman@gmail.com"
 git config --global user.name "ysoftman"
