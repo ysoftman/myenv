@@ -7,7 +7,8 @@ git config --global alias.ci commit
 git config --global alias.st status
 git config --global color.ui auto
 git config --global core.editor vim
-git config --global core.autocrlf true
+# 윈도우에서만 autocrlf 활성화 하자, 기본은 false
+git config --global core.autocrlf false
 git config --global merge.tool vimdiff
 # 이미 사용자 정보가 설정되어 있으면 덮어쓰기때문에 확인하고 사용하자
 # git config --global user.email "ysoftman@gmail.com"
