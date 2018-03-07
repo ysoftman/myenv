@@ -1,49 +1,5 @@
 {
     "files.eol": "\n",
-    "go.buildOnSave": "package",
-    "go.lintOnSave": "package",
-    "go.vetOnSave": "package",
-    "go.buildTags": "",
-    "go.buildFlags": [],
-    "go.lintFlags": [],
-    "go.vetFlags": [],
-    "go.coverOnSave": false,
-    "go.useCodeSnippetsOnFunctionSuggest": false,
-    "go.formatTool": "goreturns",
-    "go.lintTool":"golint",
-    "go.gocodeAutoBuild": false,
-    "go.goroot": "/usr/local/go",
-    "go.gopath": "/Users/ysoftman/workspace/gopath",
-    // "go.goroot": "c:\\go",
-    // "go.gopath": "d:\\ysoftman\\workspace\\gopath",
-
-    "bookmarks.navigateThroughAllFiles": true,
-
-    "window.zoomLevel": 0,
-
-    "workbench.statusBar.visible": true,
-    "workbench.activityBar.visible": true,
-    "workbench.sideBar.location": "left",
-
-    "git.confirmSync": false,
-
-    "python.formatting.provider": "autopep8",
-
-    "C_Cpp.clang_format_path": "/usr/local/bin/clang-format",
-    "C_Cpp.clang_format_style": "file",
-    "C_Cpp.clang_format_fallbackStyle": "Visual Studio",
-
-    "vsicons.dontShowNewVersionMessage": true,
-    "editor.wordWrap": "on",
-    "editor.renderWhitespace": "all",
-    "editor.fontFamily": "monaco, menlo",
-    "editor.fontSize": 12,
-    "workbench.colorTheme": "Atom One Dark",
-    "workbench.iconTheme": "vscode-icons",
-    "workbench.welcome.enabled": false,
-
-    "editor.minimap.enabled": false,
-
     "files.associations": {
         "*.sh*": "shellscript",
         "*dockerfile*": "dockerfile",
@@ -59,11 +15,51 @@
         "**/.DS_Store": true,
         "**/.vscode": true
     },
+    "go.buildOnSave": "package",
+    "go.lintOnSave": "package",
+    "go.vetOnSave": "package",
+    "go.buildTags": "",
+    "go.buildFlags": [],
+    "go.lintFlags": [],
+    "go.vetFlags": [],
+    "go.coverOnSave": false,
+    "go.useCodeSnippetsOnFunctionSuggest": false,
+    "go.formatTool": "goreturns",
+    "go.lintTool": "golint",
+    "go.gocodeAutoBuild": false,
+    "go.goroot": "/usr/local/go",
+    "go.gopath": "/Users/ysoftman/workspace/gopath",
+    // "go.goroot": "c:\\go",
+    // "go.gopath": "d:\\ysoftman\\workspace\\gopath",
+    "window.zoomLevel": 0,
+    "workbench.startupEditor": "welcomePage",
+    "workbench.statusBar.visible": true,
+    "workbench.activityBar.visible": true,
+    "workbench.sideBar.location": "left",
+    "workbench.colorTheme": "Atom One Dark",
+    "workbench.iconTheme": "vscode-icons",
     "git.autofetch": true,
+    "git.confirmSync": false,
+    "python.formatting.provider": "autopep8",
+    "C_Cpp.clang_format_path": "/usr/local/bin/clang-format",
+    "C_Cpp.clang_format_style": "file",
+    "C_Cpp.clang_format_fallbackStyle": "Visual Studio",
+    "vsicons.dontShowNewVersionMessage": true,
+    "editor.wordWrap": "on",
+    "editor.renderWhitespace": "all",
+    "editor.fontFamily": "monaco, menlo",
+    "editor.fontSize": 12,
+    "editor.minimap.enabled": false,
     "python.disablePromptForFeatures": [
         "pylint"
     ],
-    "java.errors.incompleteClasspath.severity": "ignore",
     "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
-    "explorer.confirmDelete": false
+    "explorer.confirmDelete": false,
+    // Number of editors shown in the Open Editors pane.
+    "explorer.openEditors.visible": 0,
+    // Should display the Treeview?
+    "bookmarks.treeview.visible": false,
+    "bookmarks.navigateThroughAllFiles": true,
+    // Show or hide the Explorer.
+    "docker.showExplorer": false,
 }
