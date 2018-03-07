@@ -32,7 +32,7 @@
     // "go.goroot": "c:\\go",
     // "go.gopath": "d:\\ysoftman\\workspace\\gopath",
     "window.zoomLevel": 0,
-    "workbench.startupEditor": "welcomePage",
+    "workbench.startupEditor": "none",
     "workbench.statusBar.visible": true,
     "workbench.activityBar.visible": true,
     "workbench.sideBar.location": "left",
