@@ -196,5 +196,9 @@
     {
         "key": "ctrl+alt+p",
         "command": "workbench.action.problems.focus"
+    },
+    {
+        "key": "ctrl+shift+e",
+        "command": "workbench.view.explorer"
     }
 ]
