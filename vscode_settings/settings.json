@@ -3,9 +3,9 @@
     "files.associations": {
         "*.sh*": "shellscript",
         "*dockerfile*": "dockerfile",
-        "*Dockerfile*": "dockerfile",
         "*httpd.conf*": "apacheconf",
-        "*nginx.*": "NGINX"
+        "*nginx.*": "NGINX",
+        "*makefile*": "makefile"
     },
     "files.exclude": {
         "**/.git": true,
