@@ -34,10 +34,12 @@ set number
 set hlsearch
 set backspace=indent,eol,start
 set fencs=utf-8,cp949
+set enc=utf-8
 set tabstop=4
 set autoindent
 set laststatus=2
 set lines=80
+let g:go_version_warning = 0
 
 syntax on
 let g:onedark_termcolors=256
