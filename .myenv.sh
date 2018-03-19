@@ -27,4 +27,5 @@ alias testcode='cd ~/workspace/test_code'
 alias cutstring='${HOME}/workspace/cutstring/cutstring'
 alias enchash='${HOME}/workspace/enchash/enchash'
 alias aleng='cd ~/workspace/aleng/ && aleng && cd -'
-
+alias pythonpath2='source ~/.pythonpath.sh 2'
+alias pythonpath3='source ~/.pythonpath.sh 3'
