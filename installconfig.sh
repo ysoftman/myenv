@@ -21,7 +21,6 @@ cp -fv .gitignore_global ~
 
 # bash, zsh, vim 기본 설정
 cp -fv .myenv.sh ~
-cp -fv .pythonpath.sh ~
 cp -fv .bashrc ~
 cp -fv .zshrc ~
 cp -fv .vimrc ~
