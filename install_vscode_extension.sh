@@ -32,5 +32,7 @@ code --install-extension ravilang.ravi-debug
 code --install-extension robertohuertasm.vscode-icons
 code --install-extension shanoor.vscode-nginx
 code --install-extension timonwong.ansible-autocomplete
+code --install-extension vitorsalgado.vscode-redis
 code --install-extension vsmobile.vscode-react-native
+code --install-extension wholroyd.jinja
 code --install-extension xabikos.JavaScriptSnippets

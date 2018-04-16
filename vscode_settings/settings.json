@@ -1,7 +1,8 @@
 {
     "files.eol": "\n",
     "files.associations": {
-        "*.sh*": "shellscript",
+        "*.sh.*": "shellscript",
+        "*.yml.*": "yaml",
         "*dockerfile*": "dockerfile",
         "*httpd.conf*": "apacheconf",
         "*nginx.*": "NGINX",
