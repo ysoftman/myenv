@@ -13,7 +13,7 @@ if [ $(uname) == 'Darwin' ]; then
 	pyenv install -f 3.6.4
 elif [ $(uname) == 'Linux' ]; then
 	echo 'Linux Environment'
-	# yum 실행보기 
+	# yum 실행보기
 	yum --version
 	# yum 실행후 exit code 0(SUCCESS) 이라면 사용할수 있다.
 	if [ $? == 0 ]; then
@@ -28,7 +28,7 @@ elif [ $(uname) == 'Linux' ]; then
 	sudo ${package_program} install ncurses ncurses-devel
 	# ncurses - ubuntu 에서 설치
 	sudo ${package_program} install build-essential libncurses5-dev
-	
+
 	# zsh 버전이 낮으면 소스 다운로드 받아 설치하기
 	cur_version="$(zsh --version | cut -d" " -f2)"
 	compare_version="5.1.999"
@@ -47,7 +47,7 @@ elif [ $(uname) == 'Linux' ]; then
 	else
 		echo "${compare_version} < ${cur_version}"
 	fi
-	
+
 else
 	echo 'Only OS-X or Linux... exit'
 	exit
@@ -57,11 +57,11 @@ fi
 cat /etc/shells > shells
 zsh_path=`cat shells | grep /usr/local/bin/zsh`
 echo $zsh_path
-# null string 이라면  
+# null string 이라면
 if [ -z ${zsh_path} ]; then
 	# /etc/shells 는 >> 를 허용하지 않아 수정 파일로 바꿔친다.
 	echo "/usr/local/bin/zsh" >> shells
 	sudo mv -v shells /etc/shells
-	sudo chsh -s /usr/local/bin/zsh ${USER}
 fi
 rm -fv shells
+sudo chsh -s /usr/local/bin/zsh ${USER}
