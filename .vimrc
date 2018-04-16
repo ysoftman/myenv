@@ -8,6 +8,7 @@ set tabstop=4
 set autoindent
 set laststatus=2
 set lines=80
+set visualbell t_vb=
 
 """""""""" ysoftman_settings_start
 call plug#begin('~/.vim/plugged')
