@@ -20,7 +20,7 @@ elif [ $(uname) == 'Linux' ]; then
 	else
 		package_program="apt-get"
 	fi
-	sudo ${package_program} install go vim
+	sudo ${package_program} install gcc-c++ wget go vim
 	export GOROOT=/usr/bin/go
 	sudo ${package_program} install ruby lua mercurial python-dev cmake ctags python34-devel tig
 else
