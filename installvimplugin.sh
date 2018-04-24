@@ -33,21 +33,29 @@ else
 	exit
 fi
 
+installvim() {
+	# 최신 버전 vim 설치
+	if [ ! -d 'vim-8.0.1432' ]; then
+		# git clone https://github.com/vim/vim.git
+		wget "https://github.com/vim/vim/archive/v8.0.1432.tar.gz"
+		tar zxvf v8.0.1432.tar.gz
+	fi
+	cd vim-8.0.1432/src
+	make distclean
+	# youcompleteme 플러그인이 python 을 사용하기때문에  python2,3 을 지원하는 vim 으로 빌드되어야 한다.
+	# ruby, lua 지원도 포함해두자
+	./configure --enable-pythoninterp=yes --enable-python3interp=yes --enable-rubyinterp=yes --enable-luainterp=yes
+	make -j 8
+	sudo make install
+}
 
-# 최신 버전 vim 설치
-if [ ! -d 'vim-8.0.1432' ]; then
-	# git clone https://github.com/vim/vim.git
-	wget "https://github.com/vim/vim/archive/v8.0.1432.tar.gz"
-	tar zxvf v8.0.1432.tar.gz
+cur_vim_version=$(vim --version | grep 'Vi IMproved' | awk '{print $5}')
+echo "cur_vim_version : ${cur_vim_version}"
+if [ ${cur_vim_version} != "8.0" ]; then
+	echo "cur_vim_version < 8.0"
+	echo "installvim()..."
+	installvim
 fi
-cd vim-8.0.1432/src
-make distclean
-# youcompleteme 플러그인이 python 을 사용하기때문에  python2,3 을 지원하는 vim 으로 빌드되어야 한다.
-# ruby, lua 지원도 포함해두자
-./configure --enable-pythoninterp=yes --enable-python3interp=yes --enable-rubyinterp=yes --enable-luainterp=yes
-make -j 8
-sudo make install
-
 
 
 GOPATH=${HOME}/workspace/gopath
@@ -275,7 +283,7 @@ let g:airline_powerline_fonts = 1
 echo 'let g:indent_guides_auto_colors = 0
 hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
-let g:indent_guides_enable_on_vim_startup = 1
+"let g:indent_guides_enable_on_vim_startup = 1
 ' >> ~/.vimrc
 
 # fzf
