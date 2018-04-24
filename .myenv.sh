@@ -1,7 +1,8 @@
 #!/bin/bash
+export GOROOT=/usr/local/go
 export GOPATH=$HOME/workspace/gopath
-export PATH=$PATH:$HOME:$GOPATH/bin:
-export PATH=$PATH:/usr/local/opt/openssl/bin:
+export PATH=$HOME:$GOROOT/bin:$GOPATH/bin:$PATH
+export PATH=/usr/local/opt/openssl/bin:$PATH
 export EDITOR=vim
 export VISUAL=vim
 
