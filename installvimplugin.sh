@@ -239,7 +239,10 @@ set enc=utf-8
 set tabstop=4
 set autoindent
 set laststatus=2
-set lines=80
+"set lines=80
+set visualbell t_vb=
+set list
+set listchars=tab:→\ ,trail:·,precedes:«,extends:»,eol:¶
 let g:go_version_warning = 0
 ' >> ~/.vimrc
 
@@ -254,10 +257,10 @@ let g:go_version_warning = 0
 # " >> ~/.vimrc
 
 # onedark
-echo "syntax on
+echo 'syntax on
 let g:onedark_termcolors=256
 colorscheme onedark
-" >> ~/.vimrc
+' >> ~/.vimrc
 
 # airline
 echo "set laststatus=2
@@ -269,12 +272,11 @@ let g:airline_powerline_fonts = 1
 " >> ~/.vimrc
 
 # vim-indent-guides
-echo "let g:indent_guides_auto_colors = 0
+echo 'let g:indent_guides_auto_colors = 0
 hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
-\" let g:indent_guides_enable_on_vim_startup = 1
-\" :IndentGuidesToggle
-" >> ~/.vimrc
+let g:indent_guides_enable_on_vim_startup = 1
+' >> ~/.vimrc
 
 # fzf
 # ~/.fzf/install --all
@@ -285,15 +287,20 @@ hi IndentGuidesEven ctermbg=darkgrey
 
 # 단축키 설정
 echo '" 단축키 설정
-nmap <f5> :GoRun<cr>
-nmap <f7> :GoBuild<cr>
-nmap <c-i> :GoFmt<cr>
-nmap <c-p> :GoImports<cr>
-nmap <f12> :TagbarToggle<cr>
-nmap <f10> :NERDTreeToggle<cr>
-nmap <f3> :FZF<cr>
-nmap <f4> :IndentGuidesToggle<cr>
+nmap <f1> :TagbarToggle<cr>¶
+nmap <f4> :IndentGuidesToggle<cr>¶
+nmap <f5> :GoRun<cr>¶
+nmap <f7> :GoBuild<cr>¶
+nmap <f12> :GoDef<cr>¶
+nmap <s-f12> :GoCallees<cr>¶
+nmap <c-f> :GoFmt<cr>¶
+nmap <c-v> :GoVet<cr>¶
+nmap <c-l> :GoLint<cr>¶
+nmap <c-i> :GoImports<cr>¶
+nmap <c-b> :NERDTreeToggle<cr>¶
+nmap <c-t> :FZF<cr>¶
 ' >> ~/.vimrc
 
 # 참고, 뉴라인으로 끝나면 이 스크립트가 실행될때마다 뉴라인이 추가된다.
 echo '"""""""""" ysoftman_settings_end' >>  ~/.vimrc
+
