@@ -50,17 +50,15 @@ hi IndentGuidesEven ctermbg=darkgrey
 "let g:indent_guides_enable_on_vim_startup = 1
 
 " 단축키 설정
-nmap <f1> :TagbarToggle<cr>¶
-nmap <f4> :IndentGuidesToggle<cr>¶
-nmap <f5> :GoRun<cr>¶
-nmap <f7> :GoBuild<cr>¶
-nmap <f12> :GoDef<cr>¶
-nmap <s-f12> :GoCallees<cr>¶
-nmap <c-f> :GoFmt<cr>¶
-nmap <c-v> :GoVet<cr>¶
-nmap <c-l> :GoLint<cr>¶
-nmap <c-i> :GoImports<cr>¶
-nmap <c-b> :NERDTreeToggle<cr>¶
-nmap <c-t> :FZF<cr>¶
+noremap <f1> :TagbarToggle<cr>¶
+noremap <f4> :IndentGuidesToggle<cr>¶
+noremap <f5> :GoRun<cr>¶
+noremap <f7> :GoBuild<cr>¶
+noremap <f12> :GoDef<cr>¶
+noremap <s-f12> :GoCallees<cr>¶
+noremap <f9> :GoFmt<cr>:GoImports<cr>
+noremap <s-f9> :GoVet<cr>:GoLint<cr>¶
+noremap <c-b> :NERDTreeToggle<cr>¶
+noremap <c-t> :FZF<cr>¶
 
 """""""""" ysoftman_settings_end
