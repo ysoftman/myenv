@@ -208,9 +208,10 @@ Plug 'valloric/youcompleteme'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree'
 Plug 'fatih/vim-go'
-Plug 'powerline/fonts'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+\"Plug 'powerline/fonts'
+\"Plug 'vim-airline/vim-airline'
+\"Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 Plug 'scrooloose/syntastic'
 Plug 'altercation/vim-colors-solarized'
 Plug 'joshdick/onedark.vim'
@@ -270,13 +271,21 @@ let g:onedark_termcolors=256
 colorscheme onedark
 ' >> ~/.vimrc
 
+# airline 대신 lightline 사용
 # airline
+# echo "set laststatus=2
+# let g:airline#extensions#tabline#enabled = 1
+# let g:airline#extensions#tabline#left_sep = ' '
+# let g:airline#extensions#tabline#left_alt_sep = '|'
+# \" iterm -> non-ascii font 를 powerline 폰트로 변경 후 사용
+# let g:airline_powerline_fonts = 1
+#" >> ~/.vimrc
+
+# lightline 화살표 폰트가 없어 powerline 폰트가 필요 없다
 echo "set laststatus=2
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-\" iterm -> non-ascii font 를 powerline 폰트로 변경 후 사용
-let g:airline_powerline_fonts = 1
+let g:lightline = {
+      \ 'colorscheme': 'one',
+      \ }
 " >> ~/.vimrc
 
 # vim-indent-guides
