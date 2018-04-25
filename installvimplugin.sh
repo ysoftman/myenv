@@ -227,12 +227,12 @@ vim +PlugInstall +qall
 # 처음 GoInstallBinaries 설치시 파일이 없어 설치한다는 메시지가 넘어가기 위해 사용자 입력을 기다리게 되면
 # dockerfile 로 이미지 빌드시(사용자 입력을 받을 수 없게 되어 있어) 문제가 되어 slient 모드로 설치한다.
 vim +'silent :GoInstallBinaries' +qall
+
 # "The ycmd server SHUT DOWN (restart with :YcmRestartServer)" 메시지가 발생하는 경우가 있어 설치 진행
 cd ~/.vim/plugged/youcompleteme/
 git submodule update --init --recursive
 ./install.py
 cd -
-
 
 #######################
 # 사용자 설정

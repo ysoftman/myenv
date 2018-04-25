@@ -60,6 +60,6 @@ noremap <s-f9> :GoVet<enterr>:GoLint<enter>
 noremap <c-b> :NERDTreeToggle<enter>
 noremap <c-t> :FZF<enter>
 "remove trailing whitespce
-map rtw :%s/\s\+$//e<enter>
+noremap rtw :%s/\s\+$//e<enter>
 
 """""""""" ysoftman_settings_end
