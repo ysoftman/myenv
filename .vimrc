@@ -12,7 +12,7 @@ Plug 'scrooloose/syntastic'
 Plug 'altercation/vim-colors-solarized'
 Plug 'joshdick/onedark.vim'
 Plug 'kien/ctrlp.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.vim/plugged/fzf', 'do': './install --all' } 
+Plug 'junegunn/fzf', { 'dir': '~/.vim/plugged/fzf', 'do': './install --all' }
 Plug 'nathanaelkane/vim-indent-guides'
 call plug#end()
 
@@ -49,15 +49,17 @@ hi IndentGuidesEven ctermbg=darkgrey
 "let g:indent_guides_enable_on_vim_startup = 1
 
 " 단축키 설정
-noremap <f1> :TagbarToggle<cr>
-noremap <f4> :IndentGuidesToggle<cr>
-noremap <f5> :GoRun<cr>
-noremap <f7> :GoBuild<cr>
-noremap <f12> :GoDef<cr>
-noremap <s-f12> :GoCallees<cr>
-noremap <f9> :GoFmt<cr>:GoImports<cr>
-noremap <s-f9> :GoVet<cr>:GoLint<cr>
-noremap <c-b> :NERDTreeToggle<cr>
-noremap <c-t> :FZF<cr>
+noremap <f1> :TagbarToggle<enter>
+noremap <f4> :IndentGuidesToggle<enter>
+noremap <f5> :GoRun<enter>
+noremap <f7> :GoBuild<enter>
+noremap <f12> :GoDef<enter>
+noremap <s-f12> :GoCallees<enter>
+noremap <f9> :GoFmt<enter>:GoImports<enter>
+noremap <s-f9> :GoVet<enterr>:GoLint<enter>
+noremap <c-b> :NERDTreeToggle<enter>
+noremap <c-t> :FZF<enter>
+"remove trailing whitespce
+map rtw :%s/\s\+$//e<enter>
 
 """""""""" ysoftman_settings_end
