@@ -12,7 +12,7 @@ if [ $(uname) == 'Darwin' ]; then
 	brew install ruby lua mercurial python cmake ctags python3 tig
 elif [ $(uname) == 'Linux' ]; then
 	echo 'Linux Environment'
-	# yum 실행보기 
+	# yum 실행보기
 	yum --version
 	# yum 실행후 exit code 0(SUCCESS) 이라면 사용할수 있다.
 	if [ $? == 0 ]; then
@@ -92,7 +92,7 @@ echo '"""""""""" ysoftman_settings_start' >>  ~/.vimrc
 #cp -v ./vim-pathogen/autoload/pathogen.vim ./
 #echo '
 #" pathogen 설정
-#" 참고 https://github.com/tpope/vim-pathogen.git 
+#" 참고 https://github.com/tpope/vim-pathogen.git
 #execute pathogen#infect()
 #filetype plugin indent on
 #' >> ~/.vimrc
@@ -216,7 +216,7 @@ Plug 'scrooloose/syntastic'
 Plug 'altercation/vim-colors-solarized'
 Plug 'joshdick/onedark.vim'
 Plug 'kien/ctrlp.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.vim/plugged/fzf', 'do': './install --all' } 
+Plug 'junegunn/fzf', { 'dir': '~/.vim/plugged/fzf', 'do': './install --all' }
 Plug 'nathanaelkane/vim-indent-guides'
 call plug#end()
 " >> ~/.vimrc
@@ -304,16 +304,18 @@ hi IndentGuidesEven ctermbg=darkgrey
 
 # 단축키 설정
 echo '" 단축키 설정
-noremap <f1> :TagbarToggle<cr>
-noremap <f4> :IndentGuidesToggle<cr>
-noremap <f5> :GoRun<cr>
-noremap <f7> :GoBuild<cr>
-noremap <f12> :GoDef<cr>
-noremap <s-f12> :GoCallees<cr>
-noremap <f9> :GoFmt<cr>:GoImports<cr>
-noremap <s-f9> :GoVet<cr>:GoLint<cr>
-noremap <c-b> :NERDTreeToggle<cr>
-noremap <c-t> :FZF<cr>
+noremap <f1> :TagbarToggle<enter>
+noremap <f4> :IndentGuidesToggle<enter>
+noremap <f5> :GoRun<enter>
+noremap <f7> :GoBuild<enter>
+noremap <f12> :GoDef<enter>
+noremap <s-f12> :GoCallees<enter>
+noremap <f9> :GoFmt<enter>:GoImports<enter>
+noremap <s-f9> :GoVet<enterr>:GoLint<enter>
+noremap <c-b> :NERDTreeToggle<enter>
+noremap <c-t> :FZF<enter>
+"remove trailing whitespce
+map rtw :%s/\s\+$//e<enter>
 ' >> ~/.vimrc
 
 # 참고, 뉴라인으로 끝나면 이 스크립트가 실행될때마다 뉴라인이 추가된다.
