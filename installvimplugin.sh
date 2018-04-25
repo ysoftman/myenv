@@ -315,7 +315,7 @@ noremap <s-f9> :GoVet<enterr>:GoLint<enter>
 noremap <c-b> :NERDTreeToggle<enter>
 noremap <c-t> :FZF<enter>
 "remove trailing whitespce
-map rtw :%s/\s\+$//e<enter>
+noremap rtw :%s/\s\+$//e<enter>
 ' >> ~/.vimrc
 
 # 참고, 뉴라인으로 끝나면 이 스크립트가 실행될때마다 뉴라인이 추가된다.
