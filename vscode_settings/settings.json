@@ -49,7 +49,7 @@
     "editor.wordWrap": "on",
     "editor.renderWhitespace": "all",
     "editor.fontFamily": "monaco, menlo",
-    "editor.fontSize": 12,
+    "editor.fontSize": 14,
     "editor.minimap.enabled": false,
     "python.disablePromptForFeatures": [
         "pylint"
@@ -63,4 +63,5 @@
     "bookmarks.navigateThroughAllFiles": true,
     // Show or hide the Explorer.
     "docker.showExplorer": false,
+    "vsicons.projectDetection.autoReload": true,
 }

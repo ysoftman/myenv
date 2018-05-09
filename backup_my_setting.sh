@@ -13,7 +13,7 @@ install_file="installbypip.sh"
 echo '#!/bin/bash' > ${install_file}
 echo 'sudo pip install --upgrade pip' >> ${install_file}
 printf "sudo pip install " >> ${install_file}
-pip list | awk '{print $1}' | tr '\n' ' ' >> ${install_file}
+pip list | sed -n '3,$p' | awk '{print $1}' | tr '\n' ' ' >> ${install_file}
 # --upgrade 필요시에만 사용
 # echo ' --upgrade' >> ${install_file}
 
