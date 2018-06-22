@@ -18,7 +18,6 @@ pip list | sed -n '3,$p' | awk '{print $1}' | tr '\n' ' ' >> ${install_file}
 # echo ' --upgrade' >> ${install_file}
 
 # backup my shell settings
-cp -v ~/.myenv.sh ./
 cp -v ~/.bashrc ./
 cp -v ~/.zshrc ./
 
