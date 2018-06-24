@@ -29,6 +29,9 @@ elif [ $(uname) == 'Linux' ]; then
 	# ncurses - ubuntu 에서 설치
 	sudo ${package_program} install build-essential libncurses5-dev
 
+	# export LC_ALL=ko_KR.utf8 사용을 위해서 정의되어 있어야 한다.
+	sudo localedef -f UTF-8 -i ko_KR ko_KR.utf8
+
 	# zsh 버전이 낮으면 소스 다운로드 받아 설치하기
 	cur_version="$(zsh --version | cut -d" " -f2)"
 	compare_version="5.1.999"
