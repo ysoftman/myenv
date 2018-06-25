@@ -31,7 +31,7 @@ set laststatus=2
 "set lines=80
 set visualbell t_vb=
 set list
-set listchars=tab:→\ ,trail:·,precedes:«,extends:»,eol:¶
+set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»,eol:¶
 let g:go_version_warning = 0
 
 syntax on
