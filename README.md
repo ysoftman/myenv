@@ -92,5 +92,5 @@ sudo ln -s /bin/bash /bin/sh
 ```text
 color presets : darkside --> git clone https://github.com/bahlo/iterm-colors
 font : 14pt monaco
-non-asccii font : 12pt droid sans mono for powerline
+non-asccii font : 14pt droid sans mono for powerline
 ```
