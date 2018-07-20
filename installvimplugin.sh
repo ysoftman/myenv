@@ -295,6 +295,11 @@ hi IndentGuidesEven ctermbg=darkgrey
 "let g:indent_guides_enable_on_vim_startup = 1
 ' >> ~/.vimrc
 
+# vim-go
+# .go 파일에서 c-] , c-t 등 godef 관련 shortcut 이 아래 단축키 설정과 충돌해 비활성화
+echo 'let g:go_def_mapping_enabled=0
+' >> ~/.vimrc
+
 # fzf
 # ~/.fzf/install --all
 # [ -f ~/.fzf.bash ] && source ~/.fzf.bash
