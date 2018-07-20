@@ -64,4 +64,5 @@
     // Show or hide the Explorer.
     "docker.showExplorer": false,
     "vsicons.projectDetection.autoReload": true,
+    "explorer.confirmDragAndDrop": false,
 }

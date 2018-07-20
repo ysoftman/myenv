@@ -48,6 +48,8 @@ hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
 "let g:indent_guides_enable_on_vim_startup = 1
 
+let g:go_def_mapping_enabled=0
+
 " 단축키 설정
 noremap <f1> :TagbarToggle<enter>
 noremap <f4> :IndentGuidesToggle<enter>

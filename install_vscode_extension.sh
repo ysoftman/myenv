@@ -1,7 +1,6 @@
 #!/bin/sh
+code --install-extension 13xforever.language-x86-64-assembly
 code --install-extension DavidAnson.vscode-markdownlint
-code --install-extension DotJoshJohnson.xml
-code --install-extension HookyQR.beautify
 code --install-extension PeterJausovec.vscode-docker
 code --install-extension abusaidm.html-snippets
 code --install-extension akamud.vscode-theme-onedark
@@ -11,9 +10,11 @@ code --install-extension dbaeumer.vscode-eslint
 code --install-extension dcr30.lualinter
 code --install-extension djabraham.vscode-yaml-validation
 code --install-extension donjayamanne.jquerysnippets
+code --install-extension DotJoshJohnson.xml
 code --install-extension eg2.tslint
 code --install-extension fallenwood.vimL
 code --install-extension haaaad.ansible
+code --install-extension HookyQR.beautify
 code --install-extension itryapitsin.Scala
 code --install-extension johnpapa.Angular2
 code --install-extension magicstack.MagicPython
@@ -29,10 +30,15 @@ code --install-extension ms-vscode.node-debug2
 code --install-extension msjsdiag.debugger-for-chrome
 code --install-extension octref.vetur
 code --install-extension ravilang.ravi-debug
+code --install-extension redhat.java
 code --install-extension robertohuertasm.vscode-icons
 code --install-extension shanoor.vscode-nginx
 code --install-extension timonwong.ansible-autocomplete
 code --install-extension vitorsalgado.vscode-redis
+code --install-extension vscjava.vscode-java-debug
+code --install-extension vscjava.vscode-java-pack
+code --install-extension vscjava.vscode-java-test
+code --install-extension vscjava.vscode-maven
 code --install-extension vsmobile.vscode-react-native
 code --install-extension wholroyd.jinja
 code --install-extension xabikos.JavaScriptSnippets
