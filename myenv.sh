@@ -20,6 +20,7 @@ elif [[ $(uname) == 'Linux' ]]; then
 fi
 
 alias vi='vim'
+alias vimlastfile='vim `(ls -1tr | tail -1)`'
 alias gopath='cd $GOPATH'
 alias work='cd ~/workspace'
 alias testcode='cd ~/workspace/test_code'
