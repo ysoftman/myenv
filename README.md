@@ -6,75 +6,41 @@ Mac, CentOS, Ubuntu 환경에서 사용
 
 ## 사용방법
 
-- 전체 백업
-
 ```bash
+# 전체 백업
 sh ./backup_my_setting.sh
-```
 
-- 전체 설치(아래 모든 설치 스크립트 포함)
-
-```bash
+#전체 설치(아래 모든 설치 스크립트 포함)
 sh ./installall.sh
-```
 
-- 기본 설치 환경 구성(zsh, python, ruby ...), 아래 개별 설치시 선행되어야 함
-
-```bash
+# 기본 설치 환경 구성(zsh, python, ruby ...), 아래 개별 설치시 선행되어야 함
 sh ./installcommon.sh
-```
 
-- powerline 폰트 설치
-
-```bash
+# powerline 폰트 설치
 sh ./installpowerlinefont.sh
-```
 
-- zsh 기반 prezto 설치
-
-```bash
+# zsh 기반 prezto 설치
 zsh ./installprezto.zsh
-```
 
-- zsh 기반 oh-my-zsh 설치
-
-```bash
+# zsh 기반 oh-my-zsh 설치
 zsh ./installohmyzsh.zsh
-```
 
-- 기본 설정 설치(git config, bashrc, zshrc, vimrc ...)
-
-```bash
+# 기본 설정 설치(git config, bashrc, zshrc, vimrc ...)
 sh ./installconfig.sh
-```
 
-- vim 플러그인 설치
+# vim 설치
+sh ./installvim.sh
 
-```bash
-sh ./installvimplugin.sh
-```
-
-- pip 로 프로그램 설치
-
-```bash
+# pip 로 프로그램 설치
 sh ./installbypip.sh
-```
 
-- brew 로 프로그램 설치(Mac)
-
-```bash
+# brew 로 프로그램 설치(Mac)
 sh ./installbybrew.sh
-```
 
-- mac app 설치(Mac)
-
-```bash
+# mac app 설치(Mac)
 sh ./install_mac_app.sh
-```
 
-- vscode settings 적용(Mac), Windows 는 install_win_vscode_settings.bat 사용
-
-```bash
+# vscode settings 적용(Mac), Windows 는 install_win_vscode_settings.bat 사용
 sh ./install_mac_vscode_settings.sh
 ```
 
