@@ -4,6 +4,7 @@ Plug 'valloric/youcompleteme'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree'
 Plug 'fatih/vim-go'
+Plug 'itchyny/vim-gitbranch'
 "Plug 'powerline/fonts'
 "Plug 'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'
@@ -40,7 +41,13 @@ colorscheme onedark
 
 set laststatus=2
 let g:lightline = {
-      \ 'colorscheme': 'one',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'gitbranch#name'
+      \ },
       \ }
 
 let g:indent_guides_auto_colors = 0

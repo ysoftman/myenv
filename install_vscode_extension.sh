@@ -1,11 +1,10 @@
 #!/bin/sh
 code --install-extension 13xforever.language-x86-64-assembly
-code --install-extension DavidAnson.vscode-markdownlint
-code --install-extension PeterJausovec.vscode-docker
 code --install-extension abusaidm.html-snippets
 code --install-extension akamud.vscode-theme-onedark
 code --install-extension alefragnani.Bookmarks
 code --install-extension bungcip.better-toml
+code --install-extension DavidAnson.vscode-markdownlint
 code --install-extension dbaeumer.vscode-eslint
 code --install-extension dcr30.lualinter
 code --install-extension djabraham.vscode-yaml-validation
@@ -13,6 +12,7 @@ code --install-extension donjayamanne.jquerysnippets
 code --install-extension DotJoshJohnson.xml
 code --install-extension eg2.tslint
 code --install-extension fallenwood.vimL
+code --install-extension formulahendry.vscode-mysql
 code --install-extension haaaad.ansible
 code --install-extension HookyQR.beautify
 code --install-extension itryapitsin.Scala
@@ -21,6 +21,7 @@ code --install-extension magicstack.MagicPython
 code --install-extension marcostazi.VS-code-vagrantfile
 code --install-extension mitaki28.vscode-clang
 code --install-extension mrmlnc.vscode-apache
+code --install-extension ms-mssql.mssql
 code --install-extension ms-python.python
 code --install-extension ms-vscode.Theme-MaterialKit
 code --install-extension ms-vscode.cpptools
@@ -29,6 +30,7 @@ code --install-extension ms-vscode.Go
 code --install-extension ms-vscode.node-debug2
 code --install-extension msjsdiag.debugger-for-chrome
 code --install-extension octref.vetur
+code --install-extension PeterJausovec.vscode-docker
 code --install-extension ravilang.ravi-debug
 code --install-extension redhat.java
 code --install-extension robertohuertasm.vscode-icons
