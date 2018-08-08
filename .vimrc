@@ -18,9 +18,12 @@ Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree'
 Plug 'fatih/vim-go'
 Plug 'itchyny/vim-gitbranch'
-"Plug 'powerline/fonts'
-"Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
+Plug 'tpope/vim-fugitive'
+Plug 'powerline/fonts'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'liuchengxu/space-vim-dark'
+Plug 'flazz/vim-colorschemes'
 Plug 'itchyny/lightline.vim'
 Plug 'scrooloose/syntastic'
 Plug 'altercation/vim-colors-solarized'
@@ -33,7 +36,7 @@ call plug#end()
 
 " 사용자 설정
 syntax on
-color elflord
+color desert
 set number
 set hlsearch
 set backspace=indent,eol,start
@@ -57,10 +60,16 @@ let g:go_version_warning = 0
 "let g:solarized_visibility=\"high\"
 "set background=dark
 
-syntax on
-let g:onedark_termcolors=256
-colorscheme onedark
+"ondeark 일반 터미널 256 색상에선 배경색 잔상이 남아 사용하지 않음.
+"syntax on
+"let g:onedark_termcolors=256
+"colorscheme onedark
 
+"space-vim-dark
+"let g:space_vim_dark_background = 234
+"color space-vim-dark
+"set termguicolors
+"hi LineNr ctermbg=NONE guibg=NONE
 
 "airline 대신 lightline 사용`
 "echo "set laststatus=2`
@@ -74,12 +83,13 @@ colorscheme onedark
 "lightline 화살표 폰트가 없어 powerline 폰트가 필요 없다
 set laststatus=2
 let g:lightline = {
+      \ 'colorscheme': 'wombat',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
       \ },
       \ 'component_function': {
-      \   'gitbranch': 'gitbranch#name'
+      \   'gitbranch': 'fugitive#head'
       \ },
       \ }
 
