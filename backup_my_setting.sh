@@ -18,11 +18,11 @@ pip list | sed -n '3,$p' | awk '{print $1}' | tr '\n' ' ' >> ${install_file}
 # echo ' --upgrade' >> ${install_file}
 
 # backup my shell settings
-cp -v ~/.bashrc ./
-cp -v ~/.zshrc ./
+cp -v ~/.bashrc ./.bashrc.backup
+cp -v ~/.zshrc ./.zshrc.backup
 
 # backup vimrc
-cp -v ~/.vimrc ./
+cp -v ~/.vimrc ./.vimrc.backup
 
 # backup .ssh directory
 # 보안사항으로 실제 필요할때만 사용하자
