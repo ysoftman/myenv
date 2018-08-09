@@ -47,7 +47,7 @@ set autoindent
 set laststatus=2
 "set lines=80
 set visualbell t_vb=
-set list
+set nolist
 set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»,eol:¶
 let g:go_version_warning = 0
 
