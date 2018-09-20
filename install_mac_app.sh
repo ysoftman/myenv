@@ -16,7 +16,7 @@ if [[ $(uname) == 'Darwin' ]]; then
         wget https://iterm2.com/downloads/stable/iTerm2-3_2_0.zip
         tar zxf iTerm2-3_2_0.zip
         sudo cp -R "iTerm.app" /Applications
-        rm -rf "iTerm*"
+        rm -rf iTerm*
     fi
 
     if [ -e '/Applications/SourceTree.app' ]; then
@@ -25,7 +25,7 @@ if [[ $(uname) == 'Darwin' ]]; then
         wget https://downloads.atlassian.com/software/sourcetree/Sourcetree_2.7.6a.zip
         tar zxf Sourcetree_2.7.6a.zip
         sudo cp -R "SourceTree.app" /Applications
-        rm -rf "SourceTree*"
+        rm -rf SourceTree*
     fi
 
     if [ -e '/Applications/Visual Studio Code.app' ]; then
@@ -43,7 +43,7 @@ if [[ $(uname) == 'Darwin' ]]; then
         wget https://downloads.slack-edge.com/mac_releases/Slack-2.3.3-macOS.zip
         tar zxf Slack-2.3.3-macOS.zip
         sudo cp -R "Slack.app" /Applications
-        rm -rf "Slack*"
+        rm -rf Slack*
     fi
 
     if [ -e '/Applications/Google Chrome.app' ]; then
@@ -63,7 +63,7 @@ if [[ $(uname) == 'Darwin' ]]; then
         hdiutil mount 'Firefox 62.0.dmg'
         sudo cp -R "/Volumes/Firefox/Firefox.app" /Applications
         hdiutil unmount "/Volumes/Firefox"
-        rm -rf "Firefox*"
+        rm -rf Firefox*
     fi
 
     if [ -e '/Applications/Spectacle.app' ]; then
@@ -72,7 +72,7 @@ if [[ $(uname) == 'Darwin' ]]; then
         wget https://s3.amazonaws.com/spectacle/downloads/Spectacle+1.2.zip
         tar zxf Spectacle+1.2.zip
         sudo cp -R "./Spectacle.app" /Applications
-        rm -rf "Spectacle*"
+        rm -rf Spectacle*
     fi
 
     if [ -e '/Applications/Flux.app' ]; then
@@ -81,6 +81,6 @@ if [[ $(uname) == 'Darwin' ]]; then
         wget https://justgetflux.com/mac/Flux.zip
         tar zxf Flux.zip
         sudo cp -R "./Flux.app" /Applications
-        rm -rf "Flux*"
+        rm -rf Flux*
     fi
 fi
