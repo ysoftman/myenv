@@ -25,7 +25,7 @@ if [[ $(uname) == 'Darwin' ]]; then
         wget https://downloads.atlassian.com/software/sourcetree/Sourcetree_2.7.6a.zip
         tar zxf Sourcetree_2.7.6a.zip
         sudo cp -R "SourceTree.app" /Applications
-        rm -rf SourceTree*
+        rm -rf Sourcetree*
     fi
 
     if [ -e '/Applications/Visual Studio Code.app' ]; then
@@ -35,6 +35,7 @@ if [[ $(uname) == 'Darwin' ]]; then
         tar zxf VSCode-darwin-stable.zip
         sudo cp -R "Visual Studio Code.app" /Applications
         rm -rf "Visual Studio Code.app" "VSCode-darwin-stable.zip"
+        # 최초 실행 후 ctrl+shift+p -> install 'code' command in PATH 실행
     fi
 
     if [ -e '/Applications/Slack.app' ]; then
