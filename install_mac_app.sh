@@ -31,7 +31,7 @@ if [[ $(uname) == 'Darwin' ]]; then
     if [ -e '/Applications/Visual Studio Code.app' ]; then
         echo "file exists /Applications/Visual Studio Code.app"
     else
-        wget https://az764295.vo.msecnd.net/stable/7ba55c5860b152d999dda59393ca3ebeb1b5c85f/VSCode-darwin-stable.zip
+        wget https://az764295.vo.msecnd.net/stable/f46c4c469d6e6d8c46f268d1553c5dc4b475840f/VSCode-darwin-stable.zip
         # symbolic links 를 보존하기 위해 unzip 사용
         unzip VSCode-darwin-stable.zip
         sudo cp -R "Visual Studio Code.app" /Applications
