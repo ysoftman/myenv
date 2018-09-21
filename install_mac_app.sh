@@ -32,7 +32,8 @@ if [[ $(uname) == 'Darwin' ]]; then
         echo "file exists /Applications/Visual Studio Code.app"
     else
         wget https://az764295.vo.msecnd.net/stable/7ba55c5860b152d999dda59393ca3ebeb1b5c85f/VSCode-darwin-stable.zip
-        tar zxf VSCode-darwin-stable.zip
+        # symbolic links 를 보존하기 위해 unzip 사용
+        unzip VSCode-darwin-stable.zip
         sudo cp -R "Visual Studio Code.app" /Applications
         rm -rf "Visual Studio Code.app" "VSCode-darwin-stable.zip"
         # 최초 실행 후 ctrl+shift+p -> install 'code' command in PATH 실행
