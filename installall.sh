@@ -1,14 +1,11 @@
 #!/bin/bash
-
 bash ./installcommon.sh
 bash ./installpowerlinefont.sh
 zsh ./installprezto.zsh
 zsh ./installohmyzsh.zsh
 bash ./installconfig.sh
 bash ./installvim.sh
-bash ./installbypip.sh
-if [[ $(uname) == 'Darwin' ]]; then
-    bash ./installbybrew.sh
-    bash ./install_mac_app.sh
-    bash ./install_mac_vscode_settings.sh
-fi
+bash ./installpip.sh
+bash ./installbrew.sh
+bash ./installapp.sh
+bash ./installvscodesettings.sh

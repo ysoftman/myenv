@@ -6,9 +6,11 @@ Mac, CentOS, Ubuntu 환경에서 사용
 
 ## 사용방법
 
+myenv 는 ~/workspace/myenv 에 위치해야 한다.
+
 ```bash
 # 전체 백업
-sh ./backup_my_setting.sh
+sh ./backupmysetting.sh
 
 #전체 설치(아래 모든 설치 스크립트 포함)
 sh ./installall.sh
@@ -32,16 +34,16 @@ sh ./installconfig.sh
 sh ./installvim.sh
 
 # pip 로 프로그램 설치
-sh ./installbypip.sh
+sh ./installpip.sh
 
 # brew 로 프로그램 설치(Mac)
-sh ./installbybrew.sh
+sh ./installbrew.sh
 
 # mac app 설치(Mac)
-sh ./install_mac_app.sh
+sh ./installapp.sh
 
-# vscode settings 적용(Mac), Windows 는 install_win_vscode_settings.bat 사용
-sh ./install_mac_vscode_settings.sh
+# vscode settings 적용(Mac), Windows 는 installvscodesettings.bat 사용
+sh ./installvscodesettings.sh
 ```
 
 ## 참고
