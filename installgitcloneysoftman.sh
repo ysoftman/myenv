@@ -13,3 +13,4 @@ git clone https://github.com/ysoftman/enchash.git
 git clone https://github.com/ysoftman/myenv.git
 git clone https://github.com/ysoftman/taja.git
 git clone https://github.com/ysoftman/test_code.git
+git clone https://github.com/ysoftman/ysoftman.github.io.git
