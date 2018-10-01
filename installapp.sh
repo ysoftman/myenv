@@ -8,7 +8,6 @@ fi
 # sudo rm -rf '/Applications/iTerm.app'
 # sudo rm -rf '/Applications/SourceTree.app'
 # sudo rm -rf '/Applications/Visual Studio Code.app'
-# sudo rm -rf '/Applications/Slack.app'
 # sudo rm -rf '/Applications/Google Chrome.app'
 # sudo rm -rf '/Applications/Firefox.app'
 # sudo rm -rf '/Applications/Spectacle.app'
@@ -42,15 +41,6 @@ else
     sudo cp -R "Visual Studio Code.app" /Applications
     rm -rf "Visual Studio Code.app" "VSCode-darwin-stable.zip"
     # 최초 실행 후 ctrl+shift+p -> install 'code' command in PATH 실행
-fi
-
-if [ -e '/Applications/Slack.app' ]; then
-    echo "file exists /Applications/Slack.app"
-else
-    wget https://downloads.slack-edge.com/mac_releases/Slack-2.3.3-macOS.zip
-    tar zxf Slack-2.3.3-macOS.zip
-    sudo cp -R "Slack.app" /Applications
-    rm -rf Slack*
 fi
 
 if [ -e '/Applications/Google Chrome.app' ]; then
