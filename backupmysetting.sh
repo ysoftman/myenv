@@ -3,13 +3,13 @@
 # backup my settings
 
 # backup my brew list and make install script
-install_file="installbybrew.sh"
+install_file="installbrew.sh"
 echo '#!/bin/bash' > ${install_file}
 printf "brew install " >> ${install_file}
 brew list | sort | tr '\n' ' ' >> ${install_file}
 
 # backup my pip list and make install script
-install_file="installbypip.sh"
+install_file="installpip.sh"
 echo '#!/bin/bash' > ${install_file}
 echo 'sudo pip install --upgrade pip' >> ${install_file}
 printf "sudo pip install " >> ${install_file}
