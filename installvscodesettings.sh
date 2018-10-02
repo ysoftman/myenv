@@ -5,4 +5,4 @@ if [[ $(uname) != 'Darwin' ]]; then
 fi
 
 cp -fv ./vscode_settings/*.json ~/Library/Application\ Support/Code/User/
-sh ./install_vscode_extension.sh
+sh ./installvscodeextension.sh
