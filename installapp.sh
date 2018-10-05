@@ -17,8 +17,8 @@ fi
 if [ -e '/Applications/iTerm.app' ]; then
     echo "file exists /Applications/iTerm.app"
 else
-    wget https://iterm2.com/downloads/stable/iTerm2-3_2_0.zip
-    tar zxf iTerm2-3_2_0.zip
+    wget https://iterm2.com/downloads/stable/iTerm2-3_2_2.zip
+    tar zxf iTerm2-3_2_2.zip
     sudo cp -R "iTerm.app" /Applications
     rm -rf iTerm*
 fi
