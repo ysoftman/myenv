@@ -28,3 +28,15 @@ alias testcode='cd ~/workspace/test_code'
 alias cutstring='${HOME}/workspace/cutstring/cutstring'
 alias enchash='${HOME}/workspace/enchash/enchash'
 alias aleng='cd ~/workspace/aleng/ && ./aleng && cd -'
+
+# fortune + cowsay welcome message
+msg="ysoftman"
+a=$(which fortune)
+if [[ $? == 0 ]]; then
+    msg=$(fortune -s)
+fi
+a=$(which cowsay)
+if [[ $? == 0 ]]; then
+    echo "$msg" | cowsay -f tux
+fi
+# prezto .zlogin 을 사용할 경우 fortune 메시지가 한번 더 출력된다.
