@@ -5,6 +5,7 @@ export PATH=/usr/local/bin:$GOROOT/bin:$GOPATH/bin:$PATH
 export PATH=/usr/local/opt/openssl/bin:$PATH
 export EDITOR=vim
 export VISUAL=vim
+export ANSIBLE_NOCOWS=1 # disable cowsay message when using ansible
 
 if [[ $(uname) == 'Darwin' ]]; then
     export LSCOLORS='GxFxCxDxBxegedabagaced'
