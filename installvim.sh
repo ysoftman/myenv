@@ -19,7 +19,7 @@ if [ $(uname) == 'Darwin' ]; then
 	echo 'OSX Environment'
 	brew install go
 	export GOROOT=/usr/local/bin/go
-	brew install ruby lua mercurial python cmake ctags python3 tig
+	brew install ruby lua mercurial python cmake ctags python3 tig vim
 elif [ $(uname) == 'Linux' ]; then
 	echo 'Linux Environment'
 	# yum 실행보기
@@ -59,13 +59,21 @@ installvim() {
 	sudo make install
 }
 
+# 설치된 vim 버전이 너무 낮으면 소스 받아서 설치
+base_vim_version="8.0"
 cur_vim_version=$(vim --version | grep 'Vi IMproved' | awk '{print $5}')
 echo "cur_vim_version : ${cur_vim_version}"
-if [ ${cur_vim_version} != "8.0" ]; then
-	echo "cur_vim_version < 8.0"
+highest_version="$(printf "${cur_vim_version}\n${base_vim_version}" | sort -r | head -n1)"
+if [ ${highest_version} != ${cur_vim_version} ]; then
+	echo "cur_vim_version < ${base_vim_version}"
 	echo "installvim()..."
 	installvim
-elif [[ ${reinstallarg} == "reinstall" ]]; then
+else
+	echo "cur_vim_version >= ${base_vim_version}"
+fi
+
+# 강제 재설치하는 경우
+if [[ ${reinstallarg} == "reinstall" ]]; then
 	echo "installvim()..."
 	installvim
 fi
