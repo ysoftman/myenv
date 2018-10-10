@@ -2,6 +2,18 @@
 # ysoftman
 # vim 설치 스크립트
 
+
+reinstallarg=""
+if (($# >= 1)); then
+	if [[ $1 == 'reinstall' ]]; then
+		reinstallarg=$1
+		echo $reinstallarg
+	else
+		echo '[if you want to reinstall vim] bash' $0 reinstall
+		exit 1
+	fi
+fi
+
 # go, ruby, mercurial, python, cmake, ctags 설치 및 환경변수 설정
 if [ $(uname) == 'Darwin' ]; then
 	echo 'OSX Environment'
@@ -51,6 +63,9 @@ cur_vim_version=$(vim --version | grep 'Vi IMproved' | awk '{print $5}')
 echo "cur_vim_version : ${cur_vim_version}"
 if [ ${cur_vim_version} != "8.0" ]; then
 	echo "cur_vim_version < 8.0"
+	echo "installvim()..."
+	installvim
+elif [[ ${reinstallarg} == "reinstall" ]]; then
 	echo "installvim()..."
 	installvim
 fi
