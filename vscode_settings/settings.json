@@ -26,9 +26,12 @@
     "go.vetFlags": [],
     "go.coverOnSave": false,
     "go.useCodeSnippetsOnFunctionSuggest": false,
-    "go.formatTool": "goreturns",
+    "go.formatTool": "goimports",
     "go.lintTool": "golint",
     "go.gocodeAutoBuild": false,
+    "go.toolsEnvVars": {
+        "GO111MODULE": "on"
+    },
     "go.goroot": "/usr/local/go",
     "go.gopath": "/Users/ysoftman/workspace/gopath",
     // "go.goroot": "c:\\go",
