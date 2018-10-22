@@ -6,5 +6,5 @@ source ~/.zprezto/init.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-source ~/workspace/myenv/myenv.sh
-source ~/workspace/usf-ysoftman/usfenv.sh
+[ -f ~/workspace/myenv/myenv.sh ] && source ~/workspace/myenv/myenv.sh
+[ -f ~/workspace/usf-ysoftman/usfenv.sh ] && source ~/workspace/usf-ysoftman/usfenv.sh
