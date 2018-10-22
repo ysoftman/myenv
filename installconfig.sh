@@ -23,6 +23,7 @@ cp -fv .gitignore_global ~
 unlink ~/.bashrc; ln -s ~/workspace/myenv/.bashrc ~/.bashrc
 unlink ~/.zshrc; ln -s ~/workspace/myenv/.zshrc ~/.zshrc
 unlink ~/.vimrc; ln -s ~/workspace/myenv/.vimrc ~/.vimrc
+unlink ~/.tmux.conf; ln -s ~/workspace/myenv/.tmux.conf ~/.tmux.conf
 
 # 보안사항으로 실제 필요할때만 사용하자
 # cp -fv ./.ssh/* ~/.ssh
