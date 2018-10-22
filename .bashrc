@@ -1,3 +1,3 @@
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-source ~/workspace/myenv/myenv.sh
+[ -f ~/workspace/myenv/myenv.sh ] && source ~/workspace/myenv/myenv.sh
