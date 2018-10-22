@@ -28,6 +28,8 @@ alias testcode='cd ~/workspace/test_code'
 alias cutstring='${HOME}/workspace/cutstring/cutstring'
 alias enchash='${HOME}/workspace/enchash/enchash'
 alias aleng='cd ~/workspace/aleng/ && ./aleng && cd -'
+alias tig='tig --all'
+
 
 # fortune + cowsay welcome message
 msg="ysoftman"
