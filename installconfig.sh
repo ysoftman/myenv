@@ -14,10 +14,8 @@ git config --global merge.tool vimdiff
 # git config --global user.email "ysoftman@gmail.com"
 # git config --global user.name "ysoftman"
 
-
 # git ignore
-cp -fv .gitignore_global ~
-
+unlink ~/.gitignore_global; ln -s ~/workspace/myenv/.gitignore_global ~/.gitignore_global
 
 # bash, zsh, vim 기본 설정
 unlink ~/.bashrc; ln -s ~/workspace/myenv/.bashrc ~/.bashrc
@@ -25,8 +23,18 @@ unlink ~/.zshrc; ln -s ~/workspace/myenv/.zshrc ~/.zshrc
 unlink ~/.vimrc; ln -s ~/workspace/myenv/.vimrc ~/.vimrc
 unlink ~/.tmux.conf; ln -s ~/workspace/myenv/.tmux.conf ~/.tmux.conf
 
-# 보안사항으로 실제 필요할때만 사용하자
+# dosbox 설정
+unlink ~/dosbox.conf; ln -s ~/workspace/myenv/dosbox.conf ~/dosbox.conf
+unlink ~/dosbox.sh; ln -s ~/workspace/myenv/dosbox.sh ~/dosbox.sh
+
+# pythonpath 설정
+unlink ~/pythonpath.sh; ln -s ~/workspace/myenv/pythonpath.sh ~/pythonpath.sh
+
+# warcraft3 창모드로 실행 스크립트
+unlink ~/warcraft3_window.sh; ln -s ~/workspace/myenv/warcraft3_window.sh ~/warcraft3_window.sh
+
+# 보안사항으로 커밋하면 안됨.
 # cp -fv ./.ssh/* ~/.ssh
 
-# 보안사항으로 실제 필요할때만 사용하자
+# 보안사항으로 커밋하면 안됨.
 #sudo cp -fv hosts /etc/hosts
