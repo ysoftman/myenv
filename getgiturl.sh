@@ -16,7 +16,7 @@ echo "grep_git_repo=${grepgit}"
 # 현재 사용중인 git 정보 파악할때 사용
 get_git_url()
 {
-    gitdirs=$(find ~/workspace -name .git -not -path \*gopath\* -not -path \*chromium\* | sed "s/.git$//")
+    gitdirs=$(find . -name .git -not -path \*gopath\* -not -path \*chromium\* | sed "s/.git$//")
     for i in ${gitdirs}
     do
         git -C ${i} remote -v | head -1 | awk '{print $2}' | grep ${grepgit}
