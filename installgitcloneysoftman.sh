@@ -13,12 +13,14 @@ git_clone_and_pull()
     git -C ~/workspace/${targetdir} pull
 }
 
-
-git_clone_and_pull https://github.com/ysoftman/aleng.git
+# git repo url 추출은 getgiturl.sh 로 사용
+git_clone_and_pull https://github.com/ysoftman/aleng
+git_clone_and_pull https://github.com/ysoftman/go-appengine-test.git
+git_clone_and_pull https://github.com/ysoftman/enchash
+git_clone_and_pull https://github.com/ysoftman/watchDust
+git_clone_and_pull https://github.com/ysoftman/ysoftman.github.io
 git_clone_and_pull https://github.com/ysoftman/codingtest.git
-git_clone_and_pull https://github.com/ysoftman/cutstring.git
-git_clone_and_pull https://github.com/ysoftman/enchash.git
-git_clone_and_pull https://github.com/ysoftman/myenv.git
-git_clone_and_pull https://github.com/ysoftman/taja.git
-git_clone_and_pull https://github.com/ysoftman/test_code.git
-git_clone_and_pull https://github.com/ysoftman/ysoftman.github.io.git
+git_clone_and_pull https://github.com/ysoftman/myenv
+git_clone_and_pull https://github.com/ysoftman/cutstring
+git_clone_and_pull https://github.com/ysoftman/taja
+git_clone_and_pull https://github.com/ysoftman/test_code
