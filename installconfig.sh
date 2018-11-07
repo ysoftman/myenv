@@ -21,17 +21,17 @@ git config --global merge.tool vimdiff
 [ -h ~/.bashrc ] && unlink ~/.bashrc; ln -s ~/workspace/myenv/.bashrc ~/.bashrc
 [ -h ~/.zshrc ] && unlink ~/.zshrc; ln -s ~/workspace/myenv/.zshrc ~/.zshrc
 [ -h ~/.vimrc ] && unlink ~/.vimrc; ln -s ~/workspace/myenv/.vimrc ~/.vimrc
-[ -h ~/.tmux.con ] && unlink ~/.tmux.conf; ln -s ~/workspace/myenv/.tmux.conf ~/.tmux.conf
+[ -h ~/.tmux.conf ] && unlink ~/.tmux.conf; ln -s ~/workspace/myenv/.tmux.conf ~/.tmux.conf
 
 # dosbox 설정
-[ -h ~/dosbox.con ] && unlink ~/dosbox.conf; ln -s ~/workspace/myenv/dosbox.conf ~/dosbox.conf
-[ -h ~/dosbox.s ] && unlink ~/dosbox.sh; ln -s ~/workspace/myenv/dosbox.sh ~/dosbox.sh
+[ -h ~/dosbox.conf ] && unlink ~/dosbox.conf; ln -s ~/workspace/myenv/dosbox.conf ~/dosbox.conf
+[ -h ~/dosbox.sh ] && unlink ~/dosbox.sh; ln -s ~/workspace/myenv/dosbox.sh ~/dosbox.sh
 
 # pythonpath 설정
-[ -h ~/pythonpath.s ] && unlink ~/pythonpath.sh; ln -s ~/workspace/myenv/pythonpath.sh ~/pythonpath.sh
+[ -h ~/pythonpath.sh ] && unlink ~/pythonpath.sh; ln -s ~/workspace/myenv/pythonpath.sh ~/pythonpath.sh
 
 # warcraft3 창모드로 실행 스크립트
-[ -h ~/warcraft3_window.s ] && unlink ~/warcraft3_window.sh; ln -s ~/workspace/myenv/warcraft3_window.sh ~/warcraft3_window.sh
+[ -h ~/warcraft3_window.sh ] && unlink ~/warcraft3_window.sh; ln -s ~/workspace/myenv/warcraft3_window.sh ~/warcraft3_window.sh
 
 # 보안사항으로 커밋하면 안됨.
 # cp -fv ./.ssh/* ~/.ssh
