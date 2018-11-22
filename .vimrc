@@ -53,17 +53,15 @@ let g:go_version_warning = 0
 
 
 "vim-colors-solarized
-"echo "syntax enable
 "let g:solarized_termtrans = 1
 "let g:solarized_termcolors=256
 "let g:solarized_contrast=\"high\"
 "let g:solarized_visibility=\"high\"
 "set background=dark
 
-"ondeark 일반 터미널 256 색상에선 배경색 잔상이 남아 사용하지 않음.
-"syntax on
-"let g:onedark_termcolors=256
-"colorscheme onedark
+"ondeark
+let g:onedark_termcolors=256
+colorscheme onedark
 
 "space-vim-dark
 "let g:space_vim_dark_background = 234
@@ -71,7 +69,7 @@ let g:go_version_warning = 0
 "set termguicolors
 "hi LineNr ctermbg=NONE guibg=NONE
 
-"airline 대신 lightline 사용`
+"airline
 "echo "set laststatus=2`
 "let g:airline#extensions#tabline#enabled = 1`
 "let g:airline#extensions#tabline#left_sep = ' '`
@@ -83,7 +81,7 @@ let g:go_version_warning = 0
 "lightline 화살표 폰트가 없어 powerline 폰트가 필요 없다
 set laststatus=2
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'one',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
