@@ -91,3 +91,6 @@ export PATH=$PATH:$GOROOT:$GOPATH
 # 다음 디렉토리가 없다면 생성
 mkdir -p ~/.vim/autoload
 mkdir -p ~/.vim/bundle
+
+# 패키지 관리를 위한 Plug 설치
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
