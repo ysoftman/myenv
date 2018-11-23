@@ -23,15 +23,6 @@ else
     rm -rf iTerm*
 fi
 
-if [ -e '/Applications/SourceTree.app' ]; then
-    echo "file exists /Applications/SourceTree.app"
-else
-    wget https://downloads.atlassian.com/software/sourcetree/Sourcetree_2.7.6a.zip
-    tar zxf Sourcetree_2.7.6a.zip
-    sudo cp -R "SourceTree.app" /Applications
-    rm -rf Sourcetree*
-fi
-
 if [ -e '/Applications/Visual Studio Code.app' ]; then
     echo "file exists /Applications/Visual Studio Code.app"
 else
