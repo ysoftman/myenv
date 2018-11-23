@@ -5,6 +5,7 @@
 # backup my brew list and make install script
 install_file="installbrew.sh"
 echo '#!/bin/bash' > ${install_file}
+printf "brew cask install java\n" >> ${install_file}
 printf "brew install " >> ${install_file}
 brew list | sort | tr '\n' ' ' >> ${install_file}
 
