@@ -58,6 +58,6 @@ sudo ln -s /bin/bash /bin/sh
 - iterm2 설정
 
 ```text
-color presets : darkside --> git clone https://github.com/bahlo/iterm-colors
+color presets : git clone https://github.com/bahlo/iterm-colors 후 darkside, one dark, ... 등 선택
 font : 14pt monaco
 ```
