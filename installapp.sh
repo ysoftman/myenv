@@ -6,7 +6,6 @@ if [[ $(uname) != 'Darwin' ]]; then
 fi
 
 # sudo rm -rf '/Applications/iTerm.app'
-# sudo rm -rf '/Applications/SourceTree.app'
 # sudo rm -rf '/Applications/Visual Studio Code.app'
 # sudo rm -rf '/Applications/Google Chrome.app'
 # sudo rm -rf '/Applications/Firefox.app'
