@@ -15,23 +15,37 @@ git config --global merge.tool vimdiff
 # git config --global user.name "ysoftman"
 
 # git ignore
-[ -h ~/.gitignore_global ] && unlink ~/.gitignore_global; ln -s ~/workspace/myenv/.gitignore_global ~/.gitignore_global
+[ -h ~/.gitignore_global ] && unlink ~/.gitignore_global
+[ -f ~/.gitignore_global ] && mv -v ~/.gitignore_global ~/.gitignore_global.bak
+ln -s ~/workspace/myenv/.gitignore_global ~/.gitignore_global
 
 # bash, zsh, vim 기본 설정
-[ -h ~/.bashrc ] && unlink ~/.bashrc; ln -s ~/workspace/myenv/.bashrc ~/.bashrc
-[ -h ~/.zshrc ] && unlink ~/.zshrc; ln -s ~/workspace/myenv/.zshrc ~/.zshrc
-[ -h ~/.vimrc ] && unlink ~/.vimrc; ln -s ~/workspace/myenv/.vimrc ~/.vimrc
-[ -h ~/.tmux.conf ] && unlink ~/.tmux.conf; ln -s ~/workspace/myenv/.tmux.conf ~/.tmux.conf
+[ -h ~/.bashrc ] && unlink ~/.bashrc
+[ -h ~/.zshrc ] && unlink ~/.zshrc
+[ -h ~/.vimrc ] && unlink ~/.vimrc
+[ -h ~/.tmux.conf ] && unlink ~/.tmux.conf
+[ -f ~/.bashrc ] && mv -v ~/.bashrc ~/.bashrc.bak
+[ -f ~/.zshrc ] && mv -v ~/.zshrc ~/.zshrc.bak
+[ -f ~/.vimrc ] && mv -v ~/.vimrc ~/.vimrc.bak
+[ -f ~/.tmux.conf ] && mv -v ~/.tmux.conf ~/.tmux.conf.bak
+ln -s ~/workspace/myenv/.bashrc ~/.bashrc
+ln -s ~/workspace/myenv/.zshrc ~/.zshrc
+ln -s ~/workspace/myenv/.vimrc ~/.vimrc
+ln -s ~/workspace/myenv/.tmux.conf ~/.tmux.conf
 
 # dosbox 설정
-[ -h ~/dosbox.conf ] && unlink ~/dosbox.conf; ln -s ~/workspace/myenv/dosbox.conf ~/dosbox.conf
-[ -h ~/dosbox.sh ] && unlink ~/dosbox.sh; ln -s ~/workspace/myenv/dosbox.sh ~/dosbox.sh
+[ -h ~/dosbox.conf ] && unlink ~/dosbox.conf
+[ -h ~/dosbox.sh ] && unlink ~/dosbox.sh
+ln -s ~/workspace/myenv/dosbox.conf ~/dosbox.conf
+ln -s ~/workspace/myenv/dosbox.sh ~/dosbox.sh
 
 # pythonpath 설정
-[ -h ~/pythonpath.sh ] && unlink ~/pythonpath.sh; ln -s ~/workspace/myenv/pythonpath.sh ~/pythonpath.sh
+[ -h ~/pythonpath.sh ] && unlink ~/pythonpath.sh
+ln -s ~/workspace/myenv/pythonpath.sh ~/pythonpath.sh
 
 # warcraft3 창모드로 실행 스크립트
-[ -h ~/warcraft3_window.sh ] && unlink ~/warcraft3_window.sh; ln -s ~/workspace/myenv/warcraft3_window.sh ~/warcraft3_window.sh
+[ -h ~/warcraft3_window.sh ] && unlink ~/warcraft3_window.sh
+ln -s ~/workspace/myenv/warcraft3_window.sh ~/warcraft3_window.sh
 
 # 보안사항으로 커밋하면 안됨.
 # cp -fv ./.ssh/* ~/.ssh
