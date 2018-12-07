@@ -13,6 +13,8 @@ git config --global merge.tool vimdiff
 # 이미 사용자 정보가 설정되어 있으면 덮어쓰기때문에 확인하고 사용하자
 # git config --global user.email "ysoftman@gmail.com"
 # git config --global user.name "ysoftman"
+# 파일로 저장하지 않고 일정시간(디폴트 15분)동안 id,pw 를 캐싱한다.
+git config --global credential.helper cache
 
 # git ignore
 [ -h ~/.gitignore_global ] && unlink ~/.gitignore_global
