@@ -7,7 +7,9 @@ export EDITOR=vim
 export VISUAL=vim
 export ANSIBLE_NOCOWS=1 # disable cowsay message when using ansible
 
-if [[ $(uname) == 'Darwin' ]]; then
+if [[ $(uname -r | sed 's/-/ /g' | awk '{print $3}') == 'Microsoft' ]]; then # WSL(Windows Subsystem for Linux)
+    alias netstat='/mnt/c/Windows/System32/netstat.exe'
+elif [[ $(uname) == 'Darwin' ]]; then
     export LSCOLORS='GxFxCxDxBxegedabagaced'
     export CLICOLOR=1
     alias ll='ls -ahlG'
