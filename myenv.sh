@@ -33,11 +33,11 @@ alias tig='tig --all'
 
 # fortune + cowsay welcome message
 msg="ysoftman"
-a=$(which fortune)
+a=$(which fortune 2> /dev/null)
 if [[ $? == 0 ]]; then
     msg=$(fortune -s)
 fi
-a=$(which cowsay)
+a=$(which cowsay 2> /dev/null)
 if [[ $? == 0 ]]; then
     echo "$msg" | cowsay -f tux
 fi
