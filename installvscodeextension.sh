@@ -41,6 +41,7 @@ code --install-extension shanoor.vscode-nginx
 code --install-extension timonwong.ansible-autocomplete
 code --install-extension vitorsalgado.vscode-redis
 code --install-extension vscjava.vscode-java-debug
+code --install-extension vscjava.vscode-java-dependency
 code --install-extension vscjava.vscode-java-pack
 code --install-extension vscjava.vscode-java-test
 code --install-extension vscjava.vscode-maven
