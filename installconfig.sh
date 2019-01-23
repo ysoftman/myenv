@@ -26,14 +26,17 @@ ln -s ~/workspace/myenv/.gitignore_global ~/.gitignore_global
 [ -h ~/.zshrc ] && unlink ~/.zshrc
 [ -h ~/.vimrc ] && unlink ~/.vimrc
 [ -h ~/.tmux.conf ] && unlink ~/.tmux.conf
+[ -h ~/.tigrc ] && unlink ~/.tigrc
 [ -f ~/.bashrc ] && mv -v ~/.bashrc ~/.bashrc.bak
 [ -f ~/.zshrc ] && mv -v ~/.zshrc ~/.zshrc.bak
 [ -f ~/.vimrc ] && mv -v ~/.vimrc ~/.vimrc.bak
 [ -f ~/.tmux.conf ] && mv -v ~/.tmux.conf ~/.tmux.conf.bak
+[ -f ~/.tigrc ] && mv -v ~/.tigrc ~/.tigrc.bak
 ln -s ~/workspace/myenv/.bashrc ~/.bashrc
 ln -s ~/workspace/myenv/.zshrc ~/.zshrc
 ln -s ~/workspace/myenv/.vimrc ~/.vimrc
 ln -s ~/workspace/myenv/.tmux.conf ~/.tmux.conf
+ln -s ~/workspace/myenv/.tigrc ~/.tigrc
 
 # dosbox 설정
 [ -h ~/dosbox.conf ] && unlink ~/dosbox.conf
