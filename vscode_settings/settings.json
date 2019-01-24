@@ -34,9 +34,6 @@
     },
     "go.goroot": "/usr/local/go",
     "go.gopath": "/Users/ysoftman/workspace/gopath",
-    // "go.goroot": "c:\\go",
-    // "go.gopath": "d:\\ysoftman\\workspace\\gopath",
-    "window.zoomLevel": 0,
     "workbench.startupEditor": "none",
     "workbench.statusBar.visible": true,
     "workbench.activityBar.visible": true,
@@ -69,4 +66,6 @@
     "explorer.confirmDragAndDrop": false,
     "editor.fontSize": 14,
     "editor.fontFamily": "monaco, menlo",
+    "workbench.editor.showTabs": false,
+    "window.zoomLevel": 1,
 }
