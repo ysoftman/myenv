@@ -65,4 +65,13 @@ if [ -z ${zsh_path} ]; then
 	sudo mv -v shells /etc/shells
 fi
 rm -fv shells
-sudo chsh -s /usr/local/bin/zsh ${USER}
+sudo cp -fv chsh /etc/pam.d/chsh
+if  [ -x /usr/local/bin/zsh ]; then
+	sudo chsh -s /usr/local/bin/zsh ${USER}
+elif [ -x /usr/bin/zsh ]; then
+	sudo chsh -s /usr/bin/zsh ${USER}
+elif [ -x /bin/zsh ]; then
+	sudo chsh -s /bin/zsh ${USER}
+else
+	echo 'can not find zsh'
+fi
