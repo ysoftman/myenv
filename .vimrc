@@ -62,6 +62,7 @@ let g:go_version_warning = 0
 "ondeark
 let g:onedark_termcolors=256
 colorscheme onedark
+let g:airline_theme='onedark'
 
 "space-vim-dark
 "let g:space_vim_dark_background = 234
@@ -70,7 +71,6 @@ colorscheme onedark
 "hi LineNr ctermbg=NONE guibg=NONE
 
 "airline
-"echo "set laststatus=2`
 "let g:airline#extensions#tabline#enabled = 1`
 "let g:airline#extensions#tabline#left_sep = ' '`
 "let g:airline#extensions#tabline#left_alt_sep = '|'`
@@ -81,7 +81,7 @@ colorscheme onedark
 "lightline 화살표 폰트가 없어 powerline 폰트가 필요 없다
 set laststatus=2
 let g:lightline = {
-      \ 'colorscheme': 'one',
+      \ 'colorscheme': 'onedark',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
