@@ -26,7 +26,6 @@
     "go.vetFlags": [],
     "go.coverOnSave": false,
     "go.useCodeSnippetsOnFunctionSuggest": false,
-    "go.formatTool": "goimports",
     "go.lintTool": "golint",
     "go.gocodeAutoBuild": false,
     "go.toolsEnvVars": {
@@ -68,4 +67,8 @@
     "editor.fontFamily": "monaco, menlo",
     "workbench.editor.showTabs": false,
     "window.zoomLevel": 1,
+    "python.jediEnabled": false,
+    "go.formatTool": "goimports",
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
 }
