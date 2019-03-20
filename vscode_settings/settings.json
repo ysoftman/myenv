@@ -42,6 +42,8 @@
     "git.autofetch": true,
     "git.confirmSync": false,
     "python.formatting.provider": "autopep8",
+    "C_Cpp.default.cStandard": "c99",
+    "C_Cpp.default.cppStandard": "c++11",
     "C_Cpp.clang_format_path": "/usr/local/bin/clang-format",
     "C_Cpp.clang_format_style": "file",
     "C_Cpp.clang_format_fallbackStyle": "Visual Studio",
@@ -71,4 +73,5 @@
     "go.formatTool": "goimports",
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "git.ignoreMissingGitWarning": true,
 }

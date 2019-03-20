@@ -1,13 +1,30 @@
 #!/bin/bash
 # ysoftman
 # backup my settings
+mkdir -p vscode_settings
+if [ $(uname) == 'Darwin' ]; then
+    # backup my brew list and make install script
+    install_file="installbrew.sh"
+    echo '#!/bin/bash' > ${install_file}
+    printf "brew cask install java\n" >> ${install_file}
+    printf "brew install " >> ${install_file}
+    brew list | sort | tr '\n' ' ' >> ${install_file}
 
-# backup my brew list and make install script
-install_file="installbrew.sh"
-echo '#!/bin/bash' > ${install_file}
-printf "brew cask install java\n" >> ${install_file}
-printf "brew install " >> ${install_file}
-brew list | sort | tr '\n' ' ' >> ${install_file}
+    # backup vscode settings
+    cp -v ~/Library/Application\ Support/Code/User/*.json ./vscode_settings/
+
+elif [ $(uname) == 'Linux' ]; then
+    # backup vscode settings
+    # 윈도우 wsl 에서 mnt/c 로 마운트되었다고 가정
+    # 실제 위치 C:\Users\Administrator\AppData\Roaming\Code\User\settings.json
+    src_path="/mnt/c/Users/Administrator/AppData/Roaming/Code/User/"
+    cp -v ${src_path}/*.json ./vscode_settings/
+
+else
+    echo 'unknown system'
+    exit 1
+fi
+
 
 # backup my pip list and make install script
 install_file="installpip.sh"
@@ -26,10 +43,6 @@ pip list | sed -n '3,$p' | awk '{print $1}' | tr '\n' ' ' >> ${install_file}
 # backup hosts
 # 보안사항으로 github 저장소에 올리면 안됨.
 # cp -v /etc/hosts ./hosts
-
-# backup vscode settings
-mkdir -p vscode_settings
-cp -v ~/Library/Application\ Support/Code/User/*.json ./vscode_settings/
 
 # backup vscode extension and make install script
 install_file="installvscodeextension.sh"
