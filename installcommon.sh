@@ -21,7 +21,7 @@ elif [ $(uname) == 'Linux' ]; then
 	fi
 	echo "package_program ${package_program}"
 	# centos, ubuntu 모두 있음
-	sudo ${package_program} install zsh python python-pip ruby
+	sudo ${package_program} install zsh python python-pip ruby clang-format
 	# ncurses - yum 에서 설치
 	sudo ${package_program} install ncurses ncurses-devel
 	# ncurses - ubuntu 에서 설치
