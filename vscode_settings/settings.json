@@ -34,7 +34,7 @@
     "go.goroot": "/usr/local/go",
     "go.gopath": "/Users/ysoftman/workspace/gopath",
     // "go.goroot": "c:\\go",
-    // "go.gopath": "d:\\ysoftman\\workspace\\gopath2",
+    // "go.gopath": "d:\\ysoftman\\workspace\\gopath",
     "workbench.startupEditor": "none",
     "workbench.statusBar.visible": true,
     "workbench.activityBar.visible": true,
