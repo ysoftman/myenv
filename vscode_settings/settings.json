@@ -31,6 +31,8 @@
     "go.toolsEnvVars": {
         "GO111MODULE": "on"
     },
+    "go.autocompleteUnimportedPackages": true,
+    "go.formatTool": "goimports",
     "go.goroot": "/usr/local/go",
     "go.gopath": "/Users/ysoftman/workspace/gopath",
     // "go.goroot": "c:\\go",
@@ -72,7 +74,6 @@
     "workbench.editor.showTabs": false,
     "window.zoomLevel": 1,
     "python.jediEnabled": false,
-    "go.formatTool": "goimports",
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "git.ignoreMissingGitWarning": true,

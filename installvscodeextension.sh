@@ -8,6 +8,7 @@ code --install-extension bungcip.better-toml
 code --install-extension DavidAnson.vscode-markdownlint
 code --install-extension dbaeumer.vscode-eslint
 code --install-extension dcr30.lualinter
+code --install-extension DevonDCarew.bazel-code
 code --install-extension donjayamanne.jquerysnippets
 code --install-extension DotJoshJohnson.xml
 code --install-extension eg2.tslint
@@ -36,7 +37,6 @@ code --install-extension PeterJausovec.vscode-docker
 code --install-extension qinjia.view-in-browser
 code --install-extension ravilang.ravi-debug
 code --install-extension redhat.java
-code --install-extension robertohuertasm.vscode-icons
 code --install-extension samuelcolvin.jinjahtml
 code --install-extension shanoor.vscode-nginx
 code --install-extension timonwong.ansible-autocomplete
@@ -47,7 +47,9 @@ code --install-extension vscjava.vscode-java-dependency
 code --install-extension vscjava.vscode-java-pack
 code --install-extension vscjava.vscode-java-test
 code --install-extension vscjava.vscode-maven
+code --install-extension vscode-icons-team.vscode-icons
 code --install-extension vsmobile.vscode-react-native
 code --install-extension wholroyd.jinja
 code --install-extension xabikos.JavaScriptSnippets
+code --install-extension zamerick.vscode-caddyfile-syntax
 code --install-extension zxh404.vscode-proto3
