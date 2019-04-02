@@ -21,6 +21,9 @@ sh ./installcommon.sh
 # powerline 폰트 설치
 sh ./installpowerlinefont.sh
 
+# zsh 기반 black-void-zsh 설치
+zsh ./installblackvoidzsh.zsh
+
 # zsh 기반 prezto 설치
 zsh ./installprezto.zsh
 
@@ -60,4 +63,7 @@ sudo ln -s /bin/bash /bin/sh
 ```text
 color presets : git clone https://github.com/bahlo/iterm-colors 후 darkside, one dark, ... 등 선택
 font : 14pt monaco
+
+# Black-void-zsh 사용시
+hack nerd font 사용
 ```
