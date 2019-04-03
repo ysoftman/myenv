@@ -2,7 +2,11 @@
 #export GOROOT=/usr/local/go
 export GOPATH=$HOME/workspace/gopath
 export PATH=/usr/local/bin:$GOPATH/bin:$PATH
-# 언제부터인가 git-subcommand 를 현재 디렉토리에서 실행하기 위해 PATH 환경변수 마지막에 구분자(:)를 추가해야 한다.
+# 언제부터인가 git-subcommand 를 현재 디렉토리에서 실행하기 위해
+# PATH 환경변수 마지막에 구분자(:)가 있거나 PATH 중간에 :: 부분이 있어야 한다.
+#export PATH=$PATH:
+# 또는
+#export PATH=::$PATH
 export PATH=/usr/local/opt/openssl/bin:$PATH:
 export EDITOR=vim
 export VISUAL=vim
