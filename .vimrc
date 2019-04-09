@@ -46,6 +46,7 @@ set tabstop=4
 set autoindent
 set laststatus=2
 "set lines=80
+set colorcolumn=100
 set visualbell t_vb=
 set nolist
 set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»,eol:¶
@@ -62,8 +63,9 @@ let g:go_version_warning = 0
 "ondeark
 let g:onedark_termcolors=256
 colorscheme onedark
+" 컬러스킴 설정후 ColorColumn(colorcolumn) 값만 변경한다.
+highlight ColorColumn ctermbg=brown
 let g:airline_theme='onedark'
-
 "space-vim-dark
 "let g:space_vim_dark_background = 234
 "color space-vim-dark
