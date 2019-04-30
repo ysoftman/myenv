@@ -1,0 +1,36 @@
+# http://www.mutt.org/doc/manual
+set realname="ysoftman"
+set imap_user="ysoftman@gmail.com"
+# gmail 은 앱비밀번호를 사용해야 한다.
+set imap_pass=""  # 명시하지 않으면 프로프트가 뜬다.
+set folder="imaps://imap.gmail.com:993/" # 메일상자들의 기본 폴더
+set spoolfile="imaps://imap.gmail.com/inbox" # 기본 메일 상자
+set spoolfile="+inbox" # 기본 메일 상자
+#set smtp_url="smtp://ysoftman@smtp.gmail.com:587/"
+set smtp_url="smtps://ysoftman@smtp.gmail.com:465/"
+set smtp_pass=""  # 명시하지 않으면 프롬프트가 뜬다.
+set ssl_starttls=yes # 서버가 tls 직원하면 활성화
+set ssl_force_tls=yes # 항상 ssl 로 연결
+set editor="vim"
+set charset="utf-8"
+set mail_check=30 # 새매일 체크 주기
+set imap_check_subscribed=yes
+set imap_keepalive=30
+set header_cache="$HOME/mail" # 메일 헤더 캐싱 위치
+set message_cachedir="$HOME/mail" # 메일 내용 캐싱 위치
+set sidebar_visible=yes # 사이드바(메일상자) 보기
+set sort="threads" # 메일 쓰레드 보기
+
+# 단축키 설정
+# index 첫(메인) 화면
+# pager 메일보기 화면
+# compose 새메일 작성 화면
+# editor 메일편집 화면
+bind index G imap-fetch-mail # IMAP 서버에서 메일 가져오기
+bind index,pager \ci sidebar-next
+bind index,pager \c sidebar-open
+bind index,pager \co sidebar-prev
+
+
+# theme 설정
+source ~/workspace/myenv/.mutt/dracula.muttrc

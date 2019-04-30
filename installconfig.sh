@@ -21,22 +21,27 @@ git config --global credential.helper cache
 [ -f ~/.gitignore_global ] && mv -v ~/.gitignore_global ~/.gitignore_global.bak
 ln -s ~/workspace/myenv/.gitignore_global ~/.gitignore_global
 
-# bash, zsh, vim 기본 설정
+# bash, zsh, vim, tmux, tigrc, mutt 기본 설정
 [ -h ~/.bashrc ] && unlink ~/.bashrc
 [ -h ~/.zshrc ] && unlink ~/.zshrc
 [ -h ~/.vimrc ] && unlink ~/.vimrc
 [ -h ~/.tmux.conf ] && unlink ~/.tmux.conf
 [ -h ~/.tigrc ] && unlink ~/.tigrc
+[ -h ~/.muttrc ] && unlink ~/.muttrc
+
 [ -f ~/.bashrc ] && mv -v ~/.bashrc ~/.bashrc.bak
 [ -f ~/.zshrc ] && mv -v ~/.zshrc ~/.zshrc.bak
 [ -f ~/.vimrc ] && mv -v ~/.vimrc ~/.vimrc.bak
 [ -f ~/.tmux.conf ] && mv -v ~/.tmux.conf ~/.tmux.conf.bak
 [ -f ~/.tigrc ] && mv -v ~/.tigrc ~/.tigrc.bak
+[ -f ~/.muttrc ] && mv -v ~/.muttrc ~/.muttrc.bak
+
 ln -s ~/workspace/myenv/.bashrc ~/.bashrc
 ln -s ~/workspace/myenv/.zshrc ~/.zshrc
 ln -s ~/workspace/myenv/.vimrc ~/.vimrc
 ln -s ~/workspace/myenv/.tmux.conf ~/.tmux.conf
 ln -s ~/workspace/myenv/.tigrc ~/.tigrc
+ln -s ~/workspace/myenv/.muttrc ~/.muttrc
 
 # dosbox 설정
 [ -h ~/dosbox.conf ] && unlink ~/dosbox.conf
