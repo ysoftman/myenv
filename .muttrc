@@ -9,6 +9,8 @@ set spoolfile="+inbox" # 기본 메일 상자
 #set smtp_url="smtp://ysoftman@smtp.gmail.com:587/"
 set smtp_url="smtps://ysoftman@smtp.gmail.com:465/"
 set smtp_pass=""  # 명시하지 않으면 프롬프트가 뜬다.
+# gmail 발송시 인증자 없을 에러가 있는 경우 gssapi:login 인증방식을 사용해야 한다.
+set smtp_authenticators="gssapi:login"
 set ssl_starttls=yes # 서버가 tls 직원하면 활성화
 set ssl_force_tls=yes # 항상 ssl 로 연결
 set editor="vim"
