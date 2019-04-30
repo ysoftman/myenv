@@ -18,7 +18,7 @@ set imap_check_subscribed=yes
 set imap_keepalive=30
 set header_cache="$HOME/mail" # 메일 헤더 캐싱 위치
 set message_cachedir="$HOME/mail" # 메일 내용 캐싱 위치
-set sidebar_visible=yes # 사이드바(메일상자) 보기
+set sidebar_visible=no # 사이드바(메일상자) 보기
 set sort="threads" # 메일 쓰레드 보기
 
 # 단축키 설정
@@ -27,9 +27,6 @@ set sort="threads" # 메일 쓰레드 보기
 # compose 새메일 작성 화면
 # editor 메일편집 화면
 bind index G imap-fetch-mail # IMAP 서버에서 메일 가져오기
-bind index,pager \ci sidebar-next
-bind index,pager \c sidebar-open
-bind index,pager \co sidebar-prev
 
 
 # theme 설정
