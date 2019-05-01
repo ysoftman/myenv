@@ -35,6 +35,7 @@ code --install-extension msjsdiag.debugger-for-chrome
 code --install-extension octref.vetur
 code --install-extension PeterJausovec.vscode-docker
 code --install-extension qinjia.view-in-browser
+code --install-extension ramyaraoa.show-offset
 code --install-extension ravilang.ravi-debug
 code --install-extension redhat.java
 code --install-extension samuelcolvin.jinjahtml
