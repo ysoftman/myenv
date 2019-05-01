@@ -15,7 +15,11 @@
         "**/.hg": true,
         "**/CVS": true,
         "**/.DS_Store": true,
-        "**/.vscode": true
+        "**/.vscode": true,
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
     },
     "go.buildOnSave": "package",
     "go.lintOnSave": "package",
@@ -42,7 +46,6 @@
     "workbench.activityBar.visible": true,
     "workbench.sideBar.location": "left",
     "workbench.colorTheme": "Atom One Dark",
-    "workbench.iconTheme": "vscode-icons",
     "git.autofetch": true,
     "git.confirmSync": false,
     "python.formatting.provider": "autopep8",
@@ -51,7 +54,6 @@
     "C_Cpp.clang_format_path": "/usr/local/bin/clang-format",
     "C_Cpp.clang_format_style": "file",
     "C_Cpp.clang_format_fallbackStyle": "Visual Studio",
-    "vsicons.dontShowNewVersionMessage": true,
     "editor.wordWrap": "on",
     "editor.renderWhitespace": "all",
     "editor.minimap.enabled": false,
@@ -67,7 +69,6 @@
     "bookmarks.navigateThroughAllFiles": true,
     // Show or hide the Explorer.
     "docker.showExplorer": false,
-    "vsicons.projectDetection.autoReload": true,
     "explorer.confirmDragAndDrop": false,
     "editor.fontSize": 14,
     "editor.fontFamily": "monaco, menlo",
@@ -77,4 +78,13 @@
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "git.ignoreMissingGitWarning": true,
+    "workbench.iconTheme": "vscode-icons",
+    "[json]": {
+        "editor.defaultFormatter": "HookyQR.beautify"
+    },
+    "C_Cpp.updateChannel": "Insiders",
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "go.useLanguageServer": true
 }
