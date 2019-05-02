@@ -1,13 +1,12 @@
 [
     {
-        "key": "shift+alt+ctrl+down",
-        "command": "cursorColumnSelectDown",
-        "when": "editorTextFocus"
+        "key": "ctrl+s",
+        "command": "workbench.action.files.save"
     },
     {
-        "key": "shift+alt+ctrl+up",
-        "command": "cursorColumnSelectUp",
-        "when": "editorTextFocus"
+        "key": "ctrl+d",
+        "command": "editor.action.addSelectionToNextFindMatch",
+        "when": "editorFocus"
     },
     {
         "key": "ctrl+/",
@@ -15,16 +14,30 @@
         "when": "editorTextFocus"
     },
     {
-         "key": "shift+ctrl+f",
-         "command": "workbench.view.search"
+        "key": "ctrl+f",
+        "command": "actions.find"
+    },
+    {
+        "key": "shift+ctrl+f",
+        "command": "workbench.view.search"
+    },
+    {
+        "key": "shift+alt+f",
+        "command": "editor.action.formatDocument",
+        "when": "editorTextFocus"
     },
     {
         "key": "shift+ctrl+p",
         "command": "workbench.action.showCommands"
     },
     {
-        "key": "shift+alt+f",
-        "command": "editor.action.formatDocument",
+        "key": "shift+alt+ctrl+down",
+        "command": "cursorColumnSelectDown",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "shift+alt+ctrl+up",
+        "command": "cursorColumnSelectUp",
         "when": "editorTextFocus"
     },
     {
