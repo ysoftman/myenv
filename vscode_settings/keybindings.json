@@ -15,6 +15,14 @@
         "when": "editorTextFocus"
     },
     {
+         "key": "shift+ctrl+f",
+         "command": "workbench.view.search"
+    },
+    {
+        "key": "shift+ctrl+p",
+        "command": "workbench.action.showCommands"
+    },
+    {
         "key": "shift+alt+f",
         "command": "editor.action.formatDocument",
         "when": "editorTextFocus"
