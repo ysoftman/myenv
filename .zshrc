@@ -7,6 +7,7 @@ source ~/.zprezto/init.zsh
 # blackvoidzsh 사용
 # source ~/.BlaCk-Void-Zsh/BlaCk-Void.zshrc
 
+# $(brew --prefix)/opt/fzf/install 실행하면 .fzf.bash .fzf.zsh 파일이 생긴다.
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 [ -f ~/workspace/myenv/myenv.sh ] && source ~/workspace/myenv/myenv.sh
