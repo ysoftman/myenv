@@ -18,6 +18,7 @@ code --install-extension haaaad.ansible
 code --install-extension HookyQR.beautify
 code --install-extension itryapitsin.Scala
 code --install-extension johnpapa.Angular2
+code --install-extension lonefy.vscode-JS-CSS-HTML-formatter
 code --install-extension magicstack.MagicPython
 code --install-extension marcostazi.VS-code-vagrantfile
 code --install-extension mechatroner.rainbow-csv
@@ -31,6 +32,7 @@ code --install-extension ms-vscode.csharp
 code --install-extension ms-vscode.Go
 code --install-extension ms-vscode.node-debug2
 code --install-extension ms-vscode.Theme-MaterialKit
+code --install-extension ms-vsliveshare.vsliveshare
 code --install-extension msjsdiag.debugger-for-chrome
 code --install-extension octref.vetur
 code --install-extension PeterJausovec.vscode-docker
