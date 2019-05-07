@@ -14,6 +14,7 @@ code --install-extension DotJoshJohnson.xml
 code --install-extension eg2.tslint
 code --install-extension fallenwood.vimL
 code --install-extension formulahendry.vscode-mysql
+code --install-extension GitHub.vscode-pull-request-github
 code --install-extension haaaad.ansible
 code --install-extension HookyQR.beautify
 code --install-extension itryapitsin.Scala
@@ -35,12 +36,12 @@ code --install-extension ms-vsliveshare.vsliveshare
 code --install-extension msjsdiag.debugger-for-chrome
 code --install-extension octref.vetur
 code --install-extension PeterJausovec.vscode-docker
-code --install-extension qinjia.view-in-browser
 code --install-extension ramyaraoa.show-offset
 code --install-extension ravilang.ravi-debug
 code --install-extension redhat.java
 code --install-extension samuelcolvin.jinjahtml
 code --install-extension shanoor.vscode-nginx
+code --install-extension techer.open-in-browser
 code --install-extension timonwong.ansible-autocomplete
 code --install-extension VisualStudioExptTeam.vscodeintellicode
 code --install-extension vitorsalgado.vscode-redis

@@ -79,12 +79,15 @@
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "git.ignoreMissingGitWarning": true,
     "workbench.iconTheme": "vscode-icons",
+    "C_Cpp.updateChannel": "Insiders",
+    "go.useLanguageServer": true,
     "[json]": {
         "editor.defaultFormatter": "HookyQR.beautify"
     },
-    "C_Cpp.updateChannel": "Insiders",
-    "go.useLanguageServer": true,
     "[html]": {
+        "editor.defaultFormatter": "HookyQR.beautify"
+    },
+    "[javascript]": {
         "editor.defaultFormatter": "HookyQR.beautify"
     }
 }
