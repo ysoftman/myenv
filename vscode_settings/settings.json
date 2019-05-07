@@ -83,8 +83,8 @@
         "editor.defaultFormatter": "HookyQR.beautify"
     },
     "C_Cpp.updateChannel": "Insiders",
+    "go.useLanguageServer": true,
     "[html]": {
-        "editor.defaultFormatter": "vscode.html-language-features"
-    },
-    "go.useLanguageServer": true
+        "editor.defaultFormatter": "HookyQR.beautify"
+    }
 }
