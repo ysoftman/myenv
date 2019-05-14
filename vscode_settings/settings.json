@@ -7,7 +7,8 @@
         "*dockerfile*": "dockerfile",
         "*httpd.conf*": "apacheconf",
         "*nginx.*": "NGINX",
-        "*makefile*": "makefile"
+        "*makefile*": "makefile",
+        "*.js": "javascriptreact"
     },
     "files.exclude": {
         "**/.git": true,
@@ -78,7 +79,6 @@
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "git.ignoreMissingGitWarning": true,
-    "workbench.iconTheme": "vscode-icons",
     "C_Cpp.updateChannel": "Insiders",
     "go.useLanguageServer": true,
     "[json]": {
@@ -89,5 +89,6 @@
     },
     "[javascript]": {
         "editor.defaultFormatter": "HookyQR.beautify"
-    }
+    },
+    "workbench.iconTheme": "vscode-icons"
 }
