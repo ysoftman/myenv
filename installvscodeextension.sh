@@ -14,6 +14,7 @@ code --install-extension DotJoshJohnson.xml
 code --install-extension eg2.tslint
 code --install-extension fallenwood.vimL
 code --install-extension formulahendry.vscode-mysql
+code --install-extension gaborv.flatbuffers
 code --install-extension GitHub.vscode-pull-request-github
 code --install-extension haaaad.ansible
 code --install-extension HookyQR.beautify
