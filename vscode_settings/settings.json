@@ -73,7 +73,7 @@
     "explorer.confirmDragAndDrop": false,
     "editor.fontSize": 14,
     "editor.fontFamily": "monaco, menlo",
-    "workbench.editor.showTabs": false,
+    "workbench.editor.showTabs": true,
     "window.zoomLevel": 1,
     "python.jediEnabled": false,
     "editor.suggestSelection": "first",
