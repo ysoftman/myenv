@@ -103,7 +103,7 @@ module.exports = {
     //
     // PowerShell on Windows
     // - Example: `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`
-    shell: "C:\\Program Files\\WindowsApps\\CanonicalGroupLimited.Ubuntu18.04onWindows_1804.2018.817.0_x64__79rhkp1fndgsc\\ubuntu1804.exe",
+    shell: "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps\\ubuntu1804.exe",
 
     // for setting shell arguments (i.e. for using interactive shellArgs: `['-i']`)
     // by default `['--login']` will be used
