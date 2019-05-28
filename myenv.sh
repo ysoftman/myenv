@@ -47,6 +47,6 @@ if [[ $? == 0 ]]; then
 fi
 a=$(which cowsay 2> /dev/null)
 if [[ $? == 0 ]]; then
-    echo "$msg" | cowsay -f tux
+    echo "$msg" | cowsay -f tux | lolcat
 fi
 # prezto .zlogin 을 사용할 경우 fortune 메시지가 한번 더 출력된다.

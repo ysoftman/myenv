@@ -35,6 +35,7 @@ code --install-extension ms-vscode.node-debug2
 code --install-extension ms-vscode.Theme-MaterialKit
 code --install-extension ms-vsliveshare.vsliveshare
 code --install-extension msjsdiag.debugger-for-chrome
+code --install-extension msjsdiag.vscode-react-native
 code --install-extension octref.vetur
 code --install-extension PeterJausovec.vscode-docker
 code --install-extension ramyaraoa.show-offset
@@ -52,7 +53,6 @@ code --install-extension vscjava.vscode-java-pack
 code --install-extension vscjava.vscode-java-test
 code --install-extension vscjava.vscode-maven
 code --install-extension vscode-icons-team.vscode-icons
-code --install-extension vsmobile.vscode-react-native
 code --install-extension wholroyd.jinja
 code --install-extension xabikos.JavaScriptSnippets
 code --install-extension zamerick.vscode-caddyfile-syntax
