@@ -40,6 +40,7 @@
     "go.formatTool": "goimports",
     "go.goroot": "/usr/local/go",
     "go.gopath": "/Users/ysoftman/workspace/gopath",
+    "go.useLanguageServer": true,
     // "go.goroot": "c:\\go",
     // "go.gopath": "d:\\ysoftman\\workspace\\gopath",
     "workbench.startupEditor": "none",
@@ -47,40 +48,38 @@
     "workbench.activityBar.visible": true,
     "workbench.sideBar.location": "left",
     "workbench.colorTheme": "Atom One Dark",
+    "workbench.editor.showTabs": true,
+    "workbench.iconTheme": "vscode-icons",
     "git.autofetch": true,
     "git.confirmSync": false,
-    "python.formatting.provider": "autopep8",
+    "git.ignoreMissingGitWarning": true,
     "C_Cpp.default.cStandard": "c99",
     "C_Cpp.default.cppStandard": "c++11",
     "C_Cpp.clang_format_path": "/usr/local/bin/clang-format",
     "C_Cpp.clang_format_style": "file",
     "C_Cpp.clang_format_fallbackStyle": "Visual Studio",
+    "C_Cpp.updateChannel": "Insiders",
     "editor.wordWrap": "on",
     "editor.renderWhitespace": "all",
     "editor.minimap.enabled": false,
-    "python.disablePromptForFeatures": [
-        "pylint"
-    ],
+    "editor.fontSize": 14,
+    "editor.fontFamily": "monaco, menlo",
+    "editor.formatOnSave": false,
+    "editor.suggestSelection": "first",
+    "python.formatting.provider": "autopep8",
+    "python.jediEnabled": false,
     "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
-    "explorer.confirmDelete": false,
     // Number of editors shown in the Open Editors pane.
     "explorer.openEditors.visible": 0,
+    "explorer.confirmDragAndDrop": false,
+    "explorer.confirmDelete": false,
     // Should display the Treeview?
-    "bookmarks.treeview.visible": false,
     "bookmarks.navigateThroughAllFiles": true,
     // Show or hide the Explorer.
     "docker.showExplorer": false,
-    "explorer.confirmDragAndDrop": false,
-    "editor.fontSize": 14,
-    "editor.fontFamily": "monaco, menlo",
-    "workbench.editor.showTabs": true,
     "window.zoomLevel": 1,
-    "python.jediEnabled": false,
-    "editor.suggestSelection": "first",
+    "vsicons.dontShowNewVersionMessage": true,
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "git.ignoreMissingGitWarning": true,
-    "C_Cpp.updateChannel": "Insiders",
-    "go.useLanguageServer": true,
     "[json]": {
         "editor.defaultFormatter": "HookyQR.beautify"
     },
@@ -90,6 +89,7 @@
     "[javascript]": {
         "editor.defaultFormatter": "HookyQR.beautify"
     },
-    "workbench.iconTheme": "vscode-icons",
-    "vsicons.dontShowNewVersionMessage": true
+    "[jsonc]": {
+        "editor.defaultFormatter": "HookyQR.beautify"
+    }
 }
