@@ -1,6 +1,6 @@
 cls
 @REM add registry cmd autorun
-reg add "HKCU\Software\Microsoft\Command Processor" /v autorun /t reg_multi_sz /d %cd%\alias.bat /f
+reg add "HKCU\Software\Microsoft\Command Processor" /v autorun /t reg_multi_sz /d d:\ysoftman\workspace\alias.bat /f
 reg query "HKCU\Software\Microsoft\Command Processor" /v autorun
 
 @REM set alias(doskey)
