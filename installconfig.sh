@@ -19,7 +19,7 @@ git config --global credential.helper cache
 # git ignore
 [ -h ~/.gitignore_global ] && unlink ~/.gitignore_global
 [ -f ~/.gitignore_global ] && mv -v ~/.gitignore_global ~/.gitignore_global.bak
-ln -s ~/workspace/myenv/.gitignore_global ~/.gitignore_global
+ln -s ${PWD}/.gitignore_global ~/.gitignore_global
 
 # bash, zsh, vim, tmux, tigrc, mutt 기본 설정
 [ -h ~/.bashrc ] && unlink ~/.bashrc
@@ -38,27 +38,27 @@ ln -s ~/workspace/myenv/.gitignore_global ~/.gitignore_global
 [ -f ~/.muttrc ] && mv -v ~/.muttrc ~/.muttrc.bak
 [ -d ~/.config/mc ] && mv -v ~/.config/mc ~/.config/mc_bak
 
-ln -s ~/workspace/myenv/.bashrc ~/.bashrc
-ln -s ~/workspace/myenv/.zshrc ~/.zshrc
-ln -s ~/workspace/myenv/.vimrc ~/.vimrc
-ln -s ~/workspace/myenv/.tmux.conf ~/.tmux.conf
-ln -s ~/workspace/myenv/.tigrc ~/.tigrc
-ln -s ~/workspace/myenv/.muttrc ~/.muttrc
-ln -s ~/workspace/myenv/mc ~/.config/mc
+ln -s ${PWD}/.bashrc ~/.bashrc
+ln -s ${PWD}/.zshrc ~/.zshrc
+ln -s ${PWD}/.vimrc ~/.vimrc
+ln -s ${PWD}/.tmux.conf ~/.tmux.conf
+ln -s ${PWD}/.tigrc ~/.tigrc
+ln -s ${PWD}/.muttrc ~/.muttrc
+ln -s ${PWD}/mc ~/.config/mc
 
 # dosbox 설정
 [ -h ~/dosbox.conf ] && unlink ~/dosbox.conf
 [ -h ~/dosbox.sh ] && unlink ~/dosbox.sh
-ln -s ~/workspace/myenv/dosbox.conf ~/dosbox.conf
-ln -s ~/workspace/myenv/dosbox.sh ~/dosbox.sh
+ln -s ${PWD}/dosbox.conf ~/dosbox.conf
+ln -s ${PWD}/dosbox.sh ~/dosbox.sh
 
 # pythonpath 설정
 [ -h ~/pythonpath.sh ] && unlink ~/pythonpath.sh
-ln -s ~/workspace/myenv/pythonpath.sh ~/pythonpath.sh
+ln -s ${PWD}/pythonpath.sh ~/pythonpath.sh
 
 # warcraft3 창모드로 실행 스크립트
 [ -h ~/warcraft3_window.sh ] && unlink ~/warcraft3_window.sh
-ln -s ~/workspace/myenv/warcraft3_window.sh ~/warcraft3_window.sh
+ln -s ${PWD}/warcraft3_window.sh ~/warcraft3_window.sh
 
 # 보안사항으로 커밋하면 안됨.
 # cp -fv ./.ssh/* ~/.ssh
