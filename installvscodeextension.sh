@@ -27,6 +27,12 @@ code --install-extension mohsen1.prettify-json
 code --install-extension mrmlnc.vscode-apache
 code --install-extension ms-mssql.mssql
 code --install-extension ms-python.python
+code --install-extension ms-vscode-remote.remote-containers
+code --install-extension ms-vscode-remote.remote-ssh
+code --install-extension ms-vscode-remote.remote-ssh-edit
+code --install-extension ms-vscode-remote.remote-ssh-explorer
+code --install-extension ms-vscode-remote.remote-wsl
+code --install-extension ms-vscode-remote.vscode-remote-extensionpack
 code --install-extension ms-vscode.cpptools
 code --install-extension ms-vscode.csharp
 code --install-extension ms-vscode.Go

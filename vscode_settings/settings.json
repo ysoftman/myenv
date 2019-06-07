@@ -22,6 +22,7 @@
         "**/.settings": true,
         "**/.factorypath": true
     },
+    "go.useLanguageServer": true,
     "go.buildOnSave": "package",
     "go.lintOnSave": "package",
     "go.vetOnSave": "package",
@@ -38,10 +39,7 @@
     },
     "go.autocompleteUnimportedPackages": true,
     "go.formatTool": "goimports",
-    "go.goroot": "/usr/local/go",
     "go.gopath": "/Users/ysoftman/workspace/gopath",
-    "go.useLanguageServer": true,
-    // "go.goroot": "c:\\go",
     // "go.gopath": "d:\\ysoftman\\workspace\\gopath",
     "workbench.startupEditor": "none",
     "workbench.statusBar.visible": true,
@@ -91,5 +89,6 @@
     },
     "[jsonc]": {
         "editor.defaultFormatter": "HookyQR.beautify"
-    }
+    },
+    "git.ignoreLegacyWarning": true
 }
