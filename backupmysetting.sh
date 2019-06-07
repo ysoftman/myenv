@@ -31,7 +31,25 @@ install_file="installpip.sh"
 echo '#!/bin/bash' > ${install_file}
 echo 'sudo pip install --upgrade pip' >> ${install_file}
 printf "sudo pip install " >> ${install_file}
-pip list | sed -n '3,$p' | awk '{print $1}' | tr '\n' ' ' >> ${install_file}
+
+PIP='pip'
+which ${PIP}
+if [ $? -ne 0 ]; then
+    PIP='pip2'
+    which ${PIP}
+    if [ $? -ne 0 ]; then
+        PIP='pip3'
+        which ${PIP}
+        if [ $? -ne 0 ]; then
+            echo 'there is no pip'
+            PIP='NONE'
+        fi
+    fi
+fi
+if [[ $PIP != 'NONE' ]]; then
+    echo "PIP=${PIP}"
+    ${PIP} list | sed -n '3,$p' | awk '{print $1}' | tr '\n' ' ' >> ${install_file}
+fi
 # --upgrade 필요시에만 사용
 # echo ' --upgrade' >> ${install_file}
 
