@@ -6,8 +6,9 @@ for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
     ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
 done
 
-rm -fv ~/.zprezto/runcoms/zpreztorc
-cp -fv zpreztorc ~/.zprezto/runcoms/zpreztorc
+rm -fv ${HOME}/.zprezto/runcoms/zpreztorc
+cp -fv zpreztorc ${HOME}/.zprezto/runcoms/zpreztorc
+cp -fv zlogin ${HOME}/.zprezto/runcoms/zlogin
 
-#echo 'source ~/.zprezto/init.zsh' >> ~/.zshrc
-source ~/.zprezto/init.zsh
+#echo 'source ${HOME}/.zprezto/init.zsh' >> ~/.zshrc
+source ${HOME}/.zprezto/init.zsh
