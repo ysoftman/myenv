@@ -8,6 +8,7 @@ done
 
 rm -fv ${HOME}/.zprezto/runcoms/zpreztorc
 cp -fv zpreztorc ${HOME}/.zprezto/runcoms/zpreztorc
+rm -fv ${HOME}/.zprezto/runcoms/zlogin
 cp -fv zlogin ${HOME}/.zprezto/runcoms/zlogin
 
 #echo 'source ${HOME}/.zprezto/init.zsh' >> ~/.zshrc
