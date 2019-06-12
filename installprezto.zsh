@@ -10,6 +10,8 @@ rm -fv ${HOME}/.zprezto/runcoms/zpreztorc
 cp -fv zpreztorc ${HOME}/.zprezto/runcoms/zpreztorc
 rm -fv ${HOME}/.zprezto/runcoms/zlogin
 cp -fv zlogin ${HOME}/.zprezto/runcoms/zlogin
+rm -fv ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_setup
+cp -fv prompt_sorin_setup ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_setup
 
 #echo 'source ${HOME}/.zprezto/init.zsh' >> ~/.zshrc
 source ${HOME}/.zprezto/init.zsh

@@ -16,7 +16,7 @@
 
 # Execute code only if STDERR is bound to a TTY.
 [[ -o INTERACTIVE && -t 2 ]] && {
-
+  # ysoftman
   # fortune 은 myevn.sh 에서 사용하고 있어 비활성화시킨다.
   # Print a random, hopefully interesting, adage.
   #if (( $+commands[fortune] )); then
