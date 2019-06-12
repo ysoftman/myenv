@@ -98,6 +98,8 @@ zstyle ':prezto:module:editor' key-bindings 'emacs'
 # Setting it to 'random' loads a random theme.
 # Auto set to 'off' on dumb terminals.
 zstyle ':prezto:module:prompt' theme 'sorin'
+# 경로 표시 축약 하지 않기
+zstyle ':prezto:module:prompt' pwd-length 'long'
 
 #
 # Ruby
