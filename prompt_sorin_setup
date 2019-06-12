@@ -100,7 +100,6 @@ function prompt_sorin_precmd {
       ((cnt++))
   done
   _prompt_sorin_pwd="${output}%f%b"
-  #echo -e ${output}
 
 
   # Handle updating git data. We also clear the git prompt data if we're in a
