@@ -88,6 +88,21 @@ function prompt_sorin_precmd {
   # Format PWD.
   _prompt_sorin_pwd=$(prompt-pwd)
 
+
+  # ysoftman
+  # color path prompt~^^
+  cnt=0
+  output=""
+  for i in $(prompt-pwd | sed 's/\// /g'); do
+      n=$(( ${cnt}%6+1 ))
+      color="%F{$n}"
+      output="${output}${color}$i/"
+      ((cnt++))
+  done
+  _prompt_sorin_pwd="${output}%f%b"
+  #echo -e ${output}
+
+
   # Handle updating git data. We also clear the git prompt data if we're in a
   # different git root now.
   if (( $+functions[git-dir] )); then
