@@ -85,12 +85,10 @@ function prompt_sorin_precmd {
   setopt LOCAL_OPTIONS
   unsetopt XTRACE KSH_ARRAYS
 
-  # Format PWD.
-  _prompt_sorin_pwd=$(prompt-pwd)
-
-
   # ysoftman
-  # color path prompt~^^
+  # color path prompt
+  # Format PWD.
+  #_prompt_sorin_pwd=$(prompt-pwd)
   cnt=0
   output="%B"
   for i in $(prompt-pwd | sed 's/\// /g'); do
