@@ -1,9 +1,7 @@
 #!/bin/sh
 code --install-extension 13xforever.language-x86-64-assembly
 code --install-extension abusaidm.html-snippets
-code --install-extension akamud.vscode-theme-onedark
 code --install-extension alefragnani.Bookmarks
-code --install-extension azemoh.theme-onedark
 code --install-extension bungcip.better-toml
 code --install-extension DavidAnson.vscode-markdownlint
 code --install-extension dbaeumer.vscode-eslint
@@ -25,6 +23,7 @@ code --install-extension mechatroner.rainbow-csv
 code --install-extension mitaki28.vscode-clang
 code --install-extension mohsen1.prettify-json
 code --install-extension mrmlnc.vscode-apache
+code --install-extension ms-azuretools.vscode-docker
 code --install-extension ms-mssql.mssql
 code --install-extension ms-python.python
 code --install-extension ms-vscode-remote.remote-containers
@@ -42,12 +41,12 @@ code --install-extension ms-vsliveshare.vsliveshare
 code --install-extension msjsdiag.debugger-for-chrome
 code --install-extension msjsdiag.vscode-react-native
 code --install-extension octref.vetur
-code --install-extension PeterJausovec.vscode-docker
 code --install-extension ramyaraoa.show-offset
 code --install-extension ravilang.ravi-debug
 code --install-extension redhat.java
 code --install-extension samuelcolvin.jinjahtml
 code --install-extension shanoor.vscode-nginx
+code --install-extension sysoev.language-stylus
 code --install-extension techer.open-in-browser
 code --install-extension timonwong.ansible-autocomplete
 code --install-extension VisualStudioExptTeam.vscodeintellicode
@@ -61,4 +60,5 @@ code --install-extension vscode-icons-team.vscode-icons
 code --install-extension wholroyd.jinja
 code --install-extension xabikos.JavaScriptSnippets
 code --install-extension zamerick.vscode-caddyfile-syntax
+code --install-extension zhuangtongfa.Material-theme
 code --install-extension zxh404.vscode-proto3

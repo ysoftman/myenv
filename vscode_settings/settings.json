@@ -45,7 +45,6 @@
     "workbench.statusBar.visible": true,
     "workbench.activityBar.visible": true,
     "workbench.sideBar.location": "left",
-    "workbench.colorTheme": "Atom One Dark",
     "workbench.editor.showTabs": true,
     "workbench.iconTheme": "vscode-icons",
     "git.autofetch": true,
@@ -90,5 +89,6 @@
     "[jsonc]": {
         "editor.defaultFormatter": "HookyQR.beautify"
     },
-    "git.ignoreLegacyWarning": true
+    "git.ignoreLegacyWarning": true,
+    "workbench.colorTheme": "One Dark Pro"
 }
