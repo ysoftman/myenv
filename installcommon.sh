@@ -2,7 +2,7 @@
 
 sudo_cmd='sudo'
 
-if [ $(uname -o 2> /dev/null) == 'Android' ]; then
+if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
 	sudo_cmd=''
 	package_program="pkg"
 	echo "package_program ${package_program}"
@@ -15,7 +15,7 @@ if [ $(uname -o 2> /dev/null) == 'Android' ]; then
 fi
 
 # zsh pip brew ruby .. 기본 프로그램 설치
-if [ $(uname) == 'Darwin' ]; then
+if [[ $(uname) == 'Darwin' ]]; then
 	echo 'OSX Environment'
 	# brew 설치
 	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -23,7 +23,7 @@ if [ $(uname) == 'Darwin' ]; then
 	brew install zsh
 	# pip 설치
 	${sudo_cmd} easy_install pip
-elif [ $(uname) == 'Linux' ]; then
+elif [[ $(uname) == 'Linux' ]]; then
 	echo 'Linux Environment'
 	# yum 실행보기
 	yum --version
