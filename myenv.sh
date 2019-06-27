@@ -45,7 +45,10 @@ alias tig='tig --all'
 msg="ysoftman"
 a=$(which fortune 2> /dev/null)
 if [[ $? == 0 ]]; then
-    msg=$(fortune -s)
+    msg=$(fortune -s 2> /dev/null)
+	if [[ $msg == '' ]]; then
+		msg=$(fortune)
+	fi
 fi
 a=$(which cowsay 2> /dev/null)
 if [[ $? == 0 ]]; then
