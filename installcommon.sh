@@ -1,5 +1,18 @@
 #!/bin/bash
 
+sudo_cmd='sudo'
+
+if [ $(uname -o) == 'Android' ]; then
+	sudo_cmd=''
+	package_program="pkg"
+	echo "package_program ${package_program}"
+	${sudo_cmd} ${package_program} update
+	${sudo_cmd} ${package_program} upgrade
+	${sudo_cmd} ${package_program} install -y zsh python vim ripgrep curl git tig fzf tmux
+	chsh -s zsh
+	exit 0
+fi
+
 # zsh pip brew ruby .. 기본 프로그램 설치
 if [ $(uname) == 'Darwin' ]; then
 	echo 'OSX Environment'
@@ -8,7 +21,7 @@ if [ $(uname) == 'Darwin' ]; then
 	# zsh 설치
 	brew install zsh
 	# pip 설치
-	sudo easy_install pip
+	${sudo_cmd} easy_install pip
 elif [ $(uname) == 'Linux' ]; then
 	echo 'Linux Environment'
 	# yum 실행보기
@@ -21,14 +34,14 @@ elif [ $(uname) == 'Linux' ]; then
 	fi
 	echo "package_program ${package_program}"
 	# centos, ubuntu 모두 있음
-	sudo ${package_program} install zsh python python-pip ruby clang-format
+	${sudo_cmd} ${package_program} install zsh python python-pip ruby clang-format
 	# ncurses - yum 에서 설치
-	sudo ${package_program} install ncurses ncurses-devel
+	${sudo_cmd} ${package_program} install ncurses ncurses-devel
 	# ncurses - ubuntu 에서 설치
-	sudo ${package_program} install build-essential libncurses5-dev
+	${sudo_cmd} ${package_program} install build-essential libncurses5-dev
 
 	# export LC_ALL=ko_KR.utf8 사용을 위해서 정의되어 있어야 한다.
-	sudo localedef -f UTF-8 -i ko_KR ko_KR.utf8
+	${sudo_cmd} localedef -f UTF-8 -i ko_KR ko_KR.utf8
 
 	# zsh 버전이 낮으면 소스 다운로드 받아 설치하기
 	cur_version="$(zsh --version | cut -d" " -f2)"
@@ -43,7 +56,7 @@ elif [ $(uname) == 'Linux' ]; then
 		mv download zsh-5.2.tar.gz
 		tar zxvf zsh-5.2.tar.gz
 		cd zsh-5.2
-		./configure && make -j 4 && sudo make install
+		./configure && make -j 4 && ${sudo_cmd} make install
 		/usr/local/bin/zsh --version
 	else
 		echo "${compare_version} < ${cur_version}"
@@ -62,16 +75,16 @@ echo $zsh_path
 if [ -z ${zsh_path} ]; then
 	# /etc/shells 는 >> 를 허용하지 않아 수정 파일로 바꿔친다.
 	echo "/usr/local/bin/zsh" >> shells
-	sudo mv -v shells /etc/shells
+	${sudo_cmd} mv -v shells /etc/shells
 fi
 rm -fv shells
-sudo cp -fv chsh /etc/pam.d/chsh
+${sudo_cmd} cp -fv chsh /etc/pam.d/chsh
 if  [ -x /usr/local/bin/zsh ]; then
-	sudo chsh -s /usr/local/bin/zsh ${USER}
+	${sudo_cmd} chsh -s /usr/local/bin/zsh ${USER}
 elif [ -x /usr/bin/zsh ]; then
-	sudo chsh -s /usr/bin/zsh ${USER}
+	${sudo_cmd} chsh -s /usr/bin/zsh ${USER}
 elif [ -x /bin/zsh ]; then
-	sudo chsh -s /bin/zsh ${USER}
+	${sudo_cmd} chsh -s /bin/zsh ${USER}
 else
 	echo 'can not find zsh'
 fi
