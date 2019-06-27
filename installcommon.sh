@@ -8,7 +8,7 @@ if [ $(uname -o) == 'Android' ]; then
 	echo "package_program ${package_program}"
 	${sudo_cmd} ${package_program} update
 	${sudo_cmd} ${package_program} upgrade
-	${sudo_cmd} ${package_program} install -y zsh python vim ripgrep curl git tig fzf tmux
+	${sudo_cmd} ${package_program} install -y zsh python2 python vim ripgrep curl git tig fzf tmux cmake fortune cowsay
 	chsh -s zsh
 	exit 0
 fi
