@@ -4,13 +4,15 @@ sudo_cmd='sudo'
 
 if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
 	sudo_cmd=''
-	package_program="pkg"
+	package_program="apt"
 	echo "package_program ${package_program}"
 	${sudo_cmd} ${package_program} update
 	${sudo_cmd} ${package_program} upgrade
 	${sudo_cmd} ${package_program} install -y zsh python2 python2-dev python python-dev vim ripgrep curl git tig fzf tmux cmake ctags lua fortune cowsay cmatrix golang ruby openssh libandroid-support man dnsutils
 	chsh -s zsh
+	${sudo_cmd} ${package_program} install -y vim-python
 	gem install lolcat
+
 	exit 0
 fi
 
