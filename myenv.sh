@@ -11,7 +11,9 @@ export EDITOR=vim
 export VISUAL=vim
 export ANSIBLE_NOCOWS=1 # disable cowsay message when using ansible
 
-unalias ls
+if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
+    unalias ls
+fi
 
 if [[ $(uname) == 'Darwin' ]]; then
     export LSCOLORS='GxFxCxDxBxegedabagaced'
