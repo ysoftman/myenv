@@ -2,7 +2,6 @@
 # ysoftman
 # vim 설치 스크립트
 
-
 reinstallarg=""
 if (($# >= 1)); then
 	if [[ $1 == 'reinstall' ]]; then
@@ -15,25 +14,25 @@ if (($# >= 1)); then
 fi
 
 # go, ruby, mercurial, python, cmake, ctags 설치 및 환경변수 설정
-if [ $(uname) == 'Darwin' ]; then
+if [[ $(uname) == 'Darwin' ]]; then
 	echo 'OSX Environment'
 	brew install go
 	export GOROOT=/usr/local/bin/go
 	brew install ruby lua mercurial python cmake ctags python3 tig vim
-elif [ $(uname) == 'Linux' ]; then
+elif [[ $(uname) == 'Linux' ]]; then
 	echo 'Linux Environment'
 	# yum 실행보기
 	yum --version
 	# yum 실행후 exit code 0(SUCCESS) 이라면 사용할수 있다.
 	if [ $? == 0 ]; then
-		package_program="yum -y"
+		package_program="yum"
 	else
 		package_program="apt-get"
 		# sudo apt-get update
 	fi
-	sudo ${package_program} install gcc g++ gcc-c++ wget go vim
+	sudo ${package_program} install -y gcc g++ gcc-c++ wget go vim
 	export GOROOT=/usr/bin/go
-	sudo ${package_program} install ruby lua5.3 mercurial python-dev cmake ctags python34-devel tig
+	sudo ${package_program} install -y ruby lua5.3 mercurial python-dev cmake ctags python34-devel tig
 else
 	echo 'Only OS-X or Linux... exit'
 	# 소스 빌드 및 설치
@@ -65,7 +64,7 @@ base_vim_version="8.0"
 cur_vim_version=$(vim --version | grep 'Vi IMproved' | awk '{print $5}')
 echo "cur_vim_version : ${cur_vim_version}"
 highest_version="$(printf "${cur_vim_version}\n${base_vim_version}" | sort -r | head -n1)"
-if [ ${highest_version} != ${cur_vim_version} ]; then
+if [[ ${highest_version} != ${cur_vim_version} ]]; then
 	echo "cur_vim_version < ${base_vim_version}"
 	echo "installvim()..."
 	installvim
