@@ -1,5 +1,5 @@
 #!/bin/bash
-common_pkgs='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils '
+common_pkgs='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils'
 sudo_cmd='sudo'
 
 if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
