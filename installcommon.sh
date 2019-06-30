@@ -1,23 +1,18 @@
 #!/bin/bash
-
+common_pkgs='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils '
 sudo_cmd='sudo'
 
 if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
 	sudo_cmd=''
 	package_program="apt"
-	echo "package_program ${package_program}"
 	${sudo_cmd} ${package_program} update
 	${sudo_cmd} ${package_program} upgrade
-	${sudo_cmd} ${package_program} install -y zsh python2 python2-dev python python-dev vim ripgrep curl git tig fzf tmux cmake ctags lua fortune cowsay figlet cmatrix golang ruby openssh libandroid-support man dnsutils
+	${sudo_cmd} ${package_program} install -y ${common_pkgs} python2 python2-dev ripgrep fzf  lua openssh libandroid-support
 	chsh -s zsh
 	${sudo_cmd} ${package_program} install -y vim-python
 	gem install lolcat
-
 	exit 0
-fi
-
-# zsh pip brew ruby .. 기본 프로그램 설치
-if [[ $(uname) == 'Darwin' ]]; then
+elif [[ $(uname) == 'Darwin' ]]; then
 	echo 'OSX Environment'
 	# brew 설치
 	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -31,18 +26,20 @@ elif [[ $(uname) == 'Linux' ]]; then
 	yum --version
 	# yum 실행후 exit code 0(SUCCESS) 이라면 사용할수 있다.
 	if [ $? == 0 ]; then
-		package_program="yum -y"
+		package_program="yum"
 	else
 		package_program="apt-get"
 	fi
-	echo "package_program ${package_program}"
+	${sudo_cmd} ${package_program} update
 	# centos, ubuntu 모두 있음
-	${sudo_cmd} ${package_program} install zsh python python-pip ruby clang-format
-	# ncurses - yum 에서 설치
-	${sudo_cmd} ${package_program} install ncurses ncurses-devel
-	# ncurses - ubuntu 에서 설치
-	${sudo_cmd} ${package_program} install build-essential libncurses5-dev
-
+	${sudo_cmd} ${package_program} install -y ${common_pkgs} python-pip clang-format
+	if [[ package_program="yum" ]]; then
+		# ncurses - yum 에서 설치
+		${sudo_cmd} ${package_program} install -y ncurses ncurses-devel
+	elif [[ package_program="apt-get" ]]; then
+		# ncurses - ubuntu 에서 설치
+		${sudo_cmd} ${package_program} install -y build-essential libncurses5-dev
+	fi
 	# export LC_ALL=ko_KR.utf8 사용을 위해서 정의되어 있어야 한다.
 	${sudo_cmd} localedef -f UTF-8 -i ko_KR ko_KR.utf8
 
@@ -64,10 +61,9 @@ elif [[ $(uname) == 'Linux' ]]; then
 	else
 		echo "${compare_version} < ${cur_version}"
 	fi
-
 else
-	echo 'Only OS-X or Linux... exit'
-	exit
+	echo 'This OS is not (Android or OS-X or Linux)'
+	exit 1
 fi
 
 # 현재 유저의 기본 쉘을 zsh 로 변경
