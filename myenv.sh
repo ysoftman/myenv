@@ -52,13 +52,21 @@ if [[ $? == 0 ]]; then
 		msg=$(fortune)
 	fi
 fi
+
+a=$(which figlet 2> /dev/null)
+if [[ $? == 0 ]]; then
+    banner=$(figlet ysoftman 2> /dev/null)
+    msg="${banner}\n${msg}"
+fi
+
 a=$(which cowsay 2> /dev/null)
 if [[ $? == 0 ]]; then
     a=$(which lolcat 2> /dev/null)
+    # figlet 을 메시지로 사용할 경우 -n 이 필요하다.
     if [[ $? == 0 ]]; then
-        echo "$msg" | cowsay -f tux | lolcat
+        echo "$msg" | cowsay -n -f tux | lolcat
     else
-        echo "$msg" | cowsay -f tux
+        echo "$msg" | cowsay -n -f tux
     fi
 fi
 
