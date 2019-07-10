@@ -90,5 +90,7 @@
         "editor.defaultFormatter": "HookyQR.beautify"
     },
     "git.ignoreLegacyWarning": true,
-    "workbench.colorTheme": "One Dark Pro"
+    "workbench.colorTheme": "One Dark Pro",
+    "terminal.external.osxExec": "iterm2.app",
+    "update.mode": "manual"
 }
