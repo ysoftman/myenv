@@ -92,5 +92,6 @@
     "git.ignoreLegacyWarning": true,
     "workbench.colorTheme": "One Dark Pro",
     "terminal.external.osxExec": "iterm2.app",
-    "update.mode": "manual"
+    "update.mode": "manual",
+    "remote.SSH.showLoginTerminal": true
 }
