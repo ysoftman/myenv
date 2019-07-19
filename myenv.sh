@@ -64,9 +64,9 @@ if [[ $? == 0 ]]; then
     a=$(which lolcat 2> /dev/null)
     # figlet 을 메시지로 사용할 경우 -n 이 필요하다.
     if [[ $? == 0 ]]; then
-        echo "$msg" | cowsay -n -f tux | lolcat
+        echo -e "$msg" | cowsay -n -f tux | lolcat
     else
-        echo "$msg" | cowsay -n -f tux
+        echo -e "$msg" | cowsay -n -f tux
     fi
 fi
 
