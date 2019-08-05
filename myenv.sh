@@ -43,6 +43,16 @@ alias aleng='cd ~/workspace/aleng/ && ./aleng && cd -'
 alias tig='tig --all'
 
 
+a=$(which neofetch 2> /dev/null)
+if [[ $? == 0 ]]; then
+    neofetch
+else
+    a=$(which screenfetch 2> /dev/null)
+    if [[ $? == 0 ]]; then
+        screenfetch -E
+    fi
+fi
+
 # fortune + cowsay welcome message
 msg="ysoftman"
 a=$(which fortune 2> /dev/null)
@@ -70,4 +80,4 @@ if [[ $? == 0 ]]; then
     fi
 fi
 
-# prezto .zlogin 을 사용할 경우 fortune 메시지가 한번 더 출력된다.
+# prezto .zlogin fortune 을 실행하고 있어 .zlogin 에서 fortune 실행을 주석처리했다.
