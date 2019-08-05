@@ -32,6 +32,14 @@ elif [[ $(uname) == 'Linux' ]]; then
     fi
 fi
 
+# sudo gem install colorls
+# brew tap homebrew/cask-fonts
+# brew cask install font-hack-nerd-font
+a=$(which colorls 2> /dev/null)
+if [[ $? == 0 ]]; then
+	alias ll='colorls -ahl'
+fi
+
 alias vi='vim'
 alias vimlastfile='vim `(ls -1tr | tail -1)`'
 alias gopath='cd $GOPATH'
