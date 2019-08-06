@@ -1,5 +1,5 @@
 #!/bin/bash
-common_pkgs='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils'
+common_pkgs='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils gem'
 sudo_cmd='sudo'
 
 if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
@@ -20,6 +20,7 @@ elif [[ $(uname) == 'Darwin' ]]; then
 	brew install zsh
 	# pip 설치
 	${sudo_cmd} easy_install pip
+	${sudo_cmd} gem install colorls
 elif [[ $(uname) == 'Linux' ]]; then
 	echo 'Linux Environment'
 	# yum 실행보기
@@ -42,6 +43,7 @@ elif [[ $(uname) == 'Linux' ]]; then
 	fi
 	# export LC_ALL=ko_KR.utf8 사용을 위해서 정의되어 있어야 한다.
 	${sudo_cmd} localedef -f UTF-8 -i ko_KR ko_KR.utf8
+	gem install colorls
 
 	# zsh 버전이 낮으면 소스 다운로드 받아 설치하기
 	cur_version="$(zsh --version | cut -d" " -f2)"
