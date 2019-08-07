@@ -1,5 +1,8 @@
 #!/bin/bash
-common_pkgs='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils gem'
+pkgs_android='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils gem python2 python2-dev ripgrep fzf lua openssh libandroid-support vim-python'
+pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils gem python-pip clang-format ncurses ncurses-devel'
+pkgs_aptget='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils gem python-pip clang-format build-essential libncurses5-dev'
+pkgs_pacman='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python ruby go man dnsutils fzf'
 sudo_cmd='sudo'
 
 if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
@@ -7,9 +10,8 @@ if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
 	package_program="apt"
 	${sudo_cmd} ${package_program} update
 	${sudo_cmd} ${package_program} upgrade
-	${sudo_cmd} ${package_program} install -y ${common_pkgs} python2 python2-dev ripgrep fzf  lua openssh libandroid-support
+	${sudo_cmd} ${package_program} install -y ${pkgs_android}
 	chsh -s zsh
-	${sudo_cmd} ${package_program} install -y vim-python
 	gem install lolcat
 	exit 0
 elif [[ $(uname) == 'Darwin' ]]; then
@@ -23,24 +25,29 @@ elif [[ $(uname) == 'Darwin' ]]; then
 	${sudo_cmd} gem install colorls
 elif [[ $(uname) == 'Linux' ]]; then
 	echo 'Linux Environment'
-	# yum 실행보기
-	yum --version
-	# yum 실행후 exit code 0(SUCCESS) 이라면 사용할수 있다.
-	if [ $? == 0 ]; then
+    # centos
+	a=$(yum --version 2> /dev/null)
+    if [[ $? == 0 ]]; then
 		package_program="yum"
-	else
-		package_program="apt-get"
-	fi
-	${sudo_cmd} ${package_program} update
-	# centos, ubuntu 모두 있음
-	${sudo_cmd} ${package_program} install -y ${common_pkgs} python-pip clang-format
-	if [[ package_program="yum" ]]; then
-		# ncurses - yum 에서 설치
-		${sudo_cmd} ${package_program} install -y ncurses ncurses-devel
-	elif [[ package_program="apt-get" ]]; then
-		# ncurses - ubuntu 에서 설치
-		${sudo_cmd} ${package_program} install -y build-essential libncurses5-dev
-	fi
+        ${sudo_cmd} ${package_program} update
+        ${sudo_cmd} ${package_program} install -y ${pkgs_yum}
+    else
+		# ubuntu
+        a=$(apt-get --version 2> /dev/null)
+        if [[ $? == 0 ]]; then
+            package_program="apt-get"
+            ${sudo_cmd} ${package_program} update
+            ${sudo_cmd} ${package_program} install -y ${pkgs_aptget}
+        fi
+		# archlinux
+        a=$(pacman --version 2> /dev/null)
+        if [[ $? == 0 ]]; then
+            package_program="pacman"
+            ${sudo_cmd} ${package_program} -Sy
+            ${sudo_cmd} ${package_program} -S ${pkgs_pacman} --noconfirm
+        fi
+    fi
+
 	# export LC_ALL=ko_KR.utf8 사용을 위해서 정의되어 있어야 한다.
 	${sudo_cmd} localedef -f UTF-8 -i ko_KR ko_KR.utf8
 	gem install colorls
