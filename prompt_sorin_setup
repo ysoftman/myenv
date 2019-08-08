@@ -96,8 +96,7 @@ function prompt_sorin_precmd {
       output="${output}${color}$i/"
       ((cnt++))
   done
-  # %n 는 사용자, %m 은 장비명
-  _prompt_sorin_pwd="%n@%m:${output}%f%b"
+  _prompt_sorin_pwd="${output}"
 
 
   # Handle updating git data. We also clear the git prompt data if we're in a
@@ -179,7 +178,11 @@ function prompt_sorin_setup {
   _prompt_sorin_pwd=''
 
   # Define prompts.
-  PROMPT='${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}%F{4}${_prompt_sorin_pwd}%(!. %B%F{1}#%f%b.)${editor_info[keymap]} '
+  # ysoftman
+  # 항상 사용자명과 호스트명이 나오도록 수정
+  # %n 는 사용자, %m 은 장비명
+  # PROMPT='${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}%F{4}${_prompt_sorin_pwd}%(!. %B%F{1}#%f%b.)${editor_info[keymap]} '
+  PROMPT='%F{4}%n@%m%f %F{4}${_prompt_sorin_pwd}%(!. %B%F{1}#%f%b.)${editor_info[keymap]} '
   RPROMPT='$python_info[virtualenv]${editor_info[overwrite]}%(?:: %F{1}'
   RPROMPT+=${show_return}
   RPROMPT+='%f)${VIM:+" %B%F{6}V%f%b"}${_prompt_sorin_git}'
