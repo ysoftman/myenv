@@ -41,6 +41,12 @@
     "go.formatTool": "goimports",
     "go.gopath": "/Users/ysoftman/workspace/gopath",
     // "go.gopath": "d:\\ysoftman\\workspace\\gopath",
+    "[go]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
+    },
     "workbench.startupEditor": "none",
     "workbench.statusBar.visible": true,
     "workbench.activityBar.visible": true,
