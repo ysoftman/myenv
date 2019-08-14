@@ -9,7 +9,7 @@ module.exports = {
     updateChannel: 'stable',
 
     // default font size in pixels for all tabs
-    fontSize: 14,
+    fontSize: 16,
 
     // font family with optional fallbacks
     fontFamily: 'Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
@@ -139,8 +139,10 @@ module.exports = {
   //   `hyperpower`
   //   `@company/project`
   //   `project#1.0.1`
-  plugins: ['hyper-atom-dark-transparent',
-  'hyper-search',
+  plugins: [
+    // 'hyper-atom-dark-transparent',
+    'hyper-material-theme',
+    'hyper-search',
   ],
 
   // in development, you can create a directory under
