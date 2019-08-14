@@ -13,8 +13,9 @@ source ~/.zprezto/init.zsh
 [ -f ~/workspace/myenv/myenv.sh ] && source ~/workspace/myenv/myenv.sh
 [ -f ~/workspace/usf-ysoftman/usfenv.sh ] && source ~/workspace/usf-ysoftman/usfenv.sh
 
-export NVM_DIR="/Users/ysoftman/.nvm"
+export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
 
 ### Added by Zplugin's installer
 #source '/Users/ysoftman/.zplugin/bin/zplugin.zsh'
