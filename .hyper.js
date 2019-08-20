@@ -142,7 +142,8 @@ module.exports = {
   //   `project#1.0.1`
   plugins: [
     // 'hyper-atom-dark-transparent',
-    'hyper-material-theme',
+    // 'hyper-material-theme',
+    'hyper-verminal',
     'hyper-search',
   ],
 
