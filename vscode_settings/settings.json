@@ -66,7 +66,7 @@
     "editor.renderWhitespace": "all",
     "editor.minimap.enabled": false,
     "editor.fontSize": 14,
-    "editor.fontFamily": "monaco, menlo",
+    "editor.fontFamily": "hack nerd font, monaco, menlo",
     "editor.formatOnSave": false,
     "editor.suggestSelection": "first",
     "python.formatting.provider": "autopep8",
@@ -96,8 +96,8 @@
         "editor.defaultFormatter": "HookyQR.beautify"
     },
     "git.ignoreLegacyWarning": true,
-    "workbench.colorTheme": "One Dark Pro Vivid",
     "terminal.external.osxExec": "iterm2.app",
     "update.mode": "manual",
-    "remote.SSH.showLoginTerminal": true
+    "remote.SSH.showLoginTerminal": true,
+    "workbench.colorTheme": "One Dark Pro Vivid"
 }
