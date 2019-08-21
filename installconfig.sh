@@ -60,6 +60,10 @@ ln -s ${PWD}/pythonpath.sh ~/pythonpath.sh
 [ -h ~/warcraft3_window.sh ] && unlink ~/warcraft3_window.sh
 ln -s ${PWD}/warcraft3_window.sh ~/warcraft3_window.sh
 
+# xelloss 이미지 링크
+[ -h ~/xelloss.jpg ] && unlink ~/.xelloss.jpg
+ln -s ${PWD}/xelloss.jpg ${HOME}/xelloss.jpg
+
 # 보안사항으로 커밋하면 안됨.
 # cp -fv ./.ssh/* ~/.ssh
 
