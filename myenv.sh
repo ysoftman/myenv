@@ -50,7 +50,11 @@ alias tig='tig --all'
 
 a=$(which neofetch 2> /dev/null)
 if [[ $? == 0 ]]; then
-    neofetch
+    if [[ $(uname) == 'Darwin' ]]; then
+        neofetch --backend iterm2 --size 300 --source ${HOME}/xelloss.jpg
+    else
+        neofetch
+    fi
 else
     a=$(which screenfetch 2> /dev/null)
     if [[ $? == 0 ]]; then
