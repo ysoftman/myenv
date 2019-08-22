@@ -89,7 +89,7 @@ function prompt_sorin_precmd {
   # ysoftman
   # color path prompt
   cnt=0
-  output="%B"
+  output=""
   for i in $(prompt-pwd | sed 's/\// /g'); do
       n=$(( ${cnt}%6+1 ))
       color="%F{$n}"
