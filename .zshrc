@@ -28,5 +28,3 @@ if [ -f '/Users/ysoftman/workspace/google-cloud-sdk/path.zsh.inc' ]; then . '/Us
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/ysoftman/workspace/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ysoftman/workspace/google-cloud-sdk/completion.zsh.inc'; fi
-
-eval $(thefuck --alias)
