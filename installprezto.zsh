@@ -2,8 +2,7 @@
 if [ ! -d ${ZDOTDIR:-$HOME}/.zprezto ]; then
     git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 else
-    cd ${ZDOTDIR:-$HOME}/.zprezto
-    git pull
+    git pull ${ZDOTDIR:-$HOME}/.zprezto
 fi
 setopt EXTENDED_GLOB
 for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
