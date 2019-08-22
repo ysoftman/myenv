@@ -18,7 +18,7 @@ git config --global credential.helper cache
 
 # git ignore
 [ -h ~/.gitignore_global ] && unlink ~/.gitignore_global
-[ -f ~/.gitignore_global ] && mv -v ~/.gitignore_global ~/.gitignore_global.bak
+[ -f ~/.gitignore_global ] && mv -fv ~/.gitignore_global ~/.gitignore_global.bak
 ln -s ${PWD}/.gitignore_global ~/.gitignore_global
 
 # bash, zsh, vim, tmux, tigrc, mutt 기본 설정
@@ -30,13 +30,13 @@ ln -s ${PWD}/.gitignore_global ~/.gitignore_global
 [ -h ~/.muttrc ] && unlink ~/.muttrc
 [ -h ~/.config/mc ] && unlink ~/.config/mc
 
-[ -f ~/.bashrc ] && mv -v ~/.bashrc ~/.bashrc.bak
-[ -f ~/.zshrc ] && mv -v ~/.zshrc ~/.zshrc.bak
-[ -f ~/.vimrc ] && mv -v ~/.vimrc ~/.vimrc.bak
-[ -f ~/.tmux.conf ] && mv -v ~/.tmux.conf ~/.tmux.conf.bak
-[ -f ~/.tigrc ] && mv -v ~/.tigrc ~/.tigrc.bak
-[ -f ~/.muttrc ] && mv -v ~/.muttrc ~/.muttrc.bak
-[ -d ~/.config/mc ] && mv -v ~/.config/mc ~/.config/mc_bak
+[ -f ~/.bashrc ] && mv -fv ~/.bashrc ~/.bashrc.bak
+[ -f ~/.zshrc ] && mv -fv ~/.zshrc ~/.zshrc.bak
+[ -f ~/.vimrc ] && mv -fv ~/.vimrc ~/.vimrc.bak
+[ -f ~/.tmux.conf ] && mv -fv ~/.tmux.conf ~/.tmux.conf.bak
+[ -f ~/.tigrc ] && mv -fv ~/.tigrc ~/.tigrc.bak
+[ -f ~/.muttrc ] && mv -fv ~/.muttrc ~/.muttrc.bak
+[ -d ~/.config/mc ] && mv -fv ~/.config/mc ~/.config/mc_bak
 
 ln -s ${PWD}/.bashrc ~/.bashrc
 ln -s ${PWD}/.zshrc ~/.zshrc
@@ -61,7 +61,7 @@ ln -s ${PWD}/pythonpath.sh ~/pythonpath.sh
 ln -s ${PWD}/warcraft3_window.sh ~/warcraft3_window.sh
 
 # xelloss 이미지 링크
-[ -h ~/xelloss.jpg ] && unlink ~/.xelloss.jpg
+[ -h ~/xelloss.jpg ] && unlink ~/xelloss.jpg
 ln -s ${PWD}/xelloss.jpg ${HOME}/xelloss.jpg
 
 # 보안사항으로 커밋하면 안됨.
