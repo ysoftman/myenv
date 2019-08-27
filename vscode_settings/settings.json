@@ -40,6 +40,7 @@
     "go.autocompleteUnimportedPackages": true,
     "go.formatTool": "goimports",
     "go.gopath": "/Users/ysoftman/workspace/gopath",
+    // "go.gopath": "/home/ysoftman/workspace/gopath",
     // "go.gopath": "d:\\ysoftman\\workspace\\gopath",
     "[go]": {
         "editor.formatOnSave": true,
