@@ -57,12 +57,14 @@
     "git.autofetch": true,
     "git.confirmSync": false,
     "git.ignoreMissingGitWarning": true,
+    "git.ignoreLegacyWarning": true,
     "C_Cpp.default.cStandard": "c99",
     "C_Cpp.default.cppStandard": "c++11",
     "C_Cpp.clang_format_path": "/usr/local/bin/clang-format",
     "C_Cpp.clang_format_style": "file",
     "C_Cpp.clang_format_fallbackStyle": "Visual Studio",
     "C_Cpp.updateChannel": "Insiders",
+    "editor.tabSize": 4,
     "editor.wordWrap": "on",
     "editor.renderWhitespace": "all",
     "editor.minimap.enabled": false,
@@ -72,6 +74,7 @@
     "editor.suggestSelection": "first",
     "python.formatting.provider": "autopep8",
     "python.jediEnabled": false,
+    "python.linting.enabled": true,
     // Number of editors shown in the Open Editors pane.
     "explorer.openEditors.visible": 0,
     "explorer.confirmDragAndDrop": false,
@@ -83,7 +86,14 @@
     "window.zoomLevel": 1,
     "vsicons.dontShowNewVersionMessage": true,
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "[python]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4
+    },
     "[json]": {
+        "editor.defaultFormatter": "HookyQR.beautify"
+    },
+    "[jsonc]": {
         "editor.defaultFormatter": "HookyQR.beautify"
     },
     "[html]": {
@@ -92,13 +102,9 @@
     "[javascript]": {
         "editor.defaultFormatter": "HookyQR.beautify"
     },
-    "[jsonc]": {
-        "editor.defaultFormatter": "HookyQR.beautify"
-    },
-    "git.ignoreLegacyWarning": true,
     "terminal.external.osxExec": "iterm2.app",
     "terminal.integrated.fontFamily": "hack",
-    "terminal.integrated.fontSize" :16,
+    "terminal.integrated.fontSize": 16,
     "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
     "update.mode": "manual",
     "remote.SSH.showLoginTerminal": true,
