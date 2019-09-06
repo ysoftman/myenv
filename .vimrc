@@ -56,7 +56,8 @@ set laststatus=2
 "set lines=80
 set colorcolumn=100
 set visualbell t_vb=
-set nolist
+"set nolist
+set list
 set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»,eol:¶
 let g:go_version_warning = 0
 
@@ -87,32 +88,34 @@ let g:cpp_no_function_highlight = 1
 " let g:onedark_termcolors=16
 colorscheme onedark
 let g:onedark_termcolors=256
-let g:airline_theme='onedark'
 " 컬러스킴 설정후 ColorColumn(colorcolumn) 값만 변경한다.
 highlight ColorColumn ctermbg=brown
 
-"airline
-set laststatus=2
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-"iterm -> non-ascii font 를 powerline 폰트로 변경 후 사용
-let g:airline_powerline_fonts = 1
-
 "lightline 화살표 폰트가 없어 powerline 폰트가 필요 없다
+set laststatus=2
+let g:lightline = {
+\    'colorscheme': 'onedark',
+\    'active': {
+\        'left': [
+\                [ 'mode', 'paste' ],
+\                [ 'gitbranch', 'readonly', 'filename', 'modified' ]
+\                ]
+\    },
+\    'component_function': {
+\      'gitbranch': 'fugitive#head'
+\    },
+\}
+
+"airline
 " set laststatus=2
-" let g:lightline = {
-" \    'colorscheme': 'onedark',
-" \    'active': {
-" \        'left': [
-" \                [ 'mode', 'paste' ],
-" \                [ 'gitbranch', 'readonly', 'filename', 'modified' ]
-" \                ]
-" \    },
-" \    'component_function': {
-" \      'gitbranch': 'fugitive#head'
-" \    },
-" \}
+" let g:airline_theme='onedark'
+" let g:airline_highlighting_cache=1
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#left_sep = ' '
+" let g:airline#extensions#tabline#left_alt_sep = '|'
+" let g:airline#extensions#tabline#formatter = 'default'
+" "iterm -> non-ascii font 를 powerline 폰트로 변경 후 사용
+" let g:airline_powerline_fonts = 1
 
 "vim-indent-guides
 let g:indent_guides_auto_colors = 0
