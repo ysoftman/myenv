@@ -228,7 +228,7 @@
         {
             "acrylicOpacity" : 0.5,
             "closeOnExit" : true,
-            "colorScheme" : "Campbell",
+            "colorScheme" : "One Half Dark",
             "commandline" : "wsl.exe -d Ubuntu-18.04",
             "cursorColor" : "#FFFFFF",
             "cursorShape" : "bar",
