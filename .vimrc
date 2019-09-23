@@ -58,7 +58,7 @@ set colorcolumn=100
 set visualbell t_vb=
 "set nolist
 set list
-set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»,eol:¶
+set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»,eol:↵
 let g:go_version_warning = 0
 
 
