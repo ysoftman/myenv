@@ -103,7 +103,7 @@
         "editor.defaultFormatter": "HookyQR.beautify"
     },
     "terminal.external.osxExec": "iterm2.app",
-    "terminal.integrated.fontFamily": "hack",
+    "terminal.integrated.fontFamily": "hack nerd font, monaco, menlo",
     "terminal.integrated.fontSize": 16,
     "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
     "update.mode": "manual",
