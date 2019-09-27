@@ -2,6 +2,10 @@
 #export GOROOT=/usr/local/go
 export GOPATH=$HOME/workspace/gopath
 export PATH=/usr/local/bin:/usr/games:/usr/local/games:$GOPATH/bin:$PATH
+# 원래 맥에서 기본 제공하는 /usr/bin/ 의 curl 같은 프로그램은
+# brew link --force 로도 /usr/local/bin/ 에 링크 생성을 못해
+# PATH 환경변수에 /usr/local/opt/ 를 추가해야 한다.
+export PATH=/usr/local/opt/curl-openssl/bin:$PATH:
 # bash, zsh 등에서 git-subcommand 를 현재 디렉토리에서 실행하기 위해
 # PATH 환경변수 처음이나 마지막에 구분자(:)가 있거나
 # PATH 중간에 :: 부분이 있어야 한다.
