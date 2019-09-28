@@ -9,10 +9,10 @@ module.exports = {
     updateChannel: 'stable',
 
     // default font size in pixels for all tabs
-    fontSize: 16,
+    fontSize: 20,
 
     // font family with optional fallbacks
-    fontFamily: 'Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
+    fontFamily: 'hack nerd font, Menlo, Consolas, monospace',
 
     // default font weight: 'normal' or 'bold'
     fontWeight: 'normal',
@@ -103,7 +103,6 @@ module.exports = {
     //
     // PowerShell on Windows
     // - Example: `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`
-    // shell: "zsh",
     shell: "C:\\Windows\\system32\\wsl.exe",
 
     // for setting shell arguments (i.e. for using interactive shellArgs: `['-i']`)
@@ -141,9 +140,10 @@ module.exports = {
   //   `@company/project`
   //   `project#1.0.1`
   plugins: [
-    // 'hyper-atom-dark-transparent',
-    // 'hyper-material-theme',
-    'hyper-verminal',
+    'hyper-atom-dark-transparent',
+    //'hyper-material-theme',
+    // verminal 에서 폰크 설정이 적용안되는 문제가 있음.
+    //'verminal',
     'hyper-search',
   ],
 
