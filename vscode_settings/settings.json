@@ -60,10 +60,13 @@
     "git.ignoreLegacyWarning": true,
     "C_Cpp.default.cStandard": "c99",
     "C_Cpp.default.cppStandard": "c++11",
+    // linux 에선 clang 설치해야 다음을 사용할 수 있다.
     "C_Cpp.clang_format_path": "/usr/local/bin/clang-format",
     "C_Cpp.clang_format_style": "file",
     "C_Cpp.clang_format_fallbackStyle": "Visual Studio",
-    "C_Cpp.updateChannel": "Insiders",
+    "clang.cxxflags": [
+        "-std=c++11"
+    ],
     "editor.tabSize": 4,
     "editor.wordWrap": "on",
     "editor.renderWhitespace": "all",
@@ -111,9 +114,5 @@
     "workbench.colorTheme": "One Dark Pro Vivid",
     "[cpp]": {
         "editor.defaultFormatter": "ms-vscode.cpptools"
-    },
-    "clang.cxxflags": [
-        "-std=c++11"
-    ]
-
+    }
 }
