@@ -14,6 +14,8 @@ export PATH=/usr/local/opt/openssl/bin:$PATH:
 export EDITOR=vim
 export VISUAL=vim
 export ANSIBLE_NOCOWS=1 # disable cowsay message when using ansible
+# matplotlib on wsl
+export DISPLAY=localhost:0.0
 
 if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
     unalias ls
