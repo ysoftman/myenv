@@ -56,9 +56,9 @@ set laststatus=2
 "set lines=80
 set colorcolumn=100
 set visualbell t_vb=
-"set nolist
-set list
 set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»,eol:↵
+set nolist
+" set list
 let g:go_version_warning = 0
 
 
