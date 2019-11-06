@@ -62,5 +62,5 @@ sudo ln -s /bin/bash /bin/sh
 
 ```text
 color presets : git clone https://github.com/bahlo/iterm-colors 후 darkside, one dark, ... 등 선택
-font : 16, font-hack-nerd-font (installbrew.sh 에서 설치)
+font : 18, font-hack-nerd-font (installbrew.sh 에서 설치)
 ```
