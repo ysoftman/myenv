@@ -1,3 +1,5 @@
+export PS1="\u@\h:\w\$ "
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 [ -f ~/workspace/myenv/myenv.sh ] && source ~/workspace/myenv/myenv.sh
