@@ -13,6 +13,7 @@ code --install-extension eg2.tslint
 code --install-extension fallenwood.vimL
 code --install-extension formulahendry.vscode-mysql
 code --install-extension gaborv.flatbuffers
+code --install-extension googlecloudtools.cloudcode
 code --install-extension haaaad.ansible
 code --install-extension HookyQR.beautify
 code --install-extension itryapitsin.Scala
@@ -60,5 +61,5 @@ code --install-extension vscode-icons-team.vscode-icons
 code --install-extension wholroyd.jinja
 code --install-extension xabikos.JavaScriptSnippets
 code --install-extension zamerick.vscode-caddyfile-syntax
-code --install-extension zhuangtongfa.Material-theme
+code --install-extension zhuangtongfa.material-theme
 code --install-extension zxh404.vscode-proto3
