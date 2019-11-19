@@ -111,8 +111,10 @@
     "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
     "update.mode": "manual",
     "remote.SSH.showLoginTerminal": true,
-    "workbench.colorTheme": "One Dark Pro Vivid",
     "[cpp]": {
         "editor.defaultFormatter": "ms-vscode.cpptools"
-    }
+    },
+    "liveshare.presence": false,
+    "workbench.colorTheme": "One Dark Pro",
+    "oneDarkPro.vivid": true,
 }
