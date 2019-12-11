@@ -54,6 +54,8 @@ set tabstop=4
 set autoindent
 set laststatus=2
 "set lines=80
+"set cursorcolumn
+set cursorline
 set colorcolumn=100
 set visualbell t_vb=
 set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»,eol:↵
@@ -122,6 +124,9 @@ let g:indent_guides_auto_colors = 0
 hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
 "let g:indent_guides_enable_on_vim_startup = 1
+
+"theme 적용 이후 커서라인 모양 설정해야함
+hi CursorLine cterm=underline ctermbg=NONE ctermfg=NONE
 
 "vim-go
 ".go 파일에서 c-] , c-t 등 godef 관련 shortcut 이 아래 단축키 설정과 충돌해 비활성화
