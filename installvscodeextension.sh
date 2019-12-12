@@ -3,6 +3,7 @@ code --install-extension 13xforever.language-x86-64-assembly
 code --install-extension abusaidm.html-snippets
 code --install-extension alefragnani.Bookmarks
 code --install-extension bungcip.better-toml
+code --install-extension cliffordfajardo.highlight-line-vscode
 code --install-extension DavidAnson.vscode-markdownlint
 code --install-extension dbaeumer.vscode-eslint
 code --install-extension dcr30.lualinter

@@ -67,6 +67,9 @@
     "clang.cxxflags": [
         "-std=c++11"
     ],
+    "workbench.colorCustomizations": {
+        "editor.lineHighlightBackground": "#115511"
+    },
     "editor.tabSize": 4,
     "editor.wordWrap": "on",
     "editor.renderWhitespace": "all",
