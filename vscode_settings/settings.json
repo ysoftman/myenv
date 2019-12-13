@@ -54,6 +54,13 @@
     "workbench.sideBar.location": "left",
     "workbench.editor.showTabs": true,
     "workbench.iconTheme": "vscode-icons",
+    "workbench.colorCustomizations": {
+        "editor.lineHighlightBackground": "#115511",
+        "editor.selectionBackground": "#ffdd00",
+        "editor.findMatchBackground": "#ffdd00",
+        "editor.findMatchHighlightBorder": "#ffffff",
+        "editorCursor.foreground": "#ff3333"
+    },
     "git.autofetch": true,
     "git.confirmSync": false,
     "git.ignoreMissingGitWarning": true,
@@ -67,9 +74,6 @@
     "clang.cxxflags": [
         "-std=c++11"
     ],
-    "workbench.colorCustomizations": {
-        "editor.lineHighlightBackground": "#115511"
-    },
     "editor.tabSize": 4,
     "editor.wordWrap": "on",
     "editor.renderWhitespace": "all",
