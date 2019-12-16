@@ -127,6 +127,8 @@ hi IndentGuidesEven ctermbg=darkgrey
 
 "theme 적용 이후 커서라인 모양 설정해야함
 hi CursorLine cterm=underline ctermbg=darkgrey ctermfg=none
+"Visual Block 컬러
+hi Visual cterm=underline ctermbg=lightyellow
 
 "vim-go
 ".go 파일에서 c-] , c-t 등 godef 관련 shortcut 이 아래 단축키 설정과 충돌해 비활성화
