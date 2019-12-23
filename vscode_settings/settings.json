@@ -59,6 +59,7 @@
         "editor.selectionBackground": "#ffdd22",
         "editor.findMatchBackground": "#ffdd22",
         "editor.findMatchHighlightBorder": "#ffffff",
+        "editor.hoverHighlightBackground": "#115511",
         "editorCursor.foreground": "#ff3333",
         "sideBar.foreground": "#33cc33",
         "list.highlightForeground": "#ffdd22",
