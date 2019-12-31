@@ -47,6 +47,7 @@ code --install-extension octref.vetur
 code --install-extension ramyaraoa.show-offset
 code --install-extension ravilang.ravi-debug
 code --install-extension redhat.java
+code --install-extension rust-lang.rust
 code --install-extension samuelcolvin.jinjahtml
 code --install-extension shanoor.vscode-nginx
 code --install-extension sysoev.language-stylus

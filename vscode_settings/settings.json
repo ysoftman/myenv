@@ -48,6 +48,9 @@
             "source.organizeImports": true
         }
     },
+    "[rust]": {
+        "editor.formatOnSave": true,
+    },
     "workbench.startupEditor": "none",
     "workbench.statusBar.visible": true,
     "workbench.activityBar.visible": false,
