@@ -51,6 +51,10 @@
     "[rust]": {
         "editor.formatOnSave": true,
     },
+    // pin the opened file
+    "workbench.editor.enablePreview": false,
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "workbench.colorTheme": "One Dark Pro",
     "workbench.startupEditor": "none",
     "workbench.statusBar.visible": true,
     "workbench.activityBar.visible": false,
@@ -134,6 +138,5 @@
         "editor.defaultFormatter": "ms-vscode.cpptools"
     },
     "liveshare.presence": false,
-    "workbench.colorTheme": "One Dark Pro",
     "oneDarkPro.vivid": true,
 }
