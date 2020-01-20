@@ -2,7 +2,7 @@
 # ysoftman
 # backup my settings
 mkdir -p vscode_settings
-if [ $(uname) == 'Darwin' ]; then
+if [[ $(uname -a | grep -i darwin) ]]; then
     # backup my brew list and make install script
     install_file="installbrew.sh"
     echo '#!/bin/bash' > ${install_file}
@@ -14,7 +14,7 @@ if [ $(uname) == 'Darwin' ]; then
     # backup vscode settings
     cp -v ~/Library/Application\ Support/Code/User/*.json ./vscode_settings/
 
-elif [ $(uname) == 'Linux' ]; then
+elif [[ $(uname -a | grep -i microsoft) ]]; then
     # backup vscode settings
     # 윈도우 wsl 에서 mnt/c 로 마운트되었다고 가정
     # 실제 위치 C:\Users\Administrator\AppData\Roaming\Code\User\settings.json
