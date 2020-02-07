@@ -24,7 +24,7 @@ export NVM_DIR="$HOME/.nvm"
 ### End of Zplugin's installer chunk
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/ysoftman/workspace/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ysoftman/workspace/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/Users/ysoftman/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ysoftman/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/ysoftman/workspace/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ysoftman/workspace/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/Users/ysoftman/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ysoftman/google-cloud-sdk/completion.zsh.inc'; fi
