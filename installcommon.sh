@@ -3,6 +3,7 @@ pkgs_android='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatri
 pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils gem python-pip clang-format ncurses ncurses-devel'
 pkgs_aptget='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils gem python-pip clang-format build-essential libncurses5-dev screenfetch neofetch lolcat'
 pkgs_pacman='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python ruby go man dnsutils screenfetch neofetch lolcat'
+pkgs_brew='zsh lsd'
 sudo_cmd='sudo'
 
 if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
@@ -18,11 +19,11 @@ elif [[ $(uname) == 'Darwin' ]]; then
 	echo 'OSX Environment'
 	# brew 설치
 	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-	# zsh 설치
-	brew install zsh
+	brew install ${pkgs_brew}
 	# pip 설치
 	${sudo_cmd} easy_install pip
-	${sudo_cmd} gem install colorls
+	# colorls 대신 lsd 사용
+	# ${sudo_cmd} gem install colorls
 elif [[ $(uname) == 'Linux' ]]; then
 	echo 'Linux Environment'
     # centos
