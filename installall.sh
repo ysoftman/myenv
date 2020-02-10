@@ -8,4 +8,5 @@ bash ./installvim.sh
 bash ./installpip.sh
 bash ./installbrew.sh
 bash ./installapp.sh
+bash ./installrustlsd.sh
 bash ./installvscodesettings.sh
