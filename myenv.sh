@@ -42,6 +42,10 @@ a=$(which colorls 2> /dev/null)
 if [[ $? == 0 ]]; then
 	alias ll='colorls -ahl'
 fi
+a=$(which lsd 2> /dev/null)
+if [[ $? == 0 ]]; then
+    alias ll='lsd -ahl'
+fi
 
 alias vi='vim'
 alias vimlastfile='vim `(ls -1tr | tail -1)`'
