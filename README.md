@@ -45,6 +45,9 @@ sh ./installbrew.sh
 # mac app 설치(Mac)
 sh ./installapp.sh
 
+# rust, lsd 설치
+sh ./installrustlsd.sh
+
 # vscode settings 적용(Mac), Windows 는 installvscodesettings.bat 사용
 sh ./installvscodesettings.sh
 ```

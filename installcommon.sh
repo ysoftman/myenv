@@ -1,7 +1,7 @@
 #!/bin/bash
 pkgs_android='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils gem python2 python2-dev ripgrep fzf lua openssh libandroid-support vim-python'
 pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils gem python-pip clang-format ncurses ncurses-devel'
-pkgs_aptget='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils gem python-pip clang-format build-essential libncurses5-dev screenfetch neofetch lolcat'
+pkgs_aptget='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils gem python-pip expect clang-format build-essential libncurses5-dev screenfetch neofetch lolcat'
 pkgs_pacman='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python ruby go man dnsutils screenfetch neofetch lolcat'
 pkgs_brew='zsh lsd'
 sudo_cmd='sudo'
@@ -22,8 +22,7 @@ elif [[ $(uname) == 'Darwin' ]]; then
 	brew install ${pkgs_brew}
 	# pip 설치
 	${sudo_cmd} easy_install pip
-	# colorls 대신 lsd 사용
-	# ${sudo_cmd} gem install colorls
+	${sudo_cmd} gem install colorls
 elif [[ $(uname) == 'Linux' ]]; then
 	echo 'Linux Environment'
     # centos
