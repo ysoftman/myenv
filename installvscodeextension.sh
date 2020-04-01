@@ -20,6 +20,7 @@ code --install-extension haaaad.ansible
 code --install-extension HookyQR.beautify
 code --install-extension itryapitsin.Scala
 code --install-extension johnpapa.Angular2
+code --install-extension lightbend.vscode-sbt-scala
 code --install-extension magicstack.MagicPython
 code --install-extension marcostazi.VS-code-vagrantfile
 code --install-extension mechatroner.rainbow-csv
@@ -27,6 +28,7 @@ code --install-extension mitaki28.vscode-clang
 code --install-extension mohsen1.prettify-json
 code --install-extension mrmlnc.vscode-apache
 code --install-extension ms-azuretools.vscode-docker
+code --install-extension ms-dotnettools.csharp
 code --install-extension ms-mssql.mssql
 code --install-extension ms-python.python
 code --install-extension ms-vscode-remote.remote-containers
@@ -35,18 +37,20 @@ code --install-extension ms-vscode-remote.remote-ssh-edit
 code --install-extension ms-vscode-remote.remote-ssh-explorer
 code --install-extension ms-vscode-remote.remote-wsl
 code --install-extension ms-vscode-remote.vscode-remote-extensionpack
+code --install-extension ms-vscode.cmake-tools
 code --install-extension ms-vscode.cpptools
-code --install-extension ms-vscode.csharp
 code --install-extension ms-vscode.Go
 code --install-extension ms-vscode.node-debug2
 code --install-extension ms-vscode.Theme-MaterialKit
 code --install-extension ms-vsliveshare.vsliveshare
 code --install-extension msjsdiag.debugger-for-chrome
 code --install-extension msjsdiag.vscode-react-native
+code --install-extension naco-siren.gradle-language
 code --install-extension octref.vetur
 code --install-extension ramyaraoa.show-offset
 code --install-extension ravilang.ravi-debug
 code --install-extension redhat.java
+code --install-extension redhat.vscode-xml
 code --install-extension rust-lang.rust
 code --install-extension samuelcolvin.jinjahtml
 code --install-extension shanoor.vscode-nginx
