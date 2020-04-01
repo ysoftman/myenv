@@ -4,6 +4,9 @@
         "*.sh.*": "shellscript",
         "*.py.*": "python",
         "*.yml.*": "yaml",
+        "*.xml.*": "xml",
+        "*.html.*": "html",
+        "*.json.*": "json",
         "*dockerfile*": "dockerfile",
         "*httpd.conf*": "apacheconf",
         "*nginx.*": "NGINX",
@@ -51,6 +54,7 @@
     "[rust]": {
         "editor.formatOnSave": true,
     },
+    "rust.rustfmt_path": "${HOME}/.cargo/bin/rustfmt",
     // pin the opened file
     "workbench.editor.enablePreview": false,
     "workbench.editor.enablePreviewFromQuickOpen": false,
@@ -140,4 +144,9 @@
     "eslint.format.enable": true,
     "eslint.alwaysShowStatus": true,
     "vetur.format.enable": false,
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "printcode.lineNumbers": "editor",
+    "cmake.configureOnOpen": true,
 }
