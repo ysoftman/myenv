@@ -4,9 +4,6 @@ source ~/.zprezto/init.zsh
 # oh-my-zsh 사용
 #source ~/.oh-my-zsh/templates/zshrc.zsh-template
 
-# blackvoidzsh 사용
-# source ~/.BlaCk-Void-Zsh/BlaCk-Void.zshrc
-
 # $(brew --prefix)/opt/fzf/install 실행하면 .fzf.bash .fzf.zsh 파일이 생긴다.
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
