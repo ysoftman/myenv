@@ -21,9 +21,6 @@ sh ./installcommon.sh
 # powerline 폰트 설치
 sh ./installpowerlinefont.sh
 
-# zsh 기반 black-void-zsh 설치
-zsh ./installblackvoidzsh.zsh
-
 # zsh 기반 prezto 설치
 zsh ./installprezto.zsh
 
