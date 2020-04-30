@@ -62,9 +62,6 @@ a=$(which neofetch 2> /dev/null)
 if [[ $? == 0 ]]; then
     if [[ $(uname -a | grep -i darwin) ]]; then
         neofetch --backend iterm2 --size 300 --source ${HOME}/xelloss.jpg
-#    elif [[ $(uname -a | grep -i microsoft) ]]; then
-#        echo "Don't use neofetch in windows terminal until solve the issue."
-#        echo "https://github.com/microsoft/terminal/issues/4254"
     else
         neofetch
     fi
