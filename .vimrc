@@ -126,8 +126,8 @@ hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
 "let g:indent_guides_enable_on_vim_startup = 1
 
-"theme 적용 이후 커서라인 모양 설정해야함
-hi CursorLine cterm=underline ctermbg=darkgrey ctermfg=none
+"커서라인 속성
+"hi CursorLine cterm=underline ctermbg=darkgrey ctermfg=none
 "Visual Block 컬러
 hi Visual cterm=underline ctermbg=lightyellow
 
