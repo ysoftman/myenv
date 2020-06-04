@@ -4,8 +4,11 @@ code --install-extension abusaidm.html-snippets
 code --install-extension alefragnani.Bookmarks
 code --install-extension bungcip.better-toml
 code --install-extension cliffordfajardo.highlight-line-vscode
+code --install-extension Dart-Code.dart-code
+code --install-extension Dart-Code.flutter
 code --install-extension DavidAnson.vscode-markdownlint
 code --install-extension dbaeumer.vscode-eslint
+code --install-extension dcortes92.FreeMarker
 code --install-extension dcr30.lualinter
 code --install-extension DevonDCarew.bazel-code
 code --install-extension donjayamanne.jquerysnippets
