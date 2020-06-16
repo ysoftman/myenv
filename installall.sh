@@ -8,5 +8,8 @@ bash ./installvim.sh
 bash ./installpip.sh
 bash ./installrustlsd.sh
 bash ./installvscodesettings.sh
-bash ./installbrew.sh
-bash ./installapp.sh
+# 백업 수행시 installbrew.sh 를 변경하기 때문에서 이곳에서 체크한다.
+if [[ $(uname) == 'Darwin' ]]; then
+    bash ./installbrew.sh
+    bash ./installapp.sh
+fi
