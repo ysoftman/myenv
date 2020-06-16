@@ -18,8 +18,8 @@ code --install-extension fallenwood.vimL
 code --install-extension formulahendry.auto-close-tag
 code --install-extension formulahendry.vscode-mysql
 code --install-extension gaborv.flatbuffers
+code --install-extension golang.Go
 code --install-extension googlecloudtools.cloudcode
-code --install-extension haaaad.ansible
 code --install-extension HookyQR.beautify
 code --install-extension itryapitsin.Scala
 code --install-extension johnpapa.Angular2
@@ -42,7 +42,6 @@ code --install-extension ms-vscode-remote.remote-wsl
 code --install-extension ms-vscode-remote.vscode-remote-extensionpack
 code --install-extension ms-vscode.cmake-tools
 code --install-extension ms-vscode.cpptools
-code --install-extension ms-vscode.Go
 code --install-extension ms-vscode.node-debug2
 code --install-extension ms-vscode.Theme-MaterialKit
 code --install-extension ms-vsliveshare.vsliveshare
@@ -59,7 +58,6 @@ code --install-extension samuelcolvin.jinjahtml
 code --install-extension shanoor.vscode-nginx
 code --install-extension sysoev.language-stylus
 code --install-extension techer.open-in-browser
-code --install-extension timonwong.ansible-autocomplete
 code --install-extension VisualStudioExptTeam.vscodeintellicode
 code --install-extension vitorsalgado.vscode-redis
 code --install-extension vscjava.vscode-java-debug
@@ -68,6 +66,7 @@ code --install-extension vscjava.vscode-java-pack
 code --install-extension vscjava.vscode-java-test
 code --install-extension vscjava.vscode-maven
 code --install-extension vscode-icons-team.vscode-icons
+code --install-extension vscoss.vscode-ansible
 code --install-extension wholroyd.jinja
 code --install-extension xabikos.JavaScriptSnippets
 code --install-extension zamerick.vscode-caddyfile-syntax

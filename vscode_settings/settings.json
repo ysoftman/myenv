@@ -3,6 +3,8 @@
     "files.associations": {
         "*.sh.*": "shellscript",
         "*.py.*": "python",
+        "**/roles/**/*.yml": "ansible",
+        "**/roles/**/*.yaml": "ansible",
         "*.yml.*": "yaml",
         "*.xml.*": "xml",
         "*.html.*": "html",
