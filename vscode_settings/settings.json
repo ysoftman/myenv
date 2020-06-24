@@ -2,6 +2,8 @@
     "files.eol": "\n",
     "files.associations": {
         "*.sh.*": "shellscript",
+        "bash*": "shellscript",
+        "zsh*": "shellscript",
         "*.py.*": "python",
         "**/roles/**/*.yml": "ansible",
         "**/ansible/**/*.yml": "ansible",
