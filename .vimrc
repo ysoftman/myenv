@@ -60,8 +60,8 @@ set cursorline
 set colorcolumn=100
 set visualbell t_vb=
 set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»,eol:↵
-set nolist
-" set list
+"set nolist
+set list
 let g:go_version_warning = 0
 
 
