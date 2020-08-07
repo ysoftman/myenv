@@ -57,7 +57,7 @@ set laststatus=2
 "set lines=80
 "set cursorcolumn
 set cursorline
-set colorcolumn=100
+"set colorcolumn=100
 set visualbell t_vb=
 set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»,eol:↵
 "set nolist
