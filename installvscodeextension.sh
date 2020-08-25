@@ -2,8 +2,10 @@
 code --install-extension 13xforever.language-x86-64-assembly
 code --install-extension abusaidm.html-snippets
 code --install-extension alefragnani.Bookmarks
+code --install-extension atomiks.moonlight
 code --install-extension bungcip.better-toml
 code --install-extension cliffordfajardo.highlight-line-vscode
+code --install-extension CoenraadS.bracket-pair-colorizer-2
 code --install-extension Dart-Code.dart-code
 code --install-extension Dart-Code.flutter
 code --install-extension DavidAnson.vscode-markdownlint
@@ -13,12 +15,14 @@ code --install-extension dcr30.lualinter
 code --install-extension DevonDCarew.bazel-code
 code --install-extension donjayamanne.jquerysnippets
 code --install-extension DotJoshJohnson.xml
+code --install-extension ecmel.vscode-html-css
 code --install-extension eg2.tslint
 code --install-extension fallenwood.vimL
 code --install-extension formulahendry.auto-close-tag
+code --install-extension formulahendry.auto-rename-tag
 code --install-extension formulahendry.vscode-mysql
 code --install-extension gaborv.flatbuffers
-code --install-extension golang.Go
+code --install-extension golang.go
 code --install-extension googlecloudtools.cloudcode
 code --install-extension HookyQR.beautify
 code --install-extension itryapitsin.Scala
@@ -56,6 +60,7 @@ code --install-extension redhat.vscode-xml
 code --install-extension rust-lang.rust
 code --install-extension samuelcolvin.jinjahtml
 code --install-extension shanoor.vscode-nginx
+code --install-extension solnurkarim.html-to-css-autocompletion
 code --install-extension sysoev.language-stylus
 code --install-extension techer.open-in-browser
 code --install-extension VisualStudioExptTeam.vscodeintellicode
@@ -67,6 +72,7 @@ code --install-extension vscjava.vscode-java-test
 code --install-extension vscjava.vscode-maven
 code --install-extension vscode-icons-team.vscode-icons
 code --install-extension vscoss.vscode-ansible
+code --install-extension vuetifyjs.vuetify-vscode
 code --install-extension wholroyd.jinja
 code --install-extension xabikos.JavaScriptSnippets
 code --install-extension zamerick.vscode-caddyfile-syntax
