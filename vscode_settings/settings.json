@@ -104,7 +104,9 @@
     "editor.renderWhitespace": "all",
     "editor.minimap.enabled": false,
     "editor.fontSize": 16,
-    "editor.fontFamily": "hack nerd font, monaco, menlo",
+    "editor.fontFamily": "hack nerd font, fira code, monaco, menlo",
+    // fira code 폰트 사용시
+    "editor.fontLigatures": true,
     "editor.formatOnSave": false,
     "editor.suggestSelection": "first",
     "python.formatting.provider": "autopep8",
@@ -162,4 +164,5 @@
     },
     "extensions.ignoreRecommendations": false,
     "workbench.colorTheme": "One Dark Pro",
+    "python.languageServer": "Microsoft",
 }
