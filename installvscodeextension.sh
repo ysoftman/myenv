@@ -57,6 +57,7 @@ code --install-extension ramyaraoa.show-offset
 code --install-extension ravilang.ravi-debug
 code --install-extension redhat.java
 code --install-extension redhat.vscode-xml
+code --install-extension ritwickdey.LiveServer
 code --install-extension rust-lang.rust
 code --install-extension samuelcolvin.jinjahtml
 code --install-extension shanoor.vscode-nginx
