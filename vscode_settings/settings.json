@@ -37,11 +37,11 @@
     "go.vetOnSave": "package",
     "go.buildTags": "",
     "go.buildFlags": [],
+    "go.lintTool": "golint",
     "go.lintFlags": [],
     "go.vetFlags": [],
     "go.coverOnSave": false,
     "go.useCodeSnippetsOnFunctionSuggest": false,
-    "go.lintTool": "golint",
     "go.gocodeAutoBuild": false,
     "go.toolsEnvVars": {
         "GO111MODULE": "on"
@@ -165,4 +165,5 @@
     "extensions.ignoreRecommendations": false,
     "workbench.colorTheme": "One Dark Pro",
     "python.languageServer": "Microsoft",
+    "liveServer.settings.donotShowInfoMsg": true,
 }
