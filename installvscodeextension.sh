@@ -17,6 +17,7 @@ code --install-extension donjayamanne.jquerysnippets
 code --install-extension DotJoshJohnson.xml
 code --install-extension ecmel.vscode-html-css
 code --install-extension eg2.tslint
+code --install-extension esbenp.prettier-vscode
 code --install-extension fallenwood.vimL
 code --install-extension formulahendry.auto-close-tag
 code --install-extension formulahendry.auto-rename-tag
