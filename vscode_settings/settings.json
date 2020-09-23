@@ -137,6 +137,7 @@
     // "[javascript]": {
     //     "editor.defaultFormatter": "HookyQR.beautify"
     // },
+    "prettier.enable": true,
     "terminal.external.osxExec": "iterm2.app",
     "terminal.integrated.fontFamily": "hack nerd font, monaco, menlo",
     "terminal.integrated.fontSize": 16,
