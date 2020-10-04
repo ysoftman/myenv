@@ -22,29 +22,33 @@ export DISPLAY=localhost:0.0
 if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
     unalias ls
 fi
-
-if [[ $(uname) == 'Darwin' ]]; then
+temp=$(uname | tr '[:upper:]' '[:lower:]')
+if [[ $temp == 'darwin' ]]; then
     export LSCOLORS='GxFxCxDxBxegedabagaced'
     export CLICOLOR=1
     alias ll='ls -ahlG'
     alias sn='pmset displaysleepnow'
-elif [[ $(uname) == 'Linux' ]]; then
+elif [[ $temp == 'linux' ]]; then
     export LANG=ko_KR.utf8
     export LC_ALL=ko_KR.utf8
     #export PS1="\u@\h:\w\$ "
     export LS_COLORS='no=00:fi=00:di=00;36:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:ow=01;36;40:*.sh=00;32'
     alias ll='ls -ahl'
     # WSL(Windows Subsystem for Linux)
-    if [[ $(uname -r | sed 's/-/ /g' | awk '{print $3}') == 'Microsoft' ]]; then
+    temp=$(uname -r | awk '{print tolower($0)}')
+    if [[ $temp == *"microsoft"* ]]; then
+        # wsl.conf appendWindowsPath=false 인경우 vscode 경로 추가 필요
+        export PATH=$PATH:"/mnt/c/Program Files/Microsoft VS Code/bin:"
+        # 윈도우 netstat.exe 사용해야 실제 네트워크 상태를 알 수 있다.
         alias netstat='/mnt/c/Windows/System32/netstat.exe'
     fi
 fi
 
-a=$(which colorls 2> /dev/null)
+temp=$(which colorls 2> /dev/null)
 if [[ $? == 0 ]]; then
-	alias ll='colorls -ahl'
+    alias ll='colorls -ahl'
 fi
-a=$(which lsd 2> /dev/null)
+temp=$(which lsd 2> /dev/null)
 if [[ $? == 0 ]]; then
     alias ll='lsd -ahl'
 fi
@@ -60,7 +64,7 @@ alias aleng='cd ~/workspace/aleng/ && ./aleng && cd -'
 alias tig='tig --all'
 
 
-a=$(which neofetch 2> /dev/null)
+temp=$(which neofetch 2> /dev/null)
 if [[ $? == 0 ]]; then
     if [[ $(uname -a | grep -i darwin) ]]; then
         neofetch --backend iterm2 --size 300 --source ${HOME}/xelloss.jpg
@@ -76,21 +80,21 @@ fi
 
 # fortune + cowsay welcome message
 msg="ysoftman"
-a=$(which fortune 2> /dev/null)
+temp=$(which fortune 2> /dev/null)
 if [[ $? == 0 ]]; then
     msg=$(fortune -s 2> /dev/null)
-	if [[ $msg == '' ]]; then
-		msg=$(fortune)
-	fi
+    if [[ $msg == '' ]]; then
+        msg=$(fortune)
+    fi
 fi
 
-a=$(which figlet 2> /dev/null)
+temp=$(which figlet 2> /dev/null)
 if [[ $? == 0 ]]; then
     banner=$(figlet ysoftman 2> /dev/null)
     msg="${banner}\n${msg}"
 fi
 
-a=$(which cowsay 2> /dev/null)
+temp=$(which cowsay 2> /dev/null)
 if [[ $? == 0 ]]; then
     a=$(which lolcat 2> /dev/null)
     # figlet 을 메시지로 사용할 경우 -n 이 필요하다.
@@ -100,5 +104,6 @@ if [[ $? == 0 ]]; then
         echo -e "$msg" | cowsay -n -f tux
     fi
 fi
+unset temp
 
 # prezto .zlogin fortune 을 실행하고 있어 .zlogin 에서 fortune 실행을 주석처리했다.
