@@ -53,6 +53,20 @@ if [[ $? == 0 ]]; then
     alias ll='lsd -ahl'
 fi
 
+
+# zsh 에서 rsync='noglob rsync' 등 glob(*)을 사용 못하게 alias 하고 있어 해제한다.
+unalias bower
+unalias fc
+unalias find
+unalias ftp
+unalias globurl
+unalias history
+unalias locate
+unalias rake
+unalias rsync
+unalias scp
+unalias sftp
+
 alias vi='vim'
 alias vimlastfile='vim `(ls -1tr | tail -1)`'
 alias gopath='cd $GOPATH'
