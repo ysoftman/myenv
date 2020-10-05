@@ -55,17 +55,17 @@ fi
 
 
 # zsh 에서 rsync='noglob rsync' 등 glob(*)을 사용 못하게 alias 하고 있어 해제한다.
-unalias bower
-unalias fc
-unalias find
-unalias ftp
-unalias globurl
-unalias history
-unalias locate
-unalias rake
-unalias rsync
-unalias scp
-unalias sftp
+unalias bower 2> /dev/null
+unalias fc 2> /dev/null
+unalias find 2> /dev/null
+unalias ftp 2> /dev/null
+unalias globurl 2> /dev/null
+unalias history 2> /dev/null
+unalias locate 2> /dev/null
+unalias rake 2> /dev/null
+unalias rsync 2> /dev/null
+unalias scp 2> /dev/null
+unalias sftp 2> /dev/null
 
 alias vi='vim'
 alias vimlastfile='vim `(ls -1tr | tail -1)`'
