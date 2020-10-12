@@ -78,6 +78,15 @@ alias aleng='cd ~/workspace/aleng/ && ./aleng && cd -'
 alias tig='tig --all'
 
 
+# fzf ctrl+t(파일찾기)시 파일내용 미리보기 창 설정
+catcmd='cat'
+temp=$(which bat 2> /dev/null)
+if [ $? = 0 ] && [ -f $temp ]; then
+    catcmd='bat --color always {}'
+fi
+export FZF_CTRL_T_OPTS="--preview '($catcmd || tree -C {}) 2> /dev/null | head -200'"
+
+
 temp=$(which neofetch 2> /dev/null)
 if [[ $? == 0 ]]; then
     if [[ $(uname -a | grep -i darwin) ]]; then
