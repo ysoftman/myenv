@@ -78,7 +78,14 @@ alias aleng='cd ~/workspace/aleng/ && ./aleng && cd -'
 alias tig='tig --all'
 
 
-# fzf ctrl+t(파일찾기)시 파일내용 미리보기 창 설정
+# fzf ctrl+t(파일찾기)시
+# 숨김파일도 보기
+export FZF_CTRL_T_COMMAND='find . -type f'
+temp=$(which fd 2> /dev/null)
+if [ $? = 0 ] && [ -f $temp ]; then
+    export FZF_CTRL_T_COMMAND='fd --hidden'
+fi
+# 파일내용 미리보기 창 설정
 catcmd='cat'
 temp=$(which bat 2> /dev/null)
 if [ $? = 0 ] && [ -f $temp ]; then
