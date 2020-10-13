@@ -86,7 +86,7 @@ if [ $? = 0 ] && [ -f $temp ]; then
     export FZF_CTRL_T_COMMAND='fd --hidden'
 fi
 # 파일내용 미리보기 창 설정
-catcmd='cat'
+catcmd='cat {}'
 temp=$(which bat 2> /dev/null)
 if [ $? = 0 ] && [ -f $temp ]; then
     catcmd='bat --color always {}'
