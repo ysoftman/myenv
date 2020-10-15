@@ -5,6 +5,7 @@ zsh ./installprezto.zsh
 zsh ./installohmyzsh.zsh
 bash ./installconfig.sh
 bash ./installvim.sh
+bash ./installtmuxplugin.sh
 bash ./installpip.sh
 bash ./installrustlsd.sh
 bash ./installvscodesettings.sh
