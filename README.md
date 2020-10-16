@@ -33,6 +33,9 @@ sh ./installconfig.sh
 # vim 설치
 sh ./installvim.sh
 
+# tmux 플러그인 매니저 설치
+sh ./installtmuxplugin.sh
+
 # pip 로 프로그램 설치
 sh ./installpip.sh
 
@@ -45,11 +48,14 @@ sh ./installapp.sh
 # rust, lsd 설치
 sh ./installrustlsd.sh
 
+# iterm-color 설치
+sh ./installitermcolor.sh
+
 # vscode settings 적용(Mac), Windows 는 installvscodesettings.bat 사용
 sh ./installvscodesettings.sh
 ```
 
-## 참고
+## 추가 설정 사항들
 
 - Ubuntu 환경에서 sh -> dash 쉘로 링크되어 있어 bash 로 쉘스크립트를 실행하던가 아래와 같이 sh -> bash 링크 해준다.
 
@@ -58,9 +64,6 @@ sudo unlink /bin/sh
 sudo ln -s /bin/bash /bin/sh
 ```
 
-- iterm2 설정
-
-```text
-color presets : git clone https://github.com/bahlo/iterm-colors 후 darkside, one dark, ... 등 선택
-font : 18, font-hack-nerd-font (installbrew.sh 에서 설치)
-```
+- iterm2 -> general -> selection -> application in terminal may access clipboard 활성화(tmux 환경에서 클립보드사용하기 위해)
+- iterm2 -> profiles -> colors -> color presets -> import item-color 경로(installitermcolor.sh 에서 설치), darkside, one dark 등 선택
+- iterm2 -> profiles -> text -> font : 18, font-hack-nerd-font (installbrew.sh 에서 설치)
