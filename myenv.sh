@@ -89,6 +89,7 @@ fi
 catcmd='cat {}'
 temp=$(which bat 2> /dev/null)
 if [ $? = 0 ] && [ -f $temp ]; then
+    export BAT_THEME="TwoDark"
     catcmd='bat --color always {}'
 fi
 export FZF_CTRL_T_OPTS="--preview '($catcmd || tree -C {}) 2> /dev/null | head -200'"
