@@ -1,3 +1,7 @@
+# tmux 시작되면 TMUX 환경변수값이 설정되어 tmux 가 한번만 실행되도록 한다.
+# exec 로 현재 프로세스를 tmux 프로세스로 대체(replace)한다.
+if [ -z "$TMUX" ]; then exec tmux; fi
+
 # prezto 사용
 source ~/.zprezto/init.zsh
 
@@ -26,8 +30,3 @@ if [ -f '/Users/ysoftman/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ysoftm
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/ysoftman/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ysoftman/google-cloud-sdk/completion.zsh.inc'; fi
 fpath+=${ZDOTDIR:-~}/.zsh_functions
-
-
-# tmux 시작되면 TMUX 환경변수값이 설정되어 tmux 가 한번만 실행되도록 한다.
-if [ -z "$TMUX" ]; then tmux; fi
-
