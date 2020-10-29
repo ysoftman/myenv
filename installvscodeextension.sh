@@ -53,6 +53,7 @@ code --install-extension ms-vsliveshare.vsliveshare
 code --install-extension msjsdiag.debugger-for-chrome
 code --install-extension msjsdiag.vscode-react-native
 code --install-extension naco-siren.gradle-language
+code --install-extension nobuhito.printcode
 code --install-extension octref.vetur
 code --install-extension ramyaraoa.show-offset
 code --install-extension ravilang.ravi-debug
