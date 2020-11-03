@@ -1,7 +1,7 @@
 #!/bin/bash
-pkgs_android='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python2 ruby golang man dnsutils ripgrep fzf lua53 openssh libandroid-support'
-pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils gem python-pip clang-format ncurses ncurses-devel'
-pkgs_aptget='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils gem python-pip expect clang-format build-essential libncurses5-dev screenfetch neofetch lolcat'
+pkgs_android='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python2 ruby golang rust man dnsutils ripgrep fzf lua53 openssh libandroid-support lsd'
+pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang rust man dnsutils gem python-pip clang-format ncurses ncurses-devel'
+pkgs_aptget='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang rust man dnsutils gem python-pip expect clang-format build-essential libncurses5-dev screenfetch neofetch lolcat'
 pkgs_pacman='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python ruby go man dnsutils screenfetch neofetch lolcat'
 pkgs_brew='zsh lsd'
 sudo_cmd='sudo'
