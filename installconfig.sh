@@ -11,8 +11,24 @@ git config --global core.editor vim
 git config --global core.autocrlf false
 git config --global merge.tool vimdiff
 # 이미 사용자 정보가 설정되어 있으면 덮어쓰기때문에 확인하고 사용하자
-# git config --global user.email "ysoftman@gmail.com"
-# git config --global user.name "ysoftman"
+user_email="ysoftman@gmail.com"
+user_name="ysoftman"
+echo -e "input git config --global user.email, default is ysoftman@gmail.com"
+read answer
+if [[ ${answer} != '' ]]; then
+    user_email=${answer}
+fi
+echo "user.email:" ${user_email}
+git config --global user.email ${user_email}
+
+echo "input git config --global user.name, default is ysoftman"
+read answer
+if [[ ${answer} != '' ]]; then
+    user_name=${answer}
+fi
+echo "user.name:" ${user_name}
+git config --global user.name ${user_name}
+
 # 파일로 저장하지 않고 일정시간(디폴트 15분)동안 id,pw 를 캐싱한다.
 git config --global credential.helper cache
 
@@ -44,7 +60,7 @@ ln -s ${PWD}/.vimrc ~/.vimrc
 ln -s ${PWD}/.tmux.conf ~/.tmux.conf
 ln -s ${PWD}/.tigrc ~/.tigrc
 ln -s ${PWD}/.muttrc ~/.muttrc
-ln -s ${PWD}/mc ~/.config/mc
+[ -d ~/.config ] && ln -s ${PWD}/mc ~/.config/mc
 
 # dosbox 설정
 [ -h ~/dosbox.conf ] && unlink ~/dosbox.conf
