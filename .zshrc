@@ -2,11 +2,13 @@
 # exec 로 현재 프로세스를 tmux 프로세스로 대체(replace)한다.
 #if [ -z "$TMUX" ]; then exec tmux; fi
 
-# prezto 사용
-source ~/.zprezto/init.zsh
-
-# oh-my-zsh 사용
-#source ~/.oh-my-zsh/templates/zshrc.zsh-template
+if [[ $(uname -a | grep -i android) ]]; then
+    # oh-my-zsh 사용
+    source ~/.oh-my-zsh/templates/zshrc.zsh-template
+else
+    # prezto 사용
+    source ~/.zprezto/init.zsh
+fi
 
 # $(brew --prefix)/opt/fzf/install 실행하면 .fzf.bash .fzf.zsh 파일이 생긴다.
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
