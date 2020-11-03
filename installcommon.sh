@@ -1,8 +1,8 @@
 #!/bin/bash
 pkgs_android='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python2 ruby golang rust man dnsutils ripgrep fzf lua53 openssh libandroid-support lsd neofetch'
-pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang rust man dnsutils gem python-pip clang-format ncurses ncurses-devel'
+pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang rust cargo man dnsutils gem python-pip clang-format ncurses ncurses-devel'
 pkgs_aptget='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang rust man dnsutils gem python-pip expect clang-format build-essential libncurses5-dev screenfetch neofetch lolcat'
-pkgs_pacman='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python ruby go man dnsutils screenfetch neofetch lolcat'
+pkgs_pacman='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python ruby go man dnsutils screenfetch neofetch lolcat lsd'
 pkgs_brew='zsh lsd'
 sudo_cmd='sudo'
 
@@ -12,6 +12,7 @@ if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
 	${sudo_cmd} ${package_program} update
 	${sudo_cmd} ${package_program} upgrade
 	${sudo_cmd} ${package_program} install -y ${pkgs_android}
+	# vim, vim-python 한번에 설치시 의존성 에러 발생해 별도 설치
 	${sudo_cmd} ${package_program} install -y vim-python
 	chsh -s zsh
 	gem install lolcat
