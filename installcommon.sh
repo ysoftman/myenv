@@ -1,5 +1,5 @@
 #!/bin/bash
-pkgs_android='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils gem python2 python2-dev ripgrep fzf lua openssh libandroid-support vim-python'
+pkgs_android='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python2 ruby golang man dnsutils ripgrep fzf lua53 openssh libandroid-support'
 pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils gem python-pip clang-format ncurses ncurses-devel'
 pkgs_aptget='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang man dnsutils gem python-pip expect clang-format build-essential libncurses5-dev screenfetch neofetch lolcat'
 pkgs_pacman='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python ruby go man dnsutils screenfetch neofetch lolcat'
@@ -8,10 +8,11 @@ sudo_cmd='sudo'
 
 if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
 	sudo_cmd=''
-	package_program="apt"
+	package_program="pkg"
 	${sudo_cmd} ${package_program} update
 	${sudo_cmd} ${package_program} upgrade
 	${sudo_cmd} ${package_program} install -y ${pkgs_android}
+	${sudo_cmd} ${package_program} install -y vim-python
 	chsh -s zsh
 	gem install lolcat
 	exit 0
