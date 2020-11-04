@@ -68,7 +68,7 @@ unalias scp 2> /dev/null
 unalias sftp 2> /dev/null
 
 # mac 의 zsh 에서 builtin 설명을 보기 위해서 run-help=man alias 설정을 제거하고, run-help 함수를 다시 로딩하면, run-help cd 로 설명을 볼 수 있다.
-unalias run-help
+unalias run-help 2> /dev/null
 autoload run-help
 
 alias vi='vim'
