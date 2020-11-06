@@ -15,12 +15,13 @@ git_clone_and_pull()
 
 # git repo url 추출은 getgiturl.sh 로 사용
 git_clone_and_pull https://github.com/ysoftman/aleng
-git_clone_and_pull https://github.com/ysoftman/go-appengine-test.git
-git_clone_and_pull https://github.com/ysoftman/enchash
-git_clone_and_pull https://github.com/ysoftman/watchDust
-git_clone_and_pull https://github.com/ysoftman/ysoftman.github.io
 git_clone_and_pull https://github.com/ysoftman/codingtest.git
-git_clone_and_pull https://github.com/ysoftman/myenv
+git_clone_and_pull https://github.com/ysoftman/colorfulURL
 git_clone_and_pull https://github.com/ysoftman/cutstring
+git_clone_and_pull https://github.com/ysoftman/enchash
+git_clone_and_pull https://github.com/ysoftman/myenv
+git_clone_and_pull https://github.com/ysoftman/ohmystock.git
 git_clone_and_pull https://github.com/ysoftman/taja
 git_clone_and_pull https://github.com/ysoftman/test_code
+git_clone_and_pull https://github.com/ysoftman/watchDust
+git_clone_and_pull https://github.com/ysoftman/ysoftman.github.io
