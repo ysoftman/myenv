@@ -1,6 +1,7 @@
 #!/bin/sh
 code --install-extension 13xforever.language-x86-64-assembly
 code --install-extension abusaidm.html-snippets
+code --install-extension albymor.increment-selection
 code --install-extension alefragnani.Bookmarks
 code --install-extension atomiks.moonlight
 code --install-extension bungcip.better-toml
@@ -39,6 +40,7 @@ code --install-extension ms-azuretools.vscode-docker
 code --install-extension ms-dotnettools.csharp
 code --install-extension ms-mssql.mssql
 code --install-extension ms-python.python
+code --install-extension ms-toolsai.jupyter
 code --install-extension ms-vscode-remote.remote-containers
 code --install-extension ms-vscode-remote.remote-ssh
 code --install-extension ms-vscode-remote.remote-ssh-edit
