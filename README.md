@@ -45,9 +45,6 @@ sh ./installbrew.sh
 # mac app 설치(Mac)
 sh ./installapp.sh
 
-# rust, lsd 설치
-sh ./installrustlsd.sh
-
 # iterm-color 설치
 sh ./installitermcolor.sh
 

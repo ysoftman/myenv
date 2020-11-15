@@ -1,9 +1,9 @@
 #!/bin/bash
-pkgs_android='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python2 ruby golang rust man dnsutils ripgrep fd fzf lua53 openssh libandroid-support lsd neofetch'
+pkgs_android='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python2 ruby golang rust man dnsutils ripgrep fd fzf lua53 openssh libandroid-support lsd exa neofetch'
 pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang rust cargo man dnsutils gem python-pip clang-format ncurses ncurses-devel'
 pkgs_aptget='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang rust man dnsutils gem python-pip expect clang-format build-essential libncurses5-dev screenfetch neofetch lolcat'
-pkgs_pacman='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python ruby go man dnsutils screenfetch neofetch lolcat lsd'
-pkgs_brew='zsh lsd'
+pkgs_pacman='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python ruby go man dnsutils screenfetch neofetch lolcat lsd exa'
+pkgs_brew='zsh lsd exa'
 sudo_cmd='sudo'
 
 if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then

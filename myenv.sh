@@ -44,9 +44,14 @@ elif [[ $temp == 'linux' ]]; then
     fi
 fi
 
+# replacement for ls
 temp=$(which colorls 2> /dev/null)
 if [[ $? == 0 ]]; then
     alias ll='colorls -ahl'
+fi
+temp=$(which exa 2> /dev/null)
+if [[ $? == 0 ]]; then
+    alias ll='exa -ahl'
 fi
 temp=$(which lsd 2> /dev/null)
 if [[ $? == 0 ]]; then
