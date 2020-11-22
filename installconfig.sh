@@ -44,6 +44,7 @@ ln -s ${PWD}/.gitignore_global ~/.gitignore_global
 [ -h ~/.tmux.conf ] && unlink ~/.tmux.conf
 [ -h ~/.tigrc ] && unlink ~/.tigrc
 [ -h ~/.muttrc ] && unlink ~/.muttrc
+[ -h ~/.alacritty.yml ] && unlink ~/..alacritty.yml
 [ -h ~/.config/mc ] && unlink ~/.config/mc
 
 [ -f ~/.bashrc ] && mv -fv ~/.bashrc ~/.bashrc.bak
@@ -52,6 +53,7 @@ ln -s ${PWD}/.gitignore_global ~/.gitignore_global
 [ -f ~/.tmux.conf ] && mv -fv ~/.tmux.conf ~/.tmux.conf.bak
 [ -f ~/.tigrc ] && mv -fv ~/.tigrc ~/.tigrc.bak
 [ -f ~/.muttrc ] && mv -fv ~/.muttrc ~/.muttrc.bak
+[ -f ~/.alacritty.yml ] && mv -fv ~/.alacritty.yml ~/.alacritty.yml
 [ -d ~/.config/mc ] && mv -fv ~/.config/mc ~/.config/mc_bak
 
 ln -s ${PWD}/.bashrc ~/.bashrc
@@ -60,6 +62,7 @@ ln -s ${PWD}/.vimrc ~/.vimrc
 ln -s ${PWD}/.tmux.conf ~/.tmux.conf
 ln -s ${PWD}/.tigrc ~/.tigrc
 ln -s ${PWD}/.muttrc ~/.muttrc
+ln -s ${PWD}/.alacritty.yml ~/.alacritty.yml
 [ -d ~/.config ] && ln -s ${PWD}/mc ~/.config/mc
 
 # dosbox 설정

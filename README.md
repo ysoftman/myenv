@@ -65,4 +65,3 @@ sudo ln -s /bin/bash /bin/sh
 - iterm2 -> profiles -> colors -> color presets -> import item-color 경로(installitermcolor.sh 에서 설치), darkside, one dark 등 선택
 - iterm2 -> profiles -> text -> font : 18, font-hack-nerd-font (installbrew.sh 에서 설치)
 - iterm2 에서 tmux 사용시 더블 클릭은 alt + double click(triple click) 로 사용해야 한다.
-
