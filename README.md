@@ -54,14 +54,16 @@ sh ./installvscodesettings.sh
 
 ## 추가 설정 사항들
 
-- Ubuntu 환경에서 sh -> dash 쉘로 링크되어 있어 bash 로 쉘스크립트를 실행하던가 아래와 같이 sh -> bash 링크 해준다.
+- Ubuntu 환경
+  - sh -> dash 쉘로 링크되어 있어 bash 로 쉘스크립트를 실행하던가 아래와 같이 sh -> bash 링크 해준다.
 
-```bash
-sudo unlink /bin/sh
-sudo ln -s /bin/bash /bin/sh
-```
+    ```bash
+    sudo unlink /bin/sh
+    sudo ln -s /bin/bash /bin/sh
+    ```
 
-- iterm2 -> general -> selection -> application in terminal may access clipboard 활성화(tmux 환경에서 클립보드사용하기 위해)
-- iterm2 -> profiles -> colors -> color presets -> import item-color 경로(installitermcolor.sh 에서 설치), darkside, one dark 등 선택
-- iterm2 -> profiles -> text -> font : 18, font-hack-nerd-font (installbrew.sh 에서 설치)
-- iterm2 에서 tmux 사용시 더블 클릭은 alt + double click(triple click) 로 사용해야 한다.
+- iterm2 사용시
+  - iterm2 -> general -> selection -> application in terminal may access clipboard 활성화(tmux 환경에서 클립보드사용하기 위해)
+  - iterm2 -> profiles -> colors -> color presets -> import item-color 경로(installitermcolor.sh 에서 설치), darkside, one dark 등 선택
+  - iterm2 -> profiles -> text -> font : 18, font-hack-nerd-font (installbrew.sh 에서 설치)
+  - iterm2 에서 tmux 사용시 더블 클릭은 alt + double click(triple click) 로 사용해야 한다.
