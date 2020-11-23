@@ -633,18 +633,21 @@ cursor:
 #
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
-keybindings:
-  #- { key: Paste,                                action: Paste          }
-  #- { key: Copy,                                 action: Copy           }
-  #- { key: L,         mods: Control,             action: ClearLogNotice }
-  #- { key: L,         mods: Control, mode: ~Vi,  chars: "\x0c"          }
-  #- { key: PageUp,    mods: Shift,   mode: ~Alt, action: ScrollPageUp,  }
-  #- { key: PageDown,  mods: Shift,   mode: ~Alt, action: ScrollPageDown }
-  #- { key: Home,      mods: Shift,   mode: ~Alt, action: ScrollToTop,   }
-  #- { key: End,       mods: Shift,   mode: ~Alt, action: ScrollToBottom }
+# keybindings:
+#- { key: Paste,                                action: Paste          }
+#- { key: Copy,                                 action: Copy           }
+#- { key: L,         mods: Control,             action: ClearLogNotice }
+#- { key: L,         mods: Control, mode: ~Vi,  chars: "\x0c"          }
+#- { key: PageUp,    mods: Shift,   mode: ~Alt, action: ScrollPageUp,  }
+#- { key: PageDown,  mods: Shift,   mode: ~Alt, action: ScrollPageDown }
+#- { key: Home,      mods: Shift,   mode: ~Alt, action: ScrollToTop,   }
+#- { key: End,       mods: Shift,   mode: ~Alt, action: ScrollToBottom }
 
-  # - { key: Left, mods: Alt, chars: "\x1bf" }
-  # - { key: Right, mods: Alt, chars: "\x1bb" }
+key_bindings:
+
+  - { key: Left, mods: Alt, chars: "\x1bb" }    # 이전 워드로 점프
+  - { key: Right, mods: Alt, chars: "\x1bf" }   # 다음 워드로 점프
+  - { key: N, mods: Command, action: SpawnNewInstance } # 새창
 
   # Vi Mode
   # - { key: Space,  mods: Shift|Control, mode: Vi, action: ScrollToBottom          }
