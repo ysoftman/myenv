@@ -633,19 +633,24 @@ cursor:
 #
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
-#key_bindings:
-#- { key: Paste,                                action: Paste          }
-#- { key: Copy,                                 action: Copy           }
-#- { key: L,         mods: Control,             action: ClearLogNotice }
-#- { key: L,         mods: Control, mode: ~Vi,  chars: "\x0c"          }
-#- { key: PageUp,    mods: Shift,   mode: ~Alt, action: ScrollPageUp,  }
-#- { key: PageDown,  mods: Shift,   mode: ~Alt, action: ScrollPageDown }
-#- { key: Home,      mods: Shift,   mode: ~Alt, action: ScrollToTop,   }
-#- { key: End,       mods: Shift,   mode: ~Alt, action: ScrollToBottom }
+keybindings:
+  #- { key: Paste,                                action: Paste          }
+  #- { key: Copy,                                 action: Copy           }
+  #- { key: L,         mods: Control,             action: ClearLogNotice }
+  #- { key: L,         mods: Control, mode: ~Vi,  chars: "\x0c"          }
+  #- { key: PageUp,    mods: Shift,   mode: ~Alt, action: ScrollPageUp,  }
+  #- { key: PageDown,  mods: Shift,   mode: ~Alt, action: ScrollPageDown }
+  #- { key: Home,      mods: Shift,   mode: ~Alt, action: ScrollToTop,   }
+  #- { key: End,       mods: Shift,   mode: ~Alt, action: ScrollToBottom }
 
-# Vi Mode
-#- { key: Space,  mods: Shift|Control, mode: Vi, action: ScrollToBottom          }
-#- { key: Space,  mods: Shift|Control,           action: ToggleViMode            }
+  # - { key: Left, mods: Alt, chars: "\x1bf" }
+  # - { key: Right, mods: Alt, chars: "\x1bb" }
+
+  # Vi Mode
+  # - { key: Space,  mods: Shift|Control, mode: Vi, action: ScrollToBottom          }
+  # - { key: Space, mods: Shift|Control, action: ToggleViMode }
+  # - { key: B, mods: Shift, mode: Vi, action: WordLeft }
+  # - { key: W, mods: Shift, mode: Vi, action: WordRight }
 #- { key: Escape,                      mode: Vi, action: ClearSelection          }
 #- { key: I,                           mode: Vi, action: ScrollToBottom          }
 #- { key: I,                           mode: Vi, action: ToggleViMode            }
