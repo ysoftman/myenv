@@ -644,10 +644,12 @@ cursor:
 #- { key: End,       mods: Shift,   mode: ~Alt, action: ScrollToBottom }
 
 key_bindings:
-
-  - { key: Left, mods: Alt, chars: "\x1bb" }    # 이전 워드로 점프
-  - { key: Right, mods: Alt, chars: "\x1bf" }   # 다음 워드로 점프
+  - { key: Left, mods: Alt, chars: "\x1bb" } # 이전 워드로 점프
+  - { key: Right, mods: Alt, chars: "\x1bf" } # 다음 워드로 점프
   - { key: N, mods: Command, action: SpawnNewInstance } # 새창
+  - { key: Q, mods: Command, action: None } # Q 로 창닫힘 막기
+  - { key: W, mods: Command, action: None } # W 로 창닫힘 막기
+
 
   # Vi Mode
   # - { key: Space,  mods: Shift|Control, mode: Vi, action: ScrollToBottom          }
