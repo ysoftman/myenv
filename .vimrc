@@ -35,6 +35,7 @@ Plug 'flazz/vim-colorschemes'
 Plug 'itchyny/lightline.vim'
 Plug 'scrooloose/syntastic'
 Plug 'altercation/vim-colors-solarized'
+Plug 'lilydjwg/colorizer'
 Plug 'joshdick/onedark.vim'
 Plug 'kien/ctrlp.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.vim/plugged/fzf', 'do': './install --all' }
