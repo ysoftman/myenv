@@ -191,7 +191,6 @@
     "wordDelimiters": " ./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}~?\u2502",
 
     "profiles": [{
-            "acrylicOpacity": 0.5,
             "closeOnExit": true,
             "colorScheme": "One Half Dark",
             "commandline": "wsl.exe -d Ubuntu-18.04",
@@ -206,14 +205,14 @@
             "padding": "0, 0, 0, 0",
             "snapOnInput": true,
             "startingDirectory": "%USERPROFILE%",
-            "useAcrylic": false
+            "useAcrylic": true,
+            "acrylicOpacity": 0.7
         },
         {
-            "acrylicOpacity": 0.5,
-            "background": "#012456",
             "closeOnExit": true,
             "colorScheme": "Campbell",
             "commandline": "powershell.exe",
+            "background": "#012456",
             "cursorColor": "#FFFFFF",
             "cursorShape": "bar",
             "fontFace": "Consolas",
@@ -225,10 +224,10 @@
             "padding": "0, 0, 0, 0",
             "snapOnInput": true,
             "startingDirectory": "%USERPROFILE%",
-            "useAcrylic": false
+            "useAcrylic": true,
+            "acrylicOpacity": 0.5
         },
         {
-            "acrylicOpacity": 0.75,
             "closeOnExit": true,
             "colorScheme": "Campbell",
             "commandline": "cmd.exe",
@@ -243,10 +242,10 @@
             "padding": "0, 0, 0, 0",
             "snapOnInput": true,
             "startingDirectory": "%USERPROFILE%",
-            "useAcrylic": true
+            "useAcrylic": true,
+            "acrylicOpacity": 0.75
         },
         {
-            "acrylicOpacity": 0.85000002384185791,
             "closeOnExit": false,
             "colorScheme": "Solarized Dark",
             "commandline": "Azure",
@@ -262,7 +261,14 @@
             "padding": "0, 0, 0, 0",
             "snapOnInput": true,
             "startingDirectory": "%USERPROFILE%",
-            "useAcrylic": true
+            "useAcrylic": true,
+            "acrylicOpacity": 0.85000002384185791
+        },
+        {
+            "guid": "{07b52e3e-de2c-5db4-bd2d-ba144ed6c273}",
+            "hidden": false,
+            "name": "Ubuntu-20.04",
+            "source": "Windows.Terminal.Wsl"
         }
     ],
     "schemes": [{
