@@ -1,6 +1,6 @@
 # tmux 시작되면 TMUX 환경변수값이 설정되어 tmux 가 한번만 실행되도록 한다.
 # exec 로 현재 프로세스를 tmux 프로세스로 대체(replace)한다.
-#if [ -z "$TMUX" ]; then exec tmux; fi
+if [ -z "$TMUX" ]; then exec tmux; fi
 
 if [[ $(uname -a | grep -i android) ]]; then
     # oh-my-zsh 사용
