@@ -206,7 +206,7 @@
             "snapOnInput": true,
             "startingDirectory": "%USERPROFILE%",
             "useAcrylic": true,
-            "acrylicOpacity": 0.7
+            "acrylicOpacity": 1
         },
         {
             "closeOnExit": true,
@@ -225,7 +225,7 @@
             "snapOnInput": true,
             "startingDirectory": "%USERPROFILE%",
             "useAcrylic": true,
-            "acrylicOpacity": 0.5
+            "acrylicOpacity": 0.7
         },
         {
             "closeOnExit": true,
