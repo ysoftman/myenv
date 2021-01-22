@@ -10,24 +10,26 @@ git config --global core.editor vim
 # 윈도우에서만 autocrlf 활성화 하자, 기본은 false
 git config --global core.autocrlf false
 git config --global merge.tool vimdiff
+# user_email="ysoftman@gmail.com"
+# user_name="ysoftman"
 # 이미 사용자 정보가 설정되어 있으면 덮어쓰기때문에 확인하고 사용하자
-user_email="ysoftman@gmail.com"
-user_name="ysoftman"
-echo -e "input git config --global user.email, default is ysoftman@gmail.com"
+echo -e "(current) git config --global user.email : $(git config --global user.email)"
+echo -e "(new) git config --global user.email : (empty to keep current user email)"
 read answer
 if [[ ${answer} != '' ]]; then
     user_email=${answer}
+    echo "user.email:" ${user_email}
+    git config --global user.email ${user_email}
 fi
-echo "user.email:" ${user_email}
-git config --global user.email ${user_email}
 
-echo "input git config --global user.name, default is ysoftman"
+echo -e "(current) git config --global user.name, $(git config --global user.name)"
+echo -e "(new) git config --global user.name : (empty to keep current user name)"
 read answer
 if [[ ${answer} != '' ]]; then
     user_name=${answer}
+    echo "user.name:" ${user_name}
+    git config --global user.name ${user_name}
 fi
-echo "user.name:" ${user_name}
-git config --global user.name ${user_name}
 
 # 파일로 저장하지 않고 일정시간(디폴트 15분)동안 id,pw 를 캐싱한다.
 git config --global credential.helper cache
@@ -44,8 +46,9 @@ ln -s ${PWD}/.gitignore_global ~/.gitignore_global
 [ -h ~/.tmux.conf ] && unlink ~/.tmux.conf
 [ -h ~/.tigrc ] && unlink ~/.tigrc
 [ -h ~/.muttrc ] && unlink ~/.muttrc
-[ -h ~/.alacritty.yml ] && unlink ~/..alacritty.yml
+[ -h ~/.alacritty.yml ] && unlink ~/.alacritty.yml
 [ -h ~/.config/mc ] && unlink ~/.config/mc
+[ -h ~/.k9s/skin.yml ] && unlink ~/.k9s/skin.yml
 
 [ -f ~/.bashrc ] && mv -fv ~/.bashrc ~/.bashrc.bak
 [ -f ~/.zshrc ] && mv -fv ~/.zshrc ~/.zshrc.bak
@@ -55,6 +58,7 @@ ln -s ${PWD}/.gitignore_global ~/.gitignore_global
 [ -f ~/.muttrc ] && mv -fv ~/.muttrc ~/.muttrc.bak
 [ -f ~/.alacritty.yml ] && mv -fv ~/.alacritty.yml ~/.alacritty.yml
 [ -d ~/.config/mc ] && mv -fv ~/.config/mc ~/.config/mc_bak
+[ -f ~/.k9s/skin.yml ] && mv -fv ~/.k9s/skin.yml.bak
 
 ln -s ${PWD}/.bashrc ~/.bashrc
 ln -s ${PWD}/.zshrc ~/.zshrc
@@ -64,6 +68,7 @@ ln -s ${PWD}/.tigrc ~/.tigrc
 ln -s ${PWD}/.muttrc ~/.muttrc
 ln -s ${PWD}/.alacritty.yml ~/.alacritty.yml
 [ -d ~/.config ] && ln -s ${PWD}/mc ~/.config/mc
+[ -d ~/.k9s ] && ln -s ${PWD}/.k9s/skins/one_dark.yml ~/.k9s/skin.yml
 
 # dosbox 설정
 [ -h ~/dosbox.conf ] && unlink ~/dosbox.conf
