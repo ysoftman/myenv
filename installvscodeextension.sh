@@ -26,6 +26,7 @@ code --install-extension formulahendry.vscode-mysql
 code --install-extension gaborv.flatbuffers
 code --install-extension golang.go
 code --install-extension googlecloudtools.cloudcode
+code --install-extension haaaad.ansible
 code --install-extension HookyQR.beautify
 code --install-extension itryapitsin.Scala
 code --install-extension johnpapa.Angular2
@@ -44,7 +45,6 @@ code --install-extension ms-toolsai.jupyter
 code --install-extension ms-vscode-remote.remote-containers
 code --install-extension ms-vscode-remote.remote-ssh
 code --install-extension ms-vscode-remote.remote-ssh-edit
-code --install-extension ms-vscode-remote.remote-ssh-explorer
 code --install-extension ms-vscode-remote.remote-wsl
 code --install-extension ms-vscode-remote.vscode-remote-extensionpack
 code --install-extension ms-vscode.cmake-tools
@@ -76,7 +76,6 @@ code --install-extension vscjava.vscode-java-pack
 code --install-extension vscjava.vscode-java-test
 code --install-extension vscjava.vscode-maven
 code --install-extension vscode-icons-team.vscode-icons
-code --install-extension vscoss.vscode-ansible
 code --install-extension vuetifyjs.vuetify-vscode
 code --install-extension wholroyd.jinja
 code --install-extension xabikos.JavaScriptSnippets
