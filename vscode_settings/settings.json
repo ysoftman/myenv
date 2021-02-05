@@ -5,10 +5,11 @@
         "bash*": "shellscript",
         "zsh*": "shellscript",
         "*.py.*": "python",
+        "**/*ansible*/**/*.yml" : "ansible",
+        "**/playbooks/**/*.yml" : "ansible",
+        "**/inventory/*/*": "ansible",
         "**/roles/**/*.yml": "ansible",
-        "**/ansible/**/*.yml": "ansible",
         "**/roles/**/*.yaml": "ansible",
-        "**/ansible/**/*.yaml": "ansible",
         "*.yml.*": "yaml",
         "*.xml.*": "xml",
         "*.html.*": "html",
@@ -59,6 +60,7 @@
     },
     "[rust]": {
         "editor.formatOnSave": true,
+        "editor.defaultFormatter": "rust-lang.rust"
     },
     "rust.rustfmt_path": "${HOME}/.cargo/bin/rustfmt",
     // pin the opened file
@@ -167,4 +169,8 @@
     "workbench.colorTheme": "One Dark Pro",
     "python.languageServer": "Microsoft",
     "liveServer.settings.donotShowInfoMsg": true,
+    "[yaml]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "liveServer.settings.donotVerifyTags": true,
 }
