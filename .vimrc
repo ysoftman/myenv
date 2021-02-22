@@ -152,7 +152,7 @@ autocmd filetype go noremap <f5> :GoRun<enter>
 autocmd filetype go noremap <f7> :GoBuild<enter>
 autocmd filetype go noremap <f12> :GoDef<enter>
 noremap <s-f12> :GoCallees<enter>
-noremap <f9> :GoFmt<enter>:GoImports<enter>
+autocmd filetype go noremap <f9> :GoFmt<enter>:GoImports<enter>
 noremap <s-f9> :GoVet<enterr>:GoLint<enter>
 noremap <c-b> :NERDTreeToggle<enter>
 noremap <c-t> :FZF<enter>
