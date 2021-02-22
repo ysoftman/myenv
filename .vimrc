@@ -146,8 +146,8 @@ let g:go_highlight_build_constraints = 1
 " 단축키 설정
 noremap <f1> :TagbarToggle<enter>
 noremap <f4> :IndentGuidesToggle<enter>
-autocmd filetype c noremap <f5> :w <bar> exec '!clear; g++ % && ./a.out'<enter>
-autocmd filetype cpp noremap <f5> :w <bar> exec '!clear; g++ % && ./a.out'<enter>
+autocmd filetype c noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
+autocmd filetype cpp noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
 autocmd filetype go noremap <f5> :GoRun<enter>
 autocmd filetype go noremap <f7> :GoBuild<enter>
 autocmd filetype go noremap <f12> :GoDef<enter>
