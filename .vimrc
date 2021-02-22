@@ -148,13 +148,15 @@ noremap <f1> :TagbarToggle<enter>
 noremap <f4> :IndentGuidesToggle<enter>
 autocmd filetype c noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
 autocmd filetype cpp noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
-autocmd filetype go noremap <f5> :GoRun<enter>
-autocmd filetype go noremap <f7> :GoBuild<enter>
-autocmd filetype go noremap <f12> :GoDef<enter>
+autocmd filetype go noremap <f5> :w <bar> :!clear; <enter> :GoRun<enter>
+autocmd filetype go noremap <f7> :w <bar> :!clear; <enter> :GoBuild<enter>
+autocmd filetype go noremap <f12> :w <bar> :GoDef<enter>
 noremap <s-f12> :GoCallees<enter>
-autocmd filetype go noremap <f9> :GoFmt<enter>:GoImports<enter>
+"autocmd filetype go noremap <f9> :w <bar> :GoFmt<enter>
+autocmd filetype go noremap <f9> :w <bar> :GoImports<enter>
 noremap <s-f9> :GoVet<enterr>:GoLint<enter>
 noremap <c-b> :NERDTreeToggle<enter>
 noremap <c-t> :FZF<enter>
 "remove trailing whitespce
 noremap rtw :%s/\s\+$//e<enter>
+
