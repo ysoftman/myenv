@@ -10,6 +10,12 @@ else
     source ~/.zprezto/init.zsh
 fi
 
+# zsh-autosuggestions 사용
+if [ ! -f $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+fi
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 # $(brew --prefix)/opt/fzf/install 실행하면 .fzf.bash .fzf.zsh 파일이 생긴다.
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
