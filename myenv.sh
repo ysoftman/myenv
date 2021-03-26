@@ -83,7 +83,7 @@ alias work='cd ~/workspace'
 alias testcode='cd ~/workspace/test_code'
 alias cutstring='${HOME}/workspace/cutstring/cutstring'
 alias enchash='${HOME}/workspace/enchash/enchash'
-alias aleng='cd ~/workspace/aleng/ && ./aleng && cd -'
+alias aleng='${HOME}/workspace/aleng/aleng'
 alias tig='tig --all'
 
 
