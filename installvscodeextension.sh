@@ -68,6 +68,7 @@ code --install-extension shanoor.vscode-nginx
 code --install-extension solnurkarim.html-to-css-autocompletion
 code --install-extension sysoev.language-stylus
 code --install-extension techer.open-in-browser
+code --install-extension twxs.cmake
 code --install-extension VisualStudioExptTeam.vscodeintellicode
 code --install-extension vitorsalgado.vscode-redis
 code --install-extension vscjava.vscode-java-debug

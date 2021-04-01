@@ -1,4 +1,30 @@
 #!/bin/bash
+if [[ $(uname -a | grep -i android) ]]; then
+    # oh-my-zsh 사용
+    source ~/.oh-my-zsh/templates/zshrc.zsh-template
+else
+    # prezto 사용
+    source ~/.zprezto/init.zsh
+fi
+
+# kube prompt 사용 (brew install kube-ps1)
+if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
+    source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+    PS1='$(kube_ps1)'$PS1
+fi
+
+# zsh-autosuggestions 사용
+if [ ! -f $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+fi
+if [ -f $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+# $(brew --prefix)/opt/fzf/install 실행하면 .fzf.bash .fzf.zsh 파일이 생긴다.
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
 export GOPATH=$HOME/workspace/gopath
 # bash, zsh 등에서 git-subcommand 를 현재 디렉토리에서 실행하기 위해
 # PATH 환경변수 처음이나 마지막에 구분자(:)가 있거나
