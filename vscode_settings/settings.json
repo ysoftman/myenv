@@ -173,4 +173,5 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "liveServer.settings.donotVerifyTags": true,
+    "go.toolsManagement.autoUpdate": true,
 }
