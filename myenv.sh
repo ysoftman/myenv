@@ -10,6 +10,7 @@ fi
 # kube prompt 사용 (brew install kube-ps1)
 if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
     source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+    export KUBE_PS1_SYMBOL_USE_IMG=true
     PS1='$(kube_ps1)'$PS1
 fi
 
