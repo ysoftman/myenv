@@ -11,6 +11,7 @@ env:
   # check the local terminfo database and use `alacritty` if it is
   # available, otherwise `xterm-256color` is used.
   TERM: alacritty
+  TERM_PROGRAM: alacritty
 
 window:
   # Window dimensions (changes require restart)
