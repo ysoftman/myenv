@@ -7,7 +7,6 @@ if [[ $(uname -a | grep -i darwin) ]]; then
     install_file="installbrew.sh"
     echo '#!/bin/bash' > ${install_file}
     printf "brew tap homebrew/cask-fonts\n" >> ${install_file}
-    printf "brew cask install font-hack-nerd-font java\n" >> ${install_file}
     printf "brew install " >> ${install_file}
     brew list | sort | tr '\n' ' ' >> ${install_file}
 
