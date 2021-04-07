@@ -134,7 +134,8 @@ export FZF_CTRL_T_OPTS="--preview '($catcmd || tree -C {}) 2> /dev/null | head -
 
 temp=$(which neofetch 2> /dev/null)
 if [[ $? == 0 ]]; then
-    if [[ $(uname -a | grep -i darwin) ]]; then
+    term_program=$(echo $TERM_PROGRAM | tr "[:upper:]" "[:lower:]")
+    if [[ $term_program == *"iterm"* ]]; then
         neofetch --backend iterm2 --size 300 --source ${HOME}/xelloss.jpg
     else
         neofetch
