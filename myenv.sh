@@ -12,7 +12,7 @@ if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
     source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
     export KUBE_PS1_SYMBOL_USE_IMG=true
     # PS1='$(kube_ps1)'$'\n'$PS1  # 2 줄로 표시할때
-    PS1='$(kube_ps1)'$PS1
+    PS1='$(kube_ps1) '$PS1
 fi
 
 # zsh-autosuggestions 사용

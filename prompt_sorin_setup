@@ -178,14 +178,19 @@ function prompt_sorin_setup {
   _prompt_sorin_pwd=''
 
   # Define prompts.
+  # PROMPT='${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}%F{4}${_prompt_sorin_pwd}%(!. %B%F{1}#%f%b.)${editor_info[keymap]} '
+  # RPROMPT+='%f)${VIM:+" %B%F{6}V%f%b"}${_prompt_sorin_git}'
   # ysoftman
   # 항상 사용자명과 호스트명이 나오도록 수정
+  # git 정보 오른쪽(RPROMPT)대신 PROMPT 에 표시
+  # 현재 시간 표시
+  # 2줄로 구분
   # %n 는 사용자, %m 은 장비명
-  # PROMPT='${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}%F{4}${_prompt_sorin_pwd}%(!. %B%F{1}#%f%b.)${editor_info[keymap]} '
-  PROMPT='%F{4}%n@%m%f %F{4}${_prompt_sorin_pwd}%(!. %B%F{1}#%f%b.)${editor_info[keymap]} '
+  NEW_LINE=$'\n'
+  PROMPT='%F{4}%n@%m%f ${_prompt_sorin_git} $(date +%H:%M:%S) ${NEW_LINE} %F{4}${_prompt_sorin_pwd}%(!. %B%F{1}#%f%b.)${editor_info[keymap]} '
   RPROMPT='$python_info[virtualenv]${editor_info[overwrite]}%(?:: %F{1}'
   RPROMPT+=${show_return}
-  RPROMPT+='%f)${VIM:+" %B%F{6}V%f%b"}${_prompt_sorin_git}'
+  RPROMPT+='%f)${VIM:+" %B%F{6}V%f%b"}'
   SPROMPT='zsh: correct %F{1}%R%f to %F{2}%r%f [nyae]? '
 }
 
