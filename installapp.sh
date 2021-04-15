@@ -53,15 +53,6 @@ else
     rm -rf Firefox*
 fi
 
-if [ -e '/Applications/Spectacle.app' ]; then
-    echo "file exists /Applications/Spectacle.app"
-else
-    wget https://s3.amazonaws.com/spectacle/downloads/Spectacle+1.2.zip
-    tar zxf Spectacle+1.2.zip
-    sudo cp -R "./Spectacle.app" /Applications
-    rm -rf Spectacle*
-fi
-
 if [ -e '/Applications/Flux.app' ]; then
     echo "file exists /Applications/Flux.app"
 else
