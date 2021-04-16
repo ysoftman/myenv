@@ -33,6 +33,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'liuchengxu/space-vim-dark'
 Plug 'flazz/vim-colorschemes'
 Plug 'itchyny/lightline.vim'
+Plug 'mengelbrecht/lightline-bufferline'
 Plug 'scrooloose/syntastic'
 Plug 'altercation/vim-colors-solarized'
 Plug 'lilydjwg/colorizer' " vim 으로 git 커밋 메세지 작성시 이슈번호 태깅을 위해 #123 를 사용하면 컬리 배경 표시~ㅎ
@@ -53,8 +54,10 @@ set fencs=utf-8,cp949
 set enc=utf-8
 set tabstop=4
 set shiftwidth=4
+set expandtab
 set autoindent
 set laststatus=2
+set showtabline=2
 "set lines=80
 "set cursorcolumn
 set cursorline
@@ -95,7 +98,7 @@ let g:onedark_termcolors=256
 " 컬러스킴 설정후 ColorColumn(colorcolumn) 값만 변경한다.
 highlight ColorColumn ctermbg=brown
 
-"lightline 화살표 폰트가 없어 powerline 폰트가 필요 없다
+"lightline 화살표 폰트가 없어 powerline 폰트가 필요 없다.
 set laststatus=2
 let g:lightline = {
 \    'colorscheme': 'onedark',
@@ -109,6 +112,11 @@ let g:lightline = {
 \      'gitbranch': 'fugitive#head'
 \    },
 \}
+"buffer 표시를 위해선 lightline-bufferline 도 플러그인 설치 필요.
+let g:lightline#bufferline#unnamed = '[No Name]'
+let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
+let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
+let g:lightline.component_type   = {'buffers': 'tabsel'}
 
 "airline
 " set laststatus=2
