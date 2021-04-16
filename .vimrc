@@ -32,6 +32,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'liuchengxu/space-vim-dark'
 Plug 'flazz/vim-colorschemes'
+Plug 'ryanoasis/vim-devicons'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'scrooloose/syntastic'
@@ -72,6 +73,7 @@ set timeoutlen=1000
 "let mapleader="\\"
 let mapleader=","
 let g:go_version_warning = 0
+let NERDTreeShowHidden=1
 
 
 "vim-colors-solarized
@@ -119,11 +121,17 @@ let g:lightline = {
 \}
 "buffer 표시를 위해선 lightline-bufferline 도 플러그인 설치 필요.
 let g:lightline#bufferline#unnamed = '[No Name]'
-let g:lightline#bufferline#show_number = 1
-let g:lightline#bufferline#modified = '✎'
+let g:lightline#bufferline#show_number = 0
+"let g:lightline#bufferline#modified = '✎'
+let g:lightline#bufferline#unicode_symbols = 1
+let g:lightline#bufferline#enable_devicons = 1
+"one 컬러로 변경해야 tabline 에 컬러가 반영된다.
+let g:lightline.colorscheme = 'one'
 let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type   = {'buffers': 'tabsel'}
+autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
+
 
 "airline
 " set laststatus=2
@@ -166,6 +174,7 @@ noremap sovim :source ~/.vimrc <enter>
 noremap bn :bn <enter>
 noremap bp :bp <enter>
 noremap bd :bd <enter>
+noremap bwo :%bwipeout <enter>
 "remove trailing whitespce
 noremap rtw :%s/\s\+$//e<enter>
 noremap <f1> :TagbarToggle<enter>
