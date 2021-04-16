@@ -40,6 +40,7 @@ Plug 'lilydjwg/colorizer' " vim 으로 git 커밋 메세지 작성시 이슈번�
 Plug 'joshdick/onedark.vim'
 Plug 'kien/ctrlp.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.vim/plugged/fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'nathanaelkane/vim-indent-guides'
 call plug#end()
 
@@ -66,6 +67,10 @@ set visualbell t_vb=
 set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»,eol:↵
 "set nolist
 set list
+set timeoutlen=1000
+
+"let mapleader="\\"
+let mapleader=","
 let g:go_version_warning = 0
 
 
@@ -114,6 +119,8 @@ let g:lightline = {
 \}
 "buffer 표시를 위해선 lightline-bufferline 도 플러그인 설치 필요.
 let g:lightline#bufferline#unnamed = '[No Name]'
+let g:lightline#bufferline#show_number = 1
+let g:lightline#bufferline#modified = '✎'
 let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type   = {'buffers': 'tabsel'}
@@ -152,6 +159,15 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
 " 단축키 설정
+noremap <leader>c :clearjumps <enter>
+"noremap <leader>w :w <enter>
+"noremap <leader>q :q <enter>
+noremap sovim :source ~/.vimrc <enter>
+noremap bn :bn <enter>
+noremap bp :bp <enter>
+noremap bd :bd <enter>
+"remove trailing whitespce
+noremap rtw :%s/\s\+$//e<enter>
 noremap <f1> :TagbarToggle<enter>
 noremap <f4> :IndentGuidesToggle<enter>
 autocmd filetype c noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
@@ -159,12 +175,14 @@ autocmd filetype cpp noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
 autocmd filetype go noremap <f5> :w <bar> :!clear; <enter> :GoRun<enter>
 autocmd filetype go noremap <f7> :w <bar> :!clear; <enter> :GoBuild<enter>
 autocmd filetype go noremap <f12> :w <bar> :GoDef<enter>
-noremap <s-f12> :GoCallees<enter>
+autocmd filetype go noremap <s-f12> :GoCallees<enter>
 "autocmd filetype go noremap <f9> :w <bar> :GoFmt<enter>
 autocmd filetype go noremap <f9> :w <bar> :GoImports<enter>
-noremap <s-f9> :GoVet<enterr>:GoLint<enter>
+autocmd filetype go noremap <s-f9> :GoVet<enterr>:GoLint<enter>
 noremap <c-b> :NERDTreeToggle<enter>
+noremap <c-p><c-i> :PlugInstall <enter>
+"fzf, fzf.vim 관련
 noremap <c-t> :FZF<enter>
-"remove trailing whitespce
-noremap rtw :%s/\s\+$//e<enter>
+noremap <c-f> :Rg <enter>
+noremap <c-l> :Buffers <enter>
 

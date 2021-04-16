@@ -21,3 +21,5 @@ if [ -f '/Users/ysoftman/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ysoftm
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/ysoftman/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ysoftman/google-cloud-sdk/completion.zsh.inc'; fi
 fpath+=${ZDOTDIR:-~}/.zsh_functions
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
