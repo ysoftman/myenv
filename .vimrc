@@ -226,5 +226,5 @@ autocmd filetype go noremap <f12> :w <bar> :GoDef<enter>
 autocmd filetype go noremap cl :GoCallees<enter>
 autocmd filetype go noremap fmt :w <bar> :GoFmt<enter>
 autocmd filetype go noremap <f9> :w <bar> :GoImports<enter>
+autocmd filetype go noremap guru :GoGuruScope .<enter>
 autocmd filetype go noremap vet :GoVet<enter>:GoLint<enter>
-
