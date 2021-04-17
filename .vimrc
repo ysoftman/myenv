@@ -219,11 +219,12 @@ noremap rtw :%s/\s\+$//e<enter>
 noremap <f1> :TagbarToggle<enter>
 noremap <f4> :IndentGuidesToggle<enter>
 noremap <c-b> :NERDTreeToggle<enter>
-noremap <c-p><c-i> :pluginstall<enter>
-noremap <c-t> :fzf<enter>
+noremap <c-p><c-i> :PlugInstall<enter>
+noremap <c-t> :Fzf<enter>
 noremap <c-h> :History<enter>
-noremap <c-f> :rg <enter>
-noremap <c-l> :buffers <enter>
+noremap <c-f> :Rg<enter>
+noremap <c-l> :Buffers<enter>
+noremap <c-m> :Maps<enter>
 "[count]<leader>cc "선택한 라인 커멘트 설정
 "[count]<leader>cu "선택한 라인 커멘트 해제
 nnoremap <silent> <leader>c v:call NERDComment('x', 'toggle')<cr> "현재 라인 커멘트 토글
