@@ -34,6 +34,7 @@ Plug 'liuchengxu/space-vim-dark'
 Plug 'flazz/vim-colorschemes'
 Plug 'ryanoasis/vim-devicons'
 Plug 'itchyny/lightline.vim'
+Plug 'terryma/vim-multiple-cursors'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'scrooloose/syntastic'
 Plug 'altercation/vim-colors-solarized'
@@ -49,6 +50,7 @@ call plug#end()
 " 사용자 설정
 syntax on
 color desert
+set mouse=a
 set number
 set hlsearch
 set backspace=indent,eol,start
@@ -92,7 +94,20 @@ let g:cpp_experimental_template_highlight = 1
 let g:cpp_concepts_highlight = 1
 let g:cpp_no_function_highlight = 1
 
-" "space-vim-dark
+
+"vim-multiple-cursors
+let g:ysoftman_cursor_use_default_mapping=0
+let g:ysoftman_cursor_start_word_key      = '<C-n>'
+let g:ysoftman_cursor_select_all_word_key = '<A-n>'
+let g:ysoftman_cursor_start_key           = 'g<C-n>'
+let g:ysoftman_cursor_select_all_key      = 'g<A-n>'
+let g:ysoftman_cursor_next_key            = '<C-n>'
+let g:ysoftman_cursor_prev_key            = '<C-p>'
+let g:ysoftman_cursor_skip_key            = '<C-x>'
+let g:multi_cursor_quit_key            = '<Esc>'
+
+
+"space-vim-dark
 " let g:space_vim_dark_background=234
 " color space-vim-dark
 " set termguicolors
