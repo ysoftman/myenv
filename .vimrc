@@ -18,6 +18,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'valloric/youcompleteme'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdcommenter'
 Plug 'fatih/vim-go'
 Plug 'itchyny/vim-gitbranch'
 Plug 'airblade/vim-gitgutter'
@@ -70,12 +71,19 @@ set visualbell t_vb=
 set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»,eol:↵
 "set nolist
 set list
-set timeoutlen=1000
+set timeoutlen=500
 
 "let mapleader="\\"
 let mapleader=","
 let g:go_version_warning = 0
+"nerdtree
 let NERDTreeShowHidden=1
+
+"nerdcommenter
+filetype plugin on
+let g:NERDDefaultAlign = 'left'
+let g:NERDCommentEmptyLines = 1
+let g:NERDToggleCheckAllLines = 1
 
 
 "vim-colors-solarized
@@ -196,7 +204,7 @@ let g:go_highlight_build_constraints = 1
 
 " 단축키 설정
 " timeout이 짧은 상태에서 일반 명령로 처리 될 수 있어 주의
-noremap <leader>c :clearjumps<enter>
+noremap cj :clearjumps<enter>
 noremap cw :cw<enter>
 noremap sc :%s/<c-r><c-w>//gc<left><left><left>
 noremap cn :cn<enter>
@@ -211,13 +219,18 @@ noremap rtw :%s/\s\+$//e<enter>
 noremap <f1> :TagbarToggle<enter>
 noremap <f4> :IndentGuidesToggle<enter>
 noremap <c-b> :NERDTreeToggle<enter>
-noremap <c-p><c-i> :PlugInstall <enter>
-noremap <c-t> :FZF<enter>
+noremap <c-p><c-i> :pluginstall<enter>
+noremap <c-t> :fzf<enter>
 noremap <c-h> :History<enter>
-noremap <c-f> :Rg <enter>
-noremap <c-l> :Buffers <enter>
+noremap <c-f> :rg <enter>
+noremap <c-l> :buffers <enter>
+"[count]<leader>cc "선택한 라인 커멘트 설정
+"[count]<leader>cu "선택한 라인 커멘트 해제
+nnoremap <silent> <leader>c v:call NERDComment('x', 'toggle')<cr> "현재 라인 커멘트 토글
+
 autocmd filetype c noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
 autocmd filetype cpp noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
+
 autocmd filetype go noremap <f5> :w <bar> :!clear; <enter> :GoRun<enter>
 autocmd filetype go noremap <f7> :w <bar> :!clear; <enter> :GoBuild<enter>
 autocmd filetype go noremap <f12> :w <bar> :GoDef<enter>
@@ -228,3 +241,4 @@ autocmd filetype go noremap fmt :w <bar> :GoFmt<enter>
 autocmd filetype go noremap <f9> :w <bar> :GoImports<enter>
 autocmd filetype go noremap guru :GoGuruScope .<enter>
 autocmd filetype go noremap vet :GoVet<enter>:GoLint<enter>
+
