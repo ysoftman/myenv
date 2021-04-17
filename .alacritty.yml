@@ -431,7 +431,7 @@ cursor:
 #winpty_backend: false
 
 # Send ESC (\x1b) before characters when alt is pressed.
-#alt_send_esc: true
+alt_send_esc: true
 
 #mouse:
 # Click settings
@@ -645,6 +645,8 @@ cursor:
 #- { key: End,       mods: Shift,   mode: ~Alt, action: ScrollToBottom }
 
 key_bindings:
+  - { key: A, mods: Alt, chars: "\x1ba" } # FZF :Rg 전체 선택
+  - { key: D, mods: Alt, chars: "\x1bd" } # FZF :Rg 전체 선택 해제
   - { key: Left, mods: Alt, chars: "\x1bb" } # 이전 워드로 점프
   - { key: Right, mods: Alt, chars: "\x1bf" } # 다음 워드로 점프
   - { key: N, mods: Command, action: SpawnNewInstance } # 새창
