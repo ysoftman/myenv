@@ -195,19 +195,26 @@ let g:go_highlight_build_constraints = 1
 " - { key: D, mods: Alt, chars: "\x1bd" }
 
 " 단축키 설정
-noremap <leader>c :clearjumps <enter>
-noremap <leader>q :cw <enter>
-noremap cn :cn <enter>
-noremap cp :cp <enter>
-noremap bn :bn <enter>
-noremap bp :bp <enter>
-noremap bd :bd <enter>
+" timeout이 짧은 상태에서 일반 명령로 처리 될 수 있어 주의
+noremap <leader>c :clearjumps<enter>
+noremap cw :cw<enter>
+noremap sc :%s/<c-r><c-w>//gc<left><left><left>
+noremap cn :cn<enter>
+noremap cp :cp<enter>
+noremap bn :bn<enter>
+noremap bp :bp<enter>
+noremap bd :bd<enter>
 noremap bwo :%bwipeout <enter>
 noremap sovim :source ~/.vimrc <enter>
 "remove trailing whitespce
 noremap rtw :%s/\s\+$//e<enter>
 noremap <f1> :TagbarToggle<enter>
 noremap <f4> :IndentGuidesToggle<enter>
+noremap <c-b> :NERDTreeToggle<enter>
+noremap <c-p><c-i> :PlugInstall <enter>
+noremap <c-t> :FZF<enter>
+noremap <c-f> :Rg <enter>
+noremap <c-l> :Buffers <enter>
 autocmd filetype c noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
 autocmd filetype cpp noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
 autocmd filetype go noremap <f5> :w <bar> :!clear; <enter> :GoRun<enter>
@@ -217,10 +224,4 @@ autocmd filetype go noremap <s-f12> :GoCallees<enter>
 "autocmd filetype go noremap <f9> :w <bar> :GoFmt<enter>
 autocmd filetype go noremap <f9> :w <bar> :GoImports<enter>
 autocmd filetype go noremap <s-f9> :GoVet<enterr>:GoLint<enter>
-noremap <c-b> :NERDTreeToggle<enter>
-noremap <c-p><c-i> :PlugInstall <enter>
-"fzf, fzf.vim 관련
-noremap <c-t> :FZF<enter>
-noremap <c-f> :Rg <enter>
-noremap <c-l> :Buffers <enter>
 
