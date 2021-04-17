@@ -166,15 +166,29 @@ let g:go_highlight_functions = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
+
+" mac 에선 기본적으로 option 키가 조합되면 특정 문자로 취급된다.
+" option+a == å
+" option+d == ∂
+" option+p == π
+" 사실 option 는 alt 와 다르고, 각 터미널에 따른 설정이 필요하다.
+" iterm --> option 키 norml --> esc+
+" kitty --> macos_option_as_alt no
+" alacritty --> alt_send_esc: true 는 동작 하지 않는다.
+" 아직 alt단축키마다 개별 설정이 필요하다.
+" - { key: A, mods: Alt, chars: "\x1ba" }
+" - { key: D, mods: Alt, chars: "\x1bd" }
+
 " 단축키 설정
 noremap <leader>c :clearjumps <enter>
-"noremap <leader>w :w <enter>
-"noremap <leader>q :q <enter>
-noremap sovim :source ~/.vimrc <enter>
+noremap <leader>q :cw <enter>
+noremap cn :cn <enter>
+noremap cp :cp <enter>
 noremap bn :bn <enter>
 noremap bp :bp <enter>
 noremap bd :bd <enter>
 noremap bwo :%bwipeout <enter>
+noremap sovim :source ~/.vimrc <enter>
 "remove trailing whitespce
 noremap rtw :%s/\s\+$//e<enter>
 noremap <f1> :TagbarToggle<enter>
