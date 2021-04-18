@@ -220,7 +220,7 @@ noremap <f1> :TagbarToggle<enter>
 noremap <f4> :IndentGuidesToggle<enter>
 noremap <c-b> :NERDTreeToggle<enter>
 noremap <c-p><c-i> :PlugInstall<enter>
-noremap <c-t> :Fzf<enter>
+noremap <c-t> :FZF<enter>
 noremap <c-h> :History<enter>
 noremap <c-f> :Rg<enter>
 noremap <c-l> :Buffers<enter>
