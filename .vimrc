@@ -230,7 +230,7 @@ noremap <c-b> :NERDTreeToggle<enter>
 noremap <c-p><c-i> :PlugInstall<enter>
 noremap <c-t> :FZF<enter>
 noremap <c-h> :History<enter>
-noremap <c-f> :Rg<enter>
+noremap <c-f> :Rg <c-r><c-w><enter>
 noremap <c-l> :Buffers<enter>
 "<c-m> <cr> --> 엔터 와 같아서 사용하지 않는다.
 "noremap <c-m> :Maps<enter>
