@@ -671,8 +671,8 @@ key_bindings:
   - { key: X, mods: Alt, chars: "\x1bx" }
   - { key: Y, mods: Alt, chars: "\x1by" }
   - { key: Z, mods: Alt, chars: "\x1bz" }
-  - { key: Left, mods: Alt, chars: "\x1bb" } # 이전 워드로 점프
-  - { key: Right, mods: Alt, chars: "\x1bw" } # 다음 워드로 점프
+  - { key: Left, mods: Alt, chars: "\x1bb" } # 터미널 프롬프트에서 이전 워드로 점프
+  - { key: Right, mods: Alt, chars: "\x1bf" } # 터미널 프롬프트에서 다음 워드로 점프
   - { key: N, mods: Command, action: SpawnNewInstance } # 새창
   - { key: Q, mods: Command, action: None } # Q 로 창닫힘 막기
   - { key: W, mods: Command, action: None } # W 로 창닫힘 막기
