@@ -53,6 +53,7 @@ syntax on
 color desert
 set mouse=a
 set number
+set relativenumber
 set hlsearch
 set backspace=indent,eol,start
 set fencs=utf-8,cp949
@@ -206,6 +207,7 @@ let g:go_highlight_build_constraints = 1
 " timeout이 짧은 상태에서 일반 명령로 처리 될 수 있어 주의
 noremap cj :clearjumps<enter>
 noremap cw :cw<enter>
+noremap co :copen<enter>
 noremap sc :%s/<c-r><c-w>//gc<left><left><left>
 noremap cfsc :cfdo %s///gc <bar> up<home><right><right><right><right><right><right><right><right>
 noremap cn :cn<enter>
