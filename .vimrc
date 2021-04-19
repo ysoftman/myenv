@@ -208,6 +208,7 @@ let g:go_highlight_build_constraints = 1
 noremap cj :clearjumps<enter>
 noremap cw :cw<enter>
 noremap co :copen<enter>
+noremap cl :close<enter>
 noremap sc :%s/<c-r><c-w>//gc<left><left><left>
 noremap cfsc :cfdo %s///gc <bar> up<home><right><right><right><right><right><right><right><right>
 noremap cn :cn<enter>
