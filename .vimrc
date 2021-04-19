@@ -115,6 +115,10 @@ let g:multi_cursor_prev_key            = '<C-p>'
 let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
 
+"fzf
+let g:fzf_preview_window = ['right:50%', 'ctrl-/']
+
+
 
 "space-vim-dark
 " let g:space_vim_dark_background=234
