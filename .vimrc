@@ -117,8 +117,8 @@ let g:multi_cursor_quit_key            = '<Esc>'
 
 "fzf
 let g:fzf_preview_window = ['right:50%', 'ctrl-/']
-
-
+"Rg 창에 파일 이름 검색에서 제외
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
 "space-vim-dark
 " let g:space_vim_dark_background=234
@@ -230,7 +230,7 @@ noremap <c-b> :NERDTreeToggle<enter>
 noremap <c-p><c-i> :PlugInstall<enter>
 noremap <c-t> :FZF<enter>
 noremap <c-h> :History<enter>
-noremap <c-f> :Rg <c-r><c-w><enter>
+noremap <c-f> :Rg<enter>
 noremap <c-l> :Buffers<enter>
 "<c-m> <cr> --> 엔터 와 같아서 사용하지 않는다.
 "noremap <c-m> :Maps<enter>
