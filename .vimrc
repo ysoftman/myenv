@@ -228,7 +228,8 @@ noremap <c-t> :FZF<enter>
 noremap <c-h> :History<enter>
 noremap <c-f> :Rg<enter>
 noremap <c-l> :Buffers<enter>
-noremap <c-m> :Maps<enter>
+"<c-m> <cr> --> 엔터 와 같아서 사용하지 않는다.
+"noremap <c-m> :Maps<enter>
 "[count]<leader>cc "선택한 라인 커멘트 설정
 "[count]<leader>cu "선택한 라인 커멘트 해제
 nnoremap <silent> <leader>c v:call NERDComment('x', 'toggle')<cr> "현재 라인 커멘트 토글
