@@ -54,6 +54,7 @@ color desert
 set mouse=a
 set number
 "set relativenumber
+set hidden
 set hlsearch
 set backspace=indent,eol,start
 set fencs=utf-8,cp949
