@@ -243,12 +243,12 @@ autocmd filetype cpp noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
 
 autocmd filetype go noremap <f5> :w <bar> :!clear; <enter> :GoRun<enter>
 autocmd filetype go noremap <f7> :w <bar> :!clear; <enter> :GoBuild<enter>
-autocmd filetype go noremap <f12> :w <bar> :GoDef<enter>
+autocmd filetype go noremap <leader>d :GoDef<enter>
 "fuctionkey 조합은 동작 하지 않아 사용하지 않음.
 "autocmd filetype go noremap <s-f12> :GoCallees<enter>
-autocmd filetype go noremap cl :GoCallees<enter>
-autocmd filetype go noremap fmt :w <bar> :GoFmt<enter>
-autocmd filetype go noremap <f9> :w <bar> :GoImports<enter>
-autocmd filetype go noremap guru :GoGuruScope .<enter>
-autocmd filetype go noremap vet :GoVet<enter>:GoLint<enter>
+autocmd filetype go noremap <leader>c :GoCallees<enter>
+autocmd filetype go noremap <leader>f :w <bar> :GoFmt<enter>
+autocmd filetype go noremap <leader>i :w <bar> :GoImports<enter>
+autocmd filetype go noremap <leader>g :GoGuruScope .<enter>
+autocmd filetype go noremap <leader>v :GoVet<enter>:GoLint<enter>
 
