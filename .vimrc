@@ -215,8 +215,10 @@ noremap co :copen<enter>
 noremap cl :close<enter>
 noremap sc :%s/<c-r><c-w>//gc<left><left><left>
 noremap cfsc :cfdo %s///gc <bar> up<home><right><right><right><right><right><right><right><right>
-noremap <c-]> :cn<enter>
-noremap <c-[> :cp<enter>
+noremap <c-j> :cn<enter>
+"c-[ --> esc 라 사용하지 말자.
+"noremap <c-[> :cp<enter>
+noremap <c-k> :cp<enter>
 noremap bn :bn<enter>
 noremap bp :bp<enter>
 noremap bd :bd<enter>
