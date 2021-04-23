@@ -65,6 +65,7 @@ set expandtab
 set autoindent
 set laststatus=2
 set showtabline=2
+set ignorecase
 "set lines=80
 "set cursorcolumn
 set cursorline
