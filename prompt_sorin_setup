@@ -83,13 +83,24 @@ function prompt_sorin_async_tasks {
 
 
 
+DATE=date
+# mac 에서는 gdate 로 nanaoseconds 까지 사용할 수 있다
+if [[ $(uname -a | grep -i darwin) ]]; then
+  which gdate
+  if [ $? -ne 0 ]; then
+    echo "install gdate"
+    brew install coreutils
+  fi
+  DATE=gdate
+fi
+
 # ysoftman
 # 명령 실행 전에 실행
 function prompt_sorin_preexec {
   # SECONDS 쉘 시작후 초 단위 카운트
   # _command_start_time=$SECONDS
   # %N nanoseconds -> millisecons 로 끊어 기록
-  _command_start_time=$(($(date +%s%0N)/1000000))
+  _command_start_time=$(($($DATE +%s%0N) / 1000000))
 }
 
 # prompt 표시 전에 실행
@@ -98,7 +109,7 @@ function prompt_sorin_precmd {
   # 명령 수행 시간 계산
   _elapsed_time=0
   if [ $_command_start_time ]; then
-    _elapsed_time=$(( $(($(date +%s%0N)/1000000))-$_command_start_time ))
+    _elapsed_time=$(( $(($($DATE +%s%0N) / 1000000))-$_command_start_time ))
     unset _command_start_time
   fi
 
