@@ -86,7 +86,7 @@ function prompt_sorin_async_tasks {
 DATE=date
 # mac 에서는 gdate 로 nanaoseconds 까지 사용할 수 있다
 if [[ $(uname -a | grep -i darwin) ]]; then
-  which gdate
+  which gdate > /dev/null
   if [ $? -ne 0 ]; then
     echo "install gdate"
     brew install coreutils
