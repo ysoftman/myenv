@@ -14,14 +14,8 @@ ln -sv ${PWD}/zpreztorc ${HOME}/.zprezto/runcoms/zpreztorc
 rm -fv ${HOME}/.zprezto/runcoms/zlogin
 ln -sv ${PWD}/zlogin ${HOME}/.zprezto/runcoms/zlogin
 
-echo "If you want to use 'ysoftman-customized sorin prompt', press y"
-read answer
-answer=$(echo ${answer} | tr '[:upper:]' '[:lower:]')
-if [[ ${answer} == 'y' ]]; then
-    echo 'Yes'
-    rm -fv ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_setup
-    ln -sv ${PWD}/prompt_sorin_setup ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_setup
-fi
+ln -sv ${PWD}/prompt_sorin_ysoftman_setup ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup
+
 
 #echo 'source ${HOME}/.zprezto/init.zsh' >> ~/.zshrc
 source ${HOME}/.zprezto/init.zsh

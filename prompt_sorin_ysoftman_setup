@@ -149,7 +149,7 @@ function prompt_sorin_precmd {
   prompt_sorin_async_tasks
 }
 
-function prompt_ysoftman_setup {
+function prompt_sorin_ysoftman_setup {
   setopt LOCAL_OPTIONS
   unsetopt XTRACE KSH_ARRAYS
   prompt_opts=(cr percent sp subst)
@@ -241,4 +241,4 @@ function prompt_sorin_preview {
 }
 
 
-prompt_ysoftman_setup "$@"
+prompt_sorin_ysoftman_setup "$@"

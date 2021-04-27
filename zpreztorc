@@ -97,8 +97,9 @@ zstyle ':prezto:module:editor' key-bindings 'emacs'
 # Set the prompt theme to load.
 # Setting it to 'random' loads a random theme.
 # Auto set to 'off' on dumb terminals.
-zstyle ':prezto:module:prompt' theme 'sorin'
 # ysoftman
+#zstyle ':prezto:module:prompt' theme 'sorin'
+zstyle ':prezto:module:prompt' theme 'sorin_ysoftman'
 # 경로 표시 축약 하지 않기
 zstyle ':prezto:module:prompt' pwd-length 'long'
 
