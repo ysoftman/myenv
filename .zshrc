@@ -1,6 +1,13 @@
 # tmux 시작되면 TMUX 환경변수값이 설정되어 tmux 가 한번만 실행되도록 한다.
 # exec 로 현재 프로세스를 tmux 프로세스로 대체(replace)한다.
-if [ -z "$TMUX" ]; then exec tmux; fi
+if [ -z "$TMUX" ]; then
+    # 터미널 시작시 바로 tmux 전환시 signal 6(abort) 되는 환경도 있어 물어본다.
+    echo 'start tmux? (y/n, default:y)'
+    read answer
+    if [ -z $answer ] || [ $(echo $answer | tr '[:upper:]' '[:lower:]') = 'y' ]; then
+        exec tmux
+    fi
+fi
 
 [ -f ~/workspace/myenv/myenv.sh ] && source ~/workspace/myenv/myenv.sh
 [ -f ~/workspace/usf-ysoftman/usfenv.sh ] && source ~/workspace/usf-ysoftman/usfenv.sh
