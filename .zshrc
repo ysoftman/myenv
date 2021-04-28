@@ -31,6 +31,7 @@ fpath+=${ZDOTDIR:-~}/.zsh_functions
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# fzf 등의 화면이 계속 갱신되어 사라지는 문제가 있어 사용하지 않음
 # 1초마다 프롬프트 리셋하여, 프롬프트내의 현재시간을 업데이트한다.
-TMOUT=1
-TRAPALRM() { zle reset-prompt }
+# TMOUT=1
+# TRAPALRM() { zle reset-prompt }
