@@ -30,3 +30,7 @@ if [ -f '/Users/ysoftman/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# 1초마다 프롬프트 리셋하여, 프롬프트내의 현재시간을 업데이트한다.
+TMOUT=1
+TRAPALRM() { zle reset-prompt }
