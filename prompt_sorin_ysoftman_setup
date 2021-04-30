@@ -126,8 +126,7 @@ function prompt_sorin_precmd {
       ((cnt++))
   done
   _prompt_sorin_pwd="${output}"
-  _prompt_time=$(echo "[%F{3}%D{%H:%M:%S}%f %F{14}elapsed(${_elapsed_time}ms)%f]")
-
+  _prompt_time=$(echo "[%F{3}${_curTime}%f %F{14}elapsed(${_elapsed_time}ms)%f]")
   # Handle updating git data. We also clear the git prompt data if we're in a
   # different git root now.
   if (( $+functions[git-dir] )); then
@@ -227,15 +226,7 @@ function prompt_sorin_ysoftman_setup {
   SPROMPT='zsh: correct %F{1}%R%f to %F{2}%r%f [nyae]? '
 }
 
-# 프롬프트 현재 시간 관련
-# .zshrc 에 다음과 같이 설정해 1초마다 프롬프트 리셋하여, 프롬프트내의 현재시간을 업데이트한다.
-# fzf 등의 화면이 계속 갱신되어 사라지는 문제가 있어 사용하지 않음
-# TMOUT=1
-# TRAPALRM() { zle reset-prompt }
-# 엔터칠때마다 현재 프롬프트를 reset-prompt 로 갱신해
-# 프롬프트에서 엔터칠때마다 현재 프롬프트 시간이 업데이트 된다. 
-# 이를 막기 위해선 ~/.zprezto/modules/editor/init.zsh 에서 reset-prompt 를 막아야 한다.
-# 해당 함수를 이곳에서 override 한다.
+# ~/.zprezto/modules/editor/init.zsh 의 editor-info 함수를 이곳에서 override 한다.
 function editor-info {
   # Ensure that we're going to set the editor-info for prompts that
   # are prezto managed and/or compatible.
@@ -261,19 +252,23 @@ function editor-info {
     fi
 
     unset REPLY
-    # 프롬프트 리셋하지 않기
-    #zle zle-reset-prompt
+
+    # _curTime="%D{%H:%M:%S}"
+    # 프롬프트 리셋(이 때 prompt_sorin_precmd 는 호출 되지 않는다.)
+    zle zle-reset-prompt
+    # 현재 시간 업데이트(이 후 prompt_sorin_precmd 가 호출된다.)
+    _curTime=$(date +%H:%M:%S)
   fi
 }
 
-function prompt_sorin_preview {
+function prompt_sorin_ysoftman_preview {
   local +h PROMPT=''
   local +h RPROMPT=''
   local +h SPROMPT=''
 
   editor-info 2> /dev/null
-  prompt_preview_theme 'sorin'
+  prompt_preview_theme 'sorin_ysoftman'
 }
 
-
+_curTime=$(date +%H:%M:%S)
 prompt_sorin_ysoftman_setup "$@"
