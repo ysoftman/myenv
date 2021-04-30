@@ -1,5 +1,5 @@
 #!/bin/bash
-if [[ $(uname -a | grep -i android) ]]; then
+if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == "*android*" ]]; then
     # oh-my-zsh 사용
     source ~/.oh-my-zsh/templates/zshrc.zsh-template
 else
@@ -51,12 +51,12 @@ if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
     unalias ls
 fi
 temp=$(uname | tr '[:upper:]' '[:lower:]')
-if [[ $temp == 'darwin' ]]; then
+if [[ $temp == "*darwin*" ]]; then
     export LSCOLORS='GxFxCxDxBxegedabagaced'
     export CLICOLOR=1
     alias ll='ls -ahlG'
     alias sn='pmset displaysleepnow'
-elif [[ $temp == 'linux' ]]; then
+elif [[ $temp == "*linux*" ]]; then
     export LANG=ko_KR.utf8
     export LC_ALL=ko_KR.utf8
     #export PS1="\u@\h:\w\$ "
