@@ -88,7 +88,7 @@ ln -s ${PWD}/warcraft3_window.sh ~/warcraft3_window.sh
 [ -h ~/xelloss.jpg ] && unlink ~/xelloss.jpg
 ln -s ${PWD}/xelloss.jpg ${HOME}/xelloss.jpg
 
-# wsl 환경인 경우 wsl.conf 링크
+# wsl 환경인 경우 wsl.conf 설정
 if [[ $(uname -a) == *"microsoft"* ]]; then
     # link 적용 안됨
     # sudo ln -sf ${PWD}/wsl.conf /etc/wsl.conf
