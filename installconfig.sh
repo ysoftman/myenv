@@ -90,8 +90,11 @@ ln -s ${PWD}/xelloss.jpg ${HOME}/xelloss.jpg
 
 # wsl 환경인 경우 wsl.conf 링크
 if [[ $(uname -a) == *"microsoft"* ]]; then
-    echo "link /etc/wsl.conf"
-    sudo ln -sf ${PWD}/wsl.conf /etc/wsl.conf
+    # link 적용 안됨
+    # sudo ln -sf ${PWD}/wsl.conf /etc/wsl.conf
+    sudo unlink /etc/wsl.conf 2> /dev/null
+    sudo cp -fv ${PWD}/wsl.conf /etc/wsl.conf
+    echo "윈도우 실행에서 wsl -t ubuntu-18.04 로 종료후 터미널 다시 시작 필요"
 fi
 
 # 보안사항으로 커밋하면 안됨.
