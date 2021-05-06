@@ -39,17 +39,7 @@ git config --global credential.helper cache
 [ -f ~/.gitignore_global ] && mv -fv ~/.gitignore_global ~/.gitignore_global.bak
 ln -s ${PWD}/.gitignore_global ~/.gitignore_global
 
-# bash, zsh, vim, tmux, tigrc, mutt 기본 설정
-[ -h ~/.bashrc ] && unlink ~/.bashrc
-[ -h ~/.zshrc ] && unlink ~/.zshrc
-[ -h ~/.vimrc ] && unlink ~/.vimrc
-[ -h ~/.tmux.conf ] && unlink ~/.tmux.conf
-[ -h ~/.tigrc ] && unlink ~/.tigrc
-[ -h ~/.muttrc ] && unlink ~/.muttrc
-[ -h ~/.alacritty.yml ] && unlink ~/.alacritty.yml
-[ -h ~/.config/mc ] && unlink ~/.config/mc
-[ -h ~/.k9s/skin.yml ] && unlink ~/.k9s/skin.yml
-
+# bash, zsh, vim, tmux, tigrc, mutt 등 기본 설정
 [ -f ~/.bashrc ] && mv -fv ~/.bashrc ~/.bashrc.bak
 [ -f ~/.zshrc ] && mv -fv ~/.zshrc ~/.zshrc.bak
 [ -f ~/.vimrc ] && mv -fv ~/.vimrc ~/.vimrc.bak
@@ -59,34 +49,20 @@ ln -s ${PWD}/.gitignore_global ~/.gitignore_global
 [ -f ~/.alacritty.yml ] && mv -fv ~/.alacritty.yml ~/.alacritty.yml
 [ -d ~/.config/mc ] && mv -fv ~/.config/mc ~/.config/mc_bak
 [ -f ~/.k9s/skin.yml ] && mv -fv ~/.k9s/skin.yml.bak
-
-ln -s ${PWD}/.bashrc ~/.bashrc
-ln -s ${PWD}/.zshrc ~/.zshrc
-ln -s ${PWD}/.vimrc ~/.vimrc
-ln -s ${PWD}/.tmux.conf ~/.tmux.conf
-ln -s ${PWD}/.tigrc ~/.tigrc
-ln -s ${PWD}/.muttrc ~/.muttrc
-ln -s ${PWD}/.alacritty.yml ~/.alacritty.yml
-[ -d ~/.config ] && ln -s ${PWD}/mc ~/.config/mc
-[ -d ~/.k9s ] && ln -s ${PWD}/.k9s/skins/one_dark.yml ~/.k9s/skin.yml
-
-# dosbox 설정
-[ -h ~/dosbox.conf ] && unlink ~/dosbox.conf
-[ -h ~/dosbox.sh ] && unlink ~/dosbox.sh
-ln -s ${PWD}/dosbox.conf ~/dosbox.conf
-ln -s ${PWD}/dosbox.sh ~/dosbox.sh
-
-# pythonpath 설정
-[ -h ~/pythonpath.sh ] && unlink ~/pythonpath.sh
-ln -s ${PWD}/pythonpath.sh ~/pythonpath.sh
-
-# warcraft3 창모드로 실행 스크립트
-[ -h ~/warcraft3_window.sh ] && unlink ~/warcraft3_window.sh
-ln -s ${PWD}/warcraft3_window.sh ~/warcraft3_window.sh
-
-# xelloss 이미지 링크
-[ -h ~/xelloss.jpg ] && unlink ~/xelloss.jpg
-ln -s ${PWD}/xelloss.jpg ${HOME}/xelloss.jpg
+ln -sf ${PWD}/.bashrc ~/.bashrc
+ln -sf ${PWD}/.zshrc ~/.zshrc
+ln -sf ${PWD}/.vimrc ~/.vimrc
+ln -sf ${PWD}/.tmux.conf ~/.tmux.conf
+ln -sf ${PWD}/.tigrc ~/.tigrc
+ln -sf ${PWD}/.muttrc ~/.muttrc
+ln -sf ${PWD}/.alacritty.yml ~/.alacritty.yml
+[ -d ~/.config ] && ln -sf ${PWD}/mc ~/.config/mc
+[ -d ~/.k9s ] && ln -sf ${PWD}/.k9s/skins/one_dark.yml ~/.k9s/skin.yml
+ln -sf ${PWD}/dosbox.conf ~/dosbox.conf
+ln -sf ${PWD}/dosbox.sh ~/dosbox.sh
+ln -sf ${PWD}/pythonpath.sh ~/pythonpath.sh
+ln -sf ${PWD}/warcraft3_window.sh ~/warcraft3_window.sh
+ln -sf ${PWD}/xelloss.jpg ${HOME}/xelloss.jpg
 
 # wsl 환경인 경우 wsl.conf 설정
 if [[ $(uname -a) == *"microsoft"* ]]; then
