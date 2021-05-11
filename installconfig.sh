@@ -34,21 +34,30 @@ fi
 # 파일로 저장하지 않고 일정시간(디폴트 15분)동안 id,pw 를 캐싱한다.
 git config --global credential.helper cache
 
-# git ignore
+# gitignore, bash, zsh, vim, tmux, tigrc, mutt 등 기본 설정
 [ -h ~/.gitignore_global ] && unlink ~/.gitignore_global
-[ -f ~/.gitignore_global ] && mv -fv ~/.gitignore_global ~/.gitignore_global.bak
-ln -s ${PWD}/.gitignore_global ~/.gitignore_global
+[ -h ~/.bashrc ] && unlink ~/.bashrc
+[ -h ~/.zshrc ] && unlink ~/.zshrc
+[ -h ~/.vimrc ] && unlink ~/.vimrc
+[ -h ~/.tmux.conf ] && unlink ~/.tmux.conf
+[ -h ~/.tigrc ] && unlink ~/.tigrc
+[ -h ~/.muttrc ] && unlink ~/.muttrc
+[ -h ~/.alacritty.yml ] && unlink ~/.alacritty.yml
+[ -h ~/.config/mc ] && unlink ~/.config/mc
+[ -h ~/.k9s/skin.yml ] && unlink ~/.k9s/skin.yml
 
-# bash, zsh, vim, tmux, tigrc, mutt 등 기본 설정
+[ -f ~/.gitignore_global ] && mv -fv ~/.gitignore_global ~/.gitignore_global.bak
 [ -f ~/.bashrc ] && mv -fv ~/.bashrc ~/.bashrc.bak
 [ -f ~/.zshrc ] && mv -fv ~/.zshrc ~/.zshrc.bak
 [ -f ~/.vimrc ] && mv -fv ~/.vimrc ~/.vimrc.bak
 [ -f ~/.tmux.conf ] && mv -fv ~/.tmux.conf ~/.tmux.conf.bak
 [ -f ~/.tigrc ] && mv -fv ~/.tigrc ~/.tigrc.bak
 [ -f ~/.muttrc ] && mv -fv ~/.muttrc ~/.muttrc.bak
-[ -f ~/.alacritty.yml ] && mv -fv ~/.alacritty.yml ~/.alacritty.yml
-[ -d ~/.config/mc ] && mv -fv ~/.config/mc ~/.config/mc_bak
-[ -f ~/.k9s/skin.yml ] && mv -fv ~/.k9s/skin.yml.bak
+[ -f ~/.alacritty.yml ] && mv -fv ~/.alacritty.yml ~/.alacritty.yml.bak
+[ -d ~/.config/mc ] && mv -fv ~/.config/mc ~/.config/mc.bak
+[ -f ~/.k9s/skin.yml ] && mv -fv ~/.k9s/skin.yml ~/.k9s/skin.yml.bak
+
+ln -sf ${PWD}/.gitignore_global ~/.gitignore_global
 ln -sf ${PWD}/.bashrc ~/.bashrc
 ln -sf ${PWD}/.zshrc ~/.zshrc
 ln -sf ${PWD}/.vimrc ~/.vimrc
