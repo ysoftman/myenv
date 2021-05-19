@@ -39,7 +39,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'scrooloose/syntastic'
 Plug 'altercation/vim-colors-solarized'
-"colorizer 사용하면 파일 오픈시 autocmd BufEnter(버퍼로딩후 필요한 설정 처리) 단계에서 느려져서 사용하지안 말자.
+"colorizer 사용하면 파일 오픈시 autocmd BufEnter(버퍼로딩후 필요한 설정 처리) 단계에서 느려져서 사용하지 않음
 "Plug 'lilydjwg/colorizer' " vim 으로 git 커밋 메세지 작성시 이슈번호 태깅을 위해 #123 를 사용하면 컬리 배경 표시~ㅎ
 Plug 'joshdick/onedark.vim'
 Plug 'kien/ctrlp.vim'
