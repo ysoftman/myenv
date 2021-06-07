@@ -14,7 +14,7 @@ git config --global merge.tool vimdiff
 # user_name="ysoftman"
 # 이미 사용자 정보가 설정되어 있으면 덮어쓰기때문에 확인하고 사용하자
 echo -e "(current) git config --global user.email : $(git config --global user.email)"
-echo -e "(new) git config --global user.email : (empty to keep current user email)"
+echo -ne "(new) git config --global user.email : (empty to keep current user email)"
 read answer
 if [[ ${answer} != '' ]]; then
     user_email=${answer}
@@ -23,7 +23,7 @@ if [[ ${answer} != '' ]]; then
 fi
 
 echo -e "(current) git config --global user.name, $(git config --global user.name)"
-echo -e "(new) git config --global user.name : (empty to keep current user name)"
+echo -ne "(new) git config --global user.name : (empty to keep current user name)"
 read answer
 if [[ ${answer} != '' ]]; then
     user_name=${answer}
