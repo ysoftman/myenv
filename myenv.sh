@@ -15,7 +15,8 @@ if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
     PS1='$(kube_ps1) '$PS1
 fi
 
-# kubectx fzf 메뉴 없이 리스트만 볼때
+# fzf 가 설치되어 있다면 kubectx 실행시 fzf 선택 메뉴가 나타난다.
+# fzf 메뉴 없이 kubectx 로 리스트만 보려면
 # KUBECTX_IGNORE_FZF=1 kubectx
 # 또는
 # kubectx | cat
