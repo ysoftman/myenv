@@ -25,7 +25,6 @@ code --install-extension formulahendry.auto-rename-tag
 code --install-extension formulahendry.vscode-mysql
 code --install-extension gaborv.flatbuffers
 code --install-extension golang.go
-code --install-extension googlecloudtools.cloudcode
 code --install-extension haaaad.ansible
 code --install-extension HookyQR.beautify
 code --install-extension itryapitsin.Scala
@@ -60,10 +59,12 @@ code --install-extension octref.vetur
 code --install-extension ramyaraoa.show-offset
 code --install-extension ravilang.ravi-debug
 code --install-extension redhat.java
+code --install-extension redhat.vscode-commons
 code --install-extension redhat.vscode-xml
 code --install-extension ritwickdey.LiveServer
 code --install-extension rust-lang.rust
 code --install-extension samuelcolvin.jinjahtml
+code --install-extension sdras.night-owl
 code --install-extension shanoor.vscode-nginx
 code --install-extension solnurkarim.html-to-css-autocompletion
 code --install-extension sysoev.language-stylus

@@ -111,6 +111,8 @@
     "editor.fontLigatures": true,
     "editor.formatOnSave": false,
     "editor.suggestSelection": "first",
+    "editor.cursorStyle": "line",
+    "editor.cursorBlinking": "expand",
     "python.formatting.provider": "autopep8",
     "python.jediEnabled": false,
     "python.linting.enabled": true,
@@ -174,4 +176,5 @@
     },
     "liveServer.settings.donotVerifyTags": true,
     "go.toolsManagement.autoUpdate": true,
+    "javascript.updateImportsOnFileMove.enabled": "never",
 }
