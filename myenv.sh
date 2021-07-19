@@ -15,6 +15,11 @@ if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
     PS1='$(kube_ps1) '$PS1
 fi
 
+# kubectx fzf 메뉴 없이 리스트만 볼때
+# KUBECTX_IGNORE_FZF=1 kubectx
+# 또는
+# kubectx | cat
+
 # zsh-autosuggestions 사용
 if [ ! -f $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
     git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
