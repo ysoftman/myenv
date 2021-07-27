@@ -87,6 +87,9 @@
         "list.inactiveSelectionBackground": "#7e0097",
         "list.hoverBackground": "#292d35",
         "list.focusBackground": "#7e0097",
+        "statusBar.background": "#2e6ada",
+        "statusBar.foreground": "#ffffff",
+        "statusBar.noFolderBackground": "#762a85",
     },
     "git.autofetch": true,
     "git.confirmSync": false,
@@ -177,4 +180,12 @@
     "liveServer.settings.donotVerifyTags": true,
     "go.toolsManagement.autoUpdate": true,
     "javascript.updateImportsOnFileMove.enabled": "never",
+    "mssql.connections": [
+        {
+            "server": "{{put-server-name-here}}",
+            "database": "{{put-database-name-here}}",
+            "user": "{{put-username-here}}",
+            "password": "{{put-password-here}}"
+        }
+    ],
 }
