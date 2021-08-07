@@ -27,33 +27,33 @@ elif [[ $(uname) == 'Darwin' ]]; then
 	${sudo_cmd} gem install colorls
 elif [[ $(uname) == 'Linux' ]]; then
 	echo 'Linux Environment'
-    # centos
+	# centos
 	a=$(yum --version 2> /dev/null)
-    if [[ $? == 0 ]]; then
+	if [[ $? == 0 ]]; then
 		package_program="yum"
-        ${sudo_cmd} ${package_program} update
-        ${sudo_cmd} ${package_program} install -y ${pkgs_yum}
-    else
+		${sudo_cmd} ${package_program} update
+		${sudo_cmd} ${package_program} install -y ${pkgs_yum}
+	else
 		# ubuntu
-        a=$(apt-get --version 2> /dev/null)
-        if [[ $? == 0 ]]; then
-            package_program="apt-get"
-            ${sudo_cmd} ${package_program} update
+		a=$(apt-get --version 2> /dev/null)
+		if [[ $? == 0 ]]; then
+			package_program="apt-get"
+			${sudo_cmd} ${package_program} update
 			# 여러 패키지중 존재하지 않은 패키지가 포함되면 "E: Unable to locate package xxx" 에러가 발생하고 패키지가 하나도 설치 되지 않는다.
 			# --ignore-missing 옵션이 있지만, 이 옵션은 apt 패키지가 존재하고 다운로드할 수 없는 상황에서만 해당 패키지를 무시하고 계속 진행한다.
 			# ${sudo_cmd} ${package_program} install -y ${pkgs_aptget}
 			for i in ${pkgs_aptget}; do
 				${sudo_cmd} ${package_program} install -y $i
 			done
-        fi
+		fi
 		# archlinux
-        a=$(pacman --version 2> /dev/null)
-        if [[ $? == 0 ]]; then
-            package_program="pacman"
-            ${sudo_cmd} ${package_program} -Sy
-            ${sudo_cmd} ${package_program} -S ${pkgs_pacman} --noconfirm
-        fi
-    fi
+		a=$(pacman --version 2> /dev/null)
+		if [[ $? == 0 ]]; then
+			package_program="pacman"
+			${sudo_cmd} ${package_program} -Sy
+			${sudo_cmd} ${package_program} -S ${pkgs_pacman} --noconfirm
+		fi
+	fi
 
 	# export LC_ALL=ko_KR.utf8 사용을 위해서 정의되어 있어야 한다.
 	${sudo_cmd} localedef -f UTF-8 -i ko_KR ko_KR.utf8
