@@ -2,15 +2,15 @@
 # ysoftman
 # vim 설치 스크립트
 
+base_vim_version="8.2.0"
 install_vim_from_src() {
-	vimversion="8.2.0"
 	# 최신 버전 vim 설치
-	if [ ! -d 'vim-${vimversion}' ]; then
+	if [ ! -d 'vim-${base_vim_version}' ]; then
 		# git clone https://github.com/vim/vim.git
-		wget "https://github.com/vim/vim/archive/v${vimversion}.tar.gz"
-		tar zxvf v${vimversion}.tar.gz
+		wget "https://github.com/vim/vim/archive/v${base_vim_version}.tar.gz"
+		tar zxvf v${base_vim_version}.tar.gz
 	fi
-	cd vim-${vimversion}/src
+	cd vim-${base_vim_version}/src
 	make distclean
 	# youcompleteme 플러그인이 python 을 사용하기때문에  python2,3 을 지원하는 vim 으로 빌드되어야 한다.
 	# ruby, lua 지원도 포함해두자
@@ -63,7 +63,6 @@ else
 fi
 
 # 설치된 vim 버전이 너무 낮으면 소스 받아서 설치
-base_vim_version="8.0"
 cur_vim_version=$(vim --version | grep 'Vi IMproved' | awk '{print $5}')
 echo "cur_vim_version : ${cur_vim_version}"
 highest_version="$(printf "${cur_vim_version}\n${base_vim_version}" | sort -r | head -n1)"
