@@ -182,12 +182,28 @@ fi
 
 temp=$(which cowsay 2> /dev/null)
 if [[ $? == 0 ]]; then
+
+    # cowfile 랜덤으로 선택
+    cowfile=""
+    cnt=0
+    random=$(( RANDOM % $(cowsay -l | sed 1d | wc -w ) ))
+    # echo $random
+    for i in $(cowsay -l | sed 1d); do
+        if [[ $cnt == $random ]]; then
+            cowfile=$i;
+            break;
+        fi;
+        cnt=$(( cnt+1 ));
+    done
+    echo $cowfile
+
+
     a=$(which lolcat 2> /dev/null)
     # figlet 을 메시지로 사용할 경우 -n 이 필요하다.
     if [[ $? == 0 ]]; then
-        echo -e "$msg" | cowsay -n -f tux | lolcat
+        echo -e "$msg" | cowsay -n -f $cowfile | lolcat
     else
-        echo -e "$msg" | cowsay -n -f tux
+        echo -e "$msg" | cowsay -n -f $cowfile
     fi
 fi
 unset temp
