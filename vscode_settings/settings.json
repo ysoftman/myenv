@@ -159,6 +159,8 @@
     "eslint.format.enable": true,
     "eslint.alwaysShowStatus": true,
     "vetur.format.enable": false,
+    // completion, diagnostics, hover, jump to definition, find references
+    "vetur.experimental.templateInterpolationService": true,
     "[javascriptreact]": {
         "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
