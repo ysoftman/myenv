@@ -34,7 +34,8 @@
     },
     "go.useLanguageServer": true,
     "go.buildOnSave": "package",
-    "go.lintOnSave": "package",
+    // go lint 표시 off
+    "go.lintOnSave": "off",
     "go.vetOnSave": "package",
     "go.buildTags": "",
     "go.buildFlags": [],
