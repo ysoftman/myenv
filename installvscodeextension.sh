@@ -26,6 +26,7 @@ code --install-extension formulahendry.vscode-mysql
 code --install-extension gaborv.flatbuffers
 code --install-extension golang.go
 code --install-extension haaaad.ansible
+code --install-extension hashicorp.terraform
 code --install-extension HookyQR.beautify
 code --install-extension itryapitsin.Scala
 code --install-extension johnpapa.Angular2
