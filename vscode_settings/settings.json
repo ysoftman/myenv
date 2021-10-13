@@ -35,7 +35,7 @@
     "go.useLanguageServer": true,
     "go.buildOnSave": "package",
     // go lint 표시 off
-    "go.lintOnSave": "off",
+    // "go.lintOnSave": "off",
     "go.vetOnSave": "package",
     "go.buildTags": "",
     "go.buildFlags": [],
@@ -191,4 +191,5 @@
             "password": "{{put-password-here}}"
         }
     ],
+    "react-native-tools.showUserTips": false,
 }
