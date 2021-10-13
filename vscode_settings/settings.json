@@ -192,4 +192,5 @@
         }
     ],
     "react-native-tools.showUserTips": false,
+    "workbench.editor.untitled.hint": "hidden",
 }
