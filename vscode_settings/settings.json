@@ -120,6 +120,7 @@
     "python.formatting.provider": "autopep8",
     "python.jediEnabled": false,
     "python.linting.enabled": true,
+    "python.languageServer": "Default",
     // Number of editors shown in the Open Editors pane.
     "explorer.openEditors.visible": 0,
     "explorer.confirmDragAndDrop": false,
@@ -149,7 +150,7 @@
     "terminal.external.osxExec": "iterm2.app",
     "terminal.integrated.fontFamily": "hack nerd font, monaco, menlo",
     "terminal.integrated.fontSize": 16,
-    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
+    "terminal.integrated.defaultProfile.windows": "C:\\WINDOWS\\System32\\cmd.exe",
     "update.mode": "manual",
     "remote.SSH.showLoginTerminal": true,
     "[cpp]": {
@@ -175,7 +176,6 @@
     },
     "extensions.ignoreRecommendations": false,
     "workbench.colorTheme": "One Dark Pro",
-    "python.languageServer": "Microsoft",
     "liveServer.settings.donotShowInfoMsg": true,
     "[yaml]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
