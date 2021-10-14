@@ -32,6 +32,14 @@
         "**/.settings": true,
         "**/.factorypath": true
     },
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/*.code-search": true
+    },
+    "search.seedOnFocus": true,
+    "search.seedWithNearestWord": true,
+    "search.showLineNumbers": true,
     "go.useLanguageServer": true,
     "go.buildOnSave": "package",
     // go lint 표시 off
@@ -193,4 +201,7 @@
     ],
     "react-native-tools.showUserTips": false,
     "workbench.editor.untitled.hint": "hidden",
+    "[vue]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
 }
