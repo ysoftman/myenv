@@ -16,6 +16,7 @@ code --install-extension dcr30.lualinter
 code --install-extension DevonDCarew.bazel-code
 code --install-extension donjayamanne.jquerysnippets
 code --install-extension DotJoshJohnson.xml
+code --install-extension eamodio.gitlens
 code --install-extension ecmel.vscode-html-css
 code --install-extension eg2.tslint
 code --install-extension esbenp.prettier-vscode
@@ -39,7 +40,6 @@ code --install-extension mohsen1.prettify-json
 code --install-extension mrmlnc.vscode-apache
 code --install-extension ms-azuretools.vscode-docker
 code --install-extension ms-dotnettools.csharp
-code --install-extension ms-mssql.mssql
 code --install-extension ms-python.python
 code --install-extension ms-python.vscode-pylance
 code --install-extension ms-toolsai.jupyter

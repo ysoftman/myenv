@@ -135,7 +135,6 @@
     "explorer.confirmDelete": false,
     // Should display the Treeview?
     "bookmarks.navigateThroughAllFiles": true,
-    "window.zoomLevel": 1,
     "vsicons.dontShowNewVersionMessage": true,
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "[python]": {
@@ -204,4 +203,5 @@
     "[vue]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
+    "window.zoomLevel": 1,
 }
