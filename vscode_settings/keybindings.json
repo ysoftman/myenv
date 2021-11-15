@@ -79,10 +79,6 @@
         "command": "workbench.action.navigateForward"
     },
     {
-        "key": "f2",
-        "command": "bookmarks.listFromAllFiles"
-    },
-    {
         "key": "ctrl+shift+8",
         "command": "editor.action.toggleRenderWhitespace"
     }
