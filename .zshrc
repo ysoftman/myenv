@@ -22,13 +22,6 @@ export NVM_DIR="$HOME/.nvm"
 #(( ${+_comps} )) && _comps[zplugin]=_zplugin
 ### End of Zplugin's installer chunk
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/ysoftman/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ysoftman/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/ysoftman/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ysoftman/google-cloud-sdk/completion.zsh.inc'; fi
-fpath+=${ZDOTDIR:-~}/.zsh_functions
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # fzf 등의 화면이 계속 갱신되어 사라지는 문제가 있어 사용하지 않음
