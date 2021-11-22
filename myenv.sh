@@ -101,6 +101,15 @@ temp=$(which lsd 2> /dev/null)
 if [[ $? == 0 ]]; then
     alias ll='lsd -ahl'
 fi
+# rg -p foo | less -R 와 같이 ansi color 유지해서 파이프라인으로 보낼때
+if [ $(type rg | echo $?) = 0 ]; then
+    alias rg='rg -p'
+fi
+# kubecolor (brew install hidetatz/tap/kubecolor)
+# kubecolor internally calls kubectl command
+if [ $(type kubecolor | echo $?) = 0 ]; then
+    alias kubectl="kubecolor"
+fi
 
 
 # zsh 에서 rsync='noglob rsync' 등 glob(*)을 사용 못하게 alias 하고 있어 해제한다.
@@ -132,10 +141,6 @@ alias tig='tig --all'
 # cowsay 종류 계속 보이기
 alias infinite_cowsay='for ((;;)); do for i in $(cowsay -l | sed 1d); do echo $i; cowsay -f $i $(fortune) | lolcat; sleep 0.2; done; done;'
 
-# rg -p foo | less -R 와 같이 ansi color 유지해서 파이프라인으로 보낼때
-if [ $(type rg | echo $?) = 0 ]; then
-    alias rg='rg -p'
-fi
 
 # fzf ctrl+t(파일찾기)시
 # 숨김파일도 보기
