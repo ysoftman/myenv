@@ -166,7 +166,7 @@
     "editor.defaultFormatter": "ms-vscode.cpptools"
   },
   "prettier.enable": true,
-  "prettier.tabWidth": 4,
+  "prettier.tabWidth": 2,
   "terminal.external.osxExec": "iterm2.app",
   "terminal.integrated.fontFamily": "hack nerd font, monaco, menlo",
   "terminal.integrated.fontSize": 16,
