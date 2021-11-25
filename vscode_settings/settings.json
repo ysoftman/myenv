@@ -1,208 +1,206 @@
 {
-    "files.eol": "\n",
-    "files.associations": {
-        "*.sh.*": "shellscript",
-        "bash*": "shellscript",
-        "zsh*": "shellscript",
-        "*.py.*": "python",
-        "**/*ansible*/**/*.yml" : "ansible",
-        "**/playbooks/**/*.yml" : "ansible",
-        "**/inventory/*/*": "ansible",
-        "**/roles/**/*.yml": "ansible",
-        "**/roles/**/*.yaml": "ansible",
-        "*.yml.*": "yaml",
-        "*.xml.*": "xml",
-        "*.html.*": "html",
-        "*.json.*": "json",
-        "*dockerfile*": "dockerfile",
-        "*httpd.conf*": "apacheconf",
-        "*nginx.*": "NGINX",
-        "*makefile*": "makefile",
-        "*.js": "javascript"
-    },
-    "files.exclude": {
-        "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
-        "**/.vscode": true,
-        "**/.classpath": true,
-        "**/.project": true,
-        "**/.settings": true,
-        "**/.factorypath": true
-    },
-    "search.exclude": {
-        "**/node_modules": true,
-        "**/bower_components": true,
-        "**/*.code-search": true
-    },
-    "search.seedOnFocus": true,
-    "search.seedWithNearestWord": true,
-    "search.showLineNumbers": true,
-    "go.useLanguageServer": true,
-    "go.buildOnSave": "package",
-    // go lint 표시 off
-    // "go.lintOnSave": "off",
-    "go.vetOnSave": "package",
-    "go.buildTags": "",
-    "go.buildFlags": [],
-    "go.lintTool": "golint",
-    "go.lintFlags": [],
-    "go.vetFlags": [],
-    "go.coverOnSave": false,
-    "go.useCodeSnippetsOnFunctionSuggest": false,
-    "go.gocodeAutoBuild": false,
-    "go.toolsEnvVars": {
-        "GO111MODULE": "on"
-    },
-    "go.autocompleteUnimportedPackages": true,
-    "go.formatTool": "goimports",
-    "go.gopath": "/Users/ysoftman/workspace/gopath",
-    // "go.gopath": "/home/ysoftman/workspace/gopath",
-    // "go.gopath": "d:\\ysoftman\\workspace\\gopath",
-    "[go]": {
-        "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": true
-        }
-    },
-    "[rust]": {
-        "editor.formatOnSave": true,
-        "editor.defaultFormatter": "rust-lang.rust"
-    },
-    "rust.rustfmt_path": "${HOME}/.cargo/bin/rustfmt",
-    // pin the opened file
-    "workbench.editor.enablePreview": false,
-    "workbench.editor.enablePreviewFromQuickOpen": false,
-    "workbench.startupEditor": "none",
-    "workbench.statusBar.visible": true,
-    "workbench.activityBar.visible": false,
-    "workbench.sideBar.location": "left",
-    "workbench.editor.showTabs": true,
-    "workbench.iconTheme": "vscode-icons",
-    "workbench.colorCustomizations": {
-        "editor.lineHighlightBackground": "#115511",
-        "editor.selectionBackground": "#ffdd00",
-        "editor.findMatchBackground": "#ffdd00",
-        "editor.findMatchHighlightBorder": "#ffffff",
-        "editor.hoverHighlightBackground": "#115511",
-        "editorCursor.foreground": "#ff3333",
-        "sideBar.foreground": "#33cc33",
-        "list.highlightForeground": "#ffdd00",
-        "list.activeSelectionBackground": "#7e0097",
-        "list.activeSelectionForeground": "#d7dae0",
-        "list.inactiveFocusBackground": "#7e0097",
-        "list.inactiveSelectionBackground": "#7e0097",
-        "list.hoverBackground": "#292d35",
-        "list.focusBackground": "#7e0097",
-        "statusBar.background": "#2e6ada",
-        "statusBar.foreground": "#ffffff",
-        "statusBar.noFolderBackground": "#762a85",
-    },
-    "git.autofetch": true,
-    "git.confirmSync": false,
-    "git.ignoreMissingGitWarning": true,
-    "git.ignoreLegacyWarning": true,
-    "C_Cpp.default.cStandard": "c99",
-    "C_Cpp.default.cppStandard": "c++11",
-    // linux 에선 clang 설치해야 다음을 사용할 수 있다.
-    "C_Cpp.clang_format_path": "/usr/local/bin/clang-format",
-    "C_Cpp.clang_format_style": "file",
-    "C_Cpp.clang_format_fallbackStyle": "Visual Studio",
-    "clang.cxxflags": [
-        "-std=c++11"
-    ],
-    "editor.tabSize": 4,
-    "editor.wordWrap": "on",
-    "editor.renderWhitespace": "all",
-    "editor.minimap.enabled": false,
-    "editor.fontSize": 16,
-    "editor.fontFamily": "hack nerd font, fira code, monaco, menlo",
-    // fira code 폰트 사용시
-    "editor.fontLigatures": true,
-    "editor.formatOnSave": false,
-    "editor.suggestSelection": "first",
-    "editor.cursorStyle": "line",
-    "editor.cursorBlinking": "expand",
-    "python.formatting.provider": "autopep8",
-    "python.jediEnabled": false,
-    "python.linting.enabled": true,
-    "python.languageServer": "Default",
-    // Number of editors shown in the Open Editors pane.
-    "explorer.openEditors.visible": 0,
-    "explorer.confirmDragAndDrop": false,
-    "explorer.confirmDelete": false,
-    // Should display the Treeview?
-    "bookmarks.navigateThroughAllFiles": true,
-    "vsicons.dontShowNewVersionMessage": true,
-    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "[python]": {
-        "editor.insertSpaces": true,
-        "editor.tabSize": 4
-    },
-    "[json]": {
-        "editor.defaultFormatter": "HookyQR.beautify"
-    },
-    "[jsonc]": {
-        "editor.defaultFormatter": "HookyQR.beautify"
-    },
-    "[html]": {
-        "editor.defaultFormatter": "HookyQR.beautify"
-    },
-    // "[javascript]": {
-    //     "editor.defaultFormatter": "HookyQR.beautify"
-    // },
-    "prettier.enable": true,
-    "terminal.external.osxExec": "iterm2.app",
-    "terminal.integrated.fontFamily": "hack nerd font, monaco, menlo",
-    "terminal.integrated.fontSize": 16,
-    "terminal.integrated.defaultProfile.windows": "C:\\WINDOWS\\System32\\cmd.exe",
-    "update.mode": "manual",
-    "remote.SSH.showLoginTerminal": true,
-    "[cpp]": {
-        "editor.defaultFormatter": "ms-vscode.cpptools"
-    },
-    "liveshare.presence": false,
-    "oneDarkPro.vivid": true,
-    "eslint.format.enable": true,
-    "eslint.alwaysShowStatus": true,
-    "vetur.format.enable": false,
-    // completion, diagnostics, hover, jump to definition, find references
-    "vetur.experimental.templateInterpolationService": true,
-    "[javascriptreact]": {
-        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-    },
-    "printcode.lineNumbers": "editor",
-    "cmake.configureOnOpen": true,
-    "dart.openDevTools": "flutter",
-    "dart.debugExternalLibraries": true,
-    "dart.debugSdkLibraries": true,
-    "[javascript]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
-    },
-    "extensions.ignoreRecommendations": false,
-    "workbench.colorTheme": "One Dark Pro",
-    "liveServer.settings.donotShowInfoMsg": true,
-    "[yaml]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "liveServer.settings.donotVerifyTags": true,
-    "go.toolsManagement.autoUpdate": true,
-    "javascript.updateImportsOnFileMove.enabled": "never",
-    "mssql.connections": [
-        {
-            "server": "{{put-server-name-here}}",
-            "database": "{{put-database-name-here}}",
-            "user": "{{put-username-here}}",
-            "password": "{{put-password-here}}"
-        }
-    ],
-    "react-native-tools.showUserTips": false,
-    "workbench.editor.untitled.hint": "hidden",
-    "[vue]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "security.workspace.trust.untrustedFiles": "open",
-    "window.zoomLevel": 1,
+  "files.eol": "\n",
+  "files.associations": {
+    "*.sh.*": "shellscript",
+    "bash*": "shellscript",
+    "zsh*": "shellscript",
+    "*.py.*": "python",
+    "**/*ansible*/**/*.yml": "ansible",
+    "**/playbooks/**/*.yml": "ansible",
+    "**/inventory/*/*": "ansible",
+    "**/roles/**/*.yml": "ansible",
+    "**/roles/**/*.yaml": "ansible",
+    "*.yml.*": "yaml",
+    "*.xml.*": "xml",
+    "*.html.*": "html",
+    "*.json.*": "json",
+    "*dockerfile*": "dockerfile",
+    "*httpd.conf*": "apacheconf",
+    "*nginx.*": "NGINX",
+    "*makefile*": "makefile",
+    "*.js": "javascript"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/.vscode": true,
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true
+  },
+  "search.seedOnFocus": true,
+  "search.seedWithNearestWord": true,
+  "search.showLineNumbers": true,
+  "go.useLanguageServer": true,
+  "go.buildOnSave": "package",
+  // go lint 표시 off
+  // "go.lintOnSave": "off",
+  "go.vetOnSave": "package",
+  "go.buildTags": "",
+  "go.buildFlags": [],
+  "go.lintTool": "golint",
+  "go.lintFlags": [],
+  "go.vetFlags": [],
+  "go.coverOnSave": false,
+  "go.useCodeSnippetsOnFunctionSuggest": false,
+  "go.gocodeAutoBuild": false,
+  "go.toolsEnvVars": {
+    "GO111MODULE": "on"
+  },
+  "go.autocompleteUnimportedPackages": true,
+  "go.formatTool": "goimports",
+  "go.gopath": "/Users/ysoftman/workspace/gopath",
+  // "go.gopath": "/home/ysoftman/workspace/gopath",
+  // "go.gopath": "d:\\ysoftman\\workspace\\gopath",
+  "[go]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  "[rust]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "rust-lang.rust"
+  },
+  "rust.rustfmt_path": "${HOME}/.cargo/bin/rustfmt",
+  // pin the opened file
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.startupEditor": "none",
+  "workbench.statusBar.visible": true,
+  "workbench.activityBar.visible": false,
+  "workbench.sideBar.location": "left",
+  "workbench.editor.showTabs": true,
+  "workbench.iconTheme": "vscode-icons",
+  "workbench.colorCustomizations": {
+    "editor.lineHighlightBackground": "#115511",
+    "editor.selectionBackground": "#ffdd00",
+    "editor.findMatchBackground": "#ffdd00",
+    "editor.findMatchHighlightBorder": "#ffffff",
+    "editor.hoverHighlightBackground": "#115511",
+    "editorCursor.foreground": "#ff3333",
+    "sideBar.foreground": "#33cc33",
+    "list.highlightForeground": "#ffdd00",
+    "list.activeSelectionBackground": "#7e0097",
+    "list.activeSelectionForeground": "#d7dae0",
+    "list.inactiveFocusBackground": "#7e0097",
+    "list.inactiveSelectionBackground": "#7e0097",
+    "list.hoverBackground": "#292d35",
+    "list.focusBackground": "#7e0097",
+    "statusBar.background": "#2e6ada",
+    "statusBar.foreground": "#ffffff",
+    "statusBar.noFolderBackground": "#762a85"
+  },
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.ignoreMissingGitWarning": true,
+  "git.ignoreLegacyWarning": true,
+  "C_Cpp.default.cStandard": "c99",
+  "C_Cpp.default.cppStandard": "c++11",
+  // linux 에선 clang 설치해야 다음을 사용할 수 있다.
+  "C_Cpp.clang_format_path": "/usr/local/bin/clang-format",
+  "C_Cpp.clang_format_style": "file",
+  "C_Cpp.clang_format_fallbackStyle": "Visual Studio",
+  "clang.cxxflags": [
+    "-std=c++11"
+  ],
+  "editor.tabSize": 4,
+  "editor.wordWrap": "on",
+  "editor.renderWhitespace": "all",
+  "editor.minimap.enabled": false,
+  "editor.fontSize": 16,
+  "editor.fontFamily": "hack nerd font, fira code, monaco, menlo",
+  // fira code 폰트 사용시
+  "editor.fontLigatures": true,
+  "editor.formatOnSave": false,
+  "editor.suggestSelection": "first",
+  "editor.cursorStyle": "line",
+  "editor.cursorBlinking": "expand",
+  "python.formatting.provider": "autopep8",
+  "python.jediEnabled": false,
+  "python.linting.enabled": true,
+  "python.languageServer": "Default",
+  // Number of editors shown in the Open Editors pane.
+  "explorer.openEditors.visible": 0,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
+  // Should display the Treeview?
+  "bookmarks.navigateThroughAllFiles": true,
+  "vsicons.dontShowNewVersionMessage": true,
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "[python]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
+  },
+  "[json]": {
+    "editor.defaultFormatter": "HookyQR.beautify"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "HookyQR.beautify"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[cpp]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools"
+  },
+  "prettier.enable": true,
+  "prettier.tabWidth": 4,
+  "terminal.external.osxExec": "iterm2.app",
+  "terminal.integrated.fontFamily": "hack nerd font, monaco, menlo",
+  "terminal.integrated.fontSize": 16,
+  "terminal.integrated.defaultProfile.windows": "C:\\WINDOWS\\System32\\cmd.exe",
+  "update.mode": "manual",
+  "remote.SSH.showLoginTerminal": true,
+  "liveshare.presence": false,
+  "oneDarkPro.vivid": true,
+  "eslint.format.enable": true,
+  "eslint.alwaysShowStatus": true,
+  "vetur.format.enable": false,
+  // completion, diagnostics, hover, jump to definition, find references
+  "vetur.experimental.templateInterpolationService": true,
+  "printcode.lineNumbers": "editor",
+  "cmake.configureOnOpen": true,
+  "dart.openDevTools": "flutter",
+  "dart.debugExternalLibraries": true,
+  "dart.debugSdkLibraries": true,
+  "extensions.ignoreRecommendations": false,
+  "workbench.colorTheme": "One Dark Pro",
+  "liveServer.settings.donotShowInfoMsg": true,
+  "liveServer.settings.donotVerifyTags": true,
+  "go.toolsManagement.autoUpdate": true,
+  "javascript.updateImportsOnFileMove.enabled": "never",
+  "mssql.connections": [
+    {
+      "server": "{{put-server-name-here}}",
+      "database": "{{put-database-name-here}}",
+      "user": "{{put-username-here}}",
+      "password": "{{put-password-here}}"
+    }
+  ],
+  "react-native-tools.showUserTips": false,
+  "workbench.editor.untitled.hint": "hidden",
+  "security.workspace.trust.untrustedFiles": "open",
+  "window.zoomLevel": 1
 }

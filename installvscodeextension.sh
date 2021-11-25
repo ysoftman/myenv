@@ -36,7 +36,6 @@ code --install-extension magicstack.MagicPython
 code --install-extension marcostazi.VS-code-vagrantfile
 code --install-extension mechatroner.rainbow-csv
 code --install-extension mitaki28.vscode-clang
-code --install-extension mohsen1.prettify-json
 code --install-extension mrmlnc.vscode-apache
 code --install-extension ms-azuretools.vscode-docker
 code --install-extension ms-dotnettools.csharp

@@ -1,85 +1,90 @@
 [
-    {
-        "key": "ctrl+s",
-        "command": "workbench.action.files.save"
-    },
-    {
-        "key": "ctrl+a",
-        "command": "editor.action.selectAll",
-        "when": "editorTextFocus"
-    },
-    {
-        "key": "ctrl+c",
-        "command": "editor.action.clipboardCopyAction",
-        "when": "editorTextFocus"
-    },
-    {
-        "key": "ctrl+v",
-        "command": "editor.action.clipboardPasteAction",
-        "when": "editorTextFocus"
-    },
-    {
-        "key": "ctrl+x",
-        "command": "editor.action.clipboardCutAction",
-        "when": "editorTextFocus"
-    },
-    {
-        "key": "ctrl+z",
-        "command": "undo",
-        "when": "editorTextFocus"
-    },
-    {
-        "key": "ctrl+y",
-        "command": "redo",
-        "when": "editorTextFocus"
-    },
-    {
-        "key": "ctrl+d",
-        "command": "editor.action.addSelectionToNextFindMatch",
-        "when": "editorFocus"
-    },
-    {
-        "key": "ctrl+/",
-        "command": "editor.action.commentLine",
-        "when": "editorTextFocus"
-    },
-    {
-        "key": "ctrl+f",
-        "command": "actions.find"
-    },
-    {
-        "key": "shift+ctrl+f",
-        "command": "workbench.view.search"
-    },
-    {
-        "key": "shift+alt+f",
-        "command": "editor.action.formatDocument",
-        "when": "editorTextFocus"
-    },
-    {
-        "key": "shift+ctrl+p",
-        "command": "workbench.action.showCommands"
-    },
-    {
-        "key": "shift+alt+ctrl+down",
-        "command": "cursorColumnSelectDown",
-        "when": "editorTextFocus"
-    },
-    {
-        "key": "shift+alt+ctrl+up",
-        "command": "cursorColumnSelectUp",
-        "when": "editorTextFocus"
-    },
-    {
-        "key": "ctrl+-",
-        "command": "workbench.action.navigateBack"
-    },
-    {
-        "key": "ctrl+shift+-",
-        "command": "workbench.action.navigateForward"
-    },
-    {
-        "key": "ctrl+shift+8",
-        "command": "editor.action.toggleRenderWhitespace"
-    }
+  {
+    "key": "ctrl+s",
+    "command": "workbench.action.files.save"
+  },
+  {
+    "key": "ctrl+a",
+    "command": "editor.action.selectAll",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+c",
+    "command": "editor.action.clipboardCopyAction",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+v",
+    "command": "editor.action.clipboardPasteAction",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+x",
+    "command": "editor.action.clipboardCutAction",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+z",
+    "command": "undo",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+y",
+    "command": "redo",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+d",
+    "command": "editor.action.addSelectionToNextFindMatch",
+    "when": "editorFocus"
+  },
+  {
+    "key": "ctrl+/",
+    "command": "editor.action.commentLine",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+f",
+    "command": "actions.find"
+  },
+  {
+    "key": "shift+ctrl+f",
+    "command": "workbench.action.findInFiles"
+  },
+  {
+    "key": "shift+ctrl+f",
+    "command": "workbench.view.search",
+    "when": "workbench.view.search.active && neverMatch =~ /doesNotMatch/"
+  },
+  {
+    "key": "shift+alt+f",
+    "command": "editor.action.formatDocument",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "shift+ctrl+p",
+    "command": "workbench.action.showCommands"
+  },
+  {
+    "key": "shift+alt+ctrl+down",
+    "command": "cursorColumnSelectDown",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "shift+alt+ctrl+up",
+    "command": "cursorColumnSelectUp",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+-",
+    "command": "workbench.action.navigateBack"
+  },
+  {
+    "key": "ctrl+shift+-",
+    "command": "workbench.action.navigateForward"
+  },
+  {
+    "key": "ctrl+shift+8",
+    "command": "editor.action.toggleRenderWhitespace"
+  }
 ]
