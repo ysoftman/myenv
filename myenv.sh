@@ -54,7 +54,6 @@ export PATH=$HOME/.cargo/bin:/usr/local/go/bin/:/usr/local/bin:/usr/games:/usr/l
 # brew link --force 로도 /usr/local/bin/ 에 링크 생성을 못해
 # PATH 환경변수에 /usr/local/opt/ 를 추가해야 한다.
 export PATH=/usr/local/opt/curl-openssl/bin:$PATH
-export PATH=/usr/local/opt/krb5/bin:$PATH
 export PATH=/usr/local/opt/openssl/bin:$PATH
 
 export EDITOR=vim
