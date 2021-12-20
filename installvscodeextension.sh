@@ -31,7 +31,6 @@ code --install-extension hashicorp.terraform
 code --install-extension HookyQR.beautify
 code --install-extension itryapitsin.Scala
 code --install-extension johnpapa.Angular2
-code --install-extension lightbend.vscode-sbt-scala
 code --install-extension magicstack.MagicPython
 code --install-extension marcostazi.VS-code-vagrantfile
 code --install-extension mechatroner.rainbow-csv
@@ -68,6 +67,8 @@ code --install-extension redhat.vscode-xml
 code --install-extension ritwickdey.LiveServer
 code --install-extension rust-lang.rust
 code --install-extension samuelcolvin.jinjahtml
+code --install-extension scala-lang.scala
+code --install-extension scalameta.metals
 code --install-extension sdras.night-owl
 code --install-extension shanoor.vscode-nginx
 code --install-extension solnurkarim.html-to-css-autocompletion
