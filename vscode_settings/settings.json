@@ -202,5 +202,12 @@
   "react-native-tools.showUserTips": false,
   "workbench.editor.untitled.hint": "hidden",
   "security.workspace.trust.untrustedFiles": "open",
-  "window.zoomLevel": 1
+  "bracket-pair-colorizer-2.depreciation-notice": false,
+  "redhat.telemetry.enabled": false,
+  "window.zoomLevel": 1,
+  "files.watcherExclude": {
+    "**/.bloop": true,
+    "**/.metals": true,
+    "**/.ammonite": true
+  }
 }
