@@ -3,6 +3,7 @@
 
 "플러그인 설치 vim 실행 후
 ":PlugInstall
+":PlugUpdate
 " 또는 터미널에서 플러그인 설치후 vim 종료
 "vim +PlugInstall +qall
 
@@ -13,6 +14,8 @@
 "The ycmd server SHUT DOWN (restart with :YcmRestartServer)" 메시지가 발생하는 경우
 "cd ~/.vim/plugged/youcompleteme/ && git submodule update --init --recursive
 "./install.py
+" youcompleteMe unavailable: requires Vim compiled with Python (3.6.0+) 메시지가 발생하는 경우
+" python3 install.py --all
 
 call plug#begin('~/.vim/plugged')
 Plug 'valloric/youcompleteme'
