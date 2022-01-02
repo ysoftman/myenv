@@ -3,9 +3,9 @@ bash ./installcommon.sh
 bash ./installpowerlinefont.sh
 zsh ./installprezto.zsh
 zsh ./installohmyzsh.zsh
-bash ./installconfig.sh
 bash ./installvim.sh
 bash ./installtmuxplugin.sh
+bash ./installconfig.sh
 bash ./installpip.sh
 bash ./installitermcolor.sh
 bash ./installvscodesettings.sh
