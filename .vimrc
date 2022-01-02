@@ -15,7 +15,7 @@
 "cd ~/.vim/plugged/youcompleteme/ && git submodule update --init --recursive
 "./install.py
 " youcompleteMe unavailable: requires Vim compiled with Python (3.6.0+) 메시지가 발생하는 경우
-" python3 install.py --all
+"python3 install.py --all
 
 call plug#begin('~/.vim/plugged')
 Plug 'valloric/youcompleteme'
@@ -35,7 +35,6 @@ Plug 'powerline/fonts'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'liuchengxu/space-vim-dark'
-Plug 'flazz/vim-colorschemes'
 Plug 'ryanoasis/vim-devicons'
 Plug 'itchyny/lightline.vim'
 Plug 'terryma/vim-multiple-cursors'
@@ -45,6 +44,8 @@ Plug 'altercation/vim-colors-solarized'
 "colorizer 사용하면 파일 오픈시 autocmd BufEnter(버퍼로딩후 필요한 설정 처리) 단계에서 느려져서 사용하지 않음
 "Plug 'lilydjwg/colorizer' " vim 으로 git 커밋 메세지 작성시 이슈번호 태깅을 위해 #123 를 사용하면 컬리 배경 표시~ㅎ
 Plug 'joshdick/onedark.vim'
+" joshdick/onedark.vim 와 vim-colorschemes 충돌
+" Plug 'flazz/vim-colorschemes'
 Plug 'kien/ctrlp.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.vim/plugged/fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
