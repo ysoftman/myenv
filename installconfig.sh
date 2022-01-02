@@ -79,7 +79,7 @@ if [[ $(uname -a) == *"microsoft"* ]]; then
     # sudo ln -sf ${PWD}/wsl.conf /etc/wsl.conf
     sudo unlink /etc/wsl.conf 2> /dev/null
     sudo cp -fv ${PWD}/wsl.conf /etc/wsl.conf
-    echo "윈도우 실행에서 wsl -t ubuntu-18.04 로 종료후 터미널 다시 시작 필요"
+    echo "윈도우 실행에서 wsl -t ubuntu 로 종료 후 터미널 다시 시작 필요"
 fi
 
 # 보안사항으로 커밋하면 안됨.
