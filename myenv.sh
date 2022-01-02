@@ -79,9 +79,11 @@ elif [[ $temp == *"linux"* ]]; then
     alias ll='ls -ahl'
     # WSL(Windows Subsystem for Linux)
     temp=$(uname -r | awk '{print tolower($0)}')
-    if [[ $temp == *"microsoft"* ]]; then
+    if [[ $temp == *"wsl"* ]]; then
         # wsl.conf appendWindowsPath=false 인경우 vscode 경로 추가 필요
-        export PATH=$PATH:"/mnt/c/Program Files/Microsoft VS Code/bin:"
+        # export PATH=$PATH:"/mnt/c/Program Files/Microsoft VS Code/bin:"
+        username=$(wslvar userprofile | tr '\\' ' ' | awk '{print $NF}')
+        export PATH=$PATH:"/mnt/c/Users/${username}/AppData/Local/Programs/Microsoft VS Code/bin"
         # 윈도우 netstat.exe 사용해야 실제 네트워크 상태를 알 수 있다.
         alias netstat='/mnt/c/Windows/System32/netstat.exe'
     fi
