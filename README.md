@@ -74,9 +74,12 @@ installhypersettings.bat
 
 # vscode settings 적용
 installvscodesettings.bat
+# wsl 사용시
+sh ./installvscodesettings.sh
 ```
 
 - windows terminal 사용시
+  - hack nerd 폰트 다운로드 받아 설치 <https://github.com/ryanoasis/nerd-fonts/releases/download/2.2.0-RC/Hack.zip>
   - terminal 에서 ctrl + , 로 설정 파일을 오픈 후 windows_terminal/settings.json 내용 복사 & 붙여넣기로 설정 적용
 
 ### Ubuntu
