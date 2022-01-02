@@ -11,7 +11,7 @@
 " dockerfile 로 이미지 빌드시 사용자 입력을 받을 수 없으니 slient 모드로 설치
 "vim +'silent :GoInstallBinaries' +qall
 
-"The ycmd server SHUT DOWN (restart with :YcmRestartServer)" 메시지가 발생하는 경우
+"The ycmd server SHUT DOWN (restart with :YcmRestartServer) 메시지가 발생하는 경우
 "cd ~/.vim/plugged/youcompleteme/ && git submodule update --init --recursive
 "./install.py
 " youcompleteMe unavailable: requires Vim compiled with Python (3.6.0+) 메시지가 발생하는 경우
