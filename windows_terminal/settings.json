@@ -193,7 +193,8 @@
     "profiles": [{
             "closeOnExit": true,
             "colorScheme": "One Half Dark",
-            "commandline": "wsl.exe -d Ubuntu-18.04",
+            // "commandline": "wsl.exe -d Ubuntu-18.04",
+            "commandline": "wsl.exe",
             "cursorColor": "#FFFFFF",
             "cursorShape": "bar",
             "fontFace": "Hack Nerd Font",
