@@ -16,7 +16,7 @@ rustup update
 # https://github.com/imsnif/bandwhich
 # https://github.com/sharkdp/hexyl
 # https://github.com/sharkdp/hyperfine
-cargo install -j 4 exa lsd fd-find du-dust diskonaut sd ripgrep bat procs bottom bandwhich hexyl hyperfine
+cargo install exa lsd fd-find du-dust diskonaut sd ripgrep bat procs bottom bandwhich hexyl hyperfine
 
 # 설치 확인
 cargo install --list
