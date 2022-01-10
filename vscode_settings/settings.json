@@ -113,6 +113,7 @@
   "clang.cxxflags": [
     "-std=c++11"
   ],
+  "editor.lineNumbers": "on",
   "editor.tabSize": 4,
   "editor.wordWrap": "on",
   "editor.renderWhitespace": "all",
@@ -204,10 +205,10 @@
   "security.workspace.trust.untrustedFiles": "open",
   "bracket-pair-colorizer-2.depreciation-notice": false,
   "redhat.telemetry.enabled": false,
-  "window.zoomLevel": 1,
   "files.watcherExclude": {
     "**/.bloop": true,
     "**/.metals": true,
     "**/.ammonite": true
-  }
+  },
+  "window.zoomLevel": 1
 }
