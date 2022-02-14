@@ -141,7 +141,8 @@ alias aleng='${HOME}/workspace/aleng/aleng'
 alias tig='tig --all'
 # cowsay 종류 계속 보이기
 alias infinite_cowsay='for ((;;)); do for i in $(cowsay -l | sed 1d); do echo $i; cowsay -f $i $(fortune) | lolcat; sleep 0.2; done; done;'
-
+# git issue script
+alias gitissue='python3 ${HOME}/workspace/myenv/git_issue.py'
 
 # fzf ctrl+t(파일찾기)시
 # 숨김파일도 보기
