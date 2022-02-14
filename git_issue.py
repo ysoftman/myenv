@@ -10,15 +10,13 @@ github API 참고 : https://developer.github.com/enterprise/2.13/v3/issues/#list
         "user": "ysoftman",
         "passwd": "abc123",
         "baseURL": "https://github.com/",
-        "owner": "ysoftman",
-        "repo": "myenv"
+        "owner": "ysoftman1",
     },
     {
         "user": "ysoftman",
         "passwd": "abc123",
         "baseURL": "https://github.com/",
-        "owner": "ysoftman",
-        "repo": "test_code"
+        "owner": "ysoftman2",
     }
 ]
 '''
@@ -60,16 +58,17 @@ def load_config(git_remote_url):
     global open_issue_url
 
     for i in items:
-        temp = i['baseURL']+'/'+i['owner']+'/'+i['repo']
-        # print(temp)
+        temp = i['baseURL']+'/'+i['owner']
+        # print(temp, len(temp))
         # print(git_remote_url)
-        if git_remote_url == temp:
+        if git_remote_url.startswith(temp):
             user = i['user']
             passwd = i['passwd']
             baseURL = i['baseURL']
             owner = i['owner']
-            repo = i['repo']
-    f.close()
+            repo = git_remote_url.rsplit('/',1)[1]
+            break
+        f.close()
 
     issue_base_url = "{}/{}/{}/issues/".format(baseURL, owner, repo)
     open_issue_url = "{}/api/v3/repos/{}/{}/issues?state=open".format(baseURL, owner, repo)
