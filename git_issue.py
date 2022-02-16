@@ -13,7 +13,6 @@ import os
 
 class color:
     reset_color = '\033[0m'
-    # 일반
     black = '\033[0;30m'
     red = '\033[0;31m'
     green = '\033[0;32m'
