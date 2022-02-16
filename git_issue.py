@@ -4,21 +4,6 @@
 '''
 github issue 파악
 github API 참고 : https://developer.github.com/enterprise/2.13/v3/issues/#list-issues
-~/git_issue_config.config 에 접근할 수 있는 url 정보가 있어야 한다.
-[
-    {
-        "user": "ysoftman",
-        "passwd": "abc123",
-        "baseURL": "https://github.com/",
-        "owner": "ysoftman1",
-    },
-    {
-        "user": "ysoftman",
-        "passwd": "abc123",
-        "baseURL": "https://github.com/",
-        "owner": "ysoftman2",
-    }
-]
 '''
 
 import requests
@@ -39,18 +24,49 @@ class color:
     white = '\033[0;37m'
 
 global user
-global passwd
+global password
 global baseURL
 global owner
 global repo
 global issue_base_url
 global open_issue_url
 
+user = ""
+password = ""
+baseURL = ""
+owner = ""
+repo = ""
+issue_base_url = ""
+open_issue_url = ""
+
 def load_config(git_remote_url):
-    f = open(os.path.expanduser('~')+'/git_issue_config.json')
+    cfgFile = os.path.expanduser('~')+'/git_issue_config.json'
+    try:
+        f = open(cfgFile)
+    except:
+        print("can't find ", cfgFile)
+        print (cfgFile, '''에 다음 예시 처럼 접근 관련 정보가 있어야 합니다.
+[
+    {
+        "user": "ysoftman",
+        "passwd": "abc123",
+        "baseURL": "https://github.com/",
+        "owner": "ysoftman1",
+    },
+    {
+        "user": "ysoftman",
+        "passwd": "abc123",
+        "baseURL": "https://github.com/",
+        "owner": "ysoftman2",
+    }
+]
+''')
+        return False
+
     items = json.load(f)
+
     global user
-    global passwd
+    global password
     global baseURL
     global owner
     global repo
@@ -63,12 +79,20 @@ def load_config(git_remote_url):
         # print(git_remote_url)
         if git_remote_url.startswith(temp):
             user = i['user']
-            passwd = i['passwd']
+            password = i['passwd']
             baseURL = i['baseURL']
             owner = i['owner']
             repo = git_remote_url.rsplit('/',1)[1]
             break
         f.close()
+
+    if len(user) == 0 or \
+        len(password) == 0 or \
+        len(baseURL) == 0 or \
+        len(owner) == 0 or \
+        len(repo) == 0:
+        print("can't find the user/password about ->", git_remote_url)
+        return False
 
     issue_base_url = "{}/{}/{}/issues/".format(baseURL, owner, repo)
     open_issue_url = "{}/api/v3/repos/{}/{}/issues?state=open".format(baseURL, owner, repo)
@@ -76,7 +100,7 @@ def load_config(git_remote_url):
 
 
 def issue_list():
-    resp = requests.get(open_issue_url, auth=(user, passwd))
+    resp = requests.get(open_issue_url, auth=(user, password))
     result = json.loads(resp.content)
 
     for item in result:
