@@ -32,7 +32,9 @@ if [[ ${answer} != '' ]]; then
 fi
 
 # 파일로 저장하지 않고 일정시간(디폴트 15분)동안 id,pw 를 캐싱한다.
-git config --global credential.helper cache
+#git config --global credential.helper cache
+# save credential(password)
+git config --global credential.helper store
 
 # gitignore, bash, zsh, vim, tmux, tigrc, mutt 등 기본 설정
 [ -h ~/.gitignore_global ] && unlink ~/.gitignore_global
