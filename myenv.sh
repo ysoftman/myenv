@@ -63,7 +63,7 @@ export ANSIBLE_NOCOWS=1 # disable cowsay message when using ansible
 export DISPLAY=localhost:0.0
 
 if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
-    unalias ls
+    unalias ls 2> /dev/null
 fi
 temp=$(uname | tr '[:upper:]' '[:lower:]')
 if [[ $temp == *"darwin"* ]]; then
