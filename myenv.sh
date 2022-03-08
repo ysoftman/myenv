@@ -7,6 +7,13 @@ else
     source ~/.zprezto/init.zsh
 fi
 
+# set kubeconfig path
+export KUBECONFIG="${HOME}/.kube/config"
+for i in $(ls ${HOME}/.kube/*.{yaml,yml}); do { KUBECONFIG+=":"$i; } done
+export KUBECONFIG
+# KUBECONFIG 파일들 하나로 합칠때
+# kubectl config view --flatten > ${HOME}/.kube/z
+
 # kube prompt 사용 (brew install kube-ps1)
 if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
     source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
