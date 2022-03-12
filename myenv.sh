@@ -150,7 +150,11 @@ alias infinite_cowsay='for ((;;)); do for i in $(cowsay -l | sed 1d); do echo $i
 # git issue script
 alias gitissue='python3 ${HOME}/workspace/myenv/git_issue.py'
 
-# fzf ctrl+t(파일찾기)시
+
+# fzf default options
+# --multi(-m) : tab(select item) shift-tab(deselect item)
+export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border --exact'
+# fzf ctrl-t(파일찾기)시
 # 숨김파일도 보기
 export FZF_CTRL_T_COMMAND='find . -type f'
 temp=$(which fd 2> /dev/null)
@@ -165,8 +169,32 @@ if [ $? = 0 ] && [ -f $temp ]; then
     catcmd='bat --color always {}'
 fi
 export FZF_CTRL_T_OPTS="--preview '($catcmd || tree -C {}) 2> /dev/null | head -200'"
-# --multi(-m) : tab(select item) shift-tab(deselect item)
-export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border --exact'
+# fzf ctrl-r(히스토리)시
+export FZF_CTRL_R_OPTS=""
+
+
+#####
+# ctrl-r 사용시 위젯 함수에 +m(--no-multi)가 고정되어 있어, +m 를 뺀 위젯 함수를 덮어쓴다.
+# 참고 https://github.com/junegunn/fzf/issues/1806#issuecomment-570758721
+# CTRL-R - Paste the selected command from history into the command line
+fzf-history-widget() {
+  local selected num
+  setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
+  selected=( $(fc -rl 1 |
+    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS --query=${(qqq)LBUFFER}" $(__fzfcmd)) )
+  local ret=$?
+  if [ -n "$selected" ]; then
+    num=$selected[1]
+    if [ -n "$num" ]; then
+      zle vi-fetch-history -n $num
+    fi
+  fi
+  zle reset-prompt
+  return $ret
+}
+zle     -N   fzf-history-widget
+bindkey '^R' fzf-history-widget
+#####
 
 
 temp=$(which neofetch 2> /dev/null)
