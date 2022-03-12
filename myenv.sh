@@ -165,7 +165,8 @@ if [ $? = 0 ] && [ -f $temp ]; then
     catcmd='bat --color always {}'
 fi
 export FZF_CTRL_T_OPTS="--preview '($catcmd || tree -C {}) 2> /dev/null | head -200'"
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --exact'
+# --multi(-m) : tab(select item) shift-tab(deselect item)
+export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border --exact'
 
 
 temp=$(which neofetch 2> /dev/null)
