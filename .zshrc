@@ -9,13 +9,6 @@ if [ -z "$TMUX" ]; then
     fi
 fi
 
-[ -f ~/workspace/myenv/myenv.sh ] && source ~/workspace/myenv/myenv.sh
-[ -f ~/workspace/usf-ysoftman/usfenv.sh ] && source ~/workspace/usf-ysoftman/usfenv.sh
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
-
 ### Added by Zplugin's installer
 #source '/Users/ysoftman/.zplugin/bin/zplugin.zsh'
 #autoload -Uz _zplugin
@@ -24,7 +17,13 @@ export NVM_DIR="$HOME/.nvm"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+[ -f ~/workspace/myenv/myenv.sh ] && source ~/workspace/myenv/myenv.sh
+[ -f ~/workspace/usf-ysoftman/usfenv.sh ] && source ~/workspace/usf-ysoftman/usfenv.sh
+
 # fzf 등의 화면이 계속 갱신되어 사라지는 문제가 있어 사용하지 않음
 # 1초마다 프롬프트 리셋하여, 프롬프트내의 현재시간을 업데이트한다.
 # TMOUT=1
 # TRAPALRM() { zle reset-prompt }
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
