@@ -152,7 +152,7 @@ alias gitissue='python3 ${HOME}/workspace/myenv/git_issue.py'
 
 
 # fzf default options
-# --multi(-m) : tab(select item) shift-tab(deselect item)
+# --multi(-m) : tab(select/deselect forward) shift-tab(select/deselect backward)
 export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border --exact'
 # fzf ctrl-t(파일찾기)시
 # 숨김파일도 보기
@@ -176,19 +176,43 @@ export FZF_CTRL_R_OPTS=""
 #####
 # ctrl-r 사용시 위젯 함수에 +m(--no-multi)가 고정되어 있어, +m 를 뺀 위젯 함수를 덮어쓴다.
 # 참고 https://github.com/junegunn/fzf/issues/1806#issuecomment-570758721
-# CTRL-R - Paste the selected command from history into the command line
+# +m 제거 외에도 multi 선택을 사용할 수 있도록 수정한 버전
+# zsh 에만 동작이 보장되어 정시 머지된것은 아님
+# multi 동작하는 함수 구현해 임시로 사용
+# https://github.com/junegunn/fzf/pull/2098
 fzf-history-widget() {
-  local selected num
+  local selected num selected_lines selected_line selected_line_arr
   setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
-  selected=( $(fc -rl 1 |
-    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS --query=${(qqq)LBUFFER}" $(__fzfcmd)) )
+
+  # Read history lines (split on newline) into selected_lines array.
+  selected_lines=(
+    "${(@f)$(fc -rl 1 | perl -ne 'print if !$seen{(/^\s*[0-9]+\**\s+(.*)/, $1)}++' |
+    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort,ctrl-z:ignore $FZF_CTRL_R_OPTS --query=${(qqq)LBUFFER} -m" $(__fzfcmd))}"
+  )
   local ret=$?
-  if [ -n "$selected" ]; then
-    num=$selected[1]
-    if [ -n "$num" ]; then
-      zle vi-fetch-history -n $num
-    fi
+
+  # Remove empty elements, converting ('') to ().
+  selected_lines=($selected_lines)
+  if [[ "${#selected_lines[@]}" -ne 0 ]]; then
+    local -a history_lines=()
+    for selected_line in "${selected_lines[@]}"; do
+      # Split each history line on spaces, and take the 1st value (history line number).
+      selected_line_arr=($=selected_line)
+      num=$selected_line_arr[1]
+      if [[ -n "$num" ]]; then
+        # Add history at line $num to history_lines array.
+        zle vi-fetch-history -n $num
+        history_lines+=("$BUFFER")
+        BUFFER=
+      fi
+    done
+    # Set input buffer to newline-separated list of history lines.
+    # Use echo to unescape, e.g. \n to newline, \t to tab.
+    BUFFER="${(F)history_lines}"
+    # Move cursor to end of buffer.
+    CURSOR=$#BUFFER
   fi
+
   zle reset-prompt
   return $ret
 }
