@@ -5,16 +5,80 @@ if [[ $(ps -p $$ -o command | sed -e 1d) == *"bash" ]]; then
     shopt -s expand_aliases
 elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh" ]]; then
     current_shell="zsh"
+
+    # mac builtin 설명 보기
+    # bash 에서 help cd 로 설명을 볼 수 있다.
+    # zsh 에서 builtin 설명을 보기 위해서 run-help=man alias 설정을 제거하고,
+    # run-help 함수를 다시 로딩하면, run-help cd 로 설명을 볼 수 있다.
+    unalias run-help 2> /dev/null
+    autoload run-help
+
+    if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
+        # oh-my-zsh 사용
+        source ~/.oh-my-zsh/templates/zshrc.zsh-template
+    else
+        # prezto 사용
+        source ~/.zprezto/init.zsh
+    fi
+
+    # zsh-autosuggestions 사용
+    if [ ! -f $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+        git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+    fi
+    if [ -f $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+        source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+    fi
+
+
+    #####
+    # ctrl-r 사용시 위젯 함수에 +m(--no-multi)가 고정되어 있어, +m 를 뺀 위젯 함수를 덮어쓴다.
+    # 참고 https://github.com/junegunn/fzf/issues/1806#issuecomment-570758721
+    # +m 제거 외에도 multi 선택을 사용할 수 있도록 수정한 버전
+    # zsh 에만 동작이 보장되어 정시 머지된것은 아님
+    # multi 동작하는 함수 구현해 임시로 사용
+    # https://github.com/junegunn/fzf/pull/2098
+    fzf-history-widget() {
+    local selected num selected_lines selected_line selected_line_arr
+    setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
+
+    # Read history lines (split on newline) into selected_lines array.
+    selected_lines=(
+        "${(@f)$(fc -rl 1 | perl -ne 'print if !$seen{(/^\s*[0-9]+\**\s+(.*)/, $1)}++' |
+        FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort,ctrl-z:ignore $FZF_CTRL_R_OPTS --query=${(qqq)LBUFFER} -m" $(__fzfcmd))}"
+    )
+    local ret=$?
+
+    # Remove empty elements, converting ('') to ().
+    selected_lines=($selected_lines)
+    if [[ "${#selected_lines[@]}" -ne 0 ]]; then
+        local -a history_lines=()
+        for selected_line in "${selected_lines[@]}"; do
+        # Split each history line on spaces, and take the 1st value (history line number).
+        selected_line_arr=($=selected_line)
+        num=$selected_line_arr[1]
+        if [[ -n "$num" ]]; then
+            # Add history at line $num to history_lines array.
+            zle vi-fetch-history -n $num
+            history_lines+=("$BUFFER")
+            BUFFER=
+        fi
+        done
+        # Set input buffer to newline-separated list of history lines.
+        # Use echo to unescape, e.g. \n to newline, \t to tab.
+        BUFFER="${(F)history_lines}"
+        # Move cursor to end of buffer.
+        CURSOR=$#BUFFER
+    fi
+
+    zle reset-prompt
+    return $ret
+    }
+    zle     -N   fzf-history-widget
+    bindkey '^R' fzf-history-widget
+    #####
 fi
 # echo "current_shell=${current_shell}"
 
-if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
-    # oh-my-zsh 사용
-    source ~/.oh-my-zsh/templates/zshrc.zsh-template
-else
-    # prezto 사용
-    source ~/.zprezto/init.zsh
-fi
 
 # set kubeconfig path
 export KUBECONFIG="${HOME}/.kube/config"
@@ -36,14 +100,6 @@ fi
 # 또는
 # kubectx | cat
 
-# zsh-autosuggestions 사용
-if [ ! -f $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-    git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-fi
-if [ -f $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-    source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
-
 # install fzf
 temp=$(type fzf 2> /dev/null)
 if [[ $? != 0 ]]; then
@@ -54,8 +110,31 @@ if [[ $? != 0 ]]; then
     export PATH=$PATH:${HOME}/.fzf/bin
 fi
 
+# fzf default options
+# --multi(-m) : tab(select/deselect forward) shift-tab(select/deselect backward)
+export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border --exact'
+# fzf ctrl-t(파일찾기)시
+# 숨김파일도 보기
+export FZF_CTRL_T_COMMAND='find . -type f'
+temp=$(which fd 2> /dev/null)
+if [ $? = 0 ] && [ -f $temp ]; then
+    export FZF_CTRL_T_COMMAND='fd --hidden'
+fi
+# 파일내용 미리보기 창 설정
+catcmd='cat {}'
+temp=$(which bat 2> /dev/null)
+if [ $? = 0 ] && [ -f $temp ]; then
+    export BAT_THEME="TwoDark"
+    catcmd='bat --color always {}'
+fi
+export FZF_CTRL_T_OPTS="--preview '($catcmd || tree -C {}) 2> /dev/null | head -200'"
+# fzf ctrl-r(히스토리)시
+export FZF_CTRL_R_OPTS=""
+
 # $(brew --prefix)/opt/fzf/install 실행하면 .fzf.bash .fzf.zsh 파일이 생긴다.
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# .bashrc .zshrc 에 맞게 다음이 자동으로 추가됨
+# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 
 export GOPATH=$HOME/workspace/gopath
@@ -141,10 +220,6 @@ unalias rsync 2> /dev/null
 unalias scp 2> /dev/null
 unalias sftp 2> /dev/null
 
-# mac 의 zsh 에서 builtin 설명을 보기 위해서 run-help=man alias 설정을 제거하고, run-help 함수를 다시 로딩하면, run-help cd 로 설명을 볼 수 있다.
-unalias run-help 2> /dev/null
-autoload run-help
-
 alias vi='vim'
 alias vimlastfile='vim `(ls -1tr | tail -1)`'
 alias gopath='cd $GOPATH'
@@ -158,76 +233,6 @@ alias tig='tig --all'
 alias infinite_cowsay='for ((;;)); do for i in $(cowsay -l | sed 1d); do echo $i; cowsay -f $i $(fortune) | lolcat; sleep 0.2; done; done;'
 # git issue script
 alias gitissue='python3 ${HOME}/workspace/myenv/git_issue.py'
-
-
-# fzf default options
-# --multi(-m) : tab(select/deselect forward) shift-tab(select/deselect backward)
-export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border --exact'
-# fzf ctrl-t(파일찾기)시
-# 숨김파일도 보기
-export FZF_CTRL_T_COMMAND='find . -type f'
-temp=$(which fd 2> /dev/null)
-if [ $? = 0 ] && [ -f $temp ]; then
-    export FZF_CTRL_T_COMMAND='fd --hidden'
-fi
-# 파일내용 미리보기 창 설정
-catcmd='cat {}'
-temp=$(which bat 2> /dev/null)
-if [ $? = 0 ] && [ -f $temp ]; then
-    export BAT_THEME="TwoDark"
-    catcmd='bat --color always {}'
-fi
-export FZF_CTRL_T_OPTS="--preview '($catcmd || tree -C {}) 2> /dev/null | head -200'"
-# fzf ctrl-r(히스토리)시
-export FZF_CTRL_R_OPTS=""
-
-
-#####
-# ctrl-r 사용시 위젯 함수에 +m(--no-multi)가 고정되어 있어, +m 를 뺀 위젯 함수를 덮어쓴다.
-# 참고 https://github.com/junegunn/fzf/issues/1806#issuecomment-570758721
-# +m 제거 외에도 multi 선택을 사용할 수 있도록 수정한 버전
-# zsh 에만 동작이 보장되어 정시 머지된것은 아님
-# multi 동작하는 함수 구현해 임시로 사용
-# https://github.com/junegunn/fzf/pull/2098
-fzf-history-widget() {
-  local selected num selected_lines selected_line selected_line_arr
-  setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
-
-  # Read history lines (split on newline) into selected_lines array.
-  selected_lines=(
-    "${(@f)$(fc -rl 1 | perl -ne 'print if !$seen{(/^\s*[0-9]+\**\s+(.*)/, $1)}++' |
-    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort,ctrl-z:ignore $FZF_CTRL_R_OPTS --query=${(qqq)LBUFFER} -m" $(__fzfcmd))}"
-  )
-  local ret=$?
-
-  # Remove empty elements, converting ('') to ().
-  selected_lines=($selected_lines)
-  if [[ "${#selected_lines[@]}" -ne 0 ]]; then
-    local -a history_lines=()
-    for selected_line in "${selected_lines[@]}"; do
-      # Split each history line on spaces, and take the 1st value (history line number).
-      selected_line_arr=($=selected_line)
-      num=$selected_line_arr[1]
-      if [[ -n "$num" ]]; then
-        # Add history at line $num to history_lines array.
-        zle vi-fetch-history -n $num
-        history_lines+=("$BUFFER")
-        BUFFER=
-      fi
-    done
-    # Set input buffer to newline-separated list of history lines.
-    # Use echo to unescape, e.g. \n to newline, \t to tab.
-    BUFFER="${(F)history_lines}"
-    # Move cursor to end of buffer.
-    CURSOR=$#BUFFER
-  fi
-
-  zle reset-prompt
-  return $ret
-}
-zle     -N   fzf-history-widget
-bindkey '^R' fzf-history-widget
-#####
 
 
 temp=$(which neofetch 2> /dev/null)
@@ -263,7 +268,6 @@ fi
 
 temp=$(which cowsay 2> /dev/null)
 if [[ $? == 0 ]]; then
-
     # cowfile 랜덤으로 선택
     cowfile=""
     cnt=0
