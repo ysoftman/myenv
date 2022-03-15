@@ -1,4 +1,13 @@
 #!/bin/bash
+current_shell="bash"
+if [[ $(ps -p $$ -o command | sed -e 1d) == *"bash" ]]; then
+    current_shell="bash"
+    shopt -s expand_aliases
+elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh" ]]; then
+    current_shell="zsh"
+fi
+# echo "current_shell=${current_shell}"
+
 if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
     # oh-my-zsh 사용
     source ~/.oh-my-zsh/templates/zshrc.zsh-template
