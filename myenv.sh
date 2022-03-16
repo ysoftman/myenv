@@ -33,10 +33,12 @@ fi
 
 
 # set kubeconfig path
-export KUBECONFIG="${HOME}/.kube/config"
-for i in $(ls ${HOME}/.kube/*.{yaml,yml}); do { KUBECONFIG+=":"$i; } done
-# KUBECONFIG 파일들 하나로 합칠때
-# kubectl config view --flatten > ${HOME}/.kube/z
+if [ -d ${HOME}/.kube ]; then
+    export KUBECONFIG="${HOME}/.kube/config"
+    for i in $(ls ${HOME}/.kube/*.{yaml,yml}); do { KUBECONFIG+=":"$i; } done
+    # KUBECONFIG 파일들 하나로 합칠때
+    # kubectl config view --flatten > ${HOME}/.kube/z
+fi
 
 # kube prompt 사용 (brew install kube-ps1)
 if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
@@ -126,6 +128,8 @@ elif [[ $temp == *"linux"* ]]; then
     # WSL(Windows Subsystem for Linux)
     temp=$(uname -r | awk '{print tolower($0)}')
     if [[ $temp == *"wsl"* ]]; then
+        # wslvar reg.exe 에러 발생시 업데이트
+        # sudo apt install wslu
         # wsl.conf appendWindowsPath=false 인경우 vscode 경로 추가 필요
         # export PATH=$PATH:"/mnt/c/Program Files/Microsoft VS Code/bin:"
         username=$(wslvar userprofile | tr '\\' ' ' | awk '{print $NF}')
@@ -149,12 +153,12 @@ if [[ $? == 0 ]]; then
     alias ll='lsd -ahl'
 fi
 # rg -p foo | less -R 와 같이 ansi color 유지해서 파이프라인으로 보낼때
-if [ $(type rg | echo $?) = 0 ]; then
+if [ $(type rg 2> /dev/null | echo $?) = 0 ]; then
     alias rg='rg -p'
 fi
 # kubecolor (brew install hidetatz/tap/kubecolor)
 # kubecolor internally calls kubectl command
-if [ $(type kubecolor | echo $?) = 0 ]; then
+if [ $(type kubecolor 2> /dev/null | echo $?) = 0 ]; then
     alias kubectl="kubecolor"
 fi
 
