@@ -22,14 +22,6 @@ class color:
     cyan = '\033[0;36m'
     white = '\033[0;37m'
 
-global user
-global password
-global baseURL
-global owner
-global repo
-global issue_base_url
-global open_issue_url
-
 user = ""
 password = ""
 baseURL = ""
