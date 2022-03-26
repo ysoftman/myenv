@@ -1,3 +1,3 @@
 #!/bin/bash
 sudo pip install --upgrade pip
-sudo pip install aiohttp async-timeout attrs bpytop certifi chardet colorama commonmark gpg idna lxml multidict pip psutil Pygments requests rich s-tui setuptools speedtest-cli typing-extensions urllib3 urwid wheel yarl 
+sudo pip install aiohttp async-timeout attrs black bpytop certifi chardet click colorama commonmark gpg idna lxml multidict mypy-extensions pathspec pip platformdirs psutil Pygments requests rich s-tui setuptools six speedtest-cli tomli typing-extensions urllib3 urwid wheel yapf yarl 
