@@ -14,8 +14,12 @@
 "The ycmd server SHUT DOWN (restart with :YcmRestartServer) 메시지가 발생하는 경우
 "cd ~/.vim/plugged/youcompleteme/ && git submodule update --init --recursive
 "./install.py
-" youcompleteMe unavailable: requires Vim compiled with Python (3.6.0+) 메시지가 발생하는 경우
+" YouCompleteMe unavailable: requires Vim compiled with Python (3.6.0+) support. 메시지가 발생하는 경우
+"vim 에 +python3 로 설치되었는 확인 후 없으면(-python3) myenv/installvim.sh 로 소스빌드로 설치
+"vim --version | grep -i python
+"그래도 안되면, pytnon3 으로 다시 YouCompleteMe 빌드
 "python3 install.py --all
+
 
 call plug#begin('~/.vim/plugged')
 Plug 'valloric/youcompleteme'
