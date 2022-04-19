@@ -10,7 +10,7 @@ if [ -z "$TMUX" ]; then
 fi
 
 [ -f ~/workspace/myenv/myenv.sh ] && source ~/workspace/myenv/myenv.sh
-[ -f ~/workspace/usf-ysoftman/usfenv.sh ] && source ~/workspace/usf-ysoftman/usfenv.sh
+[ -f ~/workspace/bill-ysoftman/env.sh ] && source ~/workspace/bill-ysoftman/env.sh
 
 ### Added by Zplugin's installer
 #source '/Users/ysoftman/.zplugin/bin/zplugin.zsh'
