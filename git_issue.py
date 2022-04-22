@@ -34,33 +34,30 @@ open_issue_url = ""
 
 
 def load_config(git_remote_url):
-    cfgFile = os.path.expanduser("~") + "/git_issue_config.json"
+    cfgFile = os.path.expanduser("~") + "/.git-credentials"
     try:
-        f = open(cfgFile)
+        f = open(cfgFile, "r")
     except:
         print("can't find ", cfgFile)
         print(
-            cfgFile,
+                cfgFile,
             """에 다음 예시 처럼 접근 관련 정보가 있어야 합니다.
-[
-    {
-        "user": "ysoftman",
-        "passwd": "abc123",
-        "baseURL": "https://github.com/",
-        "owner": "ysoftman1",
-    },
-    {
-        "user": "ysoftman",
-        "passwd": "abc123",
-        "baseURL": "https://github.com/",
-        "owner": "ysoftman2",
-    }
-]
+https://ysoftman:password@aaa.github.com
+https://ysoftman:password@bbb.github.com
 """,
         )
         return False
 
-    items = json.load(f)
+    cfgs = {}
+    while True:
+        line = f.readline()
+        if not line or line[0] == '\n':
+            break
+
+        line = line.strip() # remove \n
+        ele = line.split("@")
+        idpw = ele[0].split('//')[1].split(':')
+        cfgs[ele[0].split('//')[0] + "//" + ele[1]] = {"user": idpw[0], "password": idpw[1]}
 
     global user
     global password
@@ -70,25 +67,23 @@ def load_config(git_remote_url):
     global issue_base_url
     global open_issue_url
 
-    for i in items:
-        temp = i["baseURL"] + "/" + i["owner"]
-        # print(temp, len(temp))
-        git_remote_url = git_remote_url.rstrip("/")
-        # print(git_remote_url)
-        if git_remote_url.startswith(temp):
-            user = i["user"]
-            password = i["passwd"]
-            baseURL = i["baseURL"]
-            owner = i["owner"]
-            repo = git_remote_url.rsplit("/", 1)[1]
-            # print("user:", user)
-            # print("password:", password)
-            # print("baseURL:", baseURL)
-            # print("owner:", owner)
-            # print("git_remote_url:", git_remote_url)
-            # print("repo:", repo)
+    if git_remote_url[len(git_remote_url)-1] == '/':
+        git_remote_url = git_remote_url[:len(git_remote_url)-1]
+    findindex = git_remote_url.find(".git")
+    if findindex > 0:
+        git_remote_url = git_remote_url[:findindex]
+    baseURL = git_remote_url.rsplit("/",2)[0]
+    owner = git_remote_url.rsplit("/",2)[-2]
+    repo  = git_remote_url.rsplit("/",1)[-1]
+    # print(baseURL)
+    # print(owner)
+    # print(repo)
+    for key, value in cfgs.items():
+        if key == baseURL:
+            user = value["user"]
+            password = value["password"]
             break
-        f.close()
+    f.close()
 
     if (
         len(user) == 0
@@ -112,6 +107,7 @@ def load_config(git_remote_url):
             baseURL, owner, repo
         )
 
+    # print(open_issue_url)
     return True
 
 
