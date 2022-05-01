@@ -7,6 +7,7 @@ code --install-extension atomiks.moonlight
 code --install-extension bungcip.better-toml
 code --install-extension cliffordfajardo.highlight-line-vscode
 code --install-extension CoenraadS.bracket-pair-colorizer-2
+code --install-extension cschlosser.doxdocgen
 code --install-extension Dart-Code.dart-code
 code --install-extension Dart-Code.flutter
 code --install-extension DavidAnson.vscode-markdownlint
@@ -30,6 +31,7 @@ code --install-extension haaaad.ansible
 code --install-extension hashicorp.terraform
 code --install-extension HookyQR.beautify
 code --install-extension itryapitsin.Scala
+code --install-extension jeff-hykin.better-cpp-syntax
 code --install-extension johnpapa.Angular2
 code --install-extension magicstack.MagicPython
 code --install-extension marcostazi.VS-code-vagrantfile
@@ -50,6 +52,8 @@ code --install-extension ms-vscode-remote.remote-wsl
 code --install-extension ms-vscode-remote.vscode-remote-extensionpack
 code --install-extension ms-vscode.cmake-tools
 code --install-extension ms-vscode.cpptools
+code --install-extension ms-vscode.cpptools-extension-pack
+code --install-extension ms-vscode.cpptools-themes
 code --install-extension ms-vscode.node-debug2
 code --install-extension ms-vscode.Theme-MaterialKit
 code --install-extension ms-vscode.vscode-typescript-next
