@@ -1,4 +1,13 @@
 [
+  // to override markdown extension bold shortkey(cmd+b)
+  {
+    "key": "cmd+b",
+    "command": "workbench.action.toggleSidebarVisibility"
+  },
+  {
+    "key": "ctrl+b",
+    "command": "workbench.action.toggleSidebarVisibility"
+  },
   {
     "key": "ctrl+s",
     "command": "workbench.action.files.save"

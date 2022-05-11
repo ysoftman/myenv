@@ -134,7 +134,6 @@
   "editor.cursorStyle": "line",
   "editor.cursorBlinking": "expand",
   "python.formatting.provider": "black",
-  "python.jediEnabled": false,
   "python.linting.enabled": true,
   "python.languageServer": "Default",
   // Number of editors shown in the Open Editors pane.
