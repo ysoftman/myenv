@@ -90,6 +90,7 @@ code --install-extension vscode-icons-team.vscode-icons
 code --install-extension vuetifyjs.vuetify-vscode
 code --install-extension wholroyd.jinja
 code --install-extension xabikos.JavaScriptSnippets
+code --install-extension yzhang.markdown-all-in-one
 code --install-extension zamerick.vscode-caddyfile-syntax
 code --install-extension zhuangtongfa.material-theme
 code --install-extension zxh404.vscode-proto3
