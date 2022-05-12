@@ -191,6 +191,10 @@ alias infinite_cowsay='for ((;;)); do for i in $(cowsay -l | sed 1d); do echo $i
 alias python='python3'
 alias gitissue='python3 ${HOME}/workspace/myenv/git_issue.py'
 alias renamefiles="bash ${HOME}/workspace/myenv/renamefiles.sh"
+# gh command - 깃헙 호스트별 최초 로그인 필요(gh auth login)
+alias ghauthstatus='gh auth status'
+alias ghissueme='gh issue list --assignee @me'
+alias ghissueview='gh issue view' # 뒤에 이슈번호 아규먼트 명시
 
 
 temp=$(which neofetch 2> /dev/null)
