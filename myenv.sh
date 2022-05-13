@@ -197,6 +197,16 @@ alias ghissueme='gh issue list --assignee @me'
 alias ghissueview='gh issue view' # 뒤에 이슈번호 아규먼트 명시
 
 
+temp=$(which pyenv 2> /dev/null)
+if [[ $? == 0 ]]; then
+    eval "$(pyenv init -)"
+fi
+temp=$(which virtualenv 2> /dev/null)
+if [[ $? == 0 ]]; then
+    eval "$(pyenv virtualenv-init -)"
+    export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+fi
+
 temp=$(which neofetch 2> /dev/null)
 if [[ $? == 0 ]]; then
     term_program=$(echo $TERM_PROGRAM | tr "[:upper:]" "[:lower:]")
