@@ -241,6 +241,8 @@ fi
 
 temp=$(which cowsay 2> /dev/null)
 if [[ $? == 0 ]]; then
+    # print cowsay list number
+    # cnt=0; for i in $(cowsay -l | sed 1d); do echo "$((cnt++)) $i"; done;
     # cowfile 랜덤으로 선택
     cowfile=""
     cnt=0
@@ -248,6 +250,10 @@ if [[ $? == 0 ]]; then
     # echo $random
     for i in $(cowsay -l | sed 1d); do
         if [[ $cnt == $random ]]; then
+            if [[ $i == "sodomized" ]] || [[ $i == "telebears" ]]; then
+                printf "change rude coway type to cheese!\n"
+                i="cheese"
+            fi
             cowfile=$i;
             break;
         fi;
