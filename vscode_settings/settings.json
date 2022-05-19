@@ -135,7 +135,7 @@
   "editor.cursorBlinking": "expand",
   "python.formatting.provider": "black",
   "python.linting.enabled": true,
-  "python.languageServer": "Default",
+  "python.languageServer": "Pylance",
   // Number of editors shown in the Open Editors pane.
   "explorer.openEditors.visible": 0,
   "explorer.confirmDragAndDrop": false,
