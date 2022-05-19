@@ -33,7 +33,6 @@ code --install-extension HookyQR.beautify
 code --install-extension itryapitsin.Scala
 code --install-extension jeff-hykin.better-cpp-syntax
 code --install-extension johnpapa.Angular2
-code --install-extension magicstack.MagicPython
 code --install-extension marcostazi.VS-code-vagrantfile
 code --install-extension mechatroner.rainbow-csv
 code --install-extension mitaki28.vscode-clang
