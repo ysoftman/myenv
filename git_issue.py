@@ -29,7 +29,6 @@ password = ""
 baseURL = ""
 owner = ""
 repo = ""
-open_issue_url = ""
 
 
 def load_config(git_remote_url):
@@ -66,7 +65,6 @@ https://ysoftman:password@bbb.github.com
     global baseURL
     global owner
     global repo
-    global open_issue_url
 
     if git_remote_url[len(git_remote_url) - 1] == "/":
         git_remote_url = git_remote_url[: len(git_remote_url) - 1]
@@ -96,23 +94,21 @@ https://ysoftman:password@bbb.github.com
         print("can't find the user/password about ->", git_remote_url)
         return False
 
-    if baseURL == "https://github.com":
-        # print("[https://api.github.com]")
-        open_issue_url = "https://api.github.com/repos/{}/{}/issues?state=open".format(
-            owner, repo
-        )
-    else:
-        # for github enterprise
-        open_issue_url = "{}/api/v3/repos/{}/{}/issues?state=open".format(
-            baseURL, owner, repo
-        )
-
-    # print(open_issue_url)
     return True
 
 
+def get_open_issue_url():
+    if baseURL == "https://github.com":
+        # print("[https://api.github.com]")
+        return "https://api.github.com/repos/{}/{}/issues?state=open".format(
+            owner, repo
+        )
+    # for github enterprise
+    return "{}/api/v3/repos/{}/{}/issues?state=open".format(baseURL, owner, repo)
+
+
 def issue_list():
-    resp = requests.get(open_issue_url, auth=(user, password))
+    resp = requests.get(get_open_issue_url(), auth=(user, password))
     result = json.loads(resp.content)
 
     if type(result) != list:
