@@ -67,7 +67,6 @@ https://ysoftman:password@bbb.github.com
     global baseURL
     global owner
     global repo
-    global issue_base_url
     global open_issue_url
 
     if git_remote_url[len(git_remote_url) - 1] == "/":
@@ -98,7 +97,6 @@ https://ysoftman:password@bbb.github.com
         print("can't find the user/password about ->", git_remote_url)
         return False
 
-    issue_base_url = "{}/{}/{}/issues/".format(baseURL, owner, repo)
     if baseURL == "https://github.com":
         # print("[https://api.github.com]")
         open_issue_url = "https://api.github.com/repos/{}/{}/issues?state=open".format(
