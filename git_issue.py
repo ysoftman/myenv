@@ -40,7 +40,7 @@ def load_config(git_remote_url):
     except:
         print("can't find ", cfgFile)
         print(
-                cfgFile,
+            cfgFile,
             """에 다음 예시 처럼 접근 관련 정보가 있어야 합니다.
 https://ysoftman:password@aaa.github.com
 https://ysoftman:password@bbb.github.com
@@ -51,13 +51,16 @@ https://ysoftman:password@bbb.github.com
     cfgs = {}
     while True:
         line = f.readline()
-        if not line or line[0] == '\n':
+        if not line or line[0] == "\n":
             break
 
-        line = line.strip() # remove \n
+        line = line.strip()  # remove \n
         ele = line.split("@")
-        idpw = ele[0].split('//')[1].split(':')
-        cfgs[ele[0].split('//')[0] + "//" + ele[1]] = {"user": idpw[0], "password": idpw[1]}
+        idpw = ele[0].split("//")[1].split(":")
+        cfgs[ele[0].split("//")[0] + "//" + ele[1]] = {
+            "user": idpw[0],
+            "password": idpw[1],
+        }
 
     global user
     global password
@@ -67,14 +70,14 @@ https://ysoftman:password@bbb.github.com
     global issue_base_url
     global open_issue_url
 
-    if git_remote_url[len(git_remote_url)-1] == '/':
-        git_remote_url = git_remote_url[:len(git_remote_url)-1]
+    if git_remote_url[len(git_remote_url) - 1] == "/":
+        git_remote_url = git_remote_url[: len(git_remote_url) - 1]
     findindex = git_remote_url.find(".git")
     if findindex > 0:
         git_remote_url = git_remote_url[:findindex]
-    baseURL = git_remote_url.rsplit("/",2)[0]
-    owner = git_remote_url.rsplit("/",2)[-2]
-    repo  = git_remote_url.rsplit("/",1)[-1]
+    baseURL = git_remote_url.rsplit("/", 2)[0]
+    owner = git_remote_url.rsplit("/", 2)[-2]
+    repo = git_remote_url.rsplit("/", 1)[-1]
     # print(baseURL)
     # print(owner)
     # print(repo)
