@@ -29,7 +29,6 @@ password = ""
 baseURL = ""
 owner = ""
 repo = ""
-issue_base_url = ""
 open_issue_url = ""
 
 
