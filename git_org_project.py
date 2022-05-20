@@ -101,6 +101,13 @@ https://ysoftman:password@bbb.github.com
     return True
 
 
+def get_user_poject_url():
+    if baseURL == "https://github.com":
+        return "https://api.github.com/users/{}/projects".format(owner)
+    # for github enterprise
+    return "{}/api/v3/users/{}/projects".format(baseURL, owner)
+
+
 def get_org_poject_url():
     if baseURL == "https://github.com":
         return "https://api.github.com/orgs/{}/projects".format(owner)
@@ -108,9 +115,9 @@ def get_org_poject_url():
     return "{}/api/v3/orgs/{}/projects".format(baseURL, owner)
 
 
-def get_poject_url(id: int):
+def get_project_url(id: int):
     if baseURL == "https://github.com":
-        return "https://api.github.com/project/{}".format(id)
+        return "https://api.github.com/projects/{}".format(id)
     # for github enterprise
     return "{}/api/v3/projects/{}".format(baseURL, id)
 
@@ -118,16 +125,19 @@ def get_poject_url(id: int):
 def org_project_list():
     resp = requests.get(get_org_poject_url(), auth=(user, password))
     result = json.loads(resp.content)
-    # print(result)
     if type(result) != list:
-        print("organization projects not found!")
-        return
+        print("organization projects not found!, Let's try to get user projects...")
+        resp = requests.get(get_user_poject_url(), auth=(user, password))
+        result = json.loads(resp.content)
+        if type(result) != list:
+            return
+
     for item in result:
         print(f"{color.green}{item['id']} {item['name']}{color.reset_color}")
 
 
 def get_project(project_id: int):
-    resp = requests.get(get_poject_url(project_id), auth=(user, password))
+    resp = requests.get(get_project_url(project_id), auth=(user, password))
     project = json.loads(resp.content)
     if type(project) != dict:
         print(f"{project_id} project not found!")
