@@ -191,6 +191,7 @@ alias infinite_cowsay='for ((;;)); do for i in $(cowsay -l | sed 1d); do echo $i
 # git issue script
 alias python='python3'
 alias gitissue='python3 ${HOME}/workspace/myenv/git_issue.py'
+alias gitpj='python3 ${HOME}/workspace/myenv/git_project.py'
 alias renamefiles="bash ${HOME}/workspace/myenv/renamefiles.sh"
 # gh command - 깃헙 호스트별 최초 로그인 필요(gh auth login)
 alias ghauthstatus='gh auth status'
