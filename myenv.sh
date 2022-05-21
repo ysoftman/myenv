@@ -159,6 +159,7 @@ if [ $(type rg 2> /dev/null | echo $?) = 0 ]; then
 fi
 # kubecolor (brew install hidetatz/tap/kubecolor)
 # kubecolor internally calls kubectl command
+
 if [ $(type kubecolor 2> /dev/null | echo $?) = 0 ]; then
     alias kubectl="kubecolor"
 fi
@@ -197,6 +198,7 @@ alias renamefiles="bash ${HOME}/workspace/myenv/renamefiles.sh"
 alias ghauthstatus='gh auth status'
 alias ghissueme='gh issue list --assignee @me'
 alias ghissueview='gh issue view' # 뒤에 이슈번호 아규먼트 명시
+alias k='kubectl'
 
 
 temp=$(which pyenv 2> /dev/null)
