@@ -25,7 +25,7 @@ set sort="threads" # 메일 쓰레드 보기
 
 # 단축키 설정
 # index 첫(메인) 화면
-# pager 메일보기 화면
+# pager 메일보기 화면
 # compose 새메일 작성 화면
 # editor 메일편집 화면
 bind index G imap-fetch-mail # IMAP 서버에서 메일 가져오기
