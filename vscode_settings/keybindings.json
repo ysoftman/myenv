@@ -95,5 +95,17 @@
   {
     "key": "ctrl+shift+8",
     "command": "editor.action.toggleRenderWhitespace"
-  }
+  },
+  {
+    "key": "cmd+alt+n",
+    "command": "bookmarks.jumpToNext"
+  },
+  {
+    "key": "cmd+alt+shift+n",
+    "command": "bookmarks.jumpToPrevious"
+  },
+  {
+    "key": "cmd+alt+shift+l",
+    "command": "bookmarks.listFromAllFiles"
+  },
 ]
