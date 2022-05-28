@@ -97,6 +97,14 @@
     "command": "editor.action.toggleRenderWhitespace"
   },
   {
+    "key": "cmd+alt+l",
+    "command": "-bookmarks.jumpToNext"
+  },
+  {
+    "key": "cmd+alt+j",
+    "command": "-bookmarks.jumpToPrevious"
+  },
+  {
     "key": "cmd+alt+n",
     "command": "bookmarks.jumpToNext"
   },
@@ -105,7 +113,7 @@
     "command": "bookmarks.jumpToPrevious"
   },
   {
-    "key": "cmd+alt+shift+l",
+    "key": "alt+cmd+l",
     "command": "bookmarks.listFromAllFiles"
   },
 ]
