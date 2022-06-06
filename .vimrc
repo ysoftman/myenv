@@ -200,10 +200,13 @@ let g:go_def_mapping_enabled=0
 " let g:go_fmt_command = "goimports"
 " let g:go_fmt_autosave = 0
 let g:go_highlight_structs = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_functions = 1
 let g:go_highlight_operators = 1
+let g:go_highlight_types = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_methods = 1
 let g:go_highlight_build_constraints = 1
+let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 
 
 " mac 에선 기본적으로 option 키가 조합되면 특정 문자로 취급된다.
@@ -254,14 +257,20 @@ nnoremap <silent> <leader>c v:call NERDComment('x', 'toggle')<cr> "현재 라인
 autocmd filetype c noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
 autocmd filetype cpp noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
 
+
+"vim-go
+autocmd filetype go noremap <f2> :GoRename<enter>
 autocmd filetype go noremap <f5> :w <bar> :!clear; <enter> :GoRun<enter>
 autocmd filetype go noremap <f7> :w <bar> :!clear; <enter> :GoBuild<enter>
-autocmd filetype go noremap <leader>d :GoDef<enter>
+autocmd filetype go noremap <f12> :GoDef<enter>
 "fuctionkey 조합은 동작 하지 않아 사용하지 않음.
 "autocmd filetype go noremap <s-f12> :GoCallees<enter>
 autocmd filetype go noremap <leader>c :GoCallees<enter>
+autocmd filetype go noremap <leader>d :GoDef<enter>
 autocmd filetype go noremap <leader>f :w <bar> :GoFmt<enter>
 autocmd filetype go noremap <leader>i :w <bar> :GoImports<enter>
 autocmd filetype go noremap <leader>g :GoGuruScope .<enter>
 autocmd filetype go noremap <leader>v :GoVet<enter>:GoLint<enter>
+":GoInstallBinaries
+":GoUpdateBinaries
 
