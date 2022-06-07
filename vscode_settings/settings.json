@@ -136,6 +136,11 @@
   "editor.cursorBlinking": "expand",
   "python.formatting.provider": "black",
   "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.linting.pylintArgs": [
+    "--disable=all",
+    "--enable=W0611",
+  ],
   "python.languageServer": "Pylance",
   // Number of editors shown in the Open Editors pane.
   "explorer.openEditors.visible": 0,
@@ -221,5 +226,6 @@
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "window.zoomLevel": 1
+  "window.zoomLevel": 1,
+  "terminal.integrated.defaultProfile.osx": "zsh"
 }
