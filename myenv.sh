@@ -1,9 +1,9 @@
 #!/bin/bash
 current_shell="bash"
-if [[ $(ps -p $$ -o command | sed -e 1d) == *"bash" ]]; then
+if [[ $(ps -p $$ -o command | sed -e 1d) == *"bash "* ]]; then
     current_shell="bash"
     shopt -s expand_aliases
-elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh" ]]; then
+elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh "* ]]; then
     current_shell="zsh"
 
     # mac builtin 설명 보기
