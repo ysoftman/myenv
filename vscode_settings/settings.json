@@ -185,6 +185,36 @@
   "terminal.integrated.fontFamily": "hack nerd font, monaco, menlo",
   "terminal.integrated.fontSize": 16,
   "terminal.integrated.defaultProfile.windows": "C:\\WINDOWS\\System32\\cmd.exe",
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.profiles.osx": {
+    "bash": {
+      "path": "bash",
+      "args": [
+        "-l"
+      ],
+      "icon": "terminal-bash"
+    },
+    "zsh": {
+      "path": "zsh",
+      "args": [
+        "-l"
+      ]
+    },
+    "fish": {
+      "path": "fish",
+      "args": [
+        "-l"
+      ]
+    },
+    "tmux": {
+      "path": "tmux",
+      "icon": "terminal-tmux"
+    },
+    "pwsh": {
+      "path": "pwsh",
+      "icon": "terminal-powershell"
+    }
+  },
   "update.mode": "manual",
   "remote.SSH.showLoginTerminal": true,
   "liveshare.presence": false,
@@ -226,6 +256,5 @@
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "window.zoomLevel": 1,
-  "terminal.integrated.defaultProfile.osx": "zsh"
+  "window.zoomLevel": 1
 }
