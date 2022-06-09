@@ -199,6 +199,7 @@ alias ghauthstatus='gh auth status'
 alias ghissueme='gh issue list --assignee @me'
 alias ghissueview='gh issue view' # 뒤에 이슈번호 아규먼트 명시
 alias k='kubectl'
+alias m-c='/usr/local/Cellar/midnight-commander/4.8.28/bin/mc'
 alias cntsrc='fd ".go|.cpp" --exclude="ysoftman_common.go" | sed -e "s/.go//" -e "s/.cpp//" | uniq | wc'
 
 
