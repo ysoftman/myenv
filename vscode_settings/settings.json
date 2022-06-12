@@ -81,7 +81,7 @@
   "workbench.sideBar.location": "left",
   "workbench.editor.showTabs": true,
   "workbench.colorCustomizations": {
-    "editor.lineHighlightBackground": "#115511",
+    "editor.lineHighlightBackground": "#002f00",
     "editor.selectionBackground": "#ffdd00",
     "editor.findMatchBackground": "#ffdd00",
     "editor.findMatchHighlightBorder": "#ffffff",
