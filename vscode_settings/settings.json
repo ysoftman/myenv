@@ -80,7 +80,6 @@
   "workbench.activityBar.visible": false,
   "workbench.sideBar.location": "left",
   "workbench.editor.showTabs": true,
-  "workbench.iconTheme": "vscode-icons",
   "workbench.colorCustomizations": {
     "editor.lineHighlightBackground": "#115511",
     "editor.selectionBackground": "#ffdd00",
@@ -230,7 +229,7 @@
   "dart.debugExternalLibraries": true,
   "dart.debugSdkLibraries": true,
   "extensions.ignoreRecommendations": false,
-  "workbench.colorTheme": "One Dark Pro Darker",
+  "workbench.colorTheme": "Dobri Next -C07- One",
   "liveServer.settings.donotShowInfoMsg": true,
   "liveServer.settings.donotVerifyTags": true,
   "go.toolsManagement.autoUpdate": true,
@@ -256,5 +255,6 @@
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "window.zoomLevel": 1
+  "window.zoomLevel": 1,
+  "workbench.iconTheme": "vscode-icons"
 }
