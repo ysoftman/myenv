@@ -170,9 +170,10 @@ font:
   #draw_bold_text_with_bright_colors: false
 
 # Colors (One Dark)
+# based on https://github.com/joshdick/onedark.vim but modified
 colors:
   primary:
-    background: "#282c34"
+    background: "#0b1015"
     foreground: "#abb2bf"
   cursor:
     # text:       CellBackground
@@ -184,6 +185,7 @@ colors:
     # black:      '#5c6370' # mono-3
     black: "#282c34"
     red: "#e06c75" # red 1
+    # red: "#f44747" # red 1
     green: "#98c379"
     yellow: "#e5c07b" # orange 2
     blue: "#61afef"

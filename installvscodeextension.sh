@@ -22,6 +22,7 @@ code --install-extension ecmel.vscode-html-css
 code --install-extension eg2.tslint
 code --install-extension esbenp.prettier-vscode
 code --install-extension fallenwood.vimL
+code --install-extension fivepointseven.vscode-theme-onedark-vivid
 code --install-extension formulahendry.auto-close-tag
 code --install-extension formulahendry.auto-rename-tag
 code --install-extension formulahendry.vscode-mysql
@@ -75,6 +76,7 @@ code --install-extension scala-lang.scala
 code --install-extension scalameta.metals
 code --install-extension sdras.night-owl
 code --install-extension shanoor.vscode-nginx
+code --install-extension sldobri.bunker
 code --install-extension solnurkarim.html-to-css-autocompletion
 code --install-extension sysoev.language-stylus
 code --install-extension techer.open-in-browser
