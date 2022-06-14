@@ -33,12 +33,14 @@ code --install-extension HookyQR.beautify
 code --install-extension itryapitsin.Scala
 code --install-extension jeff-hykin.better-cpp-syntax
 code --install-extension johnpapa.Angular2
+code --install-extension josetr.cmake-language-support-vscode
 code --install-extension marcostazi.VS-code-vagrantfile
 code --install-extension mechatroner.rainbow-csv
 code --install-extension mitaki28.vscode-clang
 code --install-extension mrmlnc.vscode-apache
 code --install-extension ms-azuretools.vscode-docker
 code --install-extension ms-dotnettools.csharp
+code --install-extension ms-dotnettools.vscode-dotnet-runtime
 code --install-extension ms-python.python
 code --install-extension ms-python.vscode-pylance
 code --install-extension ms-toolsai.jupyter
