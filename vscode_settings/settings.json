@@ -81,6 +81,7 @@
   "workbench.sideBar.location": "left",
   "workbench.editor.showTabs": true,
   "workbench.colorCustomizations": {
+    "terminal.background": "#0b1015",
     "editor.background": "#0b1015",
     "sideBar.background": "#0b1015",
     "sideBar.foreground": "#7098e8",
@@ -223,15 +224,22 @@
   "remote.SSH.showLoginTerminal": true,
   "liveshare.presence": false,
   "oneDarkPro.vivid": true,
+  "eslint.enable": true,
   "eslint.format.enable": true,
   "eslint.alwaysShowStatus": true,
+  "eslint.validate": [
+    "vue",
+    "javascript",
+    "javascriptreact",
+    "html",
+    "typescript",
+  ],
   "vetur.format.enable": false,
   // completion, diagnostics, hover, jump to definition, find references
   "vetur.experimental.templateInterpolationService": true,
   "printcode.lineNumbers": "editor",
   "cmake.configureOnOpen": true,
   "dart.openDevTools": "flutter",
-  "dart.debugExternalLibraries": true,
   "dart.debugSdkLibraries": true,
   "extensions.ignoreRecommendations": false,
   "workbench.colorTheme": "One Dark Pro Darker",
@@ -260,6 +268,12 @@
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "window.zoomLevel": 1,
-  "workbench.iconTheme": "vscode-icons"
+  "workbench.iconTheme": "vscode-icons",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "window.zoomLevel": 1
 }
