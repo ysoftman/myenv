@@ -138,11 +138,14 @@ command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-hea
 " hi LineNr ctermbg=NONE guibg=NONE
 
 "ondeark
-" let g:onedark_termcolors=16
 colorscheme onedark
+"let g:onedark_termcolors=16
 let g:onedark_termcolors=256
 " 컬러스킴 설정후 ColorColumn(colorcolumn) 값만 변경한다.
 highlight ColorColumn ctermbg=brown
+" color terminal background 색상은 설정 안하기(검은색으로 보임)
+highlight Normal ctermbg=none
+
 
 "lightline 화살표 폰트가 없어 powerline 폰트가 필요 없다.
 set laststatus=2
