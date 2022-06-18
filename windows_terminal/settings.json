@@ -3,12 +3,6 @@
     "$schema": "https://aka.ms/terminal-profiles-schema",
     "actions": [
         {
-            "command": {
-                "action": "nextTab"
-            },
-            "keys": "ctrl+tab"
-        },
-        {
             "command": "unbound",
             "keys": "ctrl+shift+1"
         },
@@ -85,12 +79,20 @@
             "keys": "ctrl+shift+w"
         },
         {
+            "command": {
+                "action": "nextTab"
+            },
+            "keys": "ctrl+tab"
+        },
+        {
             "command": "paste",
             "keys": "ctrl+shift+v"
         },
         {
-            "command": "duplicateTab",
-            "keys": "ctrl+shift+d"
+            "command": {
+                "action": "copy"
+            },
+            "keys": "ctrl+shift+c"
         },
         {
             "command": {
@@ -99,10 +101,12 @@
             "keys": "ctrl+shift+tab"
         },
         {
-            "command": {
-                "action": "copy"
-            },
-            "keys": "ctrl+shift+c"
+            "command": "duplicateTab",
+            "keys": "ctrl+shift+d"
+        },
+        {
+            "command": "scrollDownPage",
+            "keys": "ctrl+shift+pgdn"
         },
         {
             "command": {
@@ -117,24 +121,20 @@
             "keys": "ctrl+comma"
         },
         {
+            "command": "scrollUpPage",
+            "keys": "ctrl+shift+pgup"
+        },
+        {
             "command": {
                 "action": "scrollDown"
             },
             "keys": "ctrl+shift+down"
         },
         {
-            "command": "scrollDownPage",
-            "keys": "ctrl+shift+pgdn"
-        },
-        {
             "command": {
                 "action": "scrollUp"
             },
             "keys": "ctrl+shift+up"
-        },
-        {
-            "command": "scrollUpPage",
-            "keys": "ctrl+shift+pgup"
         }
     ],
     "alwaysShowTabs": true,
@@ -149,7 +149,8 @@
                 "colorScheme": "One Half Dark",
                 "commandline": "wsl.exe -d ubuntu",
                 "cursorColor": "#FFFFFF",
-                "cursorShape": "bar",
+                "cursorShape": "filledBox",
+                "experimental.retroTerminalEffect": false,
                 "font": {
                     "face": "Hack Nerd Font",
                     "size": 16
@@ -276,10 +277,10 @@
             "yellow": "#C19C00"
         },
         {
-            "background": "#0a0a0a",
-            "black": "#0a0a0a",
+            "background": "#0A0A0A",
+            "black": "#0A0A0A",
             "blue": "#61AFEF",
-            "brightBlack": "#0a0a0a",
+            "brightBlack": "#525252",
             "brightBlue": "#61AFEF",
             "brightCyan": "#56B6C2",
             "brightGreen": "#98C379",
