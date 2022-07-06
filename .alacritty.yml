@@ -652,11 +652,11 @@ key_bindings:
 
 
   # Vi Mode
-  # - { key: Space,  mods: Shift|Control, mode: Vi, action: ScrollToBottom          }
-  # - { key: Space, mods: Shift|Control, action: ToggleViMode }
-  # - { key: B, mods: Shift, mode: Vi, action: WordLeft }
-  # - { key: W, mods: Shift, mode: Vi, action: WordRight }
-  # - { key: Escape,                      mode: Vi, action: ClearSelection          }
+  #- { key: Space,  mods: Shift|Control, mode: Vi, action: ScrollToBottom          }
+  - { key: Space, mods: Control, action: ToggleViMode }
+  #- { key: B, mods: Shift, mode: Vi, action: WordLeft }
+  #- { key: W, mods: Shift, mode: Vi, action: WordRight }
+  #- { key: Escape,                      mode: Vi, action: ClearSelection          }
   #- { key: I,                           mode: Vi, action: ScrollToBottom          }
   #- { key: I,                           mode: Vi, action: ToggleViMode            }
   #- { key: Y,      mods: Control,       mode: Vi, action: ScrollLineUp            }
