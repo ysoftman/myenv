@@ -137,6 +137,8 @@ elif [[ $temp == *"linux"* ]]; then
         export PATH=$PATH:"/mnt/c/Users/${username}/AppData/Local/Programs/Microsoft VS Code/bin"
         # 윈도우 netstat.exe 사용해야 실제 네트워크 상태를 알 수 있다.
         alias netstat='/mnt/c/Windows/System32/netstat.exe'
+        # wsl+terminal 앱에서 less(git diff, man ls...)페이지 처음/끝에서 더 이동시 beep 발생 방지를 위해 기존 옵션에 -R -Q 을 추가해야 한다.
+        export LESS="$LESS -R -Q"
     fi
 fi
 
