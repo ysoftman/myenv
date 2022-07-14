@@ -31,6 +31,18 @@ if [[ ${answer} != '' ]]; then
     git config --global user.name ${user_name}
 fi
 
+temp=$(delta --version 2> /dev/null)
+if [[ $? == 0 ]]; then
+    git config --global core.pager "delta"
+    git config --global interactive.diffFilter "delta --color-only"
+    git config --global add.interactive.userBuiltin "false"
+    git config --global delta.navigate "true"
+    git config --global delta.light "false"
+    git config --global delta.line-numbers "true"
+    git config --global delta.side-by-side "true"
+    git config --global delta.syntax-theme "OneHalfDark"
+fi
+
 # 파일로 저장하지 않고 일정시간(디폴트 15분)동안 id,pw 를 캐싱한다.
 #git config --global credential.helper cache
 # save credential(password)
