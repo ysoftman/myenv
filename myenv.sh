@@ -203,7 +203,7 @@ alias ghissueview='gh issue view' # 뒤에 이슈번호 아규먼트 명시
 alias k='kubectl'
 alias m-c='/usr/local/Cellar/midnight-commander/4.8.28/bin/mc'
 # uniq 는 인접한 라인과 비교해 반복되는것은 필터링 시키기 때문에 sort 이후에 사용해야 한다.
-alias cntsrc='fd ".go|.cpp" --exclude="ysoftman_common.go" | sed -e "s/.go//" -e "s/.cpp//" | sort | uniq | wc'
+alias cntsrc='fd ".go|.cpp|.c|.sh|.sql" --exclude="ysoftman_common.go" | sed -e "s/\.[^.]*$//" | sort | uniq | wc'
 
 
 temp=$(which pyenv 2> /dev/null)
