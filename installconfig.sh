@@ -58,7 +58,8 @@ git config --global credential.helper store
 [ -h ~/.muttrc ] && unlink ~/.muttrc
 [ -h ~/.alacritty.yml ] && unlink ~/.alacritty.yml
 [ -h ~/.config/mc ] && unlink ~/.config/mc
-[ -h ~/.k9s/skin.yml ] && unlink ~/.k9s/skin.yml
+export XDG_CONFIG_HOME="$HOME/.config"
+[ -h ${XDG_CONFIG_HOME}/k9s/skin.yml ] && unlink ${XDG_CONFIG_HOME}/k9s/skin.yml
 
 [ -f ~/.gitignore_global ] && mv -fv ~/.gitignore_global ~/.gitignore_global.bak
 [ -f ~/.bashrc ] && mv -fv ~/.bashrc ~/.bashrc.bak
@@ -69,7 +70,7 @@ git config --global credential.helper store
 [ -f ~/.muttrc ] && mv -fv ~/.muttrc ~/.muttrc.bak
 [ -f ~/.alacritty.yml ] && mv -fv ~/.alacritty.yml ~/.alacritty.yml.bak
 [ -d ~/.config/mc ] && mv -fv ~/.config/mc ~/.config/mc.bak
-[ -f ~/.k9s/skin.yml ] && mv -fv ~/.k9s/skin.yml ~/.k9s/skin.yml.bak
+[ -f ${XDG_CONFIG_HOME}/k9s/skin.yml ] && mv -fv ${XDG_CONFIG_HOME}/k9s/skin.yml ${XDG_CONFIG_HOME}/k9s/skin.yml.bak
 
 ln -sf ${PWD}/.gitignore_global ~/.gitignore_global
 ln -sf ${PWD}/.bashrc ~/.bashrc
@@ -80,7 +81,7 @@ ln -sf ${PWD}/.tigrc ~/.tigrc
 ln -sf ${PWD}/.muttrc ~/.muttrc
 ln -sf ${PWD}/.alacritty.yml ~/.alacritty.yml
 [ -d ~/.config ] && ln -sf ${PWD}/mc ~/.config/mc
-[ -d ~/.k9s ] && ln -sf ${PWD}/.k9s/skins/one_dark.yml ~/.k9s/skin.yml
+[ -d ${XDG_CONFIG_HOME}/k9s ] && ln -sf ${PWD}/k9s/skins/one_dark.yml ${XDG_CONFIG_HOME}/k9s/skin.yml
 ln -sf ${PWD}/dosbox.conf ~/dosbox.conf
 ln -sf ${PWD}/dosbox.sh ~/dosbox.sh
 ln -sf ${PWD}/pythonpath.sh ~/pythonpath.sh
