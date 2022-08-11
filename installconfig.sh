@@ -59,6 +59,7 @@ git config --global credential.helper store
 [ -h ~/.alacritty.yml ] && unlink ~/.alacritty.yml
 [ -h ~/.config/mc ] && unlink ~/.config/mc
 export XDG_CONFIG_HOME="$HOME/.config"
+mkdir -p ${XDG_CONFIG_HOME}/k9s
 [ -h ${XDG_CONFIG_HOME}/k9s/skin.yml ] && unlink ${XDG_CONFIG_HOME}/k9s/skin.yml
 
 [ -f ~/.gitignore_global ] && mv -fv ~/.gitignore_global ~/.gitignore_global.bak
