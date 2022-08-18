@@ -30,6 +30,7 @@ code --install-extension gaborv.flatbuffers
 code --install-extension golang.go
 code --install-extension hashicorp.terraform
 code --install-extension HookyQR.beautify
+code --install-extension hoovercj.vscode-power-mode
 code --install-extension itryapitsin.Scala
 code --install-extension jeff-hykin.better-cpp-syntax
 code --install-extension johnpapa.Angular2
