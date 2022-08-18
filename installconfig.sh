@@ -58,6 +58,7 @@ git config --global credential.helper store
 [ -h ~/.muttrc ] && unlink ~/.muttrc
 [ -h ~/.alacritty.yml ] && unlink ~/.alacritty.yml
 [ -h ~/.config/mc ] && unlink ~/.config/mc
+[ -h ~/.config/lsd ] && unlink ~/.config/lsd
 export XDG_CONFIG_HOME="$HOME/.config"
 mkdir -p ${XDG_CONFIG_HOME}/k9s
 [ -h ${XDG_CONFIG_HOME}/k9s/skin.yml ] && unlink ${XDG_CONFIG_HOME}/k9s/skin.yml
@@ -71,6 +72,7 @@ mkdir -p ${XDG_CONFIG_HOME}/k9s
 [ -f ~/.muttrc ] && mv -fv ~/.muttrc ~/.muttrc.bak
 [ -f ~/.alacritty.yml ] && mv -fv ~/.alacritty.yml ~/.alacritty.yml.bak
 [ -d ~/.config/mc ] && mv -fv ~/.config/mc ~/.config/mc.bak
+[ -d ~/.config/lsd ] && mv -fv ~/.config/lsd ~/.config/lsd.bak
 [ -f ${XDG_CONFIG_HOME}/k9s/skin.yml ] && mv -fv ${XDG_CONFIG_HOME}/k9s/skin.yml ${XDG_CONFIG_HOME}/k9s/skin.yml.bak
 
 ln -sf ${PWD}/.gitignore_global ~/.gitignore_global
@@ -82,6 +84,7 @@ ln -sf ${PWD}/.tigrc ~/.tigrc
 ln -sf ${PWD}/.muttrc ~/.muttrc
 ln -sf ${PWD}/.alacritty.yml ~/.alacritty.yml
 [ -d ~/.config ] && ln -sf ${PWD}/mc ~/.config/mc
+[ -d ~/.config ] && ln -sf ${PWD}/lsd ~/.config/lsd
 [ -d ${XDG_CONFIG_HOME}/k9s ] && ln -sf ${PWD}/k9s/skins/one_dark.yml ${XDG_CONFIG_HOME}/k9s/skin.yml
 ln -sf ${PWD}/dosbox.conf ~/dosbox.conf
 ln -sf ${PWD}/dosbox.sh ~/dosbox.sh
