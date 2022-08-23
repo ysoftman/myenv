@@ -43,9 +43,12 @@ if [ -d ${HOME}/.kube ]; then
     # kubectl config view --flatten > ${HOME}/.kube/z
 fi
 
-# kube prompt 사용 (brew install kube-ps1)
-if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
-    source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+# kube prompt 사용
+# brew install kube-ps1 로 설치시 최신 버전아님
+#kube_ps1_path="/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+kube_ps1_path="${HOME}/.kube/kube-ps1/kube-ps1.sh"
+if [ -f ${kube_ps1_path} ]; then
+    source ${kube_ps1_path}
     export KUBE_PS1_SYMBOL_USE_IMG=true
     # PS1='$(kube_ps1)'$'\n'$PS1  # 2 줄로 표시할때
     PS1='$(kube_ps1) '$PS1

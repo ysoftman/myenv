@@ -57,6 +57,7 @@ git config --global credential.helper store
 [ -h ~/.tigrc ] && unlink ~/.tigrc
 [ -h ~/.muttrc ] && unlink ~/.muttrc
 [ -h ~/.alacritty.yml ] && unlink ~/.alacritty.yml
+[ -h ~/.kube/kube-ps1/kube-ps1.sh ] && unlink ~/.kube/kube-ps1/kube-ps1.sh
 [ -h ~/.config/mc ] && unlink ~/.config/mc
 [ -h ~/.config/lsd ] && unlink ~/.config/lsd
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -71,6 +72,7 @@ mkdir -p ${XDG_CONFIG_HOME}/k9s
 [ -f ~/.tigrc ] && mv -fv ~/.tigrc ~/.tigrc.bak
 [ -f ~/.muttrc ] && mv -fv ~/.muttrc ~/.muttrc.bak
 [ -f ~/.alacritty.yml ] && mv -fv ~/.alacritty.yml ~/.alacritty.yml.bak
+[ -f ~/.kube/kube-ps1/kube-ps1.sh ] && mv -fv ~/.kube/kube-ps1/kube-ps1.sh  ~/.kube/kube-ps1/kube-ps1.sh.bak
 [ -d ~/.config/mc ] && mv -fv ~/.config/mc ~/.config/mc.bak
 [ -d ~/.config/lsd ] && mv -fv ~/.config/lsd ~/.config/lsd.bak
 [ -f ${XDG_CONFIG_HOME}/k9s/skin.yml ] && mv -fv ${XDG_CONFIG_HOME}/k9s/skin.yml ${XDG_CONFIG_HOME}/k9s/skin.yml.bak
@@ -83,6 +85,7 @@ ln -sf ${PWD}/.tmux.conf ~/.tmux.conf
 ln -sf ${PWD}/.tigrc ~/.tigrc
 ln -sf ${PWD}/.muttrc ~/.muttrc
 ln -sf ${PWD}/.alacritty.yml ~/.alacritty.yml
+ln -sf ${PWD}/.kube/kube-ps1/kube-ps1.sh ~/.kube-ps1.sh
 [ -d ~/.config ] && ln -sf ${PWD}/mc ~/.config/mc
 [ -d ~/.config ] && ln -sf ${PWD}/lsd ~/.config/lsd
 [ -d ${XDG_CONFIG_HOME}/k9s ] && ln -sf ${PWD}/k9s/skins/one_dark.yml ${XDG_CONFIG_HOME}/k9s/skin.yml
