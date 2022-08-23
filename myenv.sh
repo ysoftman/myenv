@@ -49,6 +49,9 @@ if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
     export KUBE_PS1_SYMBOL_USE_IMG=true
     # PS1='$(kube_ps1)'$'\n'$PS1  # 2 줄로 표시할때
     PS1='$(kube_ps1) '$PS1
+    # kube-ps1 off/on command(function in script)
+    # kubeoff -g
+    # kubeon -g
 fi
 
 # fzf 가 설치되어 있다면 kubectx 실행시 fzf 선택 메뉴가 나타난다.
