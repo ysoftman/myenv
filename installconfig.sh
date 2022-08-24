@@ -63,6 +63,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 mkdir -p ${XDG_CONFIG_HOME}/k9s
 [ -h ${XDG_CONFIG_HOME}/k9s/skin.yml ] && unlink ${XDG_CONFIG_HOME}/k9s/skin.yml
 
+# backup previous settings
 [ -f ~/.gitignore_global ] && mv -fv ~/.gitignore_global ~/.gitignore_global.bak
 [ -f ~/.bashrc ] && mv -fv ~/.bashrc ~/.bashrc.bak
 [ -f ~/.zshrc ] && mv -fv ~/.zshrc ~/.zshrc.bak
