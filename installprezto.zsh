@@ -9,12 +9,9 @@ for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
     ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
 done
 
-rm -fv ${HOME}/.zprezto/runcoms/zpreztorc
-ln -sv ${PWD}/zpreztorc ${HOME}/.zprezto/runcoms/zpreztorc
-rm -fv ${HOME}/.zprezto/runcoms/zlogin
-ln -sv ${PWD}/zlogin ${HOME}/.zprezto/runcoms/zlogin
-
-ln -sv ${PWD}/prompt_sorin_ysoftman_setup ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup
+ln -sfv ${PWD}/zpreztorc ${HOME}/.zprezto/runcoms/zpreztorc
+ln -sfv ${PWD}/zlogin ${HOME}/.zprezto/runcoms/zlogin
+ln -sfv ${PWD}/prompt_sorin_ysoftman_setup ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup
 
 
 #echo 'source ${HOME}/.zprezto/init.zsh' >> ~/.zshrc
