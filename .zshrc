@@ -81,4 +81,5 @@ export NVM_DIR="$HOME/.nvm"
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/mc mc
 
-eval $(thefuck --alias)
+# --alias : prints alias for current shell, fuck() 함수 내용 출력
+# eval $(thefuck --alias)
