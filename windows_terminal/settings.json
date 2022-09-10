@@ -3,6 +3,12 @@
     "$schema": "https://aka.ms/terminal-profiles-schema",
     "actions": [
         {
+            "command": {
+                "action": "nextTab"
+            },
+            "keys": "ctrl+tab"
+        },
+        {
             "command": "unbound",
             "keys": "ctrl+shift+1"
         },
@@ -79,14 +85,18 @@
             "keys": "ctrl+shift+w"
         },
         {
-            "command": {
-                "action": "nextTab"
-            },
-            "keys": "ctrl+tab"
+            "command": "duplicateTab",
+            "keys": "ctrl+shift+d"
         },
         {
             "command": "paste",
             "keys": "ctrl+shift+v"
+        },
+        {
+            "command": {
+                "action": "prevTab"
+            },
+            "keys": "ctrl+shift+tab"
         },
         {
             "command": {
@@ -96,23 +106,13 @@
         },
         {
             "command": {
-                "action": "prevTab"
+                "action": "newTab"
             },
-            "keys": "ctrl+shift+tab"
-        },
-        {
-            "command": "duplicateTab",
-            "keys": "ctrl+shift+d"
+            "keys": "ctrl+shift+t"
         },
         {
             "command": "scrollDownPage",
             "keys": "ctrl+shift+pgdn"
-        },
-        {
-            "command": {
-                "action": "newTab"
-            },
-            "keys": "ctrl+shift+t"
         },
         {
             "command": {
@@ -121,14 +121,14 @@
             "keys": "ctrl+comma"
         },
         {
-            "command": "scrollUpPage",
-            "keys": "ctrl+shift+pgup"
-        },
-        {
             "command": {
                 "action": "scrollDown"
             },
             "keys": "ctrl+shift+down"
+        },
+        {
+            "command": "scrollUpPage",
+            "keys": "ctrl+shift+pgup"
         },
         {
             "command": {
@@ -137,6 +137,7 @@
             "keys": "ctrl+shift+up"
         }
     ],
+    "alwaysShowNotificationIcon": false,
     "alwaysShowTabs": true,
     "defaultProfile": "{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}",
     "initialCols": 120,
@@ -149,7 +150,7 @@
                 "colorScheme": "One Half Dark",
                 "commandline": "wsl.exe -d ubuntu",
                 "cursorColor": "#FFFFFF",
-                "cursorShape": "filledBox",
+                "cursorShape": "bar",
                 "experimental.retroTerminalEffect": false,
                 "font": {
                     "face": "Hack Nerd Font",
@@ -163,7 +164,7 @@
                 "padding": "0, 0, 0, 0",
                 "snapOnInput": true,
                 "startingDirectory": "%USERPROFILE%",
-                "useAcrylic": true
+                "useAcrylic": false
             },
             {
                 "background": "#012456",
@@ -463,5 +464,7 @@
     ],
     "showTabsInTitlebar": true,
     "showTerminalTitleInTitlebar": true,
+    "theme": "dark",
+    "useAcrylicInTabRow": false,
     "wordDelimiters": " ./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}~?\u2502"
 }
