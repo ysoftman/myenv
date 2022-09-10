@@ -137,8 +137,12 @@ elif [[ $temp == *"linux"* ]]; then
     # WSL(Windows Subsystem for Linux)
     temp=$(uname -r | awk '{print tolower($0)}')
     if [[ $temp == *"wsl"* ]]; then
-        # wslvar reg.exe 에러 발생시 업데이트
-        # sudo apt install wslu
+        temp=$(wslvar userprofile 2> /dev/null)
+        if [ $? != 0 ]; then
+            # wslvar reg.exe 등의 에러 발생시 업데이트
+            echo "need to install wslu for wslvar(reg.exe...)"
+            sudo apt install -y wslu
+        fi
         # wsl.conf appendWindowsPath=false 인경우 vscode 경로 추가 필요
         # export PATH=$PATH:"/mnt/c/Program Files/Microsoft VS Code/bin:"
         username=$(wslvar userprofile | tr '\\' ' ' | awk '{print $NF}')
