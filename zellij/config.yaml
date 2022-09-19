@@ -609,7 +609,7 @@ theme: one-half-dark
 # Options:
 #   - true (default)
 #   - false
-#mouse_mode: false
+mouse_mode: true
 
 # Configure the scroll back buffer size
 # This is the number of lines zellij stores for each pane in the scroll back
@@ -640,3 +640,4 @@ theme: one-half-dark
 
 # Path to the default editor to use to edit pane scrollbuffer
 # scrollback_editor: /usr/bin/nano
+scrollback_editor: vim
