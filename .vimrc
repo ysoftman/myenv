@@ -252,7 +252,10 @@ noremap <c-t> :FZF<enter>
 noremap <c-h> :History<enter>
 noremap <c-f> :Rg<enter>
 noremap <c-l> :Buffers<enter>
-"<c-m> <cr> --> 엔터 와 같아서 사용하지 않는다.
+" zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 맴핑키를 추가 한다.
+noremap fzf :FZF<enter>
+noremap hist :History<enter>
+
 "noremap <c-m> :Maps<enter>
 "[count]<leader>cc "선택한 라인 커멘트 설정
 "[count]<leader>cu "선택한 라인 커멘트 해제
