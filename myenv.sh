@@ -93,6 +93,10 @@ temp=$(which fd 2> /dev/null)
 if [ $? = 0 ] && [ -f $temp ]; then
     export FZF_CTRL_T_COMMAND='fd --hidden'
 fi
+# zellij 에서 ctrl-t 가 tab 명령 단축키라 FZF_CTRL_T_COMMAND(ctrl-t)와 중복된다.
+# alt-t 로도 FZF_CTRL_T_COMMAND(fzf-file-widget) 사용할 수 있도록 등록한다.
+bindkey "^[t" fzf-file-widget
+
 # 파일내용 미리보기 창 설정
 catcmd='cat {}'
 temp=$(which bat 2> /dev/null)
