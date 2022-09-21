@@ -276,5 +276,6 @@
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "window.zoomLevel": 1,
-  "powermode.enabled": false
+  "powermode.enabled": false,
+  "diffEditor.ignoreTrimWhitespace": false
 }
