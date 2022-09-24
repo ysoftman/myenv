@@ -71,5 +71,5 @@ code --list-extensions | sed 's/^/code --install-extension /g' >> ${install_file
 # backup cargo installed package list and make install script
 install_file="installcargo.sh"
 echo '#!/bin/sh' > ${install_file}
-echo 'rustup update' > ${install_file}
+echo 'rustup update' >> ${install_file}
 cargo install --list | awk 'NR%2==0 {$1=$1;print}' | tr '\n' ' ' | sed 's/^/cargo install /g' >> ${install_file}
