@@ -3,7 +3,7 @@
 # backup my settings
 mkdir -p vscode_settings
 if [[ $(uname -a | grep -i darwin) ]]; then
-    # backup my brew list and make install script
+    # backup my brew installed package list and make install script
     install_file="installbrew.sh"
     echo '#!/bin/bash' > ${install_file}
     printf "brew tap homebrew/cask-fonts\n" >> ${install_file}
@@ -27,7 +27,7 @@ else
 fi
 
 
-# backup my pip list and make install script
+# backup my pip installed package list and make install script
 install_file="installpip.sh"
 echo '#!/bin/bash' > ${install_file}
 echo 'sudo pip install --upgrade pip' >> ${install_file}
@@ -67,3 +67,9 @@ fi
 install_file="installvscodeextension.sh"
 echo '#!/bin/sh' > ${install_file}
 code --list-extensions | sed 's/^/code --install-extension /g' >> ${install_file}
+
+# backup cargo installed package list and make install script
+install_file="installcargo.sh"
+echo '#!/bin/sh' > ${install_file}
+echo 'rustup update' > ${install_file}
+cargo install --list | awk 'NR%2==0 {$1=$1;print}' | tr '\n' ' ' | sed 's/^/cargo install /g' >> ${install_file}

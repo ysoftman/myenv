@@ -1,23 +1,2 @@
-#!/bin/bash
-
-# rust 버전업
 rustup update
-
-# https://github.com/ogham/exa
-# https://github.com/Peltoche/lsd
-# https://github.com/sharkdp/fd
-# https://github.com/bootandy/dust
-# https://github.com/imsnif/diskonaut
-# https://github.com/chmln/sd
-# https://github.com/BurntSushi/ripgrep
-# https://github.com/sharkdp/bat
-# https://github.com/dalance/procs
-# https://github.com/ClementTsang/bottom
-# https://github.com/imsnif/bandwhich
-# https://github.com/sharkdp/hexyl
-# https://github.com/sharkdp/hyperfine
-# https://github.com/zellij-org/zellij
-cargo install exa lsd fd-find du-dust diskonaut sd ripgrep bat procs bottom bandwhich hexyl hyperfine zellij
-
-# 설치 확인
-cargo install --list
+cargo install bandwhich bat btm diskonaut dust exa fd hello_cargo hexyl hyperfine lsd ohmystock procs rg rust_grep sd zellij 
