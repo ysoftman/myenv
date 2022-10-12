@@ -151,6 +151,7 @@
   "explorer.openEditors.visible": 0,
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
+  "explorer.compactFolders": false,
   // Should display the Treeview?
   "bookmarks.navigateThroughAllFiles": true,
   "vsicons.dontShowNewVersionMessage": true,

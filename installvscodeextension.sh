@@ -56,6 +56,7 @@ code --install-extension ms-vscode.cmake-tools
 code --install-extension ms-vscode.cpptools
 code --install-extension ms-vscode.cpptools-extension-pack
 code --install-extension ms-vscode.cpptools-themes
+code --install-extension ms-vscode.makefile-tools
 code --install-extension ms-vscode.node-debug2
 code --install-extension ms-vscode.Theme-MaterialKit
 code --install-extension ms-vscode.vscode-typescript-next
@@ -73,7 +74,7 @@ code --install-extension redhat.vscode-commons
 code --install-extension redhat.vscode-xml
 code --install-extension redhat.vscode-yaml
 code --install-extension ritwickdey.LiveServer
-code --install-extension rust-lang.rust
+code --install-extension rust-lang.rust-analyzer
 code --install-extension samuelcolvin.jinjahtml
 code --install-extension scala-lang.scala
 code --install-extension scalameta.metals
@@ -84,6 +85,7 @@ code --install-extension solnurkarim.html-to-css-autocompletion
 code --install-extension sysoev.language-stylus
 code --install-extension techer.open-in-browser
 code --install-extension twxs.cmake
+code --install-extension VisualStudioExptTeam.intellicode-api-usage-examples
 code --install-extension VisualStudioExptTeam.vscodeintellicode
 code --install-extension vitorsalgado.vscode-redis
 code --install-extension vscjava.vscode-java-debug
