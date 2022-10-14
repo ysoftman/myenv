@@ -234,6 +234,7 @@ alias cntsrc='fd ".go|.cpp|.c|.sh|.sql" --exclude="ysoftman_*" | sed -e "s/\.[^.
 alias gitpullall='for dir in $(fd -H -d 2 ".git$" | awk -F "/.git$" "{print \$1}"); do
 printf "${green}[%s]==> $reset_color" "$dir"; git -C $dir pull;
 done'
+alias installgolang='wget https://go.dev/dl/go1.19.2.linux-amd64.tar.gz && rm -rf /usr/local && tar zxvf go1.19.2.linux-amd64.tar.gz -C /usr/local'
 
 temp=$(which pyenv 2> /dev/null)
 if [[ $? == 0 ]]; then
