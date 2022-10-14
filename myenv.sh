@@ -235,7 +235,7 @@ alias gitpullall='for dir in $(fd -H -d 2 ".git$" | awk -F "/.git$" "{print \$1}
 printf "${green}[%s]==> $reset_color" "$dir"; git -C $dir pull;
 done'
 alias installgolang='wget https://go.dev/dl/go1.19.2.linux-amd64.tar.gz
-sudo rm -rf /usr/local/go
+rm -rf /usr/local/go
 sudo tar zxvf go1.19.2.linux-amd64.tar.gz -C /usr/local
 rm -rfv go1.19.2.linux-amd64.tar.gz'
 
