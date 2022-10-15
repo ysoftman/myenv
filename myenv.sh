@@ -231,7 +231,7 @@ alias m-c='/usr/local/Cellar/midnight-commander/4.8.28/bin/mc'
 # uniq 는 인접한 라인과 비교해 반복되는것은 필터링 시키기 때문에 sort 이후에 사용해야 한다.
 alias cntsrc='fd ".go|.cpp|.c|.sh|.sql" --exclude="ysoftman_*" | sed -e "s/\.[^.]*$//" | sort | uniq | wc'
 # 현재 하위 모든 git 디렉토리 pull 받기
-alias gitpullall='for dir in $(fd -H -d 2 ".git$" | awk -F "/.git$" "{print \$1}"); do
+alias gitpullall='for dir in $(fd -H -d 2 ".git$" | awk -F "/.git.*$" "{print \$1}"); do
 printf "${green}[%s]==> $reset_color" "$dir"; git -C $dir pull;
 done'
 alias installgolang='wget https://go.dev/dl/go1.19.2.linux-amd64.tar.gz
