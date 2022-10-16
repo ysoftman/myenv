@@ -1,24 +1,32 @@
 " vim-plug 설치(플러그인 매니저중 플러그인 설치 속도가 가장 빠름)
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-"플러그인 설치 vim 실행 후
-":PlugInstall
-":PlugUpdate
+" 플러그인 설치 vim 실행 후
+" :PlugInstall
+" :PlugUpdate
 " 또는 터미널에서 플러그인 설치후 vim 종료
-"vim +PlugInstall +qall
+" vim +PlugInstall +qall
 
 " vim 실행 후 GoInstallBinaries 로 $GOPATH/bin 에 필요한 파일들이 설치하고 모두 종료
 " dockerfile 로 이미지 빌드시 사용자 입력을 받을 수 없으니 slient 모드로 설치
 "vim +'silent :GoInstallBinaries' +qall
 
-"The ycmd server SHUT DOWN (restart with :YcmRestartServer) 메시지가 발생하는 경우
-"cd ~/.vim/plugged/youcompleteme/ && git submodule update --init --recursive
-"./install.py
+" The ycmd server SHUT DOWN (restart with :YcmRestartServer) 메시지가 발생하는 경우
+" cd ~/.vim/plugged/youcompleteme/ && git submodule update --init --recursive
+" ./install.py
+
+" FileNotFoundError: [Errno 2] No such file or directory: '/Users/ysoftman/.vim/plugged/youcompleteme/third_party/ycmd/third_party/go/bin/gopls' 에러 발생하는 경우 
+" cd ~/.vim/plugged/youcompleteme/third_party/ycmd/
+" git checkout master
+" git pull
+" git submodule update --init --recursive
+" ./build.py --go-completer
+
 " YouCompleteMe unavailable: requires Vim compiled with Python (3.6.0+) support. 메시지가 발생하는 경우
-"vim 에 +python3 로 설치되었는 확인 후 없으면(-python3) myenv/installvim.sh 로 소스빌드로 설치
-"vim --version | grep -i python
-"그래도 안되면, pytnon3 으로 다시 YouCompleteMe 빌드
-"python3 install.py --all
+" vim 에 +python3 로 설치되었는 확인 후 없으면(-python3) myenv/installvim.sh 로 소스빌드로 설치
+" vim --version | grep -i python
+" 그래도 안되면, pytnon3 으로 다시 YouCompleteMe 빌드
+" python3 install.py --all
 
 
 call plug#begin('~/.vim/plugged')
