@@ -136,22 +136,24 @@ export DISPLAY=localhost:0.0
 if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
     unalias ls 2> /dev/null
 fi
-temp=$(uname | tr '[:upper:]' '[:lower:]')
-if [[ $temp == *"darwin"* ]]; then
+os_name=$(uname | tr '[:upper:]' '[:lower:]')
+if [[ $os_name == *"darwin"* ]]; then
     export LSCOLORS='GxFxCxDxBxegedabagaced'
     export CLICOLOR=1
     alias ll='ls -ahlG'
     alias sn='pmset displaysleepnow'
-elif [[ $temp == *"linux"* ]]; then
+    golang_version="go1.19.2.darwin-amd64"
+elif [[ $os_name == *"linux"* ]]; then
     export LANG=ko_KR.utf8
     export LC_ALL=ko_KR.utf8
     #export PS1="\u@\h:\w\$ "
     export LS_COLORS='no=00:fi=00:di=00;36:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:ow=01;36;40:*.sh=00;32'
     alias ll='ls -ahl'
+    golang_version="go1.19.2.linux-amd64"
     # WSL(Windows Subsystem for Linux)
-    temp=$(uname -r | awk '{print tolower($0)}')
-    if [[ $temp == *"wsl"* ]]; then
-        temp=$(wslvar userprofile 2> /dev/null)
+    os_name=$(uname -r | awk '{print tolower($0)}')
+    if [[ $os_name == *"wsl"* ]]; then
+        os_name=$(wslvar userprofile 2> /dev/null)
         if [ $? != 0 ]; then
             # wslvar reg.exe 등의 에러 발생시 업데이트
             echo "need to install wslu for wslvar(reg.exe...)"
@@ -234,10 +236,10 @@ alias cntsrc='fd ".go|.cpp|.c|.sh|.sql" --exclude="ysoftman_*" | sed -e "s/\.[^.
 alias gitpullall='for dir in $(fd -H -d 2 ".git$" | awk -F "/.git.*$" "{print \$1}"); do
 printf "${green}[%s]==> $reset_color" "$dir"; git -C $dir pull;
 done'
-alias installgolang='wget https://go.dev/dl/go1.19.2.linux-amd64.tar.gz
+alias installgolang="wget https://go.dev/dl/${golang_version}.tar.gz
 sudo rm -rf /usr/local/go
-sudo tar zxvf go1.19.2.linux-amd64.tar.gz -C /usr/local
-rm -rfv go1.19.2.linux-amd64.tar.gz'
+sudo tar zxvf ${golang_version}.tar.gz -C /usr/local
+rm -rfv ${golang_version}.tar.gz"
 
 temp=$(which pyenv 2> /dev/null)
 if [[ $? == 0 ]]; then
