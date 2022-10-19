@@ -241,6 +241,9 @@ sudo rm -rf /usr/local/go
 sudo tar zxvf ${golang_version}.tar.gz -C /usr/local
 rm -rfv ${golang_version}.tar.gz"
 
+# load my function
+source ${HOME}/workspace/myenv/my_function.sh
+
 temp=$(which pyenv 2> /dev/null)
 if [[ $? == 0 ]]; then
     eval "$(pyenv init -)"
