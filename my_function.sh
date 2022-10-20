@@ -34,26 +34,26 @@ function cnt_pods_in_nodes() {
 }
 
 
-function cnt_all_pods() {
+function cnt_all_pods_in_nodes() {
     cnt_pods_in_nodes ""
 }
 
-function cnt_running_pods() {
+function cnt_running_pods_in_nodes() {
     cnt_pods_in_nodes "running"
 }
 
-function cnt_crash_pods() {
+function cnt_crash_pods_in_nodes() {
     cnt_pods_in_nodes "crash"
 }
 
-function cnt_error_pods() {
+function cnt_error_pods_in_nodes() {
     cnt_pods_in_nodes "error"
 }
 
-function cnt_evicted_pods() {
+function cnt_evicted_pods_in_nodes() {
     cnt_pods_in_nodes "evicted"
 }
 
-function cnt_completed_pods() {
+function cnt_completed_pods_in_nodes() {
     cnt_pods_in_nodes "completed"
 }
