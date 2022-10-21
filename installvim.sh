@@ -43,7 +43,7 @@ elif [[ $(uname) == 'Linux' ]]; then
 	# yum 실행보기
 	yum --version
 	# yum 실행후 exit code 0(SUCCESS) 이라면 사용할수 있다.
-	if [ $? == 0 ]; then
+	if [[ $? == 0 ]]; then
 		package_program="yum"
 	else
 		package_program="apt-get"
