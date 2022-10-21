@@ -9,7 +9,7 @@ ex) $0 .go snake
 zzz
 }
 
-renamefiles() {
+rename_files() {
     if [[ $# != 2 ]]; then
         help_rename_files
         exit 1
@@ -23,8 +23,7 @@ renamefiles() {
     # echo $1
     # echo $2
 
-    files=$(fd $1$)
-    for from in $files; do
+    for from in $(fd $1$); do
         if [[ $2 == 'snake' ]]; then
             to=$(echo $from | sed s/-/_/g)
         elif [[ $2 == 'kebab' ]]; then
