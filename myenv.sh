@@ -223,7 +223,6 @@ alias infinite_cowsay='for ((;;)); do for i in $(cowsay -l | sed 1d); do echo $i
 alias python='python3'
 alias gitissue='python3 ${HOME}/workspace/myenv/git_issue.py'
 alias gitpj='python3 ${HOME}/workspace/myenv/git_project.py'
-alias renamefiles="bash ${HOME}/workspace/myenv/renamefiles.sh"
 # gh command - 깃헙 호스트별 최초 로그인 필요(gh auth login)
 alias ghauthstatus='gh auth status'
 alias ghissueme='gh issue list --assignee @me'
@@ -242,6 +241,7 @@ sudo tar zxvf ${golang_version}.tar.gz -C /usr/local
 rm -rfv ${golang_version}.tar.gz"
 
 # load my functions
+source ${HOME}/workspace/myenv/rename_files.sh
 source ${HOME}/workspace/myenv/k8s_info.sh
 
 temp=$(which pyenv 2> /dev/null)
