@@ -1,12 +1,29 @@
 #!/bin/bash
 source ${HOME}/workspace/myenv/colors.sh
 
-function cnt_pods_in_nodes() {
+ret_value=""
+check_kubectl() {
     ret=$(kubectl)
     if [[ $(echo $?) != 0 ]]; then
         echo -e "${red}can't find kubectl command${reset_color}"
-        exit 1
+        ret_value="fail"
+        return
     fi
+    ret_value="ok"
+}
+
+function cnt_pods_in_nodes() {
+    check_kubectl
+    if [[ $ret_value == "fail" ]]; then
+        return
+    fi
+    if [[ $# != 1 ]]; then
+        echo "usage) ${0} {pod_status}"
+        echo "ex) ${0} running"
+        echo "ex) ${0} crash"
+        return
+    fi
+
     pod_status=$1
     for node in $(kubectl get nodes | sed 1d | awk '{print $1}'); do
         # Evicted|Complete|Error 상태는 제외
@@ -39,4 +56,24 @@ function cnt_evicted_pods_in_nodes() {
 
 function cnt_completed_pods_in_nodes() {
     cnt_pods_in_nodes "completed"
+}
+
+
+function delete_evicted_pod() {
+    check_kubectl
+    if [[ $ret_value == "fail" ]]; then
+        return
+    fi
+    if [[ $# != 1 ]]; then
+        echo "usage) ${0} {namespace}"
+        echo "ex) ${0} aaa"
+        echo "ex) ${0} bbb"
+        return
+    fi
+    namespace=$1
+    # 참고로 정상적인 running 상태의 pod 는 .status.reason 필드가 없음
+    # kubectl get pod -o=json -n ${namespace} | jq '[.items[] | select(.status.reason=="Evicted")] | sort_by(.status.startTime)' | jq '{"pod_name":.[].metadata.name, "status":.[].status.reason}'
+    for pod_name in $(kubectl get pod -o=json -n ${namespace} | jq '[.items[] | select(.status.reason=="Evicted")] | sort_by(.status.startTime)' | jq '.[].metadata.name' | tr -d '"'); do
+        kubectl delete pod $pod_name -n ${namespace}
+    done
 }
