@@ -231,6 +231,7 @@ alias installgolang="wget https://go.dev/dl/${golang_version}.tar.gz
 sudo rm -rf /usr/local/go
 sudo tar zxvf ${golang_version}.tar.gz -C /usr/local
 rm -rfv ${golang_version}.tar.gz"
+alias duf="duf -theme dark"
 
 # load my functions
 source ${HOME}/workspace/myenv/rename_files.sh
