@@ -59,7 +59,7 @@ function cnt_completed_pods_in_nodes() {
 }
 
 
-function delete_evicted_pod() {
+function delete_evicted_pod_in_namespace() {
     check_kubectl
     if [[ $ret_value == "fail" ]]; then
         return
@@ -75,5 +75,18 @@ function delete_evicted_pod() {
     # kubectl get pod -o=json -n ${namespace} | jq '[.items[] | select(.status.reason=="Evicted")] | sort_by(.status.startTime)' | jq '{"pod_name":.[].metadata.name, "status":.[].status.reason}'
     for pod_name in $(kubectl get pod -o=json -n ${namespace} | jq '[.items[] | select(.status.reason=="Evicted")] | sort_by(.status.startTime)' | jq '.[].metadata.name' | tr -d '"'); do
         kubectl delete pod $pod_name -n ${namespace}
+    done
+}
+
+
+function delete_evicted_pod_in_all_namespace() {
+    check_kubectl
+    if [[ $ret_value == "fail" ]]; then
+        return
+    fi
+
+    for ns in $(kubectl get ns | sed 1d | awk '{print $1}'); do
+        echo "check namespace: $ns"
+        delete_evicted_pod_in_namespace $ns
     done
 }
