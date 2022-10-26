@@ -12,7 +12,7 @@ check_kubectl() {
     ret_value="ok"
 }
 
-function cnt_pods_in_nodes() {
+function cnt_pods_in_nodes {
     check_kubectl
     if [[ $ret_value == "fail" ]]; then
         return
@@ -34,32 +34,32 @@ function cnt_pods_in_nodes() {
 }
 
 
-function cnt_all_pods_in_nodes() {
+function cnt_all_pods_in_nodes {
     cnt_pods_in_nodes ""
 }
 
-function cnt_running_pods_in_nodes() {
+function cnt_running_pods_in_nodes {
     cnt_pods_in_nodes "running"
 }
 
-function cnt_crash_pods_in_nodes() {
+function cnt_crash_pods_in_nodes {
     cnt_pods_in_nodes "crash"
 }
 
-function cnt_error_pods_in_nodes() {
+function cnt_error_pods_in_nodes {
     cnt_pods_in_nodes "error"
 }
 
-function cnt_evicted_pods_in_nodes() {
+function cnt_evicted_pods_in_nodes {
     cnt_pods_in_nodes "evicted"
 }
 
-function cnt_completed_pods_in_nodes() {
+function cnt_completed_pods_in_nodes {
     cnt_pods_in_nodes "completed"
 }
 
 
-function delete_evicted_pod_in_namespace() {
+function delete_evicted_pod_in_namespace {
     check_kubectl
     if [[ $ret_value == "fail" ]]; then
         return
@@ -79,7 +79,7 @@ function delete_evicted_pod_in_namespace() {
 }
 
 
-function delete_evicted_pod_in_all_namespace() {
+function delete_evicted_pod_in_all_namespace {
     check_kubectl
     if [[ $ret_value == "fail" ]]; then
         return
