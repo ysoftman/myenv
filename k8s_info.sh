@@ -98,6 +98,25 @@ function delete_evicted_pod_in_all_namespace {
     done
 }
 
+function stern_log {
+    check_command_existence stern
+    if [[ $ret_value == "fail" ]]; then
+        return
+    fi
+
+    if [[ $# < 2 ]]; then
+        echo "usage) ${0} {pod_name_contains} {namespace}"
+        echo "ex) ${0} aaa my_ns_1"
+        echo "ex) ${0} bbb my_ns_2"
+        return
+    fi
+    pod_name=$1
+    namespace=$2
+    jq_option=$3
+    # jq 조건은 상황에 맞게 수정 필요
+    stern ".*${pod_name}.*" -n ${namespace} -o json | jq ${jq_option}
+}
+
 function stern_500_error {
     check_command_existence stern
     if [[ $ret_value == "fail" ]]; then
@@ -113,5 +132,6 @@ function stern_500_error {
     pod_name=$1
     namespace=$2
     # jq 조건은 상황에 맞게 수정 필요
-    stern ".*${pod_name}.*" -n ${namespace} -o json | jq '. | select (.message | contains("status\":500"))'
+    jq_option='. | select (.message | contains("status\":500"))'
+    stern_log ${pod_name} ${namespace} ${jq_option}
 }
