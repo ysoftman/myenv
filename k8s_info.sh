@@ -2,10 +2,19 @@
 source ${HOME}/workspace/myenv/colors.sh
 
 ret_value=""
-check_kubectl() {
-    ret=$(kubectl)
-    if [[ $(echo $?) != 0 ]]; then
-        echo -e "${red}can't find kubectl command${reset_color}"
+check_command_existence() {
+    if [[ $# != 1 ]]; then
+        ret_value="fail"
+        echo "usage) ${0} {commmand}"
+        echo "ex) ${0} kubectl"
+        echo "ex) ${0} stern"
+        return
+    fi
+    command_name=$1
+    eval "${command_name} > /dev/null 2>&1"
+    ret=$(echo $?)
+    if [[ $ret != 0 && $ret != 1 ]]; then
+        echo -e "${red}can't find ${command_name} command${reset_color}"
         ret_value="fail"
         return
     fi
@@ -13,7 +22,7 @@ check_kubectl() {
 }
 
 function cnt_pods_in_nodes {
-    check_kubectl
+    check_command_existence kubectl
     if [[ $ret_value == "fail" ]]; then
         return
     fi
@@ -58,9 +67,8 @@ function cnt_completed_pods_in_nodes {
     cnt_pods_in_nodes "completed"
 }
 
-
 function delete_evicted_pod_in_namespace {
-    check_kubectl
+    check_command_existence kubectl
     if [[ $ret_value == "fail" ]]; then
         return
     fi
@@ -78,9 +86,8 @@ function delete_evicted_pod_in_namespace {
     done
 }
 
-
 function delete_evicted_pod_in_all_namespace {
-    check_kubectl
+    check_command_existence kubectl
     if [[ $ret_value == "fail" ]]; then
         return
     fi
@@ -89,4 +96,22 @@ function delete_evicted_pod_in_all_namespace {
         echo "check namespace: $ns"
         delete_evicted_pod_in_namespace $ns
     done
+}
+
+function stern_500_error {
+    check_command_existence stern
+    if [[ $ret_value == "fail" ]]; then
+        return
+    fi
+
+    if [[ $# != 2 ]]; then
+        echo "usage) ${0} {pod_name_contains} {namespace}"
+        echo "ex) ${0} aaa my_ns_1"
+        echo "ex) ${0} bbb my_ns_2"
+        return
+    fi
+    pod_name=$1
+    namespace=$2
+    # jq 조건은 상황에 맞게 수정 필요
+    stern ".*${pod_name}.*" -n ${namespace} -o json | jq '. | select (.message | contains("status\":500"))'
 }
