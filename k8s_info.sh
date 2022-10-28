@@ -11,9 +11,9 @@ check_command_existence() {
         return
     fi
     command_name=$1
-    eval "${command_name} > /dev/null 2>&1"
+    eval "type ${command_name} > /dev/null 2>&1"
     ret=$(echo $?)
-    if [[ $ret != 0 && $ret != 1 ]]; then
+    if [[ $ret != 0 && $ret != 1 && $ret != 2 ]]; then
         echo -e "${red}can't find ${command_name} command${reset_color}"
         ret_value="fail"
         return
@@ -103,6 +103,10 @@ function stern_log {
     if [[ $ret_value == "fail" ]]; then
         return
     fi
+    check_command_existence jq
+    if [[ $ret_value == "fail" ]]; then
+        return
+    fi
 
     if [[ $# < 2 ]]; then
         echo "usage) ${0} {pod_name_contains} {namespace}"
@@ -134,4 +138,21 @@ function stern_500_error {
     # jq 조건은 상황에 맞게 수정 필요
     jq_option='. | select (.message | contains("status\":500"))'
     stern_log ${pod_name} ${namespace} ${jq_option}
+}
+
+function get_nodes_ip {
+    check_command_existence kubectl
+    if [[ $ret_value == "fail" ]]; then
+        return
+    fi
+    check_command_existence jq
+    if [[ $ret_value == "fail" ]]; then
+        return
+    fi
+
+    for node in $(kubectl get nodes | sed 1d | awk '{print $1}'); do
+        internal_ip=$(kubectl get node ${node} -o json | jq '.status.addresses[] | select(.type=="InternalIP") | .address' | tr -d '\"')
+        external_ip=$(kubectl get node ${node} -o json | jq '.status.addresses[] | select(.type=="ExternalIP") | .address' | tr -d '\"')
+        echo "${node}: InternalIP(${internal_ip})  ExternalIP(${external_ip})"
+    done
 }
