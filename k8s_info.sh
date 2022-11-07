@@ -156,3 +156,21 @@ function get_nodes_ip {
         echo "${node}: InternalIP(${internal_ip})  ExternalIP(${external_ip})"
     done
 }
+
+function get_currnet_context_server {
+    check_command_existence kubectl
+    if [[ $ret_value == "fail" ]]; then
+        return
+    fi
+    check_command_existence yq
+    if [[ $ret_value == "fail" ]]; then
+        return
+    fi
+
+    # KUBECONFIG= 환경변수 설정 기준
+    # same as 'kubectx -c'
+    current_context=$(kubectl config view --flatten | yq '.current-context')
+    current_cluster=$(kubectl config view --flatten | yq ".contexts.[] | select(.name==\"${current_context}\").context.cluster")
+    current_cluster_server=$(kubectl config view --flatten | yq ".clusters.[] | select(.name==\"${current_cluster}\").cluster.server")
+    echo -e ${green}${current_cluster_server}${reset_color}
+}
