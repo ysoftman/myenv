@@ -232,6 +232,8 @@ sudo rm -rf /usr/local/go
 sudo tar zxvf ${golang_version}.tar.gz -C /usr/local
 rm -rfv ${golang_version}.tar.gz"
 alias duf="duf -theme dark"
+# ssh 원격 접속시 clear 실행하면 'alacritty': unknown terminal type. 메시지 발생 방지
+alias ssh='TERM=xterm-256color ssh'
 
 # load my functions
 source ${HOME}/workspace/myenv/rename_files.sh
