@@ -57,7 +57,7 @@ git config --global credential.helper store
 [ -h ~/.tigrc ] && unlink ~/.tigrc
 [ -h ~/.muttrc ] && unlink ~/.muttrc
 [ -h ~/.alacritty.yml ] && unlink ~/.alacritty.yml
-[ -h ~/.config/zellij ] && unlink ~/.config/zellij/config.yaml
+[ -h ~/.config/zellij ] && unlink ~/.config/zellij
 [ -h ~/.config/mc ] && unlink ~/.config/mc
 [ -h ~/.config/lsd ] && unlink ~/.config/lsd
 export XDG_CONFIG_HOME="$HOME/.config"
