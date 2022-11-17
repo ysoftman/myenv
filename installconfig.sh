@@ -89,6 +89,7 @@ ln -sf ${PWD}/.alacritty.yml ~/.alacritty.yml
 [ -d ~/.config ] && ln -sf ${PWD}/zellij ~/.config/zellij
 [ -d ~/.config ] && ln -sf ${PWD}/mc ~/.config/mc
 [ -d ~/.config ] && ln -sf ${PWD}/lsd ~/.config/lsd
+[ -d ${XDG_CONFIG_HOME}/k9s ] && ln -sf ${PWD}/k9s/config.yml ${XDG_CONFIG_HOME}/k9s/config.yml
 [ -d ${XDG_CONFIG_HOME}/k9s ] && ln -sf ${PWD}/k9s/skins/one_dark.yml ${XDG_CONFIG_HOME}/k9s/skin.yml
 ln -sf ${PWD}/dosbox.conf ~/dosbox.conf
 ln -sf ${PWD}/dosbox.sh ~/dosbox.sh
