@@ -1,0 +1,49 @@
+k9s:
+  refreshRate: 2
+  maxConnRetry: 5
+  enableMouse: false
+  headless: false
+  logoless: false
+  crumbsless: false
+  readOnly: false
+  noExitOnCtrlC: false
+  noIcons: false
+  logger:
+    tail: 100
+    buffer: 5000
+    sinceSeconds: -1
+    fullScreenLogs: false
+    textWrap: false
+    showTime: false
+  currentContext: cosmos-kep-dev-mgmt-context
+  currentCluster: cosmos-kep-dev-mgmt-cluster
+  clusters:
+    cosmos-kep-dev-mgmt-cluster:
+      namespace:
+        active: common-api-server
+        lockFavorites: false
+        favorites:
+        - console-ui
+        - common-api-server
+        - default
+      view:
+        active: pods
+      featureGates:
+        nodeShell: false
+      shellPod:
+        image: busybox:1.35.0
+        command: []
+        args: []
+        namespace: default
+        limits:
+          cpu: 100m
+          memory: 100Mi
+      portForwardAddress: localhost
+  thresholds:
+    cpu:
+      critical: 90
+      warn: 70
+    memory:
+      critical: 90
+      warn: 70
+  screenDumpDir: /var/folders/sc/rqjh5y7j0g99g43k4z1v1b2h0000gn/T/k9s-screens-ysoftman
