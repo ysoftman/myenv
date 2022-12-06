@@ -1,6 +1,5 @@
 # multiplexer="tmux"
 multiplexer="zellij"
-
 # ${multiplexer} 시작되면 환경변수값이 설정된다.
 # 이를 기준으로 ${multiplexer} 가 한번만 실행되도록 한다.
 if [ $multiplexer = "tmux" ]; then
@@ -9,7 +8,7 @@ elif [ $multiplexer = "zellij" ]; then
     multiplexer_already_started=$ZELLIJ
 fi
 
-temp=$(type ${multiplexer})
+eval "type ${multiplexer}"
 if [[ $? == 0 && -z "$multiplexer_already_started" ]]; then
     # 터미널 시작시 바로 tmux 전환시 signal 6(abort) 되는 환경도 있어 물어본다.
     echo "start ${multiplexer}? (y/n, default:y)"
