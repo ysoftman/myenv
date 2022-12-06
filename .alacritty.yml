@@ -650,7 +650,6 @@ key_bindings:
   - { key: Q, mods: Command, action: None } # Q 로 창닫힘 막기
   - { key: W, mods: Command, action: None } # W 로 창닫힘 막기
 
-
   # Vi Mode
   #- { key: Space,  mods: Shift|Control, mode: Vi, action: ScrollToBottom          }
   - { key: Space, mods: Control, action: ToggleViMode }
