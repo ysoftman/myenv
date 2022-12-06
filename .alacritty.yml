@@ -285,7 +285,7 @@ colors:
     focused_match:
       foreground: "#000000"
       background: "#c678dd"
-    bar:
+    footer_bar:
       background: "#bbbbbb"
       foreground: "#000000"
 
