@@ -1,5 +1,5 @@
 # multiplexer="tmux"
-export PATH=$HOME/.cargo/bin:$PATH:
+export PATH=$HOME/.cargo/bin:$PATH
 multiplexer="zellij"
 # ${multiplexer} 시작되면 환경변수값이 설정된다.
 # 이를 기준으로 ${multiplexer} 가 한번만 실행되도록 한다.
