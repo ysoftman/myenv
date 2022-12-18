@@ -89,6 +89,12 @@
             "keys": "ctrl+shift+d"
         },
         {
+            "command": {
+                "action": "openSettings"
+            },
+            "keys": "ctrl+comma"
+        },
+        {
             "command": "paste",
             "keys": "ctrl+shift+v"
         },
@@ -116,12 +122,6 @@
         },
         {
             "command": {
-                "action": "openSettings"
-            },
-            "keys": "ctrl+comma"
-        },
-        {
-            "command": {
                 "action": "scrollDown"
             },
             "keys": "ctrl+shift+down"
@@ -137,34 +137,38 @@
             "keys": "ctrl+shift+up"
         }
     ],
-    "alwaysShowNotificationIcon": false,
     "alwaysShowTabs": true,
     "defaultProfile": "{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}",
+    "experimental.rendering.software": false,
     "initialCols": 120,
     "initialRows": 30,
     "profiles": {
-        "defaults": {},
+        "defaults": {
+            "padding": "0"
+        },
         "list": [
             {
                 "closeOnExit": "graceful",
                 "colorScheme": "One Half Dark",
                 "commandline": "wsl.exe -d ubuntu",
                 "cursorColor": "#FFFFFF",
-                "cursorShape": "bar",
+                "cursorShape": "filledBox",
                 "experimental.retroTerminalEffect": false,
                 "font": {
                     "face": "Hack Nerd Font",
-                    "size": 16
+                    "size": 16,
+                    "weight": "normal"
                 },
                 "guid": "{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}",
                 "historySize": 9001,
                 "icon": "ms-appx:///ProfileIcons/{9acb9455-ca41-5af7-950f-6bca1bc9722f}.png",
                 "name": "Ubuntu",
                 "opacity": 100,
-                "padding": "0, 0, 0, 0",
+                "padding": "0",
+                "scrollbarState": "hidden",
                 "snapOnInput": true,
                 "startingDirectory": "%USERPROFILE%",
-                "useAcrylic": false
+                "useAcrylic": true
             },
             {
                 "background": "#012456",
@@ -464,7 +468,5 @@
     ],
     "showTabsInTitlebar": true,
     "showTerminalTitleInTitlebar": true,
-    "theme": "dark",
-    "useAcrylicInTabRow": false,
     "wordDelimiters": " ./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}~?\u2502"
 }
