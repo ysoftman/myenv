@@ -1,3 +1,7 @@
+# https://jonas.github.io/tig/doc/tigrc.5.html
+# color area fgcolor bgcolor [attributes]
+# white, black, green, magenta, blue, cyan, yellow, red, defaul
+# ansi 8bit(256color) refer => https://en.wikipedia.org/wiki/ANSI_escape_code
 color cursor white 88 bold
-color title-blur white 130
-color title-focus white 130 bold
+color title-blur white default dim reverse
+color title-focus white default reverse
