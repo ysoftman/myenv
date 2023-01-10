@@ -121,7 +121,7 @@ function stern_log {
     stern ".*${pod_name}.*" -n ${namespace} -o json | jq ${jq_option}
 }
 
-function stern_500_error {
+function stern_error {
     check_command_existence stern
     if [[ $ret_value == "fail" ]]; then
         return
@@ -136,7 +136,7 @@ function stern_500_error {
     pod_name=$1
     namespace=$2
     # jq 조건은 상황에 맞게 수정 필요
-    jq_option='. | select (.message | contains("status\":500"))'
+    jq_option='. | select (.message | contains("status\":20") | not)'
     stern_log ${pod_name} ${namespace} ${jq_option}
 }
 
