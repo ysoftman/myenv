@@ -174,3 +174,7 @@ function get_currnet_context_server {
     current_cluster_server=$(kubectl config view --flatten | yq ".clusters.[] | select(.name==\"${current_cluster}\").cluster.server")
     echo -e ${green}${current_cluster_server}${reset_color}
 }
+
+get_nodeport() {
+    kubectl get svc --all-namespaces --sort-by=".spec.ports[0].nodePort" | rg -i nodeport
+}
