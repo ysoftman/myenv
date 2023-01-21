@@ -12,13 +12,13 @@ zzz
 rename_files() {
     if [[ $# != 2 ]]; then
         help_rename_files
-        exit 1
+        return 1
     fi
 
     if [[ $2 != 'snake' ]] && [[ $2 != 'kebab' ]]; then
         echo 'wrong case!!!'
         help_rename_files
-        exit 1
+        return 2
     fi
     # echo $1
     # echo $2
