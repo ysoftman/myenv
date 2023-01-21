@@ -72,8 +72,6 @@
     "editor.defaultFormatter": "rust-lang.rust"
   },
   "rust.rustfmt_path": "${HOME}/.cargo/bin/rustfmt",
-  // pin the opened file
-  "workbench.editor.enablePreview": false,
   "workbench.editor.enablePreviewFromQuickOpen": false,
   "workbench.startupEditor": "none",
   "workbench.statusBar.visible": true,
@@ -276,8 +274,9 @@
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
-  "window.zoomLevel": 1,
   "powermode.enabled": false,
   "diffEditor.ignoreTrimWhitespace": false,
-  "csharp.suppressDotnetInstallWarning": true
+  "csharp.suppressDotnetInstallWarning": true,
+  "workbench.editor.enablePreview": false,
+  "window.zoomLevel": 1
 }
