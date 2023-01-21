@@ -21,7 +21,7 @@ check_command_existence() {
     ret_value="ok"
 }
 
-function cnt_pods_in_nodes {
+function k8s_cnt_pods_in_nodes {
     check_command_existence kubectl
     if [[ $ret_value == "fail" ]]; then
         return
@@ -43,31 +43,31 @@ function cnt_pods_in_nodes {
 }
 
 
-function cnt_all_pods_in_nodes {
-    cnt_pods_in_nodes ""
+function k8s_cnt_all_pods_in_nodes {
+    k8s_cnt_pods_in_nodes ""
 }
 
-function cnt_running_pods_in_nodes {
-    cnt_pods_in_nodes "running"
+function k8s_cnt_running_pods_in_nodes {
+    k8s_cnt_pods_in_nodes "running"
 }
 
-function cnt_crash_pods_in_nodes {
-    cnt_pods_in_nodes "crash"
+function k8s_cnt_crash_pods_in_nodes {
+    k8s_cnt_pods_in_nodes "crash"
 }
 
-function cnt_error_pods_in_nodes {
-    cnt_pods_in_nodes "error"
+function k8s_cnt_error_pods_in_nodes {
+    k8s_cnt_pods_in_nodes "error"
 }
 
-function cnt_evicted_pods_in_nodes {
-    cnt_pods_in_nodes "evicted"
+function k8s_cnt_evicted_pods_in_nodes {
+    k8s_cnt_pods_in_nodes "evicted"
 }
 
-function cnt_completed_pods_in_nodes {
-    cnt_pods_in_nodes "completed"
+function k8s_cnt_completed_pods_in_nodes {
+    k8s_cnt_pods_in_nodes "completed"
 }
 
-function delete_evicted_pod_in_namespace {
+function k8s_delete_evicted_pod_in_namespace {
     check_command_existence kubectl
     if [[ $ret_value == "fail" ]]; then
         return
@@ -86,7 +86,7 @@ function delete_evicted_pod_in_namespace {
     done
 }
 
-function delete_evicted_pod_in_all_namespace {
+function k8s_delete_evicted_pod_in_all_namespace {
     check_command_existence kubectl
     if [[ $ret_value == "fail" ]]; then
         return
@@ -94,11 +94,11 @@ function delete_evicted_pod_in_all_namespace {
 
     for ns in $(kubectl get ns | sed 1d | awk '{print $1}'); do
         echo "check namespace: $ns"
-        delete_evicted_pod_in_namespace $ns
+        k8s_delete_evicted_pod_in_namespace $ns
     done
 }
 
-function stern_log {
+function k8s_stern_log {
     check_command_existence stern
     if [[ $ret_value == "fail" ]]; then
         return
@@ -121,7 +121,7 @@ function stern_log {
     stern ".*${pod_name}.*" -n ${namespace} -o json | jq ${jq_option}
 }
 
-function stern_error {
+function k8s_stern_error {
     check_command_existence stern
     if [[ $ret_value == "fail" ]]; then
         return
@@ -137,10 +137,10 @@ function stern_error {
     namespace=$2
     # jq 조건은 상황에 맞게 수정 필요
     jq_option='. | select (.message | contains("status\":20") | not)'
-    stern_log ${pod_name} ${namespace} ${jq_option}
+    k8s_stern_log ${pod_name} ${namespace} ${jq_option}
 }
 
-function get_nodes_ip {
+function k8s_get_nodes_ip {
     check_command_existence kubectl
     if [[ $ret_value == "fail" ]]; then
         return
@@ -157,7 +157,7 @@ function get_nodes_ip {
     done
 }
 
-function get_currnet_context_server {
+function k8s_get_currnet_context_server {
     check_command_existence kubectl
     if [[ $ret_value == "fail" ]]; then
         return
@@ -175,6 +175,6 @@ function get_currnet_context_server {
     echo -e ${green}${current_cluster_server}${reset_color}
 }
 
-get_nodeport() {
+k8s_get_nodeport() {
     kubectl get svc --all-namespaces --sort-by=".spec.ports[0].nodePort" | rg -i nodeport
 }
