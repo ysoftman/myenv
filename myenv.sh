@@ -237,7 +237,7 @@ alias ssh='TERM=xterm-256color ssh'
 
 # load my functions
 source ${HOME}/workspace/myenv/rename_files.sh
-source ${HOME}/workspace/myenv/get_git_url.sh
+source ${HOME}/workspace/myenv/git_url.sh
 source ${HOME}/workspace/myenv/k8s_info.sh
 
 temp=$(which pyenv 2> /dev/null)
