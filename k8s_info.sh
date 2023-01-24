@@ -176,5 +176,17 @@ function k8s_get_currnet_context_server {
 }
 
 k8s_get_nodeport() {
+    check_command_existence kubectl
+    if [[ $ret_value == "fail" ]]; then
+        return
+    fi
     kubectl get svc --all-namespaces --sort-by=".spec.ports[0].nodePort" | rg -i nodeport
+}
+
+k8s_get_node_taints() {
+    check_command_existence kubectl
+    if [[ $ret_value == "fail" ]]; then
+        return
+    fi
+    kubectl get nodes -o json | jq '{"node-adress":.items[].status.addresses[1].address, "taints":.items[].spec.taints}'
 }
