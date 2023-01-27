@@ -180,10 +180,10 @@ colors:
     cursor: "#528bff" # syntax-cursor-color
   selection:
     # text:       CellForeground
-    background: "#3e4451" # syntax-selection-color
+    # background: "#3e4451" # syntax-selection-color
+    background: "#e5c07b"
   normal:
-    # black:      '#5c6370' # mono-3
-    black: "#282c34"
+    black: "#0b1015"
     red: "#e06c75" # red 1
     # red: "#f44747" # red 1
     green: "#98c379"
@@ -193,33 +193,32 @@ colors:
     cyan: "#56b6c2"
     white: "#828997" # mono-2
 
-  # Colors (Dracula)
+  # # Colors (Dracula)
   # colors:
-  # Default colors
-  # primary:
-  #   background: '#282a36'
-  #   foreground: '#f8f8f2'
-  # Normal colors
-  # normal:
-  #   black:   '#000000'
-  #   red:     '#ff5555'
-  #   green:   '#50fa7b'
-  #   yellow:  '#f1fa8c'
-  #   blue:    '#caa9fa'
-  #   magenta: '#ff79c6'
-  #   cyan:    '#8be9fd'
-  #   white:   '#bfbfbf'
-
-  # Bright colors
-  # bright:\
-  #   black: "#575b70"
-  #   red: "#ff6e67"
-  #   green: "#5af78e"
-  #   yellow: "#f4f99d"
-  #   blue: "#caa9fa"
-  #   magenta: "#ff92d0"
-  #   cyan: "#9aedfe"
-  #   white: "#e6e6e6"
+  #   # Default colors
+  #   primary:
+  #     background: '#282a36'
+  #     foreground: '#f8f8f2'
+  #   # Normal colors
+  #   normal:
+  #     black:   '#000000'
+  #     red:     '#ff5555'
+  #     green:   '#50fa7b'
+  #     yellow:  '#f1fa8c'
+  #     blue:    '#caa9fa'
+  #     magenta: '#ff79c6'
+  #     cyan:    '#8be9fd'
+  #     white:   '#bfbfbf'
+  #   # Bright colors
+  #   bright:
+  #     black: "#575b70"
+  #     red: "#ff6e67"
+  #     green: "#5af78e"
+  #     yellow: "#f4f99d"
+  #     blue: "#caa9fa"
+  #     magenta: "#ff92d0"
+  #     cyan: "#9aedfe"
+  #     white: "#e6e6e6"
 
   # Dim colors
   #
