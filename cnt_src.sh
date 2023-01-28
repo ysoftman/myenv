@@ -2,11 +2,6 @@
 source ${HOME}/workspace/myenv/colors.sh
 
 cntsrc() {
-    # uniq 는 인접한 라인과 비교해 반복되는것은 필터링 시키기 때문에 sort 이후에 사용해야 한다.
-    fd ".go|.cpp|.c|.sh|.sql" --exclude="ysoftman_*" | sed -e "s/\.[^.]*$//" | sort | uniq | wc
-}
-
-cntsrcLevel() {
     cnt_easy=0
     cnt_medium=0
     cnt_hard=0
@@ -50,5 +45,8 @@ cntsrcLevel() {
     echo "${cyan}Easy:" ${cnt_easy}${reset_color}
     echo "${yellow}Medium:" ${cnt_medium}${reset_color}
     echo "${red}Hard:" ${cnt_hard}${reset_color}
-    echo "no level:" ${cnt_hard}
+    echo "no level:" ${cnt_no_level}
+
+    # uniq 는 인접한 라인과 비교해 반복되는것은 필터링 시키기 때문에 sort 이후에 사용해야 한다.
+    echo "All:" $(fd ".go|.cpp|.c|.sh|.sql" --exclude="ysoftman_*" | sed -e "s/\.[^.]*$//" | sort | uniq | wc | awk '{print $1}')
 }
