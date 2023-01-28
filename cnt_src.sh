@@ -1,4 +1,5 @@
 #!/bin/bash
+source ${HOME}/workspace/myenv/colors.sh
 
 cntsrc() {
     # uniq 는 인접한 라인과 비교해 반복되는것은 필터링 시키기 때문에 sort 이후에 사용해야 한다.
@@ -30,24 +31,24 @@ cntsrcLevel() {
             no_level_files+=($f)
         fi
     done
-    echo "Easy Files"
+    echo "[Easy Files]"
     for f in ${easy_files[@]}; do
         echo ${f}
     done
-    echo "Medium Files"
+    echo "[Medium Files]"
     for f in ${medium_files[@]}; do
         echo ${f}
     done
-    echo "Hard Files"
+    echo "[Hard Files]"
     for f in ${hard_files[@]}; do
         echo ${f}
     done
-    echo "No Level Files"
+    echo "[No Level Files]"
     for f in ${no_level_files[@]}; do
         echo ${f}
     done
-    echo "Easy:" ${cnt_easy}
-    echo "Medium:" ${cnt_medium}
-    echo "Hard:" ${cnt_hard}
-    echo "No Level:" ${cnt_hard}
+    echo "${cyan}Easy:" ${cnt_easy}${reset_color}
+    echo "${yellow}Medium:" ${cnt_medium}${reset_color}
+    echo "${red}Hard:" ${cnt_hard}${reset_color}
+    echo "no level:" ${cnt_hard}
 }
