@@ -7,10 +7,13 @@ cntsrc() {
     hard_files=()
     no_level_files=()
     echo -n "processing"
-    for f in $(fd ".go|.cpp|.c|.sh|.sql" --exclude="ysoftman_*"); do
+    files=$(fd ".go|.cpp|.c|.sh|.sql" --exclude="ysoftman_*")
+    for f in $(echo $files); do
         header=$(rg -i -N "Easy|Medium|Hard" --color=never --no-filename --max-count 1 -B1 ${f} | sd "^(# )"  "")
-        title=$(echo $header | head -1)
-        level=$(echo $header | tail -1)
+        # title=$(echo $header | head -1)
+        # level=$(echo $header | tail -1)
+        title=$(echo $header | sed -n 1p)
+        level=$(echo $header | sed -n 2p)
         if [[ $level == "Easy" ]]; then
             easy_files+=("${title} -> ${f}\n")
         elif [[ $level == "Medium" ]]; then
@@ -47,6 +50,8 @@ cntsrc() {
     echo "${red}Hard: ${#hard_files} (unique: ${cnt_unique_hard}) ${reset_color}"
     echo "no level: ${#no_level_files}"
     echo ""
+
     # uniq 는 인접한 라인과 비교해 반복되는것은 필터링 시키기 때문에 sort 이후에 사용해야 한다.
-    echo "${green}All(unique):" $(fd ".go|.cpp|.c|.sh|.sql" --exclude="ysoftman_*" | sed -e "s/\.[^.]*$//" | sort | uniq | wc | awk '{print $1}')${reset_color}
+    cnt_unique_all=$(echo $files | sed -e "s/\.[^.]*$//" | sort | uniq | wc | awk '{print $1}')
+    echo "${green}All(unique): ${cnt_unique_all} ${reset_color}"
 }
