@@ -38,12 +38,12 @@ cntsrc() {
     echo ${hard_files[@]} | sort -h | sd "^ " "" | sed 1d
     echo "\n[No Level Files]"
     echo ${no_level_files[@]} | sort -h | sd "^ " "" | sed 1d
-
+    echo ""
     echo "${cyan}Easy:" ${cnt_easy}${reset_color}
     echo "${yellow}Medium:" ${cnt_medium}${reset_color}
     echo "${red}Hard:" ${cnt_hard}${reset_color}
     echo "no level:" ${cnt_no_level}
-
+    echo ""
     # uniq 는 인접한 라인과 비교해 반복되는것은 필터링 시키기 때문에 sort 이후에 사용해야 한다.
-    echo "All(unique problems):" $(fd ".go|.cpp|.c|.sh|.sql" --exclude="ysoftman_*" | sed -e "s/\.[^.]*$//" | sort | uniq | wc | awk '{print $1}')
+    echo "${green}All(unique problems):" $(fd ".go|.cpp|.c|.sh|.sql" --exclude="ysoftman_*" | sed -e "s/\.[^.]*$//" | sort | uniq | wc | awk '{print $1}')${reset_color}
 }
