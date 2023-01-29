@@ -9,7 +9,9 @@ cntsrc() {
     echo -n "processing"
     files=$(fd ".go|.cpp|.c|.sh|.sql" --exclude="ysoftman_*")
     for f in $(echo $files); do
-        header=$(rg -i -N "Easy|Medium|Hard" --color=never --no-filename --max-count 1 -B1 ${f} | sd "^(# )"  "")
+        # 단건 파일에 대해선 grep 이 rg 보다 더 빠른것 같음
+        # header=$(rg -i -N "Easy|Medium|Hard" --color=never --no-filename --max-count 1 -B 1 ${f} | sd "^(# )"  "")
+        header=$(grep -i -E "Easy|Medium|Hard" --color=never -B 1 ${f} | sd "^(# )"  "")
         # title=$(echo $header | head -1)
         # level=$(echo $header | tail -1)
         title=$(echo $header | sed -n 1p)
