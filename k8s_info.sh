@@ -108,17 +108,14 @@ function k8s_stern_log {
         return
     fi
 
-    if [[ $# < 2 ]]; then
-        echo "usage) ${0} {pod_name_contains} {namespace}"
-        echo "ex) ${0} aaa my_ns_1"
-        echo "ex) ${0} bbb my_ns_2"
+    if [[ $# != 1 ]]; then
+        echo "usage) ${0} {pod_name_contains}"
+        echo "ex) ${0} aaa"
+        echo "ex) ${0} bbb"
         return
     fi
     pod_name=$1
-    namespace=$2
-    jq_option=$3
-    # jq 조건은 상황에 맞게 수정 필요
-    stern ".*${pod_name}.*" -n ${namespace} -o json | jq ${jq_option}
+    stern ".*${pod_name}.*" -A -o json | jq
 }
 
 function k8s_stern_error {
@@ -127,17 +124,16 @@ function k8s_stern_error {
         return
     fi
 
-    if [[ $# != 2 ]]; then
-        echo "usage) ${0} {pod_name_contains} {namespace}"
-        echo "ex) ${0} aaa my_ns_1"
-        echo "ex) ${0} bbb my_ns_2"
+    if [[ $# != 1 ]]; then
+        echo "usage) ${0} {pod_name_contains}"
+        echo "ex) ${0} aaa"
+        echo "ex) ${0} bbb"
         return
     fi
     pod_name=$1
-    namespace=$2
     # jq 조건은 상황에 맞게 수정 필요
     jq_option='. | select (.message | contains("status\":20") | not)'
-    k8s_stern_log ${pod_name} ${namespace} ${jq_option}
+    stern ".*${pod_name}.*" -A -o json | jq ${jq_option}
 }
 
 function k8s_get_nodes_ip {
