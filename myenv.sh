@@ -134,14 +134,12 @@ if [[ $os_name == *"darwin"* ]]; then
     export CLICOLOR=1
     alias ll='ls -ahlG'
     alias sn='pmset displaysleepnow'
-    golang_version="go1.19.2.darwin-amd64"
 elif [[ $os_name == *"linux"* ]]; then
     export LANG=ko_KR.utf8
     export LC_ALL=ko_KR.utf8
     #export PS1="\u@\h:\w\$ "
     export LS_COLORS='no=00:fi=00:di=00;36:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:ow=01;36;40:*.sh=00;32'
     alias ll='ls -ahl'
-    golang_version="go1.19.2.linux-amd64"
     # WSL(Windows Subsystem for Linux)
     os_name=$(uname -r | awk '{print tolower($0)}')
     if [[ $os_name == *"wsl"* ]]; then
@@ -225,10 +223,6 @@ alias m-c='/usr/local/Cellar/midnight-commander/4.8.28/bin/mc'
 alias gitpullall='for dir in $(fd -H -d 2 ".git$" | awk -F "/.git.*$" "{print \$1}"); do
 printf "${green}[%s]==> $reset_color" "$dir"; git -C $dir pull;
 done'
-alias installgolang="wget https://go.dev/dl/${golang_version}.tar.gz
-sudo rm -rf /usr/local/go
-sudo tar zxvf ${golang_version}.tar.gz -C /usr/local
-rm -rfv ${golang_version}.tar.gz"
 alias duf="duf -theme dark"
 # ssh 원격 접속시 clear 실행하면 'alacritty': unknown terminal type. 메시지 발생 방지
 alias ssh='TERM=xterm-256color ssh'
