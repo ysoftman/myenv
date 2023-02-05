@@ -97,4 +97,19 @@ cntsrc() {
     # uniq 는 인접한 라인과 비교해 반복되는것은 필터링 시키기 때문에 sort 이후에 사용해야 한다.
     cnt_unique_all=$(echo $files | sed -e "s/\.[^.]*$//" | sort | uniq | wc | awk '{print $1}')
     echo "${green}All(unique): ${cnt_unique_all} ${reset_color}"
+
+    # 쉘에서 이 함수내에서 사용했던 변수들이 참조되지 않도록 한다.
+    unset files
+    unset file
+    unset title
+    unset level
+    unset easy_files
+    unset medium_files
+    unset hard_files
+    unset no_level_files
+    unset cnt_unique_easy
+    unset cnt_unique_medium
+    unset cnt_unique_hard
+    unset cnt_unique_all
+    unset temp
 }

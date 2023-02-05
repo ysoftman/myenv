@@ -37,4 +37,7 @@ rename_files() {
         fi
     done
     IFS=' '
+
+    # 쉘에서 이 함수내에서 사용했던 변수들이 참조되지 않도록 한다.
+    unset to
 }
