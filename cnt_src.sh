@@ -20,9 +20,11 @@ cntsrc() {
     # 전체 파일에서 탐색 후 for 안에서 특정 파일 제외시키자.
     headers=$(rg -i -N "Easy|Medium|Hard" --color=never --max-count 1 -B 1 | sd "^(# )"  "" | sd '^\n' '___\n')
     echo "processing..."
-    # IFS(Internal Field Separator) 를 space(디폴트)가 아닌 newline 으로 구분
+    # IFS(Internal Field Separator) 를 space(디폴트)면
+    # headers 값들이 한줄로 한번에 처리되는데 이때 File name too long 에러가 발생한다.
+    # IFS 를 newline 로해 파일 1개씩 처리되도록 해야 한다.
     IFS=$'\n'
-    for h in $(echo $headers)   ; do
+    for h in $(echo $headers); do
         if [[ $h == "___" ]]; then
             file=""
             title=""
