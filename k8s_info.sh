@@ -36,8 +36,8 @@ function k8s_cnt_pods_in_nodes {
     pod_status=$1
     for node in $(kubectl get nodes | sed 1d | awk '{print $1}'); do
         # Evicted|Complete|Error 상태는 제외
-        # podsCnt=$(kubectl get pods -A -o wide --field-selector spec.nodeName=${node} | sed 1d | rg -i -v "Evicted|Complete|Error" | wc | awk '{print $1}')
-        podsCnt=$(kubectl get pods -A -o wide --field-selector spec.nodeName=${node} | sed 1d | rg -i "${pod_status}" | wc | awk '{print $1}')
+        # podsCnt=$(kubectl get pods -A -o wide --field-selector spec.nodeName=${node} | sed 1d | rg -iN -v "Evicted|Complete|Error" | wc | awk '{print $1}')
+        podsCnt=$(kubectl get pods -A -o wide --field-selector spec.nodeName=${node} | sed 1d | rg -iN "${pod_status}" | wc | awk '{print $1}')
         echo -e "${green}$node -> ${podsCnt} pods${reset_color}"
     done
 }
@@ -176,7 +176,7 @@ k8s_get_nodeport() {
     if [[ $ret_value == "fail" ]]; then
         return
     fi
-    kubectl get svc --all-namespaces --sort-by=".spec.ports[0].nodePort" | rg -i nodeport
+    kubectl get svc --all-namespaces --sort-by=".spec.ports[0].nodePort" | rg -iN nodeport
 }
 
 k8s_get_node_taints() {
