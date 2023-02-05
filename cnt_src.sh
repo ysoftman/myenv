@@ -6,27 +6,66 @@ cntsrc() {
     medium_files=()
     hard_files=()
     no_level_files=()
-    echo -n "processing"
+
     files=$(fd ".go|.cpp|.c|.sh|.sql" --exclude="ysoftman_*")
-    for f in $(echo $files); do
-        # 단건 파일에 대해선 grep 이 rg 보다 더 빠른것 같음
-        # header=$(rg -i -N "Easy|Medium|Hard" --color=never --no-filename --max-count 1 -B 1 ${f} | sd "^(# )"  "")
-        header=$(grep -i -E "Easy|Medium|Hard" --color=never -B 1 ${f} | sd "^(# )"  "")
-        # title=$(echo $header | head -1)
-        # level=$(echo $header | tail -1)
-        title=$(echo $header | sed -n 1p)
-        level=$(echo $header | sed -n 2p)
-        if [[ $level == "Easy" ]]; then
-            easy_files+=("${title} -> ${f}\n")
-        elif [[ $level == "Medium" ]]; then
-            medium_files+=("${title} -> ${f}\n")
-        elif [[ $level == "Hard" ]]; then
-            hard_files+=("${title} -> ${f}\n")
-        else
-            no_level_files+=("${title} -> ${f}\n")
+    
+    # ${files} 개수가 많아 에러 --> File name too long (os error 63)
+    ######################
+    # grep, rg 은 멀티 결과 일때 디폴트로 -- 구분자를 추가한다.
+    # https://learnbyexample.github.io/learn_gnugrep_ripgrep/context-matching.html
+    # rg 는 --context-separator 로 변경할 수 있다.
+    # headers=$(rg -i -N "Easy|Medium|Hard" --color=never --context-separator="___" --max-count 1 -B 1 ${files} | sd "^(# )"  "")
+    ######################
+
+    # 전체 파일에서 탐색 후 for 안에서 특정 파일 제외시키자.
+    headers=$(rg -i -N "Easy|Medium|Hard" --color=never --max-count 1 -B 1 | sd "^(# )"  "" | sd '^\n' '___\n')
+    echo "processing..."
+    # IFS(Internal Field Separator) 를 space(디폴트)가 아닌 newline 으로 구분
+    IFS=$'\n'
+    for h in $(echo $headers)   ; do
+        if [[ $h == "___" ]]; then
+            file=""
+            title=""
+            level=""
+            continue
         fi
-        echo -n "."
+        if [[ -z $file ]]; then
+            file=$h
+            continue
+        elif [[ -z $title ]]; then
+            title=$h
+            continue
+        else
+            level=$h
+        fi
+
+        # 어차피 "Easy|Medium|Hard" 로 필터링돼서 ysoftman_* 은 별도 스킵 처리하지 않아도 된다.
+        # if [[ $file == "ysoftman_"* ]]; then
+        #     file=""
+        #     title=""
+        #     level=""
+        #     continue
+        # fi
+
+        # echo $file
+        # echo $title
+        # echo $level
+        if [[ $level == "Easy" ]]; then
+            easy_files+=("${title} -> ${file}\n")
+        elif [[ $level == "Medium" ]]; then
+            medium_files+=("${title} -> ${file}\n")
+        elif [[ $level == "Hard" ]]; then
+            hard_files+=("${title} -> ${file}\n")
+        else
+            no_level_files+=("${title} -> ${file}\n")
+        fi
+        file=""
+        title=""
+        level=""
     done
+    # IFS 원복
+    IFS=' '
+
     echo "\n[Easy Files]"
     temp=$(echo ${easy_files[@]} | sort -h | sd "^ " "" | sed 1d)
     echo ${temp}
