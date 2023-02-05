@@ -176,7 +176,7 @@ k8s_get_nodeport() {
     if [[ $ret_value == "fail" ]]; then
         return
     fi
-    kubectl get svc --all-namespaces --sort-by=".spec.ports[0].nodePort" | rg -iN nodeport
+    kubectl get svc --all-namespaces --sort-by=".spec.ports[0].nodePort" | rg -iN "nodeport|loadbalancer"
 }
 
 k8s_get_node_taints() {
