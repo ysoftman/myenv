@@ -16,12 +16,12 @@ elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
     autoload run-help
 
     if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
-        # oh-my-zsh 사용
-        source ~/.oh-my-zsh/templates/zshrc.zsh-template
-    else
-        # prezto 사용
-        source ~/.zprezto/init.zsh
+        # do something for android
     fi
+    # oh-my-zsh 사용
+    # source ~/.oh-my-zsh/templates/zshrc.zsh-template
+    # prezto 사용
+    source ~/.zprezto/init.zsh
 
     # zsh-autosuggestions 사용
     if [ ! -f $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
