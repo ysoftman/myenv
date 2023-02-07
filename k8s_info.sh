@@ -189,3 +189,17 @@ k8s_get_node_taints() {
         echo "${node}, $(kubectl describe node ${node} | rg -iN taints)"
     done
 }
+
+k8s_get_empty_namespace() {
+    check_command_existence kubectl
+    if [[ $ret_value == "fail" ]]; then
+        return
+    fi
+    for ns in $(k get ns | awk '{print  $1}' | sed 1d); do
+        temp=$({kubectl get all -n ${ns} | rg -iN 'no resources'} 2>&1)
+        if [[ -n ${temp} ]]; then
+            echo ${temp} "--->" ${yellow}$(k get ns ${ns} | sed 1d | awk '{print "AGE:"$3}')${reset_color}
+        fi
+    done
+    unset temp
+}
