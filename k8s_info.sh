@@ -196,7 +196,9 @@ k8s_get_empty_namespace() {
         return
     fi
     for ns in $(k get ns | awk '{print  $1}' | sed 1d); do
-        temp=$({kubectl get all -n ${ns} | rg -iN 'no resources'} 2>&1)
+        # zsh 에선 {} 로 감싸서 사용할 수 있지만, bash 호환을 위해 kubectl stderr 결과를 stdout 로 리다이렉트하자.
+        # temp=$({kubectl get all -n ${ns} | rg -iN 'no resources'} 2>&1)
+        temp=$(kubectl get all -n ${ns} 2>&1 | rg -iN 'no resources' )
         if [[ -n ${temp} ]]; then
             echo ${temp} "--->" ${yellow}$(k get ns ${ns} | sed 1d | awk '{print "AGE:"$3}')${reset_color}
         fi
