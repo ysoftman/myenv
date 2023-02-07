@@ -15,9 +15,6 @@ elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
     unalias run-help 2> /dev/null
     autoload run-help
 
-    if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
-        # do something for android
-    fi
     # oh-my-zsh 사용
     # source ~/.oh-my-zsh/templates/zshrc.zsh-template
     # prezto 사용
@@ -135,8 +132,14 @@ if [[ $os_name == *"darwin"* ]]; then
     alias ll='ls -ahlG'
     alias sn='pmset displaysleepnow'
 elif [[ $os_name == *"linux"* ]]; then
-    export LANG=ko_KR.utf8
-    export LC_ALL=ko_KR.utf8
+    if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
+        # termux 는 현재 영어만 지원하고 있다.
+        # https://github.com/termux/termux-packages/issues/2796#issuecomment-424589888
+        export LANG=en_US.UTF-8
+    else
+        export LANG=ko_KR.utf8
+        export LC_ALL=ko_KR.utf8
+    fi
     #export PS1="\u@\h:\w\$ "
     export LS_COLORS='no=00:fi=00:di=00;36:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:ow=01;36;40:*.sh=00;32'
     alias ll='ls -ahl'
