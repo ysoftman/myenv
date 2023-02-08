@@ -15,10 +15,14 @@ elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
     unalias run-help 2> /dev/null
     autoload run-help
 
-    # oh-my-zsh 사용
-    # source ~/.oh-my-zsh/templates/zshrc.zsh-template
-    # prezto 사용
-    source ~/.zprezto/init.zsh
+    if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
+        # termux 에서 prezto 사용시 pmodload: no such module: prompt git ... 등 모듈로딩 에러 발생
+        # oh-my-zsh 사용
+        source ~/.oh-my-zsh/templates/zshrc.zsh-template
+    else
+        # prezto 사용
+        source ~/.zprezto/init.zsh
+    fi
 
     # zsh-autosuggestions 사용
     if [ ! -f $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
