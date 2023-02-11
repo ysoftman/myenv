@@ -115,8 +115,7 @@ function k8s_stern_log {
         return
     fi
     pod_name=$1
-    #stern ".*${pod_name}.*" -A -o json | jq
-    stern ".*${pod_name}.*" -A
+    stern ".*${pod_name}.*" -A --tail 10 -o json | jq
 }
 
 function k8s_stern_error {
@@ -134,7 +133,7 @@ function k8s_stern_error {
     pod_name=$1
     # jq 조건은 상황에 맞게 수정 필요
     jq_option='. | select (.message | contains("status\":20") | not)'
-    stern ".*${pod_name}.*" -A -o json | jq ${jq_option}
+    stern ".*${pod_name}.*" -A --tail 10 -o json | jq ${jq_option}
 }
 
 function k8s_get_nodes_ip {
