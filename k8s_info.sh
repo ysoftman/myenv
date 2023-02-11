@@ -115,7 +115,8 @@ function k8s_stern_log {
         return
     fi
     pod_name=$1
-    stern ".*${pod_name}.*" -A -o json | jq
+    #stern ".*${pod_name}.*" -A -o json | jq
+    stern ".*${pod_name}.*" -A
 }
 
 function k8s_stern_error {
