@@ -15,7 +15,7 @@
 " cd ~/.vim/plugged/youcompleteme/ && git submodule update --init --recursive
 " ./install.py
 
-" FileNotFoundError: [Errno 2] No such file or directory: '/Users/ysoftman/.vim/plugged/youcompleteme/third_party/ycmd/third_party/go/bin/gopls' 에러 발생하는 경우 
+" FileNotFoundError: [Errno 2] No such file or directory: '/Users/ysoftman/.vim/plugged/youcompleteme/third_party/ycmd/third_party/go/bin/gopls' 에러 발생하는 경우
 " cd ~/.vim/plugged/youcompleteme/third_party/ycmd/
 " git checkout master
 " git pull
@@ -257,7 +257,7 @@ noremap <f4> :IndentGuidesToggle<enter>
 noremap <c-b> :NERDTreeToggle<enter>
 noremap <c-p><c-i> :PlugInstall<enter>
 noremap <c-t> :FZF<enter>
-noremap <c-h> :History<enter>
+noremap <c-r> :History<enter>
 noremap <c-f> :Rg<enter>
 noremap <c-l> :Buffers<enter>
 " zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 맴핑키를 추가 한다.
