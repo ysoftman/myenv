@@ -257,7 +257,7 @@ noremap <f4> :IndentGuidesToggle<enter>
 noremap <c-b> :NERDTreeToggle<enter>
 noremap <c-p><c-i> :PlugInstall<enter>
 noremap <c-t> :FZF<enter>
-noremap <c-r> :History<enter>
+noremap <c-h> :History<enter>
 noremap <c-f> :Rg<enter>
 noremap <c-l> :Buffers<enter>
 " zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 맴핑키를 추가 한다.
