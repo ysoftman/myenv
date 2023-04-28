@@ -625,6 +625,8 @@ key_bindings:
   - { key: X, mods: Alt, chars: "\x1bx" }
   - { key: Y, mods: Alt, chars: "\x1by" }
   - { key: Z, mods: Alt, chars: "\x1bz" }
+  - { key: LBracket, mods: Alt, chars: "\x1b[" } # zeillij pane horizontal/vertical
+  - { key: RBracket, mods: Alt, chars: "\x1b]" }  # zeillij pane horizontal/vertical
   - { key: Left, mods: Alt, chars: "\x1bb" } # 터미널 프롬프트에서 이전 워드로 점프
   - { key: Right, mods: Alt, chars: "\x1bf" } # 터미널 프롬프트에서 다음 워드로 점프
   - { key: N, mods: Command, action: SpawnNewInstance } # 새창
