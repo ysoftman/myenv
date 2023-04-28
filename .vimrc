@@ -263,6 +263,8 @@ noremap <c-l> :Buffers<enter>
 " zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 맴핑키를 추가 한다.
 noremap fzf :FZF<enter>
 noremap hist :History<enter>
+noremap rg :Rg<enter>
+noremap tree :NERDTreeToggle<enter>
 
 "noremap <c-m> :Maps<enter>
 "[count]<leader>cc "선택한 라인 커멘트 설정
