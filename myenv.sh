@@ -84,7 +84,7 @@ export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border --exact'
 export FZF_CTRL_T_COMMAND='find . -type f'
 temp=$(which fd 2> /dev/null)
 if [ $? = 0 ] && [ -f $temp ]; then
-    export FZF_CTRL_T_COMMAND='fd --hidden'
+    export FZF_CTRL_T_COMMAND='fd --hidden --no-ignore'
 fi
 # zellij 에서 ctrl-t 가 tab 명령 단축키라 FZF_CTRL_T_COMMAND(ctrl-t)와 중복된다.
 # alt-t 로도 FZF_CTRL_T_COMMAND(fzf-file-widget) 사용할 수 있도록 등록한다.
