@@ -384,9 +384,6 @@ cursor:
 # even if the ConPTY backend is available.
 #winpty_backend: false
 
-# Send ESC (\x1b) before characters when alt is pressed.
-alt_send_esc: true
-
 #mouse:
 # Click settings
 #
@@ -598,6 +595,7 @@ alt_send_esc: true
 #- { key: Home,      mods: Shift,   mode: ~Alt, action: ScrollToTop,   }
 #- { key: End,       mods: Shift,   mode: ~Alt, action: ScrollToBottom }
 
+
 key_bindings:
   - { key: A, mods: Alt, chars: "\x1ba" } # FZF :Rg 전체 선택에서 사용하고 있음
   - { key: B, mods: Alt, chars: "\x1bb" }
@@ -625,8 +623,10 @@ key_bindings:
   - { key: X, mods: Alt, chars: "\x1bx" }
   - { key: Y, mods: Alt, chars: "\x1by" }
   - { key: Z, mods: Alt, chars: "\x1bz" }
-  - { key: LBracket, mods: Alt, chars: "\x1b[" } # zeillij pane horizontal/vertical
-  - { key: RBracket, mods: Alt, chars: "\x1b]" }  # zeillij pane horizontal/vertical
+  - { key: Equals, mods: Alt, chars: "\x1b=" } # zellij increase pane size
+  - { key: Minus, mods: Alt, chars: "\x1b-" } # zellij decrease pane size
+  - { key: LBracket, mods: Alt, chars: "\x1b[" } # zellij horizontal/vertical pane
+  - { key: RBracket, mods: Alt, chars: "\x1b]" } # zellij horizontal/vertical pane
   - { key: Left, mods: Alt, chars: "\x1bb" } # 터미널 프롬프트에서 이전 워드로 점프
   - { key: Right, mods: Alt, chars: "\x1bf" } # 터미널 프롬프트에서 다음 워드로 점프
   - { key: N, mods: Command, action: SpawnNewInstance } # 새창
