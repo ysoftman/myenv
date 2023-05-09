@@ -275,8 +275,8 @@
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "powermode.enabled": false,
-  "diffEditor.ignoreTrimWhitespace": false,
   "csharp.suppressDotnetInstallWarning": true,
   "workbench.editor.enablePreview": false,
+  "diffEditor.ignoreTrimWhitespace": false,
   "window.zoomLevel": 1
 }

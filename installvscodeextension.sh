@@ -39,6 +39,7 @@ code --install-extension kdl-org.kdl
 code --install-extension marcostazi.VS-code-vagrantfile
 code --install-extension mechatroner.rainbow-csv
 code --install-extension mitaki28.vscode-clang
+code --install-extension mongodb.mongodb-vscode
 code --install-extension mrmlnc.vscode-apache
 code --install-extension ms-azuretools.vscode-docker
 code --install-extension ms-dotnettools.csharp
