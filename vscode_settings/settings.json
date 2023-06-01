@@ -48,7 +48,7 @@
   "go.buildTags": "",
   "go.buildFlags": [],
   "go.lintTool": "golangci-lint",
-  "go.lintFlags": [],
+  "go.lintFlags": ["--concurrency 4"],
   "go.vetFlags": [],
   "go.coverOnSave": false,
   "go.useCodeSnippetsOnFunctionSuggest": false,
