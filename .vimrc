@@ -8,7 +8,7 @@
 " vim +PlugInstall +qall
 
 " vim 실행 후 GoInstallBinaries 로 $GOPATH/bin 에 필요한 파일들이 설치하고 모두 종료
-" dockerfile 로 이미지 빌드시 사용자 입력을 받을 수 없으니 slient 모드로 설치
+" dockerfile 로 이미지 빌드시 사용자 입력을 받을 수 없으니 silent 모드로 설치
 "vim +'silent :GoInstallBinaries' +qall
 
 " The ycmd server SHUT DOWN (restart with :YcmRestartServer) 메시지가 발생하는 경우
