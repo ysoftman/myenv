@@ -265,6 +265,8 @@ noremap fzf :FZF<enter>
 noremap hist :History<enter>
 noremap rg :Rg<enter>
 noremap tree :NERDTreeToggle<enter>
+"선택한 파일위치로 자종 포커스 된다.
+noremap treef :NERDTreeFind<enter> 
 
 "noremap <c-m> :Maps<enter>
 "[count]<leader>cc "선택한 라인 커멘트 설정
