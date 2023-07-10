@@ -235,6 +235,8 @@ let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 
 " 단축키 설정
 " timeout이 짧은 상태에서 일반 명령로 처리 될 수 있어 주의
+"
+" quickfix list 영역서 사용할 단축키
 noremap cj :clearjumps<enter>
 noremap cw :cw<enter>
 noremap co :copen<enter>
