@@ -300,7 +300,6 @@ autocmd filetype go noremap <f7> :w <bar> :!clear; <enter> :GoBuild<enter>
 autocmd filetype go noremap <f12> :GoDef<enter>
 autocmd filetype go noremap <leader>d :GoDef<enter>
 autocmd filetype go noremap <leader>f :GoReferrers<enter>
-autocmd filetype go noremap <leader>r :GoRename<enter>
 autocmd filetype go noremap <leader>i :w <bar> :GoImports<enter>
 autocmd filetype go noremap <leader>g :GoGuruScope .<enter>
 autocmd filetype go noremap <leader>v :GoVet<enter>:GoLint<enter>
