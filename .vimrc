@@ -237,17 +237,29 @@ let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 " 단축키 설정
 " timeout이 짧은 상태에서 일반 명령로 처리 될 수 있어 주의
 "
-" quickfix list 영역서 사용할 단축키
+" quickfix list 에서 사용할 단축키
 noremap cj :clearjumps<enter>
 noremap cw :cw<enter>
 noremap co :copen<enter>
-noremap cl :close<enter>
+noremap ccl :cclose<enter>
+" 파일내 replace
 noremap sc :%s/<c-r><c-w>//gc<left><left><left>
 noremap cfsc :cfdo %s///gc <bar> up<home><right><right><right><right><right><right><right><right>
 noremap <c-j> :cn<enter>
 "c-[ --> esc 라 사용하지 말자.
 "noremap <c-[> :cp<enter>
 noremap <c-k> :cp<enter>
+
+" location list 에서 사용할 단축키
+noremap lo :lopen<enter>
+noremap lcl :lclose<enter>
+noremap ln :lnext<enter>
+noremap lp :lprev<enter>
+noremap ln :lnext<enter>
+noremap <c-j> :lnext<enter>
+noremap <c-k> :lprev<enter>
+
+" buffer 관련 단축키
 noremap bn :bn<enter>
 noremap bp :bp<enter>
 noremap bd :bd<enter>
@@ -274,25 +286,30 @@ noremap treef :NERDTreeFind<enter>
 "noremap <c-m> :Maps<enter>
 "[count]<leader>cc "선택한 라인 커멘트 설정
 "[count]<leader>cu "선택한 라인 커멘트 해제
-nnoremap <silent> <leader>c v:call NERDComment('x', 'toggle')<cr> "현재 라인 커멘트 토글
+"현재 라인 커멘트 토글
+nnoremap <silent> <leader>c v:call NERDComment('x', 'toggle')<cr>
 
+"cpp
 autocmd filetype c noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
 autocmd filetype cpp noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
-
 
 "vim-go
 autocmd filetype go noremap <f2> :GoRename<enter>
 autocmd filetype go noremap <f5> :w <bar> :!clear; <enter> :GoRun<enter>
 autocmd filetype go noremap <f7> :w <bar> :!clear; <enter> :GoBuild<enter>
 autocmd filetype go noremap <f12> :GoDef<enter>
-"fuctionkey 조합은 동작 하지 않아 사용하지 않음.
-"autocmd filetype go noremap <s-f12> :GoCallees<enter>
-autocmd filetype go noremap <leader>c :GoCallees<enter>
 autocmd filetype go noremap <leader>d :GoDef<enter>
-autocmd filetype go noremap <leader>f :w <bar> :GoFmt<enter>
+autocmd filetype go noremap <leader>f :GoReferrers<enter>
+autocmd filetype go noremap <leader>r :GoRename<enter>
 autocmd filetype go noremap <leader>i :w <bar> :GoImports<enter>
 autocmd filetype go noremap <leader>g :GoGuruScope .<enter>
 autocmd filetype go noremap <leader>v :GoVet<enter>:GoLint<enter>
+"fuctionkey 조합은 동작 하지 않아 사용하지 않음.
+"autocmd filetype go noremap <s-f12> :GoCallees<enter>
+" GoReferrers 로 대체
+"autocmd filetype go noremap <leader>e :GoCallees<enter>
+" GoImports 로 대체
+"autocmd filetype go noremap <leader>f :w <bar> :GoFmt<enter>
 ":GoInstallBinaries
 ":GoUpdateBinaries
 
