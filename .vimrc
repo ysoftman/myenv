@@ -136,7 +136,7 @@ let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
 
 "fzf
-"FZF_DEFAULT_COMMAND 설저에 의존
+"FZF_DEFAULT_COMMAND 설정에 의존, hidden 파일검색 되도록 myenv.sh 설정되어 있다.
 let g:fzf_preview_window = ['right:50%', 'ctrl-/']
 "Rg 창에 파일 이름 검색에서 제외
 command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
@@ -269,7 +269,7 @@ noremap hist :History<enter>
 noremap rg :Rg<enter>
 noremap tree :NERDTreeToggle<enter>
 "선택한 파일위치로 자종 포커스 된다.
-noremap treef :NERDTreeFind<enter> 
+noremap treef :NERDTreeFind<enter>
 
 "noremap <c-m> :Maps<enter>
 "[count]<leader>cc "선택한 라인 커멘트 설정
