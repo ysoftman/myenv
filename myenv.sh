@@ -76,16 +76,19 @@ if [[ $? != 0 ]]; then
     export PATH=$PATH:${HOME}/.fzf/bin
 fi
 
-# fzf default options
-# --multi(-m) : tab(select/deselect forward) shift-tab(select/deselect backward)
-export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border --exact'
 # fzf ctrl-t(파일찾기)시
 # 숨김파일도 보기
 export FZF_CTRL_T_COMMAND='find . -type f'
+# fzf vim 에서 FZF_DEFAULT_COMMAND 를 사용함
+export FZF_DEFAULT_COMMAND=$FZF_CTRL_T_COMMANDS
 temp=$(which fd 2> /dev/null)
 if [ $? = 0 ] && [ -f $temp ]; then
     export FZF_CTRL_T_COMMAND='fd --hidden --no-ignore'
+    export FZF_DEFAULT_COMMAND=$FZF_CTRL_T_COMMAND
 fi
+## fzf default options
+# --multi(-m) : tab(select/deselect forward) shift-tab(select/deselect backward)
+export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border --exact'
 # zellij 에서 ctrl-t 가 tab 명령 단축키라 FZF_CTRL_T_COMMAND(ctrl-t)와 중복된다.
 # alt-t 로도 FZF_CTRL_T_COMMAND(fzf-file-widget) 사용할 수 있도록 등록한다.
 bindkey "^[t" fzf-file-widget
