@@ -53,6 +53,7 @@ git config --global credential.helper store
 [ -h ~/.bashrc ] && unlink ~/.bashrc
 [ -h ~/.zshrc ] && unlink ~/.zshrc
 [ -h ~/.vimrc ] && unlink ~/.vimrc
+[ -h ~/.config/nvim/init.vim ] && unlink ~/.config/nvim/init.vim
 [ -h ~/.tmux.conf ] && unlink ~/.tmux.conf
 [ -h ~/.tigrc ] && unlink ~/.tigrc
 [ -h ~/.muttrc ] && unlink ~/.muttrc
@@ -69,6 +70,7 @@ mkdir -p ${XDG_CONFIG_HOME}/k9s
 [ -f ~/.bashrc ] && mv -fv ~/.bashrc ~/.bashrc.bak
 [ -f ~/.zshrc ] && mv -fv ~/.zshrc ~/.zshrc.bak
 [ -f ~/.vimrc ] && mv -fv ~/.vimrc ~/.vimrc.bak
+[ -f ~/.config/nvim/init.vim ] && mv -fv ~/.config/nvim/init.vim ~/.config/nvim/init.vim.bak
 [ -f ~/.tmux.conf ] && mv -fv ~/.tmux.conf ~/.tmux.conf.bak
 [ -f ~/.tigrc ] && mv -fv ~/.tigrc ~/.tigrc.bak
 [ -f ~/.muttrc ] && mv -fv ~/.muttrc ~/.muttrc.bak
@@ -82,6 +84,8 @@ ln -sf ${PWD}/.gitignore_global ~/.gitignore_global
 ln -sf ${PWD}/.bashrc ~/.bashrc
 ln -sf ${PWD}/.zshrc ~/.zshrc
 ln -sf ${PWD}/.vimrc ~/.vimrc
+mkdir -p ~/.config/nvim/
+ln -sf ${PWD}/init.vim ~/.config/nvim/init.vim
 ln -sf ${PWD}/.tmux.conf ~/.tmux.conf
 ln -sf ${PWD}/.tigrc ~/.tigrc
 ln -sf ${PWD}/.muttrc ~/.muttrc
