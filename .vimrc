@@ -94,7 +94,7 @@ set visualbell t_vb=
 set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»
 "set nolist
 set list
-set timeoutlen=500
+set timeoutlen=1000
 
 "let mapleader="\\"
 let mapleader=","
@@ -238,7 +238,8 @@ let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 
 " 단축키 설정
 " timeout이 짧은 상태에서 일반 명령로 처리 될 수 있어 주의
-"
+" noremap 에 h j k l 등으로 시작하게 되면 커서 사용시 timeoutlen 만큼 기다리기 후
+" 마지막 동작이 수행 되기 때문에 사용하지 않도로 한다.
 " quickfix list 에서 사용할 단축키
 noremap cj :clearjumps<enter>
 noremap cw :cw<enter>
@@ -253,11 +254,8 @@ noremap <c-j> :cn<enter>
 noremap <c-k> :cp<enter>
 
 " location list 에서 사용할 단축키
-noremap lo :lopen<enter>
-noremap lcl :lclose<enter>
-noremap ln :lnext<enter>
-noremap lp :lprev<enter>
-noremap ln :lnext<enter>
+noremap <leader>lo :lopen<enter>
+noremap <leader>lcl :lclose<enter>
 noremap <c-]> :lnext<enter>
 noremap <c-[> :lprev<enter>
 
@@ -279,11 +277,11 @@ noremap <c-f> :Rg<enter>
 noremap <c-l> :Buffers<enter>
 " zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 맴핑키를 추가 한다.
 noremap fzf :FZF<enter>
-noremap hist :History<enter>
 noremap rg :Rg<enter>
-noremap tree :NERDTreeToggle<enter>
+noremap <leader>H :History<enter>
+noremap <leader>T :NERDTreeToggle<enter>
 "선택한 파일위치로 자종 포커스 된다.
-noremap treef :NERDTreeFind<enter>
+noremap <leader>TF :NERDTreeFind<enter>
 
 "noremap <c-m> :Maps<enter>
 "[count]<leader>cc "선택한 라인 커멘트 설정
