@@ -89,7 +89,9 @@ set ignorecase
 set cursorline
 "set colorcolumn=100
 set visualbell t_vb=
-set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»,eol:↵
+" eol까지 표시하면 너무 verbose 하게 표시되는것 같음
+"set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»,eol:↵
+set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»
 "set nolist
 set list
 set timeoutlen=500
@@ -286,7 +288,7 @@ noremap treef :NERDTreeFind<enter>
 "noremap <c-m> :Maps<enter>
 "[count]<leader>cc "선택한 라인 커멘트 설정
 "[count]<leader>cu "선택한 라인 커멘트 해제
-"현재 라인 커멘트 토글
+"NERDComment 를 호출 해서 현재 라인 커멘트 토글
 nnoremap <silent> <leader>c v:call NERDComment('x', 'toggle')<cr>
 
 "cpp
