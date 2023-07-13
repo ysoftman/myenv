@@ -256,8 +256,8 @@ noremap lcl :lclose<enter>
 noremap ln :lnext<enter>
 noremap lp :lprev<enter>
 noremap ln :lnext<enter>
-noremap <c-j> :lnext<enter>
-noremap <c-k> :lprev<enter>
+noremap <c-]> :lnext<enter>
+noremap <c-[> :lprev<enter>
 
 " buffer 관련 단축키
 noremap bn :bn<enter>
