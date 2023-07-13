@@ -264,7 +264,12 @@ noremap bn :bn<enter>
 noremap bp :bp<enter>
 noremap bd :bd<enter>
 noremap bwo :%bwipeout <enter>
+" buffer 파일들 다시 로딩
+noremap be :bufdo e<enter>
+
+" .vimrc 다시 적용
 noremap sovim :source ~/.vimrc <enter>
+
 "remove trailing whitespce
 noremap rtw :%s/\s\+$//e<enter>
 noremap <f1> :TagbarToggle<enter>
