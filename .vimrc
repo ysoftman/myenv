@@ -280,7 +280,7 @@ noremap <c-b> :NERDTreeToggle<enter>
 noremap <c-p><c-i> :PlugInstall<enter>
 noremap <c-t> :FZF<enter>
 " old files and buffer history
-noremap <c-h> :History<enter>
+noremap <c-h>f :History<enter>
 " command history, history 내용들만 실행 가능하다.
 " : 만 사용하면 새로운 명령은 실행 못하고 command history 만 보인다.
 noremap <c-h>: :History:<enter>
