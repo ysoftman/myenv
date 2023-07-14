@@ -286,7 +286,7 @@ noremap <c-h>f :History<enter>
 noremap <c-h>: :History:<enter>
 " search history, history 내용들만 찾기 가능하다.
 " / 만 사용하면 새로운 찾기는 안되고 search history 만 보인다.
-noremap <c->/ :History/<enter>
+noremap <c-h>/ :History/<enter>
 noremap <c-f> :Rg<enter>
 noremap <c-l> :Buffers<enter>
 " zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 맴핑키를 추가 한다.
