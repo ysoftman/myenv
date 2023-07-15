@@ -1,7 +1,7 @@
 #!/bin/bash
 pkgs_android='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python2 ruby golang rust man dnsutils ripgrep fd fzf lua53 openssh libandroid-support lsd exa neofetch git-delta'
-pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang rust cargo man dnsutils gem python-pip clang-format ncurses ncurses-devel git-delta'
-pkgs_aptget='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev python3-dev default-jdk ruby golang rust cargo man dnsutils gem python-pip expect clang-format build-essential libncurses5-dev screenfetch neofetch lolcat'
+pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang rust cargo man dnsutils gem python3-pip clang-format ncurses ncurses-devel git-delta'
+pkgs_aptget='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev python3-dev default-jdk ruby golang rust cargo man dnsutils gem python3-pip expect clang-format build-essential libncurses5-dev screenfetch neofetch lolcat'
 pkgs_pacman='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python ruby go man dnsutils screenfetch neofetch lolcat lsd exa git-delta'
 pkgs_brew='zsh lsd exa rust git-delta'
 sudo_cmd='sudo'
@@ -15,7 +15,7 @@ if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
 	# vim, vim-python 한번에 설치시 의존성 에러 발생해 별도 설치
 	${sudo_cmd} ${package_program} install -y vim-python
 	chsh -s zsh
-	gem install lolcat
+	${sudo_cmd} gem install lolcat
 	exit 0
 elif [[ $(uname) == 'Darwin' ]]; then
 	echo 'OSX Environment'
