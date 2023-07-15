@@ -1,3 +1,4 @@
+B
 #!/bin/bash
 
 cd ~/workspace
@@ -24,4 +25,5 @@ git_clone_and_pull https://github.com/ysoftman/ohmystock.git
 git_clone_and_pull https://github.com/ysoftman/taja
 git_clone_and_pull https://github.com/ysoftman/test_code
 git_clone_and_pull https://github.com/ysoftman/watchDust
+git_clone_and_pull https://github.com/ysoftman/ysoftman
 git_clone_and_pull https://github.com/ysoftman/ysoftman.github.io
