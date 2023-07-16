@@ -84,7 +84,7 @@ sh ./installvscodesettings.sh
 - alacritty 사용시
   - 설정 파일은 다른 OS 도 같이 사용하니 윈도우 전용으로 수정하지 않는다. 대신 기본 powershell 에서 wsl 실행하면 된다.
 - windows terminal 사용시
-  - hack nerd 폰트 다운로드 받아 설치 <https://github.com/ryanoasis/nerd-fonts/releases/download/2.2.0-RC/Hack.zip>
+  - hack nerd 폰트 다운로드 받아 설치 <https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/Hack.zip>
   - terminal 에서 ctrl + , 로 설정 파일을 오픈 후 windows_terminal/settings.json 내용 복사 & 붙여넣기로 설정 적용
   - 터미널앱 사용(창 선택)시 배경색이 바뀌는 경우, 윈도우 투명도(settings > transparency effects > off)를 비활성화 해야 한다.
 
