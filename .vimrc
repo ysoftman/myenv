@@ -256,8 +256,8 @@ noremap <c-j> :cn<enter>
 noremap <c-k> :cp<enter>
 
 " location list 에서 사용할 단축키
-noremap <leader>lo :lopen<enter>
-noremap <leader>lcl :lclose<enter>
+noremap lo :lopen<enter>
+noremap lcl :lclose<enter>
 noremap <c-]> :lnext<enter>
 noremap <c-[> :lprev<enter>
 
