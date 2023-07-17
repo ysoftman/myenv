@@ -35,6 +35,8 @@ Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree'
 Plug 'preservim/nerdcommenter'
 Plug 'fatih/vim-go'
+Plug 'davidhalter/jedi-vim'
+Plug 'psf/black'
 Plug 'itchyny/vim-gitbranch'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
@@ -325,4 +327,17 @@ autocmd filetype go noremap <leader>v :GoVet<enter>:GoLint<enter>
 "autocmd filetype go noremap <leader>f :w <bar> :GoFmt<enter>
 ":GoInstallBinaries
 ":GoUpdateBinaries
+
+"black
+autocmd filetype python noremap <leader>b :Black<enter>
+autocmd filetype python noremap <leader>v :BlackVersion<enter>
+"jedi-vim (python autocomplete)
+let g:jedi#goto_command = "<leader>d"
+let g:jedi#goto_assignments_command = "<leader>g"
+let g:jedi#goto_stubs_command = "<leader>s"
+let g:jedi#goto_definitions_command = ""
+let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<leader>n"
+let g:jedi#completions_command = "<C-Space>"
+let g:jedi#rename_command = "<leader>r"
 
