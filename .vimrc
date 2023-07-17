@@ -37,6 +37,7 @@ Plug 'preservim/nerdcommenter'
 Plug 'fatih/vim-go'
 Plug 'davidhalter/jedi-vim'
 Plug 'psf/black'
+Plug 'rust-lang/rust.vim'
 Plug 'itchyny/vim-gitbranch'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
@@ -339,4 +340,7 @@ let g:jedi#documentation_command = "K"
 let g:jedi#usages_command = "<leader>n"
 let g:jedi#completions_command = "<C-Space>"
 let g:jedi#rename_command = "<leader>r"
+
+"rust.vim
+autocmd filetype rust noremap <leader>f :RustFmt<enter>
 
