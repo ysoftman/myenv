@@ -305,9 +305,20 @@ noremap <leader>TF :NERDTreeFind<enter>
 "NERDComment 를 호출 해서 현재 라인 커멘트 토글
 nnoremap <silent> <leader>c v:call NERDComment('x', 'toggle')<cr>
 
-"cpp
+"c/cpp
 autocmd filetype c noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
 autocmd filetype cpp noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
+"tags 파일생성
+autocmd filetype c noremap <f12> :!ctags -R<enter>
+autocmd filetype cpp noremap <f12> :!ctags -R<enter>
+"tags 생성후
+"Ctrl-] Jump to the tag underneath the cursor
+":ts <tag> <RET> Search for a particular tag
+":tn Go to the next definition for the last tag
+":tp Go to the previous definition for the last tag
+":ts List all of the definitions of the last tag
+"Ctrl-t Jump back up in the tag stack
+
 
 "vim-go
 autocmd filetype go noremap <f2> :GoRename<enter>
