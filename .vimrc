@@ -315,7 +315,7 @@ autocmd filetype go noremap <f5> :w <bar> :!clear; <enter> :GoRun<enter>
 autocmd filetype go noremap <f7> :w <bar> :!clear; <enter> :GoBuild<enter>
 autocmd filetype go noremap <f12> :GoDef<enter>
 autocmd filetype go noremap <leader>d :GoDef<enter>
-autocmd filetype go noremap <leader>f :GoReferrers<enter>
+autocmd filetype go noremap <leader>r :GoReferrers<enter>
 autocmd filetype go noremap <leader>i :w <bar> :GoImports<enter>
 autocmd filetype go noremap <leader>g :GoGuruScope .<enter>
 autocmd filetype go noremap <leader>v :GoVet<enter>:GoLint<enter>
@@ -337,9 +337,11 @@ let g:jedi#goto_assignments_command = "<leader>g"
 let g:jedi#goto_stubs_command = "<leader>s"
 let g:jedi#goto_definitions_command = ""
 let g:jedi#documentation_command = "K"
-let g:jedi#usages_command = "<leader>n"
+"let g:jedi#usages_command = "<leader>n"
+let g:jedi#usages_command = "<leader>r"
 let g:jedi#completions_command = "<C-Space>"
-let g:jedi#rename_command = "<leader>r"
+"let g:jedi#rename_command = "<leader>r"
+let g:jedi#rename_command = "<f2>"
 
 "rust.vim
 autocmd filetype rust noremap <leader>f :RustFmt<enter>
