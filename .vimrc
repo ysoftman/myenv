@@ -82,7 +82,7 @@ set enc=utf-8
 set tabstop=4
 set shiftwidth=4
 set expandtab
-set autoindent
+set autoindent "붙여넣기시에는 :set paste 사용
 set laststatus=2
 set showtabline=2
 set ignorecase
@@ -100,6 +100,10 @@ set timeoutlen=1000
 
 "let mapleader="\\"
 let mapleader=","
+" let variable 확인
+":echo g:go_version_warning
+":let g:go_version_warning
+
 let g:go_version_warning = 0
 "nerdtree
 let NERDTreeShowHidden=1
@@ -109,7 +113,6 @@ filetype plugin on
 let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 let g:NERDToggleCheckAllLines = 1
-
 
 "vim-colors-solarized
 let g:solarized_termtrans = 1
