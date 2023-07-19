@@ -252,8 +252,9 @@ noremap cj :clearjumps<enter>
 noremap cw :cw<enter>
 noremap co :copen<enter>
 noremap ccl :cclose<enter>
-" 파일내 replace
+" 파일내 replace (편의를 위해 입력위치에 커서위치)
 noremap sc :%s/<c-r><c-w>//gc<left><left><left>
+" quickfix list 에서 replace (편의를 위해 입력위치에 커서위치)
 noremap cfsc :cfdo %s///gc <bar> up<home><right><right><right><right><right><right><right><right>
 noremap <c-j> :cn<enter>
 "c-[ --> esc 라 사용하지 말자.
