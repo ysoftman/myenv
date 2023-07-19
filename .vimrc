@@ -278,7 +278,6 @@ noremap be :bufdo e<enter>
 
 " .vimrc 다시 적용
 noremap sovim :source ~/.vimrc<enter>
-
 "remove trailing whitespce
 noremap rtw :%s/\s\+$//e<enter>
 noremap <f1> :TagbarToggle<enter>
@@ -296,13 +295,12 @@ noremap <c-h>: :History:<enter>
 noremap <c-h>/ :History/<enter>
 noremap <c-f> :Rg<enter>
 noremap <c-l> :Buffers<enter>
+noremap <leader>tt :NERDTreeToggle<enter>
+"선택한 파일위치로 자동 포커스 된다.
+noremap <leader>tf :NERDTreeFind<enter>
 " zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 맴핑키를 추가 한다.
 noremap fzf :FZF<enter>
 noremap rg :Rg<enter>
-noremap <leader>H :History<enter>
-noremap <leader>T :NERDTreeToggle<enter>
-"선택한 파일위치로 자종 포커스 된다.
-noremap <leader>TF :NERDTreeFind<enter>
 
 "vim-fugitive
 noremap <leader>gs :Git<enter> "opens summary window
