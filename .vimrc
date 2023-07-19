@@ -304,6 +304,11 @@ noremap <leader>T :NERDTreeToggle<enter>
 "선택한 파일위치로 자종 포커스 된다.
 noremap <leader>TF :NERDTreeFind<enter>
 
+"vim-fugitive
+noremap <leader>gd :Git diff<enter>
+noremap <leader>gl :Git log<enter>
+noremap <leader>gb :Git blame<enter>
+
 "noremap <c-m> :Maps<enter>
 "[count]<leader>cc "선택한 라인 커멘트 설정
 "[count]<leader>cu "선택한 라인 커멘트 해제
