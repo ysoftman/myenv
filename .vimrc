@@ -305,10 +305,12 @@ noremap <leader>T :NERDTreeToggle<enter>
 noremap <leader>TF :NERDTreeFind<enter>
 
 "vim-fugitive
+noremap <leader>gs :Git<enter> "opens summary window
 noremap <leader>gd :Git diff<enter>
 noremap <leader>gl :Git log<enter>
 noremap <leader>ga :Git add %<enter>
-noremap <leader>gc :Git commit<enter>
+noremap <leader>gc :Git commit %<enter>
+noremap <leader>gp :Git push<enter>
 noremap <leader>gb :Git blame<enter>
 
 "noremap <c-m> :Maps<enter>
