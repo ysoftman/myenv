@@ -261,8 +261,9 @@ noremap <c-j> :cn<enter>
 noremap <c-k> :cp<enter>
 
 " location list 에서 사용할 단축키
-noremap lo :lopen<enter>
-noremap lcl :lclose<enter>
+" l 로 시작하면 오른쪽 방향키(l)일때 액션이 timeoutlen 만큼 지연되서 사용하지 않음
+noremap <leader>lo :lopen<enter>
+noremap <leader>lcl :lclose<enter>
 noremap <c-]> :lnext<enter>
 noremap <c-[> :lprev<enter>
 
