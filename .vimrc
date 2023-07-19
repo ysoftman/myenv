@@ -265,8 +265,8 @@ noremap <c-k> :cp<enter>
 " l 로 시작하면 오른쪽 방향키(l)일때 액션이 timeoutlen 만큼 지연되서 사용하지 않음
 noremap <leader>lo :lopen<enter>
 noremap <leader>lcl :lclose<enter>
-noremap <c-]> :lnext<enter>
-noremap <c-[> :lprev<enter>
+noremap <leader>j :lnext<enter>
+noremap <leader>k :lprev<enter>
 
 " buffer 관련 단축키
 noremap bn :bn<enter>
@@ -277,7 +277,7 @@ noremap bwo :%bwipeout <enter>
 noremap be :bufdo e<enter>
 
 " .vimrc 다시 적용
-noremap sovim :source ~/.vimrc <enter>
+noremap sovim :source ~/.vimrc<enter>
 
 "remove trailing whitespce
 noremap rtw :%s/\s\+$//e<enter>
