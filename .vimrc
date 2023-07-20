@@ -256,17 +256,17 @@ noremap ccl :cclose<enter>
 noremap sc :%s/<c-r><c-w>//gc<left><left><left>
 " quickfix list 에서 replace (편의를 위해 입력위치에 커서위치)
 noremap cfsc :cfdo %s///gc <bar> up<home><right><right><right><right><right><right><right><right>
-noremap <c-j> :cn<enter>
 "c-[ --> esc 라 사용하지 말자.
 "noremap <c-[> :cp<enter>
 noremap <c-k> :cp<enter>
+noremap <c-j> :cn<enter>
 
 " location list 에서 사용할 단축키
 " l 로 시작하면 오른쪽 방향키(l)일때 액션이 timeoutlen 만큼 지연되서 사용하지 않음
 noremap <leader>lo :lopen<enter>
 noremap <leader>lcl :lclose<enter>
-noremap <leader>j :lnext<enter>
 noremap <leader>k :lprev<enter>
+noremap <leader>j :lnext<enter>
 
 " buffer 관련 단축키
 noremap bn :bn<enter>
