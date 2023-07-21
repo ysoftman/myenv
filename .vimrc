@@ -60,7 +60,8 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'joshdick/onedark.vim'
 " joshdick/onedark.vim 와 vim-colorschemes 충돌
 " Plug 'flazz/vim-colorschemes'
-Plug 'kien/ctrlp.vim'
+" ctrlp 는 fuzzfile,buffer... 인데 fzf 가 더 좋은것 같아 굳이 사용할 필요없어 보임
+"Plug 'kien/ctrlp.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.vim/plugged/fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'nathanaelkane/vim-indent-guides'
