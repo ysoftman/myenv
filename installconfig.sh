@@ -58,6 +58,8 @@ git config --global credential.helper store
 [ -h ~/.tigrc ] && unlink ~/.tigrc
 [ -h ~/.muttrc ] && unlink ~/.muttrc
 [ -h ~/.alacritty.yml ] && unlink ~/.alacritty.yml
+# install alacritty theme
+[ -d ~/.alacritty-colorscheme ] || git clone https://github.com/eendroroy/alacritty-theme.git ~/.alacritty-colorscheme
 [ -h ~/.config/zellij ] && unlink ~/.config/zellij
 [ -h ~/.config/mc ] && unlink ~/.config/mc
 [ -h ~/.config/lsd ] && unlink ~/.config/lsd
