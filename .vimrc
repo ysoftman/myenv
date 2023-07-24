@@ -292,7 +292,7 @@ noremap <c-h> :History<enter>
 "noremap : :History:<enter>
 " 새로운 찾기를 하려면 ctlr-e 로 기존 히스토리를 수정해야 하는 번거로움이 있다.
 "noremap / :History/<enter>
-noremap <c-c> :Commands<enter>
+"noremap <c-c> :Commands<enter>
 "noremap <c-m> :Maps<enter>
 noremap <c-m> :Marks<enter>
 noremap <c-f> :Rg<enter>
