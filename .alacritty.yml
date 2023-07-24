@@ -818,38 +818,38 @@ colors:
   #- { key: Home,      mods: Shift,   mode: ~Alt,        action: ScrollToTop    }
   #- { key: End,       mods: Shift,   mode: ~Alt,        action: ScrollToBottom }
 key_bindings:
-  - { key: A, mods: Alt, chars: "\x1ba" } # FZF :Rg 전체 선택에서 사용하고 있음
-  - { key: B, mods: Alt, chars: "\x1bb" }
-  - { key: C, mods: Alt, chars: "\x1bc" }
-  - { key: D, mods: Alt, chars: "\x1bd" } # FZF :Rg 전체 선택 해제에서 사용하고 있음
-  - { key: E, mods: Alt, chars: "\x1be" }
-  - { key: F, mods: Alt, chars: "\x1bf" }
-  - { key: G, mods: Alt, chars: "\x1bg" }
-  - { key: H, mods: Alt, chars: "\x1bh" }
-  - { key: I, mods: Alt, chars: "\x1bi" }
-  - { key: J, mods: Alt, chars: "\x1bj" }
-  - { key: K, mods: Alt, chars: "\x1bk" }
-  - { key: L, mods: Alt, chars: "\x1bl" }
-  - { key: M, mods: Alt, chars: "\x1bm" }
-  - { key: N, mods: Alt, chars: "\x1bn" }
-  - { key: O, mods: Alt, chars: "\x1bo" }
-  - { key: P, mods: Alt, chars: "\x1bp" }
-  - { key: Q, mods: Alt, chars: "\x1bq" }
-  - { key: R, mods: Alt, chars: "\x1br" }
-  - { key: S, mods: Alt, chars: "\x1bs" }
-  - { key: T, mods: Alt, chars: "\x1bt" }
-  - { key: U, mods: Alt, chars: "\x1bu" }
-  - { key: V, mods: Alt, chars: "\x1bv" }
-  - { key: W, mods: Alt, chars: "\x1bw" }
-  - { key: X, mods: Alt, chars: "\x1bx" }
-  - { key: Y, mods: Alt, chars: "\x1by" }
-  - { key: Z, mods: Alt, chars: "\x1bz" }
-  - { key: Equals, mods: Alt, chars: "\x1b=" } # zellij increase pane size
-  - { key: Minus, mods: Alt, chars: "\x1b-" } # zellij decrease pane size
-  - { key: LBracket, mods: Alt, chars: "\x1b[" } # zellij horizontal/vertical pane
-  - { key: RBracket, mods: Alt, chars: "\x1b]" } # zellij horizontal/vertical pane
-  - { key: Left, mods: Alt, chars: "\x1bb" } # 터미널 프롬프트에서 이전 워드로 점프
-  - { key: Right, mods: Alt, chars: "\x1bf" } # 터미널 프롬프트에서 다음 워드로 점프
+  - { key: A, mods: Alt|Option, chars: "\x1ba" } # FZF :Rg 전체 선택에서 사용하고 있음
+  - { key: B, mods: Alt|Option, chars: "\x1bb" }
+  - { key: C, mods: Alt|Option, chars: "\x1bc" }
+  - { key: D, mods: Alt|Option, chars: "\x1bd" } # FZF :Rg 전체 선택 해제에서 사용하고 있음
+  - { key: E, mods: Alt|Option, chars: "\x1be" }
+  - { key: F, mods: Alt|Option, chars: "\x1bf" }
+  - { key: G, mods: Alt|Option, chars: "\x1bg" }
+  - { key: H, mods: Alt|Option, chars: "\x1bh" }
+  - { key: I, mods: Alt|Option, chars: "\x1bi" }
+  - { key: J, mods: Alt|Option, chars: "\x1bj" }
+  - { key: K, mods: Alt|Option, chars: "\x1bk" }
+  - { key: L, mods: Alt|Option, chars: "\x1bl" }
+  - { key: M, mods: Alt|Option, chars: "\x1bm" }
+  - { key: N, mods: Alt|Option, chars: "\x1bn" }
+  - { key: O, mods: Alt|Option, chars: "\x1bo" }
+  - { key: P, mods: Alt|Option, chars: "\x1bp" }
+  - { key: Q, mods: Alt|Option, chars: "\x1bq" }
+  - { key: R, mods: Alt|Option, chars: "\x1br" }
+  - { key: S, mods: Alt|Option, chars: "\x1bs" }
+  - { key: T, mods: Alt|Option, chars: "\x1bt" }
+  - { key: U, mods: Alt|Option, chars: "\x1bu" }
+  - { key: V, mods: Alt|Option, chars: "\x1bv" }
+  - { key: W, mods: Alt|Option, chars: "\x1bw" }
+  - { key: X, mods: Alt|Option, chars: "\x1bx" }
+  - { key: Y, mods: Alt|Option, chars: "\x1by" }
+  - { key: Z, mods: Alt|Option, chars: "\x1bz" }
+  - { key: Equals, mods: Alt|Option, chars: "\x1b=" } # zellij increase pane size
+  - { key: Minus, mods: Alt|Option, chars: "\x1b-" } # zellij decrease pane size
+  - { key: LBracket, mods: Alt|Option, chars: "\x1b[" } # zellij horizontal/vertical pane
+  - { key: RBracket, mods: Alt|Option, chars: "\x1b]" } # zellij horizontal/vertical pane
+  - { key: Left, mods: Alt|Option, chars: "\x1bb" } # 터미널 프롬프트에서 이전 워드로 점프
+  - { key: Right, mods: Alt|Option, chars: "\x1bf" } # 터미널 프롬프트에서 다음 워드로 점프
   - { key: N, mods: Command, action: SpawnNewInstance } # 새창
   - { key: Q, mods: Command, action: None } # Q 로 창닫힘 막기, 실제 mac > menu > quick alacritty 가 있어 창이 닫힌다.
   - { key: W, mods: Command, action: None } # W 로 창닫힘 막기
