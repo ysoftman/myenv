@@ -40,8 +40,12 @@ export XDG_CONFIG_HOME="$HOME/.config"
 # set kubeconfig path
 if [ -d ${HOME}/.kube ]; then
     export KUBECONFIG="${HOME}/.kube/config"
-    for i in $(ls ${HOME}/.kube/*.yaml); do { KUBECONFIG+=":"$i; } done 2> /dev/null
-    for i in $(ls ${HOME}/.kube/*.yml); do { KUBECONFIG+=":"$i; } done 2> /dev/null
+    for i in $(ls ${HOME}/.kube/*.yaml); do
+        { KUBECONFIG+=":"$i; }
+    done 2> /dev/null
+    for i in $(ls ${HOME}/.kube/*.yml); do
+        { KUBECONFIG+=":"$i; }
+    done 2> /dev/null
     # KUBECONFIG 파일들 하나로 합칠때
     # kubectl config view --flatten > ${HOME}/.kube/z
 fi
