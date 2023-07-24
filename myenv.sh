@@ -184,13 +184,14 @@ if [[ $? == 0 ]]; then
     alias ll='lsd -ahl'
 fi
 # rg -p foo | less -R 와 같이 ansi color 유지해서 파이프라인으로 보낼때
-if [ $(type rg 2> /dev/null | echo $?) = 0 ]; then
+temp=$(type rg 2> /dev/null)
+if [ $? = 0 ]; then
     alias rg='rg -p'
 fi
 # kubecolor (brew install hidetatz/tap/kubecolor)
 # kubecolor internally calls kubectl command
-
-if [ $(type kubecolor 2> /dev/null | echo $?) = 0 ]; then
+temp=$(type kubecolor 2> /dev/null)
+if [ $? = 0 ]; then
     alias kubectl="kubecolor"
 fi
 
@@ -209,6 +210,10 @@ unalias scp 2> /dev/null
 unalias sftp 2> /dev/null
 
 alias vi='vim'
+temp=$(type nvim 2> /dev/null)
+if [[ $? == 0 ]]; then
+    alias vi='nvim'
+fi
 alias vimlastfile='vim `(ls -1tr | tail -1)`'
 alias gopath='cd $GOPATH'
 alias work='cd ~/workspace'
