@@ -287,13 +287,14 @@ noremap <c-b> :NERDTreeToggle<enter>
 noremap <c-p><c-i> :PlugInstall<enter>
 noremap <c-t> :FZF<enter>
 " old files and buffer history
-noremap <c-h>f :History<enter>
-" command history, history 내용들만 실행 가능하다.
-" : 만 사용하면 새로운 명령은 실행 못하고 command history 만 보인다.
-noremap <c-h>: :History:<enter>
-" search history, history 내용들만 찾기 가능하다.
-" / 만 사용하면 새로운 찾기는 안되고 search history 만 보인다.
-noremap <c-h>/ :History/<enter>
+noremap <c-h> :History<enter>
+" 새로운 커맨드 실행을 위해서 ctrl-e 로 기존 커맨드를 수정해야 하는 번거로움이 있다.
+"noremap : :History:<enter>
+" 새로운 찾기를 하려면 ctlr-e 로 기존 히스토리를 수정해야 하는 번거로움이 있다.
+"noremap / :History/<enter>
+noremap <c-c> :Commands<enter>
+"noremap <c-m> :Maps<enter>
+noremap <c-m> :Marks<enter>
 noremap <c-f> :Rg<enter>
 noremap <c-l> :Buffers<enter>
 noremap <leader>tt :NERDTreeToggle<enter>
@@ -312,7 +313,6 @@ noremap <leader>gc :Git commit<enter>
 noremap <leader>gp :Git push<enter>
 noremap <leader>gb :Git blame<enter>
 
-"noremap <c-m> :Maps<enter>
 "[count]<leader>cc "선택한 라인 커멘트 설정
 "[count]<leader>cu "선택한 라인 커멘트 해제
 "NERDComment 를 호출 해서 현재 라인 커멘트 토글
