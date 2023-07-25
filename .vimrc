@@ -237,12 +237,11 @@ let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 " option+d == ∂
 " option+p == π
 " 사실 option 는 alt 와 다르고, 각 터미널에 따른 설정이 필요하다.
-" iterm --> option 키 norml --> esc+
+" iterm --> option 키 normal --> esc+
 " kitty --> macos_option_as_alt no
-" alacritty --> alt_send_esc: true 는 동작 하지 않는다.
-" 아직 alt단축키마다 개별 설정이 필요하다.
-" - { key: A, mods: Alt, chars: "\x1ba" }
-" - { key: D, mods: Alt, chars: "\x1bd" }
+" alacritty 
+" --> alt_send_esc: true 는0.12.0 에서 디폴트로 설정에서 제거됨
+" --> windows > option_as_alt: Both 로 설정함
 
 " 단축키 설정
 " timeout이 짧은 상태에서 일반 명령로 처리 될 수 있어 주의
