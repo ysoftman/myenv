@@ -232,18 +232,19 @@ let g:go_highlight_build_constraints = 1
 let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 
 
-" mac 에선 기본적으로 option 키가 조합되면 특정 문자로 취급된다.
+" mac 에선 기본적으로 alt/meta/option 키가 조합되면 특정 문자로 취급된다.
 " option+a == å
 " option+d == ∂
 " option+p == π
-" 사실 option 는 alt 와 다르고, 각 터미널에 따른 설정이 필요하다.
+" 각 터미널에 따른 설정이 필요하다.
 " iterm --> option 키 normal --> esc+
 " kitty --> macos_option_as_alt no
-" alacritty 
+" alacritty
 " --> alt_send_esc: true 는0.12.0 에서 디폴트로 설정에서 제거됨
 " --> windows > option_as_alt: Both 로 설정함
 
 " 단축키 설정
+" :h key-notation 참고
 " timeout이 짧은 상태에서 일반 명령로 처리 될 수 있어 주의
 " noremap 에 h j k l 등으로 시작하게 되면 커서 사용시 timeoutlen 만큼 기다리기 후
 " 마지막 동작이 수행 되기 때문에 사용하지 않도로 한다.
@@ -280,13 +281,24 @@ noremap be :bufdo e<enter>
 noremap sovim :source ~/.vimrc<enter>
 "remove trailing whitespce
 noremap rtw :%s/\s\+$//e<enter>
+" zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 맴핑키를 추가 한다.
+"noremap fzf :FZF<enter>
+"noremap rg :Rg<enter>
 noremap <f1> :TagbarToggle<enter>
 noremap <f4> :IndentGuidesToggle<enter>
 noremap <c-b> :NERDTreeToggle<enter>
 noremap <c-p><c-i> :PlugInstall<enter>
 noremap <c-t> :FZF<enter>
+"insert 모드에서 ctrl+v숫자 (터미널로 입력되는 특수키 문자 파악, 예를 들어 숫자에 027입력하면 ^[ --> ESC 키로 ^와[ 를 조합된게 아님, 065는 A로 표시된다)
+"ctl+v후 alt+t 입력하면 ==> t 문자가 된다.
+noremap t :FZF<enter>
 " old files and buffer history
 noremap <c-h> :History<enter>
+" zellij ctrl-o(session) 중복됨, zellij lock 없이 사용하기 위해 alt-i, alt-o로맵핑
+"alt+i ==> i 문자가 된다.
+noremap i <c-i>
+"alt+o ==> o 문자가 된다.
+noremap o <c-o>
 " 새로운 커맨드 실행을 위해서 ctrl-e 로 기존 커맨드를 수정해야 하는 번거로움이 있다.
 "noremap : :History:<enter>
 " 새로운 찾기를 하려면 ctlr-e 로 기존 히스토리를 수정해야 하는 번거로움이 있다.
@@ -299,10 +311,6 @@ noremap <c-l> :Buffers<enter>
 noremap <leader>tt :NERDTreeToggle<enter>
 "선택한 파일위치로 자동 포커스 된다.
 noremap <leader>tf :NERDTreeFind<enter>
-" zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 맴핑키를 추가 한다.
-noremap fzf :FZF<enter>
-noremap rg :Rg<enter>
-
 "vim-fugitive
 noremap <leader>gs :Git<enter> "opens summary window
 noremap <leader>gd :Git diff<enter>
