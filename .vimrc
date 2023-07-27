@@ -97,7 +97,9 @@ set visualbell t_vb=
 set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»
 "set nolist
 set list
+"mapping 입력 완료 타임아웃(ttimeoutlen<0이면, keycode(<esc><enter><up><down>..등도해당)
 set timeoutlen=1000
+"keycode 입력 완료 타임아웃
 set ttimeoutlen=50
 
 "let mapleader="\\"
