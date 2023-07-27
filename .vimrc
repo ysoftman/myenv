@@ -98,6 +98,7 @@ set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»
 "set nolist
 set list
 set timeoutlen=1000
+set ttimeoutlen=50
 
 "let mapleader="\\"
 let mapleader=","
