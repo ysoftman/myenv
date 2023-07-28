@@ -82,6 +82,11 @@ mkdir -p ${XDG_CONFIG_HOME}/k9s
 [ -d ~/.config/lsd ] && mv -fv ~/.config/lsd ~/.config/lsd.bak
 [ -f ${XDG_CONFIG_HOME}/k9s/skin.yml ] && mv -fv ${XDG_CONFIG_HOME}/k9s/skin.yml ${XDG_CONFIG_HOME}/k9s/skin.yml.bak
 
+# ubuntu 에서는 이름이 달라서 link 처리한다.
+[ -f /usr/bin/fdfind ] && sudo ln -sf /usr/bin/fdfind /usr/bin/fd
+[ -f /usr/bin/batcat ] && sudo ln -sf /usr/bin/batcat /usr/bin/bat
+
+
 ln -sf ${PWD}/.gitignore_global ~/.gitignore_global
 ln -sf ${PWD}/.bashrc ~/.bashrc
 ln -sf ${PWD}/.zshrc ~/.zshrc
