@@ -3,7 +3,7 @@ pkgs_android='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatri
 pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang rust cargo man dnsutils gem python3-pip clang-format ncurses ncurses-devel git-delta'
 pkgs_aptget='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev python3-dev default-jdk ruby golang rust cargo man dnsutils gem python3-pip expect clang-format build-essential libncurses5-dev screenfetch neofetch lolcat fonts-powerline ripgrep bat fd-find lsd duf fzf'
 pkgs_pacman='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python ruby go man dnsutils screenfetch neofetch lolcat lsd exa git-delta'
-pkgs_brew='zsh lsd exa rust git-delta'
+pkgs_brew='zsh lsd exa rust git-delta ripgrep bat duf'
 sudo_cmd='sudo'
 
 if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
