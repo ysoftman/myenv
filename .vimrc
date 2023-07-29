@@ -302,13 +302,14 @@ noremap <c-h> :History<enter>
 noremap i <c-i>
 "alt+o ==> o 문자가 된다.
 noremap o <c-o>
-" 새로운 커맨드 실행을 위해서 ctrl-e 로 기존 커맨드를 수정해야 하는 번거로움이 있다.
+"ctrl-m == <cr>(enter) 같아서 enter 키로도 수행되는 문제가 있다.
+"noremap <c-m> :Marks<enter>
+noremap m :Marks<enter>
+" 새로운 커맨드 실행을 위해서 History 창에서 ctrl-e 로 기존 커맨드를 수정해야 하는 번거로움이 있다.
 "noremap : :History:<enter>
 " 새로운 찾기를 하려면 ctlr-e 로 기존 히스토리를 수정해야 하는 번거로움이 있다.
 "noremap / :History/<enter>
 "noremap <c-c> :Commands<enter>
-"noremap <c-m> :Maps<enter>
-noremap <c-m> :Marks<enter>
 noremap <c-f> :Rg<enter>
 noremap <c-l> :Buffers<enter>
 noremap <leader>tt :NERDTreeToggle<enter>
