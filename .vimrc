@@ -42,7 +42,6 @@ Plug 'itchyny/vim-gitbranch'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/syntastic'
-Plug 'majutsushi/tagbar'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'glench/vim-jinja2-syntax'
 Plug 'groenewege/vim-less'
@@ -69,7 +68,7 @@ Plug 'johngrib/vim-game-code-break'
 call plug#end()
 
 
-" 사용자 설정
+"기본 설정
 syntax on
 color desert
 set mouse=a
@@ -95,35 +94,92 @@ set visualbell t_vb=
 " eol까지 표시하면 너무 verbose 하게 표시되는것 같음
 "set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»,eol:↵
 set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»
+"커서라인 속성
+"hi CursorLine cterm=underline ctermbg=darkgrey ctermfg=none
 "set nolist
 set list
 "mapping 입력 완료 타임아웃(ttimeoutlen<0이면, keycode(<esc><enter><up><down>..등도해당)
 set timeoutlen=1000
 "keycode 입력 완료 타임아웃
 set ttimeoutlen=50
-
 "let mapleader="\\"
 let mapleader=","
 " let variable 확인
 ":echo g:go_version_warning
 ":let g:go_version_warning
-
 let g:go_version_warning = 0
+" 단축키 설정
+" mac 에선 기본적으로 alt/meta/option 키가 조합되면 특정 문자로 취급된다.
+" option+a == å
+" option+d == ∂
+" option+p == π
+" 각 터미널에 따른 설정이 필요하다.
+" iterm --> option 키 normal --> esc+
+" kitty --> macos_option_as_alt no
+" alacritty
+" --> alt_send_esc: true 는0.12.0 에서 디폴트로 설정에서 제거됨
+" --> windows > option_as_alt: Both 로 설정함
+" :h key-notation 참고
+" timeout이 짧은 상태에서 일반 명령로 처리 될 수 있어 주의
+" noremap 에 h j k l 등으로 시작하게 되면 커서 사용시 timeoutlen 만큼 기다리기 후
+" 마지막 동작이 수행 되기 때문에 사용하지 않도로 한다.
+" quickfix list 에서 사용할 단축키
+noremap cj :clearjumps<enter>
+noremap cw :cw<enter>
+noremap co :copen<enter>
+noremap ccl :cclose<enter>
+" 파일내 replace (편의를 위해 입력위치에 커서위치)
+noremap sc :%s/<c-r><c-w>//gc<left><left><left>
+" quickfix list 에서 replace (편의를 위해 입력위치에 커서위치)
+noremap cfsc :cfdo %s///gc <bar> up<home><right><right><right><right><right><right><right><right>
+"c-[ --> esc 라 사용하지 말자.
+"noremap <c-[> :cp<enter>
+noremap <c-k> :cp<enter>
+noremap <c-j> :cn<enter>
+" location list 에서 사용할 단축키
+" l 로 시작하면 오른쪽 방향키(l)일때 액션이 timeoutlen 만큼 지연되서 사용하지 않음
+noremap <leader>lo :lopen<enter>
+noremap <leader>lcl :lclose<enter>
+noremap <leader>k :lprev<enter>
+noremap <leader>j :lnext<enter>
+" buffer 관련 단축키
+noremap bn :bn<enter>
+noremap bp :bp<enter>
+noremap bd :bd<enter>
+noremap bwo :%bwipeout <enter>
+" buffer 파일들 다시 로딩
+noremap be :bufdo e<enter>
+" .vimrc 다시 적용
+noremap sovim :source ~/.vimrc<enter>
+"remove trailing whitespce
+noremap rtw :%s/\s\+$//e<enter>
+" zellij ctrl-o(session) 중복됨, zellij lock 없이 사용하기 위해 alt-i, alt-o로맵핑
+"alt+i ==> i 문자가 된다.
+noremap i <c-i>
+"alt+o ==> o 문자가 된다.
+noremap o <c-o>
+
+
+
 "nerdtree
 let NERDTreeShowHidden=1
+noremap <c-b> :NERDTreeToggle<enter>
+noremap <leader>tt :NERDTreeToggle<enter>
+"선택한 파일위치로 자동 포커스 된다.
+noremap <leader>tf :NERDTreeFind<enter>
 
 "nerdcommenter
+"[count]<leader>cc 선택한 라인 커멘트 설정
+"[count]<leader>cu 선택한 라인 커멘트 해제
+"현재 라인 커멘트 토글
+nnoremap <silent> <leader>c v:call NERDComment('x', 'toggle')<cr>
 filetype plugin on
 let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 let g:NERDToggleCheckAllLines = 1
 
-"vim-colors-solarized
-let g:solarized_termtrans = 1
-let g:solarized_termcolors=256
-let g:solarized_contrast="high"
-let g:solarized_visibility="high"
-set background=dark
+"tagbar
+noremap <f1> :TagbarToggle<enter>
 
 "vim-cpp-enhanced-highlight
 let g:cpp_class_scope_highlight = 1
@@ -133,7 +189,6 @@ let g:cpp_experimental_simple_template_highlight = 1
 let g:cpp_experimental_template_highlight = 1
 let g:cpp_concepts_highlight = 1
 let g:cpp_no_function_highlight = 1
-
 
 "vim-multiple-cursors
 let g:multi_cursor_use_default_mapping=0
@@ -145,14 +200,6 @@ let g:multi_cursor_next_key            = '<C-n>'
 let g:multi_cursor_prev_key            = '<C-p>'
 let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
-
-"fzf
-"FZF_DEFAULT_COMMAND 설정에 의존, hidden 파일검색 되도록 myenv.sh 설정되어 있다.
-let g:fzf_preview_window = ['right:50%', 'ctrl-/']
-"Rg 창에 파일 이름 검색에서 제외
-"command! -bang -nargs=* Rg call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
-" <cword> 현재 커서에 있는 워드 패턴으로 찾기
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(expand('<cword>')), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
 "space-vim-dark
 " let g:space_vim_dark_background=234
@@ -168,7 +215,15 @@ let g:onedark_termcolors=256
 highlight ColorColumn ctermbg=brown
 " color terminal background 색상은 설정 안하기(검은색으로 보임)
 highlight Normal ctermbg=none
+"Visual Block 컬러
+hi Visual cterm=underline ctermbg=lightyellow
 
+"vim-colors-solarized
+"let g:solarized_termtrans = 1
+"let g:solarized_termcolors=256
+"let g:solarized_contrast="high"
+"let g:solarized_visibility="high"
+"set background=dark
 
 "lightline 화살표 폰트가 없어 powerline 폰트가 필요 없다.
 set laststatus=2
@@ -197,7 +252,6 @@ let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type   = {'buffers': 'tabsel'}
 autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 
-
 "airline
 " set laststatus=2
 " let g:airline_theme='onedark'
@@ -206,7 +260,7 @@ autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 " let g:airline#extensions#tabline#left_sep = ' '
 " let g:airline#extensions#tabline#left_alt_sep = '|'
 " let g:airline#extensions#tabline#formatter = 'default'
-" "iterm -> non-ascii font 를 powerline 폰트로 변경 후 사용
+" iterm2 -> non-ascii font 를 powerline 폰트로 변경 후 사용
 " let g:airline_powerline_fonts = 1
 
 "vim-indent-guides
@@ -214,94 +268,26 @@ let g:indent_guides_auto_colors = 0
 hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
 "let g:indent_guides_enable_on_vim_startup = 1
-
-"커서라인 속성
-"hi CursorLine cterm=underline ctermbg=darkgrey ctermfg=none
-"Visual Block 컬러
-hi Visual cterm=underline ctermbg=lightyellow
-
-"vim-go
-".go 파일에서 c-] , c-t 등 godef 관련 shortcut 이 아래 단축키 설정과 충돌해 비활성화
-let g:go_def_mapping_enabled=0
-" let g:go_fmt_command = "goimports"
-" let g:go_fmt_autosave = 0
-let g:go_highlight_structs = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_types = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_build_constraints = 1
-let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
+noremap <f4> :IndentGuidesToggle<enter>
 
 
-" mac 에선 기본적으로 alt/meta/option 키가 조합되면 특정 문자로 취급된다.
-" option+a == å
-" option+d == ∂
-" option+p == π
-" 각 터미널에 따른 설정이 필요하다.
-" iterm --> option 키 normal --> esc+
-" kitty --> macos_option_as_alt no
-" alacritty
-" --> alt_send_esc: true 는0.12.0 에서 디폴트로 설정에서 제거됨
-" --> windows > option_as_alt: Both 로 설정함
-
-" 단축키 설정
-" :h key-notation 참고
-" timeout이 짧은 상태에서 일반 명령로 처리 될 수 있어 주의
-" noremap 에 h j k l 등으로 시작하게 되면 커서 사용시 timeoutlen 만큼 기다리기 후
-" 마지막 동작이 수행 되기 때문에 사용하지 않도로 한다.
-" quickfix list 에서 사용할 단축키
-noremap cj :clearjumps<enter>
-noremap cw :cw<enter>
-noremap co :copen<enter>
-noremap ccl :cclose<enter>
-" 파일내 replace (편의를 위해 입력위치에 커서위치)
-noremap sc :%s/<c-r><c-w>//gc<left><left><left>
-" quickfix list 에서 replace (편의를 위해 입력위치에 커서위치)
-noremap cfsc :cfdo %s///gc <bar> up<home><right><right><right><right><right><right><right><right>
-"c-[ --> esc 라 사용하지 말자.
-"noremap <c-[> :cp<enter>
-noremap <c-k> :cp<enter>
-noremap <c-j> :cn<enter>
-
-" location list 에서 사용할 단축키
-" l 로 시작하면 오른쪽 방향키(l)일때 액션이 timeoutlen 만큼 지연되서 사용하지 않음
-noremap <leader>lo :lopen<enter>
-noremap <leader>lcl :lclose<enter>
-noremap <leader>k :lprev<enter>
-noremap <leader>j :lnext<enter>
-
-" buffer 관련 단축키
-noremap bn :bn<enter>
-noremap bp :bp<enter>
-noremap bd :bd<enter>
-noremap bwo :%bwipeout <enter>
-" buffer 파일들 다시 로딩
-noremap be :bufdo e<enter>
-
-" .vimrc 다시 적용
-noremap sovim :source ~/.vimrc<enter>
-"remove trailing whitespce
-noremap rtw :%s/\s\+$//e<enter>
-" zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 맴핑키를 추가 한다.
+"fzf
+"FZF_DEFAULT_COMMAND 설정에 의존, hidden 파일검색 되도록 myenv.sh 설정되어 있다.
+let g:fzf_preview_window = ['right:50%', 'ctrl-/']
+"Rg 창에 파일 이름 검색에서 제외
+"command! -bang -nargs=* Rg call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+" <cword> 현재 커서에 있는 워드 패턴으로 찾기
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(expand('<cword>')), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+noremap <c-p><c-i> :PlugInstall<enter>
+" zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 fzf 단축키를 추가한다.
 "noremap fzf :FZF<enter>
 "noremap rg :Rg<enter>
-noremap <f1> :TagbarToggle<enter>
-noremap <f4> :IndentGuidesToggle<enter>
-noremap <c-b> :NERDTreeToggle<enter>
-noremap <c-p><c-i> :PlugInstall<enter>
 noremap <c-t> :FZF<enter>
 "insert 모드에서 ctrl+v숫자 (터미널로 입력되는 특수키 문자 파악, 예를 들어 숫자에 027입력하면 ^[ --> ESC 키로 ^와[ 를 조합된게 아님, 065는 A로 표시된다)
 "ctl+v후 alt+t 입력하면 ==> t 문자가 된다.
 noremap t :FZF<enter>
 " old files and buffer history
 noremap <c-h> :History<enter>
-" zellij ctrl-o(session) 중복됨, zellij lock 없이 사용하기 위해 alt-i, alt-o로맵핑
-"alt+i ==> i 문자가 된다.
-noremap i <c-i>
-"alt+o ==> o 문자가 된다.
-noremap o <c-o>
 "ctrl-m == <cr>(enter) 같아서 enter 키로도 수행되는 문제가 있다.
 "noremap <c-m> :Marks<enter>
 noremap m :Marks<enter>
@@ -312,9 +298,7 @@ noremap m :Marks<enter>
 "noremap <c-c> :Commands<enter>
 noremap <c-f> :Rg<enter>
 noremap <c-l> :Buffers<enter>
-noremap <leader>tt :NERDTreeToggle<enter>
-"선택한 파일위치로 자동 포커스 된다.
-noremap <leader>tf :NERDTreeFind<enter>
+
 "vim-fugitive
 noremap <leader>gs :Git<enter> "opens summary window
 noremap <leader>gd :Git diff<enter>
@@ -323,11 +307,6 @@ noremap <leader>ga :Git add %<enter>
 noremap <leader>gc :Git commit<enter>
 noremap <leader>gp :Git push<enter>
 noremap <leader>gb :Git blame<enter>
-
-"[count]<leader>cc "선택한 라인 커멘트 설정
-"[count]<leader>cu "선택한 라인 커멘트 해제
-"NERDComment 를 호출 해서 현재 라인 커멘트 토글
-nnoremap <silent> <leader>c v:call NERDComment('x', 'toggle')<cr>
 
 "c/cpp
 autocmd filetype c noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
@@ -343,8 +322,19 @@ autocmd filetype cpp noremap <f12> :!ctags -R<enter>
 ":ts List all of the definitions of the last tag
 "Ctrl-t Jump back up in the tag stack
 
-
 "vim-go
+".go 파일에서 c-] , c-t 등 godef 관련 shortcut 이 아래 단축키 설정과 충돌해 비활성화
+let g:go_def_mapping_enabled=0
+" let g:go_fmt_command = "goimports"
+" let g:go_fmt_autosave = 0
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_types = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_build_constraints = 1
+let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 autocmd filetype go noremap <f2> :GoRename<enter>
 autocmd filetype go noremap <f5> :w <bar> :!clear; <enter> :GoRun<enter>
 autocmd filetype go noremap <f7> :w <bar> :!clear; <enter> :GoBuild<enter>
@@ -366,6 +356,7 @@ autocmd filetype go noremap <leader>v :GoVet<enter>:GoLint<enter>
 "black
 autocmd filetype python noremap <leader>b :Black<enter>
 autocmd filetype python noremap <leader>v :BlackVersion<enter>
+
 "jedi-vim (python autocomplete)
 let g:jedi#goto_command = "<leader>d"
 let g:jedi#goto_assignments_command = "<leader>g"
