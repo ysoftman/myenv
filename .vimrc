@@ -98,7 +98,7 @@ set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»
 "hi CursorLine cterm=underline ctermbg=darkgrey ctermfg=none
 "set nolist
 set list
-"mapping 입력 완료 타임아웃(ttimeoutlen<0이면, keycode(<esc><enter><up><down>..등도해당)
+"mapping 입력 완료 타임아웃(ttimeoutlen<0이면, keycode(<esc><enter><up><down>..등)도해당)
 set timeoutlen=1000
 "keycode 입력 완료 타임아웃
 set ttimeoutlen=50
