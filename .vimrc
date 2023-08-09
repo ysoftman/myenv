@@ -30,41 +30,38 @@
 
 
 call plug#begin('~/.vim/plugged')
-Plug 'valloric/youcompleteme'
-Plug 'majutsushi/tagbar'
-Plug 'scrooloose/nerdtree'
-Plug 'preservim/nerdcommenter'
-Plug 'fatih/vim-go'
-Plug 'davidhalter/jedi-vim'
-Plug 'psf/black'
-Plug 'rust-lang/rust.vim'
-Plug 'itchyny/vim-gitbranch'
+"Plug 'flazz/vim-colorschemes' " joshdick/onedark.vim 와 vim-colorschemes 충돌
+"Plug 'kien/ctrlp.vim' " ctrlp 는 fuzzfile,buffer... 인데 fzf 가 더 좋은것 같아 굳이 사용할 필요없어 보임
+"Plug 'lilydjwg/colorizer' " vim 으로 git 커밋 메세지 작성시 이슈번호 태깅을 위해 #123 를 사용하면 컬리 배경 표시, 그런데 colorizer 사용하면 파일 오픈시 autocmd BufEnter(버퍼로딩후 필요한 설정 처리) 단계에서 느려져서 사용하지 않음
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
-Plug 'scrooloose/syntastic'
-Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'altercation/vim-colors-solarized'
+Plug 'davidhalter/jedi-vim'
+Plug 'fatih/vim-go'
 Plug 'glench/vim-jinja2-syntax'
 Plug 'groenewege/vim-less'
-Plug 'powerline/fonts'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'liuchengxu/space-vim-dark'
-Plug 'ryanoasis/vim-devicons'
 Plug 'itchyny/lightline.vim'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'mengelbrecht/lightline-bufferline'
-Plug 'altercation/vim-colors-solarized'
-"colorizer 사용하면 파일 오픈시 autocmd BufEnter(버퍼로딩후 필요한 설정 처리) 단계에서 느려져서 사용하지 않음
-"Plug 'lilydjwg/colorizer' " vim 으로 git 커밋 메세지 작성시 이슈번호 태깅을 위해 #123 를 사용하면 컬리 배경 표시~ㅎ
+Plug 'itchyny/vim-gitbranch'
+Plug 'johngrib/vim-game-code-break'
 Plug 'joshdick/onedark.vim'
-" joshdick/onedark.vim 와 vim-colorschemes 충돌
-" Plug 'flazz/vim-colorschemes'
-" ctrlp 는 fuzzfile,buffer... 인데 fzf 가 더 좋은것 같아 굳이 사용할 필요없어 보임
-"Plug 'kien/ctrlp.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.vim/plugged/fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'liuchengxu/space-vim-dark'
+Plug 'majutsushi/tagbar'
+Plug 'mengelbrecht/lightline-bufferline'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'johngrib/vim-game-code-break'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'powerline/fonts'
+Plug 'preservim/nerdcommenter'
+Plug 'psf/black'
+Plug 'rust-lang/rust.vim'
+Plug 'ryanoasis/vim-devicons'
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/syntastic'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-fugitive'
+Plug 'valloric/youcompleteme'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 
