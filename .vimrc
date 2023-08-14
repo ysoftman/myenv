@@ -160,7 +160,6 @@ noremap o <c-o>
 
 "nerdtree
 let NERDTreeShowHidden=1
-noremap <c-b> :NERDTreeToggle<enter>
 noremap <leader>tt :NERDTreeToggle<enter>
 "선택한 파일위치로 자동 포커스 된다.
 noremap <leader>tf :NERDTreeFind<enter>
