@@ -264,19 +264,17 @@ if [[ $? == 0 ]]; then
     export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 fi
 
-temp=$(which neofetch 2> /dev/null)
-if [[ $? == 0 ]]; then
+if which fastfetch > /dev/null 2>&1; then
     term_program=$(echo $TERM_PROGRAM | tr "[:upper:]" "[:lower:]")
     if [[ $term_program == *"iterm"* ]]; then
-        neofetch --backend iterm2 --size 300 --source ${HOME}/xelloss.jpg
+        fastfetch --logo-type "iterm" --logo ${HOME}/xelloss.jpg --logo-width "50" --logo-height "20"
     else
-        neofetch
+        fastfetch
     fi
-else
-    a=$(which screenfetch 2> /dev/null)
-    if [[ $? == 0 ]]; then
-        screenfetch -E
-    fi
+elif which neofetch > /dev/null 2>&1; then
+    neofetch --backend iterm2 --size 300 --source ${HOME}/xelloss.jpg
+elif which screenfetch > /dev/null 2>&1; then
+    screenfetch -E
 fi
 
 # fortune + cowsay welcome message
