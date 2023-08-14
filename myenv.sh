@@ -71,8 +71,7 @@ fi
 # kubectx | cat
 
 # install fzf
-temp=$(type fzf 2> /dev/null)
-if [[ $? != 0 ]]; then
+if type fzf > /dev/null 2>&1; then
     if [ ! -f ${HOME}/.fzf/bin/fzf ]; then
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
         ~/.fzf/install
@@ -85,8 +84,7 @@ fi
 export FZF_CTRL_T_COMMAND='find . -type f'
 # fzf vim 에서 FZF_DEFAULT_COMMAND 를 사용함
 export FZF_DEFAULT_COMMAND=$FZF_CTRL_T_COMMANDS
-temp=$(which fd 2> /dev/null)
-if [ $? = 0 ] && [ -f $temp ]; then
+if which fd > /dev/null 2>&1; then
     #export FZF_CTRL_T_COMMAND='fd --hidden --no-ignore'
     export FZF_CTRL_T_COMMAND='fd'
     export FZF_DEFAULT_COMMAND=$FZF_CTRL_T_COMMAND
@@ -100,8 +98,7 @@ bindkey "^[t" fzf-file-widget
 
 # 파일내용 미리보기 창 설정
 catcmd='cat {}'
-temp=$(which bat 2> /dev/null)
-if [ $? = 0 ] && [ -f $temp ]; then
+if which bat > /dev/null 2>&1; then
     export BAT_THEME="TwoDark"
     catcmd='bat --color always {}'
 fi
@@ -176,27 +173,22 @@ elif [[ $os_name == *"linux"* ]]; then
 fi
 
 # replacement for ls
-temp=$(which colorls 2> /dev/null)
-if [[ $? == 0 ]]; then
+if which colorls > /dev/null 2>&1; then
     alias ll='colorls -ahl'
 fi
-temp=$(which exa 2> /dev/null)
-if [[ $? == 0 ]]; then
+if which exa > /dev/null 2>&1; then
     alias ll='exa -ahl'
 fi
-temp=$(which lsd 2> /dev/null)
-if [[ $? == 0 ]]; then
+if which lsd > /dev/null 2>&1; then
     alias ll='lsd -ahl'
 fi
 # rg -p foo | less -R 와 같이 ansi color 유지해서 파이프라인으로 보낼때
-temp=$(type rg 2> /dev/null)
-if [ $? = 0 ]; then
+if type rg > /dev/null 2>&1; then
     alias rg='rg -p'
 fi
 # kubecolor (brew install hidetatz/tap/kubecolor)
 # kubecolor internally calls kubectl command
-temp=$(type kubecolor 2> /dev/null)
-if [ $? = 0 ]; then
+if type kubecolor > /dev/null 2>&1; then
     alias kubectl="kubecolor"
 fi
 
@@ -216,10 +208,7 @@ unalias sftp 2> /dev/null
 
 alias vi='vim'
 #ymcd 가 nvim 공식 지원안함
-#temp=$(type nvim 2> /dev/null)
-#if [[ $? == 0 ]]; then
-#    alias vi='nvim'
-#fi
+#alias vi='nvim'
 alias vimlastfile='vim `(ls -1tr | tail -1)`'
 alias gopath='cd $GOPATH'
 alias work='cd ~/workspace'
@@ -254,47 +243,47 @@ source ${HOME}/workspace/myenv/cnt_src.sh
 source ${HOME}/workspace/myenv/git_url.sh
 source ${HOME}/workspace/myenv/k8s_info.sh
 
-temp=$(which pyenv 2> /dev/null)
-if [[ $? == 0 ]]; then
+if which pyenv > /dev/null 2>&1; then
     eval "$(pyenv init -)"
 fi
-temp=$(which virtualenv 2> /dev/null)
-if [[ $? == 0 ]]; then
+if which virtualenv > /dev/null 2>&1; then
     eval "$(pyenv virtualenv-init -)"
     export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 fi
 
+term_program=$(echo $TERM_PROGRAM | tr "[:upper:]" "[:lower:]")
+
 if which fastfetch > /dev/null 2>&1; then
-    term_program=$(echo $TERM_PROGRAM | tr "[:upper:]" "[:lower:]")
     if [[ $term_program == *"iterm"* ]]; then
-        fastfetch --logo-type "iterm" --logo ${HOME}/xelloss.jpg --logo-width "50" --logo-height "20"
+        fastfetch --logo-type iterm --logo ${HOME}/xelloss.jpg --logo-width 50 --logo-height 20
     else
         fastfetch
     fi
 elif which neofetch > /dev/null 2>&1; then
-    neofetch --backend iterm2 --size 300 --source ${HOME}/xelloss.jpg
+    if [[ $term_program == *"iterm"* ]]; then
+        neofetch --backend iterm2 --size 300 --source ${HOME}/xelloss.jpg
+    else
+        neofetch
+    fi
 elif which screenfetch > /dev/null 2>&1; then
     screenfetch -E
 fi
 
 # fortune + cowsay welcome message
 msg="ysoftman"
-temp=$(which fortune 2> /dev/null)
-if [[ $? == 0 ]]; then
+if which fortune > /dev/null 2>&1; then
     msg=$(fortune -s 2> /dev/null)
     if [[ $msg == '' ]]; then
         msg=$(fortune)
     fi
 fi
 
-temp=$(which figlet 2> /dev/null)
-if [[ $? == 0 ]]; then
+if which figlet > /dev/null 2>&1; then
     banner=$(figlet ysoftman 2> /dev/null)
     msg="${banner}\n${msg}"
 fi
 
-temp=$(which cowsay 2> /dev/null)
-if [[ $? == 0 ]]; then
+if which cowsay > /dev/null 2>&1; then
     # print cowsay list number
     # cnt=0; for i in $(cowsay -l | sed 1d); do echo "$((cnt++)) $i"; done;
     # cowfile 랜덤으로 선택
@@ -324,6 +313,6 @@ if [[ $? == 0 ]]; then
         echo -e "$msg" | cowsay -n -f $cowfile
     fi
 fi
-unset temp
+unset msg
 
 # prezto .zlogin fortune 을 실행하고 있어 .zlogin 에서 fortune 실행을 주석처리했다.
