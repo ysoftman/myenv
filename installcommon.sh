@@ -31,15 +31,13 @@ elif [[ $(uname) == 'Darwin' ]]; then
 elif [[ $(uname) == 'Linux' ]]; then
 	echo 'Linux Environment'
 	# centos
-	a=$(yum --version 2> /dev/null)
-	if [[ $? == 0 ]]; then
+	if yum --version > /dev/null 2>&1; then
 		package_program="yum"
 		${sudo_cmd} ${package_program} update
 		${sudo_cmd} ${package_program} install -y ${pkgs_yum}
 	else
 		# ubuntu
-		a=$(apt-get --version 2> /dev/null)
-		if [[ $? == 0 ]]; then
+		if apt-get --version > /dev/null 2>&1; then
 			package_program="apt-get"
 			${sudo_cmd} ${package_program} update
 			# 여러 패키지중 존재하지 않은 패키지가 포함되면 "E: Unable to locate package xxx" 에러가 발생하고 패키지가 하나도 설치 되지 않는다.
@@ -50,8 +48,7 @@ elif [[ $(uname) == 'Linux' ]]; then
 			done
 		fi
 		# archlinux
-		a=$(pacman --version 2> /dev/null)
-		if [[ $? == 0 ]]; then
+		if pacman --version > /dev/null 2>&1; then
 			package_program="pacman"
 			${sudo_cmd} ${package_program} -Sy
 			${sudo_cmd} ${package_program} -S ${pkgs_pacman} --noconfirm
