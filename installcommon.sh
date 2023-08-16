@@ -1,6 +1,6 @@
 #!/bin/bash
 # android
-pkgs_android='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python2 ruby golang rust man dnsutils ripgrep fd fzf lua53 openssh libandroid-support lsd exa fastfetch neofetch git-delta'
+pkgs_pkg='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python2 ruby golang rust man dnsutils ripgrep fd fzf lua53 openssh libandroid-support lsd exa fastfetch neofetch git-delta'
 # redhat,centos
 pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang rust cargo man dnsutils python3-pip clang-format ncurses ncurses-devel git-delta'
 # debian,ubuntu
@@ -16,7 +16,7 @@ if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
 	package_program="pkg"
 	${sudo_cmd} ${package_program} update
 	${sudo_cmd} ${package_program} upgrade
-	${sudo_cmd} ${package_program} install -y ${pkgs_android}
+	${sudo_cmd} ${package_program} install -y ${pkgs_pkg}
 	# vim, vim-python 한번에 설치시 의존성 에러 발생해 별도 설치
 	${sudo_cmd} ${package_program} install -y vim-python
 	chsh -s zsh
