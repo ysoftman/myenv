@@ -125,14 +125,12 @@ noremap cj :clearjumps<enter>
 noremap cw :cw<enter>
 noremap co :copen<enter>
 noremap ccl :cclose<enter>
-" 파일내 replace (편의를 위해 입력위치에 커서위치)
-noremap sc :%s/<c-r><c-w>//gc<left><left><left>
-" quickfix list 에서 replace (편의를 위해 입력위치에 커서위치)
-noremap cfsc :cfdo %s///gc <bar> up<home><right><right><right><right><right><right><right><right>
 "c-[ --> esc 라 사용하지 말자.
 "noremap <c-[> :cp<enter>
 noremap <c-k> :cp<enter>
 noremap <c-j> :cn<enter>
+" quickfix list 에서 replace (편의를 위해 입력위치로 커서 이동)
+noremap cfsc :cfdo %s///gc <bar> up<home><right><right><right><right><right><right><right><right>
 " location list 에서 사용할 단축키
 " l 로 시작하면 오른쪽 방향키(l)일때 액션이 timeoutlen 만큼 지연되서 사용하지 않음
 noremap <leader>lo :lopen<enter>
@@ -146,10 +144,12 @@ noremap bd :bd<enter>
 noremap bwo :%bwipeout <enter>
 " buffer 파일들 다시 로딩
 noremap be :bufdo e<enter>
+" remove trailing whitespce
+noremap rtw :%s/\s\+$//e<enter>
 " .vimrc 다시 적용
 noremap sovim :source ~/.vimrc<enter>
-"remove trailing whitespce
-noremap rtw :%s/\s\+$//e<enter>
+" replace (편의를 위해 입력위치로 커서 이동)
+noremap sc :%s/<c-r><c-w>//gc<left><left><left>
 " zellij ctrl-o(session) 중복됨, zellij lock 없이 사용하기 위해 alt-i, alt-o로맵핑
 "alt+i ==> i 문자가 된다.
 noremap i <c-i>
