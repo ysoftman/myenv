@@ -271,13 +271,16 @@ noremap <f4> :IndentGuidesToggle<enter>
 "FZF_DEFAULT_COMMAND 설정에 의존, hidden 파일검색 되도록 myenv.sh 설정되어 있다.
 let g:fzf_preview_window = ['right:50%', 'ctrl-/']
 "Rg 창에 파일 이름 검색에서 제외
-"command! -bang -nargs=* Rg call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+command! -bang -nargs=* Rg1 call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 " <cword> 현재 커서에 있는 워드 패턴으로 찾기
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(expand('<cword>')), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+command! -bang -nargs=* Rg2 call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(expand('<cword>')), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 noremap <c-p><c-i> :PlugInstall<enter>
 " zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 fzf 단축키를 추가한다.
 "noremap fzf :FZF<enter>
 "noremap rg :Rg<enter>
+noremap <c-f> :Rg1<enter>
+noremap f  :Rg2<enter>
+noremap <c-l> :Buffers<enter>
 noremap <c-t> :FZF<enter>
 "insert 모드에서 ctrl+v숫자 (터미널로 입력되는 특수키 문자 파악, 예를 들어 숫자에 027입력하면 ^[ --> ESC 키로 ^와[ 를 조합된게 아님, 065는 A로 표시된다)
 "ctl+v후 alt+t 입력하면 ==> t 문자가 된다.
@@ -292,8 +295,6 @@ noremap m :Marks<enter>
 " 새로운 찾기를 하려면 ctlr-e 로 기존 히스토리를 수정해야 하는 번거로움이 있다.
 "noremap / :History/<enter>
 "noremap <c-c> :Commands<enter>
-noremap <c-f> :Rg<enter>
-noremap <c-l> :Buffers<enter>
 
 "vim-fugitive
 noremap <leader>gs :Git<enter> "opens summary window
