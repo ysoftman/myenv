@@ -155,6 +155,10 @@ noremap sc :%s/<c-r><c-w>//gc<left><left><left>
 noremap i <c-i>
 "alt+o ==> o 문자가 된다.
 noremap o <c-o>
+" tab -> space 변경
+noremap retab :set expandtab<enter>:retab<enter>
+" space -> tab 변경
+noremap retab! :set noexpandtab<enter>:retab!<enter>:set expandtab<enter>
 
 
 
