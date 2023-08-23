@@ -78,7 +78,7 @@ set fencs=utf-8,cp949
 set enc=utf-8
 set tabstop=4
 set shiftwidth=4
-set expandtab
+set expandtab "tab키 입력시 tabstop설정된 값만큼 스페이스 사용
 set autoindent "붙여넣기시에는 :set paste 사용
 set laststatus=2
 set showtabline=2
