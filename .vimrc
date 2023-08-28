@@ -119,55 +119,55 @@ let g:go_version_warning = 0
 " --> windows > option_as_alt: Both 로 설정함
 " :h key-notation 참고
 " timeout이 짧은 상태에서 일반 명령로 처리 될 수 있어 주의
-" noremap 에 h j k l 등으로 시작하게 되면 커서 사용시 timeoutlen 만큼 기다리기 후
+" nnoremap 에 h j k l 등으로 시작하게 되면 커서 사용시 timeoutlen 만큼 기다리기 후
 " 마지막 동작이 수행 되기 때문에 사용하지 않도로 한다.
 " quickfix list 에서 사용할 단축키
-noremap cj :clearjumps<enter>
-noremap cw :cw<enter>
-noremap co :copen<enter>
-noremap ccl :cclose<enter>
+nnoremap cj :clearjumps<enter>
+nnoremap cw :cw<enter>
+nnoremap co :copen<enter>
+nnoremap ccl :cclose<enter>
 "c-[ --> esc 라 사용하지 말자.
-"noremap <c-[> :cp<enter>
-noremap <c-k> :cp<enter>
-noremap <c-j> :cn<enter>
+"nnoremap <c-[> :cp<enter>
+nnoremap <c-k> :cp<enter>
+nnoremap <c-j> :cn<enter>
 " quickfix list 에서 replace (편의를 위해 입력위치로 커서 이동)
-noremap cfsc :cfdo %s///gc <bar> up<home><right><right><right><right><right><right><right><right>
+nnoremap cfsc :cfdo %s///gc <bar> up<home><right><right><right><right><right><right><right><right>
 " location list 에서 사용할 단축키
 " l 로 시작하면 오른쪽 방향키(l)일때 액션이 timeoutlen 만큼 지연되서 사용하지 않음
-noremap <leader>lo :lopen<enter>
-noremap <leader>lcl :lclose<enter>
-noremap <leader>k :lprev<enter>
-noremap <leader>j :lnext<enter>
+nnoremap <leader>lo :lopen<enter>
+nnoremap <leader>lcl :lclose<enter>
+nnoremap <leader>k :lprev<enter>
+nnoremap <leader>j :lnext<enter>
 " buffer 관련 단축키
-noremap bn :bn<enter>
-noremap bp :bp<enter>
-noremap bd :bd<enter>
-noremap bwo :%bwipeout <enter>
+nnoremap bn :bn<enter>
+nnoremap bp :bp<enter>
+nnoremap bd :bd<enter>
+nnoremap bwo :%bwipeout <enter>
 " buffer 파일들 다시 로딩
-noremap be :bufdo e<enter>
+nnoremap be :bufdo e<enter>
 " remove trailing whitespce
-noremap rtw :%s/\s\+$//e<enter>
+nnoremap rtw :%s/\s\+$//e<enter>
 " .vimrc 다시 적용
-noremap sovim :source ~/.vimrc<enter>
+nnoremap sovim :source ~/.vimrc<enter>
 " replace (편의를 위해 입력위치로 커서 이동)
-noremap sc :%s/<c-r><c-w>//gc<left><left><left>
+nnoremap sc :%s/<c-r><c-w>//gc<left><left><left>
 " zellij ctrl-o(session) 중복됨, zellij lock 없이 사용하기 위해 alt-i, alt-o로맵핑
 "alt+i ==> i 문자가 된다.
-noremap i <c-i>
+nnoremap i <c-i>
 "alt+o ==> o 문자가 된다.
-noremap o <c-o>
+nnoremap o <c-o>
 " tab -> space 변경
-noremap retab :set expandtab<enter>:retab<enter>
+nnoremap retab :set expandtab<enter>:retab<enter>
 " space -> tab 변경
-noremap retab! :set noexpandtab<enter>:retab!<enter>:set expandtab<enter>
+nnoremap retab! :set noexpandtab<enter>:retab!<enter>:set expandtab<enter>
 
 
 
 "nerdtree
 let NERDTreeShowHidden=1
-noremap <leader>tt :NERDTreeToggle<enter>
+nnoremap <leader>tt :NERDTreeToggle<enter>
 "선택한 파일위치로 자동 포커스 된다.
-noremap <leader>tf :NERDTreeFind<enter>
+nnoremap <leader>tf :NERDTreeFind<enter>
 
 "nerdcommenter
 "[count]<leader>cc 선택한 라인 커멘트 설정
@@ -180,7 +180,7 @@ let g:NERDCommentEmptyLines = 1
 let g:NERDToggleCheckAllLines = 1
 
 "tagbar
-noremap <f1> :TagbarToggle<enter>
+nnoremap <f1> :TagbarToggle<enter>
 
 "vim-cpp-enhanced-highlight
 let g:cpp_class_scope_highlight = 1
@@ -269,7 +269,7 @@ let g:indent_guides_auto_colors = 0
 hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
 "let g:indent_guides_enable_on_vim_startup = 1
-noremap <f4> :IndentGuidesToggle<enter>
+nnoremap <f4> :IndentGuidesToggle<enter>
 
 
 "fzf
@@ -279,43 +279,43 @@ let g:fzf_preview_window = ['right:50%', 'ctrl-/']
 command! -bang -nargs=* Rg1 call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 " <cword> 현재 커서에 있는 워드 패턴으로 찾기
 command! -bang -nargs=* Rg2 call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(expand('<cword>')), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
-noremap <c-p><c-i> :PlugInstall<enter>
+nnoremap <c-p><c-i> :PlugInstall<enter>
 " zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 fzf 단축키를 추가한다.
-"noremap fzf :FZF<enter>
-"noremap rg :Rg<enter>
-noremap <c-f> :Rg1<enter>
-noremap f  :Rg2<enter>
-noremap <c-l> :Buffers<enter>
-noremap <c-t> :FZF<enter>
+"nnoremap fzf :FZF<enter>
+"nnoremap rg :Rg<enter>
+nnoremap <c-f> :Rg1<enter>
+nnoremap f  :Rg2<enter>
+nnoremap <c-l> :Buffers<enter>
+nnoremap <c-t> :FZF<enter>
 "insert 모드에서 ctrl+v숫자 (터미널로 입력되는 특수키 문자 파악, 예를 들어 숫자에 027입력하면 ^[ --> ESC 키로 ^와[ 를 조합된게 아님, 065는 A로 표시된다)
 "ctl+v후 alt+t 입력하면 ==> t 문자가 된다.
-noremap t :FZF<enter>
+nnoremap t :FZF<enter>
 " old files and buffer history
-noremap <c-h> :History<enter>
+nnoremap <c-h> :History<enter>
 "ctrl-m == <cr>(enter) 같아서 enter 키로도 수행되는 문제가 있다.
-"noremap <c-m> :Marks<enter>
-noremap m :Marks<enter>
+"nnoremap <c-m> :Marks<enter>
+nnoremap m :Marks<enter>
 " 새로운 커맨드 실행을 위해서 History 창에서 ctrl-e 로 기존 커맨드를 수정해야 하는 번거로움이 있다.
-"noremap : :History:<enter>
+"nnoremap : :History:<enter>
 " 새로운 찾기를 하려면 ctlr-e 로 기존 히스토리를 수정해야 하는 번거로움이 있다.
-"noremap / :History/<enter>
-"noremap <c-c> :Commands<enter>
+"nnoremap / :History/<enter>
+"nnoremap <c-c> :Commands<enter>
 
 "vim-fugitive
-noremap <leader>gs :Git<enter> "opens summary window
-noremap <leader>gd :Git diff<enter>
-noremap <leader>gl :Git log<enter>
-noremap <leader>ga :Git add %<enter>
-noremap <leader>gc :Git commit<enter>
-noremap <leader>gp :Git push<enter>
-noremap <leader>gb :Git blame<enter>
+nnoremap <leader>gs :Git<enter> "opens summary window
+nnoremap <leader>gd :Git diff<enter>
+nnoremap <leader>gl :Git log<enter>
+nnoremap <leader>ga :Git add %<enter>
+nnoremap <leader>gc :Git commit<enter>
+nnoremap <leader>gp :Git push<enter>
+nnoremap <leader>gb :Git blame<enter>
 
 "c/cpp
-autocmd filetype c noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
-autocmd filetype cpp noremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
+autocmd filetype c nnoremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
+autocmd filetype cpp nnoremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
 "tags 파일생성
-autocmd filetype c noremap <f12> :!ctags -R<enter>
-autocmd filetype cpp noremap <f12> :!ctags -R<enter>
+autocmd filetype c nnoremap <f12> :!ctags -R<enter>
+autocmd filetype cpp nnoremap <f12> :!ctags -R<enter>
 "tags 생성후
 "Ctrl-] Jump to the tag underneath the cursor
 ":ts <tag> <RET> Search for a particular tag
@@ -337,27 +337,27 @@ let g:go_highlight_function_calls = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_build_constraints = 1
 let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
-autocmd filetype go noremap <f2> :GoRename<enter>
-autocmd filetype go noremap <f5> :w <bar> :!clear; <enter> :GoRun<enter>
-autocmd filetype go noremap <f7> :w <bar> :!clear; <enter> :GoBuild<enter>
-autocmd filetype go noremap <f12> :GoDef<enter>
-autocmd filetype go noremap <leader>d :GoDef<enter>
-autocmd filetype go noremap <leader>r :GoReferrers<enter>
-autocmd filetype go noremap <leader>i :w <bar> :GoImports<enter>
-autocmd filetype go noremap <leader>g :GoGuruScope .<enter>
-autocmd filetype go noremap <leader>v :GoVet<enter>:GoLint<enter>
+autocmd filetype go nnoremap <f2> :GoRename<enter>
+autocmd filetype go nnoremap <f5> :w <bar> :!clear; <enter> :GoRun<enter>
+autocmd filetype go nnoremap <f7> :w <bar> :!clear; <enter> :GoBuild<enter>
+autocmd filetype go nnoremap <f12> :GoDef<enter>
+autocmd filetype go nnoremap <leader>d :GoDef<enter>
+autocmd filetype go nnoremap <leader>r :GoReferrers<enter>
+autocmd filetype go nnoremap <leader>i :w <bar> :GoImports<enter>
+autocmd filetype go nnoremap <leader>g :GoGuruScope .<enter>
+autocmd filetype go nnoremap <leader>v :GoVet<enter>:GoLint<enter>
 "fuctionkey 조합은 동작 하지 않아 사용하지 않음.
-"autocmd filetype go noremap <s-f12> :GoCallees<enter>
+"autocmd filetype go nnoremap <s-f12> :GoCallees<enter>
 " GoReferrers 로 대체
-"autocmd filetype go noremap <leader>e :GoCallees<enter>
+"autocmd filetype go nnoremap <leader>e :GoCallees<enter>
 " GoImports 로 대체
-"autocmd filetype go noremap <leader>f :w <bar> :GoFmt<enter>
+"autocmd filetype go nnoremap <leader>f :w <bar> :GoFmt<enter>
 ":GoInstallBinaries
 ":GoUpdateBinaries
 
 "black
-autocmd filetype python noremap <leader>b :Black<enter>
-autocmd filetype python noremap <leader>v :BlackVersion<enter>
+autocmd filetype python nnoremap <leader>b :Black<enter>
+autocmd filetype python nnoremap <leader>v :BlackVersion<enter>
 
 "jedi-vim (python autocomplete)
 let g:jedi#goto_command = "<leader>d"
@@ -372,5 +372,5 @@ let g:jedi#completions_command = "<C-Space>"
 let g:jedi#rename_command = "<f2>"
 
 "rust.vim
-autocmd filetype rust noremap <leader>f :RustFmt<enter>
+autocmd filetype rust nnoremap <leader>f :RustFmt<enter>
 
