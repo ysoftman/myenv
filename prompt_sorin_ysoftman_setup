@@ -138,7 +138,8 @@ function prompt_sorin_precmd {
     fi
   fi
   _elapsed_str+="${_elapsed_ms}ms"
-
+  # 실행이 오래 걸리는 프로그램도 있기 때문에 프롬프트 표시 전에 다시 현재 시간을 파악한다.
+  _curTime=$(date +%H:%M:%S)
 
   setopt LOCAL_OPTIONS
   unsetopt XTRACE KSH_ARRAYS
