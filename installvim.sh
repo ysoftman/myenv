@@ -106,7 +106,7 @@ vim +'silent :GoInstallBinaries' +qall
 cd ~/.vim/plugged/youcompleteme/ && git submodule update --init --recursive
 ./install.py
 
-# FileNotFoundError: [Errno 2] No such file or directory: '/Users/ysoftman/.vim/plugged/youcompleteme/third_party/ycmd/third_party/go/bin/gopls' 에러 발생하는 경우 
+# FileNotFoundError: [Errno 2] No such file or directory: '/Users/ysoftman/.vim/plugged/youcompleteme/third_party/ycmd/third_party/go/bin/gopls' 에러 발생하는 경우
 cd ~/.vim/plugged/youcompleteme/third_party/ycmd/
 git checkout master
 git pull
