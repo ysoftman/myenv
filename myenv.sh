@@ -1,6 +1,10 @@
 #!/bin/bash
 source ${HOME}/workspace/myenv/colors.sh
 
+myenv_path=$(dirname $0)
+export PATH=$myenv_path:$PATH
+echo "myenv_path=$myenv_path"
+
 current_shell="bash"
 if [[ $(ps -p $$ -o command | sed -e 1d) == *"bash"* ]]; then
     current_shell="bash"
@@ -53,7 +57,7 @@ fi
 # kube prompt 사용
 # brew install kube-ps1 로 설치시 최신 버전아님
 #kube_ps1_path="/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-kube_ps1_path="${HOME}/kube-ps1.sh"
+kube_ps1_path="${myenv_path}/kube-ps1.sh"
 if [ -f ${kube_ps1_path} ]; then
     source ${kube_ps1_path}
     export KUBE_PS1_SYMBOL_USE_IMG=true
@@ -221,8 +225,8 @@ alias tig='tig --all'
 alias infinite_cowsay='for ((;;)); do for i in $(cowsay -l | sed 1d); do echo $i; cowsay -f $i $(fortune) | lolcat; sleep 0.2; done; done;'
 # git issue script
 alias python='python3'
-alias gitissue='python3 ${HOME}/workspace/myenv/git_issue.py'
-alias gitpj='python3 ${HOME}/workspace/myenv/git_project.py'
+alias gitissue="python3 ${myenv_path}/git_issue.py"
+alias gitpj="python3 ${myenv_path}/git_project.py"
 # gh command - 깃헙 호스트별 최초 로그인 필요(gh auth login)
 alias ghauthstatus='gh auth status'
 alias ghissueme='gh issue list --assignee @me'
@@ -238,10 +242,10 @@ alias duf="duf -theme dark"
 alias ssh='TERM=xterm-256color ssh'
 
 # load my functions
-source ${HOME}/workspace/myenv/rename_files.sh
-source ${HOME}/workspace/myenv/cnt_src.sh
-source ${HOME}/workspace/myenv/git_url.sh
-source ${HOME}/workspace/myenv/k8s_info.sh
+source ${myenv_path}/rename_files.sh
+source ${myenv_path}/cnt_src.sh
+source ${myenv_path}/git_url.sh
+source ${myenv_path}/k8s_info.sh
 
 if which pyenv > /dev/null 2>&1; then
     eval "$(pyenv init -)"
@@ -255,13 +259,13 @@ term_program=$(echo $TERM_PROGRAM | tr "[:upper:]" "[:lower:]")
 
 if which fastfetch > /dev/null 2>&1; then
     if [[ $term_program == *"iterm"* ]]; then
-        fastfetch --logo-type iterm --logo ${HOME}/xelloss.jpg --logo-width 50 --logo-height 20
+        fastfetch --logo-type iterm --logo ${myenv_path}/xelloss.jpg --logo-width 50 --logo-height 20
     else
         fastfetch
     fi
 elif which neofetch > /dev/null 2>&1; then
     if [[ $term_program == *"iterm"* ]]; then
-        neofetch --backend iterm2 --size 300 --source ${HOME}/xelloss.jpg
+        neofetch --backend iterm2 --size 300 --source ${myenv_path}/xelloss.jpg
     else
         neofetch
     fi

@@ -1,1 +1,1 @@
-open -a DOSBox --args -conf ~/dosbox.conf
+open -a DOSBox --args -conf ${myenv_path}/dosbox.conf
