@@ -101,12 +101,6 @@ ln -sf ${PWD}/.alacritty.yml ~/.alacritty.yml
 [ -d ~/.config ] && ln -sf ${PWD}/mc ~/.config/mc
 [ -d ~/.config ] && ln -sf ${PWD}/lsd ~/.config/lsd
 [ -d ${XDG_CONFIG_HOME}/k9s ] && ln -sf ${PWD}/k9s/one_dark.yml ${XDG_CONFIG_HOME}/k9s/skin.yml
-ln -sf ${PWD}/dosbox.conf ~/dosbox.conf
-ln -sf ${PWD}/dosbox.sh ~/dosbox.sh
-ln -sf ${PWD}/pythonpath.sh ~/pythonpath.sh
-ln -sf ${PWD}/warcraft3_window.sh ~/warcraft3_window.sh
-ln -sf ${PWD}/xelloss.jpg ${HOME}/xelloss.jpg
-ln -sf ${PWD}/kube-ps1.sh ~/kube-ps1.sh
 
 # wsl 환경인 경우 wsl.conf 설정
 if [[ $(uname -a) == *"microsoft"* ]]; then
