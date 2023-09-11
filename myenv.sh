@@ -1,5 +1,5 @@
 #!/bin/bash
-myenv_path=$(dirname $0)
+export myenv_path=$(dirname $0)
 export PATH=$myenv_path:$PATH
 echo "myenv_path=$myenv_path"
 
