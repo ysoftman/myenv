@@ -215,8 +215,8 @@ alias vi='vim'
 #alias vi='nvim'
 alias vimlastfile='vim `(ls -1tr | tail -1)`'
 alias gopath='cd $GOPATH'
-alias work='cd ~/workspace'
-alias testcode='cd ~/workspace/test_code'
+alias work='cd ${HOME}/workspace'
+alias testcode='cd ${HOME}/workspace/test_code'
 alias cutstring='${HOME}/workspace/cutstring/cutstring'
 alias enchash='${HOME}/workspace/enchash/enchash'
 alias aleng='${HOME}/workspace/aleng/aleng'
@@ -224,7 +224,6 @@ alias tig='tig --all'
 # cowsay 종류 계속 보이기
 alias infinite_cowsay='for ((;;)); do for i in $(cowsay -l | sed 1d); do echo $i; cowsay -f $i $(fortune) | lolcat; sleep 0.2; done; done;'
 # git issue script
-alias python='python3'
 alias gitissue="python3 ${myenv_path}/git_issue.py"
 alias gitpj="python3 ${myenv_path}/git_project.py"
 # gh command - 깃헙 호스트별 최초 로그인 필요(gh auth login)
