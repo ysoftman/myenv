@@ -1,9 +1,9 @@
 #!/bin/bash
-source ${HOME}/workspace/myenv/colors.sh
-
 myenv_path=$(dirname $0)
 export PATH=$myenv_path:$PATH
 echo "myenv_path=$myenv_path"
+
+source ${myenv_path}/colors.sh
 
 current_shell="bash"
 if [[ $(ps -p $$ -o command | sed -e 1d) == *"bash"* ]]; then
