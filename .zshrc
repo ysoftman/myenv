@@ -109,6 +109,13 @@ complete -o nospace -C /usr/local/bin/mc mc
 #zprof
 
 
+# deno
+if [ -d "${HOME}/.deno" ]; then
+    export DENO_INSTALL="${HOME}/.deno"
+    export PATH="$DENO_INSTALL/bin:$PATH"
+fi
+
+
 # bun completions
 [ -s "/Users/ysoftman/.bun/_bun" ] && source "/Users/ysoftman/.bun/_bun"
 
