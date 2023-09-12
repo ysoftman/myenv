@@ -108,3 +108,10 @@ complete -o nospace -C /usr/local/bin/mc mc
 # zsh 프로파일링할때 사용
 #zprof
 
+
+# bun completions
+[ -s "/Users/ysoftman/.bun/_bun" ] && source "/Users/ysoftman/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
