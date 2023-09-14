@@ -164,7 +164,11 @@ nnoremap o <c-o>
 nnoremap retab :set expandtab<enter>:retab<enter>
 " space -> tab 변경
 nnoremap retab! :set noexpandtab<enter>:retab!<enter>:set expandtab<enter>
-
+" window pane 이동
+nnoremap <s-up> <c-w><c-k>
+nnoremap <s-down> <c-w><c-j>
+nnoremap <s-left> <c-w><c-h>
+nnoremap <s-right> <c-w><c-l>
 
 
 "nerdtree
