@@ -3,14 +3,19 @@ set realname="ysoftman"
 set imap_user="ysoftman@gmail.com"
 # gmail 은 앱비밀번호를 사용해야 한다.
 set imap_pass=""  # 명시하지 않으면 프로프트가 뜬다.
-set folder="imaps://imap.gmail.com:993/" # 메일상자들의 기본 폴더
-set spoolfile="imaps://imap.gmail.com/inbox" # 기본 메일 상자
-set spoolfile="+inbox" # 기본 메일 상자
-#set smtp_url="smtp://ysoftman@smtp.gmail.com:587/"
-set smtp_url="smtps://ysoftman@smtp.gmail.com:465/"
+
+set folder="imaps://imap.gmail.com:993" # 메일상자들의 기본 폴더
+set spoolfile="+INBOX" # 기본 메일 상자
+set postponed = "+[Gmail]/Drafts"
+
+# Port for TLS/STARTTLS: 587
+set smtp_url="smtp://ysoftman@smtp.gmail.com:587/"
+# Port for SSL: 465
+#set smtp_url="smtps://ysoftman@smtp.gmail.com:465/"
 set smtp_pass=""  # 명시하지 않으면 프롬프트가 뜬다.
 # gmail 발송시 인증자 없을 에러가 있는 경우 gssapi:login 인증방식을 사용해야 한다.
 set smtp_authenticators="gssapi:login"
+
 set ssl_starttls=yes # 서버가 tls 직원하면 활성화
 set ssl_force_tls=yes # 항상 ssl 로 연결
 set editor="vim"
@@ -30,6 +35,6 @@ set sort="threads" # 메일 쓰레드 보기
 # editor 메일편집 화면
 bind index G imap-fetch-mail # IMAP 서버에서 메일 가져오기
 
-
 # theme 설정
 source ~/workspace/myenv/.mutt/dracula.muttrc
+
