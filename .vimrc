@@ -37,6 +37,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
 Plug 'davidhalter/jedi-vim'
+Plug 'dense-analysis/ale' "syntasitc alternative
 Plug 'fatih/vim-go'
 Plug 'glench/vim-jinja2-syntax'
 Plug 'groenewege/vim-less'
@@ -64,7 +65,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'valloric/youcompleteme'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'w0rp/ale' "syntasitc alternative
 call plug#end()
 
 
