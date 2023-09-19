@@ -33,6 +33,7 @@ call plug#begin('~/.vim/plugged')
 "Plug 'flazz/vim-colorschemes' " joshdick/onedark.vim 와 vim-colorschemes 충돌
 "Plug 'kien/ctrlp.vim' " ctrlp 는 fuzzfile,buffer... 인데 fzf 가 더 좋은것 같아 굳이 사용할 필요없어 보임
 "Plug 'lilydjwg/colorizer' " vim 으로 git 커밋 메세지 작성시 이슈번호 태깅을 위해 #123 를 사용하면 컬리 배경 표시, 그런데 colorizer 사용하면 파일 오픈시 autocmd BufEnter(버퍼로딩후 필요한 설정 처리) 단계에서 느려져서 사용하지 않음
+"Plug 'scrooloose/syntastic' "This project is no longer maintained
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
 Plug 'davidhalter/jedi-vim'
@@ -58,12 +59,12 @@ Plug 'psf/black'
 Plug 'rust-lang/rust.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-fugitive'
 Plug 'valloric/youcompleteme'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'w0rp/ale' "syntasitc alternative
 call plug#end()
 
 
@@ -107,6 +108,7 @@ let mapleader=","
 ":echo g:go_version_warning
 ":let g:go_version_warning
 let g:go_version_warning = 0
+
 " 단축키 설정
 " mac 에선 기본적으로 alt/meta/option 키가 조합되면 특정 문자로 취급된다.
 " option+a == å
@@ -170,6 +172,8 @@ nnoremap <s-down> <c-w><c-j>
 nnoremap <s-left> <c-w><c-h>
 nnoremap <s-right> <c-w><c-l>
 
+"Plug
+nnoremap <leader>pi :PlugInstall<enter>
 
 "nerdtree
 let NERDTreeShowHidden=1
@@ -287,7 +291,6 @@ let g:fzf_preview_window = ['right:50%', 'ctrl-/']
 command! -bang -nargs=* Rg1 call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 " <cword> 현재 커서에 있는 워드 패턴으로 찾기
 command! -bang -nargs=* Rg2 call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(expand('<cword>')), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
-nnoremap <c-p><c-i> :PlugInstall<enter>
 " zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 fzf 단축키를 추가한다.
 "nnoremap fzf :FZF<enter>
 "nnoremap rg :Rg<enter>
