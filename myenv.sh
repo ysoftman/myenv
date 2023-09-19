@@ -103,8 +103,9 @@ bindkey "^[t" fzf-file-widget
 # 파일내용 미리보기 창 설정
 catcmd='cat {}'
 if which bat > /dev/null 2>&1; then
-    export BAT_THEME="TwoDark"
-    catcmd='bat --color always {}'
+    batcmd="bat --plain --color always --theme TwoDark"
+    catcmd="${batcmd} {}"
+    alias bat="${batcmd}"
 fi
 export FZF_CTRL_T_OPTS="--preview '($catcmd || tree -C {}) 2> /dev/null | head -200'"
 # fzf ctrl-r(히스토리)시
