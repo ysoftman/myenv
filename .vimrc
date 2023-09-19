@@ -45,7 +45,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
 Plug 'johngrib/vim-game-code-break'
 Plug 'joshdick/onedark.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.vim/plugged/fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/space-vim-dark'
 Plug 'majutsushi/tagbar'
