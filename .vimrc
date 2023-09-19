@@ -283,7 +283,6 @@ hi IndentGuidesEven ctermbg=darkgrey
 "let g:indent_guides_enable_on_vim_startup = 1
 nnoremap <f4> :IndentGuidesToggle<enter>
 
-
 "fzf
 "FZF_DEFAULT_COMMAND 설정에 의존, hidden 파일검색 되도록 myenv.sh 설정되어 있다.
 let g:fzf_preview_window = ['right:50%', 'ctrl-/']
@@ -292,15 +291,13 @@ command! -bang -nargs=* Rg1 call fzf#vim#grep("rg --hidden --column --line-numbe
 " <cword> 현재 커서에 있는 워드 패턴으로 찾기
 command! -bang -nargs=* Rg2 call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(expand('<cword>')), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 " zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 fzf 단축키를 추가한다.
-"nnoremap fzf :FZF<enter>
-"nnoremap rg :Rg<enter>
 nnoremap <c-f> :Rg1<enter>
 nnoremap f  :Rg2<enter>
 nnoremap <c-l> :Buffers<enter>
-nnoremap <c-t> :FZF<enter>
+nnoremap <c-t> :Files<enter>
 "insert 모드에서 ctrl+v숫자 (터미널로 입력되는 특수키 문자 파악, 예를 들어 숫자에 027입력하면 ^[ --> ESC 키로 ^와[ 를 조합된게 아님, 065는 A로 표시된다)
 "ctl+v후 alt+t 입력하면 ==> t 문자가 된다.
-nnoremap t :FZF<enter>
+nnoremap t :Files<enter>
 " old files and buffer history
 nnoremap <c-h> :History<enter>
 "ctrl-m == <cr>(enter) 같아서 enter 키로도 수행되는 문제가 있다.
