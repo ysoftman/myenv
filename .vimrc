@@ -295,7 +295,6 @@ nnoremap <c-f> :Rg1<enter>
 nnoremap f  :Rg2<enter>
 nnoremap <c-l> :Buffers<enter>
 nnoremap <c-t> :Files<enter>
-nnoremap <c-m> :Marks<enter>
 "insert 모드에서 ctrl+v숫자 (터미널로 입력되는 특수키 문자 파악, 예를 들어 숫자에 027입력하면 ^[ --> ESC 키로 ^와[ 를 조합된게 아님, 065는 A로 표시된다)
 "ctl+v후 alt+t 입력하면 ==> t 문자가 된다.
 nnoremap t :Files<enter>
