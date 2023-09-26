@@ -173,7 +173,26 @@ nnoremap <s-left> <c-w><c-h>
 nnoremap <s-right> <c-w><c-l>
 
 "tags 파일생성
-nnoremap <leader>ct :!ctags -R --exclude=node_modules --exclude=static<enter>
+nnoremap <leader>ct :!ctags -R
+            \ --exclude=min
+            \ --exclude=vendor
+            \ --exclude=\*.min.\*
+            \ --exclude=\*.map
+            \ --exclude=\*.swp
+            \ --exclude=\*.bak
+            \ --exclude=tags
+            \ --exclude=node_modules
+            \ --exclude=static
+            \ --exclude=coverage
+            \ --exclude=bower_components
+            \ --exclude=test
+            \ --exclude=tests
+            \ --exclude=__test__
+            \ --exclude=.git
+            \ --exclude=build
+            \ --exclude=dist
+            \ --exclude="*.bundle.*"
+            \ --exclude="*.un~*"<enter>
 "tags 생성후
 "Ctrl-] Jump to the tag underneath the cursor
 ":ts <tag> <RET> Search for a particular tag
