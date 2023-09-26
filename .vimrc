@@ -172,6 +172,16 @@ nnoremap <s-down> <c-w><c-j>
 nnoremap <s-left> <c-w><c-h>
 nnoremap <s-right> <c-w><c-l>
 
+"tags 파일생성
+nnoremap <leader>ct :!ctags -R --exclude=node_modules --exclude=static<enter>
+"tags 생성후
+"Ctrl-] Jump to the tag underneath the cursor
+":ts <tag> <RET> Search for a particular tag
+":tn Go to the next definition for the last tag
+":tp Go to the previous definition for the last tag
+":ts List all of the definitions of the last tag
+"Ctrl-t Jump back up in the tag stack
+
 "Plug
 nnoremap <leader>pi :PlugInstall<enter>
 
@@ -321,16 +331,6 @@ nnoremap <leader>gb :Git blame<enter>
 "c/cpp
 autocmd filetype c nnoremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
 autocmd filetype cpp nnoremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
-"tags 파일생성
-autocmd filetype c nnoremap <f12> :!ctags -R<enter>
-autocmd filetype cpp nnoremap <f12> :!ctags -R<enter>
-"tags 생성후
-"Ctrl-] Jump to the tag underneath the cursor
-":ts <tag> <RET> Search for a particular tag
-":tn Go to the next definition for the last tag
-":tp Go to the previous definition for the last tag
-":ts List all of the definitions of the last tag
-"Ctrl-t Jump back up in the tag stack
 
 "vim-go
 ".go 파일에서 c-] , c-t 등 godef 관련 shortcut 이 아래 단축키 설정과 충돌해 비활성화
