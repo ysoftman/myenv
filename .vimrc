@@ -286,7 +286,7 @@ let g:lightline = {
 "buffer 표시를 위해 설치.
 let g:lightline#bufferline#unnamed = '[No Name]'
 let g:lightline#bufferline#show_number = 0
-"let g:lightline#bufferline#modified = '✎'
+let g:lightline#bufferline#modified = '✎'
 let g:lightline#bufferline#unicode_symbols = 1
 let g:lightline#bufferline#enable_devicons = 1
 "one 컬러로 변경해야 tabline 에 컬러가 반영된다.
