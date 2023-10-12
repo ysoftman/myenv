@@ -267,7 +267,8 @@ hi Visual cterm=underline ctermbg=lightyellow
 "let g:solarized_visibility="high"
 "set background=dark
 
-"lightline 화살표 폰트가 없어 powerline 폰트가 필요 없다.
+"lightline
+"화살표 폰트가 없어 powerline 폰트가 필요 없다.
 set laststatus=2
 let g:lightline = {
 \    'colorscheme': 'onedark',
@@ -281,7 +282,8 @@ let g:lightline = {
 \      'gitbranch': 'fugitive#head'
 \    },
 \}
-"buffer 표시를 위해선 lightline-bufferline 도 플러그인 설치 필요.
+"lightline-bufferline
+"buffer 표시를 위해 설치.
 let g:lightline#bufferline#unnamed = '[No Name]'
 let g:lightline#bufferline#show_number = 0
 "let g:lightline#bufferline#modified = '✎'
