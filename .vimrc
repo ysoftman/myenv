@@ -122,7 +122,7 @@ let g:go_version_warning = 0
 " --> windows > option_as_alt: Both 로 설정함
 " :h key-notation 참고
 " timeout이 짧은 상태에서 일반 명령로 처리 될 수 있어 주의
-" nnoremap 에 h j k l 등으로 시작하게 되면 커서 사용시 timeoutlen 만큼 기다리기 후
+" nnoremap 에 h j k l 등으로 시작하게 되면 커서 사용시 timeoutlen 만큼 기다린 후
 " 마지막 동작이 수행 되기 때문에 사용하지 않도로 한다.
 " quickfix list 에서 사용할 단축키
 nnoremap cj :clearjumps<enter>
@@ -160,10 +160,10 @@ nnoremap sovim :source ~/.vimrc<enter>
 " replace (편의를 위해 입력위치로 커서 이동)
 nnoremap sc :%s/<c-r><c-w>//gc<left><left><left>
 " zellij ctrl-o(session) 중복됨, zellij lock 없이 사용하기 위해 alt-i, alt-o로맵핑
-"alt+i ==> i 문자가 된다.
-nnoremap i <c-i>
-"alt+o ==> o 문자가 된다.
-nnoremap o <c-o>
+execute "set <a-i>=\ei"
+execute "set <a-o>=\eo"
+nnoremap <a-i> <c-i>
+nnoremap <a-o> <c-o>
 " tab -> space 변경
 nnoremap retab :set expandtab<enter>:retab<enter>
 " space -> tab 변경
@@ -325,17 +325,22 @@ command! -bang -nargs=* Rg1 call fzf#vim#grep("rg --hidden --column --line-numbe
 command! -bang -nargs=* Rg2 call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(expand('<cword>')), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 " zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 fzf 단축키를 추가한다.
 nnoremap <c-f> :Rg1<enter>
-nnoremap f  :Rg2<enter>
+execute "set <a-f>=\ef"
+nnoremap <a-f> :Rg2<enter>
 nnoremap <c-l> :Buffers<enter>
 nnoremap <c-t> :Files<enter>
 "insert 모드에서 ctrl+v숫자 (터미널로 입력되는 특수키 문자 파악, 예를 들어 숫자에 027입력하면 ^[ --> ESC 키로 ^와[ 를 조합된게 아님, 065는 A로 표시된다)
 "ctl+v후 alt+t 입력하면 ==> t 문자가 된다.
-nnoremap t :Files<enter>
+"하지만  는 esc 문자라 esc후t를 눌러도도 동작하게 되는 문제가 있다.
+"nnoremap t :Files<enter>
+execute "set <a-t>=\et"
+nnoremap <a-t> :Files<enter>
 " old files and buffer history
 nnoremap <c-h> :History<enter>
 "ctrl-m == <cr>(enter) 같아서 enter 키로도 수행되는 문제가 있다.
 "nnoremap <c-m> :Marks<enter>
-nnoremap m :Marks<enter>
+execute "set <a-m>=\em"
+nnoremap <a-m> :Marks<enter>
 " 새로운 커맨드 실행을 위해서 History 창에서 ctrl-e 로 기존 커맨드를 수정해야 하는 번거로움이 있다.
 "nnoremap : :History:<enter>
 " 새로운 찾기를 하려면 ctlr-e 로 기존 히스토리를 수정해야 하는 번거로움이 있다.
