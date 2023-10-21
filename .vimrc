@@ -151,6 +151,8 @@ nnoremap bwo :%bwipeout <enter>
 "nnoremap be :bufdo e<enter>
 " format json file
 nnoremap <leader>jq :%!jq .<enter>
+" format xml file, 포맷팅 후 에러 메시지가 추가될 수 있다.
+nnoremap <leader>xml :%!xmllint --format -<enter>
 " remove trailing whitespce
 nnoremap rtw :%s/\s\+$//e<enter>
 " .vimrc 다시 적용
