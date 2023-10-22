@@ -331,7 +331,7 @@ nnoremap <c-l> :Buffers<enter>
 "ctl+v후 alt+t 입력하면 ==> t 문자가 된다.
 "하지만  는 esc 문자라 esc후t를 눌러도 동작하게 되는 문제가 있다.
 "nnoremap t :Files<enter>
-" zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 alt로 시작하는 fzf 단축키를 추가한다.
+" zellij ctrl-t(tab), ctrl-h(move), alt-h,alt-j,alt-k,alt-l(포커스이동) 단축키와 중복되지 않도록 단축키를 추가한다.
 nnoremap <c-t> :Files<enter>
 execute "set <a-t>=\et"
 nnoremap <a-t> :Files<enter>
@@ -340,12 +340,14 @@ nnoremap <a-t> :Files<enter>
 execute "set <a-m>=\em"
 nnoremap <a-m> :Marks<enter>
 nnoremap <c-h> :History<enter>
-nnoremap <leader>h :History<enter>
+"<leader>h 로 시작하는 단축키와 충돌들 피하기 위해 hh 두번 사용
+nnoremap <leader>hh :History<enter>
 " 새로운 커맨드 실행을 위해서 History 창에서 기존 커맨드를 수정해야 하는 번거로움이 있다.
 nnoremap <leader>: :History:<enter>
 " 새로운 찾기를 하려면 기존 히스토리를 수정해야 하는 번거로움이 있다.
 nnoremap <leader>/ :History/<enter>
 nnoremap <leader>cmd :Commands<enter>
+nnoremap <leader>m :Maps<enter>
 
 "vim-fugitive
 nnoremap <leader>gs :Git<enter> "opens summary window
