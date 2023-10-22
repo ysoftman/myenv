@@ -323,6 +323,7 @@ let g:fzf_preview_window = ['right:50%', 'ctrl-/']
 command! -bang -nargs=* Rg1 call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 " <cword> 현재 커서에 있는 워드 패턴으로 찾기
 command! -bang -nargs=* Rg2 call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(expand('<cword>')), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+" zellij ctrl-t(tab), ctrl-h(move), alt-h,alt-j,alt-k,alt-l(포커스이동)등의 단축키와 중복되지 않도록 단축키를 추가한다.
 nnoremap <c-f> :Rg1<enter>
 execute "set <a-f>=\ef"
 nnoremap <a-f> :Rg2<enter>
@@ -331,7 +332,6 @@ nnoremap <c-l> :Buffers<enter>
 "ctl+v후 alt+t 입력하면 ==> t 문자가 된다.
 "하지만  는 esc 문자라 esc후t를 눌러도 동작하게 되는 문제가 있다.
 "nnoremap t :Files<enter>
-" zellij ctrl-t(tab), ctrl-h(move), alt-h,alt-j,alt-k,alt-l(포커스이동) 단축키와 중복되지 않도록 단축키를 추가한다.
 nnoremap <c-t> :Files<enter>
 execute "set <a-t>=\et"
 nnoremap <a-t> :Files<enter>
