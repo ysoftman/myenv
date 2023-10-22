@@ -323,29 +323,29 @@ let g:fzf_preview_window = ['right:50%', 'ctrl-/']
 command! -bang -nargs=* Rg1 call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 " <cword> 현재 커서에 있는 워드 패턴으로 찾기
 command! -bang -nargs=* Rg2 call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(expand('<cword>')), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
-" zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 fzf 단축키를 추가한다.
 nnoremap <c-f> :Rg1<enter>
 execute "set <a-f>=\ef"
 nnoremap <a-f> :Rg2<enter>
 nnoremap <c-l> :Buffers<enter>
-nnoremap <c-t> :Files<enter>
 "insert 모드에서 ctrl+v숫자 (터미널로 입력되는 특수키 문자 파악, 예를 들어 숫자에 027입력하면 ^[ --> ESC 키로 ^와[ 를 조합된게 아님, 065는 A로 표시된다)
 "ctl+v후 alt+t 입력하면 ==> t 문자가 된다.
-"하지만  는 esc 문자라 esc후t를 눌러도도 동작하게 되는 문제가 있다.
+"하지만  는 esc 문자라 esc후t를 눌러도 동작하게 되는 문제가 있다.
 "nnoremap t :Files<enter>
+" zellij ctrl-t(tab), ctrl-h(move) 단축키와 중복되어 alt로 시작하는 fzf 단축키를 추가한다.
+nnoremap <c-t> :Files<enter>
 execute "set <a-t>=\et"
 nnoremap <a-t> :Files<enter>
-" old files and buffer history
-nnoremap <c-h> :History<enter>
 "ctrl-m == <cr>(enter) 같아서 enter 키로도 수행되는 문제가 있다.
 "nnoremap <c-m> :Marks<enter>
 execute "set <a-m>=\em"
 nnoremap <a-m> :Marks<enter>
-" 새로운 커맨드 실행을 위해서 History 창에서 ctrl-e 로 기존 커맨드를 수정해야 하는 번거로움이 있다.
-"nnoremap : :History:<enter>
-" 새로운 찾기를 하려면 ctlr-e 로 기존 히스토리를 수정해야 하는 번거로움이 있다.
-"nnoremap / :History/<enter>
-"nnoremap <c-c> :Commands<enter>
+nnoremap <c-h> :History<enter>
+nnoremap <leader>h :History<enter>
+" 새로운 커맨드 실행을 위해서 History 창에서 기존 커맨드를 수정해야 하는 번거로움이 있다.
+nnoremap <leader>: :History:<enter>
+" 새로운 찾기를 하려면 기존 히스토리를 수정해야 하는 번거로움이 있다.
+nnoremap <leader>/ :History/<enter>
+nnoremap <leader>cmd :Commands<enter>
 
 "vim-fugitive
 nnoremap <leader>gs :Git<enter> "opens summary window
