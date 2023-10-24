@@ -89,8 +89,7 @@ export FZF_CTRL_T_COMMAND='find . -type f'
 # fzf vim 에서 FZF_DEFAULT_COMMAND 를 사용함
 export FZF_DEFAULT_COMMAND=$FZF_CTRL_T_COMMANDS
 if which fd > /dev/null 2>&1; then
-    #export FZF_CTRL_T_COMMAND='fd --hidden --no-ignore'
-    export FZF_CTRL_T_COMMAND='fd'
+    export FZF_CTRL_T_COMMAND='fd --hidden --no-ignore'
     export FZF_DEFAULT_COMMAND=$FZF_CTRL_T_COMMAND
 fi
 ## fzf default options
