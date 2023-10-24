@@ -323,10 +323,15 @@ let g:fzf_preview_window = ['right:50%', 'ctrl-/']
 command! -bang -nargs=* Rg1 call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 " <cword> 현재 커서에 있는 워드 패턴으로 찾기
 command! -bang -nargs=* Rg2 call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(expand('<cword>')), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+".gitignore 내용도 찾기
+command! -bang -nargs=* Rg3 call fzf#vim#grep("rg --no-ignore --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 " zellij ctrl-t(tab), ctrl-h(move), alt-h,alt-j,alt-k,alt-l(포커스이동)등의 단축키와 중복되지 않도록 단축키를 추가한다.
 nnoremap <c-f> :Rg1<enter>
 execute "set <a-f>=\ef"
 nnoremap <a-f> :Rg2<enter>
+" uppercase 로 시작해야 하는 사용자 지정 커맨드를 소문자로 사용하기 위해서
+" command 모드에서 rg로 매핑
+cnoreabbrev rg :Rg3
 nnoremap <c-l> :Buffers<enter>
 "insert 모드에서 ctrl+v숫자 (터미널로 입력되는 특수키 문자 파악, 예를 들어 숫자에 027입력하면 ^[ --> ESC 키로 ^와[ 를 조합된게 아님, 065는 A로 표시된다)
 "ctl+v후 alt+t 입력하면 ==> t 문자가 된다.
