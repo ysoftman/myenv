@@ -331,7 +331,9 @@ execute "set <a-f>=\ef"
 nnoremap <a-f> :Rg2<enter>
 " uppercase 로 시작해야 하는 사용자 지정 커맨드를 소문자로 사용하기 위해서
 " command 모드에서 rg로 매핑
-cnoreabbrev rg :Rg3
+cnoreabbrev rg1 :Rg1
+cnoreabbrev rg2 :Rg2
+cnoreabbrev rg3 :Rg3
 nnoremap <c-l> :Buffers<enter>
 "insert 모드에서 ctrl+v숫자 (터미널로 입력되는 특수키 문자 파악, 예를 들어 숫자에 027입력하면 ^[ --> ESC 키로 ^와[ 를 조합된게 아님, 065는 A로 표시된다)
 "ctl+v후 alt+t 입력하면 ==> t 문자가 된다.
