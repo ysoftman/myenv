@@ -174,6 +174,8 @@ nnoremap <s-down> <c-w><c-j>
 nnoremap <s-left> <c-w><c-h>
 nnoremap <s-right> <c-w><c-l>
 
+autocmd filetype xml setlocal tabstop=2 shiftwidth=2
+
 "tags 파일생성
 nnoremap <leader>ct :!ctags -R
             \ --exclude=min
