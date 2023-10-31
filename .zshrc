@@ -41,7 +41,7 @@ fi
 # ctrl-r 사용시 위젯 함수에 +m(--no-multi)가 고정되어 있어, +m 를 뺀 위젯 함수를 덮어쓴다.
 # 참고 https://github.com/junegunn/fzf/issues/1806#issuecomment-570758721
 # +m 제거 외에도 multi 선택을 사용할 수 있도록 수정한 버전
-# zsh 에만 동작이 보장되어 정시 머지된것은 아님
+# zsh 에만 동작이 보장되어 정식 머지된것은 아님
 # multi 동작하는 함수 구현해 임시로 사용
 # https://github.com/junegunn/fzf/pull/2098
 fzf-history-widget() {
