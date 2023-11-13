@@ -311,6 +311,16 @@ autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 " iterm2 -> non-ascii font 를 powerline 폰트로 변경 후 사용
 " let g:airline_powerline_fonts = 1
 
+"ale
+":ALEInfo "현재 설정값 보기
+let g:ale_enabled=1
+let g:ale_linters = {
+\ 'python': ['flake8', 'pylint'],
+\ 'javascript': ['eslint']
+\}
+" pylint 가 설치되어 있는데, pylint 사용시 너무 verbose 해서 사용하지 않음
+let g:ale_linters_ignore = {'python':['flake8','pylint']}
+
 "vim-indent-guides
 let g:indent_guides_auto_colors = 0
 hi IndentGuidesOdd  ctermbg=black
@@ -407,7 +417,7 @@ autocmd filetype python nnoremap <leader>b :Black<enter>
 autocmd filetype python nnoremap <leader>v :BlackVersion<enter>
 
 "jedi-vim (python autocomplete)
-let g:jedi#goto_command = "<leader>d"
+let g:jedi#goto_command = "<leader>d" "This function first tries jedi#goto_definitions, and falls back to jedi#goto_assignments
 let g:jedi#goto_assignments_command = "<leader>g"
 let g:jedi#goto_stubs_command = "<leader>s"
 let g:jedi#goto_definitions_command = ""
@@ -417,6 +427,9 @@ let g:jedi#usages_command = "<leader>r"
 let g:jedi#completions_command = "<C-Space>"
 "let g:jedi#rename_command = "<leader>r"
 let g:jedi#rename_command = "<f2>"
+let g:jedi#environment_path = "/usr/bin/python3"
+let g:jedi#completions_enabled = 1
+
 
 "rust.vim
 autocmd filetype rust nnoremap <leader>f :RustFmt<enter>
