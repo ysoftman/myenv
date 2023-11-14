@@ -429,7 +429,8 @@ let g:jedi#completions_command = "<C-Space>"
 let g:jedi#rename_command = "<f2>"
 let g:jedi#environment_path = "/usr/bin/python3"
 let g:jedi#completions_enabled = 1
-
+let g:jedi#popup_on_dot = 1
+let g:jedi#popup_select_first = 0
 
 "rust.vim
 autocmd filetype rust nnoremap <leader>f :RustFmt<enter>
