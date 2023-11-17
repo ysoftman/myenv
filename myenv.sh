@@ -240,6 +240,9 @@ alias duf="duf -theme dark"
 # ssh 원격 접속시 clear 실행하면 'alacritty': unknown terminal type. 메시지 발생 방지
 alias ssh='TERM=xterm-256color ssh'
 
+# apple silicon(arm64)용으로 zsh 실행
+alias arm='arch -arm64 /bin/zsh'
+
 # load my functions
 source ${myenv_path}/rename_files.sh
 source ${myenv_path}/cnt_src.sh
