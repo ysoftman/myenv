@@ -492,8 +492,9 @@ colors:
 # Default:
 #   - (Linux/BSD/macOS) `$SHELL` or the user's login shell, if `$SHELL` is unset
 #   - (Windows) powershell
-#shell:
-#  program: /bin/bash
+shell:
+  program: /bin/zsh
+  #program: /opt/Homebrew/bin/zsh
 #  args:
 #    - --login
 
