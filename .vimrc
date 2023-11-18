@@ -1,4 +1,4 @@
-" vim-plug 설치(플러그인 매니저중 플러그인 설치 속도가 가장 빠름)
+"ir vim-plug 설치(플러그인 매니저중 플러그인 설치 속도가 가장 빠름)
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 " 플러그인 설치 vim 실행 후
@@ -63,8 +63,8 @@ Plug 'scrooloose/nerdtree'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-fugitive'
 Plug 'valloric/youcompleteme'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 
