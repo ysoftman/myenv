@@ -1,4 +1,4 @@
-#!/usr/local/bin/zsh
+#!/bin/zsh
 if [ -d ${ZDOTDIR:-$HOME}/.zprezto ]; then
     rm -rf ${ZDOTDIR:-$HOME}/.zprezto
 fi
