@@ -2,6 +2,13 @@
 #zmodload zsh/zprof
 
 
+# zellij 에서 SHELL 값으로 쉘을 시작한다.
+# apple silicon(arm64) zsh 가 있다면 이걸 사용한다.
+export SHELL=/bin/zsh
+if [ -x /opt/Homebrew/bin/zsh ]; then
+    export SHELL=/opt/Homebrew/bin/zsh
+fi
+
 # multiplexer="tmux"
 multiplexer="zellij"
 export PATH=$HOME/.cargo/bin:$PATH
