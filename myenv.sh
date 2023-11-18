@@ -129,6 +129,10 @@ export PATH=$HOME/.cargo/bin:/usr/local/go/bin:/usr/local/bin:/usr/games:/usr/lo
 export PATH=/usr/local/opt/curl-openssl/bin:$PATH
 export PATH=/usr/local/opt/openssl/bin:$PATH
 
+# apple silicon 용 brew 를 실행할 수 있도록 한다.
+export PATH=/opt/Homebrew/bin:$PATH
+
+
 export EDITOR=vim
 export VISUAL=vim
 export ANSIBLE_NOCOWS=1 # disable cowsay message when using ansible
