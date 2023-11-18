@@ -82,18 +82,12 @@ else
 fi
 
 # 현재 유저의 기본 쉘을 zsh 로 변경
-cat /etc/shells > shells
-zsh_path=`cat shells | grep /usr/local/bin/zsh`
-echo $zsh_path
-# null string 이라면
-if [ -z ${zsh_path} ]; then
-	# /etc/shells 는 >> 를 허용하지 않아 수정 파일로 바꿔친다.
-	echo "/usr/local/bin/zsh" >> shells
-	${sudo_cmd} mv -v shells /etc/shells
-fi
-rm -fv shells
+# /etc/shells 는 >> 를 허용하지 않아 수정 파일로 바꿔친다.
+${sudo_cmd} cp -fv shells /etc/shells
 ${sudo_cmd} cp -fv chsh /etc/pam.d/chsh
-if  [ -x /usr/local/bin/zsh ]; then
+if [ -x /opt/Homebrew/bin/zsh ]; then
+	${sudo_cmd} chsh -s /opt/Homebrew/bin/zsh ${USER}
+elif  [ -x /usr/local/bin/zsh ]; then
 	${sudo_cmd} chsh -s /usr/local/bin/zsh ${USER}
 elif [ -x /usr/bin/zsh ]; then
 	${sudo_cmd} chsh -s /usr/bin/zsh ${USER}
