@@ -1,17 +1,16 @@
 # zsh 프로파일링할때 사용
 #zmodload zsh/zprof
 
-
 # zellij 에서 SHELL 값으로 쉘을 시작한다.
 # apple silicon(arm64) zsh 가 있다면 이걸 사용한다.
 export SHELL=/bin/zsh
 if [ -x /opt/Homebrew/bin/zsh ]; then
     export SHELL=/opt/Homebrew/bin/zsh
+    export PATH=/opt/homebrew/bin:$PATH
 fi
 
 # multiplexer="tmux"
 multiplexer="zellij"
-export PATH=$HOME/.cargo/bin:$PATH
 # ${multiplexer} 시작되면 환경변수값이 설정된다.
 # 이를 기준으로 ${multiplexer} 가 한번만 실행되도록 한다.
 if [ $multiplexer = "tmux" ]; then
