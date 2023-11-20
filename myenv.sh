@@ -258,9 +258,10 @@ if which pyenv > /dev/null 2>&1; then
     eval "$(pyenv init -)"
 fi
 if which virtualenv > /dev/null 2>&1; then
-    # precmd_function 에 _pyenv_virtualenv_hook() 추가 시키고
+    # precmd_function 에 _pyenv_virtualenv_hook() 를 추가 시키고
     # 이 함수는 pyenv sh-activate 를 실행하는게 이게 느림(400ms 정도)
-    # https://github.com/pyenv/pyenv-virtualenv/blob/master/bin/pyenv-sh-activate
+    # pyenv sh-activate 내용 https://github.com/pyenv/pyenv-virtualenv/blob/master/bin/pyenv-sh-activate
+    # prompt 속도가 느려지니 필요없으면 제외시키자.
     #eval "$(pyenv virtualenv-init -)"
     export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 fi
