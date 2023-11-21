@@ -130,7 +130,7 @@ export PATH=/usr/local/opt/curl-openssl/bin:$PATH
 export PATH=/usr/local/opt/openssl/bin:$PATH
 
 # apple silicon 용 brew 를 실행할 수 있도록 한다.
-export PATH=/opt/Homebrew/bin:$PATH
+export PATH=/opt/homebrew/bin:$PATH
 
 
 export EDITOR=vim
