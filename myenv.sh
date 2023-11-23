@@ -1,4 +1,7 @@
 #!/bin/bash
+# /etc/profile -> /usr/libexec/path_helper -> /etc/paths 까지 설정 확인시
+#echo $PATH | tr ':' '\n'
+
 export myenv_path=$(dirname $0)
 export PATH=$myenv_path:$PATH
 echo "myenv_path=$myenv_path"
