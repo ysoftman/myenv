@@ -121,17 +121,8 @@ export GOPATH=$HOME/workspace/gopath
 # PATH 환경변수 처음이나 마지막에 구분자(:)가 있거나
 # PATH 중간에 :: 부분이 있어야 한다.
 # ./a.sh 대신 a.sh 실행 가능해야 한다.
-export PATH=$HOME/.cargo/bin:/usr/local/go/bin:/usr/local/bin:/usr/games:/usr/local/games:$GOPATH/bin:$PATH:
-
-# 원래 맥에서 기본 제공하는 /usr/bin/ 의 curl 같은 프로그램은
-# brew link --force 로도 /usr/local/bin/ 에 링크 생성을 못해
-# PATH 환경변수에 /usr/local/opt/ 를 추가해야 한다.
-export PATH=/usr/local/opt/curl-openssl/bin:$PATH
-export PATH=/usr/local/opt/openssl/bin:$PATH
-
-# apple silicon 용 brew 를 실행할 수 있도록 한다.
-export PATH=/opt/homebrew/bin:$PATH
-
+# apple silicon 용 brew (/opt/homebrew) 를 우선 실행할 수 있도록 한다.
+export PATH=$HOME/.cargo/bin:/opt/homebrew/bin:/usr/local/bin:/usr/games:/usr/local/games:$GOPATH/bin:$PATH:
 
 export EDITOR=vim
 export VISUAL=vim
