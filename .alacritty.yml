@@ -12,10 +12,10 @@
 #  - /path/to/alacritty.yml
 # https://github.com/eendroroy/alacritty-theme
 import:
+  - ~/.alacritty-colorscheme/themes/argonaut.yaml
   #- ~/.alacritty-colorscheme/themes/cyber_punk_neon.yaml
-  - ~/.alacritty-colorscheme/themes/monokai_charcoal.yaml
+  #- ~/.alacritty-colorscheme/themes/monokai_charcoal.yaml
   #- ~/.alacritty-colorscheme/themes/one_dark.yaml
-
 
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
