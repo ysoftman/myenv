@@ -337,7 +337,7 @@ command! -bang -nargs=* Rg2 call fzf#vim#grep("rg --hidden --column --line-numbe
 ".gitignore 내용도 찾기
 command! -bang -nargs=* Rg3 call fzf#vim#grep("rg --no-ignore --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 " zellij ctrl-t(tab), ctrl-h(move), alt-h,alt-j,alt-k,alt-l(포커스이동)등의 단축키와 중복되지 않도록 단축키를 추가한다.
-nnoremap <c-f> gRg1<enter>
+nnoremap <c-f> :Rg1<enter>
 execute "set <a-f>=\ef"
 nnoremap <a-f> :Rg2<enter>
 " uppercase 로 시작해야 하는 사용자 지정 커맨드를 소문자로 사용하기 위해서
