@@ -118,14 +118,30 @@ export FZF_CTRL_R_OPTS=""
 # [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-
 export GOPATH=$HOME/workspace/gopath
-# bash, zsh 등에서 git-subcommand 를 현재 디렉토리에서 실행하기 위해
-# PATH 환경변수 처음이나 마지막에 구분자(:)가 있거나
-# PATH 중간에 :: 부분이 있어야 한다.
-# ./a.sh 대신 a.sh 실행 가능해야 한다.
-# apple silicon 용 brew (/opt/homebrew) 를 우선 실행할 수 있도록 한다.
-export PATH=$HOME/.cargo/bin:/opt/homebrew/bin:/usr/local/bin:/usr/games:/usr/local/games:$GOPATH/bin:$PATH:
+tidy_path() {
+    for p in $(echo $PATH | tr : '\n' | uniq); do
+        if [[ $p == '/opt/homebrew/bin' ]]; then
+            continue
+        elif [[ $p == '/usr/local/bin' ]]; then
+            continue
+        elif [[ $p == "${HOME}/.cargo/bin" ]]; then
+            continue
+        fi
+        if [[ $temp_path == '' ]]; then
+            temp_path=$p
+            continue
+        fi
+        temp_path=$temp_path:$p
+    done
+    # bash, zsh 등에서 git-subcommand 를 현재 디렉토리에서 실행하기 위해
+    # PATH 환경변수 처음이나 마지막에 구분자(:)가 있거나
+    # PATH 중간에 :: 부분이 있어야 한다.
+    # ./a.sh 대신 a.sh 실행 가능해야 한다.
+    # apple silicon 용 brew (/opt/homebrew) 를 우선 실행할 수 있도록 한다.
+    export PATH=$HOME/.cargo/bin:/opt/homebrew/bin:/usr/local/bin::$temp_path
+}
+tidy_path
 
 export EDITOR=vim
 export VISUAL=vim
