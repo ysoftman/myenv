@@ -85,8 +85,8 @@ fi
 # /etc/shells 는 >> 를 허용하지 않아 수정 파일로 바꿔친다.
 ${sudo_cmd} cp -fv shells /etc/shells
 ${sudo_cmd} cp -fv chsh /etc/pam.d/chsh
-if [ -x /opt/Homebrew/bin/zsh ]; then
-	${sudo_cmd} chsh -s /opt/Homebrew/bin/zsh ${USER}
+if [ -x /opt/homebrew/bin/zsh ]; then
+	${sudo_cmd} chsh -s /opt/homebrew/bin/zsh ${USER}
 elif  [ -x /usr/local/bin/zsh ]; then
 	${sudo_cmd} chsh -s /usr/local/bin/zsh ${USER}
 elif [ -x /usr/bin/zsh ]; then

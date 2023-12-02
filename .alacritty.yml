@@ -493,7 +493,7 @@ colors:
 #   - (Windows) powershell
 shell:
   program: /bin/zsh
-  #program: /opt/Homebrew/bin/zsh
+  #program: /opt/homebrew/bin/zsh
 #  args:
 #    - --login
 
