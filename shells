@@ -8,5 +8,5 @@
 /bin/sh
 /bin/tcsh
 /bin/zsh
-/opt/Homebrew/bin/zsh
+/opt/homebrew/bin/zsh
 /usr/local/bin/zsh
