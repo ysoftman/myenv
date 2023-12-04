@@ -212,6 +212,13 @@ let NERDTreeShowHidden=1
 nnoremap <leader>tt :NERDTreeToggle<enter>
 "선택한 파일위치로 자동 포커스 된다.
 nnoremap <leader>tf :NERDTreeFind<enter>
+" nerdtree 창만 남은 경우에 nerdtree 창 종료 없이 바로 vim 종료할 수 있도록 함
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+"nerdtree 창에 다른 내용이 열리지 않도록 방지
+" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+autocmd BufEnter * if winnr() == winnr('h') && bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
 
 "nerdcommenter
 "[count]<leader>cc 선택한 라인 커멘트 설정
