@@ -337,12 +337,10 @@ nnoremap <f4> :IndentGuidesToggle<enter>
 "fzf
 "FZF_DEFAULT_COMMAND 설정에 의존, hidden 파일검색 되도록 myenv.sh 설정되어 있다.
 let g:fzf_preview_window = ['right:50%', 'ctrl-/']
-"기본 찾기
-command! -bang -nargs=* Rg1 call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+".gitignore 내용도 찾기
+command! -bang -nargs=* Rg1 call fzf#vim#grep("rg --no-ignore --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 "현재 커서에 있는 워드 패턴으로 찾기
 command! -bang -nargs=* Rg2 call fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(expand('<cword>')), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
-".gitignore 내용도 찾기
-command! -bang -nargs=* Rg3 call fzf#vim#grep("rg --no-ignore --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 " zellij ctrl-t(tab), ctrl-h(move), alt-h,alt-j,alt-k,alt-l(포커스이동)등의 단축키와 중복되지 않도록 단축키를 추가한다.
 nnoremap <c-f> :Rg1<enter>
 execute "set <a-f>=\ef"
@@ -351,7 +349,6 @@ nnoremap <a-f> :Rg2<enter>
 " command line 모드에서 rg로 시작하는 문자로 매핑( / 찾기 커맨드에서도 치환되니 참고)
 cnoreabbrev rg1 :Rg1
 cnoreabbrev rg2 :Rg2
-cnoreabbrev rg3 :Rg3
 nnoremap <c-l> :Buffers<enter>
 "insert 모드에서 ctrl+v숫자 (터미널로 입력되는 특수키 문자 파악, 예를 들어 숫자에 027입력하면 ^[ --> ESC 키로 ^와[ 를 조합된게 아님, 065는 A로 표시된다)
 "ctl+v후 alt+t 입력하면 ==> t 문자가 된다.
