@@ -3,6 +3,7 @@
 
 # zellij 에서 SHELL 값으로 쉘을 시작한다.
 # apple silicon(arm64) zsh 가 있다면 이걸 사용한다.
+# 그리고 arm64 bin 들을 우선 사용하도록 한다.
 if [ -x /opt/homebrew/bin/zsh ]; then
     export SHELL=/opt/homebrew/bin/zsh
     export PATH=/opt/homebrew/bin:$PATH
