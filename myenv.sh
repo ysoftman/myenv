@@ -204,10 +204,15 @@ fi
 if type rg > /dev/null 2>&1; then
     alias rg='rg -p'
 fi
+
+# zsh 환경에서 kubectl 자동 완성
+source <(kubectl completion zsh)
 # kubecolor (brew install hidetatz/tap/kubecolor)
 # kubecolor internally calls kubectl command
 if type kubecolor > /dev/null 2>&1; then
     alias kubectl="kubecolor"
+    # kubecolor 로 kubectl 자동 완성
+    compdef kubecolor=kubectl
 fi
 
 
