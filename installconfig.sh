@@ -57,7 +57,7 @@ git config --global credential.helper store
 [ -h ~/.tmux.conf ] && unlink ~/.tmux.conf
 [ -h ~/.tigrc ] && unlink ~/.tigrc
 [ -h ~/.muttrc ] && unlink ~/.muttrc
-[ -h ~/.alacritty.yml ] && unlink ~/.alacritty.yml
+[ -h ~/.alacritty.toml ] && unlink ~/.alacritty.toml
 # install alacritty theme
 [ -d ~/.alacritty-colorscheme ] || git clone https://github.com/eendroroy/alacritty-theme.git ~/.alacritty-colorscheme
 [ -h ~/.config/zellij ] && unlink ~/.config/zellij
@@ -76,7 +76,7 @@ mkdir -p ${XDG_CONFIG_HOME}/k9s
 [ -f ~/.tmux.conf ] && mv -fv ~/.tmux.conf ~/.tmux.conf.bak
 [ -f ~/.tigrc ] && mv -fv ~/.tigrc ~/.tigrc.bak
 [ -f ~/.muttrc ] && mv -fv ~/.muttrc ~/.muttrc.bak
-[ -f ~/.alacritty.yml ] && mv -fv ~/.alacritty.yml ~/.alacritty.yml.bak
+[ -f ~/.alacritty.toml ] && mv -fv ~/.alacritty.toml ~/.alacritty.toml.bak
 [ -d ~/.config/zellij ] && mv -fv ~/.config/zellij ~/.config/zellij.bak
 [ -d ~/.config/mc ] && mv -fv ~/.config/mc ~/.config/mc.bak
 [ -d ~/.config/lsd ] && mv -fv ~/.config/lsd ~/.config/lsd.bak
@@ -96,7 +96,7 @@ ln -sf ${PWD}/init.vim ~/.config/nvim/init.vim
 ln -sf ${PWD}/.tmux.conf ~/.tmux.conf
 ln -sf ${PWD}/.tigrc ~/.tigrc
 ln -sf ${PWD}/.muttrc ~/.muttrc
-ln -sf ${PWD}/.alacritty.yml ~/.alacritty.yml
+ln -sf ${PWD}/.alacritty.toml ~/.alacritty.toml
 [ -d ~/.config ] && ln -sf ${PWD}/zellij ~/.config/zellij
 [ -d ~/.config ] && ln -sf ${PWD}/mc ~/.config/mc
 [ -d ~/.config ] && ln -sf ${PWD}/lsd ~/.config/lsd
