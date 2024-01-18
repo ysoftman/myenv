@@ -1,0 +1,76 @@
+import = ["/Users/ysoftman/.alacritty-colorscheme/themes/argonaut.toml"]
+
+[colors.cursor]
+cursor = "#528bff"
+text = "CellBackground"
+
+[colors.primary]
+background = "#0b1015"
+foreground = "#abb2bf"
+
+[colors.footer_bar]
+background = "#bbbbbb"
+foreground = "#000000"
+
+[colors.search.focused_match]
+background = "#c678dd"
+foreground = "#000000"
+
+[colors.search.matches]
+background = "#f0c674"
+foreground = "#000000"
+
+[colors.selection]
+background = "#e5c07b"
+text = "CellForeground"
+
+[font]
+size = 20.0
+
+[font.bold]
+family = "Hack Nerd Font"
+
+[font.bold_italic]
+family = "Hack Nerd Font"
+
+[font.italic]
+family = "Hack Nerd Font"
+
+[font.normal]
+family = "Hack Nerd Font"
+
+[[keyboard.bindings]]
+chars = "\u001Bb"
+key = "Left"
+mods = "Alt|Option"
+
+[[keyboard.bindings]]
+chars = "\u001Bf"
+key = "Right"
+mods = "Alt|Option"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "N"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "None"
+key = "Q"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "None"
+key = "W"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "ToggleViMode"
+key = "Space"
+mods = "Control"
+
+[shell]
+program = "/bin/zsh"
+
+[window]
+option_as_alt = "Both"
