@@ -281,6 +281,10 @@ if which virtualenv > /dev/null 2>&1; then
     export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 fi
 
+if [[ $TERM == *"alacritty"* ]]; then
+    export TERM=xterm-256color
+fi
+
 term_program=$(echo $TERM_PROGRAM | tr "[:upper:]" "[:lower:]")
 
 if which fastfetch > /dev/null 2>&1; then
