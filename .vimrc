@@ -123,6 +123,17 @@ let g:go_version_warning = 0
 " timeout이 짧은 상태에서 일반 명령로 처리 될 수 있어 주의
 " nnoremap 에 h j k l 등으로 시작하게 되면 커서 사용시 timeoutlen 만큼 기다린 후
 " 마지막 동작이 수행 되기 때문에 사용하지 않도로 한다.
+
+" vim 에서 alt 조합이 안되서 설정
+" nvim 에서는 필요없는데 unknown option error 발생해 nvim feature 가 없을때만 수행
+if !has('nvim')
+    execute "set <a-i>=\ei"
+    execute "set <a-o>=\eo"
+    execute "set <a-f>=\ef"
+    execute "set <a-t>=\et"
+    execute "set <a-m>=\em"
+endif
+
 " quickfix list 에서 사용할 단축키
 nnoremap cj :clearjumps<enter>
 nnoremap cw :cw<enter>
@@ -159,8 +170,6 @@ nnoremap sovim :source ~/.vimrc<enter>
 " replace (편의를 위해 입력위치로 커서 이동)
 nnoremap sc :%s/<c-r><c-w>//gc<left><left><left>
 " zellij ctrl-o(session) 중복됨, zellij lock 없이 사용하기 위해 alt-i, alt-o로맵핑
-execute "set <a-i>=\ei"
-execute "set <a-o>=\eo"
 nnoremap <a-i> <c-i>
 nnoremap <a-o> <c-o>
 " tab -> space 변경
@@ -345,7 +354,6 @@ command! -bang -nargs=* Rg2 call fzf#vim#grep("rg --column --line-number --no-he
 command! -bang -nargs=* Rg3 call fzf#vim#grep("rg --no-ignore --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 " zellij ctrl-t(tab), ctrl-h(move), alt-h,alt-j,alt-k,alt-l(포커스이동)등의 단축키와 중복되지 않도록 단축키를 추가한다.
 nnoremap <c-f> :Rg1<enter>
-execute "set <a-f>=\ef"
 nnoremap <a-f> :Rg2<enter>
 " uppercase 로 시작해야 하는 사용자 지정 커맨드를 소문자로 사용하기 위해서
 " command line 모드에서 rg로 시작하는 문자로 매핑( / 찾기 커맨드에서도 치환되니 참고)
@@ -358,11 +366,9 @@ nnoremap <c-l> :Buffers<enter>
 "하지만  는 esc 문자라 esc후t를 눌러도 동작하게 되는 문제가 있다.
 "nnoremap t :Files<enter>
 nnoremap <c-t> :Files<enter>
-execute "set <a-t>=\et"
 nnoremap <a-t> :Files<enter>
 "ctrl-m == <cr>(enter) 같아서 enter 키로도 수행되는 문제가 있다.
 "nnoremap <c-m> :Marks<enter>
-execute "set <a-m>=\em"
 nnoremap <a-m> :Marks<enter>
 nnoremap <c-h> :History<enter>
 "<leader>h 로 시작하는 단축키와 충돌들 피하기 위해 hh 두번 사용
