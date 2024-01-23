@@ -1,8 +1,17 @@
+# -----------------------------------------------------------------------------
+# Snazzy skin
+# -----------------------------------------------------------------------------
+
+# Skin...
 k9s:
   body:
     fgColor: "#97979b"
     bgColor: "#282a36"
     logoColor: "#5af78e"
+  prompt:
+    fgColor: "#97979b"
+    bgColor: "#282a36"
+    suggestColor: "#5af78e"
   info:
     fgColor: white
     sectionColor: "#5af78e"
@@ -32,7 +41,7 @@ k9s:
       modifyColor: "#5af78e"
       addColor: "#57c7ff"
       errorColor: "#ff5c57"
-      highlightcolor: "#f3f99d"
+      highlightColor: "#f3f99d"
       killColor: mediumpurple
       completedColor: gray
     title:
@@ -54,8 +63,6 @@ k9s:
     table:
       fgColor: "#57c7ff"
       bgColor: "#282a36"
-      cursorFgColor: "#57c7ff"
-      cursorBgColor: "#5af78e"
       markColor: darkgoldenrod
       header:
         fgColor: white
@@ -77,3 +84,5 @@ k9s:
       indicator:
         fgColor: white
         bgColor: "#282a36"
+        toggleOnColor: "#ff5c57"
+        toggleOffColor: white

@@ -1,11 +1,20 @@
+# -----------------------------------------------------------------------------
+# Stock skin
+# -----------------------------------------------------------------------------
+
+# Skin...
 k9s:
   body:
     fgColor: dodgerblue
     bgColor: black
     logoColor: orange
+  prompt:
+    fgColor: cadetblue
+    bgColor: black
+    suggestColor: dodgerblue
   info:
-    fgColor: white
-    sectionColor: dodgerblue
+    fgColor: orange
+    sectionColor: white
   dialog:
     fgColor: dodgerblue
     bgColor: black
@@ -33,7 +42,7 @@ k9s:
       addColor: white
       errorColor: orangered
       pendingColor: darkorange
-      highlightcolor: aqua
+      highlightColor: aqua
       killColor: mediumpurple
       completedColor: gray
     title:
@@ -77,3 +86,5 @@ k9s:
       indicator:
         fgColor: dodgerblue
         bgColor: black
+        toggleOnColor: papayawhip
+        toggleOffColor: steelblue

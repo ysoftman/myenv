@@ -1,3 +1,7 @@
+# -----------------------------------------------------------------------------
+# BlackAndWtf skin
+# -----------------------------------------------------------------------------
+
 # Styles...
 fg: &fg "white"
 bg: &bg "black"
@@ -11,12 +15,16 @@ err: &err "pink"
 slate: &slate "slategray"
 gray: &gray "gray"
 
-# Skin
+# Skin...
 k9s:
   body:
     fgColor: *fg
     bgColor: *bg
     logoColor: *fg
+  prompt:
+    fgColor: *fg
+    bgColor: *bg
+    suggestColor: *gray
   info:
     fgColor: *text
     sectionColor: *fg
@@ -46,7 +54,7 @@ k9s:
       modifyColor: *text
       addColor: *ghost
       errorColor: *err
-      highlightcolor: *dslate
+      highlightColor: *dslate
       killColor: *slate
       completedColor: *gray
     title:
@@ -81,6 +89,8 @@ k9s:
       indicator:
         fgColor: *ghost
         bgColor: *bg
+        toggleOnColor: *mark
+        toggleOffColor: gray
     charts:
       bgColor: default
       defaultDialColors:

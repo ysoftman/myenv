@@ -1,106 +1,103 @@
+# -----------------------------------------------------------------------------
+# Solarized Dark Skin
+# Based on: K9s Solarized Dark Skin
+# Author:   [@danmikita](danmikita@gmail.com)
+# -----------------------------------------------------------------------------
+
 # Styles...
-foreground: &foreground "#f8f8f2"
-background: &background "#282a36"
-current_line: &current_line "#44475a"
-selection: &selection "#44475a"
+foreground: &foreground "#839495"
+background: &background "#002833"
+current_line: &current_line "#003440"
+selection: &selection "#003440"
 comment: &comment "#6272a4"
-cyan: &cyan "#8be9fd"
-green: &green "#50fa7b"
-orange: &orange "#ffb86c"
-pink: &pink "#ff79c6"
-purple: &purple "#bd93f9"
-red: &red "#ff5555"
-yellow: &yellow "#f1fa8c"
+cyan: &cyan "#2aa197"
+green: &green "#859901"
+orange: &orange "#cb4a16"
+magenta: &magenta "#d33582"
+blue: &blue "#2aa198"
+red: &red "#dc312e"
 
 # Skin...
 k9s:
-  # General K9s styles
   body:
     fgColor: *foreground
     bgColor: *background
-    logoColor: *purple
-  # ClusterInfoView styles.
+    logoColor: *blue
+  prompt:
+    fgColor: *foreground
+    bgColor: *background
+    suggestColor: *orange
   info:
-    fgColor: *pink
+    fgColor: *magenta
     sectionColor: *foreground
-  # Dialog styles.
   dialog:
     fgColor: *foreground
     bgColor: *background
     buttonFgColor: *foreground
-    buttonBgColor: *purple
-    buttonFocusFgColor: *yellow
-    buttonFocusBgColor: *pink
+    buttonBgColor: *magenta
+    buttonFocusFgColor: white
+    buttonFocusBgColor: *cyan
     labelFgColor: *orange
     fieldFgColor: *foreground
   frame:
-    # Borders styles.
     border:
       fgColor: *selection
       focusColor: *current_line
     menu:
       fgColor: *foreground
-      keyColor: *pink
-      # Used for favorite namespaces
-      numKeyColor: *pink
-    # CrumbView attributes for history navigation.
+      keyColor: *magenta
+      numKeyColor: *magenta
     crumbs:
       fgColor: *foreground
       bgColor: *current_line
       activeColor: *current_line
-    # Resource status and update styles
     status:
       newColor: *cyan
-      modifyColor: *purple
+      modifyColor: *blue
       addColor: *green
       errorColor: *red
-      highlightcolor: *orange
+      highlightColor: *orange
       killColor: *comment
       completedColor: *comment
-    # Border title styles.
     title:
       fgColor: *foreground
       bgColor: *current_line
       highlightColor: *orange
-      counterColor: *purple
-      filterColor: *pink
+      counterColor: *blue
+      filterColor: *magenta
   views:
-    # Charts skins...
     charts:
       bgColor: default
       defaultDialColors:
-        - *purple
+        - *blue
         - *red
       defaultChartColors:
-        - *purple
+        - *blue
         - *red
-    # TableView attributes.
     table:
       fgColor: *foreground
       bgColor: *background
-      cursorFgColor: *foreground
+      cursorFgColor: *selection
       cursorBgColor: *current_line
-      # Header row styles.
       header:
         fgColor: *foreground
         bgColor: *background
         sorterColor: *cyan
-    # Xray view attributes.
     xray:
       fgColor: *foreground
       bgColor: *background
       cursorColor: *current_line
-      graphicColor: *purple
+      graphicColor: *blue
       showIcons: false
-    # YAML info styles.
     yaml:
-      keyColor: *pink
-      colonColor: *purple
+      keyColor: *magenta
+      colonColor: *blue
       valueColor: *foreground
-    # Logs styles.
     logs:
       fgColor: *foreground
       bgColor: *background
       indicator:
         fgColor: *foreground
-        bgColor: *purple
+        bgColor: *selection
+        toggleOnColor: *magenta
+        toggleOffColor: *blue
