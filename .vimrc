@@ -12,7 +12,7 @@
 "vim +'silent :GoInstallBinaries' +qall
 
 "The ycmd server SHUT DOWN (restart with :YcmRestartServer) 메시지가 발생하는 경우
-"cd ~/.vim/plugged/youcompleteme/ && git submodule update --init --recursive && ./install.py
+"cd ~/.vim/plugged/youcompleteme/ && git submodule update --init --recursive && ./install.py --verbose
 
 "FileNotFoundError: [Errno 2] No such file or directory: '/Users/ysoftman/.vim/plugged/youcompleteme/third_party/ycmd/third_party/go/bin/gopls' 에러 발생하는 경우
 "cd ~/.vim/plugged/youcompleteme/third_party/ycmd/

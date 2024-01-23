@@ -49,21 +49,21 @@ fi
 git config --global credential.helper store
 
 # gitignore, bash, zsh, vim, tmux, tigrc, mutt 등 기본 설정
+export XDG_CONFIG_HOME="$HOME/.config"
 [ -h ~/.gitignore_global ] && unlink ~/.gitignore_global
 [ -h ~/.bashrc ] && unlink ~/.bashrc
 [ -h ~/.zshrc ] && unlink ~/.zshrc
 [ -h ~/.vimrc ] && unlink ~/.vimrc
-[ -h ~/.config/nvim/init.vim ] && unlink ~/.config/nvim/init.vim
+[ -h ${XDG_CONFIG_HOME}/nvim ] && unlink ${XDG_CONFIG_HOME}/nvim
 [ -h ~/.tmux.conf ] && unlink ~/.tmux.conf
 [ -h ~/.tigrc ] && unlink ~/.tigrc
 [ -h ~/.muttrc ] && unlink ~/.muttrc
 [ -h ~/.alacritty.toml ] && unlink ~/.alacritty.toml
 # install alacritty theme
 [ -d ~/.alacritty-colorscheme ] || git clone https://github.com/eendroroy/alacritty-theme.git ~/.alacritty-colorscheme
-[ -h ~/.config/zellij ] && unlink ~/.config/zellij
-[ -h ~/.config/mc ] && unlink ~/.config/mc
-[ -h ~/.config/lsd ] && unlink ~/.config/lsd
-export XDG_CONFIG_HOME="$HOME/.config"
+[ -h ${XDG_CONFIG_HOME}/zellij ] && unlink ${XDG_CONFIG_HOME}/zellij
+[ -h ${XDG_CONFIG_HOME}/mc ] && unlink ${XDG_CONFIG_HOME}/mc
+[ -h ${XDG_CONFIG_HOME}/lsd ] && unlink ${XDG_CONFIG_HOME}/lsd
 [ -h ${XDG_CONFIG_HOME}/k9s ] && unlink ${XDG_CONFIG_HOME}/k9s
 
 # backup previous settings
@@ -71,14 +71,14 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [ -f ~/.bashrc ] && mv -fv ~/.bashrc ~/.bashrc.bak
 [ -f ~/.zshrc ] && mv -fv ~/.zshrc ~/.zshrc.bak
 [ -f ~/.vimrc ] && mv -fv ~/.vimrc ~/.vimrc.bak
-[ -f ~/.config/nvim/init.vim ] && mv -fv ~/.config/nvim/init.vim ~/.config/nvim/init.vim.bak
+[ -f ${XDG_CONFIG_HOME}/nvim/init.vim ] && mv -fv ${XDG_CONFIG_HOME}/nvim ${XDG_CONFIG_HOME}/nvim.bak
 [ -f ~/.tmux.conf ] && mv -fv ~/.tmux.conf ~/.tmux.conf.bak
 [ -f ~/.tigrc ] && mv -fv ~/.tigrc ~/.tigrc.bak
 [ -f ~/.muttrc ] && mv -fv ~/.muttrc ~/.muttrc.bak
 [ -f ~/.alacritty.toml ] && mv -fv ~/.alacritty.toml ~/.alacritty.toml.bak
-[ -d ~/.config/zellij ] && mv -fv ~/.config/zellij ~/.config/zellij.bak
-[ -d ~/.config/mc ] && mv -fv ~/.config/mc ~/.config/mc.bak
-[ -d ~/.config/lsd ] && mv -fv ~/.config/lsd ~/.config/lsd.bak
+[ -d ${XDG_CONFIG_HOME}/zellij ] && mv -fv ${XDG_CONFIG_HOME}/zellij ${XDG_CONFIG_HOME}/zellij.bak
+[ -d ${XDG_CONFIG_HOME}/mc ] && mv -fv ${XDG_CONFIG_HOME}/mc ${XDG_CONFIG_HOME}/mc.bak
+[ -d ${XDG_CONFIG_HOME}/lsd ] && mv -fv ${XDG_CONFIG_HOME}/lsd ${XDG_CONFIG_HOME}/lsd.bak
 
 # ubuntu 에서는 이름이 달라서 link 처리한다.
 [ -f /usr/bin/fdfind ] && sudo ln -sf /usr/bin/fdfind /usr/bin/fd
@@ -88,15 +88,14 @@ ln -sf ${PWD}/.gitignore_global ~/.gitignore_global
 ln -sf ${PWD}/.bashrc ~/.bashrc
 ln -sf ${PWD}/.zshrc ~/.zshrc
 ln -sf ${PWD}/.vimrc ~/.vimrc
-mkdir -p ~/.config/nvim/
-ln -sf ${PWD}/init.vim ~/.config/nvim/init.vim
+ln -sf ${PWD}/nvim ${XDG_CONFIG_HOME}/nvim
 ln -sf ${PWD}/.tmux.conf ~/.tmux.conf
 ln -sf ${PWD}/.tigrc ~/.tigrc
 ln -sf ${PWD}/.muttrc ~/.muttrc
 ln -sf ${PWD}/.alacritty.toml ~/.alacritty.toml
-[ -d ~/.config ] && ln -sf ${PWD}/zellij ~/.config/zellij
-[ -d ~/.config ] && ln -sf ${PWD}/mc ~/.config/mc
-[ -d ~/.config ] && ln -sf ${PWD}/lsd ~/.config/lsd
+[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/zellij ${XDG_CONFIG_HOME}/zellij
+[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/mc ${XDG_CONFIG_HOME}/mc
+[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/lsd ${XDG_CONFIG_HOME}/lsd
 ln -sf ${PWD}/k9s ${XDG_CONFIG_HOME}/k9s
 
 # wsl 환경인 경우 wsl.conf 설정
