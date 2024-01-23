@@ -41,7 +41,7 @@ elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
 fi
 # echo "current_shell=${current_shell}"
 
-# set k9s config(and skin) path
+# set XDG_CONFIG_HOME
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # set kubeconfig path

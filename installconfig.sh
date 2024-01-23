@@ -64,8 +64,7 @@ git config --global credential.helper store
 [ -h ~/.config/mc ] && unlink ~/.config/mc
 [ -h ~/.config/lsd ] && unlink ~/.config/lsd
 export XDG_CONFIG_HOME="$HOME/.config"
-mkdir -p ${XDG_CONFIG_HOME}/k9s
-[ -h ${XDG_CONFIG_HOME}/k9s/skin.yml ] && unlink ${XDG_CONFIG_HOME}/k9s/skin.yml
+[ -h ${XDG_CONFIG_HOME}/k9s ] && unlink ${XDG_CONFIG_HOME}/k9s
 
 # backup previous settings
 [ -f ~/.gitignore_global ] && mv -fv ~/.gitignore_global ~/.gitignore_global.bak
@@ -80,12 +79,10 @@ mkdir -p ${XDG_CONFIG_HOME}/k9s
 [ -d ~/.config/zellij ] && mv -fv ~/.config/zellij ~/.config/zellij.bak
 [ -d ~/.config/mc ] && mv -fv ~/.config/mc ~/.config/mc.bak
 [ -d ~/.config/lsd ] && mv -fv ~/.config/lsd ~/.config/lsd.bak
-[ -f ${XDG_CONFIG_HOME}/k9s/skin.yml ] && mv -fv ${XDG_CONFIG_HOME}/k9s/skin.yml ${XDG_CONFIG_HOME}/k9s/skin.yml.bak
 
 # ubuntu 에서는 이름이 달라서 link 처리한다.
 [ -f /usr/bin/fdfind ] && sudo ln -sf /usr/bin/fdfind /usr/bin/fd
 [ -f /usr/bin/batcat ] && sudo ln -sf /usr/bin/batcat /usr/bin/bat
-
 
 ln -sf ${PWD}/.gitignore_global ~/.gitignore_global
 ln -sf ${PWD}/.bashrc ~/.bashrc
@@ -100,7 +97,7 @@ ln -sf ${PWD}/.alacritty.toml ~/.alacritty.toml
 [ -d ~/.config ] && ln -sf ${PWD}/zellij ~/.config/zellij
 [ -d ~/.config ] && ln -sf ${PWD}/mc ~/.config/mc
 [ -d ~/.config ] && ln -sf ${PWD}/lsd ~/.config/lsd
-[ -d ${XDG_CONFIG_HOME}/k9s ] && ln -sf ${PWD}/k9s/one_dark.yml ${XDG_CONFIG_HOME}/k9s/skin.yml
+ln -sf ${PWD}/k9s ${XDG_CONFIG_HOME}/k9s
 
 # wsl 환경인 경우 wsl.conf 설정
 if [[ $(uname -a) == *"microsoft"* ]]; then

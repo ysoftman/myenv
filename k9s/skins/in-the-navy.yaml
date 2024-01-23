@@ -1,5 +1,8 @@
-# Styles...
+# -----------------------------------------------------------------------------
+# In the Navy
+# -----------------------------------------------------------------------------
 
+# Styles...
 fg: &fg "dodgerblue"
 bg: &bg "white"
 blue: &blue "blue"
@@ -23,6 +26,10 @@ k9s:
     fgColor: *fg
     bgColor: *bg
     logoColor: *blue
+  prompt:
+    fgColor: *fg
+    bgColor: *bg
+    suggestColor: *cadet
   info:
     fgColor: *sky
     sectionColor: *steel
@@ -53,7 +60,7 @@ k9s:
       modifyColor: *powder
       addColor: *sky
       errorColor: *err
-      highlightcolor: *royal
+      highlightColor: *royal
       killColor: *slate
       completedColor: *gray
     title:
@@ -97,3 +104,5 @@ k9s:
       indicator:
         fgColor: *dark
         bgColor: *bg
+        toggleOnColor: *steel
+        toggleOffColor: *blue
