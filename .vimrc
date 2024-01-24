@@ -12,7 +12,7 @@
 "vim +'silent :GoInstallBinaries' +qall
 
 "The ycmd server SHUT DOWN (restart with :YcmRestartServer) 메시지가 발생하는 경우
-"cd ~/.vim/plugged/youcompleteme/ && git submodule update --init --recursive && ./install.py --verbose
+"cd ~/.vim/plugged/youcompleteme/ && git submodule update --init --recursive && ./install.py --all --verbose
 
 "FileNotFoundError: [Errno 2] No such file or directory: '/Users/ysoftman/.vim/plugged/youcompleteme/third_party/ycmd/third_party/go/bin/gopls' 에러 발생하는 경우
 "cd ~/.vim/plugged/youcompleteme/third_party/ycmd/
@@ -25,7 +25,7 @@
 "vim 에 +python3 로 설치되었는 확인 후 없으면(-python3) myenv/installvim.sh 로 소스빌드로 설치
 "vim --version | grep -i python
 "그래도 안되면, python3 으로 다시 YouCompleteMe 빌드
-"python3 ~/.vim/plugged/youcompleteme/install.py --all --verbose
+"~/.vim/plugged/youcompleteme/install.py --all --verbose
 
 call plug#begin('~/.vim/plugged')
 "Plug 'flazz/vim-colorschemes' " joshdick/onedark.vim 와 vim-colorschemes 충돌
