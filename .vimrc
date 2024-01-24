@@ -34,7 +34,12 @@ call plug#begin('~/.vim/plugged')
 "Plug 'scrooloose/syntastic' "This project is no longer maintained
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
-Plug 'davidhalter/jedi-vim'
+if !has('nvim') " for vim
+    Plug 'davidhalter/jedi-vim'
+else " for nvim
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' }
+endif
 Plug 'dense-analysis/ale' "syntasitc alternative
 Plug 'fatih/vim-go'
 Plug 'glench/vim-jinja2-syntax'
