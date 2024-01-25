@@ -1,73 +1,3 @@
-"vim-plug 설치(플러그인 매니저중 플러그인 설치 속도가 가장 빠름)
-"curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-"플러그인 설치 vim 실행 후
-":PlugInstall
-":PlugUpdate
-"또는 터미널에서 플러그인 설치후 vim 종료
-"vim +PlugInstall +qall
-
-"vim 실행 후 GoInstallBinaries 로 $GOPATH/bin 에 필요한 파일들이 설치하고 모두 종료
-"dockerfile 로 이미지 빌드시 사용자 입력을 받을 수 없으니 silent 모드로 설치
-"vim +'silent :GoInstallBinaries' +qall
-
-"The ycmd server SHUT DOWN (restart with :YcmRestartServer) 메시지가 발생하는 경우
-"cd ~/.vim/plugged/youcompleteme/ && git submodule update --init --recursive && ./install.py --all --verbose
-
-"FileNotFoundError: [Errno 2] No such file or directory: '/Users/ysoftman/.vim/plugged/youcompleteme/third_party/ycmd/third_party/go/bin/gopls' 에러 발생하는 경우
-"cd ~/.vim/plugged/youcompleteme/third_party/ycmd/
-"git checkout master
-"git pull
-"git submodule update --init --recursive
-"./build.py --go-completer
-
-"YouCompleteMe unavailable: requires Vim compiled with Python (3.6.0+) support. 메시지가 발생하는 경우
-"vim 에 +python3 로 설치되었는 확인 후 없으면(-python3) myenv/installvim.sh 로 소스빌드로 설치
-"vim --version | grep -i python
-"그래도 안되면, python3 으로 다시 YouCompleteMe 빌드
-"~/.vim/plugged/youcompleteme/install.py --all --verbose
-
-call plug#begin('~/.vim/plugged')
-"Plug 'flazz/vim-colorschemes' " joshdick/onedark.vim 와 vim-colorschemes 충돌
-"Plug 'kien/ctrlp.vim' " ctrlp 는 fuzzfile,buffer... 인데 fzf 가 더 좋은것 같아 굳이 사용할 필요없어 보임
-"Plug 'lilydjwg/colorizer' " vim 으로 git 커밋 메세지 작성시 이슈번호 태깅을 위해 #123 를 사용하면 컬리 배경 표시, 그런데 colorizer 사용하면 파일 오픈시 autocmd BufEnter(버퍼로딩후 필요한 설정 처리) 단계에서 느려져서 사용하지 않음
-"Plug 'scrooloose/syntastic' "This project is no longer maintained
-Plug 'airblade/vim-gitgutter'
-Plug 'altercation/vim-colors-solarized'
-Plug 'dense-analysis/ale' "syntasitc alternative
-Plug 'fatih/vim-go'
-Plug 'glench/vim-jinja2-syntax'
-Plug 'groenewege/vim-less'
-Plug 'itchyny/vim-gitbranch'
-Plug 'johngrib/vim-game-code-break'
-Plug 'joshdick/onedark.vim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'liuchengxu/space-vim-dark'
-Plug 'majutsushi/tagbar'
-Plug 'maxmellon/vim-jsx-pretty'
-Plug 'mengelbrecht/lightline-bufferline'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'pangloss/vim-javascript'
-Plug 'powerline/fonts'
-Plug 'preservim/nerdcommenter'
-Plug 'psf/black'
-Plug 'rust-lang/rust.vim'
-Plug 'ryanoasis/vim-devicons'
-Plug 'scrooloose/nerdtree'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'tpope/vim-fugitive'
-Plug 'valloric/youcompleteme'
-"Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
-if !has('nvim') " for vim
-    Plug 'itchyny/lightline.vim'
-    Plug 'davidhalter/jedi-vim'
-endif
-call plug#end()
-
-
 "기본 설정
 syntax on
 color desert
@@ -187,6 +117,80 @@ nnoremap <s-right> <c-w><c-l>
 
 autocmd filetype xml setlocal tabstop=2 shiftwidth=2
 
+" 여기까지만 nvim 에서 로딩하도록 한다.
+if has('nvim')
+    finish
+endif
+
+
+"vim-plug 설치(플러그인 매니저중 플러그인 설치 속도가 가장 빠름)
+"curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+"플러그인 설치 vim 실행 후
+":PlugInstall
+":PlugUpdate
+"또는 터미널에서 플러그인 설치후 vim 종료
+"vim +PlugInstall +qall
+
+"vim 실행 후 GoInstallBinaries 로 $GOPATH/bin 에 필요한 파일들이 설치하고 모두 종료
+"dockerfile 로 이미지 빌드시 사용자 입력을 받을 수 없으니 silent 모드로 설치
+"vim +'silent :GoInstallBinaries' +qall
+
+"The ycmd server SHUT DOWN (restart with :YcmRestartServer) 메시지가 발생하는 경우
+"cd ~/.vim/plugged/youcompleteme/ && git submodule update --init --recursive && ./install.py --all --verbose
+
+"FileNotFoundError: [Errno 2] No such file or directory: '/Users/ysoftman/.vim/plugged/youcompleteme/third_party/ycmd/third_party/go/bin/gopls' 에러 발생하는 경우
+"cd ~/.vim/plugged/youcompleteme/third_party/ycmd/
+"git checkout master
+"git pull
+"git submodule update --init --recursive
+"./build.py --go-completer
+
+"YouCompleteMe unavailable: requires Vim compiled with Python (3.6.0+) support. 메시지가 발생하는 경우
+"vim 에 +python3 로 설치되었는 확인 후 없으면(-python3) myenv/installvim.sh 로 소스빌드로 설치
+"vim --version | grep -i python
+"그래도 안되면, python3 으로 다시 YouCompleteMe 빌드
+"~/.vim/plugged/youcompleteme/install.py --all --verbose
+
+call plug#begin('~/.vim/plugged')
+"Plug 'flazz/vim-colorschemes' " joshdick/onedark.vim 와 vim-colorschemes 충돌
+"Plug 'kien/ctrlp.vim' " ctrlp 는 fuzzfile,buffer... 인데 fzf 가 더 좋은것 같아 굳이 사용할 필요없어 보임
+"Plug 'lilydjwg/colorizer' " vim 으로 git 커밋 메세지 작성시 이슈번호 태깅을 위해 #123 를 사용하면 컬리 배경 표시, 그런데 colorizer 사용하면 파일 오픈시 autocmd BufEnter(버퍼로딩후 필요한 설정 처리) 단계에서 느려져서 사용하지 않음
+"Plug 'scrooloose/syntastic' "This project is no longer maintained
+Plug 'airblade/vim-gitgutter'
+Plug 'altercation/vim-colors-solarized'
+Plug 'dense-analysis/ale' "syntasitc alternative
+Plug 'fatih/vim-go'
+Plug 'glench/vim-jinja2-syntax'
+Plug 'groenewege/vim-less'
+Plug 'itchyny/vim-gitbranch'
+Plug 'johngrib/vim-game-code-break'
+Plug 'joshdick/onedark.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'liuchengxu/space-vim-dark'
+Plug 'majutsushi/tagbar'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'mengelbrecht/lightline-bufferline'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'pangloss/vim-javascript'
+Plug 'powerline/fonts'
+Plug 'preservim/nerdcommenter'
+Plug 'psf/black'
+Plug 'rust-lang/rust.vim'
+Plug 'ryanoasis/vim-devicons'
+Plug 'scrooloose/nerdtree'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-fugitive'
+Plug 'valloric/youcompleteme'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+Plug 'davidhalter/jedi-vim'
+call plug#end()
+
+
 "tags 파일생성
 nnoremap <leader>ct :!ctags -R
             \ --exclude=min
@@ -305,20 +309,18 @@ let g:lightline = {
 \    },
 \}
 "lightline-bufferline
-if !has('nvim')
-  "buffer 표시를 위해 설치.
-  let g:lightline#bufferline#unnamed = '[No Name]'
-  let g:lightline#bufferline#show_number = 0
-  let g:lightline#bufferline#modified = '✎'
-  let g:lightline#bufferline#unicode_symbols = 1
-  let g:lightline#bufferline#enable_devicons = 1
-  "one 컬러로 변경해야 tabline 에 컬러가 반영된다.
-  let g:lightline.colorscheme = 'one'
-  let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
-  let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
-  let g:lightline.component_type   = {'buffers': 'tabsel'}
-  autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
-endif
+"buffer 표시를 위해 설치.
+let g:lightline#bufferline#unnamed = '[No Name]'
+let g:lightline#bufferline#show_number = 0
+let g:lightline#bufferline#modified = '✎'
+let g:lightline#bufferline#unicode_symbols = 1
+let g:lightline#bufferline#enable_devicons = 1
+"one 컬러로 변경해야 tabline 에 컬러가 반영된다.
+let g:lightline.colorscheme = 'one'
+let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
+let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
+let g:lightline.component_type   = {'buffers': 'tabsel'}
+autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 
 "airline
 " set laststatus=2
