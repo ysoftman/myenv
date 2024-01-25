@@ -44,7 +44,6 @@ Plug 'johngrib/vim-game-code-break'
 Plug 'joshdick/onedark.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/vim-slash'
 Plug 'liuchengxu/space-vim-dark'
 Plug 'majutsushi/tagbar'
 Plug 'maxmellon/vim-jsx-pretty'
