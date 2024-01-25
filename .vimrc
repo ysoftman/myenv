@@ -80,6 +80,7 @@ set number
 "set relativenumber
 set hidden
 set hlsearch
+set incsearch
 set backspace=indent,eol,start
 set fencs=utf-8,cp949
 set enc=utf-8
