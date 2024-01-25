@@ -38,7 +38,6 @@ Plug 'dense-analysis/ale' "syntasitc alternative
 Plug 'fatih/vim-go'
 Plug 'glench/vim-jinja2-syntax'
 Plug 'groenewege/vim-less'
-Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
 Plug 'johngrib/vim-game-code-break'
 Plug 'joshdick/onedark.vim'
@@ -63,10 +62,8 @@ Plug 'valloric/youcompleteme'
 "Plug 'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'
 if !has('nvim') " for vim
+    Plug 'itchyny/lightline.vim'
     Plug 'davidhalter/jedi-vim'
-else " for nvim
-    Plug 'nvim-lua/plenary.nvim'
-    Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' }
 endif
 call plug#end()
 
@@ -308,18 +305,20 @@ let g:lightline = {
 \    },
 \}
 "lightline-bufferline
-"buffer 표시를 위해 설치.
-let g:lightline#bufferline#unnamed = '[No Name]'
-let g:lightline#bufferline#show_number = 0
-let g:lightline#bufferline#modified = '✎'
-let g:lightline#bufferline#unicode_symbols = 1
-let g:lightline#bufferline#enable_devicons = 1
-"one 컬러로 변경해야 tabline 에 컬러가 반영된다.
-let g:lightline.colorscheme = 'one'
-let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
-let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
-let g:lightline.component_type   = {'buffers': 'tabsel'}
-autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
+if !has('nvim')
+  "buffer 표시를 위해 설치.
+  let g:lightline#bufferline#unnamed = '[No Name]'
+  let g:lightline#bufferline#show_number = 0
+  let g:lightline#bufferline#modified = '✎'
+  let g:lightline#bufferline#unicode_symbols = 1
+  let g:lightline#bufferline#enable_devicons = 1
+  "one 컬러로 변경해야 tabline 에 컬러가 반영된다.
+  let g:lightline.colorscheme = 'one'
+  let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
+  let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
+  let g:lightline.component_type   = {'buffers': 'tabsel'}
+  autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
+endif
 
 "airline
 " set laststatus=2
