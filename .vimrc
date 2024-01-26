@@ -117,10 +117,10 @@ nnoremap <s-right> <c-w><c-l>
 
 autocmd filetype xml setlocal tabstop=2 shiftwidth=2
 
-" 여기까지만 nvim 에서 로딩하도록 한다.
-if has('nvim')
-    finish
-endif
+"" 여기까지만 nvim 에서 로딩하도록 한다.
+"if has('nvim')
+"    finish
+"endif
 
 
 "vim-plug 설치(플러그인 매니저중 플러그인 설치 속도가 가장 빠름)
