@@ -188,6 +188,10 @@ Plug 'valloric/youcompleteme'
 "Plug 'vim-airline/vim-airline-themes'
 Plug 'itchyny/lightline.vim'
 Plug 'davidhalter/jedi-vim'
+if has('nvim')
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' }
+endif
 call plug#end()
 
 
