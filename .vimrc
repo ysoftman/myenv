@@ -157,12 +157,16 @@ call plug#begin('~/.vim/plugged')
 "Plug 'kien/ctrlp.vim' " ctrlp 는 fuzzfile,buffer... 인데 fzf 가 더 좋은것 같아 굳이 사용할 필요없어 보임
 "Plug 'lilydjwg/colorizer' " vim 으로 git 커밋 메세지 작성시 이슈번호 태깅을 위해 #123 를 사용하면 컬리 배경 표시, 그런데 colorizer 사용하면 파일 오픈시 autocmd BufEnter(버퍼로딩후 필요한 설정 처리) 단계에서 느려져서 사용하지 않음
 "Plug 'scrooloose/syntastic' "This project is no longer maintained
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
+Plug 'davidhalter/jedi-vim'
 Plug 'dense-analysis/ale' "syntasitc alternative
 Plug 'fatih/vim-go'
 Plug 'glench/vim-jinja2-syntax'
 Plug 'groenewege/vim-less'
+Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
 Plug 'johngrib/vim-game-code-break'
 Plug 'joshdick/onedark.vim'
@@ -170,6 +174,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/space-vim-dark'
 Plug 'majutsushi/tagbar'
+Plug 'markonm/traces.vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -184,10 +189,6 @@ Plug 'scrooloose/nerdtree'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-fugitive'
 Plug 'valloric/youcompleteme'
-"Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
-Plug 'itchyny/lightline.vim'
-Plug 'davidhalter/jedi-vim'
 if has('nvim')
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' }
