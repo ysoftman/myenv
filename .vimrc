@@ -440,6 +440,8 @@ autocmd filetype python nnoremap <leader>b :Black<enter>
 autocmd filetype python nnoremap <leader>v :BlackVersion<enter>
 
 "jedi-vim (python autocomplete)
+"neovim 에서 jedi-vim 사용을 위해 pynvim 설치 필요
+"pip install pynvim
 let g:jedi#goto_command = "<leader>d" "This function first tries jedi#goto_definitions, and falls back to jedi#goto_assignments
 let g:jedi#goto_assignments_command = "<leader>g"
 let g:jedi#goto_stubs_command = "<leader>s"
