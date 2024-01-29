@@ -228,6 +228,8 @@ nnoremap <leader>ct :!ctags -R
 ":ts List all of the definitions of the last tag
 "Ctrl-t Jump back up in the tag stack
 
+"vim-jsx-pretty
+let g:vim_jsx_pretty_colorful_config = 1
 
 "rainbow
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowTogglek
