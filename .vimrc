@@ -172,8 +172,8 @@ Plug 'johngrib/vim-game-code-break'
 Plug 'joshdick/onedark.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'kien/rainbow_parentheses.vim'
 Plug 'liuchengxu/space-vim-dark'
+Plug 'luochen1990/rainbow'
 Plug 'majutsushi/tagbar'
 Plug 'markonm/traces.vim'
 Plug 'maxmellon/vim-jsx-pretty'
@@ -229,12 +229,8 @@ nnoremap <leader>ct :!ctags -R
 "Ctrl-t Jump back up in the tag stack
 
 
-"rainbow_parentheses.vim
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound      "()
-au Syntax * RainbowParenthesesLoadSquare     "[]
-au Syntax * RainbowParenthesesLoadBraces     "{}
-au Syntax * RainbowParenthesesLoadChevrons   "<>
+"rainbow
+let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowTogglek
 
 
 "nerdtree
