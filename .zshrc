@@ -9,18 +9,17 @@ if [ -x /opt/homebrew/bin/zsh ]; then
     export PATH=/opt/homebrew/bin:$PATH
 fi
 
-# multiplexer="tmux"
-multiplexer="zellij"
-# ${multiplexer} 시작되면 환경변수값이 설정된다.
-# 이를 기준으로 ${multiplexer} 가 한번만 실행되도록 한다.
-if [ $multiplexer = "tmux" ]; then
-    multiplexer_already_started=$TMUX
-elif [ $multiplexer = "zellij" ]; then
-    multiplexer_already_started=$ZELLIJ
+# tmux, zellij 가 실행중인지 체크
+if [ ! -z $TMUX ]; then
+    multiplexer_already_started="tmux"
+elif [ ! -z $ZELLIJ_SESSION_NAME ]; then
+    multiplexer_already_started="zellij"
 fi
 
+#multiplexer="tmux"
+multiplexer="zellij"
 eval "type ${multiplexer}"
-if [[ $? == 0 && -z "$multiplexer_already_started" ]]; then
+if [[ $? == 0 && -z $multiplexer_already_started ]]; then
     # 터미널 시작시 바로 tmux 전환시 signal 6(abort) 되는 환경도 있어 물어본다.
     echo "start ${multiplexer}? (y/n, default:y)"
     read answer
