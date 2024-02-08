@@ -17,6 +17,7 @@ set expandtab "tab키 입력시 tabstop설정된 값만큼 스페이스 사용
 set autoindent "붙여넣기시에는 :set paste 사용
 set laststatus=2
 set showtabline=2
+set showcmd
 set ignorecase
 "set lines=80
 "set cursorcolumn
