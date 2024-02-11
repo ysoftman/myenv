@@ -253,7 +253,7 @@ autocmd BufEnter * if winnr() == winnr('h') && bufname('#') =~ 'NERD_tree_\d\+' 
 "[count]<leader>cc 선택한 라인 커멘트 설정
 "[count]<leader>cu 선택한 라인 커멘트 해제
 "현재 라인 커멘트 토글
-nnoremap <silent> <leader>c v:call NERDComment('x', 'toggle')<cr>
+nnoremap <silent> <leader>c v:call nerdcommenter#Comment('x', 'toggle')<cr>
 filetype plugin on
 let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
@@ -306,6 +306,7 @@ hi Visual cterm=underline ctermbg=lightyellow
 "let g:solarized_visibility="high"
 "set background=dark
 
+"if !has('nvim')
 "lightline
 "화살표 폰트가 없어 powerline 폰트가 필요 없다.
 set laststatus=2
@@ -334,6 +335,8 @@ let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type   = {'buffers': 'tabsel'}
 autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
+"endif
+
 
 "airline
 " set laststatus=2
