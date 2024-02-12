@@ -69,10 +69,10 @@ if !has('nvim')
 endif
 
 " quickfix list 에서 사용할 단축키
-nnoremap cj :clearjumps<enter>
-nnoremap cw :cw<enter>
-nnoremap co :copen<enter>
-nnoremap ccl :cclose<enter>
+nnoremap <leader>cj :clearjumps<enter>
+nnoremap <leader>cw :cw<enter>
+nnoremap <leader>co :copen<enter>
+nnoremap <leader>ccl :cclose<enter>
 "c-[ --> esc 라 사용하지 말자.
 "nnoremap <c-[> :cp<enter>
 nnoremap <c-k> :cp<enter>
