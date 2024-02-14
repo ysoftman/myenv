@@ -10,7 +10,7 @@ check_command_existence() {
         echo "ex) ${0} stern"
         return
     fi
-    command_name=$1
+    local command_name=$1
     eval "type ${command_name} > /dev/null 2>&1"
     ret=$(echo $?)
     if [[ $ret != 0 && $ret != 1 && $ret != 2 ]]; then
@@ -33,7 +33,7 @@ function k8s_cnt_pods_in_nodes {
         return
     fi
 
-    pod_status=$1
+    local pod_status=$1
     for node in $(kubectl get nodes | sed 1d | awk '{print $1}'); do
         # Evicted|Complete|Error 상태는 제외
         # podsCnt=$(kubectl get pods -A -o wide --field-selector spec.nodeName=${node} | sed 1d | rg -iN -v "Evicted|Complete|Error" | wc | awk '{print $1}')
@@ -78,7 +78,7 @@ function k8s_delete_evicted_pod_in_namespace {
         echo "ex) ${0} bbb"
         return
     fi
-    namespace=$1
+    local namespace=$1
     # 참고로 정상적인 running 상태의 pod 는 .status.reason 필드가 없음
     # kubectl get pod -o=json -n ${namespace} | jq '[.items[] | select(.status.reason=="Evicted")] | sort_by(.status.startTime)' | jq '{"pod_name":.[].metadata.name, "status":.[].status.reason}'
     for pod_name in $(kubectl get pod -o=json -n ${namespace} | jq '[.items[] | select(.status.reason=="Evicted")] | sort_by(.status.startTime)' | jq '.[].metadata.name' | tr -d '"'); do
@@ -114,7 +114,7 @@ function k8s_stern_log {
         echo "ex) ${0} bbb"
         return
     fi
-    pod_name=$1
+    local pod_name=$1
     stern ".*${pod_name}.*" -A --tail 10 -o json | jq
 }
 
@@ -130,9 +130,9 @@ function k8s_stern_error {
         echo "ex) ${0} bbb"
         return
     fi
-    pod_name=$1
+    local pod_name=$1
     # jq 조건은 상황에 맞게 수정 필요
-    jq_option='. | select (.message | contains("status\":20") | not)'
+    local jq_option='. | select (.message | contains("status\":20") | not)'
     stern ".*${pod_name}.*" -A --tail 10 -o json | jq ${jq_option}
 }
 
@@ -145,7 +145,8 @@ function k8s_get_nodes_ip {
     if [[ $ret_value == "fail" ]]; then
         return
     fi
-
+    local internal_ip=""
+    local external_ip=""
     for node in $(kubectl get nodes | sed 1d | awk '{print $1}'); do
         internal_ip=$(kubectl get node ${node} -o json | jq '.status.addresses[] | select(.type=="InternalIP") | .address' | tr -d '\"')
         external_ip=$(kubectl get node ${node} -o json | jq '.status.addresses[] | select(.type=="ExternalIP") | .address' | tr -d '\"')
@@ -165,8 +166,8 @@ function k8s_get_currnet_context_server {
 
     # KUBECONFIG= 환경변수 설정 기준
     # same as 'kubectx -c'
-    current_context=$(kubectl config view --flatten | yq '.current-context')
-    current_cluster=$(kubectl config view --flatten | yq ".contexts.[] | select(.name==\"${current_context}\").context.cluster")
+    local current_context=$(kubectl config view --flatten | yq '.current-context')
+    local current_cluster=$(kubectl config view --flatten | yq ".contexts.[] | select(.name==\"${current_context}\").context.cluster")
     current_cluster_server=$(kubectl config view --flatten | yq ".clusters.[] | select(.name==\"${current_cluster}\").cluster.server")
     echo -e ${green}${current_cluster_server}${reset_color}
 }
@@ -195,6 +196,7 @@ k8s_get_empty_namespace() {
     if [[ $ret_value == "fail" ]]; then
         return
     fi
+    local temp=""
     for ns in $(k get ns | awk '{print  $1}' | sed 1d); do
         # zsh 에선 {} 로 감싸서 사용할 수 있지만, bash 호환을 위해 kubectl stderr 결과를 stdout 로 리다이렉트하자.
         # temp=$({kubectl get all -n ${ns} | rg -iN 'no resources'} 2>&1)
