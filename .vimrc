@@ -89,7 +89,7 @@ nnoremap <leader>j :lnext<enter>
 nnoremap bn :bn<enter>
 nnoremap bp :bp<enter>
 nnoremap bd :bd<enter>
-nnoremap bwo :%bwipeout <enter>
+nnoremap bwo :%bwipeout<enter>
 " buffer 파일들 다시 로딩
 " bufdo 를 사용하면 syntax highlighting 등이 동작하지 않는다
 "nnoremap be :bufdo e<enter>
