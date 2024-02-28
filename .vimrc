@@ -419,8 +419,9 @@ autocmd filetype cpp nnoremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
 "vim-go
 ".go 파일에서 c-] , c-t 등 godef 관련 shortcut 이 아래 단축키 설정과 충돌해 비활성화
 let g:go_def_mapping_enabled=0
-" let g:go_fmt_command = "goimports"
-" let g:go_fmt_autosave = 0
+let g:go_fmt_command = "goimports"
+"let g:go_fmt_command = "gopls" "gopls 로 하면 자동 import 동작하지 않음
+let g:go_fmt_autosave = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_types = 1
