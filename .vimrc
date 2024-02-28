@@ -419,8 +419,7 @@ autocmd filetype cpp nnoremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
 "vim-go
 ".go 파일에서 c-] , c-t 등 godef 관련 shortcut 이 아래 단축키 설정과 충돌해 비활성화
 let g:go_def_mapping_enabled=0
-let g:go_fmt_command = "goimports"
-"let g:go_fmt_command = "gopls" "gopls 로 하면 자동 import 동작하지 않음
+let g:go_fmt_command = "gopls"
 let g:go_fmt_autosave = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
@@ -439,14 +438,10 @@ autocmd filetype go nnoremap <leader>r :GoReferrers<enter>
 autocmd filetype go nnoremap <leader>i :w <bar> :GoImports<enter>
 autocmd filetype go nnoremap <leader>g :GoGuruScope .<enter>
 autocmd filetype go nnoremap <leader>v :GoVet<enter>:GoLint<enter>
-"fuctionkey 조합은 동작 하지 않아 사용하지 않음.
-"autocmd filetype go nnoremap <s-f12> :GoCallees<enter>
-" GoReferrers 로 대체
-"autocmd filetype go nnoremap <leader>e :GoCallees<enter>
-" GoImports 로 대체
-"autocmd filetype go nnoremap <leader>f :w <bar> :GoFmt<enter>
-":GoInstallBinaries
-":GoUpdateBinaries
+"go.mod 의 go 버전업 수정 후 gopls 자동import안됨 :GoDef 실행시 no packages 등의 문제가 생기면
+"다음으로 바이너리를 업데이트해야 한다.
+autocmd filetype go nnoremap <leader>ub :GoUpdateBinaries<enter>
+autocmd filetype go nnoremap <leader>ib :GoInstallBinaries<enter>
 
 "black
 autocmd filetype python nnoremap <leader>b :Black<enter>
