@@ -112,11 +112,11 @@ function prompt_sorin_preexec {
 # prompt 표시 전에 실행
 function prompt_sorin_precmd {
   # 명령 수행 시간 계산
-  _elapsed_ms=0
-  _elapsed_sec=0
-  _elapsed_min=0
-  _elapsed_hour=0
-  _elapsed_str=""
+  local _elapsed_ms=0
+  local _elapsed_sec=0
+  local _elapsed_min=0
+  local _elapsed_hour=0
+  local _elapsed_str=""
   if [ $_command_start_ms ]; then
     _elapsed_ms=$(( $(($($DATE +%s%0N) / 1000000))-$_command_start_ms ))
     unset _command_start_ms
@@ -145,13 +145,23 @@ function prompt_sorin_precmd {
   unsetopt XTRACE KSH_ARRAYS
 
   # Format PWD.
-  # 경로 depth 마다 색 구분
-  cnt=0
-  output=""
-  for i in $(prompt-pwd | sed 's/\// /g'); do
+  # 경로 depth 마다 색 구분, 공백 포함된 디렉토리는 한 색으로 표현
+  local cnt=0
+  local output=""
+  local split_pwd=$(prompt-pwd | sed 's/\//\n/g')
+  local orginIFS=$IFS
+  IFS=$'\n'
+  setopt sh_word_split # zsh 에서는 단어 구분을 위해선 설정이 필요하다.
+  local patharr=($split_pwd)
+  IFS=$orginIFS
+  unsetopt sh_word_split
+  #echo ${#patharr}
+  #echo ${patharr}
+  # bash 는 0, zsh 는 1이 시작 인덱스다.
+  for (( i=1;i<=${#patharr};i++ )) do
       n=$(( ${cnt}%6+1 ))
       color="%F{$n}"
-      output="${output}${color}$i/"
+      output="${output}${color}${patharr[$i]}/"
       ((cnt++))
   done
   _prompt_sorin_pwd="${output}"
