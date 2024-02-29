@@ -18,6 +18,7 @@ set autoindent "붙여넣기시에는 :set paste 사용
 set laststatus=2
 set showtabline=2
 set showcmd
+set updatetime=1000 "화면 갱신 주기(default: 4000ms), 커서 사용중일때는 갱신 않함
 set ignorecase
 "set lines=80
 "set cursorcolumn
