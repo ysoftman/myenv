@@ -180,6 +180,7 @@ Plug 'markonm/traces.vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'pangloss/vim-javascript'
 Plug 'powerline/fonts'
@@ -365,6 +366,19 @@ hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
 "let g:indent_guides_enable_on_vim_startup = 1
 nnoremap <f4> :IndentGuidesToggle<enter>
+
+"coc
+":h coc-nvim  "for help
+":CocInstall coc-json coc-tsserver  "install coc extention or configure language server(LSP)
+":CocConfig  "open coc-settings.json
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+" Remap keys for applying refactor code actions
+nmap <silent> <leader>re <Plug>(coc-codeaction-refactor)
+
 
 "fzf
 "FZF_DEFAULT_COMMAND 설정에 의존, hidden 파일검색 되도록 myenv.sh 설정되어 있다.
