@@ -142,7 +142,7 @@ tidy_path() {
     # PATH 중간에 :: 부분이 있어야 한다.
     # ./a.sh 대신 a.sh 실행 가능해야 한다.
     # apple silicon 용 brew (/opt/homebrew) 를 우선 실행할 수 있도록 한다.
-    export PATH=$HOME/.cargo/bin:$GOPATH/bin:/opt/homebrew/bin:/usr/local/bin::$temp_path
+    export PATH=$HOME/.cargo/bin:$GOPATH/bin:/opt/homebrew/bin:/opt/homebrew/opt/curl/bin:/usr/local/bin::$temp_path
 }
 tidy_path
 
