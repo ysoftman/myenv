@@ -104,6 +104,8 @@ nnoremap rtw :%s/\s\+$//e<enter>
 nnoremap sovim :source ~/.vimrc<enter>
 " replace (편의를 위해 입력위치로 커서 이동)
 nnoremap sc :%s/<c-r><c-w>//gc<left><left><left>
+" c-a 는 커서에서 공백 구분되는 단어
+nnoremap sC :%s/<c-r><c-a>//gc<left><left><left>
 " zellij ctrl-o(session) 중복됨, zellij lock 없이 사용하기 위해 alt-i, alt-o로맵핑
 nnoremap <a-i> <c-i>
 nnoremap <a-o> <c-o>
