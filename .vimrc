@@ -172,6 +172,7 @@ Plug 'glench/vim-jinja2-syntax'
 Plug 'groenewege/vim-less'
 Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
+Plug 'jiangmiao/auto-pairs'
 Plug 'johngrib/vim-game-code-break'
 Plug 'joshdick/onedark.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
