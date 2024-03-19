@@ -243,6 +243,7 @@ let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowTo
 
 "nerdtree
 let NERDTreeShowHidden=1
+let NERDTreeIgnore=['\.swp$', '\.o$']
 nnoremap <leader>tt :NERDTreeToggle<enter>
 "선택한 파일위치로 자동 포커스 된다.
 nnoremap <leader>tf :NERDTreeFind<enter>
