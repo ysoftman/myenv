@@ -115,7 +115,8 @@ function k8s_stern_log {
         return
     fi
     local pod_name=$1
-    stern ".*${pod_name}.*" -A --tail 10 -o json | jq
+    # -o json 하면 message:{} 안에서 \처리 되어 사용하지 않음
+    stern ".*${pod_name}.*" -A --tail 10
 }
 
 function k8s_stern_error {
@@ -131,8 +132,9 @@ function k8s_stern_error {
         return
     fi
     local pod_name=$1
-    # jq 조건은 상황에 맞게 수정 필요
-    local jq_option='. | select (.message | contains("status\":20") | not)'
+    # message 에 status\":20 이 없는 경우
+    #local jq_option='. | select (.message | contains("status\":20") | not)'
+    local jq_option='. | select (.message | contains("error"))'
     stern ".*${pod_name}.*" -A --tail 10 -o json | jq ${jq_option}
 }
 
