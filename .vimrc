@@ -394,6 +394,8 @@ command! -bang -nargs=* Rg1 call fzf#vim#grep("rg --column --line-number --no-he
 command! -bang -nargs=* Rg2 call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(expand('<cword>')), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 ".gitignore, 숨김 내용도 찾기
 command! -bang -nargs=* Rg3 call fzf#vim#grep("rg --no-ignore --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+":W 로 :Windows 가 실행되는것을 방지
+command! -nargs=* W w
 " zellij ctrl-t(tab), ctrl-h(move), alt-h,alt-j,alt-k,alt-l(포커스이동)등의 단축키와 중복되지 않도록 단축키를 추가한다.
 nnoremap <c-f> :Rg1<enter>
 nnoremap <a-f> :Rg2<enter>
