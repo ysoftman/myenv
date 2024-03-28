@@ -32,7 +32,6 @@ password = ""
 baseURL = ""
 owner = ""
 repo = ""
-get_org_project_url = ""
 
 
 def load_config(git_remote_url):
@@ -78,16 +77,17 @@ https://ysoftman:password@bbb.github.com
     baseURL = git_remote_url.rsplit("/", 2)[0]
     owner = git_remote_url.rsplit("/", 2)[-2]
     repo = git_remote_url.rsplit("/", 1)[-1]
-    # print(baseURL)
-    # print(owner)
-    # print(repo)
     for key, value in cfgs.items():
         if key == baseURL:
             user = value["user"]
             password = value["password"]
             break
     f.close()
-
+    print(f"baseURL: {baseURL}")
+    print(f"owner: {owner}")
+    print(f"repo: {repo}")
+    print(f"user: {user}")
+    # print(f"pasword: {password}")
     if (
         len(user) == 0
         or len(password) == 0
