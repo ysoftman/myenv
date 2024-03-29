@@ -8,6 +8,7 @@ set number
 set hidden
 set hlsearch
 set incsearch
+"set autoread
 set backspace=indent,eol,start
 set fencs=utf-8,cp949
 set enc=utf-8
@@ -38,10 +39,9 @@ set timeoutlen=1000
 set ttimeoutlen=50
 "let mapleader="\\"
 let mapleader=","
-" let variable 확인
-":echo g:go_version_warning
-":let g:go_version_warning
-let g:go_version_warning = 0
+" let variable 확인시
+":echo mapleader
+":let mapleader
 
 " 단축키 설정
 " mac 에선 기본적으로 alt/meta/option 키가 조합되면 특정 문자로 취급된다.
@@ -449,6 +449,7 @@ let g:go_highlight_function_calls = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_build_constraints = 1
 let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
+let g:go_version_warning = 0
 autocmd filetype go nnoremap <f2> :GoRename<enter>
 autocmd filetype go nnoremap <f5> :w <bar> :!clear; <enter> :GoRun<enter>
 autocmd filetype go nnoremap <f7> :w <bar> :!clear; <enter> :GoBuild<enter>
