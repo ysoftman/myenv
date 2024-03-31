@@ -37,6 +37,8 @@ set list
 set timeoutlen=1000
 "keycode 입력 완료 타임아웃
 set ttimeoutlen=50
+"수직창 구분선 기본| 대신 │사용하여 끊김없이 보기(set enc=utf-8)
+set fillchars=vert:\│
 "let mapleader="\\"
 let mapleader=","
 " let variable 확인시
