@@ -167,6 +167,7 @@ call plug#begin('~/.vim/plugged')
 "Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
+Plug 'alvan/vim-closetag'
 Plug 'davidhalter/jedi-vim'
 Plug 'dense-analysis/ale' "syntasitc alternative
 Plug 'fatih/vim-go'
@@ -174,13 +175,12 @@ Plug 'glench/vim-jinja2-syntax'
 Plug 'groenewege/vim-less'
 Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
-Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs' "[](){}\"\"''``<> , html 태그는 vim-closetag 로 처리
 Plug 'johngrib/vim-game-code-break'
 Plug 'joshdick/onedark.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/space-vim-dark'
-Plug 'luochen1990/rainbow'
 Plug 'majutsushi/tagbar'
 Plug 'markonm/traces.vim'
 Plug 'maxmellon/vim-jsx-pretty'
@@ -239,9 +239,14 @@ nnoremap <leader>ct :!ctags -R
 "vim-jsx-pretty
 let g:vim_jsx_pretty_colorful_config = 1
 
-"rainbow
-let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowTogglek
+"auto-pairs
+au FileType html let b:AutoPairs = AutoPairsDefine({'<!--' : '-->'})
 
+"vim-closetag
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
+let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
+let g:closetag_filetypes = 'html,xhtml,phtml'
+let g:closetag_xhtml_filetypes = 'xhtml,jsx'
 
 "nerdtree
 let NERDTreeFileLines=1
