@@ -159,48 +159,48 @@ autocmd filetype xml setlocal tabstop=2 shiftwidth=2
 "~/.vim/plugged/youcompleteme/install.py --all --verbose
 
 call plug#begin('~/.vim/plugged')
-"Plug 'flazz/vim-colorschemes' " joshdick/onedark.vim 와 vim-colorschemes 충돌
+"Plug 'flazz/vim-colorschemes' " colorscheme joshdick/onedark.vim 와 vim-colorschemes 충돌
 "Plug 'kien/ctrlp.vim' " ctrlp 는 fuzzfile,buffer... 인데 fzf 가 더 좋은것 같아 굳이 사용할 필요없어 보임
 "Plug 'lilydjwg/colorizer' " vim 으로 git 커밋 메세지 작성시 이슈번호 태깅을 위해 #123 를 사용하면 컬리 배경 표시, 그런데 colorizer 사용하면 파일 오픈시 autocmd BufEnter(버퍼로딩후 필요한 설정 처리) 단계에서 느려져서 사용하지 않음
-"Plug 'scrooloose/syntastic' "This project is no longer maintained
-"Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
-Plug 'airblade/vim-gitgutter'
-Plug 'altercation/vim-colors-solarized'
-Plug 'alvan/vim-closetag'
-Plug 'davidhalter/jedi-vim'
-Plug 'dense-analysis/ale' "syntasitc alternative
-Plug 'fatih/vim-go'
-Plug 'glench/vim-jinja2-syntax'
-Plug 'groenewege/vim-less'
-Plug 'itchyny/lightline.vim'
-Plug 'itchyny/vim-gitbranch'
+"Plug 'vim-airline/vim-airline' "statusline pluging
+"Plug 'vim-airline/vim-airline-themes' "colorscheme
+"Plug 'vim-syntastic/syntastic' "This project is no longer maintained
+Plug 'airblade/vim-gitgutter' "git diff
+Plug 'altercation/vim-colors-solarized' "colorscheme
+Plug 'alvan/vim-closetag' "html tag auto close
+Plug 'davidhalter/jedi-vim' "python autocompletion
+Plug 'dense-analysis/ale' "asynchronous lint, syntastic alternative
+Plug 'fatih/vim-go' "go development plugin
+Plug 'glench/vim-jinja2-syntax' "jinja2 template syntax
+Plug 'groenewege/vim-less' "dynamic stylesheet language
+Plug 'itchyny/lightline.vim' "statusline/tabline plugin
+Plug 'itchyny/vim-gitbranch' "git branch name for lightline
 Plug 'jiangmiao/auto-pairs' "[](){}\"\"''``<> , html 태그는 vim-closetag 로 처리
-Plug 'johngrib/vim-game-code-break'
-Plug 'joshdick/onedark.vim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'liuchengxu/space-vim-dark'
-Plug 'majutsushi/tagbar'
-Plug 'markonm/traces.vim'
-Plug 'maxmellon/vim-jsx-pretty'
-Plug 'mengelbrecht/lightline-bufferline'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'pangloss/vim-javascript'
-Plug 'powerline/fonts'
-Plug 'preservim/nerdcommenter'
-Plug 'psf/black'
-Plug 'rust-lang/rust.vim'
-Plug 'ryanoasis/vim-devicons'
-Plug 'scrooloose/nerdtree'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'tpope/vim-fugitive'
-Plug 'valloric/youcompleteme'
+Plug 'johngrib/vim-game-code-break' "bricks breaker game
+Plug 'joshdick/onedark.vim' "colorscheme
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "fuzzy-finder:files,command,history,bookmarks
+Plug 'junegunn/fzf.vim' "fzf for vim
+Plug 'liuchengxu/space-vim-dark' "colorscheme
+Plug 'majutsushi/tagbar' "browse the tags of the current file and get overview of its structure
+Plug 'markonm/traces.vim' "preview for :substitute, %s/aa/bb/gc 실행정 미리변경된 결과 보기
+Plug 'maxmellon/vim-jsx-pretty' "react syntax highlighting and indentin
+Plug 'mengelbrecht/lightline-bufferline' "butterline,tabline functionality for lightline
+Plug 'nathanaelkane/vim-indent-guides' "display indent level
+Plug 'neoclide/coc.nvim', {'branch': 'release'} "language server, just use for json, ts
+Plug 'octol/vim-cpp-enhanced-highlight' "syntax highlight for c++
+Plug 'pangloss/vim-javascript' "syntax highlighting and indentation
+Plug 'powerline/fonts' "font, using in airline
+Plug 'preservim/nerdcommenter' "comment functions
+Plug 'psf/black' "python code formatter
+Plug 'rust-lang/rust.vim' "rust development plugin
+Plug 'ryanoasis/vim-devicons' "icons
+Plug 'scrooloose/nerdtree' "browse directory and open files
+Plug 'terryma/vim-multiple-cursors' "multiple selection and edit
+Plug 'tpope/vim-fugitive' "git command
+Plug 'valloric/youcompleteme' "code completion engine
 if has('nvim')
-    Plug 'nvim-lua/plenary.nvim'
-    Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' }
+    Plug 'nvim-lua/plenary.nvim' "lua functions, using in telescope,neo-tree
+    Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' } "similar to fzf
 endif
 call plug#end()
 
@@ -332,7 +332,7 @@ let g:lightline = {
 \                ]
 \    },
 \    'component_function': {
-\      'gitbranch': 'fugitive#head'
+\      'gitbranch': 'gitbranch#name'
 \    },
 \}
 "lightline-bufferline
@@ -373,10 +373,10 @@ let g:ale_linters = {
 let g:ale_linters_ignore = {'python':['flake8','pylint']}
 
 "vim-indent-guides
-let g:indent_guides_auto_colors = 0
-hi IndentGuidesOdd  ctermbg=black
-hi IndentGuidesEven ctermbg=darkgrey
-"let g:indent_guides_enable_on_vim_startup = 1
+"hi IndentGuidesOdd  ctermbg=black
+"hi IndentGuidesEven ctermbg=darkgrey
+let g:indent_guides_auto_colors = 1
+let g:indent_guides_enable_on_vim_startup = 1
 nnoremap <f4> :IndentGuidesToggle<enter>
 
 "coc
