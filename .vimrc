@@ -122,6 +122,7 @@ nnoremap <s-left> <c-w><c-h>
 nnoremap <s-right> <c-w><c-l>
 
 autocmd filetype xml setlocal tabstop=2 shiftwidth=2
+autocmd BufNewFile,BufRead * if expand('%:t') =~ 'caddyfile' | setlocal tabstop=2 shiftwidth=2 noexpandtab | endif
 
 "" 여기까지만 nvim 에서 로딩하도록 한다.
 "if has('nvim')
