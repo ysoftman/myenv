@@ -1,0 +1,13 @@
+[editor]
+font-size = 18
+font-family = """
+Hack Nerd Font
+"""
+
+[ui]
+font-size = 18
+
+[core]
+modal = false
+color-theme = "Tokyo Night OLED"
+icon-theme = "Material Icons"
