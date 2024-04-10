@@ -1,3 +1,3 @@
 #!/bin/bash
 sudo pip install --upgrade pip
-sudo pip install certifi distlib filelock greenlet msgpack pip pipenv platformdirs pynvim setuptools virtualenv 
+sudo pip install ansible ansible-core certifi cffi charset-normalizer cryptography idna Jinja2 jmespath MarkupSafe netaddr packaging pbr pip pycparser PyYAML requests resolvelib ruamel.yaml ruamel.yaml.clib urllib3 
