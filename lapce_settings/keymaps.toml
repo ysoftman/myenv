@@ -1,0 +1,11 @@
+[[keymaps]]
+command = "palette.command"
+key = "Ctrl+Shift+P"
+
+[[keymaps]]
+command = "search"
+key = "Ctrl+F"
+
+[[keymaps]]
+command = "toggle_search_focus"
+key = "Ctrl+Shift+F"
