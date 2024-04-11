@@ -2,19 +2,13 @@
 # ysoftman
 # backup my settings
 mkdir -p vscode_settings
-if [[ $(uname -a | grep -i darwin) ]]; then
-    # backup vscode settings
-    cp -v ~/Library/Application\ Support/Code/User/*.json ./vscode_settings/
-elif [[ $(uname -a | grep -i microsoft) ]]; then
+if [[ $(uname -a | grep -i microsoft) ]]; then
     # backup vscode settings
     username=$(wslvar userprofile | tr '\\' ' ' | awk '{print $NF}')
     # 윈도우 wsl 에서 mnt/c 로 마운트되었다고 가정
     # 실제 위치 C:\Users\${username}\AppData\Roaming\Code\User\settings.json
     vscode_setting_path="/mnt/c/Users/${username}/AppData/Roaming/Code/User/"
     cp -v ${vscode_setting_path}/*.json ./vscode_settings/
-else
-    echo 'unknown system'
-    exit 1
 fi
 
 # backup my brew installed package list and make install script
