@@ -365,10 +365,13 @@ autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 
 "ale
 ":ALEInfo "현재 설정값 보기
+":ALEEnable
+":ALEDisable
 let g:ale_enabled=1
 let g:ale_linters = {
 \ 'python': ['flake8', 'pylint'],
-\ 'javascript': ['eslint']
+\ 'javascript': ['eslint'],
+\ 'go': ['golangci-lint', 'gofmt']
 \}
 " pylint 가 설치되어 있는데, pylint 사용시 너무 verbose 해서 사용하지 않음
 let g:ale_linters_ignore = {'python':['flake8','pylint']}
@@ -385,6 +388,7 @@ nnoremap <f4> :IndentGuidesToggle<enter>
 ":CocInstall coc-json coc-tsserver  "install coc extention or configure language server(LSP)
 ":CocConfig  "open coc-settings.json
 " GoTo code navigation
+let g:coc_start_at_startup = 1
 nmap <silent> <leader>d <Plug>(coc-definition)
 nmap <silent> <leader>y <Plug>(coc-type-definition)
 nmap <silent> <leader>i <Plug>(coc-implementation)
@@ -457,7 +461,7 @@ let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_build_constraints = 1
-let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
+let g:go_metalinter_enabled = ['vet', 'golangci-lint', 'errcheck']
 let g:go_version_warning = 0
 autocmd filetype go nnoremap <f2> :GoRename<enter>
 autocmd filetype go nnoremap <f5> :w <bar> :!clear; <enter> :GoRun<enter>
