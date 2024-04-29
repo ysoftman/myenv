@@ -197,6 +197,7 @@ Plug 'psf/black' "python code formatter
 Plug 'rust-lang/rust.vim' "rust development plugin
 Plug 'ryanoasis/vim-devicons' "icons
 Plug 'terryma/vim-multiple-cursors' "multiple selection and edit
+Plug 'tpope/vim-abolish' "Abbreviation, snake_case, camelCase, UPPER_CASE, dash-case, dot.case
 Plug 'tpope/vim-fugitive' "git command
 Plug 'valloric/youcompleteme' "code completion engine
 if has('nvim')
@@ -444,6 +445,17 @@ nnoremap <leader>ga :Git add %<enter>
 nnoremap <leader>gc :Git commit<enter>
 nnoremap <leader>gp :Git push<enter>
 nnoremap <leader>gb :Git blame<enter>
+
+" vim-abolish
+"snake_case crs (coerce to snake_case)
+"MixedCase (crm)
+"camelCase (crc)
+"snake_case (crs)
+"UPPER_CASE (cru)
+"dash-case (cr-)
+"dot.case (cr.)
+"space case (cr<space>)
+"Title Case (crt)
 
 "c/cpp
 autocmd filetype c nnoremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
