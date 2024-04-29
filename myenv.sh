@@ -203,14 +203,13 @@ fi
 if which lsd > /dev/null 2>&1; then
     alias ll='lsd -ahl'
 fi
-if type rg > /dev/null 2>&1; then
-    # Phase foo | less -R 와 같이 ansi color 유지해서 파이프라인으로 보낼때
-    # redirection, pipe 등에서 컬러 값이 포함돼 에러가 발생해서 사용하지 않음.
-    # -p, --pretty (--color=always --heading --line-number)
-    #alias rg='rg -p'
-    # --color=auto (default), redirection, pip --> suppress color
-    alias rg='rg'
-fi
+# Phase foo | less -R 와 같이 ansi color 유지해서 파이프라인으로 보낼때
+# redirection, pipe 등에서 컬러 값이 포함돼 에러가 발생해서 사용하지 않음.
+# -p, --pretty (--color=always --heading --line-number)
+# --color=auto (default), redirection, pip --> suppress color
+#if type rg > /dev/null 2>&1; then
+#    alias rg='rg -p'
+#fi
 
 # zsh 환경에서 kubectl 자동 완성
 source <(kubectl completion zsh)
