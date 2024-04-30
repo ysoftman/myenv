@@ -447,7 +447,6 @@ nnoremap <leader>gp :Git push<enter>
 nnoremap <leader>gb :Git blame<enter>
 
 " vim-abolish
-"snake_case crs (coerce to snake_case)
 "MixedCase (crm)
 "camelCase (crc)
 "snake_case (crs)
