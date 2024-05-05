@@ -374,6 +374,16 @@ let g:ale_linters = {
 \ 'javascript': ['eslint'],
 \ 'go': ['golangci-lint', 'gofmt']
 \}
+" yarn global add eslint prettier
+" or
+" yarn add eslint prettier 로 설치가 되어 있어야 한다.
+let g:ale_fixers = {
+\ 'javascript': ['prettier', 'eslint'],
+\ 'css': ['prettier'],
+\ 'html': ['prettier']
+\}
+let g:ale_linters_explicit = 1
+let g:ale_fix_on_save = 1
 " pylint 가 설치되어 있는데, pylint 사용시 너무 verbose 해서 사용하지 않음
 let g:ale_linters_ignore = {'python':['flake8','pylint']}
 
