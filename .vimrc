@@ -378,9 +378,13 @@ let g:ale_linters = {
 " or
 " yarn add eslint prettier 로 설치가 되어 있어야 한다.
 let g:ale_fixers = {
+\ 'yaml': ['prettier'],
+\ 'markdown': ['prettier'],
 \ 'json': ['prettier'],
+\ 'typescript': ['prettier', 'eslint'],
 \ 'javascript': ['prettier', 'eslint'],
 \ 'css': ['prettier'],
+\ 'scss': ['prettier'],
 \ 'html': ['prettier']
 \}
 let g:ale_linters_explicit = 1
