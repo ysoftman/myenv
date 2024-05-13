@@ -86,26 +86,32 @@ if type fzf > /dev/null 2>&1; then
     export PATH=$PATH:${HOME}/.fzf/bin
 fi
 
-# fzf ctrl-t(파일찾기)시
-# 숨김파일도 보기
-export FZF_CTRL_T_COMMAND='find . -type f'
-# fzf vim 에서 FZF_DEFAULT_COMMAND 를 사용함
-export FZF_DEFAULT_COMMAND=$FZF_CTRL_T_COMMANDS
-if which fd > /dev/null 2>&1; then
-    export FZF_CTRL_T_COMMAND='fd --hidden --no-ignore'
-    export FZF_DEFAULT_COMMAND=$FZF_CTRL_T_COMMAND
-fi
 ## fzf default options
 # --multi(-m) : tab(select/deselect forward) shift-tab(select/deselect backward)
-export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border --exact'
+# https://github.com/junegunn/fzf/wiki/Color-schemes
+export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border --exact
+--color=dark
+--color=fg:-1,bg:-1,hl:#c678dd,fg+:#ffffff,bg+:#4b5263,hl+:#d858fe
+--color=info:#98c379,prompt:#61afef,pointer:#be5046,marker:#e5c07b,spinner:#61afef,header:#61afef
+'
 # zellij 에서 ctrl-t 가 tab 명령 단축키라 FZF_CTRL_T_COMMAND(ctrl-t)와 중복된다.
 # alt-t 로도 FZF_CTRL_T_COMMAND(fzf-file-widget) 사용할 수 있도록 등록한다.
 bindkey "^[t" fzf-file-widget
 
-# 파일내용 미리보기 창 설정
+# fzf ctrl-t(파일찾기)시
+# 숨김파일도 보기
+export FZF_CTRL_T_COMMAND='find . -type f'
+if which fd > /dev/null 2>&1; then
+    export FZF_CTRL_T_COMMAND='fd --hidden --no-ignore'
+fi
+# fzf vim 에서 FZF_DEFAULT_COMMAND 를 사용함
+export FZF_DEFAULT_COMMAND=$FZF_CTRL_T_COMMAND
+
+# fzf preview window
 catcmd='cat {}'
 if which bat > /dev/null 2>&1; then
-    batcmd="bat --plain --color always --theme TwoDark"
+    export BAT_THEME="TwoDark"  # vim fzf preview
+    batcmd="bat --plain --color always"
     catcmd="${batcmd} {}"
     alias bat="${batcmd}"
 fi
