@@ -116,10 +116,10 @@ nnoremap retab :set expandtab<enter>:retab<enter>
 " space -> tab 변경
 nnoremap retab! :set noexpandtab<enter>:retab!<enter>:set expandtab<enter>
 " window pane 이동
-nnoremap <s-up> <c-w><c-k>
-nnoremap <s-down> <c-w><c-j>
-nnoremap <s-left> <c-w><c-h>
-nnoremap <s-right> <c-w><c-l>
+nnoremap <s-up> <c-w>k
+nnoremap <s-down> <c-w>j
+nnoremap <s-left> <c-w>h
+nnoremap <s-right> <c-w>l
 
 autocmd filetype javascript setlocal tabstop=2 shiftwidth=2
 autocmd filetype json setlocal tabstop=2 shiftwidth=2
