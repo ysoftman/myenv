@@ -108,6 +108,10 @@ nnoremap sovim :source ~/.vimrc<enter>
 nnoremap sc :%s/<c-r><c-w>//gc<left><left><left>
 " c-a 는 커서에서 공백 구분되는 단어
 nnoremap sC :%s/<c-r><c-a>//gc<left><left><left>
+" 패턴이 포함된 모든 라인 삭제
+nnoremap <leader>dl :g/<c-r><c-w>/d
+" word count
+nnoremap <leader>wc :%s/<c-r><c-w>//gn
 " zellij ctrl-o(session) 중복됨, zellij lock 없이 사용하기 위해 alt-i, alt-o로맵핑
 nnoremap <a-i> <c-i>
 nnoremap <a-o> <c-o>
