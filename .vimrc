@@ -112,7 +112,7 @@ nnoremap sC :%s/<c-r><c-a>//gc<left><left><left>
 nnoremap <leader>dl :g/<c-r><c-w>/d
 " word count
 nnoremap <leader>wc :%s/<c-r><c-w>//gn
-" zellij ctrl-o(session) 중복됨, zellij lock 없이 사용하기 위해 alt-i, alt-o로맵핑
+" zellij ctrl-o(session), alt-i, alt-o 는 빌활성화 해뒀음
 nnoremap <a-i> <c-i>
 nnoremap <a-o> <c-o>
 " tab -> space 변경
