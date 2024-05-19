@@ -60,7 +60,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [ -h ~/.muttrc ] && unlink ~/.muttrc
 [ -h ~/.alacritty.toml ] && unlink ~/.alacritty.toml
 # install alacritty theme
-[ -d ~/.alacritty-colorscheme ] || git clone https://github.com/eendroroy/alacritty-theme.git ~/.alacritty-colorscheme
+[ -d ~/.alacritty-colorscheme ] || git clone https://github.com/alacritty/alacritty-theme ~/.alacritty-colorscheme
 [ -h ${XDG_CONFIG_HOME}/zellij ] && unlink ${XDG_CONFIG_HOME}/zellij
 [ -h ${XDG_CONFIG_HOME}/mc ] && unlink ${XDG_CONFIG_HOME}/mc
 [ -h ${XDG_CONFIG_HOME}/lsd ] && unlink ${XDG_CONFIG_HOME}/lsd
