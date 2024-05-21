@@ -97,7 +97,7 @@ nnoremap bwo :%bwipeout<enter>
 " bufdo 를 사용하면 syntax highlighting 등이 동작하지 않는다
 "nnoremap be :bufdo e<enter>
 " format json file
-nnoremap <leader>jq :%!jq .<enter>
+nnoremap sjq :%!jq .<enter>
 " format xml file, 포맷팅 후 에러 메시지가 추가될 수 있다.
 nnoremap <leader>xml :%!xmllint --format -<enter>
 " remove trailing whitespce
@@ -109,9 +109,9 @@ nnoremap sc :%s/<c-r><c-w>//gc<left><left><left>
 " c-a 는 커서에서 공백 구분되는 단어
 nnoremap sC :%s/<c-r><c-a>//gc<left><left><left>
 " 패턴이 포함된 모든 라인 삭제
-nnoremap <leader>dl :g/<c-r><c-w>/d
-" word count
-nnoremap <leader>wc :%s/<c-r><c-w>//gn
+nnoremap sgd :g/<c-r><c-w>/d
+" word cout
+nnoremap swc :%s/<c-r><c-w>//gn
 " zellij ctrl-o(session), alt-i, alt-o 는 빌활성화 해뒀음
 nnoremap <a-i> <c-i>
 nnoremap <a-o> <c-o>
