@@ -300,17 +300,17 @@ fi
 term_program=$(echo $TERM_PROGRAM | tr "[:upper:]" "[:lower:]")
 
 if which fastfetch > /dev/null 2>&1; then
-    if [[ $term_program == *"iterm"* ]]; then
-        fastfetch --logo-type iterm --logo ${myenv_path}/xelloss.jpg --logo-width 50 --logo-height 20
-    else
-        fastfetch
-    fi
+    args="--cpu-temp true --gpu-temp true"
+    #if [[ $term_program == *"iterm"* ]]; then
+        args+=" --logo-type iterm --logo ${myenv_path}/xelloss.jpg --logo-width 50 --logo-height 20"
+    #fi
+    eval fastfetch ${args}
 elif which neofetch > /dev/null 2>&1; then
+    args=""
     if [[ $term_program == *"iterm"* ]]; then
-        neofetch --backend iterm2 --size 300 --source ${myenv_path}/xelloss.jpg
-    else
-        neofetch
+        args+"--backend iterm2 --size 300 --source ${myenv_path}/xelloss.jpg"
     fi
+    eval neofetch ${args}
 elif which screenfetch > /dev/null 2>&1; then
     screenfetch -E
 fi
