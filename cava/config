@@ -94,8 +94,9 @@
 ; method = shmem
 ; source = /squeezelite-AA:BB:CC:DD:EE:FF
 
-; method = portaudio
-; source = auto
+#brew install --cask background-music
+method = portaudio
+source = "Background Music"
 
 ; method = sndio
 ; source = default
@@ -173,7 +174,7 @@
 
 # Ascii delimiters. In ascii format each bar and frame is separated by a delimiters.
 # Use decimal value in ascii table (i.e. 59 = ';' and 10 = '\n' (line feed)).
-; bar_delimiter = 59
+ bar_delimiter = 59
 ; frame_delimiter = 10
 
 # sdl window size and position. -1,-1 is centered.
@@ -191,7 +192,7 @@
 # enable alacritty synchronized updates. 1 = on, 0 = off
 # removes flickering in alacritty terminal emulator.
 # defaults to off since the behaviour in other terminal emulators is unknown
-; alacritty_sync = 0
+alacritty_sync = 1
 
 # Shaders for sdl_glsl, located in $HOME/.config/cava/shaders
 ; vertex_shader = pass_through.vert
@@ -227,17 +228,16 @@
 # Gradient mode, only hex defined colors are supported,
 # background must also be defined in hex or remain commented out. 1 = on, 0 = off.
 # You can define as many as 8 different colors. They range from bottom to top of screen
-; gradient = 0
-; gradient_count = 8
-; gradient_color_1 = '#59cc33'
-; gradient_color_2 = '#80cc33'
-; gradient_color_3 = '#a6cc33'
-; gradient_color_4 = '#cccc33'
-; gradient_color_5 = '#cca633'
-; gradient_color_6 = '#cc8033'
-; gradient_color_7 = '#cc5933'
-; gradient_color_8 = '#cc3333'
-
+gradient = 1
+gradient_count = 8
+gradient_color_1 = '#59cc33'
+gradient_color_2 = '#80cc33'
+gradient_color_3 = '#a6cc33'
+gradient_color_4 = '#cccc33'
+gradient_color_5 = '#cca633'
+gradient_color_6 = '#cc8033'
+gradient_color_7 = '#cc5933'
+gradient_color_8 = '#cc3333'
 
 
 [smoothing]
