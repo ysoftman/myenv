@@ -91,6 +91,7 @@ skin=nicedark
 filepos_max_saved_entries=1024
 
 shadows=true
+shell_directory_timeout=900
 
 [Layout]
 message_visible=true
@@ -102,7 +103,7 @@ menubar_visible=true
 free_space=true
 horizontal_split=false
 vertical_equal=true
-left_panel_size=60
+left_panel_size=52
 horizontal_equal=true
 top_panel_size=1
 
@@ -146,7 +147,7 @@ quick_search_mode=2
 select_flags=6
 
 [Panelize]
-*.orig 파일이 있습니다=find . -name \\*.orig -print
-Modified git files=git ls-files --modified
 SUID와 SGID 프로그램 찾기=find . \\( \\( -perm -04000 -a -perm /011 \\) -o \\( -perm -02000 -a -perm /01 \\) \\) -print
+Modified git files=git ls-files --modified
+*.orig 파일이 있습니다=find . -name \\*.orig -print
 기운 후 거부파일이 생겼습니다=find . -name \\*.rej -print
