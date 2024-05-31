@@ -65,6 +65,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [ -h ${XDG_CONFIG_HOME}/mc ] && unlink ${XDG_CONFIG_HOME}/mc
 [ -h ${XDG_CONFIG_HOME}/lsd ] && unlink ${XDG_CONFIG_HOME}/lsd
 [ -h ${XDG_CONFIG_HOME}/k9s ] && unlink ${XDG_CONFIG_HOME}/k9s
+[ -h ${XDG_CONFIG_HOME}/cava ] && unlink ${XDG_CONFIG_HOME}/cava
 
 # backup previous settings
 [ -f ~/.gitignore_global ] && mv -fv ~/.gitignore_global ~/.gitignore_global.bak
@@ -88,7 +89,7 @@ ln -sf ${PWD}/.gitignore_global ~/.gitignore_global
 ln -sf ${PWD}/.bashrc ~/.bashrc
 ln -sf ${PWD}/.zshrc ~/.zshrc
 ln -sf ${PWD}/.vimrc ~/.vimrc
-ln -sf ${PWD}/nvim ${XDG_CONFIG_HOME}/nvim
+[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/nvim ${XDG_CONFIG_HOME}/nvim
 ln -sf ${PWD}/.tmux.conf ~/.tmux.conf
 ln -sf ${PWD}/.tigrc ~/.tigrc
 ln -sf ${PWD}/.muttrc ~/.muttrc
@@ -96,7 +97,8 @@ ln -sf ${PWD}/.alacritty.toml ~/.alacritty.toml
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/zellij ${XDG_CONFIG_HOME}/zellij
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/mc ${XDG_CONFIG_HOME}/mc
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/lsd ${XDG_CONFIG_HOME}/lsd
-ln -sf ${PWD}/k9s ${XDG_CONFIG_HOME}/k9s
+[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/cava ${XDG_CONFIG_HOME}/cava
+[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/k9s ${XDG_CONFIG_HOME}/k9s
 
 # wsl 환경인 경우 wsl.conf 설정
 if [[ $(uname -a) == *"microsoft"* ]]; then
