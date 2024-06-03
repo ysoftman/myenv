@@ -230,15 +230,34 @@ alacritty_sync = 1
 # You can define as many as 8 different colors. They range from bottom to top of screen
 gradient = 1
 gradient_count = 8
-gradient_color_1 = '#59cc33'
-gradient_color_2 = '#80cc33'
-gradient_color_3 = '#a6cc33'
-gradient_color_4 = '#cccc33'
-gradient_color_5 = '#cca633'
-gradient_color_6 = '#cc8033'
-gradient_color_7 = '#cc5933'
-gradient_color_8 = '#cc3333'
+#gradient_color_1 = '#59cc33'
+#gradient_color_2 = '#80cc33'
+#gradient_color_3 = '#a6cc33'
+#gradient_color_4 = '#cccc33'
+#gradient_color_5 = '#cca633'
+#gradient_color_6 = '#cc8033'
+#gradient_color_7 = '#cc5933'
+#gradient_color_8 = '#cc3333'
 
+# one_half_dark_colors
+gradient_color_1 = '#282c34'
+gradient_color_2 = '#abb2bf'
+gradient_color_3 = '#56b6c2'
+gradient_color_4 = '#c678dd'
+gradient_color_5 = '#61aefe'
+gradient_color_6 = '#e5c07b'
+gradient_color_7 = '#98c379'
+gradient_color_8 = '#e06c75'
+
+#https://colorkit.co/palettes/8-colors/
+gradient_color_1 = "#003b5c"
+gradient_color_2 = "#0057e5"
+gradient_color_3 = "#41b626"
+gradient_color_4 = "#3ea908"
+gradient_color_5 = "#f0cc2e"
+gradient_color_6 = "#ec894d"
+gradient_color_7 = "#e50000"
+gradient_color_8 = "#e641b6"
 
 [smoothing]
 
