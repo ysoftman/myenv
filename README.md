@@ -92,7 +92,7 @@ sh ./installvscodesettings.sh
 
 - sh > dash 쉘로 링크되어 있어 bash 로 쉘스크립트를 실행하던가 아래와 같이 sh > bash 링크 해준다.
 
-  ```bash
-  sudo unlink /bin/sh
-  sudo ln -s /bin/bash /bin/sh
-  ```
+```bash
+sudo unlink /bin/sh
+sudo ln -s /bin/bash /bin/sh
+```
