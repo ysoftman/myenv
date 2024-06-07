@@ -1,6 +1,6 @@
-import = ["/Users/ysoftman/.alacritty-colorscheme/themes/argonaut.toml"]
-#import = ["/Users/ysoftman/.alacritty-colorscheme/themes/monokai_charcoal.toml"]
-#import = ["/Users/ysoftman/.alacritty-colorscheme/themes/marine_dark.toml"]
+import = ["/Users/ysoftman/.config/alacritty-colorscheme/themes/argonaut.toml"]
+#import = ["/Users/ysoftman/.config/alacritty-colorscheme/themes/monokai_charcoal.toml"]
+#import = ["/Users/ysoftman/.config/alacritty-colorscheme/themes/marine_dark.toml"]
 
 [colors.cursor]
 cursor = "#528bff"
