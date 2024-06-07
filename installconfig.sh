@@ -61,6 +61,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [ -h ~/.alacritty.toml ] && unlink ~/.alacritty.toml
 # install alacritty theme
 [ -d ~/.alacritty-colorscheme ] || git clone https://github.com/alacritty/alacritty-theme ~/.alacritty-colorscheme
+[ -h ${XDG_CONFIG_HOME}/kitty ] && unlink ${XDG_CONFIG_HOME}/kitty
 [ -h ${XDG_CONFIG_HOME}/zellij ] && unlink ${XDG_CONFIG_HOME}/zellij
 [ -h ${XDG_CONFIG_HOME}/mc ] && unlink ${XDG_CONFIG_HOME}/mc
 [ -h ${XDG_CONFIG_HOME}/lsd ] && unlink ${XDG_CONFIG_HOME}/lsd
@@ -77,6 +78,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [ -f ~/.tigrc ] && mv -fv ~/.tigrc ~/.tigrc.bak
 [ -f ~/.muttrc ] && mv -fv ~/.muttrc ~/.muttrc.bak
 [ -f ~/.alacritty.toml ] && mv -fv ~/.alacritty.toml ~/.alacritty.toml.bak
+[ -d ${XDG_CONFIG_HOME}/kitty ] && mv -fv ${XDG_CONFIG_HOME}/kitty ${XDG_CONFIG_HOME}/kitty.bak
 [ -d ${XDG_CONFIG_HOME}/zellij ] && mv -fv ${XDG_CONFIG_HOME}/zellij ${XDG_CONFIG_HOME}/zellij.bak
 [ -d ${XDG_CONFIG_HOME}/mc ] && mv -fv ${XDG_CONFIG_HOME}/mc ${XDG_CONFIG_HOME}/mc.bak
 [ -d ${XDG_CONFIG_HOME}/lsd ] && mv -fv ${XDG_CONFIG_HOME}/lsd ${XDG_CONFIG_HOME}/lsd.bak
@@ -94,6 +96,7 @@ ln -sf ${PWD}/.tmux.conf ~/.tmux.conf
 ln -sf ${PWD}/.tigrc ~/.tigrc
 ln -sf ${PWD}/.muttrc ~/.muttrc
 ln -sf ${PWD}/.alacritty.toml ~/.alacritty.toml
+[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/kitty ${XDG_CONFIG_HOME}/kitty
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/zellij ${XDG_CONFIG_HOME}/zellij
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/mc ${XDG_CONFIG_HOME}/mc
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/lsd ${XDG_CONFIG_HOME}/lsd
