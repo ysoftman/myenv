@@ -301,9 +301,9 @@ term_program=$(echo $TERM_PROGRAM | tr "[:upper:]" "[:lower:]")
 
 if which fastfetch > /dev/null 2>&1; then
     args="--cpu-temp true --gpu-temp true"
-    #if [[ $term_program == *"iterm"* ]]; then
+    if [[ $term_program == *"iterm"* ]]; then
         args+=" --logo-type iterm --logo ${myenv_path}/xelloss.jpg --logo-width 50 --logo-height 20"
-    #fi
+    fi
     eval fastfetch ${args}
 elif which neofetch > /dev/null 2>&1; then
     args=""
