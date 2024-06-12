@@ -1,0 +1,12 @@
+default_profile = "ysoftman"
+[profiles.ysoftman]
+adapter = "mysql"
+theme = "one-dark"
+limit = 100000
+host = "localhost"
+port = "3306"
+database = ""
+user = ""
+password = ""
+connection_timeout = "10"
+
