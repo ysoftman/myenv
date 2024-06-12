@@ -63,6 +63,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [ -h ${XDG_CONFIG_HOME}/cava ] && unlink ${XDG_CONFIG_HOME}/cava
 [ -h ${XDG_CONFIG_HOME}/harlequin ] && unlink ${XDG_CONFIG_HOME}/harlequin
 [ -h ${XDG_CONFIG_HOME}/k9s ] && unlink ${XDG_CONFIG_HOME}/k9s
+[ -h ${XDG_CONFIG_HOME}/karabiner ] && unlink ${XDG_CONFIG_HOME}/karabiner
 [ -h ${XDG_CONFIG_HOME}/kitty ] && unlink ${XDG_CONFIG_HOME}/kitty
 [ -h ${XDG_CONFIG_HOME}/lsd ] && unlink ${XDG_CONFIG_HOME}/lsd
 [ -h ${XDG_CONFIG_HOME}/mc ] && unlink ${XDG_CONFIG_HOME}/mc
@@ -81,6 +82,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [ -d ${XDG_CONFIG_HOME}/cava ] && mv -fv ${XDG_CONFIG_HOME}/cava ${XDG_CONFIG_HOME}/cava.bak
 [ -d ${XDG_CONFIG_HOME}/harlequin ] && mv -fv ${XDG_CONFIG_HOME}/harlequin ${XDG_CONFIG_HOME}/harlequin.bak
 [ -d ${XDG_CONFIG_HOME}/k9s ] && mv -fv ${XDG_CONFIG_HOME}/k9s ${XDG_CONFIG_HOME}/k9s.bak
+[ -d ${XDG_CONFIG_HOME}/karabiner ] && mv -fv ${XDG_CONFIG_HOME}/karabiner ${XDG_CONFIG_HOME}/karabiner.bak
 [ -d ${XDG_CONFIG_HOME}/kitty ] && mv -fv ${XDG_CONFIG_HOME}/kitty ${XDG_CONFIG_HOME}/kitty.bak
 [ -d ${XDG_CONFIG_HOME}/lsd ] && mv -fv ${XDG_CONFIG_HOME}/lsd ${XDG_CONFIG_HOME}/lsd.bak
 [ -d ${XDG_CONFIG_HOME}/mc ] && mv -fv ${XDG_CONFIG_HOME}/mc ${XDG_CONFIG_HOME}/mc.bak
@@ -101,6 +103,7 @@ ln -sf ${PWD}/.muttrc ~/.muttrc
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/alacritty ${XDG_CONFIG_HOME}/alacritty
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/cava ${XDG_CONFIG_HOME}/cava
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/harlequin ${XDG_CONFIG_HOME}/harlequin
+[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/karabiner ${XDG_CONFIG_HOME}/karabiner
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/k9s ${XDG_CONFIG_HOME}/k9s
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/kitty ${XDG_CONFIG_HOME}/kitty
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/lsd ${XDG_CONFIG_HOME}/lsd
