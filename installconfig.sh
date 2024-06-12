@@ -58,14 +58,15 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [ -h ~/.tmux.conf ] && unlink ~/.tmux.conf
 [ -h ~/.tigrc ] && unlink ~/.tigrc
 [ -h ~/.muttrc ] && unlink ~/.muttrc
-[ -h ${XDG_CONFIG_HOME}/alacritty ] && unlink ${XDG_CONFIG_HOME}/alacritty
 [ -d ${XDG_CONFIG_HOME}/alacritty-colorscheme ] || git clone https://github.com/alacritty/alacritty-theme ${XDG_CONFIG_HOME}/alacritty-colorscheme
-[ -h ${XDG_CONFIG_HOME}/kitty ] && unlink ${XDG_CONFIG_HOME}/kitty
-[ -h ${XDG_CONFIG_HOME}/zellij ] && unlink ${XDG_CONFIG_HOME}/zellij
-[ -h ${XDG_CONFIG_HOME}/mc ] && unlink ${XDG_CONFIG_HOME}/mc
-[ -h ${XDG_CONFIG_HOME}/lsd ] && unlink ${XDG_CONFIG_HOME}/lsd
-[ -h ${XDG_CONFIG_HOME}/k9s ] && unlink ${XDG_CONFIG_HOME}/k9s
+[ -h ${XDG_CONFIG_HOME}/alacritty ] && unlink ${XDG_CONFIG_HOME}/alacritty
 [ -h ${XDG_CONFIG_HOME}/cava ] && unlink ${XDG_CONFIG_HOME}/cava
+[ -h ${XDG_CONFIG_HOME}/harlequin ] && unlink ${XDG_CONFIG_HOME}/harlequin
+[ -h ${XDG_CONFIG_HOME}/k9s ] && unlink ${XDG_CONFIG_HOME}/k9s
+[ -h ${XDG_CONFIG_HOME}/kitty ] && unlink ${XDG_CONFIG_HOME}/kitty
+[ -h ${XDG_CONFIG_HOME}/lsd ] && unlink ${XDG_CONFIG_HOME}/lsd
+[ -h ${XDG_CONFIG_HOME}/mc ] && unlink ${XDG_CONFIG_HOME}/mc
+[ -h ${XDG_CONFIG_HOME}/zellij ] && unlink ${XDG_CONFIG_HOME}/zellij
 
 # backup previous settings
 [ -f ~/.gitignore_global ] && mv -fv ~/.gitignore_global ~/.gitignore_global.bak
@@ -76,11 +77,14 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [ -f ~/.tmux.conf ] && mv -fv ~/.tmux.conf ~/.tmux.conf.bak
 [ -f ~/.tigrc ] && mv -fv ~/.tigrc ~/.tigrc.bak
 [ -f ~/.muttrc ] && mv -fv ~/.muttrc ~/.muttrc.bak
-[ -f ${XDG_CONFIG_HOME}/alacritty ] && mv -fv ${XDG_CONFIG_HOME}/alacritty ${XDG_CONFIG_HOME}/alacritty.bak
+[ -d ${XDG_CONFIG_HOME}/alacritty ] && mv -fv ${XDG_CONFIG_HOME}/alacritty ${XDG_CONFIG_HOME}/alacritty.bak
+[ -d ${XDG_CONFIG_HOME}/cava ] && mv -fv ${XDG_CONFIG_HOME}/cava ${XDG_CONFIG_HOME}/cava.bak
+[ -d ${XDG_CONFIG_HOME}/harlequin ] && mv -fv ${XDG_CONFIG_HOME}/harlequin ${XDG_CONFIG_HOME}/harlequin.bak
+[ -d ${XDG_CONFIG_HOME}/k9s ] && mv -fv ${XDG_CONFIG_HOME}/k9s ${XDG_CONFIG_HOME}/k9s.bak
 [ -d ${XDG_CONFIG_HOME}/kitty ] && mv -fv ${XDG_CONFIG_HOME}/kitty ${XDG_CONFIG_HOME}/kitty.bak
-[ -d ${XDG_CONFIG_HOME}/zellij ] && mv -fv ${XDG_CONFIG_HOME}/zellij ${XDG_CONFIG_HOME}/zellij.bak
-[ -d ${XDG_CONFIG_HOME}/mc ] && mv -fv ${XDG_CONFIG_HOME}/mc ${XDG_CONFIG_HOME}/mc.bak
 [ -d ${XDG_CONFIG_HOME}/lsd ] && mv -fv ${XDG_CONFIG_HOME}/lsd ${XDG_CONFIG_HOME}/lsd.bak
+[ -d ${XDG_CONFIG_HOME}/mc ] && mv -fv ${XDG_CONFIG_HOME}/mc ${XDG_CONFIG_HOME}/mc.bak
+[ -d ${XDG_CONFIG_HOME}/zellij ] && mv -fv ${XDG_CONFIG_HOME}/zellij ${XDG_CONFIG_HOME}/zellij.bak
 
 # ubuntu 에서는 이름이 달라서 link 처리한다.
 [ -f /usr/bin/fdfind ] && sudo ln -sf /usr/bin/fdfind /usr/bin/fd
@@ -95,12 +99,13 @@ ln -sf ${PWD}/.tmux.conf ~/.tmux.conf
 ln -sf ${PWD}/.tigrc ~/.tigrc
 ln -sf ${PWD}/.muttrc ~/.muttrc
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/alacritty ${XDG_CONFIG_HOME}/alacritty
-[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/kitty ${XDG_CONFIG_HOME}/kitty
-[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/zellij ${XDG_CONFIG_HOME}/zellij
-[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/mc ${XDG_CONFIG_HOME}/mc
-[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/lsd ${XDG_CONFIG_HOME}/lsd
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/cava ${XDG_CONFIG_HOME}/cava
+[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/harlequin ${XDG_CONFIG_HOME}/harlequin
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/k9s ${XDG_CONFIG_HOME}/k9s
+[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/kitty ${XDG_CONFIG_HOME}/kitty
+[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/lsd ${XDG_CONFIG_HOME}/lsd
+[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/mc ${XDG_CONFIG_HOME}/mc
+[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/zellij ${XDG_CONFIG_HOME}/zellij
 
 # wsl 환경인 경우 wsl.conf 설정
 if [[ $(uname -a) == *"microsoft"* ]]; then
