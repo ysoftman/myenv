@@ -102,7 +102,7 @@ nnoremap bwo :%bwipeout<enter>
 nnoremap sjq :%!jq .<enter>
 " format xml file, 포맷팅 후 에러 메시지가 추가될 수 있다.
 nnoremap <leader>xml :%!xmllint --format -<enter>
-" remove trailing whitespce
+" remove trailing whitespace
 nnoremap rtw :%s/\s\+$//e<enter>
 " .vimrc 다시 적용
 nnoremap sovim :source ~/.vimrc<enter>
