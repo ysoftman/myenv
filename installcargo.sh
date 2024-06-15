@@ -1,4 +1,51 @@
-#!/bin/sh
+#!/bin/bash
+
+declare -A mpkgs
+# package_name = package_binary_name
+mpkgs["bandwhich"]="bandwhich"
+mpkgs["bat"]="bat"
+mpkgs["bottom"]="btm"
+mpkgs["delta"]="delta"
+mpkgs["diskonaut"]="diskonaut"
+mpkgs["du-dust"]="dust"  # brew 에선 dust 패키지 이름으로 사용된다.
+mpkgs["exa"]="exa"
+mpkgs["fd-find"]="fd"
+mpkgs["hexyl"]="hexyl"
+mpkgs["hyperfine"]="hyperfine"
+mpkgs["lsd"]="lsd"
+mpkgs["ohmystock"]="ohmystock"
+mpkgs["procs"]="procs"
+mpkgs["rg"]="rg"
+mpkgs["ripgrep"]="rg"
+mpkgs["sd"]="sd"
+mpkgs["termusic"]="termusic"
+mpkgs["termusic-server"]="termusic-server"
+mpkgs["zellij"]="zellij"
+
+# brew 로 설치해보기
+#if [[ $(uname) == 'Darwin' ]]; then
+#    for p in ${pkgs}; do
+#        brew install $p
+#    done
+#fi
+
+install_pkgs=""
+uninstall_pkgs=""
+for pkg_name in ${!mpkgs[@]}; do
+    pkg_binary_name=${mpkgs[$pkg_name]}
+    echo $pkg_binary_name
+    # brew 로 설치된 패키지는 cargo 로 설치 하지 않는 로직
+    if [[ $(uname) == 'Darwin' ]]; then
+        if [[ $(type -a $pkg_binary_name | grep -iE "/local/bin/|/homebrew/bin/") == *"$pkg_binary_name"* ]]; then
+            uninstall_pkgs+="$pkg_name "
+            continue
+        fi
+    fi
+    install_pkgs+="$pkg_name "
+done
+echo "install_pkgs=$install_pkgs"
+echo "uninstall_pkgs=$uninstall_pkgs"
+
 
 # rustup 을 설치해서 rustc/cargo 버전을 올려보자.
 #curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -7,4 +54,5 @@
 #rustup uninstall stable && rustup install stable
 
 rustup update
-cargo install bandwhich bat btm diskonaut dust exa fd delta hello_cargo hexyl hyperfine lsd ohmystock procs rg rust_grep sd termusic termusic-server zellij
+cargo install ${install_pkgs}
+cargo uninstall ${uninstall_pkgs} 2> /dev/null
