@@ -5,7 +5,7 @@
 [general]
 
 # Smoothing mode. Can be 'normal', 'scientific' or 'waves'. DEPRECATED as of 0.6.0
-; mode = normal
+mode = normal
 
 # Accepts only non-negative values.
 framerate = 100
@@ -18,7 +18,7 @@ framerate = 100
 
 # Manual sensitivity in %. If autosens is enabled, this will only be the initial value.
 # 200 means double height. Accepts only non-negative values.
-; sensitivity = 100
+sensitivity = 100
 
 # The number of bars (0-512). 0 sets it to auto (fill up console).
 # Bars' width and space between bars in number of characters.
@@ -29,8 +29,8 @@ bar_spacing = 1
 bar_height = 32
 
 # For SDL width and space between bars is in pixels, defaults are:
-; bar_width = 20
-; bar_spacing = 5
+#bar_width = 20
+#bar_spacing = 5
 
 # sdl_glsl have these default values, they are only used to calculate max number of bars.
 ; bar_width = 1
@@ -174,7 +174,7 @@ source = "Background Music"
 
 # Ascii delimiters. In ascii format each bar and frame is separated by a delimiters.
 # Use decimal value in ascii table (i.e. 59 = ';' and 10 = '\n' (line feed)).
- bar_delimiter = 59
+bar_delimiter = 59
 ; frame_delimiter = 10
 
 # sdl window size and position. -1,-1 is centered.
@@ -229,7 +229,8 @@ alacritty_sync = 1
 # background must also be defined in hex or remain commented out. 1 = on, 0 = off.
 # You can define as many as 8 different colors. They range from bottom to top of screen
 gradient = 1
-gradient_count = 8
+
+#gradient_count = 8
 #gradient_color_1 = '#59cc33'
 #gradient_color_2 = '#80cc33'
 #gradient_color_3 = '#a6cc33'
@@ -239,25 +240,31 @@ gradient_count = 8
 #gradient_color_7 = '#cc5933'
 #gradient_color_8 = '#cc3333'
 
-# one_half_dark_colors
-gradient_color_1 = '#282c34'
-gradient_color_2 = '#abb2bf'
-gradient_color_3 = '#56b6c2'
-gradient_color_4 = '#c678dd'
-gradient_color_5 = '#61aefe'
-gradient_color_6 = '#e5c07b'
-gradient_color_7 = '#98c379'
-gradient_color_8 = '#e06c75'
+# one_half_dark_colors (컬러변화가  부드럽지 못함t)
+#gradient_count = 8
+#gradient_color_1 = '#282c34'
+#gradient_color_2 = '#abb2bf'
+#gradient_color_3 = '#56b6c2'
+#gradient_color_4 = '#c678dd'
+#gradient_color_5 = '#61aefe'
+#gradient_color_6 = '#e5c07b'
+#gradient_color_7 = '#98c379'
+#gradient_color_8 = '#e06c75'
 
-#https://colorkit.co/palettes/8-colors/
-gradient_color_1 = "#003b5c"
-gradient_color_2 = "#0057e5"
-gradient_color_3 = "#41b626"
-gradient_color_4 = "#3ea908"
-gradient_color_5 = "#f0cc2e"
-gradient_color_6 = "#ec894d"
-gradient_color_7 = "#e50000"
-gradient_color_8 = "#e641b6"
+#https://colorkit.co/palettes/8-colors/ (컬러변화가  부드럽지 못함)
+#gradient_count = 8
+#gradient_color_1 = "#003b5c"
+#gradient_color_2 = "#0057e5"
+#gradient_color_3 = "#41b626"
+#gradient_color_4 = "#3ea908"
+#gradient_color_5 = "#f0cc2e"
+#gradient_color_6 = "#ec894d"
+#gradient_color_7 = "#e50000"
+#gradient_color_8 = "#e641b6"
+
+gradient_count = 2
+gradient_color_1 = '#1DE9B6'
+gradient_color_2 = '#F50057'
 
 [smoothing]
 
