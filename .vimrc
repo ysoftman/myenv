@@ -132,6 +132,7 @@ autocmd filetype json setlocal tabstop=2 shiftwidth=2 foldmethod=syntax nofolden
 autocmd filetype xml setlocal tabstop=2 shiftwidth=2
 autocmd filetype conf setlocal nofoldenable
 autocmd BufNewFile,BufRead * if expand('%:t') =~ 'caddyfile' | setlocal tabstop=2 shiftwidth=2 noexpandtab | endif
+autocmd BufNewFile,BufRead ~/.config/cava/config set filetype=confini
 
 "" 여기까지만 nvim 에서 로딩하도록 한다.
 "if has('nvim')
