@@ -423,6 +423,9 @@ nmap <silent> <leader>i <Plug>(coc-implementation)
 nmap <silent> <leader>r <Plug>(coc-references)
 " Remap keys for applying refactor code actions
 nmap <silent> <leader>re <Plug>(coc-codeaction-refactor)
+" Use <Tab> and <S-Tab> to navigate the pum(popup menu) completion list
+inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "   \<Tab>"
+inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 
 
 "fzf
