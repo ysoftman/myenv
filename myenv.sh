@@ -278,7 +278,7 @@ alias arm='arch -arm64 /bin/zsh'
 # load my functions
 source ${myenv_path}/rename_files.sh
 source ${myenv_path}/cnt_src.sh
-source ${myenv_path}/git_url.sh
+source ${myenv_path}/git_functions.sh
 source ${myenv_path}/k8s_info.sh
 
 if which pyenv > /dev/null 2>&1; then
