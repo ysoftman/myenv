@@ -295,6 +295,10 @@ fi
 
 if [[ $TERM == *"alacritty"* ]]; then
     export TERM=xterm-256color
+    # musikcube 등 실행시 terminfo 필요
+    if [[ $os_name == *"darwin"* ]]; then
+        export TERMINFO=/opt/homebrew/opt/ncurses/share/terminfo
+    fi
 fi
 
 term_program=$(echo $TERM_PROGRAM | tr "[:upper:]" "[:lower:]")
