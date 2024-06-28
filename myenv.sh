@@ -100,7 +100,9 @@ if [[ $current_shell == "zsh" ]]; then
     bindkey "^[t" fzf-file-widget
     source ${myenv_path}/fzf-git.sh
     # fzf-git.sh 에선 ctrl-g ctrl-b 로 사용하는데, zellij 와 중복되어 alt-b 로도 바인딩함
-    bindkey "^[b" "fzf-git-branches-widget"
+    # alt-b 는 alt-left(showkey 로 확인)라 alt-B 로 사용하자
+    #bindkey "^[b" "fzf-git-branches-widget"
+    bindkey "^[B" "fzf-git-branches-widget"
 fi
 # fzf ctrl-t(파일찾기)시
 # 숨김파일도 보기
