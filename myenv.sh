@@ -96,8 +96,12 @@ export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border --exact
 '
 # zellij 에서 ctrl-t 가 tab 명령 단축키라 FZF_CTRL_T_COMMAND(ctrl-t)와 중복된다.
 # alt-t 로도 FZF_CTRL_T_COMMAND(fzf-file-widget) 사용할 수 있도록 등록한다.
-bindkey "^[t" fzf-file-widget
-
+if [[ $current_shell == "zsh" ]]; then
+    bindkey "^[t" fzf-file-widget
+    source ${myenv_path}/fzf-git.sh
+    # fzf-git.sh 에선 ctrl-g ctrl-b 로 사용하는데, zellij 와 중복되어 alt-b 로도 바인딩함
+    bindkey "^[b" "fzf-git-branches-widget"
+fi
 # fzf ctrl-t(파일찾기)시
 # 숨김파일도 보기
 export FZF_CTRL_T_COMMAND='find . -type f'
