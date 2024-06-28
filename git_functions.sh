@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 현재 사용중인 git 정보 파악할때 사용
-git_url()
+get_git_url()
 {
     # 특정 repo url 만 파악할 경우 인자 추가
     grepgit="github.com/ysoftman"
