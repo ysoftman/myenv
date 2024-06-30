@@ -17,6 +17,7 @@ mpkgs["grex"]="grex"
 mpkgs["hexyl"]="hexyl"
 mpkgs["hwatch"]="hwatch"
 mpkgs["hyperfine"]="hyperfine"
+mpkgs["jless"]="jless"
 mpkgs["lsd"]="lsd"
 mpkgs["nu"]="nu" # nushell
 mpkgs["ohmystock"]="ohmystock"
