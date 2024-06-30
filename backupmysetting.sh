@@ -55,24 +55,6 @@ fi
 # 보안사항으로 github 저장소에 올리면 안됨.
 # cp -v /etc/hosts ./hosts
 
-# backup vscode extension and make install script
-if which code; then
-    install_file="installvscodeextension.sh"
-    echo '#!/bin/sh' > ${install_file}
-    code --list-extensions | sed 's/^/code --install-extension /g' >> ${install_file}
-fi
+# cargo packages 는 installcargo.sh 로 관리
+# vim plugins 는 .vimrc 로 관리
 
-# backup cargo installed package list and make install script
-if which cargo; then
-    install_file="installcargo.sh"
-    echo '#!/bin/sh' > ${install_file}
-    echo "
-# rustup 을 설치해서 rustc/cargo 버전을 올려보자.
-#curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-# cargo 가 제대로 동작하지 않는다면 다음과 같이 삭제 후 재설치한다.
-#rustup uninstall stable && rustup install stable
-
-rustup update" >> ${install_file}
-    cargo install --list | awk 'NR%2==0 {$1=$1;print}' | tr '\n' ' ' | sed -e 's/^/cargo install /g' -e 's/ $/\n/g' >> ${install_file}
-fi
