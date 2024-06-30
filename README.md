@@ -7,7 +7,7 @@
 myenv 는 ~/workspace/myenv 에 위치해야 한다.
 
 ```bash
-# 전체(설정 및 프로그램 목록등) 백업
+# 설정 및 프로그램 목록등 백업
 sh ./backupmysetting.sh
 
 # 전체 설치(아래 모든 설치 스크립트 포함)
