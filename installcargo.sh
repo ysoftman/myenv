@@ -2,6 +2,7 @@
 
 declare -A mpkgs
 # package_name = package_binary_name
+mpkgs["alacritty"]="alacritty"
 mpkgs["bandwhich"]="bandwhich"
 mpkgs["bat"]="bat"
 mpkgs["bottom"]="btm"
