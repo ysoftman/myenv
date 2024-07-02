@@ -405,10 +405,10 @@ let g:ale_fix_on_save = 1
 let g:ale_linters_ignore = {'python':['flake8','pylint']}
 
 "vim-indent-guides
-"hi IndentGuidesOdd  ctermbg=black
-"hi IndentGuidesEven ctermbg=darkgrey
 let g:indent_guides_auto_colors = 1
 let g:indent_guides_enable_on_vim_startup = 1
+hi IndentGuidesOdd  ctermbg=black
+hi IndentGuidesEven ctermbg=darkgrey
 nnoremap <f4> :IndentGuidesToggle<enter>
 
 "coc
