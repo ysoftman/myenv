@@ -5,7 +5,7 @@ yt-dlp "https://www.youtube.com/playlist?list=PLxZefZxz0kXuZSbU4AQsIiES32Ddqbwbe
     --download-archive $music_path/download-archive \
     --extract-audio --audio-format mp3 \
     --audio-quality 0 \
-    -o "$music_path/%(playlist_title)s/%(title)s.%(ext)s" &
+    -o "$music_path/%(playlist_title)s/%(title)s.%(ext)s"
 yt-dlp "https://www.youtube.com/playlist?list=PLxZefZxz0kXva-lM3tLP49r5zZQKC_w5C" \
     --download-archive $music_path/download-archive \
     --extract-audio --audio-format mp3 \
