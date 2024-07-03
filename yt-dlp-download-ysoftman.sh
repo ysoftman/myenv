@@ -1,5 +1,5 @@
 #!/bin/bash
-music_path="$HOME/Download/music"
+music_path="$HOME/Downloads/music"
 mkdir -p $music_path
 yt-dlp "https://www.youtube.com/playlist?list=PLxZefZxz0kXuZSbU4AQsIiES32Ddqbwbe" \
     --download-archive $music_path/download-archive \
