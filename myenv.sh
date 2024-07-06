@@ -124,7 +124,7 @@ fi
 export FZF_CTRL_T_OPTS="--preview '($catcmd || tree -C {}) 2> /dev/null | head -200'"
 # fzf ctrl-r(히스토리)시
 export FZF_CTRL_R_OPTS=""
-
+unset cat_cmd
 # $(brew --prefix)/opt/fzf/install 실행하면 .fzf.bash .fzf.zsh 파일이 생긴다.
 # .bashrc .zshrc 에 맞게 다음이 자동으로 추가됨
 # [ -f ~/.fzf.bash ] && source ~/.fzf.bash
@@ -334,7 +334,10 @@ if which fortune > /dev/null 2>&1; then
     fi
 fi
 
-if which figlet > /dev/null 2>&1; then
+if which cfonts > /dev/null 2>&1; then
+    # cfonts 는 cowsay msg 로 담으면 제대로 처리되지 않아 banner 는 그냥 출력한다.
+    cfonts ysoftman -f block -g red,green 2> /dev/null
+elif which figlet > /dev/null 2>&1; then
     banner=$(figlet ysoftman 2> /dev/null)
     msg="${banner}\n${msg}"
 fi
@@ -346,7 +349,6 @@ if which cowsay > /dev/null 2>&1; then
     cowfile=""
     cnt=0
     random=$(( RANDOM % $(cowsay -l | sed 1d | wc -w ) ))
-    # echo $random
     for i in $(cowsay -l | sed 1d); do
         if [[ $cnt == $random ]]; then
             if [[ $i == "sodomized" ]] || [[ $i == "telebears" ]]; then
@@ -368,7 +370,12 @@ if which cowsay > /dev/null 2>&1; then
     else
         echo -e "$msg" | cowsay -n -f $cowfile
     fi
+    unset cowfile
+    unset cnt
+    unset random
+    unset a
 fi
+unset banner
 unset msg
 
 # prezto .zlogin fortune 을 실행하고 있어 .zlogin 에서 fortune 실행을 주석처리했다.
