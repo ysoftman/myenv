@@ -5,7 +5,7 @@ ret_value=""
 check_command_existence() {
     if [[ $# != 1 ]]; then
         ret_value="fail"
-        echo "usage) ${0} {commmand}"
+        echo "usage) ${0} {command}"
         echo "ex) ${0} kubectl"
         echo "ex) ${0} stern"
         return
@@ -156,7 +156,7 @@ function k8s_get_nodes_ip {
     done
 }
 
-function k8s_get_currnet_context_server {
+function k8s_get_current_context_server {
     check_command_existence kubectl
     if [[ $ret_value == "fail" ]]; then
         return
@@ -187,7 +187,7 @@ k8s_get_node_taints() {
     if [[ $ret_value == "fail" ]]; then
         return
     fi
-    # kubectl get nodes -o json | jq '{"node-adress":.items[].status.addresses[1].address, "taints":.items[].spec.taints}'
+    # kubectl get nodes -o json | jq '{"node-address":.items[].status.addresses[1].address, "taints":.items[].spec.taints}'
     for node in $(kubectl get nodes | sed 1d | awk '{print $1}'); do
         echo "${node}, $(kubectl describe node ${node} | rg -iN taints)"
     done

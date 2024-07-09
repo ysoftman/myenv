@@ -87,7 +87,7 @@ https://ysoftman:password@bbb.github.com
     print(f"owner: {owner}")
     print(f"repo: {repo}")
     print(f"user: {user}")
-    # print(f"pasword: {password}")
+    # print(f"password: {password}")
     if (
         len(user) == 0
         or len(password) == 0
@@ -101,14 +101,14 @@ https://ysoftman:password@bbb.github.com
     return True
 
 
-def get_user_poject_url():
+def get_user_project_url():
     if baseURL == "https://github.com":
         return "https://api.github.com/users/{}/projects".format(owner)
     # for github enterprise
     return "{}/api/v3/users/{}/projects".format(baseURL, owner)
 
 
-def get_org_poject_url():
+def get_org_project_url():
     if baseURL == "https://github.com":
         return "https://api.github.com/orgs/{}/projects".format(owner)
     # for github enterprise
@@ -123,11 +123,11 @@ def get_project_url(id: int):
 
 
 def org_project_list():
-    resp = requests.get(get_org_poject_url(), auth=(user, password))
+    resp = requests.get(get_org_project_url(), auth=(user, password))
     result = json.loads(resp.content)
     if type(result) != list:
         print("organization projects not found!, Let's try to get user projects...")
-        resp = requests.get(get_user_poject_url(), auth=(user, password))
+        resp = requests.get(get_user_project_url(), auth=(user, password))
         result = json.loads(resp.content)
         if type(result) != list:
             return
@@ -153,10 +153,10 @@ def get_project(project_id: int):
 
     # project-columns
     info_columns = []
-    for colum in columns:
-        if "cards_url" in colum:
+    for column in columns:
+        if "cards_url" in column:
             cards_resp = requests.get(
-                colum["cards_url"], auth=(user, password), params="per_page=100"
+                column["cards_url"], auth=(user, password), params="per_page=100"
             )
             cards = json.loads(cards_resp.content)
             info_issues = []
@@ -181,7 +181,7 @@ def get_project(project_id: int):
                     print(
                         "collecting... "
                         + color.yellow
-                        + colum["name"]
+                        + column["name"]
                         + color.reset_color,
                         # color.cyan + issue["created_at"] + color.reset_color,
                         color.purple + issue["title"] + color.reset_color,
@@ -189,14 +189,14 @@ def get_project(project_id: int):
                         color.blue + assignee_users_str + color.reset_color,
                     )
                     info_issues.append(issue)
-            info_columns.append({colum["name"]: info_issues})
+            info_columns.append({column["name"]: info_issues})
     # print(columns)
 
     # summary...
     print("-----")
     columns_cnt = {}
     user_issue_cnt = {}
-    not_assiged_issue_cnt = 0
+    not_assigned_issue_cnt = 0
     not_assigned_issues = []
     for col in info_columns:
         for colname, issues in col.items():
@@ -206,7 +206,7 @@ def get_project(project_id: int):
                 else:
                     columns_cnt[colname] += 1
                 if len(issue["assignee_users"]) == 0:
-                    not_assiged_issue_cnt += 1
+                    not_assigned_issue_cnt += 1
                     temp = "{} {} {}".format(colname, issue["title"], issue["html_url"])
                     not_assigned_issues.append(temp)
                     continue
@@ -223,7 +223,7 @@ def get_project(project_id: int):
 
     not_assigned_issues_str = "\n".join(not_assigned_issues)
     print(
-        f"{color.yellow}not assigned issues: {not_assiged_issue_cnt}\n{not_assigned_issues_str}{color.reset_color}"
+        f"{color.yellow}not assigned issues: {not_assigned_issue_cnt}\n{not_assigned_issues_str}{color.reset_color}"
     )
     return
 

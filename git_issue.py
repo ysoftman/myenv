@@ -84,7 +84,7 @@ https://ysoftman:password@bbb.github.com
     print(f"owner: {owner}")
     print(f"repo: {repo}")
     print(f"user: {user}")
-    # print(f"pasword: {password}")
+    # print(f"password: {password}")
     if (
         len(user) == 0
         or len(password) == 0
