@@ -94,8 +94,10 @@ bar_height = 32
 ; method = shmem
 ; source = /squeezelite-AA:BB:CC:DD:EE:FF
 
-#brew install --cask background-music
+#brew install portaudio
 method = portaudio
+#source = auto
+#brew install --cask background-music
 source = "Background Music"
 
 ; method = sndio
