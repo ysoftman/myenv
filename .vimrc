@@ -192,6 +192,7 @@ Plug 'johngrib/vim-game-code-break' "bricks breaker game
 Plug 'joshdick/onedark.vim' "colorscheme
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "fuzzy-finder:files,command,history,bookmarks
 Plug 'junegunn/fzf.vim' "fzf for vim
+Plug 'junegunn/vim-emoji' "fzf emoji
 Plug 'liuchengxu/space-vim-dark' "colorscheme
 Plug 'majutsushi/tagbar' "browse the tags of the current file and get overview of its structure
 Plug 'markonm/traces.vim' "preview for :substitute, %s/aa/bb/gc 실행정 미리변경된 결과 보기
@@ -467,6 +468,22 @@ nnoremap <leader>/ :History/<enter>
 nnoremap <leader>cmd :Commands<enter>
 nnoremap <leader>m :Maps<enter>
 
+"vim-gitgutter
+let g:gitgutter_set_sign_backgrounds = 1
+highlight GitGutterAdd    guifg=#009900 ctermfg=2
+highlight GitGutterChange guifg=#bbbb00 ctermfg=3
+highlight GitGutterDelete guifg=#ff2222 ctermfg=1
+let g:gitgutter_sign_added              = '+'
+let g:gitgutter_sign_modified           = '~'
+let g:gitgutter_sign_removed            = '-'
+let g:gitgutter_sign_removed_first_line = '-‾'
+let g:gitgutter_sign_removed_above_and_below = '-¯'
+let g:gitgutter_sign_modified_removed   = '~-'
+
+"vim.emoji
+"insert 모드에서 ctrl+x > ctrl+u 로 사용
+set completefunc=emoji#complete
+
 "vim-fugitive
 nnoremap <leader>gs :Git<enter> "opens summary window
 nnoremap <leader>gd :Git diff<enter>
@@ -542,4 +559,3 @@ let g:jedi#popup_select_first = 0
 
 "rust.vim
 autocmd filetype rust nnoremap <leader>f :RustFmt<enter>
-
