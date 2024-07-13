@@ -30,12 +30,12 @@ mpkgs["termscp"]="termscp"
 mpkgs["termusic"]="termusic"
 mpkgs["termusic-server"]="termusic-server"
 mpkgs["tokei"]="tokei"
+mpkgs["typos-cli"]="typos"
 mpkgs["whome"]="whome"
 mpkgs["ytop"]="ytop"
 mpkgs["zellij"]="zellij"
 mpkgs["zenith"]="zenith"
 mpkgs["zoxide"]="zoxide"
-
 # brew 로 설치해보기
 #if [[ $(uname) == 'Darwin' ]]; then
 #    for p in ${pkgs}; do
