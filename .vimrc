@@ -481,7 +481,7 @@ let g:gitgutter_sign_removed_above_and_below = '-¯'
 let g:gitgutter_sign_modified_removed   = '~-'
 
 "vim.emoji
-"insert 모드에서 ctrl+x > ctrl+u 로 사용
+"insert 모드에서:입력하다 ctrl+x ctrl+u 하면 자동완성 리스트가 보이고 선택.
 set completefunc=emoji#complete
 
 "vim-fugitive
