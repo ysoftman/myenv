@@ -26,10 +26,10 @@ elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
     if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
         # termux 에서 prezto 사용시 pmodload: no such module: prompt git ... 등 모듈로딩 에러 발생
         # oh-my-zsh 사용
-        source ~/.oh-my-zsh/templates/zshrc.zsh-template
+        source "$HOME/.oh-my-zsh/templates/zshrc.zsh-template"
     else
         # prezto 사용
-        source ~/.zprezto/init.zsh
+        source "$HOME/.zprezto/init.zsh"
     fi
 
     # zsh-autosuggestions 사용
@@ -37,7 +37,7 @@ elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
         git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
     fi
     if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
-        source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+        source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
     fi
 fi
 # echo "current_shell=${current_shell}"
@@ -51,6 +51,7 @@ if [ -d "${HOME}/.kube" ]; then
     for i in $(ls ${HOME}/.kube/*.yaml); do
         KUBECONFIG+=":"$i;
     done 2> /dev/null
+    #for i in "${HOME}"/.kube/*.yml; do # 파일이 없어 에러발생하면 스크립트가  끝나버리는 문제가 있어 ls 커맨드를 별도로 실행
     for i in $(ls ${HOME}/.kube/*.yml); do
         KUBECONFIG+=":"$i;
     done 2> /dev/null
