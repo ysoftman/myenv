@@ -354,6 +354,10 @@ elif which figlet > /dev/null 2>&1; then
     msg="${banner}\n${msg}"
 fi
 
+if which emojify > /dev/null 2>&1; then
+    echo ":four_leaf_clover: Sentimental programmer ysoftman :smile:" | emojify
+fi
+
 if which cowsay > /dev/null 2>&1; then
     # print cowsay list number
     # cnt=0; for i in $(cowsay -l | sed 1d); do echo "$((cnt++)) $i"; done;
@@ -372,8 +376,7 @@ if which cowsay > /dev/null 2>&1; then
         fi;
         cnt=$(( cnt+1 ));
     done
-    echo "$cowfile"
-
+    #echo "$cowfile"
 
     # figlet 을 메시지로 사용할 경우 -n 이 필요하다.
     if which lolcat > /dev/null 2>&1 ; then
