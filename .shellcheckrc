@@ -1,0 +1,6 @@
+# https://github.com/koalaman/shellcheck/wiki/directive#supported-directives
+# https://www.shellcheck.net/wiki/
+
+# Don't suggest [ -n "$VAR" ] over [ ! -z "$VAR" ]
+disable=SC2236
+disable=SC2086
