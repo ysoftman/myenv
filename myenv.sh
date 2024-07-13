@@ -1,6 +1,6 @@
 #!/bin/bash
 # https://github.com/koalaman/shellcheck/wiki/directive#supported-directives
-# https://www.shellcheck.net/wiki/ (SC 코드 리스트)
+# https://www.shellcheck.net/wiki/
 # shellcheck disable=SC1091
 # shellcheck disable=SC1090
 # shellcheck disable=SC2139

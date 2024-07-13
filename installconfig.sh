@@ -15,7 +15,7 @@ git config --global merge.tool vimdiff
 # 이미 사용자 정보가 설정되어 있으면 덮어쓰기때문에 확인하고 사용하자
 echo -e "(current) git config --global user.email: $(git config --global user.email)"
 echo -ne "(new) git config --global user.email: (empty to keep current user email)"
-read answer
+read -r answer
 if [[ ${answer} != '' ]]; then
     user_email=${answer}
     echo "user.email:" ${user_email}
@@ -24,15 +24,15 @@ fi
 
 echo -e "(current) git config --global user.name: $(git config --global user.name)"
 echo -ne "(new) git config --global user.name: (empty to keep current user name)"
-read answer
+read -r answer
 if [[ ${answer} != '' ]]; then
     user_name=${answer}
     echo "user.name:" ${user_name}
     git config --global user.name ${user_name}
 fi
 
-temp=$(delta --version 2> /dev/null)
-if [[ $? == 0 ]]; then
+if delta --version 2> /dev/null 2>&1; then
+    echo "set delta to git global config"
     git config --global core.pager "delta"
     git config --global interactive.diffFilter "delta --color-only"
     git config --global add.interactive.userBuiltin "false"
@@ -56,6 +56,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [ -h ~/.vimrc ] && unlink ~/.vimrc
 [ -h ${XDG_CONFIG_HOME}/nvim ] && unlink ${XDG_CONFIG_HOME}/nvim
 [ -h ~/.tmux.conf ] && unlink ~/.tmux.conf
+[ -h ~/.shellcheckrc ] && unlink ~/.shellcheckrc
 [ -h ~/.tigrc ] && unlink ~/.tigrc
 [ -h ~/.muttrc ] && unlink ~/.muttrc
 [ -d ${XDG_CONFIG_HOME}/alacritty-colorscheme ] || git clone https://github.com/alacritty/alacritty-theme ${XDG_CONFIG_HOME}/alacritty-colorscheme
@@ -76,6 +77,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [ -f ~/.vimrc ] && mv -fv ~/.vimrc ~/.vimrc.bak
 [ -f ${XDG_CONFIG_HOME}/nvim/init.vim ] && mv -fv ${XDG_CONFIG_HOME}/nvim ${XDG_CONFIG_HOME}/nvim.bak
 [ -f ~/.tmux.conf ] && mv -fv ~/.tmux.conf ~/.tmux.conf.bak
+[ -f ~/.shellcheckrc ] && mv -fv ~/.shellcheckrc ~/.shellcheckrc.bak
 [ -f ~/.tigrc ] && mv -fv ~/.tigrc ~/.tigrc.bak
 [ -f ~/.muttrc ] && mv -fv ~/.muttrc ~/.muttrc.bak
 [ -d ${XDG_CONFIG_HOME}/alacritty ] && mv -fv ${XDG_CONFIG_HOME}/alacritty ${XDG_CONFIG_HOME}/alacritty.bak
@@ -98,6 +100,7 @@ ln -sf ${PWD}/.zshrc ~/.zshrc
 ln -sf ${PWD}/.vimrc ~/.vimrc
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/nvim ${XDG_CONFIG_HOME}/nvim
 ln -sf ${PWD}/.tmux.conf ~/.tmux.conf
+ln -sf ${PWD}/.shellcheckrc ~/.shellcheckrc
 ln -sf ${PWD}/.tigrc ~/.tigrc
 ln -sf ${PWD}/.muttrc ~/.muttrc
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/alacritty ${XDG_CONFIG_HOME}/alacritty
