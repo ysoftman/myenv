@@ -379,11 +379,13 @@ autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 ":ALEInfo "현재 설정값 보기
 ":ALEEnable
 ":ALEDisable
+" brew install shellcheck
 let g:ale_enabled=1
 let g:ale_linters = {
 \ 'python': ['flake8', 'pylint'],
 \ 'javascript': ['eslint'],
-\ 'go': ['golangci-lint', 'gofmt']
+\ 'go': ['golangci-lint', 'gofmt'],
+\ 'sh': ['shellcheck'],
 \}
 " yarn global add eslint prettier
 " or
@@ -391,6 +393,7 @@ let g:ale_linters = {
 " prettier 에서 helm template 이슈가 있어 yaml 은 사용하지 않는다.
 " https://github.com/prettier/prettier/issues/6517
 let g:ale_fixers = {
+\ '*': ['remove_trailing_lines', 'trim_whitespace'],
 "\ 'yaml': ['prettier'],
 \ 'markdown': ['prettier'],
 \ 'json': ['prettier'],
@@ -398,7 +401,7 @@ let g:ale_fixers = {
 \ 'javascript': ['prettier', 'eslint'],
 \ 'css': ['prettier'],
 \ 'scss': ['prettier'],
-\ 'html': ['prettier']
+\ 'html': ['prettier'],
 \}
 let g:ale_linters_explicit = 1
 let g:ale_fix_on_save = 1
