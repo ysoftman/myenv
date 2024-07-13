@@ -2,11 +2,12 @@
 # /etc/profile -> /usr/libexec/path_helper -> /etc/paths 까지 설정 확인시
 #echo $PATH | tr ':' '\n'
 
-export myenv_path=$(dirname $0)
+declare myenv_path
+myenv_path=$(dirname "$0")
 export PATH=$myenv_path:$PATH
 echo "myenv_path=$myenv_path"
 
-source ${myenv_path}/colors.sh
+source "${myenv_path}/colors.sh"
 
 current_shell="bash"
 if [[ $(ps -p $$ -o command | sed -e 1d) == *"bash"* ]]; then
@@ -32,10 +33,10 @@ elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
     fi
 
     # zsh-autosuggestions 사용
-    if [ ! -f $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    if [ ! -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
         git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
     fi
-    if [ -f $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
         source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
     fi
 fi
@@ -45,7 +46,7 @@ fi
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # set kubeconfig path
-if [ -d ${HOME}/.kube ]; then
+if [ -d "${HOME}/.kube" ]; then
     export KUBECONFIG="${HOME}/.kube/config"
     for i in $(ls ${HOME}/.kube/*.yaml); do
         KUBECONFIG+=":"$i;
@@ -61,8 +62,8 @@ fi
 # brew install kube-ps1 로 설치시 최신 버전아님
 #kube_ps1_path="/usr/local/opt/kube-ps1/share/kube-ps1.sh"
 kube_ps1_path="${myenv_path}/kube-ps1.sh"
-if [ -f ${kube_ps1_path} ]; then
-    source ${kube_ps1_path}
+if [ -f "${kube_ps1_path}" ]; then
+    source "${kube_ps1_path}"
     export KUBE_PS1_SYMBOL_USE_IMG=true
     # PS1='$(kube_ps1)'$'\n'$PS1  # 2 줄로 표시할때
     PS1='$(kube_ps1) '$PS1
@@ -79,7 +80,7 @@ fi
 
 # install fzf
 if type fzf > /dev/null 2>&1; then
-    if [ ! -f ${HOME}/.fzf/bin/fzf ]; then
+    if [ ! -f "${HOME}/.fzf/bin/fzf" ]; then
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
         ~/.fzf/install
     fi
@@ -98,7 +99,7 @@ export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border --exact
 # alt-t 로도 FZF_CTRL_T_COMMAND(fzf-file-widget) 사용할 수 있도록 등록한다.
 if [[ $current_shell == "zsh" ]]; then
     bindkey "^[t" fzf-file-widget
-    source ${myenv_path}/fzf-git.sh
+    source "${myenv_path}/fzf-git.sh"
     # fzf-git.sh 에선 ctrl-g ctrl-b 로 사용하는데, zellij 와 중복되어 alt-b 로도 바인딩함
     # alt-b 는 alt-left(showkey 로 확인)라 alt-B 로 사용하자
     #bindkey "^[b" "fzf-git-branches-widget"
@@ -133,7 +134,7 @@ unset cat_cmd
 export GOPATH=$HOME/workspace/gopath
 tidy_path() {
     local temp_path=""
-    for p in $(echo $PATH | tr : '\n' | uniq); do
+    for p in $(echo "$PATH" | tr : '\n' | uniq); do
         if [[ $p == '/opt/homebrew/bin' ]]; then
             continue
         elif [[ $p == '/usr/local/bin' ]]; then
@@ -189,14 +190,14 @@ elif [[ $os_name == *"linux"* ]]; then
     os_name=$(uname -r | awk '{print tolower($0)}')
     if [[ $os_name == *"wsl"* ]]; then
         os_name=$(wslvar userprofile 2> /dev/null)
-        if [ $? != 0 ]; then
+        if ! wslvar > /dev/null 2>&1 ; then
             # wslvar reg.exe 등의 에러 발생시 업데이트
             echo "need to install wslu for wslvar(reg.exe...)"
             sudo apt install -y wslu
         fi
         # wsl.conf appendWindowsPath=false 인경우 vscode 경로 추가 필요
         # export PATH=$PATH:"/mnt/c/Program Files/Microsoft VS Code/bin:"
-        username=$(wslvar userprofile | tr '\\' ' ' | awk '{print $NF}')
+        username=$(wslvar userprofile | tr \\ ' ' | awk '{print $NF}')
         export PATH=$PATH:"/mnt/c/Users/${username}/AppData/Local/Programs/Microsoft VS Code/bin"
         # 윈도우 netstat.exe 사용해야 실제 네트워크 상태를 알 수 있다.
         alias netstat='/mnt/c/Windows/System32/netstat.exe'
@@ -232,7 +233,6 @@ if type kubecolor > /dev/null 2>&1; then
     # kubecolor 로 kubectl 자동 완성
     compdef kubecolor=kubectl
 fi
-
 
 # zsh 에서 rsync='noglob rsync' 등 glob(*)을 사용 못하게 alias 하고 있어 해제한다.
 unalias bower 2> /dev/null
@@ -271,9 +271,13 @@ alias ghissueview='gh issue view' # 뒤에 이슈번호 아규먼트 명시
 alias k='kubectl'
 alias m-c='/usr/local/Cellar/midnight-commander/4.8.28/bin/mc'
 # 현재 하위 모든 git 디렉토리 pull 받기
-alias gitpullall='for dir in $(fd -H -d 2 ".git$" | awk -F "/.git.*$" "{print \$1}"); do
-printf "${green}[%s]==> $reset_color" "$dir"; git -C $dir pull;
-done'
+alias gitpullall=git_pull_all
+git_pull_all() {
+    for dir in $(fd -H -d 2 ".git$" | awk -F "/.git.*$" "{print \$1}"); do
+        printf "${green}[%s]==> $reset_color" "$dir"
+        git -C "$dir" pull
+    done
+}
 alias duf="duf -theme dark"
 # ssh 원격 접속시 clear 실행하면 'alacritty': unknown terminal type. 메시지 발생 방지
 alias ssh='TERM=xterm-256color ssh'
@@ -282,10 +286,10 @@ alias ssh='TERM=xterm-256color ssh'
 alias arm='arch -arm64 /bin/zsh'
 
 # load my functions
-source ${myenv_path}/rename_files.sh
-source ${myenv_path}/cnt_src.sh
-source ${myenv_path}/git_functions.sh
-source ${myenv_path}/k8s_info.sh
+source "${myenv_path}/rename_files.sh"
+source "${myenv_path}/cnt_src.sh"
+source "${myenv_path}/git_functions.sh"
+source "${myenv_path}/k8s_info.sh"
 
 if which pyenv > /dev/null 2>&1; then
     eval "$(pyenv init -)"
@@ -307,20 +311,20 @@ if [[ $TERM == *"alacritty"* ]]; then
     fi
 fi
 
-term_program=$(echo $TERM_PROGRAM | tr "[:upper:]" "[:lower:]")
+term_program_name=$(echo "$TERM_PROGRAM" | tr "[:upper:]" "[:lower:]")
 
 if which fastfetch > /dev/null 2>&1; then
     args="--cpu-temp true --gpu-temp true"
-    if [[ $term_program == *"iterm"* ]]; then
+    if [[ $term_program_name == *"iterm"* ]]; then
         args+=" --logo-type iterm --logo ${myenv_path}/xelloss.jpg --logo-width 50 --logo-height 20"
     fi
-    eval fastfetch ${args}
+    eval fastfetch "${args}"
 elif which neofetch > /dev/null 2>&1; then
     args=""
-    if [[ $term_program == *"iterm"* ]]; then
+    if [[ $term_program_name == *"iterm"* ]]; then
         args+"--backend iterm2 --size 300 --source ${myenv_path}/xelloss.jpg"
     fi
-    eval neofetch ${args}
+    eval neofetch "${args}"
 elif which screenfetch > /dev/null 2>&1; then
     screenfetch -E
 fi
@@ -350,7 +354,7 @@ if which cowsay > /dev/null 2>&1; then
     cnt=0
     random=$(( RANDOM % $(cowsay -l | sed 1d | wc -w ) ))
     for i in $(cowsay -l | sed 1d); do
-        if [[ $cnt == $random ]]; then
+        if [[ "$cnt" == "$random" ]]; then
             if [[ $i == "sodomized" ]] || [[ $i == "telebears" ]]; then
                 printf "change rude coway type to cheese!\n"
                 i="cheese"
@@ -360,15 +364,14 @@ if which cowsay > /dev/null 2>&1; then
         fi;
         cnt=$(( cnt+1 ));
     done
-    echo $cowfile
+    echo "$cowfile"
 
 
-    a=$(which lolcat 2> /dev/null)
     # figlet 을 메시지로 사용할 경우 -n 이 필요하다.
-    if [[ $? == 0 ]]; then
-        echo -e "$msg" | cowsay -n -f $cowfile | lolcat
+    if which lolcat > /dev/null 2>&1 ; then
+        echo -e "$msg" | cowsay -n -f "$cowfile" | lolcat
     else
-        echo -e "$msg" | cowsay -n -f $cowfile
+        echo -e "$msg" | cowsay -n -f "$cowfile"
     fi
     unset cowfile
     unset cnt
