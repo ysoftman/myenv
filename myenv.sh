@@ -1,4 +1,11 @@
 #!/bin/bash
+# https://github.com/koalaman/shellcheck/wiki/directive#supported-directives
+# https://www.shellcheck.net/wiki/ (SC 코드 리스트)
+# shellcheck disable=SC1091
+# shellcheck disable=SC1090
+# shellcheck disable=SC2139
+# shellcheck disable=SC2045
+
 # /etc/profile -> /usr/libexec/path_helper -> /etc/paths 까지 설정 확인시
 #echo $PATH | tr ':' '\n'
 
@@ -48,11 +55,11 @@ export XDG_CONFIG_HOME="$HOME/.config"
 # set kubeconfig path
 if [ -d "${HOME}/.kube" ]; then
     export KUBECONFIG="${HOME}/.kube/config"
-    for i in $(ls ${HOME}/.kube/*.yaml); do
+    for i in $(ls "${HOME}"/.kube/*.yaml); do
         KUBECONFIG+=":"$i;
     done 2> /dev/null
     #for i in "${HOME}"/.kube/*.yml; do # 파일이 없어 에러발생하면 스크립트가  끝나버리는 문제가 있어 ls 커맨드를 별도로 실행
-    for i in $(ls ${HOME}/.kube/*.yml); do
+    for i in $(ls "${HOME}"/.kube/*.yml); do
         KUBECONFIG+=":"$i;
     done 2> /dev/null
     # KUBECONFIG 파일들 하나로 합칠때
