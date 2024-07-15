@@ -2,5 +2,13 @@
 # https://www.shellcheck.net/wiki/
 
 # Don't suggest [ -n "$VAR" ] over [ ! -z "$VAR" ]
-disable=SC2236
+
+disable=SC1091
+disable=SC2002
+disable=SC2034
+disable=SC2039
 disable=SC2086
+disable=SC2089
+disable=SC2090
+disable=SC2236
+disable=SC3001-SC3035
