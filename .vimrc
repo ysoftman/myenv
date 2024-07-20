@@ -510,16 +510,19 @@ autocmd filetype cpp nnoremap <f5> :w <bar> :!clear; g++ % && ./a.out<enter>
 
 "vim-go
 ".go 파일에서 c-] , c-t 등 godef 관련 shortcut 이 아래 단축키 설정과 충돌해 비활성화
+let g:go_auto_sameids = 0
 let g:go_def_mapping_enabled=0
-let g:go_fmt_command = "gopls"
 let g:go_fmt_autosave = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_types = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_methods = 1
+let g:go_fmt_command = "gopls"
 let g:go_highlight_build_constraints = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_function_parameters = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_types = 1
 let g:go_metalinter_enabled = ['vet', 'golangci-lint', 'errcheck']
 let g:go_version_warning = 0
 autocmd filetype go nnoremap <f2> :GoRename<enter>
