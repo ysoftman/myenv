@@ -208,6 +208,7 @@ Plug 'preservim/nerdtree' "browse directory and open files
 Plug 'psf/black' "python code formatter
 Plug 'rust-lang/rust.vim' "rust development plugin
 Plug 'ryanoasis/vim-devicons' "icons
+Plug 'sheerun/vim-polyglot' "A collection of language syntax highlighting(ex) c++, go, nginx, helm, sh, toml, git config, ... etc...)
 Plug 'terryma/vim-multiple-cursors' "multiple selection and edit
 Plug 'tpope/vim-abolish' "Abbreviation, snake_case, camelCase, UPPER_CASE, dash-case, dot.case
 Plug 'tpope/vim-fugitive' "git command
