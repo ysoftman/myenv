@@ -383,10 +383,11 @@ autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 ":ALEDisable
 " brew install shellcheck
 let g:ale_enabled=1
+" ale_linters 는 아래 처럼 별도 설정하지 않으면 디폴트로 파일별 미리 정해진 linter 가 설정된다.
 let g:ale_linters = {
 \ 'python': ['flake8', 'pylint'],
 \ 'javascript': ['eslint'],
-\ 'go': ['golangci-lint', 'gofmt'],
+"\ 'go': ['golangci-lint', 'gofmt'], # vim-go 에 설정했음
 \ 'sh': ['shellcheck'],
 \}
 " yarn global add eslint prettier
