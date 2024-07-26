@@ -524,7 +524,6 @@ let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_types = 1
-"golangci-lint
 let g:go_metalinter_command = "golangci-lint"
 let g:go_metalinter_deadline = "5s"
 "golangci-lint 에서 활성화할 항목
