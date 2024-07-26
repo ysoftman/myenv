@@ -30,7 +30,12 @@
     "**/.classpath": true,
     "**/.project": true,
     "**/.settings": true,
-    "**/.factorypath": true
+    "**/.factorypath": true,
+    "**/.trunk/*actions/": true,
+    "**/.trunk/*logs/": true,
+    "**/.trunk/*notifications/": true,
+    "**/.trunk/*out/": true,
+    "**/.trunk/*plugins/": true
   },
   "search.exclude": {
     "**/node_modules": true,
@@ -41,22 +46,24 @@
   "search.seedWithNearestWord": true,
   "search.showLineNumbers": true,
   "go.useLanguageServer": true,
-  "go.buildOnSave": "package",
-  // go lint 표시 off
-  // "go.lintOnSave": "off",
+
   "go.vetOnSave": "package",
   "go.buildTags": "",
   "go.buildFlags": [],
+  // file 저장시 lint 수행
+  "go.lintOnSave": "file",
   "go.lintTool": "golangci-lint",
-  "go.lintFlags": ["--concurrency 4"],
+  "go.lintFlags": [
+    // "--enable-all",
+    "--allow-parallel-runners",
+    "--concurrency",
+    "4"
+  ],
   "go.vetFlags": [],
   "go.coverOnSave": false,
-  "go.useCodeSnippetsOnFunctionSuggest": false,
-  "go.gocodeAutoBuild": false,
   "go.toolsEnvVars": {
     "GO111MODULE": "on"
   },
-  "go.autocompleteUnimportedPackages": true,
   "go.formatTool": "goimports",
   "go.gopath": "/Users/ysoftman/workspace/gopath",
   // "go.gopath": "/home/ysoftman/workspace/gopath",
@@ -64,20 +71,18 @@
   "[go]": {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": "explicit"
     }
   },
   "[rust]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "rust-lang.rust"
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
-  "rust.rustfmt_path": "${HOME}/.cargo/bin/rustfmt",
   "workbench.editor.enablePreviewFromQuickOpen": false,
   "workbench.startupEditor": "none",
   "workbench.statusBar.visible": true,
-  "workbench.activityBar.visible": false,
   "workbench.sideBar.location": "left",
-  "workbench.editor.showTabs": true,
+  "workbench.editor.showTabs": "multiple",
   "workbench.colorCustomizations": {
     "terminal.background": "#0b1015",
     "editor.background": "#0b1015",
@@ -146,7 +151,7 @@
   ],
   "python.languageServer": "Pylance",
   // Number of editors shown in the Open Editors pane.
-  "explorer.openEditors.visible": 0,
+  "explorer.openEditors.visible": 1,
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
   "explorer.compactFolders": false,
@@ -221,11 +226,9 @@
   },
   "update.mode": "manual",
   "remote.SSH.showLoginTerminal": true,
-  "liveshare.presence": false,
   "oneDarkPro.vivid": true,
   "eslint.enable": true,
   "eslint.format.enable": true,
-  "eslint.alwaysShowStatus": true,
   "eslint.validate": [
     "vue",
     "javascript",
@@ -246,23 +249,18 @@
   "liveServer.settings.donotVerifyTags": true,
   "go.toolsManagement.autoUpdate": true,
   "javascript.updateImportsOnFileMove.enabled": "never",
-  "mssql.connections": [
-    {
-      "server": "{{put-server-name-here}}",
-      "database": "{{put-database-name-here}}",
-      "user": "{{put-username-here}}",
-      "password": "{{put-password-here}}"
-    }
-  ],
   "react-native-tools.showUserTips": false,
-  "workbench.editor.untitled.hint": "hidden",
   "security.workspace.trust.untrustedFiles": "open",
-  "bracket-pair-colorizer-2.depreciation-notice": false,
   "redhat.telemetry.enabled": false,
   "files.watcherExclude": {
     "**/.bloop": true,
     "**/.metals": true,
-    "**/.ammonite": true
+    "**/.ammonite": true,
+    "**/.trunk/*actions/": true,
+    "**/.trunk/*logs/": true,
+    "**/.trunk/*notifications/": true,
+    "**/.trunk/*out/": true,
+    "**/.trunk/*plugins/": true
   },
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -278,5 +276,7 @@
   "csharp.suppressDotnetInstallWarning": true,
   "workbench.editor.enablePreview": false,
   "diffEditor.ignoreTrimWhitespace": false,
-  "window.zoomLevel": 1
+  "window.zoomLevel": 1,
+  "workbench.activityBar.location": "hidden",
+  "git.openRepositoryInParentFolders": "never"
 }
