@@ -524,7 +524,11 @@ let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_types = 1
-let g:go_metalinter_enabled = ['vet', 'golangci-lint', 'errcheck']
+"golangci-lint
+let g:go_metalinter_command = "golangci-lint"
+let g:go_metalinter_deadline = "5s"
+"golangci-lint 에서 활성화할 항목
+let g:go_metalinter_enabled = ['vet', 'revive', 'errcheck']
 let g:go_version_warning = 0
 autocmd filetype go nnoremap <f2> :GoRename<enter>
 autocmd filetype go nnoremap <f5> :w <bar> :!clear; <enter> :GoRun<enter>
