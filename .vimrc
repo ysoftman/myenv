@@ -383,11 +383,12 @@ autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 ":ALEDisable
 " brew install shellcheck
 let g:ale_enabled=1
-" ale_linters 는 아래 처럼 별도 설정하지 않으면 디폴트로 파일별 미리 정해진 linter 가 설정된다.
+"ale_linters 는 아래 처럼 별도 설정하지 않으면 디폴트로 파일별 미리 정해진 linter 가 설정된다.
+"vim-go 와 달리 linter 커맨드를 입력하지 않아도 golangci-lint 결과가 코드에 자동으로 표시된다
 let g:ale_linters = {
 \ 'python': ['flake8', 'pylint'],
 \ 'javascript': ['eslint'],
-"\ 'go': ['golangci-lint', 'gofmt'], # vim-go 에 설정했음
+\ 'go': ['golangci-lint', 'gofmt'],
 \ 'sh': ['shellcheck'],
 \}
 " yarn global add eslint prettier
@@ -524,10 +525,15 @@ let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_types = 1
+":GoMetaLinter 명령실행시 동작할 커맨드
 let g:go_metalinter_command = "golangci-lint"
-let g:go_metalinter_deadline = "5s"
+"최신 golangci-lint 에서 --deadline 옵션이 --timeout 으로 변경됨
+"https://github.com/golangci/golangci-lint/pull/793/files
+"vim-go 에서는 아직 deadline 을 사용하고 있어 주석처리함
+"let g:go_metalinter_deadline = "5s"
 "golangci-lint 에서 활성화할 항목
-let g:go_metalinter_enabled = ['vet', 'revive', 'errcheck']
+"vet -> govet 으로 바뀜
+let g:go_metalinter_enabled = ['govet', 'revive', 'errcheck']
 let g:go_version_warning = 0
 autocmd filetype go nnoremap <f2> :GoRename<enter>
 autocmd filetype go nnoremap <f5> :w <bar> :!clear; <enter> :GoRun<enter>
