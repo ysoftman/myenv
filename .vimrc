@@ -389,6 +389,7 @@ let g:ale_linters = {
 \ 'python': ['flake8', 'pylint'],
 \ 'javascript': ['eslint'],
 \ 'go': ['golangci-lint', 'gofmt'],
+\ 'rust': ['analyzer', 'rustc'],
 \ 'sh': ['shellcheck'],
 \}
 " yarn global add eslint prettier
@@ -573,3 +574,4 @@ let g:jedi#popup_select_first = 0
 
 "rust.vim
 autocmd filetype rust nnoremap <leader>f :RustFmt<enter>
+let g:rustfmt_autosave=1
