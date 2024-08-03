@@ -422,7 +422,7 @@ nnoremap <f4> :IndentGuidesToggle<enter>
 
 "coc
 ":h coc-nvim  "for help
-":CocInstall coc-json coc-tsserver  "install coc extention or configure language server(LSP)
+":CocInstall coc-json coc-tsserver coc-rust-analyzer "install coc extention or configure language server(LSP)
 ":CocConfig  "open coc-settings.json
 " GoTo code navigation
 let g:coc_start_at_startup = 1
