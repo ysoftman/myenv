@@ -52,6 +52,19 @@ fi
 # set XDG_CONFIG_HOME
 export XDG_CONFIG_HOME="$HOME/.config"
 
+if ! type kubectl > /dev/null 2>&1; then
+    bash ./installkubectl.sh
+fi
+# zsh 환경에서 kubectl 자동 완성
+source <(kubectl completion zsh)
+# kubecolor (brew install hidetatz/tap/kubecolor)
+# kubecolor internally calls kubectl command
+if type kubecolor > /dev/null 2>&1; then
+    alias kubectl='kubecolor'
+    # kubecolor 로 kubectl 자동 완성
+    compdef kubecolor=kubectl
+fi
+
 # set kubeconfig path
 if [ -d "${HOME}/.kube" ]; then
     export KUBECONFIG="${HOME}/.kube/config"
@@ -240,15 +253,6 @@ fi
 #    alias rg='rg -p'
 #fi
 
-# zsh 환경에서 kubectl 자동 완성
-source <(kubectl completion zsh)
-# kubecolor (brew install hidetatz/tap/kubecolor)
-# kubecolor internally calls kubectl command
-if type kubecolor > /dev/null 2>&1; then
-    alias kubectl='kubecolor'
-    # kubecolor 로 kubectl 자동 완성
-    compdef kubecolor=kubectl
-fi
 
 # zsh 에서 rsync='noglob rsync' 등 glob(*)을 사용 못하게 alias 하고 있어 해제한다.
 unalias bower 2> /dev/null
