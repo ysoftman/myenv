@@ -39,6 +39,9 @@ sh ./installpip.sh
 
 # cargo 로 프로그램 설치
 sh ./installcargo.sh
+
+# kubectl/kubecolor 설치
+sh ./installkubectl.sh
 ```
 
 ## Mac
