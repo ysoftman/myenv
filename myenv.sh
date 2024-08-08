@@ -218,8 +218,7 @@ elif [[ $os_name == *"linux"* ]]; then
     # WSL(Windows Subsystem for Linux)
     os_name=$(uname -r | awk '{print tolower($0)}')
     if [[ $os_name == *"wsl"* ]]; then
-        os_name=$(wslvar userprofile 2> /dev/null)
-        if ! wslvar > /dev/null 2>&1 ; then
+        if ! wslvar userprofile > /dev/null 2>&1 ; then
             # wslvar reg.exe 등의 에러 발생시 업데이트
             echo "need to install wslu for wslvar(reg.exe...)"
             sudo apt install -y wslu
