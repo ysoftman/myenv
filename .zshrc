@@ -102,6 +102,7 @@ export NVM_DIR="$HOME/.config/nvm"
 # --no-use 를 옵션을 사용해 로딩하면 nvm 명령은 사용할 수 있지만 새로운 쉘 시작시 항상 system node 가 되어
 # 특정 node 버전이 필요한 경우 nvm use v{버전} 으로 변경해야 하는 수고가 있다.
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" --no-use
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/mc mc

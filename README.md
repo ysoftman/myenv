@@ -48,6 +48,9 @@ sh ./installgolang.sh
 
 # kubectl/kubecolor 설치
 sh ./installkubectl.sh
+
+# nvm 설치
+sh ./installnvm.sh
 ```
 
 ## Mac
