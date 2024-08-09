@@ -401,12 +401,12 @@ let g:ale_fixers = {
 \ '*': ['remove_trailing_lines', 'trim_whitespace'],
 "\ 'yaml': ['prettier'],
 \ 'markdown': ['prettier'],
-\ 'json': ['prettier'],
-\ 'typescript': ['prettier', 'eslint'],
-\ 'javascript': ['prettier', 'eslint'],
-\ 'css': ['prettier'],
-\ 'scss': ['prettier'],
-\ 'html': ['prettier'],
+\ 'json': ['prettier', 'trim_whitespace'],
+\ 'typescript': ['prettier', 'eslint', 'trim_whitespace'],
+\ 'javascript': ['prettier', 'eslint', 'trim_whitespace'],
+\ 'css': ['prettier', 'trim_whitespace'],
+\ 'scss': ['prettier', 'trim_whitespace'],
+\ 'html': ['prettier', 'trim_whitespace'],
 \}
 let g:ale_linters_explicit = 1
 let g:ale_fix_on_save = 1
