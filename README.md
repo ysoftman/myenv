@@ -37,6 +37,9 @@ sh ./installtmuxplugin.sh
 # pip 로 프로그램 설치
 sh ./installpip.sh
 
+# rust 설치
+sh ./installcargo.sh
+
 # cargo 로 프로그램 설치
 sh ./installcargo.sh
 
