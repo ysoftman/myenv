@@ -5,7 +5,7 @@
 base_vim_version="9.1.0"
 install_vim_from_src() {
 	# 최신 버전 vim 설치
-	if [ ! -d 'vim-${base_vim_version}' ]; then
+	if [ ! -d "vim-${base_vim_version}" ]; then
 		# git clone https://github.com/vim/vim.git
 		wget "https://github.com/vim/vim/archive/v${base_vim_version}.tar.gz"
 		tar zxvf v${base_vim_version}.tar.gz
