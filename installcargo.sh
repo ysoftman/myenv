@@ -60,16 +60,12 @@ done
 echo "install_pkgs=$install_pkgs"
 echo "uninstall_pkgs=$uninstall_pkgs"
 
-# rustup 을 설치해서 rustc/cargo 버전을 올려보자.
-#curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
 # cargo 가 제대로 동작하지 않는다면 다음과 같이 삭제 후 재설치한다.
 #rustup uninstall stable && rustup install stable
 
 rustup update
-cargo install ${install_pkgs}
+cargo install ${install_pkgs} --locked
 cargo uninstall ${uninstall_pkgs} 2> /dev/null
 
 echo "-- show installed packages by cargo --"
 cargo install --list | awk 'NR%2==0 {print $1}'
-
