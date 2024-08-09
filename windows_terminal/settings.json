@@ -1,10 +1,10 @@
 {
     "$help": "https://aka.ms/terminal-documentation",
     "$schema": "https://aka.ms/terminal-profiles-schema",
-    "actions": 
+    "actions":
     [
         {
-            "command": 
+            "command":
             {
                 "action": "nextTab"
             },
@@ -83,7 +83,7 @@
             "keys": "ctrl+alt+9"
         },
         {
-            "command": 
+            "command":
             {
                 "action": "prevTab"
             },
@@ -102,14 +102,14 @@
             "keys": "ctrl+shift+d"
         },
         {
-            "command": 
+            "command":
             {
                 "action": "copy"
             },
             "keys": "ctrl+shift+c"
         },
         {
-            "command": 
+            "command":
             {
                 "action": "newTab"
             },
@@ -120,14 +120,14 @@
             "keys": "ctrl+shift+pgdn"
         },
         {
-            "command": 
+            "command":
             {
                 "action": "openSettings"
             },
             "keys": "ctrl+comma"
         },
         {
-            "command": 
+            "command":
             {
                 "action": "scrollDown"
             },
@@ -138,7 +138,7 @@
             "keys": "ctrl+shift+pgup"
         },
         {
-            "command": 
+            "command":
             {
                 "action": "scrollUp"
             },
@@ -151,25 +151,27 @@
     "initialCols": 120,
     "initialRows": 30,
     "language": "en-US",
-    "newTabMenu": 
+    "newTabMenu":
     [
         {
             "type": "remainingProfiles"
         }
     ],
-    "profiles": 
+    "profiles":
     {
         "defaults": {},
-        "list": 
+        "list":
         [
             {
+                "antialiasingMode": "cleartype",
+                "bellStyle": "none",
                 "closeOnExit": "graceful",
                 "colorScheme": "One Half Dark",
                 "commandline": "wsl.exe -d ubuntu",
                 "cursorColor": "#FFFFFF",
                 "cursorShape": "filledBox",
                 "experimental.retroTerminalEffect": false,
-                "font": 
+                "font":
                 {
                     "face": "Hack Nerd Font",
                     "size": 16.0
@@ -190,7 +192,7 @@
                 "colorScheme": "Campbell",
                 "cursorColor": "#FFFFFF",
                 "cursorShape": "bar",
-                "font": 
+                "font":
                 {
                     "face": "Consolas",
                     "size": 14.0
@@ -210,7 +212,7 @@
                 "colorScheme": "Campbell",
                 "cursorColor": "#FFFFFF",
                 "cursorShape": "bar",
-                "font": 
+                "font":
                 {
                     "face": "Consolas",
                     "size": 14.0
@@ -232,7 +234,7 @@
                 "connectionType": "{d9fcfdfa-a479-412c-83b7-c5640e61cd62}",
                 "cursorColor": "#FFFFFF",
                 "cursorShape": "bar",
-                "font": 
+                "font":
                 {
                     "face": "Consolas",
                     "size": 14.0
@@ -251,7 +253,7 @@
             }
         ]
     },
-    "schemes": 
+    "schemes":
     [
         {
             "background": "#0C0C0C",
