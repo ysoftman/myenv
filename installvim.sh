@@ -46,8 +46,8 @@ elif [[ $(uname) == 'Linux' ]]; then
 	if [[ $? == 0 ]]; then
 		package_program="yum"
 	else
-		package_program="apt-get"
-		# sudo apt-get update
+		package_program="apt"
+		# sudo apt update
 	fi
 	sudo ${package_program} install -y gcc g++ gcc-c++ wget go vim
 	export GOROOT=/usr/bin/go
