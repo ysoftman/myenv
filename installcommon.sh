@@ -38,8 +38,8 @@ elif [[ $(uname) == 'Linux' ]]; then
         ${sudo_cmd} ${package_program} install -y ${pkgs_yum}
     else
         # ubuntu
-        if apt-get --version > /dev/null 2>&1; then
-            package_program="apt-get"
+        if apt --version > /dev/null 2>&1; then
+            package_program="apt"
             ${sudo_cmd} ${package_program} update
             # 여러 패키지중 존재하지 않은 패키지가 포함되면 "E: Unable to locate package xxx" 에러가 발생하고 패키지가 하나도 설치 되지 않는다.
             # --ignore-missing 옵션이 있지만, 이 옵션은 apt 패키지가 존재하고 다운로드할 수 없는 상황에서만 해당 패키지를 무시하고 계속 진행한다.
