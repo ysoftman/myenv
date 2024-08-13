@@ -306,6 +306,7 @@ alias arm='arch -arm64 /bin/zsh'
 
 # load my functions
 source "${myenv_path}/rename_files.sh"
+source "${myenv_path}/grep_and_sed.sh"
 source "${myenv_path}/cnt_src.sh"
 source "${myenv_path}/git_functions.sh"
 source "${myenv_path}/k8s_info.sh"
