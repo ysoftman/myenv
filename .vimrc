@@ -392,9 +392,7 @@ let g:ale_linters = {
 \ 'rust': ['analyzer', 'rustc'],
 \ 'sh': ['shellcheck'],
 \}
-" yarn global add eslint prettier
-" or
-" yarn add eslint prettier 로 설치가 되어 있어야 한다.
+" brew install eslint prettier 로 설치가 되어 있어야 한다.
 " prettier 에서 helm template 이슈가 있어 yaml 은 사용하지 않는다.
 " https://github.com/prettier/prettier/issues/6517
 let g:ale_fixers = {
