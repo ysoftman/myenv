@@ -152,6 +152,9 @@ unset cat_cmd
 # [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# mac 에선 yarn bin /opt/homebrew/bin 으로 설정되어 있어 tidy_path 실행전에 선언
+export PATH=$(yarn global bin 2> /dev/null):$PATH
+
 export GOPATH=$HOME/workspace/gopath
 tidy_path() {
     local temp_path=""
@@ -179,7 +182,6 @@ tidy_path() {
     export PATH=$HOME/.cargo/bin:$GOPATH/bin:/opt/homebrew/bin:/opt/homebrew/opt/curl/bin:/usr/local/go/bin:/usr/local/bin::$temp_path
 }
 tidy_path
-export PATH=$(yarn global bin 2> /dev/null):$PATH
 
 # emoji-cli 사용
 if [ ! -d "$myenv_path/emoji-cli" ]; then
