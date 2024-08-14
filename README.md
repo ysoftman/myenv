@@ -51,6 +51,9 @@ sh ./installkubectl.sh
 
 # nvm 설치
 sh ./installnvm.sh
+
+# node 설치(apt 등 패키지 매니저에서 최신 버전을 지원하지 않는 경우에 사용)
+sh ./installnode.sh
 ```
 
 ## Mac
