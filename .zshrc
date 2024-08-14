@@ -110,11 +110,6 @@ complete -o nospace -C /usr/local/bin/mc mc
 # --alias : prints alias for current shell, fuck() 함수 내용 출력
 # eval $(thefuck --alias)
 
-
-# zsh 프로파일링할때 사용
-#zprof
-
-
 # deno
 if [ -d "${HOME}/.deno" ]; then
     export DENO_INSTALL="${HOME}/.deno"
@@ -134,3 +129,6 @@ if [ -f '/Users/ysoftman/workspace/google-cloud-sdk/path.zsh.inc' ]; then . '/Us
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/ysoftman/workspace/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ysoftman/workspace/google-cloud-sdk/completion.zsh.inc'; fi
+
+# zsh 프로파일링할때 사용
+#zprof
