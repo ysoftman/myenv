@@ -126,9 +126,7 @@
   // "C_Cpp.clang_format_fallbackStyle": "google",
   // "C_Cpp.clang_format_fallbackStyle": "webkit",
   // "C_Cpp.clang_format_fallbackStyle": "mozilla",
-  "clang.cxxflags": [
-    "-std=c++14"
-  ],
+  "clang.cxxflags": ["-std=c++14"],
   "editor.lineNumbers": "on",
   "editor.tabSize": 4,
   "editor.wordWrap": "on",
@@ -145,10 +143,7 @@
   "python.formatting.provider": "black",
   "python.linting.enabled": true,
   "python.linting.pylintEnabled": true,
-  "python.linting.pylintArgs": [
-    "--disable=all",
-    "--enable=W0611",
-  ],
+  "python.linting.pylintArgs": ["--disable=all", "--enable=W0611"],
   "python.languageServer": "Pylance",
   // Number of editors shown in the Open Editors pane.
   "explorer.openEditors.visible": 1,
@@ -198,22 +193,16 @@
   "terminal.integrated.profiles.osx": {
     "bash": {
       "path": "bash",
-      "args": [
-        "-l"
-      ],
+      "args": ["-l"],
       "icon": "terminal-bash"
     },
     "zsh": {
       "path": "zsh",
-      "args": [
-        "-l"
-      ]
+      "args": ["-l"]
     },
     "fish": {
       "path": "fish",
-      "args": [
-        "-l"
-      ]
+      "args": ["-l"]
     },
     "tmux": {
       "path": "tmux",
@@ -234,7 +223,7 @@
     "javascript",
     "javascriptreact",
     "html",
-    "typescript",
+    "typescript"
   ],
   "vetur.format.enable": false,
   // completion, diagnostics, hover, jump to definition, find references
