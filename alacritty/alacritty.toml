@@ -79,3 +79,6 @@ option_as_alt = "Both"
 opacity = 1
 blur = false
 
+[debug]
+render_timer=false
+log_level="Warn"
