@@ -1,7 +1,6 @@
 "기본 설정
 syntax on
 color desert
-"TERM=alacritty 에서는 마우스로 커서 이동이 안되니, export TERM=xterm-256color 로 설정해둠
 set mouse=a
 set number
 "set relativenumber
