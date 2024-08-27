@@ -327,27 +327,41 @@ if which virtualenv > /dev/null 2>&1; then
 fi
 
 if [[ $TERM == *"alacritty"* ]]; then
-    export TERM=xterm-256color
+    #"TERM=alacritty 에서는 마우스로 커서 이동이 안됨, 해결되면 삭제
+    #export TERM=xterm-256color
     # musikcube 등 실행시 terminfo 필요
     if [[ $os_name == *"darwin"* ]]; then
         export TERMINFO=/opt/homebrew/opt/ncurses/share/terminfo
     fi
 fi
 
+# check iterm
 term_program_name=$(echo "$TERM_PROGRAM" | tr "[:upper:]" "[:lower:]")
+if [[ $term_program_name == "" ]]; then
+    # check kitty
+    term_program_name=$(echo "$TERM" | tr "[:upper:]" "[:lower:]")
+fi
 
 if which fastfetch > /dev/null 2>&1; then
-    args="--cpu-temp true --gpu-temp true"
+    logotype=""
     if [[ $term_program_name == *"iterm"* ]]; then
-        args+=" --logo-type iterm --logo ${myenv_path}/xelloss.jpg --logo-width 50 --logo-height 20"
+        logotype="iterm"
     fi
-    eval fastfetch "${args}"
+    if [[ $term_program_name == *"kitty"* ]]; then
+        logotype="kitty"
+    fi
+    eval fastfetch "--cpu-temp true --gpu-temp true --logo-type ${logotype} --logo ${myenv_path}/xelloss.jpg --logo-width 50 --logo-height 20"
+    unset logotype
 elif which neofetch > /dev/null 2>&1; then
-    args=""
+    backend=""
     if [[ $term_program_name == *"iterm"* ]]; then
-        args+"--backend iterm2 --size 300 --source ${myenv_path}/xelloss.jpg"
+        backend="iterm2"
     fi
-    eval neofetch "${args}"
+    if [[ $term_program_name == *"kitty"* ]]; then
+        backend="kitty"
+    fi
+    eval neofetch "--backend ${backend} --size auto --source ${myenv_path}/xelloss.jpg"
+    unset backend
 elif which screenfetch > /dev/null 2>&1; then
     screenfetch -E
 fi
