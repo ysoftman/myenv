@@ -327,7 +327,7 @@ if which virtualenv > /dev/null 2>&1; then
 fi
 
 if [[ $TERM == *"alacritty"* ]]; then
-    #"TERM=alacritty 에서는 마우스로 커서 이동이 안됨, 해결되면 삭제
+    #"TERM=alacritty 에서는 마우스로 커서 이동이 안됨, 해결된것 같아 삭제
     #export TERM=xterm-256color
     # musikcube 등 실행시 terminfo 필요
     if [[ $os_name == *"darwin"* ]]; then
