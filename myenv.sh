@@ -343,25 +343,26 @@ if [[ $term_program_name == "" ]]; then
 fi
 
 if which fastfetch > /dev/null 2>&1; then
-    logotype=""
+    logo_args=""
     if [[ $term_program_name == *"iterm"* ]]; then
-        logotype="iterm"
+        # --logo 는 --logo-type 이 있어야 에러가 발생하지 않는다.
+        logo_args="--logo-type iterm --logo ${myenv_path}/xelloss.jpg"
     fi
     if [[ $term_program_name == *"kitty"* ]]; then
-        logotype="kitty"
+        logo_args="--logo-type kitty --logo ${myenv_path}/xelloss.jpg"
     fi
-    eval fastfetch "--cpu-temp true --gpu-temp true --logo-type ${logotype} --logo ${myenv_path}/xelloss.jpg --logo-width 50 --logo-height 20"
-    unset logotype
+    eval fastfetch "--cpu-temp true --gpu-temp true ${logo_args} --logo-width 50 --logo-height 20"
+    unset logo_args
 elif which neofetch > /dev/null 2>&1; then
-    backend=""
+    backend_arg=""
     if [[ $term_program_name == *"iterm"* ]]; then
-        backend="iterm2"
+        backend_arg="--backend iterm2"
     fi
     if [[ $term_program_name == *"kitty"* ]]; then
-        backend="kitty"
+        backend_arg="--backend kitty"
     fi
-    eval neofetch "--backend ${backend} --size auto --source ${myenv_path}/xelloss.jpg"
-    unset backend
+    eval neofetch "${backend_arg} --size auto --source ${myenv_path}/xelloss.jpg"
+    unset backend_arg
 elif which screenfetch > /dev/null 2>&1; then
     screenfetch -E
 fi
