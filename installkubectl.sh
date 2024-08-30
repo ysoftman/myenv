@@ -3,7 +3,11 @@ set -e
 
 printf "install kubectl/kubecolor in %s\n" $(uname)
 
-if [[ $(uname) == 'Darwin' ]]; then
+if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
+    pkg update
+    pkg upgrade
+    pkg install -y kubectl
+elif [[ $(uname) == 'Darwin' ]]; then
     brew install kubectl kubecolor
 elif [[ $(uname) == 'Linux' ]]; then
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
