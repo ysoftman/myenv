@@ -149,11 +149,11 @@ function prompt_sorin_precmd {
   local cnt=0
   local output=""
   local split_pwd=$(prompt-pwd | sed 's/\//\n/g')
-  local orginIFS=$IFS
+  local originIFS=$IFS
   IFS=$'\n'
   setopt sh_word_split # zsh 에서는 단어 구분을 위해선 설정이 필요하다.
   local patharr=($split_pwd)
-  IFS=$orginIFS
+  IFS=$originIFS
   unsetopt sh_word_split
   #echo ${#patharr}
   #echo ${patharr}
