@@ -161,7 +161,7 @@ autocmd BufNewFile,BufRead *.yaml.tpl set filetype=yaml
 "git checkout master
 "git pull
 "git submodule update --init --recursive
-"./build.py --go-completer
+"./build.py --go-completer --verbose
 
 "YouCompleteMe unavailable: requires Vim compiled with Python (3.6.0+) support. 메시지가 발생하는 경우
 "vim 에 +python3 로 설치되었는 확인 후 없으면(-python3) myenv/installvim.sh 로 소스빌드로 설치
