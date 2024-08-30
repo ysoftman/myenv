@@ -16,9 +16,49 @@ install_vim_from_src() {
 	# ruby, lua 지원도 포함해두자
 	./configure --enable-pythoninterp=yes --enable-python3interp=yes --enable-rubyinterp=yes --enable-luainterp=yes
 	make -j 8
-	sudo make install
+	sudo_cmd make install
 }
 
+install_vim_plugin() {
+	GOPATH=${HOME}/workspace/gopath
+	echo GOPATH=${GOPATH}
+
+	# GOPATH 디렉토리가 없다면 생성
+	mkdir -p ${GOPATH}
+
+	export GOPATH=${GOPATH}
+	export PATH=$PATH:$GOROOT:$GOPATH
+
+	# 다음 디렉토리가 없다면 생성
+	mkdir -p ~/.vim/autoload
+	mkdir -p ~/.vim/bundle
+
+	# 패키지 관리를 위한 Plug 설치
+	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+	# .vimrc 링크
+	[ -h ~/.vimrc ] && unlink ~/.vimrc
+	[ -f ~/.vimrc ] && mv -fv ~/.vimrc ~/.vimrc.bak
+	ln -s ${PWD}/.vimrc ~/.vimrc
+
+	# 터미널에서 플러그인 설치후 vim 종료
+	echo 'yes' | vim +PlugInstall +qall 2> /dev/null
+
+	# vim 실행 후 GoInstallBinaries 로 $GOPATH/bin 에 필요한 파일들이 설치하고 모두 종료
+	# dockerfile 로 이미지 빌드시 사용자 입력을 받을 수 없으니 silent 모드로 설치
+	vim +'silent :GoInstallBinaries' +qall
+
+	# The ycmd server SHUT DOWN (restart with :YcmRestartServer) 메시지가 발생하는 경우
+	cd ~/.vim/plugged/youcompleteme/ && git submodule update --init --recursive
+	./install.py
+
+	# FileNotFoundError: [Errno 2] No such file or directory: '/Users/ysoftman/.vim/plugged/youcompleteme/third_party/ycmd/third_party/go/bin/gopls' 에러 발생하는 경우
+	cd ~/.vim/plugged/youcompleteme/third_party/ycmd/
+	git checkout master
+	git pull
+	git submodule update --init --recursive
+	./build.py --go-completer
+}
 
 if (( $# >= 1 )); then
 	# 강제 재설치하는 경우
@@ -33,7 +73,13 @@ if (( $# >= 1 )); then
 fi
 
 # go, ruby, mercurial, python, cmake, ctags 설치 및 환경변수 설정
-if [[ $(uname) == 'Darwin' ]]; then
+if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
+    pkg update
+    pkg upgrade
+    pkg install vim
+    install_vim_plugin
+    exit 0
+elif [[ $(uname) == 'Darwin' ]]; then
 	echo 'OSX Environment'
 	brew install go
 	export GOROOT=/usr/local/bin/go
@@ -74,41 +120,4 @@ else
 	echo "cur_vim_version >= ${base_vim_version}"
 fi
 
-GOPATH=${HOME}/workspace/gopath
-echo GOPATH=${GOPATH}
-
-# GOPATH 디렉토리가 없다면 생성
-mkdir -p ${GOPATH}
-
-export GOPATH=${GOPATH}
-export PATH=$PATH:$GOROOT:$GOPATH
-
-# 다음 디렉토리가 없다면 생성
-mkdir -p ~/.vim/autoload
-mkdir -p ~/.vim/bundle
-
-# 패키지 관리를 위한 Plug 설치
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-# .vimrc 링크
-[ -h ~/.vimrc ] && unlink ~/.vimrc
-[ -f ~/.vimrc ] && mv -fv ~/.vimrc ~/.vimrc.bak
-ln -s ${PWD}/.vimrc ~/.vimrc
-
-# 터미널에서 플러그인 설치후 vim 종료
-echo 'yes' | vim +PlugInstall +qall 2> /dev/null
-
-# vim 실행 후 GoInstallBinaries 로 $GOPATH/bin 에 필요한 파일들이 설치하고 모두 종료
-# dockerfile 로 이미지 빌드시 사용자 입력을 받을 수 없으니 silent 모드로 설치
-vim +'silent :GoInstallBinaries' +qall
-
-# The ycmd server SHUT DOWN (restart with :YcmRestartServer) 메시지가 발생하는 경우
-cd ~/.vim/plugged/youcompleteme/ && git submodule update --init --recursive
-./install.py
-
-# FileNotFoundError: [Errno 2] No such file or directory: '/Users/ysoftman/.vim/plugged/youcompleteme/third_party/ycmd/third_party/go/bin/gopls' 에러 발생하는 경우
-cd ~/.vim/plugged/youcompleteme/third_party/ycmd/
-git checkout master
-git pull
-git submodule update --init --recursive
-./build.py --go-completer
+install_vim_plugin
