@@ -57,7 +57,7 @@ install_vim_plugin() {
     git checkout master
     git pull
     git submodule update --init --recursive
-    ./build.py --go-completer
+    ./build.py --go-completer --verbose
 }
 
 if (( $# >= 1 )); then
