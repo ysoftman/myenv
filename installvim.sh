@@ -76,7 +76,7 @@ fi
 if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
     pkg update
     pkg upgrade
-    pkg install vim
+    pkg install -y vim vim-python
     install_vim_plugin
     exit 0
 elif [[ $(uname) == 'Darwin' ]]; then
