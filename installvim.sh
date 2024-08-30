@@ -16,7 +16,7 @@ install_vim_from_src() {
     # ruby, lua 지원도 포함해두자
     ./configure --enable-pythoninterp=yes --enable-python3interp=yes --enable-rubyinterp=yes --enable-luainterp=yes
     make -j 8
-    sudo_cmd make install
+    sudo make install
 }
 
 install_vim_plugin() {
