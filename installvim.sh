@@ -76,7 +76,9 @@ fi
 if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
     pkg update
     pkg upgrade
-    pkg install -y vim vim-python
+    # vim, vim-python 한번에 설치시 의존성 에러 발생해 별도 설치
+    pkg install -y vim
+    pkg install -y vim-python
     install_vim_plugin
     exit 0
 elif [[ $(uname) == 'Darwin' ]]; then
