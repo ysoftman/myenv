@@ -10,6 +10,7 @@ set incsearch
 "set autoread
 set backspace=indent,eol,start
 set fencs=utf-8,cp949
+set maxmempattern=10000 "Maximum amount of memory (in Kbyte) to use for pattern matchin
 set enc=utf-8
 set tabstop=4
 set shiftwidth=4
