@@ -481,6 +481,8 @@ let g:gitgutter_sign_removed            = '-'
 let g:gitgutter_sign_removed_first_line = '-‾'
 let g:gitgutter_sign_removed_above_and_below = '-¯'
 let g:gitgutter_sign_modified_removed   = '~-'
+":GitGutter              Update signs for the current buffer.  You shouldn't need to run this.
+":GitGutterAll           Update signs for all buffers.  You shouldn't need to run this.
 
 "vim.emoji
 "insert 모드에서:입력하다 ctrl+x ctrl+u 하면 자동완성 리스트가 보이고 선택.
