@@ -264,7 +264,7 @@ let g:closetag_filetypes = 'html,xhtml,phtml'
 let g:closetag_xhtml_filetypes = 'xhtml,jsx'
 
 "nerdtree
-let NERDTreeFileLines=1
+let NERDTreeFileLines=0  "활성화 하면 느려짐
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.swp$', '\.o$']
 nnoremap <leader>tt :NERDTreeToggle<enter>
