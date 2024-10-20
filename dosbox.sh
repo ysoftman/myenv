@@ -1,6 +1,6 @@
+#!/bin/bash
 if which dosbox; then
-    dosbox --args -conf ${myenv_path}/dosbox.conf
+    dosbox --args -conf dosbox.conf
 else
-    open -a DOSBox --args -conf ${myenv_path}/dosbox.conf
+    open -a DOSBox --args -conf dosbox.conf
 fi
-
