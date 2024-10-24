@@ -475,6 +475,7 @@ nnoremap <leader>cmd :Commands<enter>
 nnoremap <leader>m :Maps<enter>
 
 "vim-gitgutter
+let g:gitgutter_async = 0
 let g:gitgutter_set_sign_backgrounds = 1
 highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
