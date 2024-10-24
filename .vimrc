@@ -66,11 +66,13 @@ let mapleader=","
 " vim 에서 alt 조합이 안되서 설정
 " nvim 에서는 필요없는데 unknown option error 발생해 nvim feature 가 없을때만 수행
 if !has('nvim')
+    " alt + h,j,k,l 은 zellij 에서 MoveFocus 로 사용하고 있음
     execute "set <a-i>=\ei"
     execute "set <a-o>=\eo"
     execute "set <a-f>=\ef"
     execute "set <a-t>=\et"
     execute "set <a-m>=\em"
+    execute "set <a-p>=\ep"
 endif
 
 " quickfix list 에서 사용할 단축키
@@ -255,7 +257,9 @@ nnoremap <leader>ct :!ctags -R
 let g:vim_jsx_pretty_colorful_config = 1
 
 "auto-pairs
-au FileType html let b:AutoPairs = AutoPairsDefine({'<!--' : '-->'})
+au FileType html let b:AutoPairs = ({'<!--' : '-->'})
+" 빈값을 두면 해당 기능은 비활성화
+let g:AutoPairsShortcutToggle = '<a-p>'
 
 "vim-closetag
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
