@@ -1,3 +1,4 @@
+[general]
 import = ["/Users/ysoftman/.config/alacritty-colorscheme/themes/argonaut.toml"]
 #import = ["/Users/ysoftman/.config/alacritty-colorscheme/themes/monokai_charcoal.toml"]
 #import = ["/Users/ysoftman/.config/alacritty-colorscheme/themes/marine_dark.toml"]
@@ -71,7 +72,9 @@ action = "ToggleViMode"
 key = "Space"
 mods = "Control"
 
-[shell]
+[terminal]
+
+[terminal.shell]
 program = "/bin/zsh"
 
 [window]
