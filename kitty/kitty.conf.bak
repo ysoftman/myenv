@@ -1355,6 +1355,6 @@ tab_title_template "{bell_symbol}{activity_symbol} {fmt.fg.black}{title}{fmt.fg.
 #####
 
 # BEGIN_KITTY_THEME
-# Adventure Time
+# 3024 Night
 include current-theme.conf
 # END_KITTY_THEME
