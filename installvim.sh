@@ -10,7 +10,7 @@ install_vim_from_src() {
         wget "https://github.com/vim/vim/archive/v${base_vim_version}.tar.gz"
         tar zxvf v${base_vim_version}.tar.gz
     fi
-    cd vim-${base_vim_version}/src
+    cd vim-${base_vim_version}/src || return
     make distclean
     # youcompleteme 플러그인이 python 을 사용하기때문에  python2,3 을 지원하는 vim 으로 빌드되어야 한다.
     # ruby, lua 지원도 포함해두자
@@ -53,7 +53,7 @@ install_vim_plugin() {
     ./install.py --verbose
 
     # FileNotFoundError: [Errno 2] No such file or directory: '/Users/ysoftman/.vim/plugged/youcompleteme/third_party/ycmd/third_party/go/bin/gopls' 에러 발생하는 경우
-    cd ~/.vim/plugged/youcompleteme/third_party/ycmd/
+    cd ~/.vim/plugged/youcompleteme/third_party/ycmd/ || return
     git checkout master
     git pull
     git submodule update --init --recursive
@@ -90,8 +90,9 @@ elif [[ $(uname) == 'Linux' ]]; then
     echo 'Linux Environment'
     # yum 실행보기
     yum --version
+    ret=$?
     # yum 실행후 exit code 0(SUCCESS) 이라면 사용할수 있다.
-    if [[ $? == 0 ]]; then
+    if [[ $ret == 0 ]]; then
         package_program="yum"
     else
         package_program="apt"
@@ -111,10 +112,12 @@ else
 fi
 
 # 설치된 vim 버전이 너무 낮으면 소스 받아서 설치
+cur_vim_patch_version=$(vim --version | grep 'Included patches' | awk '{print $3}' | sed 's/^.*-//')
 cur_vim_version=$(vim --version | grep 'Vi IMproved' | awk '{print $5}')
+cur_vim_version+=".$cur_vim_patch_version"
 echo "cur_vim_version : ${cur_vim_version}"
-highest_version="$(printf "${cur_vim_version}\n${base_vim_version}" | sort -r | head -n1)"
-if [[ ${highest_version} != ${cur_vim_version} ]]; then
+highest_version="$(echo -e "${cur_vim_version}\n${base_vim_version}" | sort -r | head -n1)"
+if [[ ${highest_version} != "${cur_vim_version}" ]]; then
     echo "cur_vim_version < ${base_vim_version}"
     echo "install_vim_from_src()..."
     install_vim_from_src
