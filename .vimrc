@@ -20,7 +20,7 @@ set laststatus=2
 set showtabline=2
 set showcmd
 set updatetime=1000 "화면 갱신 주기(default: 4000ms), 커서 사용중일때는 갱신 안함
-set signcolumn=yes
+set signcolumn=auto
 set ignorecase
 "set lines=80
 "set cursorcolumn
