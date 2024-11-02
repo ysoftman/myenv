@@ -476,6 +476,8 @@ nnoremap <leader>cmd :Commands<enter>
 nnoremap <leader>m :Maps<enter>
 
 "vim-gitgutter
+"If you really want to update the signs when you save a file
+autocmd BufWritePost * GitGutterAll
 let g:gitgutter_set_sign_backgrounds = 1
 highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
