@@ -477,7 +477,7 @@ nnoremap <leader>m :Maps<enter>
 
 "vim-gitgutter
 " git commit 후 gitgutter sign column 이 업데이트 안될때, 커밋 후 저장시 업데이트
-autocmd BufWritePost,TextChanged,TextChangedI * GitGutterAll
+autocmd BufWritePost,TextChanged * GitGutterAll
 let g:gitgutter_set_sign_backgrounds = 1
 highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
