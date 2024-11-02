@@ -20,6 +20,7 @@ set laststatus=2
 set showtabline=2
 set showcmd
 set updatetime=1000 "화면 갱신 주기(default: 4000ms), 커서 사용중일때는 갱신 안함
+set signcolumn=yes
 set ignorecase
 "set lines=80
 "set cursorcolumn
@@ -475,7 +476,6 @@ nnoremap <leader>cmd :Commands<enter>
 nnoremap <leader>m :Maps<enter>
 
 "vim-gitgutter
-let g:gitgutter_async = 0
 let g:gitgutter_set_sign_backgrounds = 1
 highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
