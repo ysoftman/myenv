@@ -476,7 +476,7 @@ nnoremap <leader>cmd :Commands<enter>
 nnoremap <leader>m :Maps<enter>
 
 "vim-gitgutter
-"If you really want to update the signs when you save a file
+" git commit 후 gitgutter sign column 이 업데이트 안될때
 autocmd BufWritePost * GitGutterAll
 let g:gitgutter_set_sign_backgrounds = 1
 highlight GitGutterAdd    guifg=#009900 ctermfg=2
