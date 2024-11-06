@@ -42,6 +42,12 @@ family = "Hack Nerd Font"
 [font.normal]
 family = "Hack Nerd Font"
 
+[cursor]
+style.shape = "block"
+style.blinking = "off"
+vi_mode_style.shape = "block"
+vi_mode_style.blinking = "off"
+
 [[keyboard.bindings]]
 chars = "\u001Bb"
 key = "Left"
