@@ -137,6 +137,7 @@ autocmd filetype conf setlocal nofoldenable
 autocmd BufNewFile,BufRead * if expand('%:t') =~ 'caddyfile' | setlocal tabstop=2 shiftwidth=2 noexpandtab | endif
 autocmd BufNewFile,BufRead ~/.config/cava/config set filetype=confini
 autocmd BufNewFile,BufRead *.yaml.tpl set filetype=yaml
+autocmd BufNewFile,BufRead *.kdl set filetype=kdl
 
 "" 여기까지만 nvim 에서 로딩하도록 한다.
 "if has('nvim')
