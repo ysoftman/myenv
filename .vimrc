@@ -109,6 +109,9 @@ nnoremap <leader>xml :%!xmllint --format -<enter>
 nnoremap rtw :%s/\s\+$//e<enter>
 " .vimrc 다시 적용
 nnoremap sovim :source ~/.vimrc<enter>
+" 현재 파일을 utf-8 로 저장하고 다시 로드
+nnoremap wutf8 :w ++enc=utf-8 %<enter>:e!<enter>
+nnoremap wcp949 :w ++enc=cp949 %<enter>:e!<enter>
 " replace (편의를 위해 입력위치로 커서 이동)
 nnoremap sc :%s/<c-r><c-w>//gc<left><left><left>
 " c-a 는 커서에서 공백 구분되는 단어
