@@ -125,8 +125,8 @@ nnoremap sgd :g/<c-r><c-w>/d
 " word cout
 nnoremap swc :%s/<c-r><c-w>//gn
 " zellij ctrl-o(session), alt-i, alt-o 는 빌활성화 해뒀음
-nnoremap <a-i> <c-i>
-nnoremap <a-o> <c-o>
+nnoremap <m-i> <c-i>
+nnoremap <m-o> <c-o>
 " tab -> space 변경
 nnoremap retab :set expandtab<enter>:retab<enter>
 " space -> tab 변경
@@ -469,10 +469,10 @@ nnoremap <c-l> :Buffers<enter>
 "하지만  는 esc 문자라 esc후t를 눌러도 동작하게 되는 문제가 있다.
 "nnoremap t :Files<enter>
 nnoremap <c-t> :Files<enter>
-nnoremap <a-t> :Files<enter>
+nnoremap <m-t> :Files<enter>
 "ctrl-m == <cr>(enter) 같아서 enter 키로도 수행되는 문제가 있다.
 "nnoremap <c-m> :Marks<enter>
-nnoremap <a-m> :Marks<enter>
+nnoremap <m-m> :Marks<enter>
 nnoremap <c-h> :History<enter>
 "<leader>h 로 시작하는 단축키와 충돌들 피하기 위해 hh 두번 사용
 nnoremap <leader>hh :History<enter>
