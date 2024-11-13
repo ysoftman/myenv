@@ -180,6 +180,8 @@ autocmd BufNewFile,BufRead *.kdl set filetype=kdl
 "vim --version | grep -i python
 "그래도 안되면, python3 으로 다시 YouCompleteMe 빌드
 "~/.vim/plugged/youcompleteme/install.py --all --verbose
+"neovim 인 경우
+"pip3 install pynvim
 
 call plug#begin('~/.vim/plugged')
 "Plug 'flazz/vim-colorschemes' " colorscheme joshdick/onedark.vim 와 vim-colorschemes 충돌
@@ -378,6 +380,10 @@ let g:lightline.component_type   = {'buffers': 'tabsel'}
 autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 "endif
 
+"youcompleteme
+let g:ycm_disable_for_files_larger_than_kb = 1000
+let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>']
 
 "airline
 " set laststatus=2
