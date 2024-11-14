@@ -39,6 +39,17 @@ if vim.g.neovide then
     vim.keymap.set('c', '<D-v>', '<C-R>+') -- Paste command mode
     vim.keymap.set('i', '<D-v>', '<ESC>l"+Pli') -- Paste insert mode
 
+    --  c--, c-=크기 조절 하기
+    local change_scale_factor = function(delta)
+        vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
+    end
+    vim.keymap.set("n", "<C-=>", function()
+        change_scale_factor(1.25)
+    end)
+    vim.keymap.set("n", "<C-->", function()
+        change_scale_factor(1/1.25)
+    end)
+
     -- neovide 에선 alt 대신 meta  키로 정의해야 동작함(.vimrc에서 <m-으로 설정해둠)
     --vim.keymap.set('n', '<m-f>', ':Rg2<CR>')
     --vim.keymap.set('n', '<m-t>', ':Files<CR>')
