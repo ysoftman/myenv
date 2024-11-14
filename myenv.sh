@@ -269,8 +269,13 @@ unalias rsync 2> /dev/null
 unalias scp 2> /dev/null
 unalias sftp 2> /dev/null
 
+
 alias vi='vim'
-alias nv='neovide'
+launch_neovide() {
+    printf "launch neovide %s and disown\n" "$@"
+    neovide "$@" & disown
+}
+alias nv='launch_neovide'
 alias vimlastfile='vim `(ls -1tr | tail -1)`'
 alias gopath='cd $GOPATH'
 alias myenv='cd ${myenv_path}'
@@ -292,13 +297,13 @@ alias ghissueview='gh issue view' # 뒤에 이슈번호 아규먼트 명시
 alias k='kubectl'
 alias m-c='/usr/local/Cellar/midnight-commander/4.8.28/bin/mc'
 # 현재 하위 모든 git 디렉토리 pull 받기
-alias gitpullall=git_pull_all
 git_pull_all() {
     for dir in $(fd -H -d 2 ".git$" | awk -F "/.git.*$" "{print \$1}"); do
         printf "${green}[%s]==> $reset_color" "$dir"
         git -C "$dir" pull
     done
 }
+alias gitpullall=git_pull_all
 alias duf="duf -theme dark"
 # ssh 원격 접속시 clear 실행하면 'alacritty': unknown terminal type. 메시지 발생 방지
 alias ssh='TERM=xterm-256color ssh'
