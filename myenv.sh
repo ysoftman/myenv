@@ -270,8 +270,7 @@ unalias scp 2> /dev/null
 unalias sftp 2> /dev/null
 
 alias vi='vim'
-#ymcd 가 nvim 공식 지원안함
-#alias vi='nvim'
+alias nv='neovide'
 alias vimlastfile='vim `(ls -1tr | tail -1)`'
 alias gopath='cd $GOPATH'
 alias myenv='cd ${myenv_path}'
