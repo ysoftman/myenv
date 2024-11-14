@@ -9,7 +9,7 @@ vim.cmd.source(vimrc)
 -- neovide (https://neovide.dev/configuration.html)
 if vim.g.neovide then
     --vim.print(vim.g.neovide_version)
-    vim.o.guifont = "Hack Nerd Font:h16"
+    vim.o.guifont = "Hack Nerd Font:h18"
     vim.g.neovide_scale_factor = 1.0
     vim.g.neovide_transparency = 1.0
     vim.g.neovide_show_border = true
