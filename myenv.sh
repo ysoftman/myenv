@@ -272,7 +272,7 @@ unalias sftp 2> /dev/null
 
 alias vi='vim'
 launch_neovide() {
-    printf "launch neovide %s and disown\n" "$@"
+    echo "launch(and disown) neovide" "$@"
     neovide "$@" & disown
 }
 alias nv='launch_neovide'
