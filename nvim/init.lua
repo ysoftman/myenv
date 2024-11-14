@@ -8,8 +8,9 @@ vim.cmd.source(vimrc)
 
 -- neovide (https://neovide.dev/configuration.html)
 if vim.g.neovide then
-    --vim.print(vim.g.neovide_version)
+    vim.print(vim.g.neovide_version)
     vim.o.guifont = "Hack Nerd Font:h18"
+    vim.g.neovide_theme = 'auto'
     vim.g.neovide_scale_factor = 1.0
     vim.g.neovide_transparency = 1.0
     vim.g.neovide_show_border = true
@@ -18,9 +19,13 @@ if vim.g.neovide then
     vim.g.neovide_refresh_rate_idle = 5
     vim.g.neovide_no_idle = true
     vim.g.neovide_confirm_quit = true
-    vim.g.neovide_cursor_animation_length = 0.13
+    vim.g.neovide_cursor_animation_length = 0.12
     vim.g.neovide_cursor_trail_size = 0.3
     vim.g.neovide_cursor_vfx_mode = "railgun"
+    --vim.g.neovide_cursor_vfx_mode = "torpedo"
+    --vim.g.neovide_cursor_vfx_mode = "pixiedust"
+    --vim.g.neovide_cursor_vfx_mode = "sonicboom"
+    --vim.g.neovide_cursor_vfx_mode = "ripple"
     --vim.g.neovide_cursor_vfx_mode = "wireframe"
     vim.g.neovide_input_ime = true
     vim.g.neovide_input_macos_option_key_is_meta = 'only_left'
