@@ -24,6 +24,11 @@ vim.keymap.set("n", "<leader>fr", builtin.registers, {})
 -- K(:help) lua not found error 에러 발생시
 --brew reinstall lua
 
+-- 마우스 우클릭 메뉴 추가(gx 로 url 열기)
+vim.cmd([[
+amenu PopUp.Open\ in\ web\ browser  gx
+]])
+
 -- neovide (https://neovide.dev/configuration.html)
 if vim.g.neovide then
     vim.o.guifont = "Hack Nerd Font:h18"
@@ -47,7 +52,7 @@ if vim.g.neovide then
     vim.g.neovide_input_ime = true
     vim.g.neovide_input_macos_option_key_is_meta = 'only_left'
 
-    --https://neovim.io/doc/user/lua.html#vim.keymap.set()
+    -- https://neovim.io/doc/user/lua.html#vim.keymap.set()
     --cmd-s 저장,  cmd-c/cmd-p 로 복붙하기
     vim.keymap.set('n', '<D-s>', ':w<CR>') -- Save
     vim.keymap.set('v', '<D-c>', '"+y') -- Copy
@@ -71,5 +76,6 @@ if vim.g.neovide then
     --vim.keymap.set('n', '<m-f>', ':Rg2<CR>')
     --vim.keymap.set('n', '<m-t>', ':Files<CR>')
     --vim.keymap.set('n', '<m-m>', ':Marks<CR>')
+
     vim.print("neovide version: " .. vim.g.neovide_version .. ", settings are loaded.")
 end
