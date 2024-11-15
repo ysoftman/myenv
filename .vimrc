@@ -488,6 +488,11 @@ nnoremap <leader>: :History:<enter>
 nnoremap <leader>/ :History/<enter>
 nnoremap <leader>cmd :Commands<enter>
 nnoremap <leader>m :Maps<enter>
+" Maps는 기본 normal mapping 만 보여줘서 각 모드에서 mapping 을 보기
+nmap <leader><tab> <plug>(fzf-maps-n)
+imap <leader><tab> <plug>(fzf-maps-i)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
 
 "vim-gitgutter
 " git commit 후 gitgutter sign column 이 업데이트 안될때, 커밋 후 저장시 업데이트
