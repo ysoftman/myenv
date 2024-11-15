@@ -5,10 +5,27 @@
 local vimrc = vim.fn.stdpath("config") .. "/_init.vim"
 vim.cmd.source(vimrc)
 
+-- telescope keymap
+local builtin = require("telescope.builtin")
+vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
+vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
+vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
+vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
+vim.keymap.set("n", "<leader>fr", builtin.registers, {})
+--vim.keymap.set("n", "<a-t>", builtin.find_files, {})
+--vim.keymap.set("n", "<c-f>", builtin.live_grep, {})
+--vim.keymap.set("n", "<c-l>", builtin.buffers, {})
+--vim.keymap.set("n", "<a-r>", builtin.registers, {})
+
+-- [coc.nvim]: dyld[7087]: Library not loaded: Library not loaded: /opt/homebrew/opt/icu4c/lib/libicui18n.74.dylib
+-- Referenced from: <3317C4D0-50F5-334B-8949-29926E34DA3C> /opt/homebrew/Cellar/node/22.9.0/bin/node 에러 발생시
+--brew install icu4c node
+
+-- K(:help) lua not found error 에러 발생시
+--brew reinstall lua
 
 -- neovide (https://neovide.dev/configuration.html)
 if vim.g.neovide then
-    vim.print(vim.g.neovide_version)
     vim.o.guifont = "Hack Nerd Font:h18"
     vim.g.neovide_theme = 'auto'
     vim.g.neovide_scale_factor = 1.0
@@ -54,23 +71,5 @@ if vim.g.neovide then
     --vim.keymap.set('n', '<m-f>', ':Rg2<CR>')
     --vim.keymap.set('n', '<m-t>', ':Files<CR>')
     --vim.keymap.set('n', '<m-m>', ':Marks<CR>')
+    vim.print("neovide version: " .. vim.g.neovide_version .. ", settings are loaded.")
 end
-
--- telescope keymap
-local builtin = require("telescope.builtin")
-vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
-vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
-vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
-vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
-vim.keymap.set("n", "<leader>fr", builtin.registers, {})
---vim.keymap.set("n", "<a-t>", builtin.find_files, {})
---vim.keymap.set("n", "<c-f>", builtin.live_grep, {})
---vim.keymap.set("n", "<c-l>", builtin.buffers, {})
---vim.keymap.set("n", "<a-r>", builtin.registers, {})
-
--- [coc.nvim]: dyld[7087]: Library not loaded: Library not loaded: /opt/homebrew/opt/icu4c/lib/libicui18n.74.dylib
--- Referenced from: <3317C4D0-50F5-334B-8949-29926E34DA3C> /opt/homebrew/Cellar/node/22.9.0/bin/node 에러 발생시
---brew install icu4c node
-
--- K(:help) lua not found error 에러 발생시
---brew reinstall lua
