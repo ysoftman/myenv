@@ -107,6 +107,10 @@ nnoremap sjq :%!jq .<enter>
 nnoremap <leader>xml :%!xmllint --format -<enter>
 " remove trailing whitespace
 nnoremap rtw :%s/\s\+$//e<enter>
+" window들diff 창으로 만들기
+nnoremap diff :windo difft<enter>
+" diff mode 종료
+nnoremap nodiff :windo diffoff<enter>
 " .vimrc 다시 적용
 nnoremap sovim :source ~/.vimrc<enter>
 if has('nvim')
