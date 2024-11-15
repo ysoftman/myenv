@@ -60,6 +60,7 @@ if vim.g.neovide then
     vim.keymap.set('v', '<D-v>', '"+P') -- Paste visual mode
     vim.keymap.set('c', '<D-v>', '<C-R>+') -- Paste command mode
     vim.keymap.set('i', '<D-v>', '<ESC>l"+Pli') -- Paste insert mode
+    vim.api.nvim_set_keymap('t', '<d-v>', '<C-\\><C-n>"+Pi', {noremap = true}) -- paste in terminal mode, fzf 사용시
 
     --  c--, c-=크기 조절 하기
     local change_scale_factor = function(delta)
