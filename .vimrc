@@ -197,6 +197,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter' "git diff
 Plug 'altercation/vim-colors-solarized' "colorscheme
 Plug 'alvan/vim-closetag' "html tag auto close
+Plug 'buoto/gotests-vim' "gotest, generate TDD(table driven tests)
 Plug 'davidhalter/jedi-vim' "python autocompletion
 Plug 'dense-analysis/ale' "asynchronous lint, syntastic alternative
 Plug 'fatih/vim-go' "go development plugin
@@ -579,6 +580,14 @@ autocmd filetype go nnoremap <leader>v :GoVet<enter>:GoLint<enter>
 "다음으로 바이너리를 업데이트해야 한다.
 autocmd filetype go nnoremap <leader>ub :GoUpdateBinaries<enter>
 autocmd filetype go nnoremap <leader>ib :GoInstallBinaries<enter>
+
+" gotests-vim
+"let g:gotests_bin = '/home/user/go/bin/gotests'
+"let g:gotests_template_dir = '/home/user/templates/'
+"to generate a test for the function at the current line or functions selected in visual mode.
+":GoTests
+"to generate tests for all functions in the current buffer.
+":GoTestsAll
 
 "black
 autocmd filetype python nnoremap <leader>b :Black<enter>
