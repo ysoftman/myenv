@@ -584,6 +584,8 @@ autocmd filetype go nnoremap <leader>ib :GoInstallBinaries<enter>
 " gotests-vim
 "let g:gotests_bin = '/home/user/go/bin/gotests'
 "let g:gotests_template_dir = '/home/user/templates/'
+" 빈값이라도 설정을 해야 undefined 에러가 발생하지 않는다
+let g:gotests_template = ''
 "to generate a test for the function at the current line or functions selected in visual mode.
 ":GoTests
 "to generate tests for all functions in the current buffer.
