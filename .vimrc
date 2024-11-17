@@ -197,7 +197,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter' "git diff
 Plug 'altercation/vim-colors-solarized' "colorscheme
 Plug 'alvan/vim-closetag' "html tag auto close
-Plug 'buoto/gotests-vim' "gotest, generate TDD(table driven tests)
+Plug 'buoto/gotests-vim' "gotests, generate TDT(table driven tests)
 Plug 'davidhalter/jedi-vim' "python autocompletion
 Plug 'dense-analysis/ale' "asynchronous lint, syntastic alternative
 Plug 'fatih/vim-go' "go development plugin
