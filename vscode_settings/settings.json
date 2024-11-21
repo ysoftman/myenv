@@ -267,5 +267,7 @@
   "diffEditor.ignoreTrimWhitespace": false,
   "window.zoomLevel": 1,
   "workbench.activityBar.location": "top",
-  "git.openRepositoryInParentFolders": "never"
+  "git.openRepositoryInParentFolders": "never",
+  "playwright.reuseBrowser": true,
+  "playwright.showTrace": false
 }
