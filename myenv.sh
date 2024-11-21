@@ -317,6 +317,7 @@ source "${myenv_path}/grep_and_sed.sh"
 source "${myenv_path}/cnt_src.sh"
 source "${myenv_path}/git_functions.sh"
 source "${myenv_path}/k8s_info.sh"
+source "${myenv_path}/find_duplicated_packages_in_go_and_brew.sh"
 
 if which pyenv > /dev/null 2>&1; then
     eval "$(pyenv init -)"
