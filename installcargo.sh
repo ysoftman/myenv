@@ -8,6 +8,7 @@ mpkgs["bat"]="bat"
 mpkgs["bottom"]="btm"
 mpkgs["cfonts"]="cfonts"
 mpkgs["delta"]="delta"
+mpkgs["difftastic"]="difft"
 mpkgs["diskonaut"]="diskonaut"
 mpkgs["dog"]="dog"
 mpkgs["du-dust"]="dust"  # brew 에선 dust 패키지 이름으로 사용된다.
