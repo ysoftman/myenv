@@ -42,6 +42,14 @@ if delta --version 2> /dev/null 2>&1; then
     git config --global delta.side-by-side "true"
     git config --global delta.syntax-theme "OneHalfDark"
 fi
+if difft --version 2> /dev/null 2>&1; then
+    # `git log` with patches shown with difftastic.
+    git config --global alias.dl '-c diff.external=difft log -p --ext-diff'
+    # Show the most recent commit with difftastic.
+    git config --global alias.ds '-c diff.external=difft show --ext-diff'
+    # `git diff` with difftastic.
+    git config --global alias.dft '-c diff.external=difft diff'
+fi
 
 # 파일로 저장하지 않고 일정시간(디폴트 15분)동안 id,pw 를 캐싱한다.
 #git config --global credential.helper cache
