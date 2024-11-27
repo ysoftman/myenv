@@ -76,6 +76,9 @@ if !has('nvim')
     execute "set <a-p>=\ep"
 endif
 
+" vim profile 하기
+nnoremap <leader>ps :profile start vim-profile.log<enter>:profile func *<enter>:profile file *<enter>
+nnoremap <leader>pt :profile stop<enter>
 " quickfix list 에서 사용할 단축키
 nnoremap <leader>cj :clearjumps<enter>
 nnoremap <leader>cw :cw<enter>
