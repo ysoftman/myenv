@@ -516,6 +516,7 @@ let g:gitgutter_set_sign_backgrounds = 1
 let g:gitgutter_log = 0
 " git commit 후 gitgutter sign column 이 업데이트 안될때, 커밋 후 저장시 업데이트
 autocmd BufWritePost * GitGutterAll
+autocmd FocusGained * GitGutterAll
 ":GitGutter              Update signs for the current buffer.  You shouldn't need to run this.
 ":GitGutterAll           Update signs for all buffers.  You shouldn't need to run this.
 
