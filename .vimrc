@@ -513,7 +513,7 @@ let g:gitgutter_sign_removed_first_line = '-‾'
 let g:gitgutter_sign_removed_above_and_below = '-¯'
 let g:gitgutter_sign_modified_removed   = '~-'
 let g:gitgutter_set_sign_backgrounds = 1
-let g:gitgutter_log = 1
+let g:gitgutter_log = 0
 " git commit 후 gitgutter sign column 이 업데이트 안될때, 커밋 후 저장시 업데이트
 autocmd BufWritePost * GitGutterAll
 ":GitGutter              Update signs for the current buffer.  You shouldn't need to run this.
