@@ -514,11 +514,19 @@ let g:gitgutter_sign_removed_above_and_below = '-¯'
 let g:gitgutter_sign_modified_removed   = '~-'
 let g:gitgutter_set_sign_backgrounds = 1
 let g:gitgutter_log = 0
-" git commit 후 gitgutter sign column 이 업데이트 안될때, 커밋 후 저장시 업데이트
-autocmd BufWritePost * GitGutterAll
-autocmd FocusGained * GitGutterAll
 ":GitGutter              Update signs for the current buffer.  You shouldn't need to run this.
 ":GitGutterAll           Update signs for all buffers.  You shouldn't need to run this.
+" git commit 후 gitgutter sign column 이 업데이트 안될때, 커밋 후 저장시 업데이트
+autocmd BufWritePost * GitGutterAll
+"autocmd FocusGained * echo 'Vim has gained focus'
+"autocmd FocusLost * echo 'Vim has lost focus'
+" 기본적으로 FocusGained 이벤트에 GitGutterAll 이 실행된다.
+" 그런데 alacritty 0.14.0 에선 포커스 이벤트가 동작하지 않아 다음 방법을 사용한다.(https://github.com/vim/vim/issues/15157)
+" 참고로 :set termcap 으로 설정된 터미널 코드 확인
+if &term =~ "alacritty"
+  let &t_fe = "\<Esc>[?1004h"
+  let &t_fd = "\<Esc>[?1004l"
+endif
 
 "vim.emoji
 "insert 모드에서:입력하다 ctrl+x ctrl+u 하면 자동완성 리스트가 보이고 선택.
