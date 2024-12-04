@@ -76,53 +76,15 @@ if !has('nvim')
     execute "set <a-p>=\ep"
 endif
 
-" vim profile 하기
-nnoremap <leader>ps :profile start vim-profile.log<enter>:profile func *<enter>:profile file *<enter>
-nnoremap <leader>pt :profile stop<enter>
-" quickfix list 에서 사용할 단축키
-nnoremap <leader>cj :clearjumps<enter>
-nnoremap <leader>cw :cw<enter>
-nnoremap <leader>co :copen<enter>
-nnoremap <leader>ccl :cclose<enter>
-"c-[ --> esc 라 사용하지 말자.
-"nnoremap <c-[> :cp<enter>
-nnoremap <c-k> :cp<enter>
-nnoremap <c-j> :cn<enter>
-" quickfix list 에서 replace (편의를 위해 입력위치로 커서 이동)
-nnoremap cfsc :cfdo %s///gc <bar> up<home><right><right><right><right><right><right><right><right>
-" location list 에서 사용할 단축키
-" l 로 시작하면 오른쪽 방향키(l)일때 액션이 timeoutlen 만큼 지연되서 사용하지 않음
-nnoremap <leader>lo :lopen<enter>
-nnoremap <leader>lcl :lclose<enter>
-nnoremap <leader>k :lprev<enter>
-nnoremap <leader>j :lnext<enter>
 " buffer 관련 단축키
 nnoremap bn :bn<enter>
 nnoremap bp :bp<enter>
 nnoremap bd :bd<enter>
 nnoremap bwo :%bwipeout<enter>
-" buffer 파일들 다시 로딩
-" bufdo 를 사용하면 syntax highlighting 등이 동작하지 않는다
+" buffer 파일들 다시 로딩, bufdo 를 사용하면 syntax highlighting 등이 동작하지 않는다
 "nnoremap be :bufdo e<enter>
-" format json file
-nnoremap sjq :%!jq .<enter>
-" format xml file, 포맷팅 후 에러 메시지가 추가될 수 있다.
-nnoremap <leader>xml :%!xmllint --format -<enter>
-" remove trailing whitespace
-nnoremap rtw :%s/\s\+$//e<enter>
-" window들diff 창으로 만들기
-nnoremap diff :windo difft<enter>
-" diff mode 종료
-nnoremap nodiff :windo diffoff<enter>
-" .vimrc 다시 적용
-nnoremap sovim :source ~/.vimrc<enter>
-if has('nvim')
-    " nvim init.lua 다시 적용
-    nnoremap sonvim :source ~/.config/nvim/init.lua<enter>
-endif
-" 현재 파일을 utf-8 로 저장하고 다시 로드
-nnoremap wutf8 :w ++enc=utf-8 %<enter>:e!<enter>
-nnoremap wcp949 :w ++enc=cp949 %<enter>:e!<enter>
+" quickfix list 에서 replace (편의를 위해 입력위치로 커서 이동)
+nnoremap cfsc :cfdo %s///gc <bar> up<home><right><right><right><right><right><right><right><right>
 " replace (편의를 위해 입력위치로 커서 이동)
 nnoremap sc :%s/<c-r><c-w>//gc<left><left><left>
 " c-a 는 커서에서 공백 구분되는 단어
@@ -131,18 +93,55 @@ nnoremap sC :%s/<c-r><c-a>//gc<left><left><left>
 nnoremap sgd :g/<c-r><c-w>/d
 " word cout
 nnoremap swc :%s/<c-r><c-w>//gn
+" format json file
+nnoremap sjq :%!jq .<enter>
+" .vimrc 다시 적용
+nnoremap sovim :source ~/.vimrc<enter>
+if has('nvim')
+    " nvim init.lua 다시 적용
+    nnoremap sonvim :source ~/.config/nvim/init.lua<enter>
+endif
+"c-[ --> esc 라 사용하지 말자.
+"nnoremap <c-[> :cp<enter>
+nnoremap <c-k> :cp<enter>
+nnoremap <c-j> :cn<enter>
 " zellij ctrl-o(session), alt-i, alt-o 는 빌활성화 해뒀음
 nnoremap <m-i> <c-i>
 nnoremap <m-o> <c-o>
-" tab -> space 변경
-nnoremap retab :set expandtab<enter>:retab<enter>
-" space -> tab 변경
-nnoremap retab! :set noexpandtab<enter>:retab!<enter>:set expandtab<enter>
 " window pane 이동
 nnoremap <s-up> <c-w>k
 nnoremap <s-down> <c-w>j
 nnoremap <s-left> <c-w>h
 nnoremap <s-right> <c-w>l
+" location list 에서 사용할 단축키
+" l 로 시작하면 오른쪽 방향키(l)일때 액션이 timeoutlen 만큼 지연되서 사용하지 않음
+nnoremap <leader>lo :lopen<enter>
+nnoremap <leader>lcl :lclose<enter>
+nnoremap <leader>k :lprev<enter>
+nnoremap <leader>j :lnext<enter>
+" format xml file, 포맷팅 후 에러 메시지가 추가될 수 있다.
+nnoremap <leader>xml :%!xmllint --format -<enter>
+" remove trailing whitespace
+nnoremap <leader>rtw :%s/\s\+$//e<enter>
+" window들diff 창으로 만들기
+nnoremap <leader>diff :windo difft<enter>
+" diff mode 종료
+nnoremap <leader>nodiff :windo diffoff<enter>
+" quickfix list 에서 사용할 단축키
+nnoremap <leader>cj :clearjumps<enter>
+nnoremap <leader>cw :cw<enter>
+nnoremap <leader>co :copen<enter>
+nnoremap <leader>ccl :cclose<enter>
+" vim profile 하기
+nnoremap <leader>ps :profile start vim-profile.log<enter>:profile func *<enter>:profile file *<enter>
+nnoremap <leader>pt :profile stop<enter>
+" tab -> space 변경
+nnoremap <leader>retab :set expandtab<enter>:retab<enter>
+" space -> tab 변경
+nnoremap <leader>retab! :set noexpandtab<enter>:retab!<enter>:set expandtab<enter>
+" 현재 파일을 utf-8 로 저장하고 다시 로드
+nnoremap <leader>wutf8 :w ++enc=utf-8 %<enter>:e!<enter>
+nnoremap <leader>wcp949 :w ++enc=cp949 %<enter>:e!<enter>
 
 autocmd filetype javascript setlocal tabstop=2 shiftwidth=2
 autocmd filetype json setlocal tabstop=2 shiftwidth=2 foldmethod=syntax nofoldenable
