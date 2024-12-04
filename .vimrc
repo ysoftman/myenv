@@ -26,8 +26,8 @@ set ignorecase
 "set cursorcolumn
 set cursorline
 "set colorcolumn=100
-"set iskeyword=@,48-57,_,-,192-255,# "설정된 문자로 연결되면 하나의 워드로 취급
-set iskeyword+=- "워드로 취급문자에 - 도 추가
+set iskeyword=@,48-57,_,192-255 "설정된 문자로 연결되면 하나의 워드로 취급
+"set iskeyword+=- "워드로 취급문자에 - 도 추가
 set visualbell t_vb=
 " eol까지 표시하면 너무 verbose 하게 표시되는것 같음
 "set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»,eol:↵
