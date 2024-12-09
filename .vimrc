@@ -152,10 +152,10 @@ autocmd BufNewFile,BufRead ~/.config/cava/config set filetype=confini
 autocmd BufNewFile,BufRead *.yaml.tpl set filetype=yaml
 autocmd BufNewFile,BufRead *.kdl set filetype=kdl
 
-"" 여기까지만 nvim 에서 로딩하도록 한다.
-"if has('nvim')
-"    finish
-"endif
+" 여기까지만 nvim 에서 로딩하도록 한다.
+if has('nvim')
+    finish
+endif
 
 
 "vim-plug 설치(플러그인 매니저중 플러그인 설치 속도가 가장 빠름)
