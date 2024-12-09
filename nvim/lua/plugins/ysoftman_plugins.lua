@@ -13,13 +13,24 @@ return {
   { "ellisonleao/gruvbox.nvim" },
 
   -- Configure LazyVim to load gruvbox
+  --{
+  --  "LazyVim/LazyVim",
+  --  opts = {
+  --    colorscheme = "gruvbox",
+  --  },
+  --},
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  {
+    "olimorris/onedarkpro.nvim",
+    priority = 1000, -- Ensure it loads first
+  },
+
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "gruvbox",
+      colorscheme = "catppuccin",
     },
   },
-
   -- change trouble config
   {
     "folke/trouble.nvim",
@@ -57,6 +68,7 @@ return {
       {
         "<leader>fp",
         function() require("telescope.builtin").find_files({ cwd = require("lazy.core.config").options.root }) end,
+
         desc = "Find Plugin File",
       },
     },
