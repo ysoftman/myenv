@@ -17,12 +17,15 @@ vim.keymap.set("n", "<leader>fr", builtin.registers, {})
 --vim.keymap.set("n", "<c-l>", builtin.buffers, {})
 --vim.keymap.set("n", "<a-r>", builtin.registers, {})
 
+
 -- [coc.nvim]: dyld[7087]: Library not loaded: Library not loaded: /opt/homebrew/opt/icu4c/lib/libicui18n.74.dylib
 -- Referenced from: <3317C4D0-50F5-334B-8949-29926E34DA3C> /opt/homebrew/Cellar/node/22.9.0/bin/node 에러 발생시
 --brew install icu4c node
 
 -- K(:help) lua not found error 에러 발생시
 --brew reinstall lua
+--help
+--:h lua-vim
 
 -- 마우스 우클릭 메뉴 추가(gx 로 url 열기)
 vim.cmd([[
