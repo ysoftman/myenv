@@ -17,6 +17,8 @@ vim.keymap.set("n", "<leader>fr", builtin.registers, {})
 --vim.keymap.set("n", "<c-l>", builtin.buffers, {})
 --vim.keymap.set("n", "<a-r>", builtin.registers, {})
 
+-- lazyvim  에 종속인 설정
+--vim.cmd[[colorscheme tokyonight-night]]
 
 -- [coc.nvim]: dyld[7087]: Library not loaded: Library not loaded: /opt/homebrew/opt/icu4c/lib/libicui18n.74.dylib
 -- Referenced from: <3317C4D0-50F5-334B-8949-29926E34DA3C> /opt/homebrew/Cellar/node/22.9.0/bin/node 에러 발생시
