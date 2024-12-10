@@ -8,21 +8,11 @@ require("config.lazy")
 local vimrc = vim.fn.stdpath("config") .. "/_init.vim"
 vim.cmd.source(vimrc)
 
--- telescope
-local builtin = require("telescope.builtin")
-vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
-vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
-vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
-vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
-vim.keymap.set("n", "<leader>fr", builtin.registers, {})
-vim.keymap.set("n", "<a-t>", builtin.find_files, {})
-vim.keymap.set("n", "<c-f>", builtin.live_grep, {})
-vim.keymap.set("n", "<c-l>", builtin.buffers, {})
-vim.keymap.set("n", "<a-r>", builtin.registers, {})
-
 -- "olimorris/onedarkpro.nvim",
 vim.cmd([[colorscheme tokyonight-night]])
-vim.cmd("colorscheme onedark_vivid")
+-- vim.cmd("colorscheme onedark_vivid")
+vim.cmd("colorscheme onedark_dark")
+-- vim.cmd("highlight Normal cterm=none guibg=none")
 
 -- [coc.nvim]: dyld[7087]: Library not loaded: Library not loaded: /opt/homebrew/opt/icu4c/lib/libicui18n.74.dylib
 -- Referenced from: <3317C4D0-50F5-334B-8949-29926E34DA3C> /opt/homebrew/Cellar/node/22.9.0/bin/node 에러 발생시
