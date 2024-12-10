@@ -164,8 +164,112 @@ return {
             },
         },
     },
+    {
+        "neovim/nvim-lspconfig",
+        opts = {
+            servers = {
+                gopls = {
+                    settings = {
+                        gopls = {
+                            gofumpt = true,
+                            codelenses = {
+                                gc_details = false,
+                                generate = true,
+                                regenerate_cgo = true,
+                                run_govulncheck = true,
+                                test = true,
+                                tidy = true,
+                                upgrade_dependency = true,
+                                vendor = true,
+                            },
+                            hints = {
+                                assignVariableTypes = true,
+                                compositeLiteralFields = true,
+                                compositeLiteralTypes = true,
+                                constantValues = true,
+                                functionTypeParameters = true,
+                                parameterNames = true,
+                                rangeVariableTypes = true,
+                            },
+                            analyses = {
+                                fieldalignment = true,
+                                nilness = true,
+                                unusedparams = true,
+                                unusedwrite = true,
+                                useany = true,
+                            },
+                            usePlaceholders = true,
+                            completeUnimported = true,
+                            staticcheck = true,
+                            directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+                            semanticTokens = true,
+                        },
+                    },
+                },
+            },
+            setup = {
+                gopls = function(_, opts)
+                    -- workaround for gopls not supporting semanticTokensProvider
+                    -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
+                    LazyVim.lsp.on_attach(function(client, _)
+                        if not client.server_capabilities.semanticTokensProvider then
+                            local semantic = client.config.capabilities.textDocument.semanticTokens
+                            client.server_capabilities.semanticTokensProvider = {
+                                full = true,
+                                legend = {
+                                    tokenTypes = semantic.tokenTypes,
+                                    tokenModifiers = semantic.tokenModifiers,
+                                },
+                                range = true,
+                            }
+                        end
+                    end, "gopls")
+                    -- end workaround
+                end,
+            },
+        }
+    },
 
-    -- add tsserver and setup with typescript.nvim instead of lspconfig
+    {
+        "williamboman/mason.nvim",
+        opts = { ensure_installed = { "goimports", "gofumpt" } },
+    },
+    {
+        "williamboman/mason.nvim",
+        opts = { ensure_installed = { "gomodifytags", "impl" } },
+    },
+    {
+        "williamboman/mason.nvim",
+        opts = { ensure_installed = { "delve" } },
+    },
+    {
+        "williamboman/mason.nvim",
+        opts = {
+            ensure_installed = {
+                "stylua",
+                "shellcheck",
+                "shfmt",
+                "black",
+                "prettier",
+            },
+            formatters_by_ft = {
+                ["html"] = { "prettier" },
+                ["lua"] = { "stylua" },
+                ["py"] = {"black"},
+            },
+        },
+    },
+    {
+        "echasnovski/mini.icons",
+        opts = {
+            file = {
+                [".go-version"] = { glyph = "", hl = "MiniIconsBlue" },
+            },
+            filetype = {
+                gotmpl = { glyph = "󰟓", hl = "MiniIconsGrey" },
+            },
+        },
+    },
     {
         "neovim/nvim-lspconfig",
         dependencies = {
@@ -200,11 +304,11 @@ return {
         },
     },
 
-    -- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
-    -- treesitter, mason and typescript.nvim. So instead of the above, you can use:
     { import = "lazyvim.plugins.extras.lang.typescript" },
-
-    -- add more treesitter parsers
+    {
+        "nvim-treesitter/nvim-treesitter",
+        opts = { ensure_installed = { "go", "gomod", "gowork", "gosum" } },
+    },
     {
         "nvim-treesitter/nvim-treesitter",
         opts = {
@@ -227,9 +331,6 @@ return {
         },
     },
 
-    -- since `vim.tbl_deep_extend`, can only merge tables and not lists, the code above
-    -- would overwrite `ensure_installed` with the new value.
-    -- If you'd rather extend the default config, use the code below instead:
     {
         "nvim-treesitter/nvim-treesitter",
         opts = function(_, opts)
@@ -241,7 +342,6 @@ return {
         end,
     },
 
-    -- the opts function can also be used to change the default opts:
     {
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
@@ -250,7 +350,6 @@ return {
         end,
     },
 
-    -- or you can return new options to override all the defaults
     {
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
@@ -261,30 +360,10 @@ return {
         end,
     },
 
-    -- use mini.starter instead of alpha
     { import = "lazyvim.plugins.extras.ui.mini-starter" },
 
-    -- add jsonls and schemastore packages, and setup treesitter for json, json5 and jsonc
     { import = "lazyvim.plugins.extras.lang.json" },
 
-    -- add any tools you want to have installed below
-    {
-        "williamboman/mason.nvim",
-        opts = {
-            ensure_installed = {
-                "stylua",
-                "shellcheck",
-                "shfmt",
-                "black",
-                "prettier",
-            },
-            formatters_by_ft = {
-                ["html"] = { "prettier" },
-                ["lua"] = { "stylua" },
-                ["py"] = {"black"},
-            },
-        },
-    },
 
     -- Use <tab> for completion and snippets (supertab)
     -- first: disable default <tab> and <s-tab> behavior in LuaSnip
