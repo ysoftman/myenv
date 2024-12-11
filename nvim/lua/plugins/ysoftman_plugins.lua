@@ -183,13 +183,13 @@ return {
                                 vendor = true,
                             },
                             hints = {
-                                assignVariableTypes = true,
+                                assignVariableTypes = false, -- 변수 할당시 타입 표시 비활성화
                                 compositeLiteralFields = true,
                                 compositeLiteralTypes = true,
                                 constantValues = true,
                                 functionTypeParameters = true,
-                                parameterNames = true,
-                                rangeVariableTypes = true,
+                                parameterNames = false, -- 파라메터 이름가지 표시되면 가독성이 떨어져 비활성화
+                                rangeVariableTypes = false, -- range 변수 타입 표시되면 가독성이 떨어저 비활성화
                             },
                             analyses = {
                                 fieldalignment = false, -- 효율적인 메모리 공간을 위해 struct 멤버 순서를 제안한다.
