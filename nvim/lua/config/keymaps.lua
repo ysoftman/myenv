@@ -16,10 +16,16 @@ vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live gr
 vim.keymap.set({ "n", "v" }, "<a-r>", builtin.registers, { desc = "Telescope registers" })
 vim.keymap.set({ "n", "v" }, "<a-t>", builtin.find_files, { desc = "Telescope find files" })
 -- noice.nvim, scroll forward <c-f> 와 겹친다.
--- 여러개 단어를 타이핑 하는데로 검색하기 위해선 live_grep 대신 grep_string 을 사용해야 함
+-- Search for a string and get results live as you type, respects .gitignore
 vim.keymap.set({ "n", "v" }, "<c-f>", function()
+  builtin.live_grep({
+    prompt_title = "Live Grep (rg)",
+  })
+end, { noremap = true, silent = true, desc = "Telescope Fuzzy Live Grep" })
+-- Searches for the string under your cursor or the visual selection in your current working directory
+vim.keymap.set({ "n", "v" }, "<a-f>", function()
   builtin.grep_string({
-    prompt_title = "(rg) Grep String",
+    prompt_title = "Grep String",
     shorten_path = true,
     only_sort_text = true,
     word_match = "-w",
