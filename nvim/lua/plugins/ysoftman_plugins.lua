@@ -74,6 +74,7 @@ return {
         -- change some options
         opts = {
             defaults = {
+                preview = false,
                 layout_strategy = "horizontal",
                 layout_config = { prompt_position = "top" },
                 sorting_strategy = "ascending",
@@ -200,7 +201,7 @@ return {
                             },
                             usePlaceholders = true,
                             completeUnimported = true,
-                            staticcheck = true,
+                            staticcheck = true, -- https://staticcheck.dev/docs/checks#QF1003
                             directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
                             semanticTokens = true,
                         },
