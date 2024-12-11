@@ -2,6 +2,7 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
+-- 디폴트 키맵 https://www.lazyvim.org/keymaps
 -- 현재 파일 reload
 -- :so %
 
@@ -38,3 +39,9 @@ vim.keymap.set({ "n", "v" }, "<c-l>", builtin.buffers, { desc = "Telescope buffe
 -- neotree
 vim.keymap.set({ "n", "v" }, "<leader>ft", ":Neotree toggle<cr>")
 vim.keymap.set({ "n", "v" }, "<leader>tt", ":Neotree toggle reveal_force_cwd<cr>")
+
+-- lsp
+local lsp_keys = require("lazyvim.plugins.lsp.keymaps").get()
+-- gd, gr 로 사용하는데 다음과 추가
+lsp_keys[#lsp_keys + 1] = { "<leader>d", vim.lsp.buf.definition, desc = "Go to Definition" }
+lsp_keys[#lsp_keys + 1] = { "<leader>r", vim.lsp.buf.references, desc = "Go to References" }
