@@ -123,10 +123,6 @@ nnoremap <leader>j :lnext<enter>
 nnoremap <leader>xml :%!xmllint --format -<enter>
 " remove trailing whitespace
 nnoremap <leader>rtw :%s/\s\+$//e<enter>
-" window들diff 창으로 만들기
-nnoremap <leader>diff :windo difft<enter>
-" diff mode 종료
-nnoremap <leader>nodiff :windo diffoff<enter>
 " quickfix list 에서 사용할 단축키
 nnoremap <leader>cj :clearjumps<enter>
 nnoremap <leader>cw :cw<enter>
@@ -139,6 +135,10 @@ nnoremap <leader>pt :profile stop<enter>
 nnoremap <leader>retab :set expandtab<enter>:retab<enter>
 " space -> tab 변경
 nnoremap <leader>retab! :set noexpandtab<enter>:retab!<enter>:set expandtab<enter>
+" window들diff 창으로 만들기
+nnoremap <leader>wdiff :windo difft<enter>
+" diff mode 종료
+nnoremap <leader>wnodiff :windo diffoff<enter>
 " 현재 파일을 utf-8 로 저장하고 다시 로드
 nnoremap <leader>wutf8 :w ++enc=utf-8 %<enter>:e!<enter>
 nnoremap <leader>wcp949 :w ++enc=cp949 %<enter>:e!<enter>
