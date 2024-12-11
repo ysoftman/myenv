@@ -192,7 +192,7 @@ return {
                                 rangeVariableTypes = true,
                             },
                             analyses = {
-                                fieldalignment = true,
+                                fieldalignment = false, -- 효율적인 메모리 공간을 위해 struct 멤버 순서를 제안한다.
                                 nilness = true,
                                 unusedparams = true,
                                 unusedwrite = true,
