@@ -86,7 +86,7 @@ return {
                     '--line-number',
                     '--column',
                     "--fixed-strings", -- Treat all patterns as literals instead of as regular expressions. When this flag is used, special regular expression meta characters such as .(){}*+ should not need be escaped.
-                    "--hidden",
+                    -- "--hidden",
                     "--smart-case", -- 소문자로만 입력시 대소문자 구분하지 않음, 아니면 대소문자 구분
                     -- Add your custom rg options here
                 },
