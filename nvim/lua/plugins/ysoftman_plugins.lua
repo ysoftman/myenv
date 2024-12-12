@@ -307,9 +307,27 @@ return {
     },
 
     { import = "lazyvim.plugins.extras.lang.typescript" },
+
     {
-        "nvim-treesitter/nvim-treesitter",
-        opts = { ensure_installed = { "go", "gomod", "gowork", "gosum" } },
+        "nvim-neo-tree/neo-tree.nvim",
+        config = function()
+            require("neo-tree").setup({
+                window = {
+                    mappings = {
+                        -- c-f 겹쳐서 비활성화
+                        ["<c-f>"] = "none",
+                    },
+                },
+                filesystem = {
+                    window = {
+                        mappings = {
+                            -- c-f 겹쳐서 비활성화
+                            ["<c-f>"] = "none",
+                        },
+                    },
+                },
+            })
+        end
     },
     {
         "nvim-treesitter/nvim-treesitter",
@@ -329,6 +347,10 @@ return {
                 "typescript",
                 "vim",
                 "yaml",
+                "go",
+                "gomod",
+                "gosum",
+                "gowork",
             },
         },
     },
