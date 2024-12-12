@@ -577,7 +577,9 @@ let g:go_metalinter_command = "golangci-lint"
 "let g:go_metalinter_deadline = "5s"
 "golangci-lint 에서 활성화할 항목
 "vet -> govet 으로 바뀜
-let g:go_metalinter_enabled = ['govet', 'revive', 'errcheck']
+let g:go_metalinter_enabled = ['staticcheck', 'govet', 'revive', 'errcheck']
+let g:go_metalinter_autosave_enabled = ['staticcheck', 'govet', 'revive', 'errcheck']
+let g:go_metalinter_autosave = 0
 let g:go_version_warning = 0
 autocmd filetype go nnoremap <f2> :GoRename<enter>
 autocmd filetype go nnoremap <f5> :w <bar> :!clear; <enter> :GoRun<enter>
