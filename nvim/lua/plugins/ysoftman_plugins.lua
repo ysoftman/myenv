@@ -310,6 +310,7 @@ return {
 
     {
         "nvim-neo-tree/neo-tree.nvim",
+        -- LazyVim에서 plugin의 config 함수는 플러그인이 로드될 때 자동으로 실행
         config = function()
             require("neo-tree").setup({
                 window = {
@@ -331,6 +332,7 @@ return {
     },
     {
         "nvim-treesitter/nvim-treesitter",
+        -- opts 속성을 사용하면 LazyVim이 자동으로 config 함수를 생성
         opts = {
             ensure_installed = {
                 "bash",
