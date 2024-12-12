@@ -37,7 +37,7 @@ end, { noremap = true, silent = true, desc = "Telescope Fuzzy grep string" })
 vim.keymap.set({ "n", "v" }, "<c-l>", builtin.buffers, { desc = "Telescope buffers" })
 
 -- neotree
-vim.keymap.set({ "n", "v" }, "<leader>ft", ":Neotree toggle<cr>")
+vim.keymap.set({ "n", "v" }, "<leader>tf", ":Neotree toggle<cr>")
 vim.keymap.set({ "n", "v" }, "<leader>tt", ":Neotree toggle reveal_force_cwd<cr>")
 
 -- lsp
