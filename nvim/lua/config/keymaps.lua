@@ -44,3 +44,8 @@ local lsp_keys = require("lazyvim.plugins.lsp.keymaps").get()
 -- gd, gr 로 사용하는데 다음도 추가
 lsp_keys[#lsp_keys + 1] = { "<leader>d", vim.lsp.buf.definition, desc = "Go to Definition" }
 lsp_keys[#lsp_keys + 1] = { "<leader>r", vim.lsp.buf.references, desc = "Go to References" }
+
+-- comment
+vim.keymap.set({ "n", "v" }, "<leader>cc", function()
+  return require("vim._comment").operator()
+end, { expr = true, desc = "Toggle comment" })
