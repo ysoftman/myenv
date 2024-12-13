@@ -21,7 +21,7 @@ vim.keymap.set({ "n", "v" }, "<c-f>", function()
   builtin.live_grep({
     prompt_title = "Live Grep (rg)",
   })
-end, { noremap = true, silent = true, desc = "Telescope Fuzzy Live Grep" })
+end, { noremap = true, silent = true, desc = "Telescope fuzzy live grep" })
 -- Searches for the string under your cursor or the visual selection in your current working directory
 vim.keymap.set({ "n", "v" }, "<a-f>", function()
   builtin.grep_string({
@@ -29,9 +29,8 @@ vim.keymap.set({ "n", "v" }, "<a-f>", function()
     shorten_path = true,
     only_sort_text = true,
     word_match = "-w",
-    search = "",
   })
-end, { noremap = true, silent = true, desc = "Telescope Fuzzy grep string" })
+end, { noremap = true, silent = true, desc = "Telescope fuzzy grep string" })
 
 -- lazyvim, go to left <c-l> 와 겹친다.
 vim.keymap.set({ "n", "v" }, "<c-l>", builtin.buffers, { desc = "Telescope buffers" })
