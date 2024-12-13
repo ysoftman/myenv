@@ -38,7 +38,7 @@ vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live gr
 vim.keymap.set("n", "<a-r>", "<cmd>lua require('fzf-lua').registers()<CR>", { silent = true })
 vim.keymap.set("n", "<a-t>", "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
 vim.keymap.set("n", "<a-f>", "<cmd>lua require('fzf-lua').grep_cword()<CR>", { silent = true }) -- search word under cursor
-vim.keymap.set("n", "<c-f>", "<cmd>lua require('fzf-lua').grep()<CR>", { silent = true }) -- search pattern
+vim.keymap.set("n", "<c-f>", "<cmd>lua require('fzf-lua').grep({search=''})<CR>", { silent = true }) -- search pattern, search 옵션이 없으면 input_prompt 가 뜬다.
 
 -- lazyvim, go to left <c-l> 와 겹친다.
 vim.keymap.set({ "n", "v" }, "<c-l>", builtin.buffers, { desc = "Telescope buffers" })
