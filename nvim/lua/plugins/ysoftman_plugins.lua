@@ -67,7 +67,12 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
+      { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
       require("telescope").setup({
+        -- defaults = {
+        --   -- Choose your preferred sorter here
+        --   sorter = require("telescope.sorters").get_fzf_sorter(),
+        -- },
         extensions = {
           fzf = {
             fuzzy = true, -- false will only do exact matching
@@ -88,8 +93,8 @@ return {
     -- change some options
     opts = {
       defaults = {
-        preview = false,
-        layout_strategy = "horizontal",
+        preview = true,
+        layout_strategy = "vertical",
         layout_config = { prompt_position = "top" },
         sorting_strategy = "ascending",
         winblend = 0,
