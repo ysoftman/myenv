@@ -13,24 +13,32 @@ vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" 
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
 vim.keymap.set("n", "<leader>fr", builtin.registers, { desc = "Telescope registers" })
 vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
-vim.keymap.set({ "n", "v" }, "<a-r>", builtin.registers, { desc = "Telescope registers" })
-vim.keymap.set({ "n", "v" }, "<a-t>", builtin.find_files, { desc = "Telescope find files" })
+-- ctrl, alt 조합 단축키들은 fzf-lua 로 사용
+-- vim.keymap.set({ "n", "v" }, "<a-r>", builtin.registers, { desc = "Telescope registers" })
+-- vim.keymap.set({ "n", "v" }, "<a-t>", builtin.find_files, { desc = "Telescope find files" })
+-- Searches for the string under your cursor or the visual selection in your current working directory
+-- vim.keymap.set({ "n", "v" }, "<a-f>", function()
+--   builtin.grep_string({
+--     prompt_title = "Grep String",
+--     shorten_path = true,
+--     only_sort_text = true,
+--     word_match = "-w",
+--   })
+-- end, { noremap = true, silent = true, desc = "Telescope fuzzy grep string" })
 -- noice.nvim, scroll forward <c-f> 와 겹친다.
 -- Search for a string and get results live as you type, respects .gitignore
-vim.keymap.set({ "n", "v" }, "<c-f>", function()
-  builtin.live_grep({
-    prompt_title = "Live Grep (rg)",
-  })
-end, { noremap = true, silent = true, desc = "Telescope fuzzy live grep" })
--- Searches for the string under your cursor or the visual selection in your current working directory
-vim.keymap.set({ "n", "v" }, "<a-f>", function()
-  builtin.grep_string({
-    prompt_title = "Grep String",
-    shorten_path = true,
-    only_sort_text = true,
-    word_match = "-w",
-  })
-end, { noremap = true, silent = true, desc = "Telescope fuzzy grep string" })
+-- vim.keymap.set({ "n", "v" }, "<c-f>", function()
+--   builtin.live_grep({
+--     prompt_title = "Live Grep (rg)",
+--   })
+-- end, { noremap = true, silent = true, desc = "Telescope fuzzy live grep" })
+
+-- fzf-lua
+-- https://github.com/ibhagwan/fzf-lua?tab=readme-ov-file#commands
+vim.keymap.set("n", "<a-r>", "<cmd>lua require('fzf-lua').registers()<CR>", { silent = true })
+vim.keymap.set("n", "<a-t>", "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
+vim.keymap.set("n", "<a-f>", "<cmd>lua require('fzf-lua').grep_cword()<CR>", { silent = true }) -- search word under cursor
+vim.keymap.set("n", "<c-f>", "<cmd>lua require('fzf-lua').grep()<CR>", { silent = true }) -- search pattern
 
 -- lazyvim, go to left <c-l> 와 겹친다.
 vim.keymap.set({ "n", "v" }, "<c-l>", builtin.buffers, { desc = "Telescope buffers" })
