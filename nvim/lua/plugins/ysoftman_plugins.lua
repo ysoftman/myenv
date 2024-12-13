@@ -248,20 +248,6 @@ return {
 
   {
     "neovim/nvim-lspconfig",
-    opts = function()
-      ---@class PluginLspOpts
-      local ret = {
-        -- <leader>cc 와 겸쳐서 비활성화
-        codelens = {
-          enabled = false,
-        },
-      }
-      return ret
-    end,
-  },
-
-  {
-    "neovim/nvim-lspconfig",
     dependencies = {
       "jose-elias-alvarez/typescript.nvim",
       init = function()
