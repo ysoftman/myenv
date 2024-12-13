@@ -560,6 +560,7 @@ let g:go_auto_sameids = 0
 let g:go_def_mapping_enabled=0
 let g:go_fmt_autosave = 1
 let g:go_fmt_command = "gopls"
+let g:go_gopls_gofumpt = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_function_calls = 1
