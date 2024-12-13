@@ -39,9 +39,7 @@ vim.keymap.set("n", "<a-r>", "<cmd>lua require('fzf-lua').registers()<CR>", { si
 vim.keymap.set("n", "<a-t>", "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
 vim.keymap.set("n", "<a-f>", "<cmd>lua require('fzf-lua').grep_cword()<CR>", { silent = true }) -- search word under cursor
 vim.keymap.set("n", "<c-f>", "<cmd>lua require('fzf-lua').grep({search=''})<CR>", { silent = true }) -- search pattern, search 옵션이 없으면 input_prompt 가 뜬다.
-
--- lazyvim, go to left <c-l> 와 겹친다.
-vim.keymap.set({ "n", "v" }, "<c-l>", builtin.buffers, { desc = "Telescope buffers" })
+vim.keymap.set("n", "<c-l>", "<cmd>lua require('fzf-lua').buffers()<CR>", { silent = true })
 
 -- neotree
 vim.keymap.set({ "n", "v" }, "<leader>tt", ":Neotree toggle reveal<cr>")
