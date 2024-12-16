@@ -459,13 +459,23 @@ nmap <silent> <leader>re <Plug>(coc-codeaction-refactor)
 
 "fzf
 "FZF_DEFAULT_COMMAND 설정에 의존, hidden 파일검색 되도록 myenv.sh 설정되어 있다.
-let g:fzf_preview_window = ['right:50%', 'ctrl-/']
+"man fzf > --preview-window 참고, fzf#vim#with_preview() 로 전달됨
+let g:fzf_vim = {}
+"let g:fzf_vim.preview_window = ['right,50%', 'ctrl-/']
+let g:fzf_vim.preview_window = ['down,50%', 'ctrl-/']
+"파일 찾기
+command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>,
+    \ fzf#vim#with_preview({'options': ['--layout=reverse', '--preview', '~/.vim/plugged/fzf.vim/bin/preview.sh {}']}), <bang>0)
 "찾기
-command! -bang -nargs=* Rg1 call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+command! -bang -nargs=* Rg1 call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1,
+    \ fzf#vim#with_preview({'options': ['--layout=reverse', '--preview', '~/.vim/plugged/fzf.vim/bin/preview.sh {}']}), <bang>0)
 "현재 커서에 있는 워드 패턴으로 찾기
-command! -bang -nargs=* Rg2 call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(expand('<cword>')), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+command! -bang -nargs=* Rg2 call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(expand('<cword>')), 1,
+    \ fzf#vim#with_preview({'options': ['--layout=reverse', '--preview', '~/.vim/plugged/fzf.vim/bin/preview.sh {}']}), <bang>0)
 ".gitignore, 숨김 내용도 찾기
-command! -bang -nargs=* Rg3 call fzf#vim#grep("rg --no-ignore --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+command! -bang -nargs=* Rg3 call fzf#vim#grep("rg --no-ignore --hidden --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1,
+    \ fzf#vim#with_preview({'options': ['--layout=reverse', '--preview', '~/.vim/plugged/fzf.vim/bin/preview.sh {}']}), <bang>0)
 ":W 로 :Windows 가 실행되는것을 방지
 command! -nargs=* W w
 " zellij ctrl-t(tab), ctrl-h(move), alt-h,alt-j,alt-k,alt-l(포커스이동)등의 단축키와 중복되지 않도록 단축키를 추가한다.
