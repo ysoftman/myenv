@@ -8,7 +8,7 @@ cursor = "#528bff"
 text = "CellBackground"
 
 [colors.primary]
-background = "#0b1015"
+background = "#000000"
 foreground = "#abb2bf"
 
 [colors.footer_bar]
