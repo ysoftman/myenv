@@ -110,20 +110,12 @@ fi
 
 source "${myenv_path}/fzf-git.sh"
 fzf-rg-widget() {
-    # Two-phase filtering with Ripgrep and fzf
-    #
-    # 1. Search for text in files using Ripgrep
-    # 2. Interactively restart Ripgrep with reload action
-    #    * Press alt-enter to switch to fzf-only filtering
-    # 3. Open the file in Vim
-    RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
-    FZF_INITIAL_QUERY="${*:-}"
-    fzf --ansi --disabled --query "$FZF_INITIAL_QUERY" \
+    local RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+    local FZF_INITIAL_QUERY="${*:-}"
+    fzf --ansi --query "$FZF_INITIAL_QUERY" \
         --bind "start:reload:$RG_PREFIX {q}" \
-        --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
-        --bind "alt-enter:unbind(change,alt-enter)+change-prompt(2. fzf> )+enable-search+clear-query" \
-        --color "hl:-1:underline,hl+:-1:underline:reverse" \
-        --prompt '1. ripgrep> ' \
+        --color "hl:underline,hl+:underline:reverse" \
+        --prompt 'rg+fzf> ' \
         --delimiter : \
         --preview 'bat --color=always {1} --highlight-line {2}' \
         --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
