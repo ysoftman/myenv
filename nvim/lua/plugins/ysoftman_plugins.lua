@@ -268,7 +268,6 @@ return {
         gopls = {
           settings = {
             gopls = {
-              gofumpt = true,
               codelenses = {
                 gc_details = false,
                 generate = true,
@@ -295,6 +294,7 @@ return {
                 unusedwrite = true,
                 useany = true,
               },
+              gofumpt = true,
               usePlaceholders = true,
               completeUnimported = true,
               staticcheck = true, -- https://staticcheck.dev/docs/checks#QF1003
