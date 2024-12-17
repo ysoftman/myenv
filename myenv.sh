@@ -119,7 +119,7 @@ fzf-rg-widget() {
         --delimiter : \
         --preview 'bat --color=always {1} --highlight-line {2}' \
         --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
-        --bind 'enter:become(vim {1} +{2})'
+        --bind 'enter:become(nvim {1} +{2})'
 }
 # zf-rg-widget 함수 등록(https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html)
 zle -N fzf-rg-widget
