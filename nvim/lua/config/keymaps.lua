@@ -6,6 +6,9 @@
 -- 현재 파일 reload
 -- :so %
 
+vim.keymap.del("n", "<S-h>")
+vim.keymap.del("n", "<S-l>")
+
 -- telescope
 local builtin = require("telescope.builtin")
 vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
