@@ -320,6 +320,19 @@ return {
                 range = true,
               }
             end
+            -- Create an autocommand group for organizing imports
+            vim.api.nvim_create_augroup("GoImports", { clear = true })
+            -- 저장시 auto import
+            vim.api.nvim_create_autocmd("BufWritePre", {
+              group = "GoImports",
+              pattern = "*.go",
+              callback = function()
+                vim.lsp.buf.code_action({
+                  context = { only = { "source.organizeImports" } },
+                  apply = true,
+                })
+              end,
+            })
           end, "gopls")
           -- end workaround
         end,
