@@ -27,7 +27,7 @@ elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
     # bash 에서 help cd 로 설명을 볼 수 있다.
     # zsh 에서 builtin 설명을 보기 위해서 run-help=man alias 설정을 제거하고,
     # run-help 함수를 다시 로딩하면, run-help cd 로 설명을 볼 수 있다.
-    unalias run-help 2> /dev/null
+    unalias run-help 2>/dev/null
     autoload run-help
 
     if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
@@ -52,14 +52,14 @@ fi
 # set XDG_CONFIG_HOME
 export XDG_CONFIG_HOME="$HOME/.config"
 
-if ! type kubectl > /dev/null 2>&1; then
+if ! type kubectl >/dev/null 2>&1; then
     bash ${myenv_path}/installkubectl.sh
 fi
 # zsh 환경에서 kubectl 자동 완성
 source <(kubectl completion zsh)
 # kubecolor (brew install hidetatz/tap/kubecolor)
 # kubecolor internally calls kubectl command
-if type kubecolor > /dev/null 2>&1; then
+if type kubecolor >/dev/null 2>&1; then
     alias kubectl='kubecolor'
     # kubecolor 로 kubectl 자동 완성
     compdef kubecolor=kubectl
@@ -69,12 +69,12 @@ fi
 if [ -d "${HOME}/.kube" ]; then
     export KUBECONFIG="${HOME}/.kube/config"
     for i in $(ls "${HOME}"/.kube/*.yaml); do
-        KUBECONFIG+=":"$i;
-    done 2> /dev/null
+        KUBECONFIG+=":"$i
+    done 2>/dev/null
     #for i in "${HOME}"/.kube/*.yml; do # 파일이 없어 에러발생하면 스크립트가  끝나버리는 문제가 있어 ls 커맨드를 별도로 실행
     for i in $(ls "${HOME}"/.kube/*.yml); do
-        KUBECONFIG+=":"$i;
-    done 2> /dev/null
+        KUBECONFIG+=":"$i
+    done 2>/dev/null
     # KUBECONFIG 파일들 하나로 합칠때
     # kubectl config view --flatten > ${HOME}/.kube/z
 fi
@@ -100,13 +100,37 @@ fi
 # kubectx | cat
 
 # install fzf
-if type fzf > /dev/null 2>&1; then
+if type fzf >/dev/null 2>&1; then
     if [ ! -f "${HOME}/.fzf/bin/fzf" ]; then
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
         ~/.fzf/install
     fi
     export PATH=${HOME}/.fzf/bin:$PATH
 fi
+
+source "${myenv_path}/fzf-git.sh"
+fzf-rg-widget() {
+    # Two-phase filtering with Ripgrep and fzf
+    #
+    # 1. Search for text in files using Ripgrep
+    # 2. Interactively restart Ripgrep with reload action
+    #    * Press alt-enter to switch to fzf-only filtering
+    # 3. Open the file in Vim
+    RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+    FZF_INITIAL_QUERY="${*:-}"
+    fzf --ansi --disabled --query "$FZF_INITIAL_QUERY" \
+        --bind "start:reload:$RG_PREFIX {q}" \
+        --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+        --bind "alt-enter:unbind(change,alt-enter)+change-prompt(2. fzf> )+enable-search+clear-query" \
+        --color "hl:-1:underline,hl+:-1:underline:reverse" \
+        --prompt '1. ripgrep> ' \
+        --delimiter : \
+        --preview 'bat --color=always {1} --highlight-line {2}' \
+        --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
+        --bind 'enter:become(vim {1} +{2})'
+}
+# zf-rg-widget 함수 등록(https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html)
+zle -N fzf-rg-widget
 
 ## fzf default options
 # --multi(-m) : tab(select/deselect forward) shift-tab(select/deselect backward)
@@ -116,20 +140,22 @@ export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border --exact
 --color=fg:-1,bg:-1,hl:#c678dd,fg+:#ffffff,bg+:#4b5263,hl+:#d858fe
 --color=info:#98c379,prompt:#61afef,pointer:#be5046,marker:#e5c07b,spinner:#61afef,header:#61afef
 '
-# zellij 에서 ctrl-t 가 tab 명령 단축키라 FZF_CTRL_T_COMMAND(ctrl-t)와 중복된다.
-# alt-t 로도 FZF_CTRL_T_COMMAND(fzf-file-widget) 사용할 수 있도록 등록한다.
 if [[ $current_shell == "zsh" ]]; then
+    bindkey "^f" fzf-rg-widget
+
+    # zellij 에서 ctrl-t 가 tab 명령 단축키라 FZF_CTRL_T_COMMAND(ctrl-t)와 중복된다.
+    # alt-t 로도 FZF_CTRL_T_COMMAND(fzf-file-widget) 사용할 수 있도록 등록한다.
     bindkey "^[t" fzf-file-widget
-    source "${myenv_path}/fzf-git.sh"
+
     # fzf-git.sh 에선 ctrl-g ctrl-b 로 사용하는데, zellij 와 중복되어 alt-b 로도 바인딩함
     # alt-b 는 alt-left(showkey 로 확인)라 alt-B 로 사용하자
     #bindkey "^[b" "fzf-git-branches-widget"
-    bindkey "^[B" "fzf-git-branches-widget"
+    bindkey "^[B" fzf-git-branches-widget
 fi
 # fzf ctrl-t(파일찾기)시
 # 숨김파일도 보기
 export FZF_CTRL_T_COMMAND='find . -type f'
-if which fd > /dev/null 2>&1; then
+if which fd >/dev/null 2>&1; then
     export FZF_CTRL_T_COMMAND='fd --hidden --no-ignore'
 fi
 # fzf vim 에서 FZF_DEFAULT_COMMAND 를 사용함
@@ -137,8 +163,8 @@ export FZF_DEFAULT_COMMAND=$FZF_CTRL_T_COMMAND
 
 # fzf preview window
 catcmd='cat {}'
-if which bat > /dev/null 2>&1; then
-    export BAT_THEME="TwoDark"  # vim fzf preview
+if which bat >/dev/null 2>&1; then
+    export BAT_THEME="TwoDark" # vim fzf preview
     batcmd="bat --plain --color always"
     catcmd="${batcmd} {}"
     alias bat="${batcmd}"
@@ -153,7 +179,7 @@ unset cat_cmd
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # mac 에선 yarn bin /opt/homebrew/bin 으로 설정되어 있어 tidy_path 실행전에 선언
-export PATH=$(yarn global bin 2> /dev/null):$PATH
+export PATH=$(yarn global bin 2>/dev/null):$PATH
 
 export GOPATH=$HOME/workspace/gopath
 tidy_path() {
@@ -197,8 +223,8 @@ export ANSIBLE_NOCOWS=1 # disable cowsay message when using ansible
 # matplotlib on wsl
 export DISPLAY=localhost:0.0
 
-if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
-    unalias ls 2> /dev/null
+if [[ $(uname -o 2>/dev/null) == 'Android' ]]; then
+    unalias ls 2>/dev/null
 fi
 os_name=$(uname | tr '[:upper:]' '[:lower:]')
 if [[ $os_name == *"darwin"* ]]; then
@@ -221,7 +247,7 @@ elif [[ $os_name == *"linux"* ]]; then
     # WSL(Windows Subsystem for Linux)
     os_name=$(uname -r | awk '{print tolower($0)}')
     if [[ $os_name == *"wsl"* ]]; then
-        if ! wslvar userprofile > /dev/null 2>&1 ; then
+        if ! wslvar userprofile >/dev/null 2>&1; then
             # wslvar reg.exe 등의 에러 발생시 업데이트
             echo "need to install wslu for wslvar(reg.exe...)"
             sudo apt install -y wslu
@@ -238,13 +264,13 @@ elif [[ $os_name == *"linux"* ]]; then
 fi
 
 # replacement for ls
-if which colorls > /dev/null 2>&1; then
+if which colorls >/dev/null 2>&1; then
     alias ll='colorls -ahl'
 fi
-if which exa > /dev/null 2>&1; then
+if which exa >/dev/null 2>&1; then
     alias ll='exa -ahl'
 fi
-if which lsd > /dev/null 2>&1; then
+if which lsd >/dev/null 2>&1; then
     alias ll='lsd -ahl'
 fi
 # Phase foo | less -R 와 같이 ansi color 유지해서 파이프라인으로 보낼때
@@ -255,25 +281,24 @@ fi
 #    alias rg='rg -p'
 #fi
 
-
 # zsh 에서 rsync='noglob rsync' 등 glob(*)을 사용 못하게 alias 하고 있어 해제한다.
-unalias bower 2> /dev/null
-unalias fc 2> /dev/null
-unalias find 2> /dev/null
-unalias ftp 2> /dev/null
-unalias globurl 2> /dev/null
-unalias history 2> /dev/null
-unalias locate 2> /dev/null
-unalias rake 2> /dev/null
-unalias rsync 2> /dev/null
-unalias scp 2> /dev/null
-unalias sftp 2> /dev/null
-
+unalias bower 2>/dev/null
+unalias fc 2>/dev/null
+unalias find 2>/dev/null
+unalias ftp 2>/dev/null
+unalias globurl 2>/dev/null
+unalias history 2>/dev/null
+unalias locate 2>/dev/null
+unalias rake 2>/dev/null
+unalias rsync 2>/dev/null
+unalias scp 2>/dev/null
+unalias sftp 2>/dev/null
 
 alias vi='vim'
 launch_neovide() {
     echo "launch(and disown) neovide" "$@"
-    neovide "$@" & disown
+    neovide "$@" &
+    disown
 }
 alias nv='launch_neovide'
 alias vimlastfile='vim `(ls -1tr | tail -1)`'
@@ -319,10 +344,10 @@ source "${myenv_path}/git_functions.sh"
 source "${myenv_path}/k8s_info.sh"
 source "${myenv_path}/find_duplicated_packages_in_go_and_brew.sh"
 
-if which pyenv > /dev/null 2>&1; then
+if which pyenv >/dev/null 2>&1; then
     eval "$(pyenv init -)"
 fi
-if which virtualenv > /dev/null 2>&1; then
+if which virtualenv >/dev/null 2>&1; then
     # precmd_function 에 _pyenv_virtualenv_hook() 를 추가 시키고
     # 이 함수는 pyenv sh-activate 를 실행하는게 이게 느림(400ms 정도)
     # pyenv sh-activate 내용 https://github.com/pyenv/pyenv-virtualenv/blob/master/bin/pyenv-sh-activate
@@ -347,7 +372,7 @@ if [[ $term_program_name == "" ]]; then
     term_program_name=$(echo "$TERM" | tr "[:upper:]" "[:lower:]")
 fi
 
-if which fastfetch > /dev/null 2>&1; then
+if which fastfetch >/dev/null 2>&1; then
     logo_args=""
     if [[ $term_program_name == *"iterm"* ]]; then
         # --logo 는 --logo-type 이 있어야 에러가 발생하지 않는다.
@@ -358,7 +383,7 @@ if which fastfetch > /dev/null 2>&1; then
     fi
     eval fastfetch "--cpu-temp true --gpu-temp true ${logo_args} --logo-width 50 --logo-height 20"
     unset logo_args
-elif which neofetch > /dev/null 2>&1; then
+elif which neofetch >/dev/null 2>&1; then
     backend_arg=""
     if [[ $term_program_name == *"iterm"* ]]; then
         backend_arg="--backend iterm2"
@@ -368,53 +393,53 @@ elif which neofetch > /dev/null 2>&1; then
     fi
     eval neofetch "${backend_arg} --size auto --source ${myenv_path}/xelloss.jpg"
     unset backend_arg
-elif which screenfetch > /dev/null 2>&1; then
+elif which screenfetch >/dev/null 2>&1; then
     screenfetch -E
 fi
 
 # fortune + cowsay welcome message
 msg="ysoftman"
-if which fortune > /dev/null 2>&1; then
-    msg=$(fortune -s 2> /dev/null)
+if which fortune >/dev/null 2>&1; then
+    msg=$(fortune -s 2>/dev/null)
     if [[ $msg == '' ]]; then
         msg=$(fortune)
     fi
 fi
 
-if which cfonts > /dev/null 2>&1; then
+if which cfonts >/dev/null 2>&1; then
     # cfonts 는 cowsay msg 로 담으면 제대로 처리되지 않아 banner 는 그냥 출력한다.
-    cfonts ysoftman -f block -g red,green 2> /dev/null
-elif which figlet > /dev/null 2>&1; then
-    banner=$(figlet ysoftman 2> /dev/null)
+    cfonts ysoftman -f block -g red,green 2>/dev/null
+elif which figlet >/dev/null 2>&1; then
+    banner=$(figlet ysoftman 2>/dev/null)
     msg="${banner}\n${msg}"
 fi
 
-if which emojify > /dev/null 2>&1; then
+if which emojify >/dev/null 2>&1; then
     echo ":four_leaf_clover: Sentimental programmer ysoftman :smile:" | emojify
 fi
 
-if which cowsay > /dev/null 2>&1; then
+if which cowsay >/dev/null 2>&1; then
     # print cowsay list number
     # cnt=0; for i in $(cowsay -l | sed 1d); do echo "$((cnt++)) $i"; done;
     # cowfile 랜덤으로 선택
     cowfile=""
     cnt=0
-    random=$(( RANDOM % $(cowsay -l | sed 1d | wc -w ) ))
+    random=$((RANDOM % $(cowsay -l | sed 1d | wc -w)))
     for i in $(cowsay -l | sed 1d); do
         if [[ "$cnt" == "$random" ]]; then
             if [[ $i == "sodomized" ]] || [[ $i == "telebears" ]]; then
                 printf "change rude coway type to cheese!\n"
                 i="cheese"
             fi
-            cowfile=$i;
-            break;
-        fi;
-        cnt=$(( cnt+1 ));
+            cowfile=$i
+            break
+        fi
+        cnt=$((cnt + 1))
     done
     #echo "$cowfile"
 
     # figlet 을 메시지로 사용할 경우 -n 이 필요하다.
-    if which lolcat > /dev/null 2>&1 ; then
+    if which lolcat >/dev/null 2>&1; then
         echo -e "$msg" | cowsay -n -f "$cowfile" | lolcat
     else
         echo -e "$msg" | cowsay -n -f "$cowfile"
