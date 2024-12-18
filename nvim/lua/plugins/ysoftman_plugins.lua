@@ -280,7 +280,7 @@ return {
               },
               hints = {
                 assignVariableTypes = false, -- 변수 할당시 타입 표시 비활성화
-                compositeLiteralFields = true,
+                compositeLiteralFields = false, --  필드명이 힌트로 보이면 들여쓰기 된것처럼 보여서 비활성화
                 compositeLiteralTypes = true,
                 constantValues = true,
                 functionTypeParameters = true,
