@@ -10,7 +10,10 @@ return {
         lsp_format = "fallback", -- not recommended to change
       },
       formatters = {
-        prettier = { command = "prettier" },
+        prettier = {
+          tabWidth = 2,
+          singleQuote = true,
+        },
         ["markdownlint-cli2"] = { command = "markdownlint" },
       },
       formatters_by_ft = {
@@ -18,6 +21,8 @@ return {
         fish = { "fish_indent" },
         sh = { "shfmt" },
         markdown = { "prettier", "markdownlint-cli2" }, -- Specify formatters for Markdown
+        javascript = { "prettier" },
+        typescript = { "prettier" },
       },
     },
   },
