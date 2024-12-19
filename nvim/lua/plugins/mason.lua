@@ -14,6 +14,10 @@ return {
   },
   {
     "williamboman/mason.nvim",
+    opts = { ensure_installed = { "markdownlint-cli2", "markdown-toc" } },
+  },
+  {
+    "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
         "stylua",
@@ -26,7 +30,7 @@ return {
       },
       formatters_by_ft = {
         ["html"] = { "prettier" },
-        ["markdown"] = { "prettier", "markdownlint" },
+        ["md"] = { "prettier", "markdownlint" },
         ["lua"] = { "stylua" },
         ["py"] = { "black" },
       },
