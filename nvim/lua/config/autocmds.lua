@@ -3,3 +3,9 @@
 -- Add any additional autocmds here
 
 -- vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format()")
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.spell = false
+  end,
+})
