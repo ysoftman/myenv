@@ -58,7 +58,7 @@ return {
       separator = { left = "", right = "" },
     })
     table.insert(opts.sections.lualine_x, 1, {
-      "filetype",
+      "encoding",
       color = function()
         return { bg = cyan, fg = white }
       end,
