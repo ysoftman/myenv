@@ -1,3 +1,5 @@
+local black = "#000000"
+local white = "#cccccc"
 -- https://github.com/kepano/flexoki
 local red = "#AF3029"
 local orange = "#BC5215"
@@ -51,21 +53,21 @@ return {
         return vim.wo.spell and "SPELL" or "NOSPELL"
       end,
       color = function()
-        return { bg = purple }
+        return { bg = purple, fg = white }
       end,
       separator = { left = "", right = "" },
     })
     table.insert(opts.sections.lualine_x, 1, {
       "filetype",
       color = function()
-        return { bg = cyan }
+        return { bg = cyan, fg = white }
       end,
       separator = { left = "", right = "" },
     })
     table.insert(opts.sections.lualine_x, 1, {
       get_file_permissions,
       color = function()
-        return { bg = blue }
+        return { bg = blue, fg = white }
       end,
       separator = { left = "", right = "" },
     })
