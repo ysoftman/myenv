@@ -37,20 +37,6 @@ lsp_keys[#lsp_keys + 1] = { "<leader>r", vim.lsp.buf.references, desc = "Go to R
 local telescope_builtin = require("telescope.builtin")
 local telescope_actions = require("telescope.actions")
 local telescope_action_state = require("telescope.actions.state")
-require("telescope").setup({
-  defaults = {
-    mappings = {
-      n = { -- Normal mode mappings
-        ["t"] = require("telescope.actions").move_selection_next, -- Move down
-        ["c"] = require("telescope.actions").move_selection_previous, -- Move up
-      },
-      i = { -- Insert mode mappings
-        ["<C-j>"] = require("telescope.actions").move_selection_next, -- Move down
-        ["<C-k>"] = require("telescope.actions").move_selection_previous, -- Move up
-      },
-    },
-  },
-})
 local function telescope_multiopen(pb)
   local picker = telescope_action_state.get_current_picker(pb)
   local multi = picker:get_multi_selection()
@@ -61,7 +47,18 @@ local function telescope_multiopen(pb)
     end
   end
 end
-vim.keymap.set("i", "<cr>", telescope_multiopen, { desc = "Telescope open multiple files" })
+require("telescope").setup({
+  defaults = {
+    mappings = {
+      i = { -- Insert mode mappings
+        ["<c-j>"] = telescope_actions.move_selection_next, -- Move down
+        ["<c-K>"] = telescope_actions.move_selection_previous, -- Move up
+        ["<cr>"] = telescope_multiopen,
+      },
+    },
+  },
+})
+
 vim.keymap.set("n", "<leader>ff", telescope_builtin.find_files, { desc = "Telescope find files" })
 vim.keymap.set("n", "<leader>fb", telescope_builtin.buffers, { desc = "Telescope buffers" })
 vim.keymap.set("n", "<leader>fh", telescope_builtin.help_tags, { desc = "Telescope help tags" })

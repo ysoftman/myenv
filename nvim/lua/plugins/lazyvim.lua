@@ -9,6 +9,8 @@
 -- * disable/enabled LazyVim plugins
 -- * override the configuration of LazyVim plugins
 
+-- 플러그인 완전 삭제시  ~/.local/share/nvim/lazy/ 플러그인 삭제
+
 return {
   { import = "lazyvim.plugins.extras.ui.mini-starter" },
   { import = "lazyvim.plugins.extras.lang.json" },
