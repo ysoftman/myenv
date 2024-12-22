@@ -34,18 +34,45 @@ lsp_keys[#lsp_keys + 1] = { "<leader>r", vim.lsp.buf.references, desc = "Go to R
 -- end, { expr = true, desc = "Toggle comment" })
 
 -- telescope
-local builtin = require("telescope.builtin")
-vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
-vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
-vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
-vim.keymap.set("n", "<leader>fr", builtin.registers, { desc = "Telescope registers" })
-vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
+local telescope_builtin = require("telescope.builtin")
+local telescope_actions = require("telescope.actions")
+local telescope_action_state = require("telescope.actions.state")
+require("telescope").setup({
+  defaults = {
+    mappings = {
+      n = { -- Normal mode mappings
+        ["t"] = require("telescope.actions").move_selection_next, -- Move down
+        ["c"] = require("telescope.actions").move_selection_previous, -- Move up
+      },
+      i = { -- Insert mode mappings
+        ["<C-j>"] = require("telescope.actions").move_selection_next, -- Move down
+        ["<C-k>"] = require("telescope.actions").move_selection_previous, -- Move up
+      },
+    },
+  },
+})
+local function telescope_multiopen(pb)
+  local picker = telescope_action_state.get_current_picker(pb)
+  local multi = picker:get_multi_selection()
+  telescope_actions.select_default(pb) -- the normal enter behaviour
+  for _, j in pairs(multi) do
+    if j.path ~= nil then -- is it a file -> open it as well:
+      vim.cmd(string.format("%s %s", "edit", j.path))
+    end
+  end
+end
+vim.keymap.set("i", "<cr>", telescope_multiopen, { desc = "Telescope open multiple files" })
+vim.keymap.set("n", "<leader>ff", telescope_builtin.find_files, { desc = "Telescope find files" })
+vim.keymap.set("n", "<leader>fb", telescope_builtin.buffers, { desc = "Telescope buffers" })
+vim.keymap.set("n", "<leader>fh", telescope_builtin.help_tags, { desc = "Telescope help tags" })
+vim.keymap.set("n", "<leader>fr", telescope_builtin.registers, { desc = "Telescope registers" })
+vim.keymap.set("n", "<leader>fg", telescope_builtin.live_grep, { desc = "Telescope live grep" })
 -- ctrl, alt 조합 단축키들은 fzf-lua 로 사용
--- vim.keymap.set({ "n", "v" }, "<a-r>", builtin.registers, { desc = "Telescope registers" })
--- vim.keymap.set({ "n", "v" }, "<a-t>", builtin.find_files, { desc = "Telescope find files" })
+-- vim.keymap.set({ "n", "v" }, "<a-r>", telescope_builtin.registers, { desc = "Telescope registers" })
+-- vim.keymap.set({ "n", "v" }, "<a-t>", telescope_builtin.find_files, { desc = "Telescope find files" })
 -- Searches for the string under your cursor or the visual selection in your current working directory
 -- vim.keymap.set({ "n", "v" }, "<a-f>", function()
---   builtin.grep_string({
+--   telescope_builtin.grep_string({
 --     prompt_title = "Grep String",
 --     shorten_path = true,
 --     only_sort_text = true,
@@ -55,7 +82,7 @@ vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live gr
 -- noice.nvim, scroll forward <c-f> 와 겹친다.
 -- Search for a string and get results live as you type, respects .gitignore
 -- vim.keymap.set({ "n", "v" }, "<c-f>", function()
---   builtin.live_grep({
+--   telescope_builtin.live_grep({
 --     prompt_title = "Live Grep (rg)",
 --   })
 -- end, { noremap = true, silent = true, desc = "Telescope fuzzy live grep" })
