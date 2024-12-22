@@ -9,6 +9,30 @@
 vim.keymap.del("n", "<S-h>")
 vim.keymap.del("n", "<S-l>")
 
+-- fzf-lua
+-- https://github.com/ibhagwan/fzf-lua?tab=readme-ov-file#commands
+vim.keymap.set("n", "<a-r>", "<cmd>lua require('fzf-lua').registers()<CR>", { silent = true })
+vim.keymap.set("n", "<a-t>", "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
+vim.keymap.set("n", "<a-f>", "<cmd>lua require('fzf-lua').grep_cword()<CR>", { silent = true }) -- search word under cursor
+vim.keymap.set("n", "<c-f>", "<cmd>lua require('fzf-lua').grep({search=''})<CR>", { silent = true }) -- search pattern, search 옵션이 없으면 input_prompt 가 뜬다.
+vim.keymap.set("n", "<c-l>", "<cmd>lua require('fzf-lua').buffers()<CR>", { silent = true })
+
+-- neotree
+vim.keymap.set({ "n", "v" }, "<leader>tt", ":Neotree toggle reveal<cr>")
+vim.keymap.set({ "n", "v" }, "<leader>tf", ":Neotree toggle reveal_force_cwd<cr>")
+
+-- lsp
+local lsp_keys = require("lazyvim.plugins.lsp.keymaps").get()
+-- gd, gr 로 사용하는데 다음도 추가
+lsp_keys[#lsp_keys + 1] = { "<leader>d", vim.lsp.buf.definition, desc = "Go to Definition" }
+lsp_keys[#lsp_keys + 1] = { "<leader>r", vim.lsp.buf.references, desc = "Go to References" }
+
+-- comment
+-- codelens 에서 해당 단축키를 사용하고 있다. 그냥 default gcc, gc 등을 사용하자.
+-- vim.keymap.set({ "n", "v" }, "<leader>cc", function()
+--   return require("vim._comment").operator()
+-- end, { expr = true, desc = "Toggle comment" })
+
 -- telescope
 local builtin = require("telescope.builtin")
 vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
@@ -35,27 +59,3 @@ vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live gr
 --     prompt_title = "Live Grep (rg)",
 --   })
 -- end, { noremap = true, silent = true, desc = "Telescope fuzzy live grep" })
-
--- fzf-lua
--- https://github.com/ibhagwan/fzf-lua?tab=readme-ov-file#commands
-vim.keymap.set("n", "<a-r>", "<cmd>lua require('fzf-lua').registers()<CR>", { silent = true })
-vim.keymap.set("n", "<a-t>", "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
-vim.keymap.set("n", "<a-f>", "<cmd>lua require('fzf-lua').grep_cword()<CR>", { silent = true }) -- search word under cursor
-vim.keymap.set("n", "<c-f>", "<cmd>lua require('fzf-lua').grep({search=''})<CR>", { silent = true }) -- search pattern, search 옵션이 없으면 input_prompt 가 뜬다.
-vim.keymap.set("n", "<c-l>", "<cmd>lua require('fzf-lua').buffers()<CR>", { silent = true })
-
--- neotree
-vim.keymap.set({ "n", "v" }, "<leader>tt", ":Neotree toggle reveal<cr>")
-vim.keymap.set({ "n", "v" }, "<leader>tf", ":Neotree toggle reveal_force_cwd<cr>")
-
--- lsp
-local lsp_keys = require("lazyvim.plugins.lsp.keymaps").get()
--- gd, gr 로 사용하는데 다음도 추가
-lsp_keys[#lsp_keys + 1] = { "<leader>d", vim.lsp.buf.definition, desc = "Go to Definition" }
-lsp_keys[#lsp_keys + 1] = { "<leader>r", vim.lsp.buf.references, desc = "Go to References" }
-
--- comment
--- codelens 에서 해당 단축키를 사용하고 있다. 그냥 default gcc, gc 등을 사용하자.
--- vim.keymap.set({ "n", "v" }, "<leader>cc", function()
---   return require("vim._comment").operator()
--- end, { expr = true, desc = "Toggle comment" })
