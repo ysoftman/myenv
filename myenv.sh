@@ -337,6 +337,9 @@ source "${myenv_path}/git_functions.sh"
 source "${myenv_path}/k8s_info.sh"
 source "${myenv_path}/find_duplicated_packages_in_go_and_brew.sh"
 
+if which zoxide >/dev/null 2>&1; then
+    eval "$(zoxide init zsh)"
+fi
 if which pyenv >/dev/null 2>&1; then
     eval "$(pyenv init -)"
 fi
