@@ -1,25 +1,11 @@
 return {
   {
     "neovim/nvim-lspconfig",
+    ensure_installed = { "bashls" },
     opts = {
       servers = {
-        marksman = {},
-      },
-    },
-  },
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      servers = {
-        -- pyright will be automatically installed with mason and loaded with lspconfig
         pyright = {},
-      },
-    },
-  },
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      servers = {
+        marksman = {},
         gopls = {
           settings = {
             gopls = {

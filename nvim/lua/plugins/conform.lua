@@ -15,6 +15,11 @@ return {
           singleQuote = true,
         },
         ["markdownlint-cli2"] = { command = "markdownlint" },
+        shfmt = {
+          -- use 4spaces instead of tabs(default)
+          -- https://github.com/mvdan/sh/blob/master/cmd/shfmt/shfmt.1.scd#printer-flags
+          prepend_args = { "-i", "4", "-ci" },
+        },
       },
       formatters_by_ft = {
         lua = { "stylua" },
