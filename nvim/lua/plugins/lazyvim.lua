@@ -15,5 +15,5 @@ return {
   { import = "lazyvim.plugins.extras.ui.mini-starter" },
   { import = "lazyvim.plugins.extras.lang.json" },
   { import = "lazyvim.plugins.extras.lang.typescript" },
-  { import = "lazyvim.plugins.extras.lsp.none-ls" },
+  { import = "lazyvim.plugins.extras.lsp.none-ls" }, -- null-ls 를 대체(메시지에 null-ls 로 표시된다)
 }
