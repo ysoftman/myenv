@@ -32,8 +32,8 @@ set visualbell t_vb=
 " eol까지 표시하면 너무 verbose 하게 표시되는것 같음
 "set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»,eol:↵
 set listchars=tab:→\ ,space:·,trail:·,precedes:«,extends:»
-"커서라인 속성
-"hi CursorLine cterm=underline ctermbg=darkgrey ctermfg=none
+" 커서 라인 컬러(theme 로딩 이후 다시 설정 필요)
+hi CursorLine cterm=none ctermbg=22 ctermfg=none
 "set nolist
 set list
 "mapping 입력 완료 타임아웃(ttimeoutlen<0이면, keycode(<esc><enter><up><down>..등)도해당)
@@ -156,7 +156,6 @@ autocmd BufNewFile,BufRead *.kdl set filetype=kdl
 if has('nvim')
     finish
 endif
-
 
 "vim-plug 설치(플러그인 매니저중 플러그인 설치 속도가 가장 빠름)
 "curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
