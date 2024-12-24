@@ -1,9 +1,18 @@
 return {
   "olimorris/onedarkpro.nvim",
-  -- priority = 1000, -- Ensure it loads first
-  highlights = {
-    -- Visual = { bg = "#3e4452" }, -- Customize the background color for visual selection
-    Visual = { bg = "#111111" }, -- Customize the background color for visual selection
-    -- You can also modify other attributes like fg (foreground) if desired
-  },
+  priority = 1000, -- Ensure it loads first
+  enabled = true,
+  config = function()
+    -- calling `setup` is optional for customization
+    require("onedarkpro").setup({
+      options = {
+        cursorline = true,
+        transparency = true,
+      },
+      -- :OneDarkProColors 로 설정된 컬러 확인
+      colors = {
+        cursorline = "#003f00", -- Replace with your desired color
+      },
+    })
+  end,
 }
