@@ -15,6 +15,7 @@ vim.cmd("colorscheme onedark_dark")
 -- vim.cmd("highlight Normal cterm=none guibg=none")
 -- Visual Block 컬러
 vim.cmd("hi Visual cterm=underline ctermbg=lightyellow guibg=yellow")
+vim.cmd("highlight CursorLine guibg=#003f00")
 
 -- [coc.nvim]: dyld[7087]: Library not loaded: Library not loaded: /opt/homebrew/opt/icu4c/lib/libicui18n.74.dylib
 -- Referenced from: <3317C4D0-50F5-334B-8949-29926E34DA3C> /opt/homebrew/Cellar/node/22.9.0/bin/node 에러 발생시
