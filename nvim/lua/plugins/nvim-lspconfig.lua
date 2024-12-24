@@ -34,6 +34,7 @@ return {
                 unusedparams = true,
                 unusedwrite = true,
                 useany = true,
+                QF1008 = false, -- remove embeded field suggestion
               },
               gofumpt = true,
               usePlaceholders = true,
