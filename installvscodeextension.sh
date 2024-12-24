@@ -42,6 +42,7 @@ code --install-extension mrmlnc.vscode-apache
 code --install-extension ms-azuretools.vscode-docker
 code --install-extension ms-dotnettools.csharp
 code --install-extension ms-dotnettools.vscode-dotnet-runtime
+code --install-extension ms-playwright.playwright
 code --install-extension ms-python.debugpy
 code --install-extension ms-python.python
 code --install-extension ms-python.vscode-pylance
@@ -92,12 +93,14 @@ code --install-extension twxs.cmake
 code --install-extension visualstudioexptteam.intellicode-api-usage-examples
 code --install-extension visualstudioexptteam.vscodeintellicode
 code --install-extension vitorsalgado.vscode-redis
+code --install-extension vscjava.vscode-gradle
 code --install-extension vscjava.vscode-java-debug
 code --install-extension vscjava.vscode-java-dependency
 code --install-extension vscjava.vscode-java-pack
 code --install-extension vscjava.vscode-java-test
 code --install-extension vscjava.vscode-maven
 code --install-extension vscode-icons-team.vscode-icons
+code --install-extension vscodevim.vim
 code --install-extension vuetifyjs.vuetify-vscode
 code --install-extension wholroyd.jinja
 code --install-extension xabikos.javascriptsnippets
