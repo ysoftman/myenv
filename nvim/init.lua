@@ -10,8 +10,8 @@ vim.cmd.source(vimrc)
 
 -- "olimorris/onedarkpro.nvim",
 vim.cmd([[colorscheme tokyonight-night]])
-vim.cmd("colorscheme onedark_vivid")
--- vim.cmd("colorscheme onedark_dark")
+-- vim.cmd("colorscheme onedark_vivid") -- zellij 와 같이 사용하면 배경이 갱신이 잘 안되는 문제가 있음
+vim.cmd("colorscheme onedark_dark")
 -- vim.cmd("highlight Normal cterm=none guibg=none")
 -- Visual Block 컬러
 vim.cmd("hi Visual cterm=underline ctermbg=lightyellow guibg=yellow")

@@ -7,7 +7,7 @@ return {
     require("onedarkpro").setup({
       options = {
         cursorline = true,
-        transparency = true,
+        -- transparency = true, // 투명하게 하면 배경이 검은색이 된다.
       },
       -- :OneDarkProColors 로 설정된 컬러 확인
       colors = {
