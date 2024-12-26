@@ -44,7 +44,7 @@ return {
         return "🍀"
       end,
       color = function()
-        return { bg = "", gui = "bold" }
+        return { gui = "bold" }
       end,
       separator = { left = "", right = "" },
     })
