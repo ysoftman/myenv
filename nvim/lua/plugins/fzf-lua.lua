@@ -4,6 +4,7 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons", { "junegunn/fzf", build = "./install --bin" } },
   config = function()
     -- calling `setup` is optional for customization
+    local actions = require("fzf-lua.actions")
     require("fzf-lua").setup({
       winopts = {
         preview = {
@@ -73,6 +74,94 @@ return {
         ["--layout"] = "reverse",
         ["--border"] = "none",
         ["--highlight-line"] = true, -- fzf >= v0.53
+      },
+      files = {
+        -- previewer      = "bat",          -- uncomment to override previewer
+        -- (name from 'previewers' table)
+        -- set to 'false' to disable
+        prompt = "Files❯ ",
+        multiprocess = true, -- run command in a separate process
+        git_icons = true, -- show git icons?
+        file_icons = true, -- show file icons (true|"devicons"|"mini")?
+        color_icons = true, -- colorize file|git icons
+        -- path_shorten   = 1,              -- 'true' or number, shorten path?
+        -- Uncomment for custom vscode-like formatter where the filename is first:
+        -- e.g. "fzf-lua/previewer/fzf.lua" => "fzf.lua previewer/fzf-lua"
+        -- formatter      = "path.filename_first",
+        -- executed command priority is 'cmd' (if exists)
+        -- otherwise auto-detect prioritizes `fd`:`rg`:`find`
+        -- default options are controlled by 'fd|rg|find|_opts'
+        -- NOTE: 'find -printf' requires GNU find
+        -- cmd            = "find . -type f -printf '%P\n'",
+        find_opts = [[-type f -not -path '*/\.git/*' -printf '%P\n']],
+        rg_opts = [[--color=never --files --hidden --follow -g "!.git"]],
+        fd_opts = [[--color=never --type f --hidden --follow --exclude .git]],
+        -- by default, cwd appears in the header only if {opts} contain a cwd
+        -- parameter to a different folder than the current working directory
+        -- uncomment if you wish to force display of the cwd as part of the
+        -- query prompt string (fzf.vim style), header line or both
+        -- cwd_header = true,
+        cwd_prompt = true,
+        cwd_prompt_shorten_len = 32, -- shorten prompt beyond this length
+        cwd_prompt_shorten_val = 1, -- shortened path parts length
+        toggle_ignore_flag = "--no-ignore", -- flag toggled in `actions.toggle_ignore`
+        toggle_hidden_flag = "--hidden", -- flag toggled in `actions.toggle_hidden`
+        actions = {
+          -- inherits from 'actions.files', here we can override
+          -- or set bind to 'false' to disable a default action
+          -- action to toggle `--no-ignore`, requires fd or rg installed
+          ["ctrl-g"] = { actions.toggle_ignore },
+          -- uncomment to override `actions.file_edit_or_qf`
+          --   ["enter"]     = actions.file_edit,
+          -- custom actions are available too
+          --   ["ctrl-y"]    = function(selected) print(selected[1]) end,
+        },
+      },
+      grep = {
+        prompt = "(alt-q:quickfix) Rg❯ ",
+        input_prompt = "Grep For❯ ",
+        multiprocess = true, -- run command in a separate process
+        eit_icons = true, -- show git icons?
+        file_icons = true, -- show file icons (true|"devicons"|"mini")?
+        color_icons = true, -- colorize file|git icons
+        -- executed command priority is 'cmd' (if exists)
+        -- otherwise auto-detect prioritizes `rg` over `grep`
+        -- default options are controlled by 'rg|grep_opts'
+        -- cmd            = "rg --vimgrep",
+        grep_opts = "--binary-files=without-match --line-number --recursive --color=auto --perl-regexp -e",
+        rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
+        -- Uncomment to use the rg config file `$RIPGREP_CONFIG_PATH`
+        -- RIPGREP_CONFIG_PATH = vim.env.RIPGREP_CONFIG_PATH
+        --
+        -- Set to 'true' to always parse globs in both 'grep' and 'live_grep'
+        -- search strings will be split using the 'glob_separator' and translated
+        -- to '--iglob=' arguments, requires 'rg'
+        -- can still be used when 'false' by calling 'live_grep_glob' directly
+        rg_glob = false, -- default to glob parsing?
+        glob_flag = "--iglob", -- for case sensitive globs use '--glob'
+        glob_separator = "%s%-%-", -- query separator pattern (lua): ' --'
+        -- advanced usage: for custom argument parsing define
+        -- 'rg_glob_fn' to return a pair:
+        --   first returned argument is the new search query
+        --   second returned argument are additional rg flags
+        -- rg_glob_fn = function(query, opts)
+        --   ...
+        --   return new_query, flags
+        -- end,
+        --
+        -- Enable with narrow term width, split results to multiple lines
+        -- NOTE: multiline requires fzf >= v0.53 and is ignored otherwise
+        -- multiline      = 1,      -- Display as: PATH:LINE:COL\nTEXT
+        -- multiline      = 2,      -- Display as: PATH:LINE:COL\nTEXT\n
+        actions = {
+          -- actions inherit from 'actions.files' and merge
+          -- this action toggles between 'grep' and 'live_grep'
+          ["ctrl-g"] = { actions.grep_lgrep },
+          -- uncomment to enable '.gitignore' toggle for grep
+          ["ctrl-r"] = { actions.toggle_ignore },
+        },
+        no_header = false, -- hide grep|cwd header?
+        no_header_i = false, -- hide interactive header?
       },
     })
   end,
