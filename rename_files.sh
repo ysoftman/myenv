@@ -1,6 +1,6 @@
 #!/bin/bash
 help_rename_files() {
-    cat << zzz
+    cat <<zzz
 rename (*.go) snakecase to kebabcase
 ex) rename_files .go kebab
 
@@ -32,8 +32,8 @@ rename_files() {
         elif [[ $2 == 'kebab' ]]; then
             to=$(echo $from | sed s/_/-/g)
         fi
-        if [[ $from != $to ]]; then
-            mv -v $from $to;
+        if [[ $from != "$to" ]]; then
+            mv -v $from $to
         fi
     done
     IFS=' '
