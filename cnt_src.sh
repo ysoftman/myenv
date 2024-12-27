@@ -8,7 +8,7 @@ cntsrc() {
     no_level_files=()
 
     files=$(fd ".go|.cpp|.c|.sh|.sql" --exclude="ysoftman_*")
-    
+
     # ${files} 개수가 많아 에러 --> File name too long (os error 63)
     ######################
     # grep, rg 은 멀티 결과 일때 디폴트로 -- 구분자를 추가한다.
@@ -18,7 +18,7 @@ cntsrc() {
     ######################
 
     # 전체 파일에서 탐색 후 for 안에서 특정 파일 제외시키자.
-    headers=$(rg -i -N "Easy|Medium|Hard" --color=never --max-count 1 -B 1 | sd "^(# )"  "" | sd '^\n' '___\n')
+    headers=$(rg -i -N "Easy|Medium|Hard" --color=never --max-count 1 -B 1 | sd "^(# )" "" | sd '^\n' '___\n')
     echo "processing..."
     # IFS(Internal Field Separator) 를 space(디폴트)면
     # headers 값들이 한줄로 한번에 처리되는데 이때 File name too long 에러가 발생한다.
@@ -68,23 +68,23 @@ cntsrc() {
     # IFS 원복
     IFS=' '
 
-    echo "\n[Easy Level]"
-    temp=$(echo ${easy_files[@]} | sort -h | sd "^ " "" | sed 1d)
+    printf "\n[Easy Level]"
+    temp=$(echo "${easy_files[@]}" | sort -h | sd "^ " "" | sed 1d)
     echo ${temp}
     cnt_unique_easy=$(echo $temp | awk '{print $1}' | uniq | wc | awk '{print $1}')
 
-    echo "\n[Medium Level]"
-    temp=$(echo ${medium_files[@]} | sort -h | sd "^ " "" | sed 1d)
+    printf "\n[Medium Level]"
+    temp=$(echo "${medium_files[@]}" | sort -h | sd "^ " "" | sed 1d)
     echo ${temp}
     cnt_unique_medium=$(echo $temp | awk '{print $1}' | uniq | wc | awk '{print $1}')
 
-    echo "\n[Hard Level]"
-    temp=$(echo ${hard_files[@]} | sort -h | sd "^ " "" | sed 1d)
+    printf "\n[Hard Level]"
+    temp=$(echo "${hard_files[@]}" | sort -h | sd "^ " "" | sed 1d)
     echo ${temp}
     cnt_unique_hard=$(echo $temp | awk '{print $1}' | uniq | wc | awk '{print $1}')
 
-    echo "\n[No Level]"
-    temp=$(echo ${no_level_files[@]} | sort -h | sd "^ " "" | sed 1d)
+    printf "\n[No Level]"
+    temp=$(echo "${no_level_files[@]}" | sort -h | sd "^ " "" | sed 1d)
     echo ${temp}
 
     echo ""

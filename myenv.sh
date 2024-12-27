@@ -303,8 +303,6 @@ alias cutstring='${HOME}/workspace/cutstring/cutstring'
 alias enchash='${HOME}/workspace/enchash/enchash'
 alias aleng='${HOME}/workspace/aleng/aleng'
 alias tig='tig --all'
-# cowsay 종류 계속 보이기
-alias infinite_cowsay='for ((;;)); do for i in $(cowsay -l | sed 1d); do echo $i; cowsay -f $i $(fortune) | lolcat; sleep 0.2; done; done;'
 # git issue script --> gh(github) command 로 대체해서 사용하지 않음
 #alias gitissue="python3 ${myenv_path}/git_issue.py"
 #alias gitpj="python3 ${myenv_path}/git_project.py"
@@ -447,5 +445,14 @@ if which cowsay >/dev/null 2>&1; then
 fi
 unset banner
 unset msg
+
+# cowsay 종류 계속 보이기
+infinite_cowsay() {
+    for (( ; ; )); do for i in $(cowsay -l | sed 1d); do
+        echo $i
+        cowsay -f $i "$(fortune)" | lolcat
+        sleep 0.2
+    done; done
+}
 
 # prezto .zlogin fortune 을 실행하고 있어 .zlogin 에서 fortune 실행을 주석처리했다.
