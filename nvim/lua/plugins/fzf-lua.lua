@@ -117,7 +117,7 @@ return {
         },
       },
       grep = {
-        prompt = "(alt-q:quickfix) Rg❯ ",
+        prompt = "Rg❯ ",
         input_prompt = "Grep For❯ ",
         multiprocess = true, -- run command in a separate process
         eit_icons = true, -- show git icons?
