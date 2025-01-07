@@ -105,6 +105,8 @@ endif
 "nnoremap <c-[> :cp<enter>
 nnoremap <c-k> :cp<enter>
 nnoremap <c-j> :cn<enter>
+nnoremap [q :cp<enter>
+nnoremap ]q :cn<enter>
 " zellij ctrl-o(session), alt-i, alt-o 는 빌활성화 해뒀음
 nnoremap <m-i> <c-i>
 nnoremap <m-o> <c-o>
@@ -595,8 +597,8 @@ autocmd filetype go nnoremap <f2> :GoRename<enter>
 autocmd filetype go nnoremap <f5> :w <bar> :!clear; <enter> :GoRun<enter>
 autocmd filetype go nnoremap <f7> :w <bar> :!clear; <enter> :GoBuild<enter>
 autocmd filetype go nnoremap <f12> :GoDef<enter>
-autocmd filetype go nnoremap <leader>d :GoDef<enter>
-autocmd filetype go nnoremap <leader>r :GoReferrers<enter>
+autocmd filetype go nnoremap gd :GoDef<enter>
+autocmd filetype go nnoremap gr :GoReferrers<enter>
 autocmd filetype go nnoremap <leader>i :w <bar> :GoImports<enter>
 autocmd filetype go nnoremap <leader>g :GoGuruScope .<enter>
 autocmd filetype go nnoremap <leader>v :GoVet<enter>:GoLint<enter>
