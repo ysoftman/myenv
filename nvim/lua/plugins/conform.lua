@@ -1,4 +1,5 @@
--- Conform.nvim은 Neovim에서 코드 포매팅을 위한 플러그인입니다.
+-- Conform.nvim은 Neovim에서 코드 포맷팅을 위한 플러그인입니다.
+-- none-ls 의 포맷팅 기능과 충돌이 발생할 수 있다.
 return {
   "stevearc/conform.nvim", -- For formatting
   event = { "BufWritePre" },
@@ -25,11 +26,12 @@ return {
       lsp_format = "fallback", -- not recommended to change
     },
     -- Set up format-on-save
-    format_on_save = {
-      -- These options will be passed to conform.format()
-      timeout_ms = 500,
-      lsp_format = "fallback",
-    },
+    -- Don't set `opts.format_on_save` for `conform.nvim`. **LazyVim** will use the conform formatter automatically
+    -- format_on_save = {
+    --   -- These options will be passed to conform.format()
+    --   timeout_ms = 500,
+    --   lsp_format = "fallback",
+    -- },
     -- Customize formatters
     formatters = {
       prettier = {
