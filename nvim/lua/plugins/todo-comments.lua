@@ -20,7 +20,7 @@ return {
       TEST = {
         icon = "⏲ ",
         color = "test",
-        alt = { "TESTING", "PASSED", "FAILED", "test", "testing", "passed", "failed" },
+        alt = { "TEST", "TESTING", "test", "testing" },
       },
     },
     gui_style = {
