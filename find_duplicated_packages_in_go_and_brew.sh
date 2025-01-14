@@ -9,9 +9,8 @@ find_duplicated_packages_in_go_and_brew() {
     go_pkgs+=($(ls ${GOPATH}/bin | sort))
     IFS_BAK=$IFS
     IFS=$'\n'
-    for b in ${brew_pkgs}; do
-        for g in ${go_pkgs}; do
-            #echo "[brew]$b --- [go]$g"
+    for b in "${brew_pkgs[@]}"; do
+        for g in "${go_pkgs[@]}"; do
             if [[ "$b" == "$g" ]]; then
                 echo "$b is duplicated package in go and brew"
             fi
