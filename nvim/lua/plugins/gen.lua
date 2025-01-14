@@ -1,8 +1,8 @@
 return {
   "David-Kunz/gen.nvim", -- ollama 사용하기
   opts = {
-    model = "mistral", -- The default model to use.
-    -- model = "llama3.2", -- The default model to use.
+    -- model = "mistral", -- The default model to use.
+    model = "llama3.2", -- The default model to use.
     quit_map = "q", -- set keymap to close the response window
     retry_map = "<c-r>", -- set keymap to re-send the current prompt
     accept_map = "<c-cr>", -- set keymap to replace the previous selection with the last result
