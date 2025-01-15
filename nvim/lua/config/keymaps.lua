@@ -33,6 +33,10 @@ lsp_keys[#lsp_keys + 1] = { "<leader>r", vim.lsp.buf.references, desc = "Go to R
 --   return require("vim._comment").operator()
 -- end, { expr = true, desc = "Toggle comment" })
 
+-- gen(ollama plugin)
+-- 선택한 블럭 ollama 으로 코드 리뷰
+vim.keymap.set("v", "<leader>gr", ":Gen Review_Code<CR>")
+
 -- telescope
 local telescope_builtin = require("telescope.builtin")
 local telescope_actions = require("telescope.actions")
@@ -52,13 +56,12 @@ require("telescope").setup({
     mappings = {
       i = { -- Insert mode mappings
         ["<c-j>"] = telescope_actions.move_selection_next, -- Move down
-        ["<c-K>"] = telescope_actions.move_selection_previous, -- Move up
+        ["<c-k>"] = telescope_actions.move_selection_previous, -- Move up
         ["<cr>"] = telescope_multiopen,
       },
     },
   },
 })
-
 vim.keymap.set("n", "<leader>ff", telescope_builtin.find_files, { desc = "Telescope find files" })
 vim.keymap.set("n", "<leader>fb", telescope_builtin.buffers, { desc = "Telescope buffers" })
 vim.keymap.set("n", "<leader>fh", telescope_builtin.help_tags, { desc = "Telescope help tags" })
