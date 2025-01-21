@@ -8,18 +8,13 @@
 
 # /etc/profile -> /usr/libexec/path_helper -> /etc/paths 까지 설정 확인시
 #echo $PATH | tr ':' '\n'
-
 declare myenv_path
-myenv_path=$(dirname "$0")
-export PATH=$myenv_path:$PATH
-echo "myenv_path=$myenv_path"
-
-source "${myenv_path}/colors.sh"
-
 current_shell="bash"
 if [[ $(ps -p $$ -o command | sed -e 1d) == *"bash"* ]]; then
     current_shell="bash"
     shopt -s expand_aliases
+    myenv_path=$(readlink -f "${BASH_SOURCE[0]}")
+    myenv_path=${myenv_path%/*}
 elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
     current_shell="zsh"
 
@@ -46,8 +41,13 @@ elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
     if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
         source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
     fi
+    myenv_path=$(dirname "$0")
 fi
-# echo "current_shell=${current_shell}"
+
+export PATH=$myenv_path:$PATH
+echo "myenv_path=$myenv_path"
+
+source "${myenv_path}/colors.sh"
 
 # set XDG_CONFIG_HOME
 export XDG_CONFIG_HOME="$HOME/.config"
