@@ -56,13 +56,15 @@ if ! type kubectl >/dev/null 2>&1; then
     bash ${myenv_path}/installkubectl.sh
 fi
 # zsh 환경에서 kubectl 자동 완성
-source <(kubectl completion zsh)
-# kubecolor (brew install hidetatz/tap/kubecolor)
-# kubecolor internally calls kubectl command
-if type kubecolor >/dev/null 2>&1; then
-    alias kubectl='kubecolor'
-    # kubecolor 로 kubectl 자동 완성
-    compdef kubecolor=kubectl
+if [[ $current_shell == "zsh" ]]; then
+    source <(kubectl completion zsh)
+    # kubecolor (brew install hidetatz/tap/kubecolor)
+    # kubecolor internally calls kubectl command
+    if type kubecolor >/dev/null 2>&1; then
+        alias kubectl='kubecolor'
+        # kubecolor 로 kubectl 자동 완성
+        compdef kubecolor=kubectl
+    fi
 fi
 
 # set kubeconfig path
@@ -108,22 +110,24 @@ if type fzf >/dev/null 2>&1; then
     export PATH=${HOME}/.fzf/bin:$PATH
 fi
 
-source "${myenv_path}/fzf-git.sh"
-fzf-rg-widget() {
-    local RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
-    local FZF_INITIAL_QUERY="${*:-}"
-    fzf --ansi --query "$FZF_INITIAL_QUERY" \
-        --bind "start:reload:$RG_PREFIX {q}" \
-        --color "hl:underline,hl+:underline:reverse" \
-        --prompt 'rg+fzf> ' \
-        --delimiter : \
-        --preview 'bat --color=always {1} --highlight-line {2}' \
-        --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
-        --bind 'enter:become(nvim {1} +{2})'
-    zle reset-prompt
-}
-# fzf-rg-widget 함수 등록(https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html)
-zle -N fzf-rg-widget
+if [[ $current_shell == "zsh" ]]; then
+    source "${myenv_path}/fzf-git.sh"
+    fzf-rg-widget() {
+        local RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+        local FZF_INITIAL_QUERY="${*:-}"
+        fzf --ansi --query "$FZF_INITIAL_QUERY" \
+            --bind "start:reload:$RG_PREFIX {q}" \
+            --color "hl:underline,hl+:underline:reverse" \
+            --prompt 'rg+fzf> ' \
+            --delimiter : \
+            --preview 'bat --color=always {1} --highlight-line {2}' \
+            --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
+            --bind 'enter:become(nvim {1} +{2})'
+        zle reset-prompt
+    }
+    # fzf-rg-widget 함수 등록(https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html)
+    zle -N fzf-rg-widget
+fi
 
 ## fzf default options
 # --multi(-m) : tab(select/deselect forward) shift-tab(select/deselect backward)
@@ -206,10 +210,12 @@ tidy_path
 if [ ! -d "$myenv_path/emoji-cli" ]; then
     git clone https://github.com/b4b4r07/emoji-cli $myenv_path/emoji-cli
 fi
-# 기본 ctrl-s 단축키가 zellij 와 겹쳐서 alt-e 로 변경
-export EMOJI_CLI_KEYBIND="^[e"
-source "$myenv_path/emoji-cli/emoji-cli.zsh"
 
+# 기본 ctrl-s 단축키가 zellij 와 겹쳐서 alt-e 로 변경
+if [[ $current_shell == "zsh" ]]; then
+    export EMOJI_CLI_KEYBIND="^[e"
+    source "$myenv_path/emoji-cli/emoji-cli.zsh"
+fi
 export EDITOR=vim
 export VISUAL=vim
 export ANSIBLE_NOCOWS=1 # disable cowsay message when using ansible
@@ -335,8 +341,10 @@ source "${myenv_path}/git_functions.sh"
 source "${myenv_path}/k8s_info.sh"
 source "${myenv_path}/find_duplicated_packages_in_go_and_brew.sh"
 
-if which zoxide >/dev/null 2>&1; then
-    eval "$(zoxide init zsh)"
+if [[ $current_shell == "zsh" ]]; then
+    if which zoxide >/dev/null 2>&1; then
+        eval "$(zoxide init zsh)"
+    fi
 fi
 if which pyenv >/dev/null 2>&1; then
     eval "$(pyenv init -)"
