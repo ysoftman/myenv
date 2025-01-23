@@ -34,10 +34,9 @@ lsp_keys[#lsp_keys + 1] = { "<leader>r", vim.lsp.buf.references, desc = "Go to R
 -- end, { expr = true, desc = "Toggle comment" })
 
 -- gen(ollama plugin)
--- 선택한 블럭 ollama 으로 코드 리뷰
-vim.keymap.set("v", "<leader>gr", ":Gen Review_Code<cr>")
--- 모델 변경하기
-vim.keymap.set("v", "<leader>gs", ":lua require('gen').select_model()<cr>")
+vim.keymap.set({ "n", "v" }, "<leader>ga", ":Gen Ask<cr>", { desc = "Gen Ask" })
+vim.keymap.set({ "v" }, "<leader>gr", ":Gen Review_Code<cr>", { desc = "Gen Review Code" })
+vim.keymap.set({ "n", "v" }, "<leader>gm", ":lua require('gen').select_model()<cr>", { desc = "Gen Select Model" })
 
 -- telescope
 local telescope_builtin = require("telescope.builtin")
