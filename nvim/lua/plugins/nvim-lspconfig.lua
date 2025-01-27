@@ -47,12 +47,14 @@ return {
               format = {
                 enable = false,
               },
+              validate = true,
             },
           },
           on_attach = function(client, bufnr)
             local filename = vim.api.nvim_buf_get_name(bufnr)
             if filename:match("%.yaml%.tpl$") then
               client.server_capabilities.documentFormattingProvider = false
+              vim.diagnostic.enable(false, { bufnr = bufnr }) -- *.yaml.tpl 파일에서 validate 비활성화
             end
           end,
         },
