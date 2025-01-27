@@ -55,6 +55,8 @@ return {
       javascript = { "prettierd", "prettier", stop_after_first = true },
       typescript = { "prettier" },
       rust = { "rustfmt" },
+      -- 프로젝트 루트 위치에 .clang-format 설정을 참고하게 된다.
+      cpp = { "clang-format" },
     },
   },
 }
