@@ -19,6 +19,10 @@ return {
   },
   {
     "williamboman/mason.nvim",
+    opts = { ensure_installed = { "ansible-lint" } }, -- brew install ansible-lint
+  },
+  {
+    "williamboman/mason.nvim",
     opts = {
       -- a list of all tools you want to ensure are installed upon
       -- start
