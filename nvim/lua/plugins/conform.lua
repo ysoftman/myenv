@@ -45,7 +45,7 @@ return {
         prepend_args = { "-i", "4", "-ci" },
       },
     },
-    -- Define your formatters
+    -- formatters by file type
     formatters_by_ft = {
       fish = { "fish_indent" },
       sh = { "shfmt" },
@@ -54,6 +54,7 @@ return {
       python = { "isort", "black" },
       javascript = { "prettierd", "prettier", stop_after_first = true },
       typescript = { "prettier" },
+      rust = { "rustfmt" },
     },
   },
 }
