@@ -55,6 +55,8 @@ return {
             if filename:match("%.yaml%.tpl$") then
               client.server_capabilities.documentFormattingProvider = false
               vim.diagnostic.enable(false, { bufnr = bufnr }) -- *.yaml.tpl 파일에서 validate 비활성화
+              -- 현재 버퍼 파일 타임을 helm 으로 설정
+              -- vim.bo.filetype = "helm"
             end
           end,
         },
