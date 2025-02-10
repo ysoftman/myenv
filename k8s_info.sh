@@ -201,7 +201,7 @@ k8s_get_empty_namespace() {
         return
     fi
     local temp=""
-    for ns in $(k get ns | awk '{print  $1}' | sed 1d); do
+    for ns in $(kubectl get ns | awk '{print  $1}' | sed 1d); do
         # zsh 에선 {} 로 감싸서 사용할 수 있지만, bash 호환을 위해 kubectl stderr 결과를 stdout 로 리다이렉트하자.
         # temp=$({kubectl get all -n ${ns} | rg -iN 'no resources'} 2>&1)
         temp=$(kubectl get all -n ${ns} 2>&1 | rg -iN 'no resources' --color=never)
@@ -210,4 +210,21 @@ k8s_get_empty_namespace() {
         fi
     done
     unset temp
+}
+
+k8s_find_terminated_containers() {
+    check_command_existence kubectl
+    if [[ $ret_value == "fail" ]]; then
+        return
+    fi
+    local temp=""
+    for ns in $(kubectl get ns -o name | sed s'#namespace/##'); do
+        if [[ $ns == "kube-"* ]]; then
+            continue
+        fi
+        for po in $(kubectl get -n ${ns} pod -o name | sed s'#pod/##'); do
+            echo namespace:$ns pod:$po
+            kubectl get -n ${ns} pod ${po} -o json | jq '.status.initContainerStatuses[].state.terminated' 2>/dev/null
+        done
+    done
 }
