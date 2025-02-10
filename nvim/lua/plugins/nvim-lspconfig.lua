@@ -88,7 +88,7 @@ return {
                 unusedparams = true,
                 unusedwrite = true,
                 useany = true,
-                QF1008 = false, -- remove embeded field suggestion
+                QF1008 = false, -- remove embedded field suggestion
               },
               gofumpt = true,
               usePlaceholders = true,

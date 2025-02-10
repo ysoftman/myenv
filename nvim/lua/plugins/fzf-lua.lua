@@ -123,7 +123,7 @@ return {
         prompt = "Rg❯ ",
         input_prompt = "Grep For❯ ",
         multiprocess = true, -- run command in a separate process
-        eit_icons = true, -- show git icons?
+        git_icons = true, -- show git icons?
         file_icons = true, -- show file icons (true|"devicons"|"mini")?
         color_icons = true, -- colorize file|git icons
         -- executed command priority is 'cmd' (if exists)
