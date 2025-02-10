@@ -1,6 +1,7 @@
 #!/bin/bash
 source ${HOME}/workspace/myenv/colors.sh
 
+# .sh 파일 실행으로 사용하지 않고 function 자체를 호출로 사용, exit 하면 쉘 자체가 끝나서 return 값을 사용
 ret_value=""
 check_command_existence() {
     if [[ $# != 1 ]]; then
@@ -12,8 +13,8 @@ check_command_existence() {
     fi
     local command_name=$1
     eval "type ${command_name} > /dev/null 2>&1"
-    ret=$(echo $?)
-    if [[ $ret != 0 && $ret != 1 && $ret != 2 ]]; then
+    ret=$?
+    if [[ $ret != 0 ]]; then
         echo -e "${red}can't find ${command_name} command${reset_color}"
         ret_value="fail"
         return
@@ -41,7 +42,6 @@ function k8s_cnt_pods_in_nodes {
         echo -e "${green}$node -> ${podsCnt} pods${reset_color}"
     done
 }
-
 
 function k8s_cnt_all_pods_in_nodes {
     k8s_cnt_pods_in_nodes ""
@@ -168,8 +168,10 @@ function k8s_get_current_context_server {
 
     # KUBECONFIG= 환경변수 설정 기준
     # same as 'kubectx -c'
-    local current_context=$(kubectl config view --flatten | yq '.current-context')
-    local current_cluster=$(kubectl config view --flatten | yq ".contexts.[] | select(.name==\"${current_context}\").context.cluster")
+    local current_context
+    local current_context
+    current_cluster=$(kubectl config view --flatten | yq ".contexts.[] | select(.name==\"${current_context}\").context.cluster")
+    current_cluster=$(kubectl config view --flatten | yq ".contexts.[] | select(.name==\"${current_context}\").context.cluster")
     current_cluster_server=$(kubectl config view --flatten | yq ".clusters.[] | select(.name==\"${current_cluster}\").cluster.server")
     echo -e ${green}${current_cluster_server}${reset_color}
 }
