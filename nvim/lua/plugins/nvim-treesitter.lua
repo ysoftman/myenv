@@ -1,6 +1,6 @@
 return {
   {
-    "nvim-treesitter/nvim-treesitter",
+    "nvim-treesitter/nvim-treesitter", -- tree-sitter 기반의 syntax-highlighting, indentation..
     -- opts 속성을 사용하면 LazyVim이 자동으로 config 함수를 생성
     opts = {
       ensure_installed = {
@@ -24,6 +24,7 @@ return {
         "gomod",
         "gosum",
         "gowork",
+        "kdl",
       },
     },
   },
