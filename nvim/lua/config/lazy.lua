@@ -8,13 +8,16 @@ vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
 require("lazy").setup({
   spec = {
-    -- add LazyVim and import its plugins
+    -- 플러그인 완전 삭제시  ~/.local/share/nvim/lazy/ 플러그인 삭제
+    -- `lazyvim.plugins` should be first
+    -- followed by any `lazyvim.plugins.extras`
+    -- and finally your own `plugins`
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    -- import any extras modules here
     { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.lang.json" },
     { import = "lazyvim.plugins.extras.ui.mini-animate" },
-    -- import/override with your plugins
+    { import = "lazyvim.plugins.extras.ui.mini-starter" },
+    { import = "lazyvim.plugins.extras.lsp.none-ls" }, -- null-ls 를 대체(메시지에 null-ls 로 표시된다)
     { import = "plugins" },
   },
   defaults = {
