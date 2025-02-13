@@ -1,6 +1,13 @@
 ///////////////////// ysoftman custom settings /////////////////////
 // zellij 새 버전이 나오면 기본 설정파일 생성 후 필요한 부분만 가져와서 수정
 // zellij setup --dump-config > default_configd.kdl
+//
+// debug log 확인
+// zellij --debug
+//
+// mac 기준 $TMPDIR 아래 다음과 같은 로그파일 생성이 된다.
+// tail -F $TMPDIR/zellij-501/zellij-log/zellij.log
+
 keybinds {
     session {
         // vim ctrl-o 겹쳐서 ctrl-e 로 변경
