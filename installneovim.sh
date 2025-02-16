@@ -5,7 +5,7 @@ if command -v nvim >/dev/null; then
     exit
 fi
 
-os_name=$(uname -r | awk '{print tolower($0)}')
+os_name=$(uname | tr '[:upper:]' '[:lower:]')
 if [[ $os_name == *"darwin"* ]]; then
     brew install neovim
     exit
