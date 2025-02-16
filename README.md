@@ -8,52 +8,18 @@ myenv 는 ~/workspace/myenv 에 위치해야 한다.
 
 ```bash
 # 설정 및 프로그램 목록등 백업
-sh ./backupmysetting.sh
+bash ./backupmysetting.sh
 
-# 전체 설치(아래 모든 설치 스크립트 포함)
-sh ./installall.sh
+# 전체 설치
+bash ./installall.sh
 
-# 기본 설치 환경 구성(zsh, python, ruby ...), 아래 개별 설치시 선행되어야 함
+# 기본 설치 환경 구성(zsh, python, ruby ...)
 sh ./installcommon.sh
-
-# powerline 폰트 설치
-sh ./installpowerlinefont.sh
-
-# zsh 기반 prezto 설치
-zsh ./installprezto.zsh
-
-# zsh 기반 oh-my-zsh 설치
-zsh ./installohmyzsh.zsh
 
 # 기본 설정 설치(git config, bashrc, zshrc, vimrc ...)
 sh ./installconfig.sh
 
-# vim 설치
-sh ./installvim.sh
-
-# tmux 플러그인 매니저 설치
-sh ./installtmuxplugin.sh
-
-# pip 로 프로그램 설치
-sh ./installpip.sh
-
-# rust 설치
-sh ./installcargo.sh
-
-# cargo 로 프로그램 설치
-sh ./installcargo.sh
-
-# golang 설치
-sh ./installgolang.sh
-
-# kubectl/kubecolor 설치
-sh ./installkubectl.sh
-
-# nvm 설치
-sh ./installnvm.sh
-
-# node 설치(apt 등 패키지 매니저에서 최신 버전을 지원하지 않는 경우에 사용)
-sh ./installnode.sh
+# 필요한 환경/프로그램은 installxxx.sh 사용
 ```
 
 ## Mac

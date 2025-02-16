@@ -207,15 +207,14 @@ tidy_path() {
 tidy_path
 
 # emoji-cli 사용
-if [ ! -d "$myenv_path/emoji-cli" ]; then
-    git clone https://github.com/b4b4r07/emoji-cli $myenv_path/emoji-cli
+if [ -d "$myenv_path/emoji-cli" ]; then
+    # 기본 ctrl-s 단축키가 zellij 와 겹쳐서 alt-e 로 변경
+    if [[ $current_shell == "zsh" ]]; then
+        export EMOJI_CLI_KEYBIND="^[e"
+        source "$myenv_path/emoji-cli/emoji-cli.zsh"
+    fi
 fi
 
-# 기본 ctrl-s 단축키가 zellij 와 겹쳐서 alt-e 로 변경
-if [[ $current_shell == "zsh" ]]; then
-    export EMOJI_CLI_KEYBIND="^[e"
-    source "$myenv_path/emoji-cli/emoji-cli.zsh"
-fi
 export EDITOR=vim
 export VISUAL=vim
 export ANSIBLE_NOCOWS=1 # disable cowsay message when using ansible

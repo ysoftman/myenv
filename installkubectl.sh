@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-printf "install kubectl/kubecolor in %s\n" $(uname)
+printf "install kubectl/kubecolor in %s\n" "$(uname)"
 
-if [[ $(uname -o 2> /dev/null) == 'Android' ]]; then
+if [[ $(uname -o 2>/dev/null) == 'Android' ]]; then
     pkg update
     pkg upgrade
     pkg install -y kubectl
