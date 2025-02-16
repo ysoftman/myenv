@@ -52,9 +52,6 @@ source "${myenv_path}/colors.sh"
 # set XDG_CONFIG_HOME
 export XDG_CONFIG_HOME="$HOME/.config"
 
-if ! type kubectl >/dev/null 2>&1; then
-    bash ${myenv_path}/installkubectl.sh
-fi
 # zsh 환경에서 kubectl 자동 완성
 if [[ $current_shell == "zsh" ]]; then
     source <(kubectl completion zsh)
