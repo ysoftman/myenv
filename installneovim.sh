@@ -19,5 +19,5 @@ Then add this to your shell config (~/.bashrc, ~/.zshrc, ...):
 export PATH="\$PATH:/opt/nvim-linux-x86_64/bin"
 EOF
 else
-    echo "unkown os:$os_name"
+    echo "unknown os:$os_name"
 fi
