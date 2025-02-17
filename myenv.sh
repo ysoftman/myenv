@@ -34,10 +34,6 @@ elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
         source "$HOME/.zprezto/init.zsh"
     fi
 
-    # zsh-autosuggestions 사용
-    if [ ! -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
-        git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-    fi
     if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
         source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
     fi
@@ -98,7 +94,6 @@ fi
 # 또는
 # kubectx | cat
 
-# install fzf
 if type fzf >/dev/null 2>&1; then
     export PATH=${HOME}/.fzf/bin:$PATH
 fi
