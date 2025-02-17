@@ -56,7 +56,7 @@ elif [[ $(uname) == 'Linux' ]]; then
         package_program="apt"
         # sudo apt update
     fi
-    sudo ${package_program} install -y gcc g++ gcc-c++ wget go vim
+    sudo ${package_program} install -y gcc g++ gcc-c++ wget go vim ncurses-devel
     export GOROOT=/usr/bin/go
     sudo ${package_program} install -y ruby lua5.3 mercurial python-dev cmake ctags python34-devel tig
 else
