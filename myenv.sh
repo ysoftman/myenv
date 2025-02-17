@@ -100,10 +100,6 @@ fi
 
 # install fzf
 if type fzf >/dev/null 2>&1; then
-    if [ ! -f "${HOME}/.fzf/bin/fzf" ]; then
-        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-        ~/.fzf/install
-    fi
     export PATH=${HOME}/.fzf/bin:$PATH
 fi
 
