@@ -58,7 +58,10 @@ elif [[ $(uname) == 'Linux' ]]; then
     fi
     sudo ${package_program} install -y gcc g++ gcc-c++ wget go vim ncurses-devel
     export GOROOT=/usr/bin/go
-    sudo ${package_program} install -y ruby lua5.3 mercurial python-dev cmake ctags python34-devel tig
+    # youcompleteme 빌드시 python3.9 이상 필요
+    sudo ${package_program} install -y ruby lua mercurial cmake ctags python39 python39-devel tig
+    sudo update-alternatives --set python /usr/bin/python3.9 || true
+    sudo update-alternatives --set python3 /usr/bin/python3.9 || true
 else
     echo 'Only OS-X or Linux... exit'
     # 소스 빌드 및 설치
