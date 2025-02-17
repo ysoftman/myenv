@@ -1,13 +1,32 @@
 #!/bin/bash
 
+GOPATH=${HOME}/workspace/gopath
+echo GOPATH=${GOPATH}
+
+# GOPATH 디렉토리가 없다면 생성
+mkdir -p ${GOPATH}
+
+export GOPATH=${GOPATH}
+export PATH=$PATH:$GOROOT:$GOPATH
+
+# 다음 디렉토리가 없다면 생성
+mkdir -p ~/.vim/autoload
+mkdir -p ~/.vim/bundle
+
 # vim-plug 설치(플러그인 매니저중 플러그인 설치 속도가 가장 빠름)
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+# .vimrc 링크
+[ -h ~/.vimrc ] && unlink ~/.vimrc
+[ -f ~/.vimrc ] && mv -fv ~/.vimrc ~/.vimrc.bak
+ln -s ${PWD}/.vimrc ~/.vimrc
 
 # 플러그인 설치 vim 실행 후
 # :PlugInstall
 # :PlugUpdate
-# 또는 터미널에서 플러그인 설치후 vim 종료
-vim +PlugInstall +qall
+# 또는
+# 터미널에서 플러그인 설치후 vim 종료
+echo 'yes' | vim +PlugInstall +qall 2>/dev/null
 
 # vim 실행 후 GoInstallBinaries 로 $GOPATH/bin 에 필요한 파일들이 설치하고 모두 종료
 # dockerfile 로 이미지 빌드시 사용자 입력을 받을 수 없으니 silent 모드로 설치
