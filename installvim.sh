@@ -79,9 +79,9 @@ cur_vim_version+=".$cur_vim_patch_version"
 echo "cur_vim_version : ${cur_vim_version}"
 highest_version="$(echo -e "${cur_vim_version}\n${base_vim_version}" | sort -r | head -n1)"
 if [[ ${highest_version} != "${cur_vim_version}" ]]; then
-    echo "cur_vim_version < ${base_vim_version}"
+    echo "cur_vim_version:$cur_vim_version < ${base_vim_version}"
     echo "install_vim_from_src()..."
     install_vim_from_src
 else
-    echo "cur_vim_version >= ${base_vim_version}"
+    echo "cur_vim_version:$cur_vim_version >= ${base_vim_version}"
 fi
