@@ -9,4 +9,3 @@ database = ""
 user = ""
 password = ""
 connection_timeout = "10"
-
