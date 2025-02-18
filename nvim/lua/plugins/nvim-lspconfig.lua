@@ -11,6 +11,9 @@ return {
             evenBetterToml = {
               -- .air.toml 에서 diagnostics 에러가 발생해 비활성화
               schema = { enabled = false },
+              formatter = {
+                indentString = "  ",
+              },
             },
           },
         },
