@@ -11,7 +11,7 @@ mpkgs["delta"]="delta"
 mpkgs["difftastic"]="difft"
 mpkgs["diskonaut"]="diskonaut"
 mpkgs["dog"]="dog"
-mpkgs["du-dust"]="dust"  # brew 에선 dust 패키지 이름으로 사용된다.
+mpkgs["du-dust"]="dust" # brew 에선 dust 패키지 이름으로 사용된다.
 mpkgs["exa"]="exa"
 mpkgs["fd-find"]="fd"
 mpkgs["gitui"]="gitui"
@@ -46,7 +46,7 @@ mpkgs["zoxide"]="zoxide"
 
 install_pkgs=""
 uninstall_pkgs=""
-for pkg_name in ${!mpkgs[@]}; do
+for pkg_name in "${!mpkgs[@]}"; do
     pkg_binary_name=${mpkgs[$pkg_name]}
     echo $pkg_binary_name
     # brew 로 설치된 패키지는 cargo 로 설치 하지 않는 로직
@@ -66,7 +66,7 @@ echo "uninstall_pkgs=$uninstall_pkgs"
 
 rustup update
 cargo install ${install_pkgs} --locked
-cargo uninstall ${uninstall_pkgs} 2> /dev/null
+cargo uninstall ${uninstall_pkgs} 2>/dev/null
 
 echo "-- show installed packages by cargo --"
 cargo install --list | awk 'NR%2==0 {print $1}'
