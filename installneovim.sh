@@ -30,6 +30,7 @@ elif [[ $os_name == *"linux"* ]]; then
     sudo tar -C /opt -xzf $filename.tar.gz
 
     cat <<EOF
+"myenv.sh 에서 추가해놨습니다."
 Then add this to your shell config (~/.bashrc, ~/.zshrc, ...):
 export PATH="\$PATH:/opt/$filename/bin"
 EOF
