@@ -25,6 +25,7 @@ return {
         "gosum",
         "gowork",
         "kdl",
+        "toml",
       },
     },
   },
