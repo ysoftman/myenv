@@ -73,7 +73,7 @@ else
 fi
 
 # 설치된 vim 버전이 너무 낮으면 소스 받아서 설치
-cur_vim_patch_version=$(vim --version | grep 'Included patches' | awk '{print $3}' | sed 's/^.*-//')
+cur_vim_patch_version=$(vim --version | grep -E 'Included patches|포함된 패치' | awk '{print $3}' | sed 's/^.*-//')
 cur_vim_version=$(vim --version | grep 'Vi IMproved' | awk '{print $5}')
 cur_vim_version+=".$cur_vim_patch_version"
 echo "cur_vim_version : ${cur_vim_version}"
