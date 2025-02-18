@@ -6,9 +6,15 @@ return {
     opts = {
       servers = {
         taplo = {
-          -- .air.toml 에서 diagnostics 에러가 발생해 비활성화
-          enabled = false,
+          enabled = true,
+          settings = {
+            evenBetterToml = {
+              -- .air.toml 에서 diagnostics 에러가 발생해 비활성화
+              schema = { enabled = false },
+            },
+          },
         },
+
         pyright = {},
         marksman = {},
         clangd = {
