@@ -2,7 +2,7 @@
 # ysoftman
 # vim 설치 스크립트
 
-base_vim_version="9.1.0"
+base_vim_version="9.1.1050"
 install_vim_from_src() {
     # 최신 버전 vim 설치
     if [ ! -d "vim-${base_vim_version}" ]; then
