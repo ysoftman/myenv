@@ -15,12 +15,12 @@ elif [[ $os_name == *"linux"* ]]; then
     highest_version="$(echo -e "${cur_version}\n${base_version}" | sort -r | head -n1)"
     if [[ ${highest_version} != "${cur_version}" ]]; then
         echo "cur_version:$cur_version < ${base_version}"
-        echo "download neovim old verison"
+        echo "download neovim old version"
         filename="nvim-linux64"
         url="https://github.com/neovim/neovim/releases/download/v0.9.2/$filename.tar.gz"
     else
         echo "cur_version:$cur_version >= ${base_version}"
-        echo "download neovim latest verison"
+        echo "download neovim latest version"
         filename="nvim-linux-x86_64"
         url="https://github.com/neovim/neovim/releases/latest/download/$filename.tar.gz"
     fi
