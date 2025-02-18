@@ -89,5 +89,5 @@ opacity = 1
 blur = false
 
 [debug]
-render_timer=false
-log_level="Warn"
+render_timer = false
+log_level = "Warn"

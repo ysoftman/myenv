@@ -1,15 +1,11 @@
 # typos 검사 제외 패턴
 [default]
 extend-ignore-identifiers-re = [
-# *sigh* this just isn't worth the cost of fixing
-"iterm",
-"serie",
+  # *sigh* this just isn't worth the cost of fixing
+  "iterm",
+  "serie",
 ]
 
 # typos 검사 제외파일
 [files]
-extend-exclude=[
-"go.mod",
-"go.sum",
-"*lock.json",
-]
+extend-exclude = ["go.mod", "go.sum", "*lock.json"]
