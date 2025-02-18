@@ -1,9 +1,14 @@
 return {
   {
     "neovim/nvim-lspconfig",
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
     ensure_installed = { "bashls" },
     opts = {
       servers = {
+        taplo = {
+          -- .air.toml 에서 diagnostics 에러가 발생해 비활성화
+          enabled = false,
+        },
         pyright = {},
         marksman = {},
         clangd = {
