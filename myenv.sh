@@ -94,10 +94,6 @@ fi
 # 또는
 # kubectx | cat
 
-if type fzf >/dev/null 2>&1; then
-    export PATH=${HOME}/.fzf/bin:$PATH
-fi
-
 if [[ $current_shell == "zsh" ]]; then
     source "${myenv_path}/fzf-git.sh"
     fzf-rg-widget() {

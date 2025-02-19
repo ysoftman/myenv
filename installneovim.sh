@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if command -v nvim >/dev/null; then
-    echo "nvim(neovim) is already installed."
+    echo "nvim(neovim) already exists."
     exit
 fi
 
