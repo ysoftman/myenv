@@ -108,33 +108,20 @@ function k8s_stern_log {
         return
     fi
 
-    if [[ $# != 1 ]]; then
-        echo "usage) ${0} {pod_name_contains}"
+    if [[ $# < 1 ]]; then
+        echo "usage) ${0} {pod_name_contains} [filter_words]"
         echo "ex) ${0} aaa"
-        echo "ex) ${0} bbb"
+        echo "ex) ${0} bbb info-blabla"
         return
     fi
     local pod_name=$1
-    # -o json 하면 message:{} 안에서 \처리 되어 사용하지 않음
-    stern ".*${pod_name}.*" -A --tail 10
-}
-
-function k8s_stern_error {
-    check_command_existence stern
-    if [[ $ret_value == "fail" ]]; then
-        return
+    local filter=""
+    if [[ $# == 2 ]]; then
+        filter=$2
     fi
-
-    if [[ $# != 1 ]]; then
-        echo "usage) ${0} {pod_name_contains}"
-        echo "ex) ${0} aaa"
-        echo "ex) ${0} bbb"
-        return
-    fi
-    local pod_name=$1
     # message 에 status\":20 이 없는 경우
     #local jq_option='. | select (.message | contains("status\":20") | not)'
-    local jq_option='. | select (.message | contains("error"))'
+    local jq_option=". | select (.message | contains(\"$filter\"))"
     stern ".*${pod_name}.*" -A --tail 10 -o json | jq ${jq_option}
 }
 
