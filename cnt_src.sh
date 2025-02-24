@@ -14,11 +14,11 @@ cntsrc() {
     # grep, rg 은 멀티 결과 일때 디폴트로 -- 구분자를 추가한다.
     # https://learnbyexample.github.io/learn_gnugrep_ripgrep/context-matching.html
     # rg 는 --context-separator 로 변경할 수 있다.
-    # headers=$(rg -i -N "Easy|Medium|Hard" --color=never --context-separator="___" --max-count 1 -B 1 ${files} | sd "^(# )"  "")
+    # headers=$(rg -i -N "Easy|Medium|Hard" --heading --color=never --context-separator="___" --max-count 1 -B 1 ${files} | sd "^(# )"  "")
     ######################
 
     # 전체 파일에서 탐색 후 for 안에서 특정 파일 제외시키자.
-    headers=$(rg -i -N "Easy|Medium|Hard" --color=never --max-count 1 -B 1 | sd "^(# )" "" | sd '^\n' '___\n')
+    headers=$(rg -i -N "Easy|Medium|Hard" --heading --color=never --max-count 1 -B 1 | sd "^(# )" "" | sd '^\n' '___\n')
     echo "processing..."
     # IFS(Internal Field Separator) 를 space(디폴트)면
     # headers 값들이 한줄로 한번에 처리되는데 이때 File name too long 에러가 발생한다.
