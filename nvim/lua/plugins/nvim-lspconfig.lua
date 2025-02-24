@@ -104,6 +104,12 @@ return {
                 unusedparams = true,
                 unusedwrite = true,
                 useany = true,
+                -- gopls 0.18 부터 modernize 기능 추가
+                -- https://github.com/golang/tools/releases/tag/gopls%2Fv0.18.0
+                -- https://github.com/golang/tools/blob/739a5af40476496b626dc23e996357a7dff4e3e8/gopls/internal/analysis/modernize/doc.go
+                -- 최신 버전 설치
+                -- :MasonInstall gopls
+                modernize = true,
                 QF1008 = false, -- remove embedded field suggestion
               },
               gofumpt = true,
