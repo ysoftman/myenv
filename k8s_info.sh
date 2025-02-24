@@ -15,7 +15,7 @@ check_command_existence() {
     eval "type ${command_name} > /dev/null 2>&1"
     ret=$?
     if [[ $ret != 0 ]]; then
-        echo -e "${red}can't find ${command_name} command${reset_color}"
+        print_red_msg "can't find ${command_name} command"
         ret_value="fail"
         return
     fi
@@ -39,7 +39,7 @@ function k8s_cnt_pods_in_nodes {
         # Evicted|Complete|Error 상태는 제외
         # podsCnt=$(kubectl get pods -A -o wide --field-selector spec.nodeName=${node} | sed 1d | rg -iN -v "Evicted|Complete|Error" | wc | awk '{print $1}')
         podsCnt=$(kubectl get pods -A -o wide --field-selector spec.nodeName=${node} | sed 1d | rg -iN "${pod_status}" | wc | awk '{print $1}')
-        echo -e "${green}$node -> ${podsCnt} pods${reset_color}"
+        print_green_msg "$node -> ${podsCnt} pods"
     done
 }
 
@@ -156,11 +156,12 @@ function k8s_get_current_context_server {
     # KUBECONFIG= 환경변수 설정 기준
     # same as 'kubectx -c'
     local current_context
-    local current_context
-    current_cluster=$(kubectl config view --flatten | yq ".contexts.[] | select(.name==\"${current_context}\").context.cluster")
+    local current_cluster
+    local current_cluster_server
+    current_context=$(kubectl config view --flatten | yq '.current-context')
     current_cluster=$(kubectl config view --flatten | yq ".contexts.[] | select(.name==\"${current_context}\").context.cluster")
     current_cluster_server=$(kubectl config view --flatten | yq ".clusters.[] | select(.name==\"${current_cluster}\").cluster.server")
-    echo -e ${green}${current_cluster_server}${reset_color}
+    print_green_msg "${current_cluster_server}"
 }
 
 k8s_get_nodeport() {
@@ -193,7 +194,7 @@ k8s_get_empty_namespace() {
         # temp=$({kubectl get all -n ${ns} | rg -iN 'no resources'} 2>&1)
         temp=$(kubectl get all -n ${ns} 2>&1 | rg -iN 'no resources' --color=never)
         if [[ -n ${temp} ]]; then
-            echo ${temp} "--->" ${yellow}$(k get ns ${ns} | sed 1d | awk '{print "AGE:"$3}')${reset_color}
+            print_yellow_msg "${temp} ---> $(k get ns ${ns} | sed 1d | awk '{print "AGE:"$3}')"
         fi
     done
     unset temp
