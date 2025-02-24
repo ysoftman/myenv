@@ -194,7 +194,7 @@ k8s_get_empty_namespace() {
         # temp=$({kubectl get all -n ${ns} | rg -iN 'no resources'} 2>&1)
         temp=$(kubectl get all -n ${ns} 2>&1 | rg -iN 'no resources' --color=never)
         if [[ -n ${temp} ]]; then
-            print_yellow_msg "${temp} ---> $(k get ns ${ns} | sed 1d | awk '{print "AGE:"$3}')"
+            print_yellow_msg "${temp} ---> $(kubectl get ns ${ns} | sed 1d | awk '{print "AGE:"$3}')"
         fi
     done
     unset temp
@@ -215,4 +215,28 @@ k8s_find_terminated_containers() {
             kubectl get -n ${ns} pod ${po} -o json | jq '.status.initContainerStatuses[].state.terminated' 2>/dev/null
         done
     done
+}
+
+get_argo_workflow_token() {
+    check_command_existence kubectl
+    if [[ $ret_value == "fail" ]]; then
+        return
+    fi
+    if [[ $# != 2 ]]; then
+        ret_value="fail"
+        echo "usage) ${0} {namespace} {secret_name}"
+        echo "ex) ${0} aaa-workflow aaa-workflow-server"
+        print_green_msg "다음을 참고하세요."
+        print_green_msg "----- find *workflow* namespace in current context -----"
+        local ns=$(kubectl get ns | rg -i workflow | awk '{print $1}')
+        echo $ns
+        print_green_msg "----- get secrets in ${ns} namespace -----"
+        kubectl get secret -n ${ns}
+        return
+    fi
+    local ns=$1
+    local secret_name=$2
+    echo -n "Bearer $(kubectl get secret ${secret_name} -n ${ns} -o=jsonpath='{.data.token}' | base64 --decode)" | tee >(pbcopy)
+    echo ""
+    print_green_msg "pbcopied."
 }
