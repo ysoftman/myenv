@@ -88,15 +88,15 @@ cntsrc() {
     echo ${temp}
 
     echo ""
-    echo "${cyan}Easy: ${#easy_files} (unique: ${cnt_unique_easy}) ${reset_color}"
-    echo "${yellow}Medium: ${#medium_files} (unique: ${cnt_unique_medium}) ${reset_color}"
-    echo "${red}Hard: ${#hard_files} (unique: ${cnt_unique_hard}) ${reset_color}"
+    print_cyan_msg "Easy: ${#easy_files} (unique: ${cnt_unique_easy})"
+    print_yellow_msg "Medium: ${#medium_files} (unique: ${cnt_unique_medium})"
+    print_red_msg "Hard: ${#hard_files} (unique: ${cnt_unique_hard})"
     echo "no level: ${#no_level_files}"
     echo ""
 
     # uniq 는 인접한 라인과 비교해 반복되는것은 필터링 시키기 때문에 sort 이후에 사용해야 한다.
     cnt_unique_all=$(echo $files | sed -e "s/\.[^.]*$//" | sort | uniq | wc | awk '{print $1}')
-    echo "${green}All(unique): ${cnt_unique_all} ${reset_color}"
+    print_green_msg "All(unique): ${cnt_unique_all}"
 
     # 쉘에서 이 함수내에서 사용했던 변수들이 참조되지 않도록 한다.
     unset files
