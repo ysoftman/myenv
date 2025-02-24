@@ -223,7 +223,6 @@ get_argo_workflow_token() {
         return
     fi
     if [[ $# != 2 ]]; then
-        ret_value="fail"
         echo "usage) ${0} {namespace} {secret_name}"
         echo "ex) ${0} aaa-workflow aaa-workflow-server"
         print_green_msg "다음을 참고하세요."
