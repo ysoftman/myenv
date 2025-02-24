@@ -3,7 +3,7 @@ source ${HOME}/workspace/myenv/colors.sh
 
 grep_and_sed_help() {
     echo "ex) Replace apple with lemon in all files under the current path"
-    echo "${yellow}grep_and_sed apple lemon${reset_color}"
+    print_yellow_msg "grep_and_sed apple lemon"
 }
 
 grep_and_sed() {
