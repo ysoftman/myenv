@@ -6,6 +6,9 @@ if [[ $# != 1 ]]; then
 fi
 golang_version=${1}
 wget https://go.dev/dl/${golang_version}.tar.gz
-sudo rm -rf /usr/local/go
-sudo tar zxvf ${golang_version}.tar.gz -C /usr/local
+# 시스템 전체적으로 golang 버전업이 필요할때
+# sudo rm -rf /usr/local/go
+# sudo tar zxvf ${golang_version}.tar.gz -C /usr/local
+rm -rf $HOME/go
+tar zxvf ${golang_version}.tar.gz -C $HOME
 rm -rfv ${golang_version}.tar.gz
