@@ -166,6 +166,9 @@ export PATH=$(yarn global bin 2>/dev/null):$PATH
 export PATH=$HOME/nvim-linux64/bin:$PATH
 export PATH=$HOME/nvim-linux-x86_64/bin:$PATH
 
+# linux 환경에서 수동 golang 설치경로
+export PATH=$HOME/go/bin:$PATH
+
 export GOPATH=$HOME/workspace/gopath
 tidy_path() {
     local temp_path=""
