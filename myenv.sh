@@ -163,8 +163,8 @@ unset cat_cmd
 export PATH=$(yarn global bin 2>/dev/null):$PATH
 
 # linux 환경에서 수동 nvim 설치경로
-export PATH=/opt/nvim-linux64/bin:$PATH
-export PATH=/opt/nvim-linux-x86_64/bin:$PATH
+export PATH=$HOME/nvim-linux64/bin:$PATH
+export PATH=$HOME/nvim-linux-x86_64/bin:$PATH
 
 export GOPATH=$HOME/workspace/gopath
 tidy_path() {
