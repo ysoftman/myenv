@@ -17,7 +17,7 @@ elif [[ $os_name == *"linux"* ]]; then
         echo "cur_version:$cur_version < ${base_version}"
         echo "download neovim old version"
         filename="nvim-linux64"
-        url="https://github.com/neovim/neovim/releases/download/v0.9.2/$filename.tar.gz"
+        url="https://github.com/neovim/neovim/releases/download/v0.9.5/$filename.tar.gz"
     else
         echo "cur_version:$cur_version >= ${base_version}"
         echo "download neovim latest version"
@@ -26,13 +26,12 @@ elif [[ $os_name == *"linux"* ]]; then
     fi
 
     curl -LO $url
-    sudo rm -rf /opt/nvim
-    sudo tar -C /opt -xzf $filename.tar.gz
+    tar -C $HOME/ -xzf $filename.tar.gz
 
     cat <<EOF
 "myenv.sh 에서 추가해놨습니다."
 Then add this to your shell config (~/.bashrc, ~/.zshrc, ...):
-export PATH="\$PATH:/opt/$filename/bin"
+export PATH="\$PATH:$HOME/$filename/bin"
 EOF
 else
     echo "unknown os:$os_name"
