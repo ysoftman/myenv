@@ -162,11 +162,11 @@ unset cat_cmd
 # mac 에선 yarn bin /opt/homebrew/bin 으로 설정되어 있어 tidy_path 실행전에 선언
 export PATH=$(yarn global bin 2>/dev/null):$PATH
 
-# linux 환경에서 수동 nvim 설치경로
+# 수동 nvim 설치경로
 export PATH=$HOME/nvim-linux64/bin:$PATH
 export PATH=$HOME/nvim-linux-x86_64/bin:$PATH
 
-# linux 환경에서 수동 golang 설치경로
+# 수동 golang 설치경로
 export PATH=$HOME/go/bin:$PATH
 
 export GOPATH=$HOME/workspace/gopath
@@ -221,6 +221,9 @@ if [[ $os_name == *"darwin"* ]]; then
     export CLICOLOR=1
     alias ll='ls -ahlG'
     alias sn='pmset displaysleepnow'
+    if [[ $MACHTYPE == *"arm"* ]]; then
+        export PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
+    fi
 elif [[ $os_name == *"linux"* ]]; then
     if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
         # termux 는 현재 영어만 지원하고 있다.
