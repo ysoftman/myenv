@@ -10,21 +10,9 @@ if [[ $os_name == *"darwin"* ]]; then
     brew install neovim
     exit
 elif [[ $os_name == *"linux"* ]]; then
-    base_version="2.29"
-    cur_version=$(ldd --version | head -1 | awk '{print $4}')
-    highest_version="$(echo -e "${cur_version}\n${base_version}" | sort -r | head -n1)"
-    if [[ ${highest_version} != "${cur_version}" ]]; then
-        echo "cur_version:$cur_version < ${base_version}"
-        echo "download neovim old version"
-        filename="nvim-linux64"
-        url="https://github.com/neovim/neovim/releases/download/v0.9.5/$filename.tar.gz"
-    else
-        echo "cur_version:$cur_version >= ${base_version}"
-        echo "download neovim latest version"
-        filename="nvim-linux-x86_64"
-        url="https://github.com/neovim/neovim/releases/latest/download/$filename.tar.gz"
-    fi
-
+    echo "download neovim latest version"
+    filename="nvim-linux-x86_64"
+    url="https://github.com/neovim/neovim-releases/releases/download/v0.10.4/$filename.appimage"
     curl -LO $url
     tar -C $HOME/ -xzf $filename.tar.gz
 
@@ -33,6 +21,9 @@ elif [[ $os_name == *"linux"* ]]; then
 Then add this to your shell config (~/.bashrc, ~/.zshrc, ...):
 export PATH="\$HOME/$filename/bin:\$PATH"
 EOF
+
+    fi
+
 else
     echo "unknown os:$os_name"
 fi
