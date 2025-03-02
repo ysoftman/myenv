@@ -1,11 +1,12 @@
 #!/bin/bash
 
-echo "install glibc 2.29"
-wget https://ftp.gnu.org/gnu/glibc/glibc-2.29.tar.gz
-tar -zxvf glibc-2.29.tar.gz
-cd glibc-2.29
+glibc_version="2.41"
+echo "install glibc $glibc_version"
+wget https://ftp.gnu.org/gnu/glibc/glibc-$glibc_version.tar.gz
+tar -zxvf glibc-$glibc_version.tar.gz
+cd glibc-$glibc_version
 mkdir build
 cd build
-../configure --prefix=$HOME/glibc-2.29/build
+../configure --prefix=$HOME/glibc-$glibc_version/build
 make -j
 make install
