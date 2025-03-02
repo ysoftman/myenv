@@ -31,7 +31,7 @@ elif [[ $os_name == *"linux"* ]]; then
     cat <<EOF
 "myenv.sh 에서 추가해놨습니다."
 Then add this to your shell config (~/.bashrc, ~/.zshrc, ...):
-export PATH="\$PATH:$HOME/$filename/bin"
+export PATH="\$HOME/$filename/bin:\$PATH"
 EOF
 else
     echo "unknown os:$os_name"
