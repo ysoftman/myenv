@@ -16,13 +16,15 @@ elif [[ $os_name == *"linux"* ]]; then
     curl -LO $url
     tar -C $HOME/ -xzf $filename.tar.gz
 
+    chmod +x $HOME/$filename/bin/nvim.appimage
     cat <<EOF
-"myenv.sh 에서 추가해놨습니다."
+myenv.sh 에서 추가해놨습니다.
 Then add this to your shell config (~/.bashrc, ~/.zshrc, ...):
 export PATH="\$HOME/$filename/bin:\$PATH"
-EOF
 
-    fi
+# 실행
+nvim.appimage
+EOF
 
 else
     echo "unknown os:$os_name"
