@@ -12,8 +12,8 @@ if [[ $os_name == *"darwin"* ]]; then
 elif [[ $os_name == *"linux"* ]]; then
     echo "download neovim latest version"
     filename="nvim-linux-x86_64"
-    url="https://github.com/neovim/neovim/releases/latest/download/$filename.tar.gz"
-    curl -LO $url
+    rm -rf $HOME/$filename
+    curl -LO "https://github.com/neovim/neovim/releases/latest/download/$filename.tar.gz"
     tar -C $HOME/ -xzf $filename.tar.gz
 
     cat <<EOF
