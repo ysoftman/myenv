@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if command -v nvim >/dev/null; then
-    echo "nvim(neovim) already exists."
-    exit
-fi
-
 os_name=$(uname | tr '[:upper:]' '[:lower:]')
 if [[ $os_name == *"darwin"* ]]; then
     brew install neovim
