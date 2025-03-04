@@ -401,10 +401,10 @@ if which fortune >/dev/null 2>&1; then
     fi
 fi
 
-if which cfonts >/dev/null 2>&1; then
+if command -v cfonts >/dev/null 2>&1; then
     # cfonts 는 cowsay msg 로 담으면 제대로 처리되지 않아 banner 는 그냥 출력한다.
     cfonts ysoftman -f block -g red,green 2>/dev/null
-elif which figlet >/dev/null 2>&1; then
+elif command -v figlet >/dev/null 2>&1; then
     banner=$(figlet ysoftman 2>/dev/null)
     msg="${banner}\n${msg}"
 fi
