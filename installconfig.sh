@@ -49,6 +49,8 @@ if difft --version 2>/dev/null 2>&1; then
     git config --global alias.ds '-c diff.external=difft show --ext-diff'
     # `git diff` with difftastic.
     git config --global alias.dft '-c diff.external=difft diff'
+    # git forgit log
+    git config --global alias.flog 'forgit log'
 fi
 
 # 파일로 저장하지 않고 일정시간(디폴트 15분)동안 id,pw 를 캐싱한다.
