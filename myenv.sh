@@ -225,7 +225,9 @@ if [[ $os_name == *"darwin"* ]]; then
     alias ll='ls -ahlG'
     alias sn='pmset displaysleepnow'
     if [[ $MACHTYPE == *"arm"* ]]; then
+        # brew install make llvm
         export PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
+        export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
     fi
 elif [[ $os_name == *"linux"* ]]; then
     if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
