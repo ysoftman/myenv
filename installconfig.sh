@@ -31,9 +31,9 @@ if [[ ${answer} != '' ]]; then
     git config --global user.name ${user_name}
 fi
 
-if delta --version 2> /dev/null 2>&1; then
+if delta --version 2>/dev/null 2>&1; then
     echo "set delta to git global config"
-    git config --global core.pager "delta"
+    git config --global core.pager "delta --paging=never --width=${FZF_PREVIEW_COLUMNS:-$COLUMNS}"
     git config --global interactive.diffFilter "delta --color-only"
     git config --global add.interactive.userBuiltin "false"
     git config --global delta.navigate "true"
@@ -42,7 +42,7 @@ if delta --version 2> /dev/null 2>&1; then
     git config --global delta.side-by-side "true"
     git config --global delta.syntax-theme "OneHalfDark"
 fi
-if difft --version 2> /dev/null 2>&1; then
+if difft --version 2>/dev/null 2>&1; then
     # `git log` with patches shown with difftastic.
     git config --global alias.dl '-c diff.external=difft log -p --ext-diff'
     # Show the most recent commit with difftastic.
@@ -125,7 +125,7 @@ ln -sf ${PWD}/.muttrc ~/.muttrc
 if [[ $(uname -a) == *"microsoft"* ]]; then
     # link 적용 안됨
     # sudo ln -sf ${PWD}/wsl.conf /etc/wsl.conf
-    sudo unlink /etc/wsl.conf 2> /dev/null
+    sudo unlink /etc/wsl.conf 2>/dev/null
     sudo cp -fv ${PWD}/wsl.conf /etc/wsl.conf
     echo "윈도우 실행에서 wsl -t ubuntu 로 종료 후 터미널 다시 시작 필요"
 fi
