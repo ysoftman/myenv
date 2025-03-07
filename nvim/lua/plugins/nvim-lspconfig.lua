@@ -21,6 +21,8 @@ return {
         pyright = {},
         marksman = {},
         clangd = {
+          -- Use of undeclared identifier 등의 에러 발생시 다음 명령으로 compile_commands.json 생성
+          -- cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .
           keys = {
             { "<leader>ch", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
           },
