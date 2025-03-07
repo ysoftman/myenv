@@ -115,6 +115,8 @@
   "git.ignoreLegacyWarning": true,
   "C_Cpp.default.cStandard": "c99",
   "C_Cpp.default.cppStandard": "c++17",
+  "C_Cpp.autocomplete": "default",
+  "C_Cpp.intelliSenseEngine": "default", // clangd 대신 vscode 자체 cpp 인텔리젼스 사용
   "C_Cpp.formatting": "clangFormat",
   // linux 에선 clang 설치해야 다음을 사용할 수 있다.
   "C_Cpp.clang_format_path": "/usr/local/bin/clang-format",
@@ -306,5 +308,6 @@
   // To improve performance
   "extensions.experimental.affinity": {
     "vscodevim.vim": 1
-  }
+  },
+  "makefile.configureOnOpen": true
 }
