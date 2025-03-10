@@ -61,6 +61,7 @@ return {
             "--fallback-style=llvm",
           },
           init_options = {
+            fallbackFlags = { "-std=c++17" },
             usePlaceholders = true,
             completeUnimported = true,
             clangdFileStatus = true,
