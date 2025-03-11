@@ -33,7 +33,7 @@ fi
 
 if delta --version 2>/dev/null 2>&1; then
     echo "set delta to git global config"
-    git config --global core.pager 'delta --paging=never --width=${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
+    git config --global core.pager 'delta --width=${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
     git config --global interactive.diffFilter "delta --color-only"
     git config --global add.interactive.userBuiltin "false"
     git config --global delta.navigate "true"
