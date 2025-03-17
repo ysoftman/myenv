@@ -95,7 +95,6 @@ fi
 # kubectx | cat
 
 if [[ $current_shell == "zsh" ]]; then
-    source "${myenv_path}/fzf-git.sh"
     fzf-rg-widget() {
         local RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
         local FZF_INITIAL_QUERY="${*:-}"
@@ -111,6 +110,17 @@ if [[ $current_shell == "zsh" ]]; then
     }
     # fzf-rg-widget 함수 등록(https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html)
     zle -N fzf-rg-widget
+    bindkey "^f" fzf-rg-widget
+
+    # zellij 에서 ctrl-t 가 tab 명령 단축키라 FZF_CTRL_T_COMMAND(ctrl-t)와 중복된다.
+    # alt-t 로도 FZF_CTRL_T_COMMAND(fzf-file-widget) 사용할 수 있도록 등록한다.
+    bindkey "^[t" fzf-file-widget
+
+    source "${myenv_path}/fzf-git.sh"
+    # fzf-git.sh 에선 ctrl-g ctrl-b 로 사용하는데, zellij 와 중복되어 alt-b 로도 바인딩함
+    # alt-b 는 alt-left(showkey 로 확인)라 alt-B 로 사용하자
+    #bindkey "^[b" "fzf-git-branches-widget"
+    bindkey "^[B" fzf-git-branches-widget
 fi
 
 ## fzf default options
@@ -121,23 +131,13 @@ export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border --exact
 --color=fg:-1,bg:-1,hl:#c678dd,fg+:#ffffff,bg+:#4b5263,hl+:#d858fe
 --color=info:#98c379,prompt:#61afef,pointer:#be5046,marker:#e5c07b,spinner:#61afef,header:#61afef
 '
-if [[ $current_shell == "zsh" ]]; then
-    bindkey "^f" fzf-rg-widget
-
-    # zellij 에서 ctrl-t 가 tab 명령 단축키라 FZF_CTRL_T_COMMAND(ctrl-t)와 중복된다.
-    # alt-t 로도 FZF_CTRL_T_COMMAND(fzf-file-widget) 사용할 수 있도록 등록한다.
-    bindkey "^[t" fzf-file-widget
-
-    # fzf-git.sh 에선 ctrl-g ctrl-b 로 사용하는데, zellij 와 중복되어 alt-b 로도 바인딩함
-    # alt-b 는 alt-left(showkey 로 확인)라 alt-B 로 사용하자
-    #bindkey "^[b" "fzf-git-branches-widget"
-    bindkey "^[B" fzf-git-branches-widget
-fi
 # fzf ctrl-t(파일찾기)시
 # 숨김파일도 보기
-export FZF_CTRL_T_COMMAND='find . -type f'
+findcmd='find'
+export FZF_CTRL_T_COMMAND="$findcmd . -type f"
 if which fd >/dev/null 2>&1; then
-    export FZF_CTRL_T_COMMAND='fd --hidden --no-ignore'
+    findcmd='fd'
+    export FZF_CTRL_T_COMMAND="$findcmd --hidden --no-ignore"
 fi
 # fzf vim 에서 FZF_DEFAULT_COMMAND 를 사용함
 export FZF_DEFAULT_COMMAND=$FZF_CTRL_T_COMMAND
@@ -150,10 +150,13 @@ if which bat >/dev/null 2>&1; then
     catcmd="${batcmd} {}"
     alias bat="${batcmd}"
 fi
-export FZF_CTRL_T_OPTS="--preview '($catcmd || tree -C {}) 2> /dev/null | head -200'"
+export FZF_CTRL_T_OPTS="--prompt '$findcmd+fzf> ' \
+--preview '($catcmd || tree -C {}) 2> /dev/null | head -200'
+"
 # fzf ctrl-r(히스토리)시
-export FZF_CTRL_R_OPTS=""
-unset cat_cmd
+export FZF_CTRL_R_OPTS="--prompt 'fzf history> '"
+unset catcmd
+unset findcmd
 # $(brew --prefix)/opt/fzf/install 실행하면 .fzf.bash .fzf.zsh 파일이 생긴다.
 # .bashrc .zshrc 에 맞게 다음이 자동으로 추가됨
 # [ -f ~/.fzf.bash ] && source ~/.fzf.bash
