@@ -132,3 +132,6 @@ if [ -f '/Users/ysoftman/workspace/google-cloud-sdk/completion.zsh.inc' ]; then 
 
 # zsh 프로파일링할때 사용
 #zprof
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
