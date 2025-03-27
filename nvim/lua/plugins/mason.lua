@@ -19,7 +19,7 @@ return {
   },
   {
     "williamboman/mason.nvim",
-    opts = { ensure_installed = { "ansible-lint" } }, -- brew install ansible-lint
+    opts = { ensure_installed = { "ansible-lint", "ansible-language-server" } },
   },
   {
     "williamboman/mason.nvim",
