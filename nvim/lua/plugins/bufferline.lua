@@ -4,6 +4,7 @@ return {
   dependencies = "nvim-tree/nvim-web-devicons",
   opts = {
     options = {
+      always_show_bufferline = true,
       indicator = {
         -- icon = "▎", -- style =  "icon"일때
         icon = "✓",
