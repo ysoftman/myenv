@@ -1,14 +1,23 @@
 local black = "#000000"
 local white = "#cccccc"
+
 -- https://github.com/kepano/flexoki
-local red = "#AF3029"
-local orange = "#BC5215"
-local yellow = "#AD8301"
-local green = "#66800B"
-local cyan = "#24837B"
-local blue = "#205EA6"
-local purple = "#5E409D"
-local magenta = "#A02F6F"
+-- local red = "#AF3029"
+-- local orange = "#BC5215"
+-- local yellow = "#AD8301"
+-- local green = "#66800B"
+-- local cyan = "#24837B"
+-- local blue = "#205EA6"
+-- local purple = "#5E409D"
+-- local magenta = "#A02F6F"
+
+-- https://github.com/joshdick/onedark.vim
+local blue = "#61AFEF"
+local cyan = "#56B6C2"
+local green = "#98C379"
+local purple = "#C678DD"
+local red = "#E06C75"
+local yellow = "#E5C07B"
 
 -- for debug
 local function printTable(t)
@@ -36,7 +45,7 @@ return {
   opts = function(_, opts)
     opts.options.section_separators = { left = "", right = "" }
     opts.options.component_separators = { left = "", right = "" }
-    -- section 은 a,b,c,x,y,z 6개만 된다. https://github.com/nvim-lualine/lualine.nvim?tab=readme-ov-file#usage-and-customization
+    -- section 은 a,b,c,x,y,z 로 고정. https://github.com/nvim-lualine/lualine.nvim?tab=readme-ov-file#usage-and-customization
     -- section 내 component(lua table) 를 추가하는 방식을 사용하자.
     -- lualine_x 1번째로 추가
     table.insert(opts.sections.lualine_x, 1, {
@@ -49,25 +58,32 @@ return {
       separator = { left = "", right = "" },
     })
     table.insert(opts.sections.lualine_x, 1, {
+      "filetype",
+      color = function()
+        return { bg = black, fg = yellow }
+      end,
+      separator = { left = "", right = "" },
+    })
+    table.insert(opts.sections.lualine_x, 1, {
       function()
         return vim.wo.spell and "SPELL" or "NOSPELL"
       end,
       color = function()
-        return { bg = purple, fg = white }
+        return { bg = purple, fg = black }
       end,
       separator = { left = "", right = "" },
     })
     table.insert(opts.sections.lualine_x, 1, {
       "encoding",
       color = function()
-        return { bg = cyan, fg = white }
+        return { bg = green, fg = black }
       end,
       separator = { left = "", right = "" },
     })
     table.insert(opts.sections.lualine_x, 1, {
       get_file_permissions,
       color = function()
-        return { bg = blue, fg = white }
+        return { bg = cyan, fg = black }
       end,
       separator = { left = "", right = "" },
     })
