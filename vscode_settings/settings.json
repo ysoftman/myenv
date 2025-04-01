@@ -46,7 +46,6 @@
   "search.seedWithNearestWord": true,
   "search.showLineNumbers": true,
   "go.useLanguageServer": true,
-
   "go.vetOnSave": "package",
   "go.buildTags": "",
   "go.buildFlags": [],
@@ -157,18 +156,26 @@
   "vsicons.dontShowNewVersionMessage": true,
   "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
   "[python]": {
+    "editor.formatOnSave": true,
     "editor.insertSpaces": true,
     "editor.tabSize": 4,
-    "editor.defaultFormatter": "ms-python.python"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "HookyQR.beautify"
+    "editor.defaultFormatter": "ms-python.black-formatter"
   },
   "[jsonc]": {
+    "editor.formatOnSave": true,
     "editor.defaultFormatter": "vscode.json-language-features"
   },
-  "[yaml]": {
+  "[json]": {
+    "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[yaml]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[ansible]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "redhat.ansible"
   },
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -254,6 +261,7 @@
     "**/.trunk/*plugins/": true
   },
   "[markdown]": {
+    "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "workbench.iconTheme": "vscode-icons",
@@ -304,7 +312,6 @@
     "<C-a>": false,
     "<C-f>": false
   },
-
   // To improve performance
   "extensions.experimental.affinity": {
     "vscodevim.vim": 1
