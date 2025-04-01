@@ -7,6 +7,7 @@ code --install-extension alefragnani.bookmarks
 code --install-extension atomiks.moonlight
 code --install-extension bazelbuild.vscode-bazel
 code --install-extension cliffordfajardo.highlight-line-vscode
+code --install-extension continue.continue
 code --install-extension cschlosser.doxdocgen
 code --install-extension dart-code.dart-code
 code --install-extension dart-code.flutter
@@ -43,6 +44,7 @@ code --install-extension ms-azuretools.vscode-docker
 code --install-extension ms-dotnettools.csharp
 code --install-extension ms-dotnettools.vscode-dotnet-runtime
 code --install-extension ms-playwright.playwright
+code --install-extension ms-python.black-formatter
 code --install-extension ms-python.debugpy
 code --install-extension ms-python.python
 code --install-extension ms-python.vscode-pylance
