@@ -1,6 +1,6 @@
 ///////////////////// ysoftman custom settings /////////////////////
 // zellij 새 버전이 나오면 기본 설정파일 생성 후 필요한 부분만 가져와서 수정
-// zellij setup --dump-config > default_configd.kdl
+// zellij setup --dump-config | pbcopy
 //
 // debug log 확인
 // zellij --debug
