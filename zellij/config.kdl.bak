@@ -44,6 +44,4 @@ keybinds {
         bind "Alt ]" { NextSwapLayout; }
     }
 }
-
-// built-in themes https://zellij.dev/documentation/theme-list.html
 theme "dracula"
