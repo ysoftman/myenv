@@ -1,0 +1,14 @@
+layout {
+    pane size=1 borderless=true {
+        plugin location="tab-bar"
+    }
+    pane
+    pane size=1 borderless=true {
+        plugin location="zellij:status-bar" {
+            format_left "{mode} #[fg=#89B4FA,bold]{session}"
+            format_center "{tabs}"
+            format_right "new tab: Ctrl+t | change focus: Alt+Arrow"
+        }
+    }
+}
+
