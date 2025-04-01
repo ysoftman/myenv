@@ -338,7 +338,7 @@ alias arm='arch -arm64 /bin/zsh'
 alias zellij1='zellij --layout ${myenv_path}/zellij/layouts/layout1.kdl'
 alias zellij2='zellij --layout ${myenv_path}/zellij/layouts/layout2.kdl'
 # 현재 zellij layout 저장
-alias zellij_dump='zellij setup --dump-layout default >! ${myenv_path}/zellij/layout2.kdl'
+alias zellij_dump='zellij setup --dump-layout default >! ${myenv_path}/zellij/layouts/layout2.kdl'
 
 # load my functions
 source "${myenv_path}/rename_files.sh"
