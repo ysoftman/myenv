@@ -1,0 +1,13 @@
+layout {
+    pane split_direction="vertical" {
+        pane command="htop"
+        pane split_direction="horizontal" {
+            pane command="cacafire"
+            pane command="cmatrix"
+        }
+    }
+    pane size=1 borderless=true {
+        plugin location="zellij:compact-bar"
+    }
+}
+
