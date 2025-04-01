@@ -335,8 +335,8 @@ alias ssh='TERM=xterm-256color ssh'
 alias arm='arch -arm64 /bin/zsh'
 
 # zellij layout 띄우기
-alias zellij1='zellij --layout ${myenv_path}/zellij/layout1.kdl'
-alias zellij2='zellij --layout ${myenv_path}/zellij/layout2.kdl'
+alias zellij1='zellij --layout ${myenv_path}/zellij/layouts/layout1.kdl'
+alias zellij2='zellij --layout ${myenv_path}/zellij/layouts/layout2.kdl'
 # 현재 zellij layout 저장
 alias zellij_dump='zellij setup --dump-layout default >! ${myenv_path}/zellij/layout2.kdl'
 
