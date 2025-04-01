@@ -8,6 +8,19 @@
 // mac 기준 $TMPDIR 아래 다음과 같은 로그파일 생성이 된다.
 // tail -F $TMPDIR/zellij-501/zellij-log/zellij.log
 
+layout {
+    pane split_direction="vertical" {
+        pane
+        pane split_direction="horizontal" {
+            pane
+            pane
+        }
+    }
+    pane size=1 borderless=true {
+        plugin location="zellij:compact-bar"
+    }
+}
+
 keybinds {
     session {
         // vim ctrl-o 겹쳐서 ctrl-e 로 변경
@@ -44,4 +57,6 @@ keybinds {
         bind "Alt ]" { NextSwapLayout; }
     }
 }
+
+// built-in themes https://zellij.dev/documentation/theme-list.html
 theme "dracula"
