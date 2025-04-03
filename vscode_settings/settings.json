@@ -162,6 +162,7 @@
   "bookmarks.navigateThroughAllFiles": true,
   "vsicons.dontShowNewVersionMessage": true,
   "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "ansibleServer.trace.server": "messages",
   "[python]": {
     "editor.formatOnSave": true,
     "editor.insertSpaces": true,
