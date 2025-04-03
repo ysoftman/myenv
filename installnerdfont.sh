@@ -5,3 +5,4 @@ if [ -d ~/.termux ]; then
     unzip Hack.zip -d ~/.termux
 fi
 
+rm -rf Hack.zip
