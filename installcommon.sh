@@ -1,6 +1,6 @@
 #!/bin/bash
 # android
-pkgs_pkg='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python2 ruby golang rust man dnsutils ripgrep fd fzf lua53 openssh libandroid-support lsd bat wget which htop fastfetch neofetch git-delta jq nodejs'
+pkgs_pkg='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python2 ruby golang rust man dnsutils ripgrep fd fzf lua53 openssh libandroid-support zoxide lsd bat wget which htop fastfetch neofetch git-delta jq nodejs'
 # redhat,centos
 pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang rust cargo man dnsutils python3-pip clang-format ncurses ncurses-devel git-delta jq'
 # debian,ubuntu
@@ -8,7 +8,7 @@ pkgs_aptget='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix
 # arch
 pkgs_pacman='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python ruby go man dnsutils screenfetch fastfetch neofetch lolcat lsd exa git-delta'
 # mac
-pkgs_brew='zsh lsd exa rust git-delta ripgrep bat duf lolcat cowsay jq fastfetch neofetch'
+pkgs_brew='zsh zoxide lsd exa rust git-delta ripgrep bat duf lolcat cowsay jq fastfetch neofetch'
 sudo_cmd='sudo'
 
 if [[ $(uname -o 2>/dev/null) == 'Android' ]]; then
