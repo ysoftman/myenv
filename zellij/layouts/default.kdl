@@ -123,13 +123,13 @@ layout {
     }
     // zellij setup --dump-swap-layout default | pbcopy
     tab_template name="ui" {
-    pane size=1 borderless=true {
-        plugin location="tab-bar"
-    }
-    children
-    pane size=1 borderless=true {
-        plugin location="status-bar"
-    }
+        pane size=1 borderless=true {
+            plugin location="tab-bar"
+        }
+        children
+        pane size=1 borderless=true {
+            plugin location="status-bar"
+        }
     }
     // PreviousSwapLayout/NextSwapLayout 으로 사용될 layout
     swap_tiled_layout name="vertical" {

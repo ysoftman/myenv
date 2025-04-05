@@ -1,4 +1,10 @@
 layout {
+    pane size=1 borderless=true {
+        plugin location="zellij:compact-bar" {
+            format_left "{mode} #[fg=#89B4FA,bold]{session}"
+            format_center "{tabs}"
+        }
+    }
     pane split_direction="vertical" {
         pane split_direction="horizontal" {
             pane {
@@ -14,8 +20,15 @@ layout {
             pane command="cmatrix"
         }
     }
+    floating_panes {
+        pane {
+        }
+    }
     pane size=1 borderless=true {
-        plugin location="zellij:compact-bar"
+        plugin location="zellij:status-bar" {
+            format_left "{mode} #[fg=#89B4FA,bold]{session}"
+            format_center "{tabs}"
+        }
     }
 }
 
