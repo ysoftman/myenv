@@ -1,6 +1,14 @@
 layout {
     pane split_direction="vertical" {
-        pane command="htop"
+        pane split_direction="horizontal" {
+            pane {
+                command "astroterm"
+                args "--color" "--constellations" "--speed" "1000" "--fps" "64" "--city" "seoul"
+            }
+            pane {
+                command "asciiquarium"
+            }
+        }
         pane split_direction="horizontal" {
             pane command="cacafire"
             pane command="cmatrix"
