@@ -66,6 +66,18 @@ return {
     })
     table.insert(opts.sections.lualine_x, 1, {
       function()
+        -- toggle autoformat: leader > u > f
+        return vim.g.autoformat and "autoformat on" or "autoformat off"
+      end,
+      color = function()
+        -- return { bg = "#eba0ac", fg = black }
+        return { bg = "#e27333", fg = black }
+      end,
+      separator = { left = "", right = "" },
+    })
+    table.insert(opts.sections.lualine_x, 1, {
+      function()
+        -- toggle autoformat: leader > u > s
         return vim.wo.spell and "SPELL" or "NOSPELL"
       end,
       color = function()
