@@ -1,6 +1,7 @@
 #!/bin/bash
 # ysoftman
-# backup my settings
+
+# backup my vscode settings
 mkdir -p vscode_settings
 if [[ $(uname -a | grep -i microsoft) ]]; then
     # backup vscode settings
@@ -14,34 +15,33 @@ fi
 # backup my brew installed package list and make install script
 if which brew; then
     install_file="installbrew.sh"
-    echo '#!/bin/bash' > ${install_file}
-    printf "brew tap homebrew/cask-fonts\n" >> ${install_file}
-    printf "brew install " >> ${install_file}
-    brew list | sort | tr '\n' ' ' >> ${install_file}
+    echo '#!/bin/bash' >${install_file}
+    printf "brew tap homebrew/cask-fonts\n" >>${install_file}
+    printf "brew install " >>${install_file}
+    brew list | sort | tr '\n' ' ' >>${install_file}
 fi
 
 # backup my pip installed package list and make install script
-PIP='pip'
-which ${PIP}
-if [ $? -ne 0 ]; then
-    PIP='pip2'
-    which ${PIP}
-    if [ $? -ne 0 ]; then
-        PIP='pip3'
-        which ${PIP}
-        if [ $? -ne 0 ]; then
-            echo 'there is no pip'
-            PIP='NONE'
-        fi
-    fi
+if command -v uv >/dev/null 2>&1; then
+    PIP="uv pip"
 fi
+
 if [[ $PIP != 'NONE' ]]; then
     install_file="installpip.sh"
-    echo '#!/bin/bash' > ${install_file}
-    echo 'sudo pip install --upgrade pip' >> ${install_file}
-    printf "sudo pip install " >> ${install_file}
-    echo "PIP=${PIP}"
-    ${PIP} list | sed -n '3,$p' | awk '{print $1}' | tr '\n' ' ' >> ${install_file}
+    pip_list=$(${PIP} list | sed -n '3,$p' | awk '{print $1}' | tr '\n' ' ')
+    cat <<zzz >${install_file}
+#!/bin/bash
+# uv(extremely fast Python package and project manager)
+# https://github.com/astral-sh/uv
+PIP="pip"
+if command -v uv >/dev/null 2>&1; then
+    PIP="uv pip"
+    additional_for_uv_pip_option="--system"
+fi
+\${PIP} install --upgrade pip \${additional_for_uv_pip_option}
+\${PIP} install $pip_list \${additional_for_uv_pip_option}
+zzz
+
 fi
 # --upgrade 필요시에만 사용
 # echo ' --upgrade' >> ${install_file}
@@ -57,4 +57,3 @@ fi
 
 # cargo packages 는 installcargo.sh 로 관리
 # vim plugins 는 .vimrc 로 관리
-
