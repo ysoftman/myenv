@@ -31,9 +31,12 @@ if [[ $PIP != 'NONE' ]]; then
     pip_list=$(${PIP} list | sed -n '3,$p' | awk '{print $1}' | tr '\n' ' ')
     cat <<zzz >${install_file}
 #!/bin/bash
+# pip 가 없을때 설치
+# python -m ensurepip --upgrade
+# python -m pip install --upgrade pip
+PIP="pip"
 # uv(extremely fast Python package and project manager)
 # https://github.com/astral-sh/uv
-PIP="pip"
 if command -v uv >/dev/null 2>&1; then
     PIP="uv pip"
     additional_for_uv_pip_option="--system"
