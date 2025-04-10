@@ -22,6 +22,9 @@ layout {
     }
     floating_panes {
         pane {
+            // go install github.com/maaslalani/confetty@latest
+            // pance 시작시 실행하면 에러 발생
+            // command "confetty"
         }
     }
     pane size=1 borderless=true {
