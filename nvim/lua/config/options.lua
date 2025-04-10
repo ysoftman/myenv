@@ -4,7 +4,7 @@
 vim.g.mapleader = ","
 vim.g.maplocalleader = "\\"
 
-vim.g.autoformat = true
+vim.diagnostic.enable(true)
 
 -- LazyVim auto format
 vim.g.autoformat = true
