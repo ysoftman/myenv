@@ -70,19 +70,12 @@ return {
         helm_ls = {
           on_attach = function(client, bufnr)
             local bufname = vim.api.nvim_buf_get_name(bufnr)
-            -- helm temlate 등에서는 yaml 검증과 안 맞는 경우가 있어 비활성화
-            -- *.yaml.tpl 파일에서 validate 비활성화
-            -- */temlates?/*.ya?ml 파일에서 validate 비활성화
-            -- Lua에서 string.match, string.gmatch, string.gsub 등에서 사용하는 정규식은 우리가 흔히 말하는 일반 정규표현식(Perl-style regex)과 다릅니다.
-            -- ex) 실제 . 문자 매칭lua:	%.	perl-style: \.
-            -- :messages 로 print출력 확인
-            -- print("[helm_ls].............", "ysoftman helm_ls debugging", bufname)
+            -- helm_ls 는 mason-lspconfig 에서 관리되는 패키지다.
+            -- helm_ls 에서 yamlls 를 통합하고 있다.
+            -- yamlls 가 helm template 파일을 진단하면 에러 발생하여 스킵할 수 있도록 한다.
             if bufname:match("%.yaml%.tpl$") or bufname:match(".*/templates?/.*%.ya?ml.*") then
               client.stop()
               vim.notify("[helm_ls] " .. bufname .. "\n파일에 대해 비활성화합니다.", vim.log.levels.INFO)
-              -- client.server_capabilities.documentFormattingProvider = false
-              -- 현재 버퍼 파일 타임을 helm 으로 설정
-              -- vim.bo.filetype = "helm"
               return
             end
             vim.notify("[helm_ls] " .. bufname .. "\n파일에 대해 활성화합니다.", vim.log.levels.INFO)
