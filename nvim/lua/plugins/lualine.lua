@@ -64,10 +64,11 @@ return {
       end,
       separator = { left = "", right = "" },
     })
+    -- 아이콘 참조: https://www.nerdfonts.com/cheat-sheet > 검색 > icon 복사
     table.insert(opts.sections.lualine_x, 1, {
       function()
         -- toggle diagnostic: leader > u > d
-        return vim.diagnostic.is_enabled() and "diagnostic on" or "diagnostic off"
+        return vim.diagnostic.is_enabled() and " " or " "
       end,
       color = function()
         return { bg = "#eba0ac", fg = black }
@@ -77,7 +78,7 @@ return {
     table.insert(opts.sections.lualine_x, 1, {
       function()
         -- toggle autoformat: leader > u > f
-        return vim.g.autoformat and "autoformat on" or "autoformat off"
+        return vim.g.autoformat and "󰉶 " or "󰉶 "
       end,
       color = function()
         return { bg = "#e27333", fg = black }
@@ -87,7 +88,7 @@ return {
     table.insert(opts.sections.lualine_x, 1, {
       function()
         -- toggle autoformat: leader > u > s
-        return vim.wo.spell and "SPELL" or "NOSPELL"
+        return vim.wo.spell and " " or "󰓆 "
       end,
       color = function()
         return { bg = purple, fg = black }
