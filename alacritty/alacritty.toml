@@ -1,3 +1,4 @@
+# https://alacritty.org/config-alacritty.html
 [general]
 import = ["/Users/ysoftman/.config/alacritty-colorscheme/themes/argonaut.toml"]
 #import = ["/Users/ysoftman/.config/alacritty-colorscheme/themes/monokai_charcoal.toml"]
@@ -49,6 +50,8 @@ vi_mode_style.shape = "block"
 vi_mode_style.blinking = "off"
 
 [[keyboard.bindings]]
+# \u001b = 0x1b = ESC
+# alt+let 왼쭉으로 커서 이동
 chars = "\u001Bb"
 key = "Left"
 mods = "Alt|Option"
@@ -64,7 +67,8 @@ key = "N"
 mods = "Command"
 
 [[keyboard.bindings]]
-action = "None"
+action = "Quit"
+# action = "None"  # mac에선 cmd+q 가 앱 종료가 None 설정이 의미 없다.
 key = "Q"
 mods = "Command"
 
