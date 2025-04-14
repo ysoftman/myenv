@@ -2,6 +2,7 @@ layout {
     // pane size=1 borderless=true {
     //     plugin location="tab-bar"
     // }
+    // 아이콘 참조: https://www.nerdfonts.com/cheat-sheet > 검색 > icon 복사
     pane size=1 borderless=true {
         plugin location="https://github.com/dj95/zjstatus/releases/latest/download/zjstatus.wasm" {
             // formatting can be done with #[..]
@@ -89,18 +90,18 @@ layout {
             // timeout 으로 1초를 넘기면 종료하도록 한다.
             // timeout 명령어는 brew install coreutil 로 설치
             command_cpu_command    "timeout 1 bash -c \"top -l 1 -stats pid,command,cpu | awk '/CPU usage/ {print $3}'\""
-            command_cpu_format     "#[bg=$bg0,fg=$red]#[fg=$crust,bg=$red]🔲#[bg=$surface1,fg=$red,bold] {stdout}#[bg=$bg0,fg=$surface1]"
+            command_cpu_format     "#[bg=$bg0,fg=$red]#[fg=$crust,bg=$red] #[bg=$surface1,fg=$red,bold] {stdout}#[bg=$bg0,fg=$surface1]"
             command_cpu_interval   "5"
             command_cpu_rendermode "static"
 
 
             command_mem_command    "timeout 1 bash -c \"top -l 1 -stats pid,command,cpu | awk '/PhysMem/ {print $2,$3}'\""
-            command_mem_format     "#[bg=$bg0,fg=$green]#[fg=$crust,bg=$green]📋#[bg=$surface1,fg=$green,bold] {stdout}#[bg=$bg0,fg=$surface1]"
+            command_mem_format     "#[bg=$bg0,fg=$green]#[fg=$crust,bg=$green] #[bg=$surface1,fg=$green,bold] {stdout}#[bg=$bg0,fg=$surface1]"
             command_mem_interval   "10"
             command_mem_rendermode "static"
 
             command_disk_command    "bash -c \"df -h / | awk 'NR==2 {print $4}'\""
-            command_disk_format     "#[bg=$bg0,fg=$sky]#[fg=$crust,bg=$sky]💾#[bg=$surface1,fg=$sky,bold] {stdout}#[bg=$bg0,fg=$surface1]"
+            command_disk_format     "#[bg=$bg0,fg=$sky]#[fg=$crust,bg=$sky]󰋊 #[bg=$surface1,fg=$sky,bold] {stdout}#[bg=$bg0,fg=$surface1]"
             command_disk_interval   "60"
             command_disk_rendermode "static"
 
@@ -111,12 +112,12 @@ layout {
             // command_host_rendermode "static"
 
             command_user_command    "whoami"
-            command_user_format     "#[bg=$bg0,fg=$flamingo]#[fg=$crust,bg=$flamingo]👤#[bg=$surface1,fg=$flamingo,bold] {stdout}#[bg=$bg0,fg=$surface1]"
+            command_user_format     "#[bg=$bg0,fg=$flamingo]#[fg=$crust,bg=$flamingo]󰀄 #[bg=$surface1,fg=$flamingo,bold] {stdout}#[bg=$bg0,fg=$surface1]"
             command_user_interval   "10"
             command_user_rendermode "static"
 
             // datetime          "{format}"
-            datetime          "#[bg=$bg0,fg=$mauve]#[bg=$mauve,fg=$crust]📆#[bg=$surface1,fg=$mauve,bold] {format} #[bg=$bg0,fg=$surface1]"
+            datetime          "#[bg=$bg0,fg=$mauve]#[bg=$mauve,fg=$crust] #[bg=$surface1,fg=$mauve,bold] {format} #[bg=$bg0,fg=$surface1]"
             datetime_format   "%Y-%m-%d 󰅐 %H:%M"
             datetime_timezone "Asia/Seoul"
         }
