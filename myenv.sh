@@ -212,6 +212,11 @@ if [ -d "$myenv_path/emoji-cli" ]; then
     fi
 fi
 
+if [[ -z "$BROWSER" && "$OSTYPE" == darwin* ]]; then
+    export BROWSER='open'
+fi
+export LESS='-g -i -M -R -S -w -X -z-4'
+export PAGER='less'
 export EDITOR=vim
 export VISUAL=vim
 export ANSIBLE_NOCOWS=1 # disable cowsay message when using ansible
