@@ -20,7 +20,7 @@ fi
 multiplexer="zellij"
 eval "type ${multiplexer}"
 if [[ $? == 0 && -z $multiplexer_already_started ]]; then
-    # 터미널 시작시 바로 tmux 전환시 signal 6(abort) 되는 환경도 있어 물어본다.
+    # 터미널 시작시 바로 tmux 전환하면 signal 6(abort) 되는 환경도 있어 물어본다.
     echo "start ${multiplexer}? (y/n, default:y)"
     read answer
     if [ -z $answer ] || [ $(echo $answer | tr '[:upper:]' '[:lower:]') = 'y' ]; then
