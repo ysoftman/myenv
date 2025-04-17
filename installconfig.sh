@@ -63,6 +63,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [ -h ~/.gitignore_global ] && unlink ~/.gitignore_global
 [ -h ~/.bashrc ] && unlink ~/.bashrc
 [ -h ~/.zshrc ] && unlink ~/.zshrc
+[ -h ~/.zprofile ] && unlink ~/.zprofile
 [ -h ~/.vimrc ] && unlink ~/.vimrc
 [ -h ${XDG_CONFIG_HOME}/nvim ] && unlink ${XDG_CONFIG_HOME}/nvim
 [ -h ~/.tmux.conf ] && unlink ~/.tmux.conf
@@ -84,6 +85,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [ -f ~/.gitignore_global ] && mv -fv ~/.gitignore_global ~/.gitignore_global.bak
 [ -f ~/.bashrc ] && mv -fv ~/.bashrc ~/.bashrc.bak
 [ -f ~/.zshrc ] && mv -fv ~/.zshrc ~/.zshrc.bak
+[ -f ~/.zprofile ] && mv -fv ~/.zprofile ~/.zprofile.bak
 [ -f ~/.vimrc ] && mv -fv ~/.vimrc ~/.vimrc.bak
 [ -f ${XDG_CONFIG_HOME}/nvim/init.vim ] && mv -fv ${XDG_CONFIG_HOME}/nvim ${XDG_CONFIG_HOME}/nvim.bak
 [ -f ~/.tmux.conf ] && mv -fv ~/.tmux.conf ~/.tmux.conf.bak
@@ -107,6 +109,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 ln -sf ${PWD}/.gitignore_global ~/.gitignore_global
 ln -sf ${PWD}/.bashrc ~/.bashrc
 ln -sf ${PWD}/.zshrc ~/.zshrc
+ln -sf ${PWD}/.zprofile ~/.zprofile
 ln -sf ${PWD}/.vimrc ~/.vimrc
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/nvim ${XDG_CONFIG_HOME}/nvim
 ln -sf ${PWD}/.tmux.conf ~/.tmux.conf
