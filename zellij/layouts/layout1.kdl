@@ -26,6 +26,7 @@ layout {
             // PATH 환경변수도 설정정이라 full path 명시
             // go install github.com/maaslalani/confetty@latest
             command "/Users/ysoftman/workspace/gopath/bin/confetty"
+            args "fireworks"
         }
     }
     pane size=1 borderless=true {
