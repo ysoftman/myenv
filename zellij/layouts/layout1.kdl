@@ -22,9 +22,10 @@ layout {
     }
     floating_panes {
         pane {
+            // 새로운 zellij layout 실행시 prompt(interactive) 시작되지 않기 때문에 .zprofile 만 로딩되고 .zshrc 을 로딩되지 않는다.
+            // PATH 환경변수도 설정정이라 full path 명시
             // go install github.com/maaslalani/confetty@latest
-            // pance 시작시 실행하면 에러 발생
-            // command "confetty"
+            command "/Users/ysoftman/workspace/gopath/bin/confetty"
         }
     }
     pane size=1 borderless=true {
