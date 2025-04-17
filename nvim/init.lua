@@ -36,7 +36,7 @@ amenu PopUp.Open\ in\ web\ browser  gx
 -- https://neovim.io/doc/user/lua.html#vim.keymap.set()
 --cmd-s 저장,  cmd-c/cmd-p 로 복붙하기
 vim.keymap.set("n", "<D-s>", ":w<CR>") -- Save
--- mac command+c 가시스템 레벨에서 복사 기능으로 할당되어 neovim 에서 <D-c> 를 가로채지 못할 수있어 alt-c 로 사용
+-- mac command+c 가 시스템 레벨에서 복사 기능으로 할당되어 terminal neovim 으로 <D-c> 가 전달되지 못할 수있어 alt-c 로 사용
 vim.keymap.set("v", "<M-c>", '"+y') -- Copy
 vim.keymap.set("n", "<D-v>", '"+P') -- Paste normal mode
 vim.keymap.set("v", "<D-v>", '"+P') -- Paste visual mode
