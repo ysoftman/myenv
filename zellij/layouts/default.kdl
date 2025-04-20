@@ -100,8 +100,8 @@ layout {
             command_mem_interval   "10"
             command_mem_rendermode "static"
 
-            command_disk_command    "bash -c \"df -h / | awk 'NR==2 {print $4}'\""
-            command_disk_format     "#[bg=$bg0,fg=$sky]#[fg=$crust,bg=$sky]󰋊 #[bg=$surface1,fg=$sky,bold] {stdout}#[bg=$bg0,fg=$surface1]"
+            command_disk_command    "timeout 1 bash -c \"df -h / | awk 'NR==2 {print $4}'\""
+            command_disk_format     "#[bg=$bg0,fg=$sky]#[fg=$crust,bg=$sky]󰋊 #[bg=$surface1,fg=$sky,bold] {stdout} avail#[bg=$bg0,fg=$surface1]"
             command_disk_interval   "60"
             command_disk_rendermode "static"
 
@@ -111,7 +111,7 @@ layout {
             // command_host_interval   "0"
             // command_host_rendermode "static"
 
-            command_user_command    "whoami"
+            command_user_command    "timeout 1 bash -c \"whoami\""
             command_user_format     "#[bg=$bg0,fg=$flamingo]#[fg=$crust,bg=$flamingo]󰀄 #[bg=$surface1,fg=$flamingo,bold] {stdout}#[bg=$bg0,fg=$surface1]"
             command_user_interval   "10"
             command_user_rendermode "static"
