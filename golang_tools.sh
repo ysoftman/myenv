@@ -4,13 +4,14 @@ go_fumpt_files() {
     # gofumpt 는 gofmt, goimports 기능을 포함하면서 더 엄격한 포맷팅 규칙을 적용하는 확장된 포맷팅 방식이다.
     # go install mvdan.cc/gofumpt@latest
     # .go 파일들에 대해 포맷팅
-    gofumpt -w -l "$(fd --type file .go)"
+    # 참고로 "$(fd --type file .go)" 로 묶으면  file name too long 에러 발생
+    gofumpt -w -l $(fd --type file .go)
 }
 
 go_pls_check() {
     # go install golang.org/x/tools/gopls@latest
     # gopls 체크사항 확인
-    gopls check "$(fd --type file .go)"
+    gopls check $(fd --type file .go)
 }
 
 go_modernize() {
