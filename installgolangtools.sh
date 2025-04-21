@@ -49,7 +49,7 @@ go install golang.org/x/tools/cmd/godex@v0.30.0
 go install golang.org/x/tools/cmd/godoc@v0.30.0
 go install mvdan.cc/gofumpt@v0.7.0
 go install golang.org/x/tools/cmd/goimports@v0.30.0
-go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.4
+go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.0.2
 go install github.com/segmentio/golines@v0.12.2
 go install github.com/fatih/gomodifytags@v1.17.0
 go install golang.org/x/tools/internal/modindex/gomodindex@v0.30.0
