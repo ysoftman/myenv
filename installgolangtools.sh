@@ -42,7 +42,6 @@ go install github.com/ramya-rao-a/go-outline@v0.0.0-20210608161538-9736a4bde949
 go install github.com/acroca/go-symbols@v0.1.1
 go install golang.org/dl/go1.22.11@v0.0.0-20250401154141-6c7fc191c4d8
 go install github.com/stamblerre/gocode@v1.0.0
-go install github.com/stamblerre/gocode@v1.0.0
 go install github.com/axw/gocov/gocov@v1.2.1
 go install github.com/matm/gocov-html/cmd/gocov-html@v1.4.0
 go install github.com/rogpeppe/godef@v1.1.2
