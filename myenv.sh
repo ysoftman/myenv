@@ -29,6 +29,10 @@ elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
         # termux 에서 prezto 사용시 pmodload: no such module: prompt git ... 등 모듈로딩 에러 발생
         # oh-my-zsh 사용
         source "$HOME/.oh-my-zsh/templates/zshrc.zsh-template"
+        # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+        # ZSH_THEME="robbyrussell"
+        # ZSH_THEME="agnoster"
+        ZSH_THEME="bira"
     else
         # prezto 사용
         source "$HOME/.zprezto/init.zsh"
