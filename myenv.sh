@@ -28,11 +28,15 @@ elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
     if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
         # termux 에서 prezto 사용시 pmodload: no such module: prompt git ... 등 모듈로딩 에러 발생
         # oh-my-zsh 사용
-        source "$HOME/.oh-my-zsh/templates/zshrc.zsh-template"
+        # source "$HOME/.oh-my-zsh/templates/zshrc.zsh-template"
+        export ZSH="$HOME/.oh-my-zsh"
+        plugins=(git)
         # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
         # ZSH_THEME="robbyrussell"
         # ZSH_THEME="agnoster"
         ZSH_THEME="bira"
+        # ZSH_THEME="fino-time"
+        source $ZSH/oh-my-zsh.sh
     else
         # prezto 사용
         source "$HOME/.zprezto/init.zsh"
