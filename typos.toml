@@ -1,11 +1,21 @@
 # typos 검사 제외 패턴
 [default]
+# 다음 식별자들은 오타가 아님
 extend-ignore-identifiers-re = [
   # *sigh* this just isn't worth the cost of fixing
   "iterm",
   "serie",
 ]
 
+# 오타 제외 regexp 패턴
+extend-ignore-re = [
+  'mpkgs\["whome"\]="whome"',
+  "noice.nvim",
+  "techer.open-in-browser",
+  # [a1b2c3d](https://...)
+  '\[[a-z0-9]{7}\]',
+]
+
 # typos 검사 제외파일
 [files]
-extend-exclude = ["go.mod", "go.sum", "*lock.json"]
+extend-exclude = ["go.mod", "go.sum", "*lock.json", "kitty/*"]
