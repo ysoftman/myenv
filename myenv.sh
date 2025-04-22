@@ -167,7 +167,7 @@ unset findcmd
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # export FORGIT_PAGER="less"
-export FORGIT_PAGER='delta --paging=never --width=${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
+export FORGIT_PAGER="delta --paging=never --width=${FZF_PREVIEW_COLUMNS:-$COLUMNS}"
 
 # mac 에선 yarn bin /opt/homebrew/bin 으로 설정되어 있어 tidy_path 실행전에 선언
 export PATH=$(yarn global bin 2>/dev/null):$PATH
