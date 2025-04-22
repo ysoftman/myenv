@@ -22,7 +22,6 @@ go install golang.org/x/tools/cmd/deadcode@v0.32.0
 go install golang.org/x/tools/go/analysis/passes/defers/cmd/defers@v0.32.0
 go install golang.org/x/tools/cmd/digraph@v0.32.0
 go install github.com/go-delve/delve/cmd/dlv@v1.24.2
-go install github.com/go-delve/delve/cmd/dlv@v1.7.3-0.20211026171155-b48ceec161d5
 go install golang.org/x/tools/cmd/eg@v0.32.0
 go install github.com/kisielk/errcheck@v1.9.0
 go install golang.org/x/tools/go/analysis/passes/fieldalignment/cmd/fieldalignment@v0.32.0
