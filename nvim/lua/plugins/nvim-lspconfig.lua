@@ -92,7 +92,7 @@ return {
           },
           on_attach = function(client, bufnr)
             local bufname = vim.api.nvim_buf_get_name(bufnr)
-            -- helm temlate 등에서는 yaml 검증과 안 맞는 경우가 있어 비활성화
+            -- helm template 등에서는 yaml 검증과 안 맞는 경우가 있어 비활성화
             -- *.yaml.tpl 파일에서 validate 비활성화
             -- */temlates?/*.ya?ml 파일에서 validate 비활성화
             -- Lua에서 string.match, string.gmatch, string.gsub 등에서 사용하는 정규식은 우리가 흔히 말하는 일반 정규표현식(Perl-style regex)과 다릅니다.
