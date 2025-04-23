@@ -356,7 +356,8 @@ alias zellij_dump='zellij setup --dump-layout default >! ${myenv_path}/zellij/la
 
 alias macinfo="system_profiler SPHardwareDataType | sed 's/^[ \t]*//'; \
     sw_vers; echo ""; \
-    sysctl -a | rg -i machdep.cpu"
+    sysctl -a | rg -i machdep.cpu; \
+    networksetup -listallhardwareports"
 
 # load my functions
 source "${myenv_path}/rename_files.sh"
