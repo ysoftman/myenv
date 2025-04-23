@@ -21,22 +21,6 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "escape",
-                                    "modifiers": {
-                                        "mandatory": ["command"],
-                                        "optional": ["any"]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "grave_accent_and_tilde",
-                                        "modifiers": ["command"]
-                                    }
-                                ],
-                                "type": "basic"
                             }
                         ]
                     }
@@ -59,13 +43,7 @@
                         "product_id": 33398,
                         "vendor_id": 9306
                     },
-                    "ignore": false,
-                    "simple_modifications": [
-                        {
-                            "from": { "key_code": "right_control" },
-                            "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
-                        }
-                    ]
+                    "ignore": false
                 },
                 {
                     "identifiers": {
