@@ -43,6 +43,7 @@ code --install-extension mrmlnc.vscode-apache
 code --install-extension ms-azuretools.vscode-docker
 code --install-extension ms-dotnettools.csharp
 code --install-extension ms-dotnettools.vscode-dotnet-runtime
+code --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
 code --install-extension ms-playwright.playwright
 code --install-extension ms-python.black-formatter
 code --install-extension ms-python.debugpy
