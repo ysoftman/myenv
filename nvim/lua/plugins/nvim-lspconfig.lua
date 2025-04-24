@@ -67,20 +67,9 @@ return {
             clangdFileStatus = true,
           },
         },
-        helm_ls = {
-          on_attach = function(client, bufnr)
-            local bufname = vim.api.nvim_buf_get_name(bufnr)
-            -- helm_ls 는 mason-lspconfig 에서 관리되는 패키지다.
-            -- helm_ls 에서 yamlls 를 통합하고 있다.
-            -- yamlls 가 helm template 파일을 진단하면 에러 발생하여 스킵할 수 있도록 한다.
-            if bufname:match("%.yaml%.tpl$") or bufname:match(".*/templates?/.*%.ya?ml.*") then
-              client.stop()
-              vim.notify("[helm_ls] " .. bufname .. "\n파일에 대해 비활성화합니다.", vim.log.levels.INFO)
-              return
-            end
-            vim.notify("[helm_ls] " .. bufname .. "\n파일에 대해 활성화합니다.", vim.log.levels.INFO)
-          end,
-        },
+        -- helm_ls 는 mason-lspconfig 에서 관리되는 패키지다.
+        -- helm_ls 에서 yamlls 를 통합하고 있다.
+        helm_ls = {},
         yamlls = {
           settings = {
             yaml = {
@@ -104,7 +93,6 @@ return {
               vim.notify("[yamlls] " .. bufname .. "\n파일에 대해 비활성화합니다.", vim.log.levels.INFO)
               return
             end
-            vim.notify("[yamlls] " .. bufname .. "\n파일에 대해 활성화합니다.", vim.log.levels.INFO)
           end,
         },
         gopls = {
