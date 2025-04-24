@@ -144,6 +144,12 @@ nnoremap <leader>wnodiff :windo diffoff<enter>
 " 현재 파일을 utf-8 로 저장하고 다시 로드
 nnoremap <leader>wutf8 :w ++enc=utf-8 %<enter>:e!<enter>
 nnoremap <leader>wcp949 :w ++enc=cp949 %<enter>:e!<enter>
+" 블럭 ()  로 감싸기
+vnoremap <leader>( c()<esc>P
+" 블럭 {}  로 감싸기
+vnoremap <leader>{ c{}<esc>P
+" 블럭 []  로 감싸기
+vnoremap <leader>[ c[]<esc>P
 
 autocmd filetype javascript setlocal tabstop=2 shiftwidth=2
 autocmd filetype json setlocal tabstop=2 shiftwidth=2 foldmethod=syntax nofoldenable
