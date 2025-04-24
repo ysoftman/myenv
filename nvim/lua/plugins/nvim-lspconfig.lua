@@ -69,7 +69,13 @@ return {
         },
         -- helm_ls 는 mason-lspconfig 에서 관리되는 패키지다.
         -- helm_ls 에서 yamlls 를 통합하고 있다.
-        helm_ls = {},
+        helm_ls = {
+          on_attach = function(client, bufnr)
+            vim.bo[bufnr].tabstop = 2
+            vim.bo[bufnr].shiftwidth = 2
+            vim.bo[bufnr].expandtab = true
+          end,
+        },
         yamlls = {
           settings = {
             yaml = {
