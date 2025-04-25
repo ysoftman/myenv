@@ -137,11 +137,96 @@ function set_kube_prompt {
     fi
 }
 
+function fzf-rg-widget {
+    local RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+    local FZF_INITIAL_QUERY="${*:-}"
+    fzf --ansi --query "$FZF_INITIAL_QUERY" \
+        --bind "start:reload:$RG_PREFIX {q}" \
+        --color "hl:underline,hl+:underline:reverse" \
+        --prompt 'rg+fzf> ' \
+        --delimiter : \
+        --preview 'bat --color=always {1} --highlight-line {2}' \
+        --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
+        --bind 'enter:become(nvim {1} +{2})'
+    zle reset-prompt
+}
+# fzf 설정
+function set_fzf {
+    # fzf 가 설치되어 있다면 kubectx 실행시 fzf 선택 메뉴가 나타난다.
+    # fzf 메뉴 없이 kubectx 로 리스트만 보려면
+    # KUBECTX_IGNORE_FZF=1 kubectx
+    # 또는
+    # kubectx | cat
+
+    if [[ $current_shell == "zsh" ]]; then
+        # fzf-rg-widget 함수 등록(https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html)
+        zle -N fzf-rg-widget
+        bindkey "^f" fzf-rg-widget
+
+        # zellij 에서 ctrl-t 가 tab 명령 단축키라 FZF_CTRL_T_COMMAND(ctrl-t)와 중복된다.
+        # alt-t 로도 FZF_CTRL_T_COMMAND(fzf-file-widget) 사용할 수 있도록 등록한다.
+        bindkey "^[t" fzf-file-widget
+
+        # ohmyzsh 의 자체 ctrl-r(history)를 fzf-history-widget 사용하기 위해 키 바인딩
+        bindkey "^r" fzf-history-widget
+
+        source "${myenv_path}/fzf-git.sh"
+        # fzf-git.sh 에선 ctrl-g ctrl-b 로 사용하는데, zellij 와 중복되어 alt-b 로도 바인딩함
+        # alt-b 는 alt-left(showkey 로 확인)라 alt-B 로 사용하자
+        #bindkey "^[b" "fzf-git-branches-widget"
+        bindkey "^[B" fzf-git-branches-widget
+    fi
+
+    ## fzf default options
+    # --multi(-m) : tab(select/deselect forward) shift-tab(select/deselect backward)
+    # https://github.com/junegunn/fzf/wiki/Color-schemes
+    export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border --exact
+--color=dark
+--color=fg:-1,bg:-1,hl:#c678dd,fg+:#ffffff,bg+:#4b5263,hl+:#d858fe
+--color=info:#98c379,prompt:#61afef,pointer:#be5046,marker:#e5c07b,spinner:#61afef,header:#61afef
+'
+    # fzf ctrl-t(파일찾기)시
+    # 숨김파일도 보기
+    findcmd='find'
+    export FZF_CTRL_T_COMMAND="$findcmd . -type f"
+    if which fd >/dev/null 2>&1; then
+        findcmd='fd'
+        export FZF_CTRL_T_COMMAND="$findcmd --hidden --no-ignore"
+    fi
+    # fzf vim 에서 FZF_DEFAULT_COMMAND 를 사용함
+    export FZF_DEFAULT_COMMAND=$FZF_CTRL_T_COMMAND
+
+    # fzf preview window
+    catcmd='cat {}'
+    if which bat >/dev/null 2>&1; then
+        export BAT_THEME="TwoDark" # vim fzf preview
+        batcmd="bat --plain --color always"
+        catcmd="${batcmd} {}"
+        alias bat="${batcmd}"
+    fi
+    export FZF_CTRL_T_OPTS="--prompt '$findcmd+fzf> ' \
+--preview '($catcmd || tree -C {}) 2> /dev/null | head -200'
+"
+    # fzf ctrl-r(히스토리)시
+    export FZF_CTRL_R_OPTS="--prompt 'fzf history> '"
+    unset catcmd
+    unset findcmd
+
+    # export FORGIT_PAGER="less"
+    export FORGIT_PAGER="delta --paging=never --width=${FZF_PREVIEW_COLUMNS:-$COLUMNS}"
+
+    # $(brew --prefix)/opt/fzf/install 실행하면 .fzf.bash .fzf.zsh 파일이 생긴다.
+    # .bashrc .zshrc 에 맞게 다음이 자동으로 추가됨
+    # [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+    # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+}
+
 # prezto 사용
 function source_prezto {
     source "$HOME/.zprezto/init.zsh"
     set_alias
     set_kube_prompt
+    set_fzf
 }
 
 # oh-my-zsh 사용
@@ -159,6 +244,7 @@ function source_ohmyzsh {
     source $ZSH/oh-my-zsh.sh
     set_alias
     set_kube_prompt
+    set_fzf
 }
 
 # /etc/profile -> /usr/libexec/path_helper -> /etc/paths 까지 설정 확인시
@@ -197,8 +283,17 @@ echo "myenv_path=$myenv_path"
 
 source "${myenv_path}/colors.sh"
 
-# set XDG_CONFIG_HOME
 export XDG_CONFIG_HOME="$HOME/.config"
+if [[ -z "$BROWSER" && "$OSTYPE" == darwin* ]]; then
+    export BROWSER='open'
+fi
+export LESS='-g -i -M -R -S -w -X -z-4'
+export PAGER='less'
+export EDITOR=vim
+export VISUAL=vim
+export ANSIBLE_NOCOWS=1 # disable cowsay message when using ansible
+# matplotlib on wsl
+export DISPLAY=localhost:0.0
 
 # zsh 환경에서 kubectl 자동 완성
 if [[ $current_shell == "zsh" ]]; then
@@ -226,83 +321,6 @@ if [ -d "${HOME}/.kube" ]; then
     # kubectl config view --flatten > ${HOME}/.kube/z
 fi
 
-# fzf 가 설치되어 있다면 kubectx 실행시 fzf 선택 메뉴가 나타난다.
-# fzf 메뉴 없이 kubectx 로 리스트만 보려면
-# KUBECTX_IGNORE_FZF=1 kubectx
-# 또는
-# kubectx | cat
-
-if [[ $current_shell == "zsh" ]]; then
-    fzf-rg-widget() {
-        local RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
-        local FZF_INITIAL_QUERY="${*:-}"
-        fzf --ansi --query "$FZF_INITIAL_QUERY" \
-            --bind "start:reload:$RG_PREFIX {q}" \
-            --color "hl:underline,hl+:underline:reverse" \
-            --prompt 'rg+fzf> ' \
-            --delimiter : \
-            --preview 'bat --color=always {1} --highlight-line {2}' \
-            --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
-            --bind 'enter:become(nvim {1} +{2})'
-        zle reset-prompt
-    }
-    # fzf-rg-widget 함수 등록(https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html)
-    zle -N fzf-rg-widget
-    bindkey "^f" fzf-rg-widget
-
-    # zellij 에서 ctrl-t 가 tab 명령 단축키라 FZF_CTRL_T_COMMAND(ctrl-t)와 중복된다.
-    # alt-t 로도 FZF_CTRL_T_COMMAND(fzf-file-widget) 사용할 수 있도록 등록한다.
-    bindkey "^[t" fzf-file-widget
-
-    source "${myenv_path}/fzf-git.sh"
-    # fzf-git.sh 에선 ctrl-g ctrl-b 로 사용하는데, zellij 와 중복되어 alt-b 로도 바인딩함
-    # alt-b 는 alt-left(showkey 로 확인)라 alt-B 로 사용하자
-    #bindkey "^[b" "fzf-git-branches-widget"
-    bindkey "^[B" fzf-git-branches-widget
-fi
-
-## fzf default options
-# --multi(-m) : tab(select/deselect forward) shift-tab(select/deselect backward)
-# https://github.com/junegunn/fzf/wiki/Color-schemes
-export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border --exact
---color=dark
---color=fg:-1,bg:-1,hl:#c678dd,fg+:#ffffff,bg+:#4b5263,hl+:#d858fe
---color=info:#98c379,prompt:#61afef,pointer:#be5046,marker:#e5c07b,spinner:#61afef,header:#61afef
-'
-# fzf ctrl-t(파일찾기)시
-# 숨김파일도 보기
-findcmd='find'
-export FZF_CTRL_T_COMMAND="$findcmd . -type f"
-if which fd >/dev/null 2>&1; then
-    findcmd='fd'
-    export FZF_CTRL_T_COMMAND="$findcmd --hidden --no-ignore"
-fi
-# fzf vim 에서 FZF_DEFAULT_COMMAND 를 사용함
-export FZF_DEFAULT_COMMAND=$FZF_CTRL_T_COMMAND
-
-# fzf preview window
-catcmd='cat {}'
-if which bat >/dev/null 2>&1; then
-    export BAT_THEME="TwoDark" # vim fzf preview
-    batcmd="bat --plain --color always"
-    catcmd="${batcmd} {}"
-    alias bat="${batcmd}"
-fi
-export FZF_CTRL_T_OPTS="--prompt '$findcmd+fzf> ' \
---preview '($catcmd || tree -C {}) 2> /dev/null | head -200'
-"
-# fzf ctrl-r(히스토리)시
-export FZF_CTRL_R_OPTS="--prompt 'fzf history> '"
-unset catcmd
-unset findcmd
-# $(brew --prefix)/opt/fzf/install 실행하면 .fzf.bash .fzf.zsh 파일이 생긴다.
-# .bashrc .zshrc 에 맞게 다음이 자동으로 추가됨
-# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# export FORGIT_PAGER="less"
-export FORGIT_PAGER="delta --paging=never --width=${FZF_PREVIEW_COLUMNS:-$COLUMNS}"
-
 # mac 에선 yarn bin /opt/homebrew/bin 으로 설정되어 있어 tidy_path 실행전에 선언
 export PATH=$(yarn global bin 2>/dev/null):$PATH
 
@@ -313,53 +331,6 @@ export PATH=$HOME/nvim-linux-x86_64/bin:$PATH
 # 수동 golang 설치경로
 export PATH=$HOME/go/bin:$PATH
 export GOPATH=$HOME/workspace/gopath
-
-function tidy_path {
-    local temp_path=""
-    for p in $(echo "$PATH" | tr : '\n' | uniq); do
-        if [[ $p == '/opt/homebrew/bin' ]]; then
-            continue
-        elif [[ $p == '/usr/local/bin' ]]; then
-            continue
-        elif [[ $p == "${HOME}/.cargo/bin" ]]; then
-            continue
-        elif [[ $p == "${GOPATH}" ]]; then
-            continue
-        fi
-        if [[ $temp_path == '' ]]; then
-            temp_path=$p
-            continue
-        fi
-        temp_path=$temp_path:$p
-    done
-    # bash, zsh 등에서 git-subcommand 를 현재 디렉토리에서 실행하기 위해
-    # PATH 환경변수 처음이나 마지막에 구분자(:)가 있거나
-    # PATH 중간에 :: 부분이 있어야 한다.
-    # ./a.sh 대신 a.sh 실행 가능해야 한다.
-    # apple silicon 용 brew (/opt/homebrew) 를 우선 실행할 수 있도록 한다.
-    export PATH=$HOME/.cargo/bin:$GOPATH/bin:/opt/homebrew/bin:/opt/homebrew/opt/curl/bin:/usr/local/go/bin:/usr/local/bin::$temp_path
-}
-tidy_path
-
-# emoji-cli 사용
-if [ -d "$myenv_path/emoji-cli" ]; then
-    # 기본 ctrl-s 단축키가 zellij 와 겹쳐서 alt-e 로 변경
-    if [[ $current_shell == "zsh" ]]; then
-        export EMOJI_CLI_KEYBIND="^[e"
-        source "$myenv_path/emoji-cli/emoji-cli.zsh"
-    fi
-fi
-
-if [[ -z "$BROWSER" && "$OSTYPE" == darwin* ]]; then
-    export BROWSER='open'
-fi
-export LESS='-g -i -M -R -S -w -X -z-4'
-export PAGER='less'
-export EDITOR=vim
-export VISUAL=vim
-export ANSIBLE_NOCOWS=1 # disable cowsay message when using ansible
-# matplotlib on wsl
-export DISPLAY=localhost:0.0
 
 if [[ $os_name == *"darwin"* ]]; then
     export LSCOLORS='GxFxCxDxBxegedabagaced'
@@ -399,6 +370,33 @@ elif [[ $os_name == *"linux"* ]]; then
     fi
 fi
 
+function tidy_path {
+    local temp_path=""
+    for p in $(echo "$PATH" | tr : '\n' | uniq); do
+        if [[ $p == '/opt/homebrew/bin' ]]; then
+            continue
+        elif [[ $p == '/usr/local/bin' ]]; then
+            continue
+        elif [[ $p == "${HOME}/.cargo/bin" ]]; then
+            continue
+        elif [[ $p == "${GOPATH}" ]]; then
+            continue
+        fi
+        if [[ $temp_path == '' ]]; then
+            temp_path=$p
+            continue
+        fi
+        temp_path=$temp_path:$p
+    done
+    # bash, zsh 등에서 git-subcommand 를 현재 디렉토리에서 실행하기 위해
+    # PATH 환경변수 처음이나 마지막에 구분자(:)가 있거나
+    # PATH 중간에 :: 부분이 있어야 한다.
+    # ./a.sh 대신 a.sh 실행 가능해야 한다.
+    # apple silicon 용 brew (/opt/homebrew) 를 우선 실행할 수 있도록 한다.
+    export PATH=$HOME/.cargo/bin:$GOPATH/bin:/opt/homebrew/bin:/opt/homebrew/opt/curl/bin:/usr/local/go/bin:/usr/local/bin::$temp_path
+}
+tidy_path
+
 # load my functions
 source "${myenv_path}/rename_files.sh"
 source "${myenv_path}/grep_and_sed.sh"
@@ -424,6 +422,15 @@ if which virtualenv >/dev/null 2>&1; then
     # prompt 속도가 느려지니 필요없으면 제외시키자.
     #eval "$(pyenv virtualenv-init -)"
     export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+fi
+
+# emoji-cli 사용
+if [ -d "$myenv_path/emoji-cli" ]; then
+    # 기본 ctrl-s 단축키가 zellij 와 겹쳐서 alt-e 로 변경
+    if [[ $current_shell == "zsh" ]]; then
+        export EMOJI_CLI_KEYBIND="^[e"
+        source "$myenv_path/emoji-cli/emoji-cli.zsh"
+    fi
 fi
 
 if [[ $TERM == *"alacritty"* ]]; then
