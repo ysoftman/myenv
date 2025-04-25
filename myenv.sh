@@ -113,6 +113,10 @@ function set_alias {
 
 # kube prompt 사용
 function set_kube_prompt {
+    if [[ $PS1 == *"\$(kube_ps1)"* ]]; then
+        echo "duplicate \$(kube_ps1) in \$PS1"
+        return
+    fi
     # brew install kube-ps1 로 설치시 최신 버전아님
     #kube_ps1_path="/usr/local/opt/kube-ps1/share/kube-ps1.sh"
     kube_ps1_path="${myenv_path}/kube-ps1.sh"
