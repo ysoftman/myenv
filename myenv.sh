@@ -123,6 +123,12 @@ function set_kube_prompt {
     if [ -f "${kube_ps1_path}" ]; then
         source "${kube_ps1_path}"
         export KUBE_PS1_SYMBOL_USE_IMG=true
+        # ohmyzsh 'bira' prompt 사용시 첫 glyph 문자로 시작하는 경우 자리 유지하기
+        if [[ $PS1 == "╭─"* ]]; then
+            PS1=${PS1//╭─/}
+            PS1='╭─$(kube_ps1) '$PS1
+            return
+        fi
         # PS1='$(kube_ps1)'$'\n'$PS1  # 2 줄로 표시할때
         PS1='$(kube_ps1) '$PS1
         # kube-ps1 off/on command(function in script)
