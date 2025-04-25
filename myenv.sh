@@ -6,6 +6,151 @@
 # shellcheck disable=SC2139
 # shellcheck disable=SC2045
 
+os_name=$(uname | tr '[:upper:]' '[:lower:]')
+
+function launch_neovide {
+    echo "launch(and disown) neovide" "$@"
+    neovide "$@" &
+    disown
+}
+
+# 현재 하위 모든 git 디렉토리 pull 받기
+function git_pull_all {
+    for dir in $(fd -H -d 2 ".git$" | awk -F "/.git.*$" "{print \$1}"); do
+        printf "${green}[%s]==> $reset_color" "$dir"
+        git -C "$dir" pull
+    done
+}
+
+# cowsay 종류 계속 보이기
+function infinite_cowsay {
+    for (( ; ; )); do for i in $(cowsay -l | sed 1d); do
+        echo $i
+        cowsay -f $i "$(fortune)" | lolcat
+        sleep 0.2
+    done; done
+}
+
+function set_alias {
+    if [[ $(uname -o 2>/dev/null) == 'Android' ]]; then
+        unalias ls 2>/dev/null
+    fi
+    # replacement for ls
+    alias ll='ls -ahl'
+    if [[ $os_name == *"darwin"* ]]; then
+        alias ll='ls -ahlG'
+        alias sn='pmset displaysleepnow'
+    fi
+    if which colorls >/dev/null 2>&1; then
+        alias ll='colorls -ahl'
+    fi
+    if which exa >/dev/null 2>&1; then
+        alias ll='exa -ahl'
+    fi
+    if which lsd >/dev/null 2>&1; then
+        alias ll='lsd -ahl'
+    fi
+    # Phase foo | less -R 와 같이 ansi color 유지해서 파이프라인으로 보낼때
+    # redirection, pipe 등에서 컬러 값이 포함돼 에러가 발생해서 사용하지 않음.
+    # -p, --pretty (--color=always --heading --line-number)
+    # --color=auto (default), redirection, pip --> suppress color
+    #if type rg > /dev/null 2>&1; then
+    #    alias rg='rg -p'
+    #fi
+
+    # zsh 에서 rsync='noglob rsync' 등 glob(*)을 사용 못하게 alias 하고 있어 해제한다.
+    unalias bower 2>/dev/null
+    unalias fc 2>/dev/null
+    unalias find 2>/dev/null
+    unalias ftp 2>/dev/null
+    unalias globurl 2>/dev/null
+    unalias history 2>/dev/null
+    unalias locate 2>/dev/null
+    unalias rake 2>/dev/null
+    unalias rsync 2>/dev/null
+    unalias scp 2>/dev/null
+    unalias sftp 2>/dev/null
+
+    alias vi='vim'
+    alias nv='launch_neovide'
+    alias vimlastfile='vim `(ls -1tr | tail -1)`'
+    alias gopath='cd $GOPATH'
+    alias myenv='cd ${myenv_path}'
+    alias work='cd ${HOME}/workspace'
+    alias testcode='cd ${HOME}/workspace/test_code'
+    alias cutstring='${HOME}/workspace/cutstring/cutstring'
+    alias enchash='${HOME}/workspace/enchash/enchash'
+    alias aleng='${HOME}/workspace/aleng/aleng'
+    alias tig='tig --all'
+    # git issue script --> gh(github) command 로 대체해서 사용하지 않음
+    #alias gitissue="python3 ${myenv_path}/git_issue.py"
+    #alias gitpj="python3 ${myenv_path}/git_project.py"
+    # gh command - 깃헙 호스트별 최초 로그인 필요(gh auth login)
+    alias ghauthstatus='gh auth status'
+    alias ghissueme='gh issue list --assignee @me'
+    alias ghissueview='gh issue view' # 뒤에 이슈번호 아규먼트 명시
+    alias k='kubectl'
+    alias m-c='/usr/local/Cellar/midnight-commander/4.8.28/bin/mc'
+    alias gitpullall=git_pull_all
+    alias duf="duf -theme dark"
+    # ssh 원격 접속시 clear 실행하면 'alacritty': unknown terminal type. 메시지 발생 방지
+    alias ssh='TERM=xterm-256color ssh'
+
+    # apple silicon(arm64)용으로 zsh 실행
+    alias arm='arch -arm64 /bin/zsh'
+
+    # zellij layout 띄우기
+    alias zellij1='zellij --layout ${myenv_path}/zellij/layouts/layout1.kdl'
+    alias zellij2='zellij --layout ${myenv_path}/zellij/layouts/layout2.kdl'
+    # 현재 zellij layout 저장
+    alias zellij_dump='zellij setup --dump-layout default >! ${myenv_path}/zellij/layouts/layout2.kdl'
+
+    alias macinfo="system_profiler SPHardwareDataType | sed 's/^[ \t]*//'; \
+    sw_vers; echo ""; \
+    sysctl -a | rg -i machdep.cpu; \
+    networksetup -listallhardwareports"
+}
+
+# kube prompt 사용
+function set_kube_prompt {
+    # brew install kube-ps1 로 설치시 최신 버전아님
+    #kube_ps1_path="/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+    kube_ps1_path="${myenv_path}/kube-ps1.sh"
+    if [ -f "${kube_ps1_path}" ]; then
+        source "${kube_ps1_path}"
+        export KUBE_PS1_SYMBOL_USE_IMG=true
+        # PS1='$(kube_ps1)'$'\n'$PS1  # 2 줄로 표시할때
+        PS1='$(kube_ps1) '$PS1
+        # kube-ps1 off/on command(function in script)
+        # kubeoff -g
+        # kubeon -g
+    fi
+}
+
+# prezto 사용
+function source_prezto {
+    source "$HOME/.zprezto/init.zsh"
+    set_alias
+    set_kube_prompt
+}
+
+# oh-my-zsh 사용
+function source_ohmyzsh {
+    # termux 에서 prezto 사용시 pmodload: no such module: prompt git ... 등 모듈로딩 에러 발생
+    # zsh-template 파일을 커스텀하게 관리하는 대신 여기서 커스텀 설정하자.
+    # source "$HOME/.oh-my-zsh/templates/zshrc.zsh-template"
+    export ZSH="$HOME/.oh-my-zsh"
+    plugins=(git)
+    # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+    # ZSH_THEME="robbyrussell"
+    # ZSH_THEME="agnoster"
+    ZSH_THEME="bira"
+    # ZSH_THEME="fino-time"
+    source $ZSH/oh-my-zsh.sh
+    set_alias
+    set_kube_prompt
+}
+
 # /etc/profile -> /usr/libexec/path_helper -> /etc/paths 까지 설정 확인시
 #echo $PATH | tr ':' '\n'
 declare myenv_path
@@ -17,6 +162,7 @@ if [[ $(ps -p $$ -o command | sed -e 1d) == *"bash"* ]]; then
     myenv_path=${myenv_path%/*}
 elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
     current_shell="zsh"
+    myenv_path=$(dirname "$0")
 
     # mac builtin 설명 보기
     # bash 에서 help cd 로 설명을 볼 수 있다.
@@ -26,27 +172,14 @@ elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
     autoload run-help
 
     if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
-        # termux 에서 prezto 사용시 pmodload: no such module: prompt git ... 등 모듈로딩 에러 발생
-        # oh-my-zsh 사용
-        # zsh-template 파일을 커스텀하게 관리하는 대신 여기서 커스텀 설정하자.
-        # source "$HOME/.oh-my-zsh/templates/zshrc.zsh-template"
-        export ZSH="$HOME/.oh-my-zsh"
-        plugins=(git)
-        # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-        # ZSH_THEME="robbyrussell"
-        # ZSH_THEME="agnoster"
-        ZSH_THEME="bira"
-        # ZSH_THEME="fino-time"
-        source $ZSH/oh-my-zsh.sh
+        source_ohmyzsh
     else
-        # prezto 사용
-        source "$HOME/.zprezto/init.zsh"
+        source_prezto
     fi
 
     if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
         source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
     fi
-    myenv_path=$(dirname "$0")
 fi
 
 export PATH=$myenv_path:$PATH
@@ -81,20 +214,6 @@ if [ -d "${HOME}/.kube" ]; then
     done 2>/dev/null
     # KUBECONFIG 파일들 하나로 합칠때
     # kubectl config view --flatten > ${HOME}/.kube/z
-fi
-
-# kube prompt 사용
-# brew install kube-ps1 로 설치시 최신 버전아님
-#kube_ps1_path="/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-kube_ps1_path="${myenv_path}/kube-ps1.sh"
-if [ -f "${kube_ps1_path}" ]; then
-    source "${kube_ps1_path}"
-    export KUBE_PS1_SYMBOL_USE_IMG=true
-    # PS1='$(kube_ps1)'$'\n'$PS1  # 2 줄로 표시할때
-    PS1='$(kube_ps1) '$PS1
-    # kube-ps1 off/on command(function in script)
-    # kubeoff -g
-    # kubeon -g
 fi
 
 # fzf 가 설치되어 있다면 kubectx 실행시 fzf 선택 메뉴가 나타난다.
@@ -183,9 +302,9 @@ export PATH=$HOME/nvim-linux-x86_64/bin:$PATH
 
 # 수동 golang 설치경로
 export PATH=$HOME/go/bin:$PATH
-
 export GOPATH=$HOME/workspace/gopath
-tidy_path() {
+
+function tidy_path {
     local temp_path=""
     for p in $(echo "$PATH" | tr : '\n' | uniq); do
         if [[ $p == '/opt/homebrew/bin' ]]; then
@@ -232,15 +351,9 @@ export ANSIBLE_NOCOWS=1 # disable cowsay message when using ansible
 # matplotlib on wsl
 export DISPLAY=localhost:0.0
 
-if [[ $(uname -o 2>/dev/null) == 'Android' ]]; then
-    unalias ls 2>/dev/null
-fi
-os_name=$(uname | tr '[:upper:]' '[:lower:]')
 if [[ $os_name == *"darwin"* ]]; then
     export LSCOLORS='GxFxCxDxBxegedabagaced'
     export CLICOLOR=1
-    alias ll='ls -ahlG'
-    alias sn='pmset displaysleepnow'
     if [[ $MACHTYPE == *"arm"* ]]; then
         # brew install make llvm
         export PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
@@ -257,7 +370,6 @@ elif [[ $os_name == *"linux"* ]]; then
     fi
     #export PS1="\u@\h:\w\$ "
     export LS_COLORS='no=00:fi=00:di=00;36:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:ow=01;36;40:*.sh=00;32'
-    alias ll='ls -ahl'
     # WSL(Windows Subsystem for Linux)
     os_name_kernel_release=$(uname -r | awk '{print tolower($0)}')
     if [[ $os_name_kernel_release == *"wsl"* ]]; then
@@ -276,88 +388,6 @@ elif [[ $os_name == *"linux"* ]]; then
         export LESS="$LESS -R -Q"
     fi
 fi
-
-# replacement for ls
-if which colorls >/dev/null 2>&1; then
-    alias ll='colorls -ahl'
-fi
-if which exa >/dev/null 2>&1; then
-    alias ll='exa -ahl'
-fi
-if which lsd >/dev/null 2>&1; then
-    alias ll='lsd -ahl'
-fi
-# Phase foo | less -R 와 같이 ansi color 유지해서 파이프라인으로 보낼때
-# redirection, pipe 등에서 컬러 값이 포함돼 에러가 발생해서 사용하지 않음.
-# -p, --pretty (--color=always --heading --line-number)
-# --color=auto (default), redirection, pip --> suppress color
-#if type rg > /dev/null 2>&1; then
-#    alias rg='rg -p'
-#fi
-
-# zsh 에서 rsync='noglob rsync' 등 glob(*)을 사용 못하게 alias 하고 있어 해제한다.
-unalias bower 2>/dev/null
-unalias fc 2>/dev/null
-unalias find 2>/dev/null
-unalias ftp 2>/dev/null
-unalias globurl 2>/dev/null
-unalias history 2>/dev/null
-unalias locate 2>/dev/null
-unalias rake 2>/dev/null
-unalias rsync 2>/dev/null
-unalias scp 2>/dev/null
-unalias sftp 2>/dev/null
-
-alias vi='vim'
-launch_neovide() {
-    echo "launch(and disown) neovide" "$@"
-    neovide "$@" &
-    disown
-}
-alias nv='launch_neovide'
-alias vimlastfile='vim `(ls -1tr | tail -1)`'
-alias gopath='cd $GOPATH'
-alias myenv='cd ${myenv_path}'
-alias work='cd ${HOME}/workspace'
-alias testcode='cd ${HOME}/workspace/test_code'
-alias cutstring='${HOME}/workspace/cutstring/cutstring'
-alias enchash='${HOME}/workspace/enchash/enchash'
-alias aleng='${HOME}/workspace/aleng/aleng'
-alias tig='tig --all'
-# git issue script --> gh(github) command 로 대체해서 사용하지 않음
-#alias gitissue="python3 ${myenv_path}/git_issue.py"
-#alias gitpj="python3 ${myenv_path}/git_project.py"
-# gh command - 깃헙 호스트별 최초 로그인 필요(gh auth login)
-alias ghauthstatus='gh auth status'
-alias ghissueme='gh issue list --assignee @me'
-alias ghissueview='gh issue view' # 뒤에 이슈번호 아규먼트 명시
-alias k='kubectl'
-alias m-c='/usr/local/Cellar/midnight-commander/4.8.28/bin/mc'
-# 현재 하위 모든 git 디렉토리 pull 받기
-git_pull_all() {
-    for dir in $(fd -H -d 2 ".git$" | awk -F "/.git.*$" "{print \$1}"); do
-        printf "${green}[%s]==> $reset_color" "$dir"
-        git -C "$dir" pull
-    done
-}
-alias gitpullall=git_pull_all
-alias duf="duf -theme dark"
-# ssh 원격 접속시 clear 실행하면 'alacritty': unknown terminal type. 메시지 발생 방지
-alias ssh='TERM=xterm-256color ssh'
-
-# apple silicon(arm64)용으로 zsh 실행
-alias arm='arch -arm64 /bin/zsh'
-
-# zellij layout 띄우기
-alias zellij1='zellij --layout ${myenv_path}/zellij/layouts/layout1.kdl'
-alias zellij2='zellij --layout ${myenv_path}/zellij/layouts/layout2.kdl'
-# 현재 zellij layout 저장
-alias zellij_dump='zellij setup --dump-layout default >! ${myenv_path}/zellij/layouts/layout2.kdl'
-
-alias macinfo="system_profiler SPHardwareDataType | sed 's/^[ \t]*//'; \
-    sw_vers; echo ""; \
-    sysctl -a | rg -i machdep.cpu; \
-    networksetup -listallhardwareports"
 
 # load my functions
 source "${myenv_path}/rename_files.sh"
@@ -481,14 +511,5 @@ if which cowsay >/dev/null 2>&1; then
 fi
 unset banner
 unset msg
-
-# cowsay 종류 계속 보이기
-infinite_cowsay() {
-    for (( ; ; )); do for i in $(cowsay -l | sed 1d); do
-        echo $i
-        cowsay -f $i "$(fortune)" | lolcat
-        sleep 0.2
-    done; done
-}
 
 # prezto .zlogin fortune 을 실행하고 있어 .zlogin 에서 fortune 실행을 주석처리했다.
