@@ -224,6 +224,7 @@ function set_fzf {
 # prezto 사용
 function source_prezto {
     source "$HOME/.zprezto/init.zsh"
+    prompt sorin_ysoftman
     set_alias
     set_kube_prompt
     set_fzf
