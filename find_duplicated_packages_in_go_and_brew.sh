@@ -5,8 +5,8 @@ source ${HOME}/workspace/myenv/colors.sh
 find_duplicated_packages_in_go_and_brew() {
     local brew_pkgs=()
     local go_pkgs=()
-    brew_pkgs+=($(brew list | sort))
-    go_pkgs+=($(ls ${GOPATH}/bin | sort))
+    brew_pkgs+=("$(brew list | sort)")
+    go_pkgs+=("$(ls ${GOPATH}/bin | sort)")
     IFS_BAK=$IFS
     IFS=$'\n'
     for b in "${brew_pkgs[@]}"; do
