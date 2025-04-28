@@ -7,6 +7,113 @@
 # shellcheck disable=SC2045
 
 os_name=$(uname | tr '[:upper:]' '[:lower:]')
+declare myenv_path
+declare current_shell="bash"
+if [[ $(ps -p $$ -o command | sed -e 1d) == *"bash"* ]]; then
+    current_shell="bash"
+    shopt -s expand_aliases
+    myenv_path=$(readlink -f "${BASH_SOURCE[0]}")
+    myenv_path=${myenv_path%/*}
+elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
+    current_shell="zsh"
+    myenv_path=$(dirname "$0")
+fi
+
+function tidy_path {
+    local temp_path=""
+    for p in $(echo "$PATH" | tr : '\n' | uniq); do
+        if [[ $p == '/opt/homebrew/bin' ]]; then
+            continue
+        elif [[ $p == '/usr/local/bin' ]]; then
+            continue
+        elif [[ $p == "${HOME}/.cargo/bin" ]]; then
+            continue
+        elif [[ $p == "${GOPATH}" ]]; then
+            continue
+        fi
+        if [[ $temp_path == '' ]]; then
+            temp_path=$p
+            continue
+        fi
+        temp_path=$temp_path:$p
+    done
+    # bash, zsh 등에서 git-subcommand 를 현재 디렉토리에서 실행하기 위해
+    # PATH 환경변수 처음이나 마지막에 구분자(:)가 있거나
+    # PATH 중간에 :: 부분이 있어야 한다.
+    # ./a.sh 대신 a.sh 실행 가능해야 한다.
+    # apple silicon 용 brew (/opt/homebrew) 를 우선 실행할 수 있도록 한다.
+    export PATH=$HOME/.cargo/bin:$GOPATH/bin:/opt/homebrew/bin:/opt/homebrew/opt/curl/bin:/usr/local/go/bin:/usr/local/bin::$temp_path
+}
+
+function set_path_and_vars() {
+    # /etc/profile -> /usr/libexec/path_helper -> /etc/paths 까지 설정 확인시
+    #echo $PATH | tr ':' '\n'
+    export PATH=$myenv_path:$PATH
+    echo "myenv_path=$myenv_path"
+
+    export XDG_CONFIG_HOME="$HOME/.config"
+    if [[ -z "$BROWSER" && "$OSTYPE" == darwin* ]]; then
+        export BROWSER='open'
+    fi
+    export LESS='-g -i -M -R -S -w -X -z-4'
+    export PAGER='less'
+    export EDITOR=vim
+    export VISUAL=vim
+    export ANSIBLE_NOCOWS=1 # disable cowsay message when using ansible
+    # matplotlib on wsl
+    export DISPLAY=localhost:0.0
+
+    # mac 에선 yarn bin /opt/homebrew/bin 으로 설정되어 있어 tidy_path 실행전에 선언
+    export PATH=$(yarn global bin 2>/dev/null):$PATH
+
+    # 수동 nvim 설치경로
+    export PATH=$HOME/nvim-linux64/bin:$PATH
+    export PATH=$HOME/nvim-linux-x86_64/bin:$PATH
+
+    # 수동 golang 설치경로
+    export PATH=$HOME/go/bin:$PATH
+    export GOPATH=$HOME/workspace/gopath
+
+    if [[ $os_name == *"darwin"* ]]; then
+        export LSCOLORS='GxFxCxDxBxegedabagaced'
+        export CLICOLOR=1
+        if [[ $MACHTYPE == *"arm"* ]]; then
+            # brew install make llvm
+            export PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
+            export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+        fi
+    elif [[ $os_name == *"linux"* ]]; then
+        if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
+            # termux 는 현재 영어만 지원하고 있다.
+            # https://github.com/termux/termux-packages/issues/2796#issuecomment-424589888
+            export LANG=en_US.UTF-8
+        else
+            export LANG=ko_KR.utf8
+            export LC_ALL=ko_KR.utf8
+        fi
+        #export PS1="\u@\h:\w\$ "
+        export LS_COLORS='no=00:fi=00:di=00;36:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:ow=01;36;40:*.sh=00;32'
+        # WSL(Windows Subsystem for Linux)
+        os_name_kernel_release=$(uname -r | awk '{print tolower($0)}')
+        if [[ $os_name_kernel_release == *"wsl"* ]]; then
+            if ! wslvar userprofile >/dev/null 2>&1; then
+                # wslvar reg.exe 등의 에러 발생시 업데이트
+                echo "need to install wslu for wslvar(reg.exe...)"
+                sudo apt install -y wslu
+            fi
+            # wsl.conf appendWindowsPath=false 인경우 vscode 경로 추가 필요
+            # export PATH=$PATH:"/mnt/c/Program Files/Microsoft VS Code/bin:"
+            username=$(wslvar userprofile | tr '\\' ' ' | awk '{print $NF}')
+            export PATH=$PATH:"/mnt/c/Users/${username}/AppData/Local/Programs/Microsoft VS Code/bin"
+            # 윈도우 netstat.exe 사용해야 실제 네트워크 상태를 알 수 있다.
+            alias netstat='/mnt/c/Windows/System32/netstat.exe'
+            # wsl+terminal 앱에서 less(git diff, man ls...)페이지 처음/끝에서 더 이동시 beep 발생 방지를 위해 기존 옵션에 -R -Q 을 추가해야 한다.
+            export LESS="$LESS -R -Q"
+        fi
+    fi
+    tidy_path
+    set_alias
+}
 
 function launch_neovide {
     echo "launch(and disown) neovide" "$@"
@@ -225,7 +332,7 @@ function set_fzf {
 function source_prezto {
     source "$HOME/.zprezto/init.zsh"
     prompt sorin_ysoftman
-    set_alias
+    set_path_and_vars
     set_kube_prompt
     set_fzf
 }
@@ -243,24 +350,12 @@ function source_ohmyzsh {
     ZSH_THEME="bira"
     # ZSH_THEME="fino-time"
     source $ZSH/oh-my-zsh.sh
-    set_alias
+    set_path_and_vars
     set_kube_prompt
     set_fzf
 }
 
-# /etc/profile -> /usr/libexec/path_helper -> /etc/paths 까지 설정 확인시
-#echo $PATH | tr ':' '\n'
-declare myenv_path
-current_shell="bash"
-if [[ $(ps -p $$ -o command | sed -e 1d) == *"bash"* ]]; then
-    current_shell="bash"
-    shopt -s expand_aliases
-    myenv_path=$(readlink -f "${BASH_SOURCE[0]}")
-    myenv_path=${myenv_path%/*}
-elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
-    current_shell="zsh"
-    myenv_path=$(dirname "$0")
-
+if [[ $current_shell == "zsh" ]]; then
     # mac builtin 설명 보기
     # bash 에서 help cd 로 설명을 볼 수 있다.
     # zsh 에서 builtin 설명을 보기 위해서 run-help=man alias 설정을 제거하고,
@@ -277,24 +372,23 @@ elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
     if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
         source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
     fi
+else
+    set_path_and_vars
+    set_kube_prompt
+    set_fzf
 fi
 
-export PATH=$myenv_path:$PATH
-echo "myenv_path=$myenv_path"
-
+# load my functions
 source "${myenv_path}/colors.sh"
-
-export XDG_CONFIG_HOME="$HOME/.config"
-if [[ -z "$BROWSER" && "$OSTYPE" == darwin* ]]; then
-    export BROWSER='open'
-fi
-export LESS='-g -i -M -R -S -w -X -z-4'
-export PAGER='less'
-export EDITOR=vim
-export VISUAL=vim
-export ANSIBLE_NOCOWS=1 # disable cowsay message when using ansible
-# matplotlib on wsl
-export DISPLAY=localhost:0.0
+source "${myenv_path}/rename_files.sh"
+source "${myenv_path}/grep_and_sed.sh"
+source "${myenv_path}/cnt_src.sh"
+source "${myenv_path}/git_functions.sh"
+source "${myenv_path}/golang_tools.sh"
+source "${myenv_path}/k8s_info.sh"
+source "${myenv_path}/find_duplicated_packages_in_go_and_brew.sh"
+source "${myenv_path}/download_ysoftman_youtube_music.sh"
+source "${myenv_path}/sysinfo.sh"
 
 # zsh 환경에서 kubectl 자동 완성
 if [[ $current_shell == "zsh" ]]; then
@@ -322,101 +416,19 @@ if [ -d "${HOME}/.kube" ]; then
     # kubectl config view --flatten > ${HOME}/.kube/z
 fi
 
-# mac 에선 yarn bin /opt/homebrew/bin 으로 설정되어 있어 tidy_path 실행전에 선언
-export PATH=$(yarn global bin 2>/dev/null):$PATH
-
-# 수동 nvim 설치경로
-export PATH=$HOME/nvim-linux64/bin:$PATH
-export PATH=$HOME/nvim-linux-x86_64/bin:$PATH
-
-# 수동 golang 설치경로
-export PATH=$HOME/go/bin:$PATH
-export GOPATH=$HOME/workspace/gopath
-
-if [[ $os_name == *"darwin"* ]]; then
-    export LSCOLORS='GxFxCxDxBxegedabagaced'
-    export CLICOLOR=1
-    if [[ $MACHTYPE == *"arm"* ]]; then
-        # brew install make llvm
-        export PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
-        export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-    fi
-elif [[ $os_name == *"linux"* ]]; then
-    if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
-        # termux 는 현재 영어만 지원하고 있다.
-        # https://github.com/termux/termux-packages/issues/2796#issuecomment-424589888
-        export LANG=en_US.UTF-8
-    else
-        export LANG=ko_KR.utf8
-        export LC_ALL=ko_KR.utf8
-    fi
-    #export PS1="\u@\h:\w\$ "
-    export LS_COLORS='no=00:fi=00:di=00;36:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:ow=01;36;40:*.sh=00;32'
-    # WSL(Windows Subsystem for Linux)
-    os_name_kernel_release=$(uname -r | awk '{print tolower($0)}')
-    if [[ $os_name_kernel_release == *"wsl"* ]]; then
-        if ! wslvar userprofile >/dev/null 2>&1; then
-            # wslvar reg.exe 등의 에러 발생시 업데이트
-            echo "need to install wslu for wslvar(reg.exe...)"
-            sudo apt install -y wslu
-        fi
-        # wsl.conf appendWindowsPath=false 인경우 vscode 경로 추가 필요
-        # export PATH=$PATH:"/mnt/c/Program Files/Microsoft VS Code/bin:"
-        username=$(wslvar userprofile | tr '\\' ' ' | awk '{print $NF}')
-        export PATH=$PATH:"/mnt/c/Users/${username}/AppData/Local/Programs/Microsoft VS Code/bin"
-        # 윈도우 netstat.exe 사용해야 실제 네트워크 상태를 알 수 있다.
-        alias netstat='/mnt/c/Windows/System32/netstat.exe'
-        # wsl+terminal 앱에서 less(git diff, man ls...)페이지 처음/끝에서 더 이동시 beep 발생 방지를 위해 기존 옵션에 -R -Q 을 추가해야 한다.
-        export LESS="$LESS -R -Q"
-    fi
-fi
-
-function tidy_path {
-    local temp_path=""
-    for p in $(echo "$PATH" | tr : '\n' | uniq); do
-        if [[ $p == '/opt/homebrew/bin' ]]; then
-            continue
-        elif [[ $p == '/usr/local/bin' ]]; then
-            continue
-        elif [[ $p == "${HOME}/.cargo/bin" ]]; then
-            continue
-        elif [[ $p == "${GOPATH}" ]]; then
-            continue
-        fi
-        if [[ $temp_path == '' ]]; then
-            temp_path=$p
-            continue
-        fi
-        temp_path=$temp_path:$p
-    done
-    # bash, zsh 등에서 git-subcommand 를 현재 디렉토리에서 실행하기 위해
-    # PATH 환경변수 처음이나 마지막에 구분자(:)가 있거나
-    # PATH 중간에 :: 부분이 있어야 한다.
-    # ./a.sh 대신 a.sh 실행 가능해야 한다.
-    # apple silicon 용 brew (/opt/homebrew) 를 우선 실행할 수 있도록 한다.
-    export PATH=$HOME/.cargo/bin:$GOPATH/bin:/opt/homebrew/bin:/opt/homebrew/opt/curl/bin:/usr/local/go/bin:/usr/local/bin::$temp_path
-}
-tidy_path
-
-# load my functions
-source "${myenv_path}/rename_files.sh"
-source "${myenv_path}/grep_and_sed.sh"
-source "${myenv_path}/cnt_src.sh"
-source "${myenv_path}/git_functions.sh"
-source "${myenv_path}/golang_tools.sh"
-source "${myenv_path}/k8s_info.sh"
-source "${myenv_path}/find_duplicated_packages_in_go_and_brew.sh"
-source "${myenv_path}/download_ysoftman_youtube_music.sh"
-source "${myenv_path}/sysinfo.sh"
-
+# zoxide 사용
 if [[ $current_shell == "zsh" ]]; then
     if which zoxide >/dev/null 2>&1; then
         eval "$(zoxide init zsh)"
     fi
 fi
+
+# pyenv 사용
 if which pyenv >/dev/null 2>&1; then
     eval "$(pyenv init -)"
 fi
+
+# virtualenv 설정
 if which virtualenv >/dev/null 2>&1; then
     # precmd_function 에 _pyenv_virtualenv_hook() 를 추가 시키고
     # 이 함수는 pyenv sh-activate 를 실행하는게 이게 느림(400ms 정도)
