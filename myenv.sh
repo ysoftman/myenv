@@ -407,6 +407,7 @@ source "${myenv_path}/golang_tools.sh"
 source "${myenv_path}/k8s_info.sh"
 source "${myenv_path}/find_duplicated_packages_in_go_and_brew.sh"
 source "${myenv_path}/download_ysoftman_youtube_music.sh"
+source "${myenv_path}/sysinfo.sh"
 
 if [[ $current_shell == "zsh" ]]; then
     if which zoxide >/dev/null 2>&1; then
