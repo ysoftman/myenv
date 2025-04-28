@@ -96,8 +96,8 @@ layout {
 
 
             // mac 에선 cache/buffer 가 포함된 메모리로 실제 사용메모리 보다 크게 보인다.
-            // used_mem()에서 cache/buffer 를 제외한 사용 메모리 계산
-            command_mem_command    "timeout 1 bash -c \"(source ~/workspace/myenv/sysinfo.sh && used_mem) || top -l 1 -stats pid,command,cpu | awk '/PhysMem/ {print $2,$3}'\""
+            command_mem_command    "timeout 1 bash -c \"(source ~/workspace/myenv/sysinfo.sh && mac_used_mem) || top -l 1 -stats pid,command,cpu | awk '/PhysMem/ {print $2,$3}'\""
+            // mac_used_mem()에서 cache/buffer 를 제외한 사용 메모리 계산
             command_mem_format     "#[bg=$bg0,fg=$green]#[fg=$crust,bg=$green] #[bg=$surface1,fg=$green,bold] {stdout}#[bg=$bg0,fg=$surface1]"
             command_mem_interval   "10"
             command_mem_rendermode "static"
