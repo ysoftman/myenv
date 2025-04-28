@@ -211,11 +211,6 @@ function set_alias {
     alias zellij2='zellij --layout ${myenv_path}/zellij/layouts/layout2.kdl'
     # 현재 zellij layout 저장
     alias zellij_dump='zellij setup --dump-layout default >! ${myenv_path}/zellij/layouts/layout2.kdl'
-
-    alias macinfo="system_profiler SPHardwareDataType | sed 's/^[ \t]*//'; \
-    sw_vers; echo ""; \
-    sysctl -a | rg -i machdep.cpu; \
-    networksetup -listallhardwareports"
 }
 
 # kube prompt 사용
