@@ -1,6 +1,9 @@
 #!/bin/bash
 
-used_mem() {
+mac_used_mem() {
+    if ! command -v vm_stat >/dev/null 2>&1; then
+        return
+    fi
     local PAGE_SIZE
     local WIRED
     local ACTIVE
