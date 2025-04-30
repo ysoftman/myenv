@@ -204,7 +204,10 @@ function set_alias {
     alias ssh='TERM=xterm-256color ssh'
 
     # apple silicon(arm64)용으로 zsh 실행
-    alias arm='arch -arm64 /bin/zsh'
+    alias arm_zsh='arch -arm64 /bin/zsh'
+    alias x86_zsh='arch -x86_64 /bin/zsh'
+    alias arm_brew='arch -x86_64 /opt/homebrew/bin/brew'
+    alias x86_brew='arch -x86_64 /usr/local/bin/brew'
 
     # zellij layout 띄우기
     alias zellij1='zellij --layout ${myenv_path}/zellij/layouts/layout1.kdl'
