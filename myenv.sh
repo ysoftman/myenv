@@ -458,84 +458,83 @@ if [[ $term_program_name == "" ]]; then
     term_program_name=$(echo "$TERM" | tr "[:upper:]" "[:lower:]")
 fi
 
-if which fastfetch >/dev/null 2>&1; then
-    logo_args=""
-    if [[ $term_program_name == *"iterm"* ]]; then
-        # --logo 는 --logo-type 이 있어야 에러가 발생하지 않는다.
-        logo_args="--logo-type iterm --logo ${myenv_path}/xelloss.jpg"
-    fi
-    if [[ $term_program_name == *"kitty"* ]]; then
-        logo_args="--logo-type kitty --logo ${myenv_path}/xelloss.jpg"
-    fi
-    eval fastfetch "--cpu-temp true --gpu-temp true ${logo_args} --logo-width 50 --logo-height 20"
-    unset logo_args
-elif which neofetch >/dev/null 2>&1; then
-    backend_arg=""
-    if [[ $term_program_name == *"iterm"* ]]; then
-        backend_arg="--backend iterm2"
-    fi
-    if [[ $term_program_name == *"kitty"* ]]; then
-        backend_arg="--backend kitty"
-    fi
-    eval neofetch "${backend_arg} --size auto --source ${myenv_path}/xelloss.jpg"
-    unset backend_arg
-elif which screenfetch >/dev/null 2>&1; then
-    screenfetch -E
-fi
-
-# fortune + cowsay welcome message
-msg="ysoftman"
-if which fortune >/dev/null 2>&1; then
-    msg=$(fortune -s 2>/dev/null)
-    if [[ $msg == '' ]]; then
-        msg=$(fortune)
-    fi
-fi
-
-if command -v cfonts >/dev/null 2>&1; then
-    # cfonts 는 cowsay msg 로 담으면 제대로 처리되지 않아 banner 는 그냥 출력한다.
-    cfonts ysoftman -f block -g red,green 2>/dev/null
-elif command -v figlet >/dev/null 2>&1; then
-    banner=$(figlet ysoftman 2>/dev/null)
-    msg="${banner}\n${msg}"
-fi
-
-if which emojify >/dev/null 2>&1; then
-    echo ":four_leaf_clover: Sentimental programmer ysoftman :smile:" | emojify
-fi
-
-if which cowsay >/dev/null 2>&1; then
-    # print cowsay list number
-    # cnt=0; for i in $(cowsay -l | sed 1d); do echo "$((cnt++)) $i"; done;
-    # cowfile 랜덤으로 선택
-    cowfile=""
-    cnt=0
-    random=$((RANDOM % $(cowsay -l | sed 1d | wc -w)))
-    for i in $(cowsay -l | sed 1d); do
-        if [[ "$cnt" == "$random" ]]; then
-            if [[ $i == "sodomized" ]] || [[ $i == "telebears" ]]; then
-                printf "change rude coway type to cheese!\n"
-                i="cheese"
-            fi
-            cowfile=$i
-            break
+function welcome_message() {
+    if which fastfetch >/dev/null 2>&1; then
+        logo_args=""
+        if [[ $term_program_name == *"iterm"* ]]; then
+            # --logo 는 --logo-type 이 있어야 에러가 발생하지 않는다.
+            logo_args="--logo-type iterm --logo ${myenv_path}/xelloss.jpg"
         fi
-        cnt=$((cnt + 1))
-    done
-    #echo "$cowfile"
-
-    # figlet 을 메시지로 사용할 경우 -n 이 필요하다.
-    if which lolcat >/dev/null 2>&1; then
-        echo -e "$msg" | cowsay -n -f "$cowfile" | lolcat
-    else
-        echo -e "$msg" | cowsay -n -f "$cowfile"
+        if [[ $term_program_name == *"kitty"* ]]; then
+            logo_args="--logo-type kitty --logo ${myenv_path}/xelloss.jpg"
+        fi
+        eval fastfetch "--cpu-temp true --gpu-temp true ${logo_args} --logo-width 50 --logo-height 20"
+        unset logo_args
+    elif which neofetch >/dev/null 2>&1; then
+        backend_arg=""
+        if [[ $term_program_name == *"iterm"* ]]; then
+            backend_arg="--backend iterm2"
+        fi
+        if [[ $term_program_name == *"kitty"* ]]; then
+            backend_arg="--backend kitty"
+        fi
+        eval neofetch "${backend_arg} --size auto --source ${myenv_path}/xelloss.jpg"
+        unset backend_arg
+    elif which screenfetch >/dev/null 2>&1; then
+        screenfetch -E
     fi
-    unset cowfile
-    unset cnt
-    unset random
-    unset a
-fi
-unset banner
-unset msg
+
+    local msg="ysoftman"
+    if which fortune >/dev/null 2>&1; then
+        msg=$(fortune -s 2>/dev/null)
+        if [[ $msg == '' ]]; then
+            msg=$(fortune)
+        fi
+    fi
+
+    if command -v cfonts >/dev/null 2>&1; then
+        # cfonts 는 cowsay msg 로 담으면 제대로 처리되지 않아 그냥 출력한다.
+        cfonts ysoftman -s -f block -g red,green 2>/dev/null
+    fi
+
+    if command -v figlet >/dev/null 2>&1; then
+        local banner
+        banner=$(figlet ysoftman 2>/dev/null)
+        msg="${banner}\n${msg}"
+    fi
+
+    if which cowsay >/dev/null 2>&1; then
+        # print cowsay list number
+        # cnt=0; for i in $(cowsay -l | sed 1d); do echo "$((cnt++)) $i"; done;
+        # cowfile 랜덤으로 선택
+        local cowfile=""
+        local cnt=0
+        local random=$((RANDOM % $(cowsay -l | sed 1d | wc -w)))
+        for i in $(cowsay -l | sed 1d); do
+            if [[ "$cnt" == "$random" ]]; then
+                if [[ $i == "sodomized" ]] || [[ $i == "telebears" ]]; then
+                    printf "change rude coway type to cheese!\n"
+                    i="cheese"
+                fi
+                cowfile=$i
+                break
+            fi
+            cnt=$((cnt + 1))
+        done
+        #echo "$cowfile"
+
+        # figlet 을 메시지로 사용할 경우 -n 이 필요하다.
+        if which lolcat >/dev/null 2>&1; then
+            echo -e "$msg" | cowsay -n -f "$cowfile" | lolcat
+        else
+            echo -e "$msg" | cowsay -n -f "$cowfile"
+        fi
+    fi
+
+    if which emojify >/dev/null 2>&1; then
+        echo ":four_leaf_clover: Sentimental programmer ysoftman :smile:" | emojify
+    fi
+}
+welcome_message
 
 # prezto .zlogin fortune 을 실행하고 있어 .zlogin 에서 fortune 실행을 주석처리했다.
