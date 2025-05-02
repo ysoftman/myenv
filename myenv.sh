@@ -358,7 +358,7 @@ function source_starship {
     export STARSHIP_CACHE=~/.cache/starship
     eval "$(starship init zsh)"
     # preset 적용시
-    # python node go 등 프롬프트에 버전 표시로 느려질 수 있다.(특히 python 표시가 느려서 config 설정에서 빼자)
+    # python node go 등 프롬프트에 버전 표시로 느려질 수 있다.(특히 python 표시가 느려서 필요하면 format > $python 설정을 빼자)
     # starship preset --list
     # starship preset tokyo-night -o $STARSHIP_CONFIG
     # starship preset pastel-powerline -o $STARSHIP_CONFIG
