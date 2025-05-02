@@ -409,7 +409,9 @@ if [[ $current_shell == "zsh" ]]; then
     if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
         source_ohmyzsh
     else
-        source_prezto
+        # source_prezto
+        # source_starship
+        source_ohmyposh
     fi
 
     if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
