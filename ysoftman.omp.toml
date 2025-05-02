@@ -20,7 +20,7 @@ type = 'os'
 style = 'diamond'
 
 [[blocks.segments]]
-template = '  {{.Context}}{{if .Namespace}}:{{.Namespace}}{{end}}'
+template = '  {{.Context}}{{if .Namespace}}:{{.Namespace}}{{end}} '
 foreground = '#000000'
 powerline_symbol = ''
 # background = '#ebcc34'
@@ -48,7 +48,14 @@ home_icon = ''
 style = 'full'
 
 [[blocks.segments]]
-template = ' ({{ .UpstreamIcon }}{{ .HEAD }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}) '
+# template = ' ({{ .UpstreamIcon }}{{ .HEAD }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}) '
+template = " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} "
+background_templates = [
+  "{{ if or (.Working.Changed) (.Staging.Changed) }}#FFEB3B{{ end }}",
+  "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#FFCC80{{ end }}",
+  "{{ if gt .Ahead 0 }}#B388FF{{ end }}",
+  "{{ if gt .Behind 0 }}#B388FB{{ end }}",
+]
 foreground = '#000000'
 powerline_symbol = ''
 # background = '#FCA17D'
@@ -58,9 +65,12 @@ style = 'powerline'
 
 [blocks.segments.properties]
 branch_icon = ' <#000000> </>'
-fetch_stash_count = true
-fetch_status = false
+fetch_status = true
 fetch_upstream_icon = true
+fetch_stash_count = true
+[blocks.segments.properties.mapped_branches]
+"feat/*" = "🚀 "
+"bug/*" = "🐛 "
 
 [[blocks.segments]]
 template = '  {{ .Full }} '
