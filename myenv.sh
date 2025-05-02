@@ -434,6 +434,9 @@ if [[ $current_shell == "zsh" ]]; then
     if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
         source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
     fi
+    if [ -f "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
+        source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    fi
 else
     set_path_and_vars
     set_kube_prompt
