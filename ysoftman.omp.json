@@ -13,6 +13,19 @@
           "type": "os"
         },
         {
+          "type": "kubectl",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "#000000",
+          "background": "#ebcc34",
+          "template": "( {{.Context}}{{if .Namespace}}::{{.Namespace}}{{end}}",
+          "properties": {
+            "context_aliases": {
+              "arn:aws:eks:eu-west-1:1234567890:cluster/posh": "posh"
+            }
+          }
+        },
+        {
           "background": "#DA627D",
           "foreground": "#ffffff",
           "powerline_symbol": "\ue0b0",
@@ -41,6 +54,14 @@
           "type": "git"
         },
         {
+          "type": "python",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "#100e23",
+          "background": "#906cff",
+          "template": "  {{ .Full }} "
+        },
+        {
           "background": "#76b367",
           "foreground": "#ffffff",
           "powerline_symbol": "\ue0b0",
@@ -49,15 +70,20 @@
           "type": "node"
         },
         {
-          "background": "#83769c",
-          "foreground": "#ffffff",
-          "powerline_symbol": "\ue0b0",
-          "properties": {
-            "always_enabled": true
-          },
+          "type": "go",
           "style": "powerline",
-          "template": " \ueba2 {{ .FormattedMs }} ",
-          "type": "executiontime"
+          "powerline_symbol": "",
+          "foreground": "#ffffff",
+          "background": "#7FD5EA",
+          "template": "  {{ .Full }} "
+        },
+        {
+          "type": "rust",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "#193549",
+          "background": "#99908a",
+          "template": "  {{ .Full }} "
         },
         {
           "background": "#33658A",
@@ -69,6 +95,17 @@
           "style": "powerline",
           "template": " \uf017 {{ .CurrentDate | date .Format }} ",
           "type": "time"
+        },
+        {
+          "background": "#83769c",
+          "foreground": "#ffffff",
+          "powerline_symbol": "\ue0b0",
+          "properties": {
+            "always_enabled": true
+          },
+          "style": "powerline",
+          "template": " \ueba2 {{ .FormattedMs }} ",
+          "type": "executiontime"
         },
         {
           "background": "#2e9599",
