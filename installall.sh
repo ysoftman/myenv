@@ -3,6 +3,7 @@ bash ./installcommon.sh
 bash ./installpowerlinefont.sh
 zsh ./installprezto.zsh
 bash ./installohmyzsh.sh
+bash ./installstarship.sh
 bash ./installvim.sh
 bash ./installtmuxplugin.sh
 bash ./installconfig.sh
