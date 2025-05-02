@@ -355,7 +355,9 @@ function source_ohmyposh {
     # local ohmyposhconfig="https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/jandedobbeleer.omp.json"
     # local ohmyposhconfig="https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/themes/tokyo.omp.json"
     # local ohmyposhconfig="https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/themes/montys.omp.json"
-    local ohmyposhconfig=~/.config/ysoftman.omp.json
+    # json -> toml
+    # oh-my-posh config export --config ysoftman.omp.json --format toml -o ysoftman.omp.toml
+    local ohmyposhconfig=~/.config/ysoftman.omp.toml
     eval "$(oh-my-posh init zsh --config $ohmyposhconfig)"
     set_path_and_vars
     # ohmyposh kubectl type 설정으로 kube prompt 설정할 필요가 없다.

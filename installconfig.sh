@@ -81,7 +81,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [ -h ${XDG_CONFIG_HOME}/mc ] && unlink ${XDG_CONFIG_HOME}/mc
 [ -h ${XDG_CONFIG_HOME}/zellij ] && unlink ${XDG_CONFIG_HOME}/zellij
 [ -h ${XDG_CONFIG_HOME}/starship.toml ] && unlink ${XDG_CONFIG_HOME}/starship.toml
-[ -h ${XDG_CONFIG_HOME}/ysoftman.omp.json ] && unlink ${XDG_CONFIG_HOME}/ysoftman.omp.json
+[ -h ${XDG_CONFIG_HOME}/ysoftman.omp.toml ] && unlink ${XDG_CONFIG_HOME}/ysoftman.omp.toml
 
 # backup previous settings
 [ -f ~/.gitignore_global ] && mv -fv ~/.gitignore_global ~/.gitignore_global.bak
@@ -104,7 +104,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [ -d ${XDG_CONFIG_HOME}/mc ] && mv -fv ${XDG_CONFIG_HOME}/mc ${XDG_CONFIG_HOME}/mc.bak
 [ -d ${XDG_CONFIG_HOME}/zellij ] && mv -fv ${XDG_CONFIG_HOME}/zellij ${XDG_CONFIG_HOME}/zellij.bak
 [ -d ${XDG_CONFIG_HOME}/starship.toml ] && mv -fv ${XDG_CONFIG_HOME}/starship.toml ${XDG_CONFIG_HOME}/starship.toml.bak
-[ -d ${XDG_CONFIG_HOME}/ysoftman.omp.json ] && mv -fv ${XDG_CONFIG_HOME}/starship.toml ${XDG_CONFIG_HOME}/ysoftman.omp.json.bak
+[ -d ${XDG_CONFIG_HOME}/ysoftman.omp.toml ] && mv -fv ${XDG_CONFIG_HOME}/starship.toml ${XDG_CONFIG_HOME}/ysoftman.omp.toml.bak
 
 ln -sf ${PWD}/.gitignore_global ~/.gitignore_global
 ln -sf ${PWD}/.bashrc ~/.bashrc
@@ -126,7 +126,7 @@ ln -sf ${PWD}/.muttrc ~/.muttrc
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/mc ${XDG_CONFIG_HOME}/mc
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/zellij ${XDG_CONFIG_HOME}/zellij
 [ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/starship.toml ${XDG_CONFIG_HOME}/starship.toml
-[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/ysoftman.omp.json ${XDG_CONFIG_HOME}/ysoftman.omp.json
+[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/ysoftman.omp.toml ${XDG_CONFIG_HOME}/ysoftman.omp.toml
 
 # ubuntu 에서는 이름이 달라서 link 처리한다.
 [ -f /usr/bin/fdfind ] && sudo ln -sf /usr/bin/fdfind /usr/bin/fd
