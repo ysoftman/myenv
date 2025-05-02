@@ -332,7 +332,8 @@ function source_ohmyposh {
     # https://ohmyposh.dev/docs/themes
     # local ohmyposhconfig="https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/jandedobbeleer.omp.json"
     # local ohmyposhconfig="https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/themes/tokyo.omp.json"
-    local ohmyposhconfig="https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/themes/montys.omp.json"
+    # local ohmyposhconfig="https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/themes/montys.omp.json"
+    local ohmyposhconfig=~/.config/ysoftman.omp.json
     eval "$(oh-my-posh init zsh --config $ohmyposhconfig)"
     set_path_and_vars
     set_kube_prompt
