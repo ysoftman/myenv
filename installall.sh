@@ -1,9 +1,10 @@
 #!/bin/bash
 bash ./installcommon.sh
 bash ./installpowerlinefont.sh
-zsh ./installprezto.zsh
 bash ./installohmyzsh.sh
+zsh ./installprezto.zsh
 bash ./installstarship.sh
+bash ./installohmyposh.sh
 bash ./installvim.sh
 bash ./installtmuxplugin.sh
 bash ./installconfig.sh
