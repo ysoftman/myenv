@@ -326,6 +326,16 @@ function set_fzf {
     # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 }
 
+# oh-my-posh 훅제거
+function delete_ohmyposh_hooks {
+    # echo $precmd_functions
+    # echo $preexec_functions
+    # oh-my-posh 가 실행되면 prompt 표시직전(precmd) 명령 실행 직전(preexec) 훅을 추가해 계속 프롬프트가 oh-my-posh 스타일로 유지기 때문에 다른 프롬프트 사용시 해당 훅들을 제거한다.
+    autoload -U add-zsh-hook
+    add-zsh-hook -d precmd _omp_precmd
+    add-zsh-hook -d preexec _omp_preexec
+}
+
 # oh-my-posh 사용
 function source_ohmyposh {
     # 필요시 oh-my-posh font install 로 폰트 설치
@@ -343,6 +353,7 @@ function source_ohmyposh {
 
 # starship 사용
 function source_starship {
+    delete_ohmyposh_hooks
     export STARSHIP_CONFIG=~/.config/starship.toml
     export STARSHIP_CACHE=~/.cache/starship
     eval "$(starship init zsh)"
@@ -360,6 +371,7 @@ function source_starship {
 
 # prezto 사용
 function source_prezto {
+    delete_ohmyposh_hooks
     source "$HOME/.zprezto/init.zsh"
     prompt sorin_ysoftman
     set_path_and_vars
@@ -369,6 +381,7 @@ function source_prezto {
 
 # oh-my-zsh 사용
 function source_ohmyzsh {
+    delete_ohmyposh_hooks
     # termux 에서 prezto 사용시 pmodload: no such module: prompt git ... 등 모듈로딩 에러 발생
     # zsh-template 파일을 커스텀하게 관리하는 대신 여기서 커스텀 설정하자.
     # source "$HOME/.oh-my-zsh/templates/zshrc.zsh-template"
