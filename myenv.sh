@@ -326,7 +326,20 @@ function set_fzf {
     # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 }
 
-# starship  사용
+# oh-my-posh 사용
+function source_ohmyposh {
+    # 필요시 oh-my-posh font install 로 폰트 설치
+    # https://ohmyposh.dev/docs/themes
+    # local ohmyposhconfig="https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/jandedobbeleer.omp.json"
+    # local ohmyposhconfig="https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/themes/tokyo.omp.json"
+    local ohmyposhconfig="https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/themes/montys.omp.json"
+    eval "$(oh-my-posh init zsh --config $ohmyposhconfig)"
+    set_path_and_vars
+    set_kube_prompt
+    set_fzf
+}
+
+# starship 사용
 function source_starship {
     export STARSHIP_CONFIG=~/.config/starship.toml
     export STARSHIP_CACHE=~/.cache/starship
@@ -338,6 +351,9 @@ function source_starship {
     # starship preset pastel-powerline -o $STARSHIP_CONFIG
     # starship preset gruvbox-rainbow -o $STARSHIP_CONFIG
     # starship preset catppuccin-powerline -o $STARSHIP_CONFIG
+    set_path_and_vars
+    set_kube_prompt
+    set_fzf
 }
 
 # prezto 사용
