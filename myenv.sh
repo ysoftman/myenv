@@ -326,6 +326,20 @@ function set_fzf {
     # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 }
 
+# starship  사용
+function source_starship {
+    export STARSHIP_CONFIG=~/.config/starship.toml
+    export STARSHIP_CACHE=~/.cache/starship
+    eval "$(starship init zsh)"
+    # preset 적용시
+    # python node go 등 프롬프트에 버전 표시로 느려질 수 있다.
+    # starship preset --list
+    # starship preset tokyo-night -o $STARSHIP_CONFIG
+    # starship preset pastel-powerline -o $STARSHIP_CONFIG
+    # starship preset gruvbox-rainbow -o $STARSHIP_CONFIG
+    # starship preset catppuccin-powerline -o $STARSHIP_CONFIG
+}
+
 # prezto 사용
 function source_prezto {
     source "$HOME/.zprezto/init.zsh"
