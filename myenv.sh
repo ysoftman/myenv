@@ -336,7 +336,8 @@ function source_ohmyposh {
     local ohmyposhconfig=~/.config/ysoftman.omp.json
     eval "$(oh-my-posh init zsh --config $ohmyposhconfig)"
     set_path_and_vars
-    set_kube_prompt
+    # ohmyposh kubectl type 설정으로 kube prompt 설정할 필요가 없다.
+    # set_kube_prompt
     set_fzf
 }
 
