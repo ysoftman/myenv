@@ -74,6 +74,15 @@ function set_path_and_vars() {
     export PATH=$HOME/go/bin:$PATH
     export GOPATH=$HOME/workspace/gopath
 
+    if [[ $TERM == *"alacritty"* ]]; then
+        #"TERM=alacritty 에서는 마우스로 커서 이동이 안됨, 해결된것 같아 삭제
+        #export TERM=xterm-256color
+        # musikcube 등 실행시 terminfo 필요
+        if [[ $os_name == *"darwin"* ]]; then
+            export TERMINFO=/opt/homebrew/opt/ncurses/share/terminfo
+        fi
+    fi
+
     if [[ $os_name == *"darwin"* ]]; then
         export LSCOLORS='GxFxCxDxBxegedabagaced'
         export CLICOLOR=1
@@ -498,23 +507,14 @@ if [ -d "$myenv_path/emoji-cli" ]; then
     fi
 fi
 
-if [[ $TERM == *"alacritty"* ]]; then
-    #"TERM=alacritty 에서는 마우스로 커서 이동이 안됨, 해결된것 같아 삭제
-    #export TERM=xterm-256color
-    # musikcube 등 실행시 terminfo 필요
-    if [[ $os_name == *"darwin"* ]]; then
-        export TERMINFO=/opt/homebrew/opt/ncurses/share/terminfo
-    fi
-fi
-
-# check iterm
-term_program_name=$(echo "$TERM_PROGRAM" | tr "[:upper:]" "[:lower:]")
-if [[ $term_program_name == "" ]]; then
-    # check kitty
-    term_program_name=$(echo "$TERM" | tr "[:upper:]" "[:lower:]")
-fi
-
 function welcome_message() {
+    local term_program_name=""
+    term_program_name=$(echo "$TERM_PROGRAM" | tr "[:upper:]" "[:lower:]")
+    if [[ $term_program_name == "" ]]; then
+        # check kitty
+        term_program_name=$(echo "$TERM" | tr "[:upper:]" "[:lower:]")
+    fi
+
     if which fastfetch >/dev/null 2>&1; then
         logo_args=""
         if [[ $term_program_name == *"iterm"* ]]; then
