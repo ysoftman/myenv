@@ -338,6 +338,9 @@ function delete_ohmyposh_hooks {
 
 # oh-my-posh 사용
 function source_ohmyposh {
+    # 자동완성 기능 활성화, compdef 등 사용을 위해서 필요(oh-my-zsh, Prezto 에서는 자동 사용)
+    autoload -Uz compinit
+    compinit
     # 필요시 oh-my-posh font install 로 폰트 설치
     # https://ohmyposh.dev/docs/themes
     # local ohmyposhconfig="https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/jandedobbeleer.omp.json"
@@ -354,6 +357,9 @@ function source_ohmyposh {
 # starship 사용
 function source_starship {
     delete_ohmyposh_hooks
+    # 자동완성 기능 활성화, compdef 등 사용을 위해서 필요(oh-my-zsh, Prezto 에서는 자동 사용)
+    autoload -Uz compinit
+    compinit
     export STARSHIP_CONFIG=~/.config/starship.toml
     export STARSHIP_CACHE=~/.cache/starship
     eval "$(starship init zsh)"
