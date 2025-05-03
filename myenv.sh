@@ -339,6 +339,10 @@ function set_zsh_plugin {
     if [ -d "$HOME/.zsh/zsh-completions/src" ]; then
         fpath=($HOME/.zsh/zsh-completions/src $fpath)
     fi
+    # prezto completion 은 탭과 방향키로 선택할 수 있는 기능이 있다.
+    if [ -f "$HOME/.zprezto/modules/completion/init.zsh" ]; then
+        source "$HOME/.zprezto/modules/completion/init.zsh"
+    fi
     if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
         source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
     fi
