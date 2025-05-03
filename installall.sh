@@ -1,6 +1,9 @@
 #!/bin/bash
 bash ./installcommon.sh
 bash ./installpowerlinefont.sh
+bash ./installzshautosuggestions.sh
+bash ./installzshcompletion.sh
+bash ./installzshsyntaxhighlighting.sh
 bash ./installohmyzsh.sh
 zsh ./installprezto.zsh
 bash ./installstarship.sh

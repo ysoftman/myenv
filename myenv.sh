@@ -335,6 +335,21 @@ function set_fzf {
     # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 }
 
+function set_zsh_plugin {
+    if [ -d "$HOME/.zsh/zsh-completions/src" ]; then
+        fpath=($HOME/.zsh/zsh-completions/src $fpath)
+    fi
+    if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
+        source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
+    fi
+    if [ -f "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
+        source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    fi
+    # 자동완성 기능 활성화, compdef 등 사용을 위해서 필요(oh-my-zsh, Prezto 에서는 자동 사용)
+    autoload -Uz compinit
+    compinit
+}
+
 # oh-my-posh 훅제거
 function delete_ohmyposh_hooks {
     # echo $precmd_functions
@@ -347,9 +362,7 @@ function delete_ohmyposh_hooks {
 
 # oh-my-posh 사용
 function source_ohmyposh {
-    # 자동완성 기능 활성화, compdef 등 사용을 위해서 필요(oh-my-zsh, Prezto 에서는 자동 사용)
-    autoload -Uz compinit
-    compinit
+    set_zsh_plugin
     # 필요시 oh-my-posh font install 로 폰트 설치
     # https://ohmyposh.dev/docs/themes
     # local ohmyposhconfig="https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/jandedobbeleer.omp.json"
@@ -368,9 +381,7 @@ function source_ohmyposh {
 # starship 사용
 function source_starship {
     delete_ohmyposh_hooks
-    # 자동완성 기능 활성화, compdef 등 사용을 위해서 필요(oh-my-zsh, Prezto 에서는 자동 사용)
-    autoload -Uz compinit
-    compinit
+    set_zsh_plugin
     export STARSHIP_CONFIG=~/.config/starship.toml
     export STARSHIP_CACHE=~/.cache/starship
     eval "$(starship init zsh)"
@@ -389,6 +400,7 @@ function source_starship {
 # prezto 사용
 function source_prezto {
     delete_ohmyposh_hooks
+    set_zsh_plugin
     source "$HOME/.zprezto/init.zsh"
     prompt sorin_ysoftman
     set_path_and_vars
@@ -399,6 +411,7 @@ function source_prezto {
 # oh-my-zsh 사용
 function source_ohmyzsh {
     delete_ohmyposh_hooks
+    set_zsh_plugin
     # termux 에서 prezto 사용시 pmodload: no such module: prompt git ... 등 모듈로딩 에러 발생
     # zsh-template 파일을 커스텀하게 관리하는 대신 여기서 커스텀 설정하자.
     # source "$HOME/.oh-my-zsh/templates/zshrc.zsh-template"
@@ -429,13 +442,6 @@ if [[ $current_shell == "zsh" ]]; then
         # source_prezto
         # source_starship
         source_ohmyposh
-    fi
-
-    if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
-        source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
-    fi
-    if [ -f "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
-        source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
     fi
 else
     set_path_and_vars
