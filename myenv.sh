@@ -340,16 +340,16 @@ function set_zsh_plugin {
     if [ -d "$HOME/.zsh/zsh-completions/src" ]; then
         fpath=($HOME/.zsh/zsh-completions/src $fpath)
     fi
-    # prezto completion 은 탭과 방향키로 선택할 수 있는 기능이 있다.
-    # oh-my-zsh 로딩전 사용하면 *.zsh 같은 glob 커맨드에서 에러가 발생하니 oh-my-zsh 로딩 후에 사용해야 한다.
-    if [ -f "$HOME/.zprezto/modules/completion/init.zsh" ]; then
-        source "$HOME/.zprezto/modules/completion/init.zsh"
-    fi
     if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
         source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
     fi
     if [ -f "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
         source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    fi
+    # prezto completion 은 탭과 방향키로 선택할 수 있는 기능이 있다.
+    # oh-my-zsh 로딩전(또는 위 zsh-plugin 로딩전) 사용하면 *.zsh 같은 glob 커맨드에서 에러가 발생하니 oh-my-zsh 로딩 후에 사용해야 한다.
+    if [ -f "$HOME/.zprezto/modules/completion/init.zsh" ]; then
+        source "$HOME/.zprezto/modules/completion/init.zsh"
     fi
     # 자동완성 기능 활성화, compdef 등 사용을 위해서 필요(oh-my-zsh, Prezto 에서는 자동 사용)
     autoload -Uz compinit
