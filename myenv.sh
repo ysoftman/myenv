@@ -6,7 +6,8 @@
 # shellcheck disable=SC2139
 # shellcheck disable=SC2045
 
-os_name=$(uname | tr '[:upper:]' '[:lower:]')
+os_name=$(uname -o | tr '[:upper:]' '[:lower:]')
+os_name_kernel_release=$(uname -r | awk '{print tolower($0)}')
 declare myenv_path
 declare current_shell="bash"
 if [[ $(ps -p $$ -o command | sed -e 1d) == *"bash"* ]]; then
@@ -45,7 +46,7 @@ function tidy_path {
     export PATH=$HOME/.cargo/bin:$GOPATH/bin:/opt/homebrew/bin:/opt/homebrew/opt/curl/bin:/usr/local/go/bin:/usr/local/bin::$temp_path
 }
 
-function set_path_and_vars() {
+function set_path_and_vars {
     # /etc/profile -> /usr/libexec/path_helper -> /etc/paths 까지 설정 확인시
     #echo $PATH | tr ':' '\n'
     export PATH=$myenv_path:$PATH
@@ -92,33 +93,33 @@ function set_path_and_vars() {
             export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
         fi
     elif [[ $os_name == *"linux"* ]]; then
-        if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
-            # termux 는 현재 영어만 지원하고 있다.
-            # https://github.com/termux/termux-packages/issues/2796#issuecomment-424589888
-            export LANG=en_US.UTF-8
-        else
-            export LANG=ko_KR.utf8
-            export LC_ALL=ko_KR.utf8
-        fi
+        export LANG=ko_KR.utf8
+        export LC_ALL=ko_KR.utf8
         #export PS1="\u@\h:\w\$ "
         export LS_COLORS='no=00:fi=00:di=00;36:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:ow=01;36;40:*.sh=00;32'
-        # WSL(Windows Subsystem for Linux)
-        os_name_kernel_release=$(uname -r | awk '{print tolower($0)}')
-        if [[ $os_name_kernel_release == *"wsl"* ]]; then
-            if ! wslvar userprofile >/dev/null 2>&1; then
-                # wslvar reg.exe 등의 에러 발생시 업데이트
-                echo "need to install wslu for wslvar(reg.exe...)"
-                sudo apt install -y wslu
-            fi
-            # wsl.conf appendWindowsPath=false 인경우 vscode 경로 추가 필요
-            # export PATH=$PATH:"/mnt/c/Program Files/Microsoft VS Code/bin:"
-            username=$(wslvar userprofile | tr '\\' ' ' | awk '{print $NF}')
-            export PATH=$PATH:"/mnt/c/Users/${username}/AppData/Local/Programs/Microsoft VS Code/bin"
-            # 윈도우 netstat.exe 사용해야 실제 네트워크 상태를 알 수 있다.
-            alias netstat='/mnt/c/Windows/System32/netstat.exe'
-            # wsl+terminal 앱에서 less(git diff, man ls...)페이지 처음/끝에서 더 이동시 beep 발생 방지를 위해 기존 옵션에 -R -Q 을 추가해야 한다.
-            export LESS="$LESS -R -Q"
+    elif [[ $os_name == *"android"* ]]; then
+        # termux 는 현재 영어만 지원하고 있다.
+        # https://github.com/termux/termux-packages/issues/2796#issuecomment-424589888
+        export LANG=en_US.UTF-8
+        #export PS1="\u@\h:\w\$ "
+        export LS_COLORS='no=00:fi=00:di=00;36:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:ow=01;36;40:*.sh=00;32'
+    fi
+
+    # WSL(Windows Subsystem for Linux)
+    if [[ $os_name_kernel_release == *"wsl"* ]]; then
+        if ! wslvar userprofile >/dev/null 2>&1; then
+            # wslvar reg.exe 등의 에러 발생시 업데이트
+            echo "need to install wslu for wslvar(reg.exe...)"
+            sudo apt install -y wslu
         fi
+        # wsl.conf appendWindowsPath=false 인경우 vscode 경로 추가 필요
+        # export PATH=$PATH:"/mnt/c/Program Files/Microsoft VS Code/bin:"
+        username=$(wslvar userprofile | tr '\\' ' ' | awk '{print $NF}')
+        export PATH=$PATH:"/mnt/c/Users/${username}/AppData/Local/Programs/Microsoft VS Code/bin"
+        # 윈도우 netstat.exe 사용해야 실제 네트워크 상태를 알 수 있다.
+        alias netstat='/mnt/c/Windows/System32/netstat.exe'
+        # wsl+terminal 앱에서 less(git diff, man ls...)페이지 처음/끝에서 더 이동시 beep 발생 방지를 위해 기존 옵션에 -R -Q 을 추가해야 한다.
+        export LESS="$LESS -R -Q"
     fi
     tidy_path
     set_alias
@@ -148,7 +149,7 @@ function infinite_cowsay {
 }
 
 function set_alias {
-    if [[ $(uname -o 2>/dev/null) == 'Android' ]]; then
+    if [[ $os_name == *"android"* ]]; then
         unalias ls 2>/dev/null
     fi
     # replacement for ls
@@ -440,7 +441,7 @@ if [[ $current_shell == "zsh" ]]; then
     unalias run-help 2>/dev/null
     autoload run-help
 
-    if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
+    if [[ $os_name == *"android"* ]]; then
         source_ohmyzsh
     else
         if command -v oh-my-posh >/dev/null 2>&1; then
