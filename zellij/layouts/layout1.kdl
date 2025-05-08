@@ -1,3 +1,5 @@
+// 참고로 현재 layout dump
+// zellij action dump-layout ./current-zellij-layout.kdl
 layout {
     pane size=1 borderless=true {
         plugin location="zellij:compact-bar" {
@@ -8,23 +10,44 @@ layout {
     pane split_direction="vertical" {
         pane split_direction="horizontal" {
             pane {
+                cwd "~/workspace/"
                 command "astroterm"
                 args "--color" "--constellations" "--speed" "1000" "--fps" "64" "--city" "seoul" "-u" "-r" "3"
             }
             pane {
+                cwd "~/workspace/"
                 command "asciiquarium"
             }
         }
         pane split_direction="horizontal" {
-            pane command="cacafire"
-            pane command="cmatrix"
+            pane command="cacafire" {
+                cwd "~/workspace/"
+            }
+            pane command="cmatrix" {
+                cwd "~/workspace/"
+            }
         }
     }
     floating_panes {
         pane {
+            cwd "~/workspace/"
+            x 140
+            y 14
+            height 35
+            width 60
+            command "curl"
+            // args "http://ascii.live/rick"
+            args "http://ascii.live/forrest"
+        }
+        pane {
             // 새로운 zellij layout 실행시 prompt(interactive) 시작되지 않기 때문에 .zprofile 만 로딩되고 .zshrc 을 로딩되지 않는다.
             // PATH 환경변수도 설정정이라 full path 명시
             // go install github.com/maaslalani/confetty@latest
+            cwd "~/workspace/"
+            x 30
+            y 16
+            height 30
+            width 100
             command "/Users/ysoftman/workspace/gopath/bin/confetty"
             args "fireworks"
         }
