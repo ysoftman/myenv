@@ -443,7 +443,7 @@ if [[ $current_shell == "zsh" ]]; then
     if [[ $(uname -a | tr '[:upper:]' '[:lower:]') == *"android"* ]]; then
         source_ohmyzsh
     else
-        if command -v oh-my-zsh >/dev/null 2>&1; then
+        if command -v oh-my-posh >/dev/null 2>&1; then
             source_ohmyposh
         elif command -v starship >/dev/null 2>&1; then
             source_starship
