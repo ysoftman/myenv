@@ -611,5 +611,6 @@ function welcome_message() {
     fi
 }
 welcome_message
+unset -f welcome_message
 
 # prezto .zlogin fortune 을 실행하고 있어 .zlogin 에서 fortune 실행을 주석처리했다.
