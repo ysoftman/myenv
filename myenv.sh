@@ -341,6 +341,7 @@ function set_zsh_plugin {
         fpath=($HOME/.zsh/zsh-completions/src $fpath)
     fi
     # prezto completion 은 탭과 방향키로 선택할 수 있는 기능이 있다.
+    # oh-my-zsh 로딩전 사용하면 *.zsh 같은 glob 커맨드에서 에러가 발생하니 oh-my-zsh 로딩 후에 사용해야 한다.
     if [ -f "$HOME/.zprezto/modules/completion/init.zsh" ]; then
         source "$HOME/.zprezto/modules/completion/init.zsh"
     fi
@@ -367,7 +368,6 @@ function delete_ohmyposh_hooks {
 
 # oh-my-posh 사용
 function source_ohmyposh {
-    set_zsh_plugin
     # 필요시 oh-my-posh font install 로 폰트 설치
     # https://ohmyposh.dev/docs/themes
     # local ohmyposhconfig="https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/jandedobbeleer.omp.json"
@@ -377,6 +377,7 @@ function source_ohmyposh {
     # oh-my-posh config export --config ysoftman.omp.json --format toml -o ysoftman.omp.toml
     local ohmyposhconfig=~/.config/ysoftman.omp.toml
     eval "$(oh-my-posh init zsh --config $ohmyposhconfig)"
+    set_zsh_plugin
     set_path_and_vars
     # ohmyposh kubectl type 설정으로 kube prompt 설정할 필요가 없다.
     # set_kube_prompt
@@ -386,7 +387,6 @@ function source_ohmyposh {
 # starship 사용
 function source_starship {
     delete_ohmyposh_hooks
-    set_zsh_plugin
     export STARSHIP_CONFIG=~/.config/starship.toml
     export STARSHIP_CACHE=~/.cache/starship
     eval "$(starship init zsh)"
@@ -397,6 +397,7 @@ function source_starship {
     # starship preset pastel-powerline -o $STARSHIP_CONFIG
     # starship preset gruvbox-rainbow -o $STARSHIP_CONFIG
     # starship preset catppuccin-powerline -o $STARSHIP_CONFIG
+    set_zsh_plugin
     set_path_and_vars
     set_kube_prompt
     set_fzf
@@ -405,9 +406,9 @@ function source_starship {
 # prezto 사용
 function source_prezto {
     delete_ohmyposh_hooks
-    set_zsh_plugin
     source "$HOME/.zprezto/init.zsh"
     prompt sorin_ysoftman
+    set_zsh_plugin
     set_path_and_vars
     set_kube_prompt
     set_fzf
@@ -416,7 +417,6 @@ function source_prezto {
 # oh-my-zsh 사용
 function source_ohmyzsh {
     delete_ohmyposh_hooks
-    set_zsh_plugin
     # termux 에서 prezto 사용시 pmodload: no such module: prompt git ... 등 모듈로딩 에러 발생
     # zsh-template 파일을 커스텀하게 관리하는 대신 여기서 커스텀 설정하자.
     # source "$HOME/.oh-my-zsh/templates/zshrc.zsh-template"
@@ -428,6 +428,7 @@ function source_ohmyzsh {
     ZSH_THEME="bira"
     # ZSH_THEME="fino-time"
     source $ZSH/oh-my-zsh.sh
+    set_zsh_plugin
     set_path_and_vars
     set_kube_prompt
     set_fzf
