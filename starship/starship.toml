@@ -4,7 +4,9 @@ format = """
 [](red)\
 $os\
 $username\
-[](bg:peach fg:red)\
+[](bg:blue fg:red)\
+$kubernetes\
+[](bg:peach fg:blue)\
 $directory\
 [](bg:yellow fg:peach)\
 $git_branch\
@@ -73,6 +75,17 @@ truncation_symbol = "…/"
 "Music" = "󰝚 "
 "Pictures" = " "
 "Developer" = "󰲋 "
+
+# ~/.config/starship.toml
+
+[kubernetes]
+style = "fg:black bg:blue"
+# format = '[⛵$user on $cluster in $context\($namespace\)]($style)'
+format = '[ ⛵$context\($namespace\) ]($style)'
+disabled = false
+contexts = [
+  { context_pattern = "dev.local.cluster.k8s", style = "green", symbol = "💔 " },
+]
 
 [git_branch]
 symbol = ""
