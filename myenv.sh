@@ -88,20 +88,17 @@ function set_path_and_vars {
         export LSCOLORS='GxFxCxDxBxegedabagaced'
         export CLICOLOR=1
         if [[ $MACHTYPE == *"arm"* ]]; then
-            # brew install make llvm
             export PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
             export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
         fi
     elif [[ $os_name == *"linux"* ]]; then
         export LANG=ko_KR.utf8
         export LC_ALL=ko_KR.utf8
-        #export PS1="\u@\h:\w\$ "
         export LS_COLORS='no=00:fi=00:di=00;36:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:ow=01;36;40:*.sh=00;32'
     elif [[ $os_name == *"android"* ]]; then
         # termux 는 현재 영어만 지원하고 있다.
         # https://github.com/termux/termux-packages/issues/2796#issuecomment-424589888
         export LANG=en_US.UTF-8
-        #export PS1="\u@\h:\w\$ "
         export LS_COLORS='no=00:fi=00:di=00;36:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:ow=01;36;40:*.sh=00;32'
     fi
 
@@ -399,7 +396,8 @@ function source_starship {
     # starship preset catppuccin-powerline -o $STARSHIP_CONFIG
     set_zsh_plugin
     set_path_and_vars
-    set_kube_prompt
+    # starship kubernetes format 설정으로 kube prompt 설정할 필요가 없다.
+    # set_kube_prompt
     set_fzf
 }
 
