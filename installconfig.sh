@@ -60,16 +60,20 @@ git config --global credential.helper store
 
 # gitignore, bash, zsh, vim, tmux, tigrc, mutt 등 기본 설정
 export XDG_CONFIG_HOME="$HOME/.config"
+mkdir -p ${XDG_CONFIG_HOME}
 [ -h ~/.gitignore_global ] && unlink ~/.gitignore_global
 [ -h ~/.bashrc ] && unlink ~/.bashrc
 [ -h ~/.zshrc ] && unlink ~/.zshrc
 [ -h ~/.zprofile ] && unlink ~/.zprofile
 [ -h ~/.vimrc ] && unlink ~/.vimrc
-[ -h ${XDG_CONFIG_HOME}/nvim ] && unlink ${XDG_CONFIG_HOME}/nvim
 [ -h ~/.tmux.conf ] && unlink ~/.tmux.conf
 [ -h ~/.shellcheckrc ] && unlink ~/.shellcheckrc
 [ -h ~/.tigrc ] && unlink ~/.tigrc
 [ -h ~/.muttrc ] && unlink ~/.muttrc
+[ -h ${HOME}/.zprezto/runcoms/zlogin ] && unlink ${HOME}/.zprezto/runcoms/zlogin
+[ -h ${HOME}/.zprezto/runcoms/zpreztorc ] && unlink ${HOME}/.zprezto/runcoms/zpreztorc
+[ -h ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup ] && unlink ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup
+[ -h ${XDG_CONFIG_HOME}/nvim ] && unlink ${XDG_CONFIG_HOME}/nvim
 [ -d ${XDG_CONFIG_HOME}/alacritty-colorscheme ] || git clone https://github.com/alacritty/alacritty-theme ${XDG_CONFIG_HOME}/alacritty-colorscheme
 [ -h ${XDG_CONFIG_HOME}/alacritty ] && unlink ${XDG_CONFIG_HOME}/alacritty
 [ -h ${XDG_CONFIG_HOME}/cava ] && unlink ${XDG_CONFIG_HOME}/cava
@@ -89,11 +93,14 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [ -f ~/.zshrc ] && mv -fv ~/.zshrc ~/.zshrc.bak
 [ -f ~/.zprofile ] && mv -fv ~/.zprofile ~/.zprofile.bak
 [ -f ~/.vimrc ] && mv -fv ~/.vimrc ~/.vimrc.bak
-[ -f ${XDG_CONFIG_HOME}/nvim/init.vim ] && mv -fv ${XDG_CONFIG_HOME}/nvim ${XDG_CONFIG_HOME}/nvim.bak
 [ -f ~/.tmux.conf ] && mv -fv ~/.tmux.conf ~/.tmux.conf.bak
 [ -f ~/.shellcheckrc ] && mv -fv ~/.shellcheckrc ~/.shellcheckrc.bak
 [ -f ~/.tigrc ] && mv -fv ~/.tigrc ~/.tigrc.bak
 [ -f ~/.muttrc ] && mv -fv ~/.muttrc ~/.muttrc.bak
+[ -f ${HOME}/.zprezto/runcoms/zlogin ] && mv -fv ${HOME}/.zprezto/runcoms/zlogin ${HOME}/.zprezto/runcoms/zlogin.bak
+[ -f ${HOME}/.zprezto/runcoms/zpreztorc ] && mv -fv ${HOME}/.zprezto/runcoms/zpreztorc ${HOME}/.zprezto/runcoms/zpreztorc.bak
+[ -f ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup ] && mv -fv ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup.bak
+[ -f ${XDG_CONFIG_HOME}/nvim/init.vim ] && mv -fv ${XDG_CONFIG_HOME}/nvim ${XDG_CONFIG_HOME}/nvim.bak
 [ -d ${XDG_CONFIG_HOME}/alacritty ] && mv -fv ${XDG_CONFIG_HOME}/alacritty ${XDG_CONFIG_HOME}/alacritty.bak
 [ -d ${XDG_CONFIG_HOME}/cava ] && mv -fv ${XDG_CONFIG_HOME}/cava ${XDG_CONFIG_HOME}/cava.bak
 [ -d ${XDG_CONFIG_HOME}/harlequin ] && mv -fv ${XDG_CONFIG_HOME}/harlequin ${XDG_CONFIG_HOME}/harlequin.bak
@@ -103,30 +110,33 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [ -d ${XDG_CONFIG_HOME}/lsd ] && mv -fv ${XDG_CONFIG_HOME}/lsd ${XDG_CONFIG_HOME}/lsd.bak
 [ -d ${XDG_CONFIG_HOME}/mc ] && mv -fv ${XDG_CONFIG_HOME}/mc ${XDG_CONFIG_HOME}/mc.bak
 [ -d ${XDG_CONFIG_HOME}/zellij ] && mv -fv ${XDG_CONFIG_HOME}/zellij ${XDG_CONFIG_HOME}/zellij.bak
-[ -d ${XDG_CONFIG_HOME}/starship.toml ] && mv -fv ${XDG_CONFIG_HOME}/starship.toml ${XDG_CONFIG_HOME}/starship.toml.bak
-[ -d ${XDG_CONFIG_HOME}/ysoftman.omp.toml ] && mv -fv ${XDG_CONFIG_HOME}/starship.toml ${XDG_CONFIG_HOME}/ysoftman.omp.toml.bak
+[ -f ${XDG_CONFIG_HOME}/starship.toml ] && mv -fv ${XDG_CONFIG_HOME}/starship.toml ${XDG_CONFIG_HOME}/starship.toml.bak
+[ -f ${XDG_CONFIG_HOME}/ysoftman.omp.toml ] && mv -fv ${XDG_CONFIG_HOME}/ysoftman.omp.toml ${XDG_CONFIG_HOME}/ysoftman.omp.toml.bak
 
-ln -sf ${PWD}/.gitignore_global ~/.gitignore_global
-ln -sf ${PWD}/.bashrc ~/.bashrc
-ln -sf ${PWD}/.zshrc ~/.zshrc
-ln -sf ${PWD}/.zprofile ~/.zprofile
-ln -sf ${PWD}/.vimrc ~/.vimrc
-[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/nvim ${XDG_CONFIG_HOME}/nvim
-ln -sf ${PWD}/.tmux.conf ~/.tmux.conf
-ln -sf ${PWD}/.shellcheckrc ~/.shellcheckrc
-ln -sf ${PWD}/.tigrc ~/.tigrc
-ln -sf ${PWD}/.muttrc ~/.muttrc
-[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/alacritty ${XDG_CONFIG_HOME}/alacritty
-[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/cava ${XDG_CONFIG_HOME}/cava
-[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/harlequin ${XDG_CONFIG_HOME}/harlequin
-[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/karabiner ${XDG_CONFIG_HOME}/karabiner
-[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/k9s ${XDG_CONFIG_HOME}/k9s
-[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/kitty ${XDG_CONFIG_HOME}/kitty
-[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/lsd ${XDG_CONFIG_HOME}/lsd
-[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/mc ${XDG_CONFIG_HOME}/mc
-[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/zellij ${XDG_CONFIG_HOME}/zellij
-[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/starship.toml ${XDG_CONFIG_HOME}/starship.toml
-[ -d ${XDG_CONFIG_HOME} ] && ln -sf ${PWD}/ysoftman.omp.toml ${XDG_CONFIG_HOME}/ysoftman.omp.toml
+ln -sfv ${PWD}/.gitignore_global ~/.gitignore_global
+ln -sfv ${PWD}/.bashrc ~/.bashrc
+ln -sfv ${PWD}/.zshrc ~/.zshrc
+ln -sfv ${PWD}/.zprofile ~/.zprofile
+ln -sfv ${PWD}/.vimrc ~/.vimrc
+ln -sfv ${PWD}/.tmux.conf ~/.tmux.conf
+ln -sfv ${PWD}/.shellcheckrc ~/.shellcheckrc
+ln -sfv ${PWD}/.tigrc ~/.tigrc
+ln -sfv ${PWD}/.muttrc ~/.muttrc
+ln -sfv ${PWD}/prezto/zlogin ${HOME}/.zprezto/runcoms/zlogin
+ln -sfv ${PWD}/prezto/zpreztorc ${HOME}/.zprezto/runcoms/zpreztorc
+ln -sfv ${PWD}/prezto/prompt_sorin_ysoftman_setup ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup
+[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/nvim ${XDG_CONFIG_HOME}/nvim
+[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/alacritty ${XDG_CONFIG_HOME}/alacritty
+[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/cava ${XDG_CONFIG_HOME}/cava
+[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/harlequin ${XDG_CONFIG_HOME}/harlequin
+[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/karabiner ${XDG_CONFIG_HOME}/karabiner
+[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/k9s ${XDG_CONFIG_HOME}/k9s
+[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/kitty ${XDG_CONFIG_HOME}/kitty
+[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/lsd ${XDG_CONFIG_HOME}/lsd
+[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/mc ${XDG_CONFIG_HOME}/mc
+[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/zellij ${XDG_CONFIG_HOME}/zellij
+[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/starship/starship.toml ${XDG_CONFIG_HOME}/starship.toml
+[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/oh-my-posh/ysoftman.omp.toml ${XDG_CONFIG_HOME}/ysoftman.omp.toml
 
 # ubuntu 에서는 이름이 달라서 link 처리한다.
 [ -f /usr/bin/fdfind ] && sudo ln -sf /usr/bin/fdfind /usr/bin/fd
