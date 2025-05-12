@@ -18,7 +18,7 @@ fi
 
 # for item in `cat gitdirs`
 for item in ${gitdirs}; do
-    out=$( (git -C ${item} remote -v | grep -c "https://github.com/ysoftman/" | awk '{print$1}'))
+    out=$(git -C ${item} remote -v | grep -c "https://github.com/ysoftman/" | awk '{print$1}')
     if [[ $out == 2 ]]; then
         # echo $item
         cat <<zzz
