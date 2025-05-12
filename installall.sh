@@ -40,4 +40,5 @@ bash ./installrust.sh
 bash ./installvscodesettings.sh
 bash ./installvscodeextension.sh
 bash ./installcargo.sh
+bash ./installnvm.sh
 bash ./installemojicli.sh
