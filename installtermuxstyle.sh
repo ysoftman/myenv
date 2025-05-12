@@ -1,13 +1,13 @@
 #!/bin/bash
 
 git clone https://github.com/adi1090x/termux-style.git
-cd termux-style
+cd termux-style || exit
 ./install
 
 cd ../
 rm -rf termux-style
 
-cat << zzz
+cat <<zzz
 # open termux style program to set colors, fonts, ...
 termux-style
 zzz
