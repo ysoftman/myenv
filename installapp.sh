@@ -12,12 +12,12 @@ fi
 # sudo rm -rf '/Applications/Spectacle.app'
 # sudo rm -rf '/Applications/Flux.app'
 
-
 if [ -e '/Applications/iTerm.app' ]; then
     echo "file exists /Applications/iTerm.app"
 else
-    wget https://iterm2.com/downloads/stable/iTerm2-3_2_2.zip
-    tar zxf iTerm2-3_2_2.zip
+    itversion="3_5_13"
+    wget https://iterm2.com/downloads/stable/iTerm2-${itversion}.zip
+    tar zxf iTerm2-${itversion}.zip
     sudo cp -R "iTerm.app" /Applications
     rm -rf iTerm*
 fi
@@ -46,18 +46,20 @@ fi
 if [ -e '/Applications/Firefox.app' ]; then
     echo "file exists /Applications/Firefox.app"
 else
-    wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/62.0/mac/ko/Firefox%2062.0.dmg
-    hdiutil mount 'Firefox 62.0.dmg'
+    ffversion="138.0.1"
+    wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/${ffversion}/mac/ko/Firefox%20${ffversion}.dmg
+    hdiutil mount "Firefox $ffversion.dmg"
     sudo cp -R "/Volumes/Firefox/Firefox.app" /Applications
     hdiutil unmount "/Volumes/Firefox"
     rm -rf Firefox*
 fi
 
-if [ -e '/Applications/Flux.app' ]; then
-    echo "file exists /Applications/Flux.app"
-else
-    wget https://justgetflux.com/mac/Flux.zip
-    tar zxf Flux.zip
-    sudo cp -R "./Flux.app" /Applications
-    rm -rf Flux*
-fi
+# 이제는 mac 자체에서 같은 기능을 제공하고 있어 별도 설치 하지 않는다
+# if [ -e '/Applications/Flux.app' ]; then
+#     echo "file exists /Applications/Flux.app"
+# else
+#     wget https://justgetflux.com/mac/Flux.zip
+#     tar zxf Flux.zip
+#     sudo cp -R "./Flux.app" /Applications
+#     rm -rf Flux*
+# fi
