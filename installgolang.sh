@@ -1,4 +1,10 @@
 #!/bin/bash
+
+if command -v go >/dev/null 2>&1; then
+    echo "go already installed in $(command -v go)"
+    exit 0
+fi
+
 if [[ $# != 1 ]]; then
     echo "ex) bash ${0} go1.22.6.darwin-amd64"
     echo "ex) bash ${0} go1.22.6.linux-amd64"

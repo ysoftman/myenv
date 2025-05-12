@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if command -v node >/dev/null 2>&1; then
+    echo "node already installed in $(command -v node)"
+    exit 0
+fi
+
 # ubuntu 18 등에서 시스템에 최신 nodejs 를 설치할 경우
 if [[ $(uname | tr "[:upper:]" "[:lower:]") == *"linux"* ]]; then
     node_target="node-v20.16.0-linux-x64"

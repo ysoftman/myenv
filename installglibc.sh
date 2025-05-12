@@ -10,9 +10,9 @@ if [ ! -f "glibc-$glibc_version.tar.gz" ]; then
 fi
 
 tar -zxvf glibc-$glibc_version.tar.gz
-cd glibc-$glibc_version
+cd glibc-$glibc_version || exit
 mkdir build
-cd build
+cd build || exit
 ../configure --prefix=$HOME/glibc-$glibc_version/build
 make -j
 make install
