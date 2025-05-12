@@ -7,9 +7,11 @@ git_find_ysoftman_dirs() {
     # --no-ignore 옵션이 없으면 ~/workspace/ysoftman.github.io > .gitignore > .git 이 설정되어 있어 디렉토리가 제외된다.
     gitdirs=$(fd '\.git$' --hidden --no-ignore --type d $HOME/workspace)
     for item in ${gitdirs}; do
-        out=$(git -C ${item} remote -v | rg -i -c "https://github.com/ysoftman/.*fetch" | awk '{print$1}')
-        if [[ $out == 1 ]]; then
-            echo "$item" | sed 's#.git/$##'
+        url=$(git -C ${item} remote -v | rg -i "https://github.com/ysoftman/.*fetch" | awk '{print $2}')
+        if [[ $url != "" ]]; then
+            dir=$(echo "$item" | sed 's#.git/$##')
+            echo $url $dir
+            # git clone $url $dir
         fi
     done
     IFS=' '
