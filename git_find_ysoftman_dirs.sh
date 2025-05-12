@@ -9,8 +9,7 @@ git_find_ysoftman_dirs() {
     for item in ${gitdirs}; do
         out=$(git -C ${item} remote -v | rg -i -c "https://github.com/ysoftman/.*fetch" | awk '{print$1}')
         if [[ $out == 1 ]]; then
-            # echo "$item" | sed 's#.git/$##'
-            echO $item
+            echo "$item" | sed 's#.git/$##'
         fi
     done
     IFS=' '
