@@ -12,7 +12,7 @@ git_clone_and_pull() {
     git -C ~/workspace/${targetdir} pull
 }
 
-# git repo url 추출은 get_git_url.sh 참고
+# 로컬 ysoftman repo 경로 추출은 (bash git_find_ysoftman_dirs.sh | sort | pbcopy)
 git_clone_and_pull https://github.com/ysoftman/aleng
 git_clone_and_pull https://github.com/ysoftman/codingtest.git
 git_clone_and_pull https://github.com/ysoftman/colorfulURL
