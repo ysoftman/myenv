@@ -1,16 +1,14 @@
-B
 #!/bin/bash
 
-cd ~/workspace
-if [[ $? != 0 ]]; then
-    echo "~/workspace doesn't exists"
+if [[ ! -d $HOME/workspace ]]; then
+    echo "$HOME/workspace doesn't exists"
     exit 1
 fi
+cd $HOME/workspace || exit
 
-git_clone_and_pull()
-{
+git_clone_and_pull() {
     git clone ${1}
-    targetdir=`echo ${1} | sed 's/^.*ysoftman\///' | sed 's/\.git$//'`
+    targetdir=$(echo ${1} | sed 's/^.*ysoftman\///' | sed 's/\.git$//')
     git -C ~/workspace/${targetdir} pull
 }
 
