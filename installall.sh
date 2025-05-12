@@ -17,6 +17,7 @@ if [[ $os_name == *"darwin"* ]]; then
     bash ./installbrew.sh
     bash ./installapp.sh
     bash ./installitermcolor.sh
+    bash ./installlapcesettings.sh
 elif [[ $os_name == *"linux"* ]]; then
     bash ./installnode.sh
 elif [[ $os_name == *"android"* ]]; then
