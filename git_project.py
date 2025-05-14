@@ -3,16 +3,17 @@
 
 """
 github issue 파악
-github API 참고 
+github API 참고
 https://docs.github.com/en/rest/projects/projects#list-organization-projects
 https://docs.github.com/en/enterprise-server@2.22/rest/reference/projects
 """
 
-import requests
 import json
-import subprocess
 import os
+import subprocess
 import sys
+
+import requests
 
 
 class color:
@@ -38,7 +39,7 @@ def load_config(git_remote_url):
     cfgFile = os.path.expanduser("~") + "/.git-credentials"
     try:
         f = open(cfgFile, "r")
-    except:
+    except BaseException:
         print("can't find ", cfgFile)
         print(
             cfgFile,
@@ -125,11 +126,11 @@ def get_project_url(id: int):
 def org_project_list():
     resp = requests.get(get_org_project_url(), auth=(user, password))
     result = json.loads(resp.content)
-    if type(result) != list:
+    if type(result) is not list:
         print("organization projects not found!, Let's try to get user projects...")
         resp = requests.get(get_user_project_url(), auth=(user, password))
         result = json.loads(resp.content)
-        if type(result) != list:
+        if type(result) is not list:
             return
 
     for item in result:
@@ -139,7 +140,7 @@ def org_project_list():
 def get_project(project_id: int):
     resp = requests.get(get_project_url(project_id), auth=(user, password))
     project = json.loads(resp.content)
-    if type(project) != dict:
+    if type(project) is not dict:
         print(f"{project_id} project not found!")
         return
 
@@ -147,7 +148,7 @@ def get_project(project_id: int):
 
     resp = requests.get(project["columns_url"], auth=(user, password))
     columns = json.loads(resp.content)
-    if type(columns) != list:
+    if type(columns) is not list:
         print(f"{project_id} project not found!")
         return
 
