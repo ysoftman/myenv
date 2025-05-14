@@ -6,10 +6,11 @@ github issue 파악
 github API 참고 : https://developer.github.com/enterprise/2.13/v3/issues/#list-issues
 """
 
-import requests
 import json
-import subprocess
 import os
+import subprocess
+
+import requests
 
 
 class color:
@@ -35,7 +36,7 @@ def load_config(git_remote_url):
     cfgFile = os.path.expanduser("~") + "/.git-credentials"
     try:
         f = open(cfgFile, "r")
-    except:
+    except BaseException:
         print("can't find ", cfgFile)
         print(
             cfgFile,
@@ -112,7 +113,7 @@ def issue_list():
     resp = requests.get(get_open_issue_url(), auth=(user, password))
     result = json.loads(resp.content)
 
-    if type(result) != list:
+    if type(result) is not list:
         print("issue not found!")
         exit(0)
 
@@ -136,5 +137,5 @@ if __name__ == "__main__":
     git_remote_url = subprocess.Popen(
         "git remote -v | awk 'NR==1 {print $2}'", shell=True, stdout=subprocess.PIPE
     ).stdout.read()
-    if load_config(git_remote_url.decode().rstrip()) == True:
+    if load_config(git_remote_url.decode().rstrip()) is True:
         issue_list()
