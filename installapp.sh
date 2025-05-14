@@ -13,7 +13,7 @@ fi
 # sudo rm -rf '/Applications/Flux.app'
 
 # 이제는 brew 로 앱들 설치할 수 있다.
-brew install iterm2 visual-studio-code rectangle firefox google-chrome
+brew install iterm2 visual-studio-code rectangle brave-browser firefox google-chrome
 
 # if [ -e '/Applications/Google Chrome.app' ]; then
 #     echo "file exists /Applications/Google Chrome.app"
