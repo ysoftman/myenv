@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ $(uname) == 'Darwin' ]; then
+if [ "$(uname)" == 'Darwin' ]; then
     ln -sf ${PWD}/vscode_settings/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
     ln -sf ${PWD}/vscode_settings/locale.json ~/Library/Application\ Support/Code/User/locale.json
     ln -sf ${PWD}/vscode_settings/settings.json ~/Library/Application\ Support/Code/User/settings.json
