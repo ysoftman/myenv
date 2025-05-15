@@ -8,16 +8,29 @@ download_ysoftman_youtube_music() {
         --download-archive $music_path/download-archive \
         --extract-audio --audio-format mp3 \
         --audio-quality 0 \
+        --restrict-filenames \
+        --ignore-errors \
         -o "$music_path/%(playlist_title)s/%(title)s.%(ext)s"
     yt-dlp "https://www.youtube.com/playlist?list=PLxZefZxz0kXva-lM3tLP49r5zZQKC_w5C" \
         --download-archive $music_path/download-archive \
         --extract-audio --audio-format mp3 \
         --audio-quality 0 \
+        --restrict-filenames \
+        --ignore-errors \
         -o "$music_path/%(playlist_title)s/%(title)s.%(ext)s"
     yt-dlp "https://www.youtube.com/playlist?list=PLxZefZxz0kXt-LqxE7I2IJERF8-t_8FUT" \
         --download-archive $music_path/download-archive \
         --extract-audio --audio-format mp3 \
         --audio-quality 0 \
+        --restrict-filenames \
+        --ignore-errors \
+        -o "$music_path/%(playlist_title)s/%(title)s.%(ext)s"
+    yt-dlp "https://youtube.com/playlist?list=PLxZefZxz0kXt0zWX9cy0Gf5DcikcA4S01" \
+        --download-archive $music_path/download-archive \
+        --extract-audio --audio-format mp3 \
+        --audio-quality 0 \
+        --restrict-filenames \
+        --ignore-errors \
         -o "$music_path/%(playlist_title)s/%(title)s.%(ext)s"
 }
 
