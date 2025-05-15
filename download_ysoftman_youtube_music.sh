@@ -3,6 +3,7 @@
 download_ysoftman_youtube_music() {
     local music_path="$HOME/Downloads/music"
     mkdir -p $music_path
+    # download-archive 파일에 이미 다운로드된 음악 hash 가 기록되어 이를 참고하면 중복 다운로드를 피할 수 있다.
     yt-dlp "https://www.youtube.com/playlist?list=PLxZefZxz0kXuZSbU4AQsIiES32Ddqbwbe" \
         --download-archive $music_path/download-archive \
         --extract-audio --audio-format mp3 \
@@ -22,7 +23,9 @@ download_ysoftman_youtube_music() {
 
 # 플레이 리스트 정보만 출력시
 show_ysoftman_youtube_music_list() {
-    local music_list_file="ysoftman_youtube_music_list.txt"
+    local music_path="$HOME/Downloads/music"
+    mkdir -p $music_path
+    local music_list_file="$HOME/Downloads/music/ysoftman_youtube_music_list.txt"
     rm -f $music_list_file
     yt-dlp "https://www.youtube.com/playlist?list=PLxZefZxz0kXuZSbU4AQsIiES32Ddqbwbe" \
         --skip-download \
