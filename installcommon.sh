@@ -6,9 +6,9 @@ pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix py
 # debian,ubuntu
 pkgs_aptget='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev python3-dev default-jdk ruby golang rust cargo man dnsutils python3-pip expect clang-format build-essential libncurses5-dev jq screenfetch neofetch lolcat fonts-powerline ripgrep bat fd-find lsd duf fzf'
 # arch
-pkgs_pacman='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python ruby go man dnsutils screenfetch fastfetch neofetch lolcat lsd exa git-delta'
+pkgs_pacman='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python ruby go man dnsutils screenfetch fastfetch neofetch lolcat lsd eza git-delta'
 # mac
-pkgs_brew='zsh zoxide lsd exa rust git-delta ripgrep bat duf lolcat cowsay jq fastfetch neofetch'
+pkgs_brew='zsh zoxide lsd eza rust git-delta ripgrep bat duf lolcat cowsay jq fastfetch neofetch'
 sudo_cmd='sudo'
 
 if [[ $(uname -o 2>/dev/null) == 'Android' ]]; then
