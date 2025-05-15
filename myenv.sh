@@ -158,8 +158,8 @@ function set_alias {
     if which colorls >/dev/null 2>&1; then
         alias ll='colorls -ahl'
     fi
-    if which exa >/dev/null 2>&1; then
-        alias ll='exa -ahl'
+    if which eza >/dev/null 2>&1; then
+        alias ll='eza -ahl'
     fi
     if which lsd >/dev/null 2>&1; then
         alias ll='lsd -ahl'
