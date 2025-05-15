@@ -25,10 +25,8 @@ if [[ $(uname -o 2>/dev/null) == 'Android' ]]; then
 elif [[ $(uname) == 'Darwin' ]]; then
     echo 'OSX Environment'
     # brew 설치
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     brew install ${pkgs_brew}
-    # pip 설치
-    ${sudo_cmd} easy_install pip
 elif [[ $(uname) == 'Linux' ]]; then
     echo 'Linux Environment'
     # centos
