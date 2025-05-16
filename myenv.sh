@@ -250,7 +250,7 @@ function set_kube_prompt {
 }
 
 function fzf-rg-widget {
-    local RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+    local RG_PREFIX="rg --hidden --column --line-number --no-heading --color=always --smart-case "
     local FZF_INITIAL_QUERY="${*:-}"
     fzf --ansi --query "$FZF_INITIAL_QUERY" \
         --bind "start:reload:$RG_PREFIX {q}" \
