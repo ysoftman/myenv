@@ -196,9 +196,6 @@ function set_alias {
     alias enchash='${HOME}/workspace/enchash/enchash'
     alias aleng='${HOME}/workspace/aleng/aleng'
     alias tig='tig --all'
-    # git issue script --> gh(github) command 로 대체해서 사용하지 않음
-    #alias gitissue="python3 ${myenv_path}/git_issue.py"
-    #alias gitpj="python3 ${myenv_path}/git_project.py"
     # gh command - 깃헙 호스트별 최초 로그인 필요(gh auth login)
     alias ghauthstatus='gh auth status'
     alias ghissueme='gh issue list --assignee @me'

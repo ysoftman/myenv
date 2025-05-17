@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-github issue/project 파악(gh 커맨드로 gh issue/project list 등가 있지만 커스텀하게 사용하고 싶어서 만들었음)
+github issue/project 파악(gh 커맨드로 gh issue/project list 등이 있지만 커스텀하게 사용하고 싶어서 만들었음)
 github API 참고
 https://developer.github.com/enterprise/2.13/v3/issues/#list-issues
 https://docs.github.com/en/rest/projects/projects#list-organization-projects
