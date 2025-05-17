@@ -54,6 +54,8 @@ https://ysoftman:password@bbb.github.com
             break
 
         line = line.strip()  # remove \n
+        if line.startswith("#"):  # skip comment line
+            continue
         ele = line.split("@")
         idpw = ele[0].split("//")[1].split(":")
         cfgs[ele[0].split("//")[0] + "//" + ele[1]] = {
@@ -134,8 +136,13 @@ def issue_list():
 if __name__ == "__main__":
     # print(os.getcwd())
     # print(os.path.expanduser('~'))
-    git_remote_url = subprocess.Popen(
-        "git remote -v | awk 'NR==1 {print $2}'", shell=True, stdout=subprocess.PIPE
-    ).stdout.read()
-    if load_config(git_remote_url.decode().rstrip()) is True:
-        issue_list()
+    try:
+        git_remote_url = subprocess.check_output(
+            "git remote -v | awk 'NR==1 {print $2}'",
+            shell=True,
+            stderr=subprocess.PIPE,
+        )
+        if load_config(git_remote_url.decode("utf-8").strip()) is True:
+            issue_list()
+    except subprocess.CalledProcessError as e:
+        print(e.output.decode())
