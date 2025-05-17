@@ -284,12 +284,19 @@ if __name__ == "__main__":
     # print(os.getcwd())
     # print(os.path.expanduser('~'))
     try:
-        git_remote_url = subprocess.check_output(
-            "git remote -v | awk 'NR==1 {print $2}'",
-            shell=True,
-            stderr=subprocess.PIPE,
+        git_remote_url = (
+            subprocess.check_output(
+                "git remote -v | awk 'NR==1 {print $2}'",
+                shell=True,
+                stderr=subprocess.PIPE,
+            )
+            .decode("utf-8")
+            .strip()
         )
-        if load_config(git_remote_url.decode("utf-8").strip()) is False:
+        if git_remote_url == "":
+            print("can't find git repository")
+            exit(1)
+        if load_config(git_remote_url) is False:
             exit(0)
     except subprocess.CalledProcessError as e:
         print(e.output.decode())
