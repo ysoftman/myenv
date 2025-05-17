@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 
 """
-github issue 파악(gh 커맨드로 gh project list 가 있지만 커스텀하게 사용하고 싶어서 만들었음)
+github issue/project 파악(gh 커맨드로 gh issue/project list 등가 있지만 커스텀하게 사용하고 싶어서 만들었음)
 github API 참고
+https://developer.github.com/enterprise/2.13/v3/issues/#list-issues
 https://docs.github.com/en/rest/projects/projects#list-organization-projects
 https://docs.github.com/en/enterprise-server@2.22/rest/reference/projects
 """
@@ -102,6 +103,38 @@ https://ysoftman:password@bbb.github.com
         return False
 
     return True
+
+
+def get_open_issue_url():
+    if baseURL == "https://github.com":
+        # print("[https://api.github.com]")
+        return "https://api.github.com/repos/{}/{}/issues?state=open".format(
+            owner, repo
+        )
+    # for github enterprise
+    return "{}/api/v3/repos/{}/{}/issues?state=open".format(baseURL, owner, repo)
+
+
+def issue_list():
+    resp = requests.get(get_open_issue_url(), auth=(user, password))
+    result = json.loads(resp.content)
+
+    if type(result) is not list:
+        print("issue not found!")
+        exit(0)
+
+    for item in result:
+        assignees = []
+        for i in item["assignees"]:
+            assignees.append(i["login"])
+        assignee_users = ",".join(assignees)
+        print(
+            color.cyan + item["created_at"] + color.reset_color,
+            color.yellow + item["state"] + color.reset_color,
+            color.purple + item["title"] + color.reset_color,
+            color.green + item["html_url"] + color.reset_color,
+            color.blue + assignee_users + color.reset_color,
+        )
 
 
 def get_user_project_url():
@@ -231,7 +264,23 @@ def get_project(project_id: int):
     return
 
 
+def help_and_exit():
+    print(
+        """example)
+        {0} issue
+        {0} project
+        {0} project _project_id_
+              """.format(
+            sys.argv[0]
+        )
+    )
+    exit(0)
+
+
 if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        help_and_exit()
+
     # print(os.getcwd())
     # print(os.path.expanduser('~'))
     try:
@@ -245,8 +294,13 @@ if __name__ == "__main__":
     except subprocess.CalledProcessError as e:
         print(e.output.decode())
 
-    if len(sys.argv) == 2:
-        project_id = sys.argv[1]
-        get_project(int(project_id))
+    if sys.argv[1] == "issue":
+        issue_list()
+    elif sys.argv[1] == "project":
+        if len(sys.argv) == 3:
+            project_id = sys.argv[1]
+            get_project(int(project_id))
+        else:
+            org_project_list()
     else:
-        org_project_list()
+        help_and_exit()
