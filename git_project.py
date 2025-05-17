@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-github issue 파악
+github issue 파악(gh 커맨드로 gh project list 가 있지만 커스텀하게 사용하고 싶어서 만들었음)
 github API 참고
 https://docs.github.com/en/rest/projects/projects#list-organization-projects
 https://docs.github.com/en/enterprise-server@2.22/rest/reference/projects
@@ -57,6 +57,8 @@ https://ysoftman:password@bbb.github.com
             break
 
         line = line.strip()  # remove \n
+        if line.startswith("#"):  # skip comment line
+            continue
         ele = line.split("@")
         idpw = ele[0].split("//")[1].split(":")
         cfgs[ele[0].split("//")[0] + "//" + ele[1]] = {
@@ -140,7 +142,7 @@ def org_project_list():
 def get_project(project_id: int):
     resp = requests.get(get_project_url(project_id), auth=(user, password))
     project = json.loads(resp.content)
-    if type(project) is not dict:
+    if project is None or type(project) is not dict:
         print(f"{project_id} project not found!")
         return
 
@@ -232,14 +234,19 @@ def get_project(project_id: int):
 if __name__ == "__main__":
     # print(os.getcwd())
     # print(os.path.expanduser('~'))
-    git_remote_url = subprocess.Popen(
-        "git remote -v | awk 'NR==1 {print $2}'", shell=True, stdout=subprocess.PIPE
-    ).stdout.read()
-    if load_config(git_remote_url.decode().rstrip()) is False:
-        exit(0)
+    try:
+        git_remote_url = subprocess.check_output(
+            "git remote -v | awk 'NR==1 {print $2}'",
+            shell=True,
+            stderr=subprocess.PIPE,
+        )
+        if load_config(git_remote_url.decode("utf-8").strip()) is False:
+            exit(0)
+    except subprocess.CalledProcessError as e:
+        print(e.output.decode())
 
     if len(sys.argv) == 2:
         project_id = sys.argv[1]
-        get_project(project_id)
+        get_project(int(project_id))
     else:
         org_project_list()
