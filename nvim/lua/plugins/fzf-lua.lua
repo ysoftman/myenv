@@ -93,6 +93,7 @@ return {
         -- executed command priority is 'cmd' (if exists)
         -- otherwise auto-detect prioritizes `fd`:`rg`:`find`
         -- default options are controlled by 'fd|rg|find|_opts'
+        -- fzf 내부적으로 rg -> grep 순으로 명령을 찾아 실행한다.
         -- NOTE: 'find -printf' requires GNU find
         -- cmd            = "find . -type f -printf '%P\n'",
         find_opts = [[-type f -not -path '*/\.git/*' -printf '%P\n']],
@@ -129,6 +130,7 @@ return {
         -- executed command priority is 'cmd' (if exists)
         -- otherwise auto-detect prioritizes `rg` over `grep`
         -- default options are controlled by 'rg|grep_opts'
+        -- fzf 내부적으로 rg -> grep 순으로 명령을 찾아 실행한다.
         -- cmd            = "rg --vimgrep",
         grep_opts = "--binary-files=without-match --line-number --recursive --color=auto --perl-regexp -e",
         rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
