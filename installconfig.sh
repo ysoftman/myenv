@@ -12,7 +12,7 @@ git config --global core.autocrlf false
 git config --global merge.tool vimdiff
 # .lock .tmp 등 diff 에서 제외
 # git diff "$@" ':!*.lock' ':!*.tmp'
-git config --global alias.difflocktmp "diff ':!*.lock' ':!*.tmp'"
+git config --global alias.diffnotlocktmp "diff ':!*.lock' ':!*.tmp'"
 
 # user_email="ysoftman@gmail.com"
 # user_name="ysoftman"
