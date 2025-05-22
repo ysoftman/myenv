@@ -10,6 +10,10 @@ git config --global core.editor vim
 # 윈도우에서만 autocrlf 활성화 하자, 기본은 false
 git config --global core.autocrlf false
 git config --global merge.tool vimdiff
+# .lock .tmp 등 diff 에서 제외
+# git diff "$@" ':!*.lock' ':!*.tmp'
+git config --global alias.difflocktmp "diff ':!*.lock' ':!*.tmp'"
+
 # user_email="ysoftman@gmail.com"
 # user_name="ysoftman"
 # 이미 사용자 정보가 설정되어 있으면 덮어쓰기때문에 확인하고 사용하자
