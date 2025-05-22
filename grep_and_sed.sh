@@ -4,6 +4,8 @@ source ${HOME}/workspace/myenv/colors.sh
 grep_and_sed_help() {
     echo "ex) Replace apple with lemon in all files under the current path"
     print_yellow_msg "grep_and_sed apple lemon"
+    echo ""
+    print_green_msg "[RECOMMEND] scooter(https://github.com/thomasschafer/scooter)"
 }
 
 grep_and_sed() {
