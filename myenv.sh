@@ -74,6 +74,29 @@ function set_path_and_vars {
     # 수동 golang 설치경로
     export PATH=$HOME/go/bin:$PATH
     export GOPATH=$HOME/workspace/gopath
+    if [[ $current_shell == "zsh" ]]; then
+        export HISTFILE=~/.zsh_history
+        export HISTSIZE=1000 # 메모리에 저장할 최대 명령어 수
+        export SAVEHIST=1000 # 디스크에 저장할 최대 명령어 수
+
+        # 중복 명령어 저장 방지
+        setopt HIST_IGNORE_DUPS
+        setopt HIST_EXPIRE_DUPS_FIRST
+
+        # 새로운 명령어를 이전 명령어와 비교하여 중복 없이 기록
+        setopt SHARE_HISTORY  # 여러 터미널에서 히스토리 공유
+        setopt APPEND_HISTORY # 기존 기록에 명령어 추가
+    elif [[ $current_shell == "bash" ]]; then
+        export HISTFILE=~/.bash_history
+        export HISTSIZE=1000
+        export HISTFILESIZE=1000
+
+        # 중복 명령어를 히스토리에서 제외
+        export HISTCONTROL=ignoreboth
+
+        # 히스토리를 덮어쓰지 않고 추가
+        shopt -s histappend
+    fi
 
     if [[ $TERM == *"alacritty"* ]]; then
         #"TERM=alacritty 에서는 마우스로 커서 이동이 안됨, 해결된것 같아 삭제
