@@ -84,8 +84,9 @@ function set_path_and_vars {
         setopt HIST_EXPIRE_DUPS_FIRST
 
         # 새로운 명령어를 이전 명령어와 비교하여 중복 없이 기록
-        setopt SHARE_HISTORY  # 여러 터미널에서 히스토리 공유
-        setopt APPEND_HISTORY # 기존 기록에 명령어 추가
+        setopt SHARE_HISTORY # 여러 터미널에서 히스토리 공유
+        # setopt APPEND_HISTORY     # (기본) zsh 종료시 HISTFILE 에 추가
+        setopt INC_APPEND_HISTORY # 명령어 실행시마다 HISTFILE 에 추가
     elif [[ $current_shell == "bash" ]]; then
         export HISTFILE=~/.bash_history
         export HISTSIZE=1000
