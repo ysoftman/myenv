@@ -43,8 +43,10 @@ return {
       })
       vim.filetype.add({
         pattern = {
+          --  % 는 특수문자를 esacpe 하기 위한 lua 정규식 표현
           [".*/templates/.*%.ya?ml"] = "helm",
           ["helmfile.*%.ya?ml"] = "helm",
+          [".*%.tpl"] = "helm",
         },
       })
     end,
