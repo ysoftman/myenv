@@ -195,7 +195,7 @@ return {
       init = function()
         require("lazyvim.util").lsp.on_attach(function(_, buffer)
           -- stylua: ignore
-          vim.keymap.set( "n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
+          vim.keymap.set("n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
           vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
         end)
       end,
@@ -204,7 +204,68 @@ return {
     opts = {
       servers = {
         -- tsserver will be automatically installed with mason and loaded with lspconfig
-        tsserver = {},
+        tsserver = {
+          enabled = false,
+        },
+        ts_ls = {
+          enabled = false,
+        },
+        -- vtsls(Visualstudio TypeScript Language Server)
+        vtsls = {
+          -- explicitly add default filetypes, so that we can extend
+          -- them in related extras
+          filetypes = {
+            "javascript",
+            "javascriptreact",
+            "javascript.jsx",
+            "typescript",
+            "typescriptreact",
+            "typescript.tsx",
+          },
+          settings = {
+            complete_function_calls = true,
+            vtsls = {
+              enableMoveToFileCodeAction = true,
+              autoUseWorkspaceTsdk = true,
+              experimental = {
+                maxInlayHintLength = 30,
+                completion = {
+                  enableServerSideFuzzyMatch = true,
+                },
+              },
+            },
+            typescript = {
+              updateImportsOnFileMove = { enabled = "always" },
+              suggest = {
+                completeFunctionCalls = true,
+              },
+              inlayHints = {
+                enumMemberValues = { enabled = true },
+                functionLikeReturnTypes = { enabled = true },
+                parameterNames = { enabled = "literals" },
+                parameterTypes = { enabled = true },
+                propertyDeclarationTypes = { enabled = true },
+                variableTypes = { enabled = false },
+              },
+            },
+          },
+          on_attach = function(client, bufnr)
+            -- inlay_hint, 버퍼 열때 기본은 힌트 보이지 않기, lsp 구동후에 동작해야해서 on_attach() 내에서 설정
+            -- LSP가 붙은 상태에서만 동작하도록 체크
+            if vim.lsp.inlay_hint ~= nil then
+              -- <leader> > u > h 로 힌트 토글
+              vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+              local filename = vim.api.nvim_buf_get_name(bufnr)
+              -- 파일 이름만 추출 (경로에서 파일명만)
+              local basename = vim.fn.fnamemodify(filename, ":t")
+              vim.notify(
+                "[vtsls] 현재 파일(" .. basename .. ")에 대해 inlay hint 비활성화합니다.",
+                vim.log.levels.INFO
+              )
+              -- 확인시 :lua print(vim.lsp.inlay_hint.is_enabled())
+            end
+          end,
+        },
       },
       -- you can do any additional lsp server setup here
       -- return true if you don't want this server to be setup with lspconfig
