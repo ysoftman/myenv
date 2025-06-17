@@ -1,6 +1,8 @@
 return {
+  -- LSP 클라이언트 내장 (nvim-lspconfig 필요 없음)
+  -- inlay hints, hover actions, code lens, debugging 등 내장 지원
+  -- 완전히 rust-analyzer 설정 중심
   "mrcjkb/rustaceanvim",
-  version = vim.fn.has("nvim-0.10.0") == 0 and "^4" or false,
   ft = { "rust" },
   opts = {
     server = {
@@ -23,11 +25,17 @@ return {
             },
           },
           -- Add clippy lints for Rust if using rust-analyzer
-          checkOnSave = diagnostics == "rust-analyzer",
+          checkOnSave = {
+            command = "clippy",
+          },
           -- Enable diagnostics if using rust-analyzer
           diagnostics = {
-            enable = diagnostics == "rust-analyzer",
+            enable = true,
           },
+          inlayHints = {
+            enable = true,
+          },
+
           procMacro = {
             enable = true,
             ignored = {
