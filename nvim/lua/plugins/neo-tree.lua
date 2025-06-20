@@ -5,16 +5,9 @@ return {
     require("neo-tree").setup({
       window = {
         mappings = {
-          -- c-f 겹쳐서 비활성화
-          ["<c-f>"] = "none",
-        },
-      },
-      filesystem = {
-        window = {
-          mappings = {
-            -- c-f 겹쳐서 비활성화
-            ["<c-f>"] = "none",
-          },
+          -- C-f 겹쳐서 비활성화(대소문자 구분)
+          ["<C-f>"] = "",
+          ["<C-b>"] = "",
         },
       },
     })
