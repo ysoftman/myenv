@@ -43,20 +43,12 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   event = "VeryLazy",
   opts = function(_, opts)
+    -- opts.options.refresh_interval = 100
     opts.options.section_separators = { left = "", right = "" }
     opts.options.component_separators = { left = "", right = "" }
     -- section 은 a,b,c,x,y,z 로 고정. https://github.com/nvim-lualine/lualine.nvim?tab=readme-ov-file#usage-and-customization
     -- section 내 component(lua table) 를 추가하는 방식을 사용하자.
     -- lualine_x 1번째로 추가
-    table.insert(opts.sections.lualine_x, 1, {
-      function()
-        return "🍀"
-      end,
-      color = function()
-        return { gui = "bold" }
-      end,
-      separator = { left = "", right = "" },
-    })
     table.insert(opts.sections.lualine_x, 1, {
       "filetype",
       color = function()
@@ -75,6 +67,19 @@ return {
       end,
       separator = { left = "", right = "" },
     })
+    -- vim.lsp.inlay_hint.is_enabled() 가 항상 true 가 되서 사용하지 않는다.
+    -- table.insert(opts.sections.lualine_x, 1, {
+    --   function()
+    --     -- toggle inlay hint: leader > u > h
+    --     -- Neovim 0.10 이상 버전에서 사용
+    --     print("----------", vim.lsp.inlay_hint.is_enabled())
+    --     return vim.lsp.inlay_hint.is_enabled() and "󰰁 " or "󰰂 "
+    --   end,
+    --   color = function()
+    --     return { bg = blue, fg = black }
+    --   end,
+    --   separator = { left = "", right = "" },
+    -- })
     table.insert(opts.sections.lualine_x, 1, {
       function()
         -- toggle autoformat: leader > u > f
