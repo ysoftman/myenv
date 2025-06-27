@@ -5,4 +5,9 @@ if [ -d ~/.termux ]; then
     unzip Hack.zip -d ~/.termux
 fi
 
+# mac
+if [ -d ~/Library/Fonts ]; then
+    unzip Hack.zip -d ~/Library/Fonts
+fi
+
 rm -rf Hack.zip

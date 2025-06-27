@@ -32,16 +32,20 @@ text = "CellForeground"
 size = 19.0
 
 [font.bold]
-family = "Hack Nerd Font"
+# family = "Hack Nerd Font"
+family = "FiraCode Nerd Font"
 
 [font.bold_italic]
-family = "Hack Nerd Font"
+# family = "Hack Nerd Font"
+family = "FiraCode Nerd Font"
 
 [font.italic]
-family = "Hack Nerd Font"
+# family = "Hack Nerd Font"
+family = "FiraCode Nerd Font"
 
 [font.normal]
-family = "Hack Nerd Font"
+# family = "Hack Nerd Font"
+family = "FiraCode Nerd Font"
 
 [cursor]
 style.shape = "block"
