@@ -356,7 +356,7 @@ function set_fzf {
 
 function set_zsh_plugin {
     if [ -d "$HOME/.zsh/zsh-completions/src" ]; then
-        fpath=($HOME/.zsh/zsh-completions/src $fpath)
+        fpath+=("$HOME/.zsh/zsh-completions/src")
     fi
     if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
         source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
