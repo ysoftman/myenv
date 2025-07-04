@@ -40,14 +40,25 @@ layout {
             args "http://ascii.live/forrest"
         }
         pane {
+            cwd "~/workspace/"
+            x 80
+            y 10
+            height 35
+            width 70
+            command "ttysvr"
+            args "bubbles"
+            // args "maze"
+            // args "logo"
+        }
+        pane {
             // 새로운 zellij layout 실행시 prompt(interactive) 시작되지 않기 때문에 .zprofile 만 로딩되고 .zshrc 을 로딩되지 않는다.
             // PATH 환경변수도 설정정이라 full path 명시
             // go install github.com/maaslalani/confetty@latest
             cwd "~/workspace/"
             x 30
-            y 16
+            y 26
             height 30
-            width 100
+            width 70
             command "/Users/ysoftman/workspace/gopath/bin/confetty"
             args "fireworks"
         }
