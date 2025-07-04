@@ -36,6 +36,7 @@ mpkgs["ripgrep"]="rg"          # (https://github.com/BurntSushi/ripgrep) grep �
 mpkgs["sd"]="sd"               # (https://github.com/chmln/sd) sed 대체
 mpkgs["termscp"]="termscp"     # (https://github.com/veeso/termscp) scp,ftp 대체
 mpkgs["tokei"]="tokei"         # (https://github.com/XAMPPRocky/tokei) 코드 통계
+mpkgs["ttysvr"]="ttysvr"       # (https://github.com/cxreiff/ttysvr) screen saver
 mpkgs["typos-cli"]="typos"     # (https://github.com/crate-ci/typos) 오타 체크
 mpkgs["whome"]="whome"         # (https://github.com/ardaku/whoami) whoami 대체
 mpkgs["ytop"]="ytop"           # (https://github.com/cjbassi/ytop) top,htop 대체
