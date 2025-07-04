@@ -2,7 +2,23 @@ layout {
     pane size=1 borderless=true {
         plugin location="tab-bar"
     }
-    pane
+    pane split_direction="vertical" {
+        pane {
+            cwd "~/workspace/"
+            command "musikcube"
+            args ""
+        }
+        pane split_direction="horizontal" {
+            pane command="cava" {
+                cwd "~/workspace/"
+                args ""
+            }
+            pane command="~/.cargo/bin/scope-tui" {
+                cwd "~/workspace/"
+                args "audio"
+            }
+        }
+    }
     pane size=1 borderless=true {
         plugin location="status-bar"
     }
