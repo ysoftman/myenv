@@ -1,6 +1,9 @@
 layout {
     // pane size=1 borderless=true {
-    //     plugin location="tab-bar"
+    //     plugin location="zellij:compact-bar" {
+    //         format_left "{mode} #[fg=#89B4FA,bold]{session}"
+    //         format_center "{tabs}"
+    //     }
     // }
     // 아이콘 참조: https://www.nerdfonts.com/cheat-sheet > 검색 > icon 복사
     pane size=1 borderless=true {
