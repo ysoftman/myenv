@@ -63,7 +63,7 @@ return {
           init_options = {
             -- compile_commands.json 설정이 없을때 다음을 사용
             -- .cpp 일때
-            fallbackFlags = { "-std=c++17" }, -- optional fallback if compile_commands.json missing
+            fallbackFlags = { "-std=c++23" }, -- optional fallback if compile_commands.json missing
             -- .c 일때
             -- fallbackFlags = { "-std=gnu11" }, -- optional fallback if compile_commands.json missing
             usePlaceholders = true,
