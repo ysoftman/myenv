@@ -43,10 +43,9 @@ PIP="pip"
 # https://github.com/astral-sh/uv
 if command -v uv >/dev/null 2>&1; then
     PIP="uv pip"
-    additional_for_uv_pip_option="--system"
 fi
-\${PIP} install --upgrade pip \${additional_for_uv_pip_option}
-\${PIP} install $pip_list \${additional_for_uv_pip_option}
+\${PIP} install --upgrade --system pip
+\${PIP} install --upgrade --system $pip_list
 zzz
 
 fi
