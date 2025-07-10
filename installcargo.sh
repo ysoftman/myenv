@@ -8,6 +8,7 @@ mpkgs["alacritty"]="alacritty"             # (https://github.com/alacritty/alacr
 mpkgs["bandwhich"]="bandwhich"             # (https://github.com/imsnif/bandwhich) iftop 대체
 mpkgs["bat"]="bat"                         # (https://github.com/sharkdp/bat) cat 대체
 mpkgs["bottom"]="btm"                      # (https://github.com/ClementTsang/bottom) top,htop 대체
+mpkgs["cargo-watch"]="cargo-watch"         # (https://github.com/watchexec/cargo-watch) golang air 툴과 같은 소스 변경시 자동 빌드
 mpkgs["cfonts"]="cfonts"                   # (https://github.com/dominikwilkowski/cfonts) toilet,figlet 대체
 mpkgs["delta"]="delta"                     # (https://github.com/dandavison/delta) git diff
 mpkgs["difftastic"]="difft"                # (https://github.com/wilfred/difftastic) git diff
