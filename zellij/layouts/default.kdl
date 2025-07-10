@@ -122,7 +122,7 @@ layout {
             command_user_rendermode "static"
 
             // datetime          "{format}"
-            datetime          "#[bg=$bg0,fg=$mauve]#[bg=$mauve,fg=$crust] #[bg=$surface1,fg=$mauve,bold] {format} #[bg=$bg0,fg=$surface1]"
+            datetime          "#[bg=$bg0,fg=$mauve]#[bg=$mauve,fg=$crust] #[bg=$surface1,fg=$mauve,bold] {format}#[bg=$bg0,fg=$surface1]"
             datetime_format   "%Y-%m-%d 󰅐 %H:%M"
             datetime_timezone "Asia/Seoul"
         }
