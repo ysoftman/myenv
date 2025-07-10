@@ -40,7 +40,7 @@ layout {
             color_mantle "#181825"
             color_crust "#11111b"
 
-            format_left   "#[bg=$bg0,fg=$sapphire]#[bg=$sapphire,fg=$crust,bold] zellij ({session}) #[bg=$bg0] {mode}#[bg=$bg0] {tabs}"
+            format_left   "#[bg=$bg0,fg=$sapphire]#[bg=$sapphire,fg=$crust,bold] zellij ({session}) #[bg=$bg0]{mode}#[bg=$bg0] {tabs}"
             format_center "{notifications}"
             format_right "{command_cpu}{command_mem}{command_disk}{command_user}{datetime}"
             format_space  "#[bg=$bg0]"
@@ -57,7 +57,7 @@ layout {
             mode_normal        "#[bg=$green,fg=$crust,bold] NORMAL#[bg=$bg0,fg=$green]"
             mode_tmux          "#[bg=$mauve,fg=$crust,bold] TMUX#[bg=$bg0,fg=$mauve]"
             mode_locked        "#[bg=$red,fg=$crust,bold] LOCKED#[bg=$bg0,fg=$red]"
-            mode_pane          "#[bg=$teal,fg=$crust,bold] PANE#[bg=$bg0,fg=teal]"
+            mode_pane          "#[bg=$teal,fg=$crust,bold] PANE#[bg=$bg0,fg=$teal]"
             mode_tab           "#[bg=$teal,fg=$crust,bold] TAB#[bg=$bg0,fg=$teal]"
             mode_scroll        "#[bg=$flamingo,fg=$crust,bold] SCROLL#[bg=$bg0,fg=$flamingo]"
             mode_enter_search  "#[bg=$flamingo,fg=$crust,bold] ENT-SEARCH#[bg=$surfaco,fg=$flamingo]"
