@@ -13,7 +13,7 @@ git_clone_ysoftman_repository() {
         git -C ~/workspace/${targetdir} pull
     }
 
-    # 목록 취합은 git_find_ysoftman_dirs.sh 사용
+    # 목록 취합은 git_grep_repo() 사용
     git_clone_and_pull https://github.com/ysoftman/aleng
     git_clone_and_pull https://github.com/ysoftman/codingtest.git
     git_clone_and_pull https://github.com/ysoftman/colorfulURL.git
