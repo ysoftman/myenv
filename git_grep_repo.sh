@@ -21,7 +21,7 @@ git_grep_repo() {
 
     # bash / zsh 모두 동작하려면 다음과 같이 리스트 결과를 변수에 담지 않고 for 에서 바로 실행해야 한다.
     # cnt=0
-    for i in $(fd -H -I -E "*gopath*" -E "*chromium*" -E "*node_module*" "\.git$" | sed "s#.git/.*\$##"); do
+    for i in $(fd -H -I -E "*gopath*" -E "*chromium*" -E "*node_module*" "\.git$" | sed "s#.git/.*##"); do
         # ((cnt++))
         # set -x
         git -C ${i} remote -v | head -1 | awk '{print $2}' | rg -i ${url}
