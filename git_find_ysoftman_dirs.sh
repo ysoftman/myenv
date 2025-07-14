@@ -16,4 +16,3 @@ git_find_ysoftman_dirs() {
     done
     IFS=' '
 }
-git_find_ysoftman_dirs

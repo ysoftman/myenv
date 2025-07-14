@@ -1,11 +1,10 @@
 #!/bin/bash
 
 # 현재 사용중인 git 정보 파악할때 사용
-get_git_url()
-{
+git_get_url() {
     # 특정 repo url 만 파악할 경우 인자 추가
     grepgit="github.com/ysoftman"
-    if (( $# > 0 )); then
+    if (($# > 0)); then
         grepgit=${1}
     fi
     echo "grep_git_repo=${grepgit}"
@@ -20,10 +19,9 @@ get_git_url()
     # gitdirs=$(fd -H -E "*gopath*" -E "*chromium*" "\.git$" | sed "s/.git.*$//")
     # for i in ${(f)gitdirs}
 
-    # bash / zsh 모두 동작하려면 다음과 같이 리스트 결괄르 변수에 담지 않고 for 에서 바로 실행해야 한다.
+    # bash / zsh 모두 동작하려면 다음과 같이 리스트 결과를 변수에 담지 않고 for 에서 바로 실행해야 한다.
     # cnt=0
-    for i in $(fd -H -E "*gopath*" -E "*chromium*" "\.git$" | sed "s/.git.*$//")
-    do
+    for i in $(fd -H -E "*gopath*" -E "*chromium*" "\.git$" | sed "s/.git.*$//"); do
         # ((cnt++))
         # set -x
         git -C ${i} remote -v | head -1 | awk '{print $2}' | grep ${grepgit}
