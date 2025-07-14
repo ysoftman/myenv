@@ -17,6 +17,7 @@ git_clone_ysoftman_repository() {
     git_clone_and_pull https://github.com/ysoftman/aleng
     git_clone_and_pull https://github.com/ysoftman/codingtest.git
     git_clone_and_pull https://github.com/ysoftman/colorfulURL.git
+    git_clone_and_pull https://github.com/ysoftman/confetty
     git_clone_and_pull https://github.com/ysoftman/coretemp
     git_clone_and_pull https://github.com/ysoftman/cutstring
     git_clone_and_pull https://github.com/ysoftman/dvc_test
