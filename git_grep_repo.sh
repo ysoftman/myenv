@@ -33,7 +33,7 @@ git_grep_repo() {
 
 # 현재 하위 모든 git 디렉토리 pull 받기
 git_pull_all() {
-    for dir in $(fd -H -d 2 ".git$" | awk -F "/.git.*$" "{print \$1}"); do
+    for dir in $(fd -H -I -d 2 ".git$" | awk -F "/.git.*$" "{print \$1}"); do
         printf "${green}[%s]==> $reset_color" "$dir"
         git -C "$dir" pull
     done
@@ -75,12 +75,17 @@ git_clone_ysoftman_repository() {
 
 # ysoftman 저장소를 사용하는 소스들의 로컬 git 설정
 git_local_settings_for_ysoftman() {
+    if [[ ! -d $HOME/workspace ]]; then
+        echo "$HOME/workspace doesn't exists"
+        exit 1
+    fi
+    cd $HOME/workspace || exit
     if [ "$(which fd)" ]; then
         echo "using fd..."
-        gitdirs=$(fd '\.git$' --hidden --type d ..)
+        gitdirs=$(fd -E "*gopath*" -E "*chromium*" -E "*node_module*" '\.git$' --hidden --no-ignore --type d .)
     else
         echo "using find..."
-        gitdirs=$(find .. -name .git -type d)
+        gitdirs=$(find . -name .git -type d)
     fi
 
     if [ "$(which rg)" ]; then
@@ -92,8 +97,8 @@ git_local_settings_for_ysoftman() {
     fi
 
     # for item in `cat gitdirs`
-    for item in ${gitdirs}; do
-        out=$(git -C ${item} remote -v | grep -c "https://github.com/ysoftman/" | awk '{print$1}')
+    for item in ${(f)gitdirs}; do
+        out=$(git -C ${item} remote -v | ${grep} -c "https://github.com/ysoftman/" | awk '{print $1}')
         if [[ $out == 2 ]]; then
             # echo $item
             cat <<zzz
