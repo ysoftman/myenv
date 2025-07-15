@@ -152,14 +152,6 @@ function launch_neovide {
     disown
 }
 
-# 현재 하위 모든 git 디렉토리 pull 받기
-function git_pull_all {
-    for dir in $(fd -H -d 2 ".git$" | awk -F "/.git.*$" "{print \$1}"); do
-        printf "${green}[%s]==> $reset_color" "$dir"
-        git -C "$dir" pull
-    done
-}
-
 # cowsay 종류 계속 보이기
 function infinite_cowsay {
     for (( ; ; )); do for i in $(cowsay -l | sed 1d); do
@@ -226,7 +218,6 @@ function set_alias {
     alias ghissueview='gh issue view' # 뒤에 이슈번호 아규먼트 명시
     alias k='kubectl'
     alias m-c='/usr/local/Cellar/midnight-commander/4.8.28/bin/mc'
-    alias gitpullall=git_pull_all
     alias duf="duf -theme dark"
     # ssh 원격 접속시 clear 실행하면 'alacritty': unknown terminal type. 메시지 발생 방지
     alias ssh='TERM=xterm-256color ssh'
@@ -483,9 +474,7 @@ source "${myenv_path}/cnt_src.sh"
 source "${myenv_path}/colors.sh"
 source "${myenv_path}/download_ysoftman_youtube_music.sh"
 source "${myenv_path}/find_duplicated_packages_in_go_and_brew.sh"
-source "${myenv_path}/git_clone_ysoftman_repository.sh"
 source "${myenv_path}/git_grep_repo.sh"
-source "${myenv_path}/git_local_settings_for_ysoftman.sh"
 source "${myenv_path}/golang_tools.sh"
 source "${myenv_path}/grep_and_sed.sh"
 source "${myenv_path}/k8s_info.sh"
