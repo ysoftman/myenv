@@ -75,7 +75,7 @@ layout {
             tab_active              "#[bg=$bg0,fg=$peach]#[bg=$peach,fg=$crust,bold]{index} #[bg=$surface1,fg=$peach,bold] {name}{floating_indicator}#[bg=$bg0,fg=$surface1]"
             tab_active_fullscreen   "#[bg=$bg0,fg=$peach]#[bg=$peach,fg=$crust,bold]{index} #[bg=$surface1,fg=$peach,bold] {name}{fullscreen_indicator}#[bg=$bg0,fg=$surface1]"
             tab_active_sync         "#[bg=$bg0,fg=$peach]#[bg=$peach,fg=$crust,bold]{index} #[bg=$surface1,fg=$peach,bold] {name}{sync_indicator}#[bg=$bg0,fg=$surface1]"
-            tab_separator           "#[bg=$bg0] "
+            tab_separator           ""
 
             tab_sync_indicator       " "
             tab_fullscreen_indicator " 󰊓"
