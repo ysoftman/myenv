@@ -297,7 +297,11 @@ function set_fzf {
         source "${myenv_path}/fzf-git.sh"
         # fzf-git.sh 에선 ctrl-g ctrl-b 로 사용하는데, zellij 와 중복되어 alt-b 로도 바인딩함
         # alt-b 는 alt-left(showkey 로 확인)라 alt-B 로 사용하자
-        #bindkey "^[b" "fzf-git-branches-widget"
+        # bindkey "^[B" fzf-git-files-widget
+        # bindkey "^[B" fzf-git-tags-widget
+        # bindkey "^[B" fzf-git-retmote-widget
+        # bindkey "^[B" fzf-git-hashes-widget
+        # bindkey "^[B" fzf-git-stashes-widget
         bindkey "^[B" fzf-git-branches-widget
     fi
 
