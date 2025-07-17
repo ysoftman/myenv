@@ -274,6 +274,29 @@ function fzf-rg-widget {
         --bind 'enter:become(nvim {1} +{2})'
     zle reset-prompt
 }
+
+# fzf 설치 후 ssh <tab>하면 /etc/hosts, ~/.ssh/config, ~/.ssh/known_hosts 등을 참고해 호스트명을 나열해준다.
+# fzf 화면으로 호스트를 선택할 수 있는 함수를 만들어 사용하면 편할것 같아서...
+function fzf-hosts-widget {
+    local hosts=""
+    if [[ -f /etc/hosts ]]; then
+        hosts+=$(cat /etc/hosts | rg -v '^#' | rg -v '^$' | tr -s ' ' | cut -d ' ' -f 2)
+    fi
+    if [[ -f ~/.ssh/config ]]; then
+        hosts+=$(awk '/^[Hh]ost / {print $2}' ~/.ssh/config)
+    fi
+    if [[ -f ~/.ssh/known_hosts ]]; then
+        hosts+=$(cut -f 1 -d ' ' ~/.ssh/known_hosts | cut -f 1 -d ',')
+    fi
+    hosts=$(echo ${hosts} | sort -u)
+
+    local selected
+    selected=$(printf '%s\n' "${hosts}" | fzf --prompt="host: ") || return 1
+
+    LBUFFER="${LBUFFER}${selected}"
+    zle reset-prompt
+}
+
 # fzf 설정
 function set_fzf {
     # fzf 가 설치되어 있다면 kubectx 실행시 fzf 선택 메뉴가 나타난다.
@@ -303,6 +326,9 @@ function set_fzf {
         # bindkey "^[B" fzf-git-hashes-widget
         # bindkey "^[B" fzf-git-stashes-widget
         bindkey "^[B" fzf-git-branches-widget
+
+        zle -N fzf-hosts-widget
+        bindkey "^[H" fzf-hosts-widget
     fi
 
     ## fzf default options
