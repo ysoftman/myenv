@@ -70,9 +70,6 @@ done
 echo "install_pkgs=$install_pkgs"
 echo "already_installed_pkgs_by_brew=$already_installed_pkgs_by_brew"
 
-# cargo 가 제대로 동작하지 않는다면 다음과 같이 삭제 후 재설치한다.
-#rustup uninstall stable && rustup install stable
-rustup update
 cargo install ${install_pkgs} --locked
 cargo uninstall ${already_installed_pkgs_by_brew} 2>/dev/null
 
