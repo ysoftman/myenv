@@ -42,7 +42,6 @@ if [[ $(uname -o 2>/dev/null) == 'Android' ]]; then
 elif [[ $(uname) == 'Darwin' ]]; then
     echo 'OSX Environment'
     brew install go
-    export GOROOT=/usr/local/bin/go
     brew install ruby lua mercurial python cmake ctags python3 tig vim
 elif [[ $(uname) == 'Linux' ]]; then
     echo 'Linux Environment'
@@ -57,7 +56,6 @@ elif [[ $(uname) == 'Linux' ]]; then
         # sudo apt update
     fi
     sudo ${package_program} install -y gcc g++ gcc-c++ wget go vim ncurses-devel
-    export GOROOT=/usr/bin/go
     # youcompleteme 빌드시 python3.9 이상 필요
     sudo ${package_program} install -y ruby lua mercurial cmake ctags python39 python39-devel tig
     sudo update-alternatives --set python /usr/bin/python3.9 || true
@@ -68,7 +66,6 @@ else
     #wget https://storage.googleapis.com/golang/go1.4.linux-amd64.tar.gz
     #tar -zxvf go1.4.linux-amd64.tar.gz
     #echo 'build and install golang'
-    #export GOROOT=$PATH:$HOME/gGo
     exit
 fi
 

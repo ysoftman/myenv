@@ -7,7 +7,7 @@ echo GOPATH=${GOPATH}
 mkdir -p ${GOPATH}
 
 export GOPATH=${GOPATH}
-export PATH=$PATH:$GOROOT:$GOPATH
+export PATH=$PATH:$GOPATH
 
 # 다음 디렉토리가 없다면 생성
 mkdir -p ~/.vim/autoload
