@@ -1,7 +1,17 @@
 return {
   {
-    "neovim/nvim-lspconfig",
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "jose-elias-alvarez/typescript.nvim",
+      init = function()
+        require("lazyvim.util").lsp.on_attach(function(_, buffer)
+          -- stylua: ignore
+          vim.keymap.set("n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
+          vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
+        end)
+      end,
+    },
     ensure_installed = { "bashls" },
     opts = {
       servers = {
@@ -158,61 +168,6 @@ return {
             },
           },
         },
-      },
-      setup = {
-        gopls = function(_, opts)
-          -- workaround for gopls not supporting semanticTokensProvider
-          -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
-          LazyVim.lsp.on_attach(function(client, _)
-            if not client.server_capabilities.semanticTokensProvider then
-              local semantic = client.config.capabilities.textDocument.semanticTokens
-              if semantic == nil then
-                return
-              end
-              client.server_capabilities.semanticTokensProvider = {
-                full = true,
-                legend = {
-                  tokenTypes = semantic.tokenTypes,
-                  tokenModifiers = semantic.tokenModifiers,
-                },
-                range = true,
-              }
-            end
-            -- Create an autocommand group for organizing imports
-            vim.api.nvim_create_augroup("GoImports", { clear = true })
-            -- 저장시 auto import
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              group = "GoImports",
-              pattern = "*.go",
-              callback = function()
-                vim.lsp.buf.code_action({
-                  context = { diagnostics = vim.diagnostic.get(0), only = { "source.organizeImports" } },
-                  apply = true,
-                })
-              end,
-            })
-          end, "gopls")
-          -- end workaround
-        end,
-      },
-    },
-  },
-
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "jose-elias-alvarez/typescript.nvim",
-      init = function()
-        require("lazyvim.util").lsp.on_attach(function(_, buffer)
-          -- stylua: ignore
-          vim.keymap.set("n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
-          vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
-        end)
-      end,
-    },
-    ---@class PluginLspOpts
-    opts = {
-      servers = {
         -- tsserver will be automatically installed with mason and loaded with lspconfig
         tsserver = {
           enabled = false,
@@ -281,12 +236,47 @@ return {
       -- return true if you don't want this server to be setup with lspconfig
       setup = {
         -- example to setup with typescript.nvim
+        -- Specify * to use this function as a fallback for any server
+        -- ["*"] = function(server, opts) end,
         tsserver = function(_, opts)
           require("typescript").setup({ server = opts })
           return true
         end,
-        -- Specify * to use this function as a fallback for any server
-        -- ["*"] = function(server, opts) end,
+
+        gopls = function(_, opts)
+          -- workaround for gopls not supporting semanticTokensProvider
+          -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
+          LazyVim.lsp.on_attach(function(client, _)
+            if not client.server_capabilities.semanticTokensProvider then
+              local semantic = client.config.capabilities.textDocument.semanticTokens
+              if semantic == nil then
+                return
+              end
+              client.server_capabilities.semanticTokensProvider = {
+                full = true,
+                legend = {
+                  tokenTypes = semantic.tokenTypes,
+                  tokenModifiers = semantic.tokenModifiers,
+                },
+                range = true,
+              }
+            end
+            -- Create an autocommand group for organizing imports
+            vim.api.nvim_create_augroup("GoImports", { clear = true })
+            -- 저장시 auto import
+            vim.api.nvim_create_autocmd("BufWritePre", {
+              group = "GoImports",
+              pattern = "*.go",
+              callback = function()
+                vim.lsp.buf.code_action({
+                  context = { diagnostics = vim.diagnostic.get(0), only = { "source.organizeImports" } },
+                  apply = true,
+                })
+              end,
+            })
+          end, "gopls")
+          -- end workaround
+        end,
       },
     },
   },
