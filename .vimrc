@@ -216,6 +216,7 @@ Plug 'terryma/vim-multiple-cursors' "multiple selection and edit
 Plug 'tpope/vim-abolish' "Abbreviation, snake_case, camelCase, UPPER_CASE, dash-case, dot.case
 Plug 'tpope/vim-fugitive' "git command
 Plug 'valloric/youcompleteme' "code completion engine
+Plug 'ziglang/zig.vim' "File detection and syntax highlighting for the zig programming language
 if has('nvim')
     Plug 'nvim-lua/plenary.nvim' "lua functions, using in telescope,neo-tree
     Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' } "similar to fzf

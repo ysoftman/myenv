@@ -105,6 +105,12 @@ return {
             end
           end,
         },
+        zls = {
+          cmd = {
+            "zls", -- zig language server
+          },
+          filetypes = { "zig" },
+        },
         gopls = {
           settings = {
             gopls = {
