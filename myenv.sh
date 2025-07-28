@@ -147,6 +147,11 @@ function set_path_and_vars {
 }
 
 function launch_neovide {
+    if ! command -v neovide >/dev/null 2>&1; then
+        echo "can't find neovid, run nvim" "$@"
+        nvim "$@"
+        return
+    fi
     echo "launch(and disown) neovide" "$@"
     neovide "$@" &
     disown
@@ -202,6 +207,7 @@ function set_alias {
     unalias sftp 2>/dev/null
 
     alias vi='vim'
+    alias nvim='launch_neovide'
     alias nv='launch_neovide'
     alias vimlastfile='vim `(ls -1tr | tail -1)`'
     alias gopath='cd $GOPATH'
