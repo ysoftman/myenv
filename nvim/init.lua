@@ -50,7 +50,7 @@ if vim.g.neovide then
   vim.o.guifont = "Hack Nerd Font:h18"
   vim.g.neovide_theme = "auto"
   vim.g.neovide_scale_factor = 1.0
-  vim.g.neovide_opacity = 0.5
+  vim.g.neovide_opacity = 0.8
   vim.g.neovide_window_blurred = true
   vim.g.neovide_show_border = true
   vim.g.neovide_theme = "auto"
