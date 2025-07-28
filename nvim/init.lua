@@ -47,7 +47,7 @@ vim.api.nvim_set_keymap("t", "<d-v>", '<C-\\><C-n>"+Pi', { noremap = true }) -- 
 
 -- neovide (https://neovide.dev/configuration.html)
 if vim.g.neovide then
-  -- vim.o.guifont = "Hack Nerd Font:h18" -- neovide lualine 이 안보이는경우가 있다. 폰트가 크기 조절이 필요
+  -- vim.o.guifont = "Hack Nerd Font:h18"
   vim.o.guifont = "FiraCode Nerd Font:h18"
   vim.g.neovide_theme = "auto"
   vim.g.neovide_scale_factor = 1.0
