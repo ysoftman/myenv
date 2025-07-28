@@ -207,7 +207,6 @@ function set_alias {
     unalias sftp 2>/dev/null
 
     alias vi='vim'
-    alias nvim='launch_neovide'
     alias nv='launch_neovide'
     alias vimlastfile='vim `(ls -1tr | tail -1)`'
     alias gopath='cd $GOPATH'
@@ -270,6 +269,8 @@ function set_kube_prompt {
 function fzf-rg-widget {
     local RG_PREFIX="rg --hidden --column --line-number --no-heading --color=always --smart-case "
     local FZF_INITIAL_QUERY="${*:-}"
+    # fzf의 become(...)이나 execute(...) 명령은 별도 셸 프로세스(서브셸)에서 실행
+    # 현재 셸에 정의된 함수(my_func)는 서브셸로 전파되지 않아 "command not found: my_func" 오류 발생.
     fzf --ansi --query "$FZF_INITIAL_QUERY" \
         --bind "start:reload:$RG_PREFIX {q}" \
         --color "hl:underline,hl+:underline:reverse" \
