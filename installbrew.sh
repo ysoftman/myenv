@@ -11,7 +11,6 @@ brew tap graelo/tap
 brew tap hacker1024/hacker1024
 brew tap hidetatz/tap
 brew tap homebrew/core
-brew tap homebrew/services
 brew tap homeport/tap
 brew tap lusingander/tap
 brew tap nik-rev/tap
