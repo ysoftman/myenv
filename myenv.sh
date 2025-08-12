@@ -282,8 +282,8 @@ function fzf-rg-widget {
     zle reset-prompt
 }
 
-# fzf 설치 후 ssh <tab>하면 /etc/hosts, ~/.ssh/config, ~/.ssh/known_hosts 등을 참고해 호스트명을 나열해준다.
-# fzf 화면으로 호스트를 선택할 수 있는 함수를 만들어 사용하면 편할것 같아서...
+# fzf 설치 후 ssh **<tab>하면 /etc/hosts, ~/.ssh/config, ~/.ssh/known_hosts 등을 참고해 호스트명을 나열해준다.
+# ssh **<tab> 외 ssh ysoftman@등에서 fzf 화면으로 호스트를 선택할 수 있는 함수를 만들어 사용하면 편할것 같아서...
 function fzf-hosts-widget {
     local hosts=""
     if [[ -f /etc/hosts ]]; then
