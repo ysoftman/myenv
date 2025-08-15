@@ -510,7 +510,7 @@ fi
 source "${myenv_path}/cnt_src.sh"
 source "${myenv_path}/colors.sh"
 source "${myenv_path}/download_ysoftman_youtube_music.sh"
-source "${myenv_path}/find_duplicated_packages_in_go_and_brew.sh"
+source "${myenv_path}/find_duplicated_packages.sh"
 source "${myenv_path}/git_grep_repo.sh"
 source "${myenv_path}/golang_tools.sh"
 source "${myenv_path}/grep_and_sed.sh"
