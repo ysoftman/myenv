@@ -29,3 +29,32 @@ find_duplicated_packages_in_go_and_brew() {
     duplicated_pkgs=$(comm -12 <(brew list | sort) <(ls ${GOPATH}/bin | sort))
     echo "${green}$duplicated_pkgs${reset_color} is duplicated package in go and brew"
 }
+
+find_brew_packages_in_arm64_and_x86_64() {
+    pkgs=$(
+        comm \
+            <(arch -arm64 /opt/homebrew/bin/brew list | sort) \
+            <(arch -x86_64 /usr/local/bin/brew list | sort) |
+            awk -F'\t' -v cyan="${cyan}" -v purple="${purple}" -v green="${green}" -v reset="${reset_color}" '
+    BEGIN {
+        OFS="\t"
+    }
+    {
+    # arm64
+    if ($1 != "" && $2 == "") {
+        print cyan $1 reset
+    }
+    # x86_64
+    else if ($1 == "" && $2 != "") {
+        print purple $1,$2 reset
+    }
+    # common
+    else {
+        print green $1,$2,$3 reset
+    }
+}'
+    )
+
+    echo -e "${cyan}arm64\t${purple}x86_64\t${green}common${reset_color}"
+    echo "$pkgs${reset_color}"
+}
