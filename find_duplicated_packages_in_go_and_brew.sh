@@ -5,14 +5,21 @@ source ${HOME}/workspace/myenv/colors.sh
 find_duplicated_packages_in_go_and_brew() {
     local brew_pkgs=()
     local go_pkgs=()
-    brew_pkgs+=("$(brew list | sort)")
-    go_pkgs+=("$(ls ${GOPATH}/bin | sort)")
+    # brew_pkgs+=($(brew list | sort))  # shellcheck 경고 발생
+    while IFS= read -r line; do
+        brew_pkgs+=("$line")
+    done < <(brew list | sort)
+    # go_pkgs+=($(ls ${GOPATH}/bin | sort)) # shellcheck 경고 발생
+    while IFS= read -r line; do
+        go_pkgs+=("$line")
+    done < <(ls ${GOPATH}/bin | sort)
     IFS_BAK=$IFS
     IFS=$'\n'
+    local cnt=0
     for b in "${brew_pkgs[@]}"; do
         for g in "${go_pkgs[@]}"; do
             if [[ "$b" == "$g" ]]; then
-                echo "$b is duplicated package in go and brew"
+                echo "${green}$b${reset_color} is duplicated package in go and brew"
             fi
         done
     done
