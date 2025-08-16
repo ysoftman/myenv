@@ -126,9 +126,11 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/ysoftman/workspace/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ysoftman/workspace/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc" ]; then source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/ysoftman/workspace/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ysoftman/workspace/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc" ]; then source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"; fi
 
 # zsh 프로파일링할때 사용
 #zprof
