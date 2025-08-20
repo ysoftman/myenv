@@ -37,8 +37,10 @@ bash ./installfzf.sh
 bash ./installgolang.sh
 bash ./installgolangtools.sh
 bash ./installrust.sh
-bash ./installvscodesettings.sh
-bash ./installvscodeextension.sh
+if [[ $os_name != *"android"* ]]; then
+    bash ./installvscodesettings.sh
+    bash ./installvscodeextension.sh
+fi
 bash ./installcargo.sh
 bash ./installnvm.sh
 bash ./installemojicli.sh
