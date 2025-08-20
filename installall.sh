@@ -3,7 +3,7 @@
 os_name=$(uname -o | tr '[:upper:]' '[:lower:]')
 
 bash ./installcommon.sh
-bash ./installpowerlinefont.sh
+bash ./installfont.sh
 bash ./installzshautosuggestions.sh
 bash ./installzshcompletion.sh
 bash ./installzshsyntaxhighlighting.sh
@@ -21,7 +21,6 @@ if [[ $os_name == *"darwin"* ]]; then
 elif [[ $os_name == *"linux"* ]]; then
     bash ./installnode.sh
 elif [[ $os_name == *"android"* ]]; then
-    bash ./installnerdfont.sh
     bash ./installtermuxstyle.sh
     bash ./installkubectl.sh
 fi
