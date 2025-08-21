@@ -592,7 +592,7 @@ function welcome_message() {
         if [[ $term_program_name == *"kitty"* ]]; then
             logo_args="--logo-type kitty --logo ${myenv_path}/xelloss.jpg"
         fi
-        eval fastfetch "--cpu-temp true --gpu-temp true ${logo_args} --logo-width 50 --logo-height 20"
+        eval fastfetch "${logo_args} --logo-width 50 --logo-height 20"
         unset logo_args
     elif which neofetch >/dev/null 2>&1; then
         backend_arg=""
