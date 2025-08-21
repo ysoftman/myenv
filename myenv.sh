@@ -380,6 +380,8 @@ function set_fzf {
     # .bashrc .zshrc 에 맞게 다음이 자동으로 추가됨
     # [ -f ~/.fzf.bash ] && source ~/.fzf.bash
     # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+    # termux에서 pkg instal fzf 등 fzf.zsh 파일을 생성하지 못하는 경우를 위해 다음과 같이 로딩
+    source <(fzf --zsh)
 }
 
 function set_zsh_plugin {
