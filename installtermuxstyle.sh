@@ -8,6 +8,7 @@ cd ../
 rm -rf termux-style
 
 cat <<zzz
-# open termux style program to set colors, fonts, ...
-termux-style
+# termux-style 명령을 실행해 컬러를 설정하자.
+# termux-style 로 font 설정시 제공하는 폰트에 glyph 문자가 없어 깨져 보인다.
+# font 는 bash ./installfont.sh 로 최신 Hack 폰트를 설치해서 사용하자.
 zzz
