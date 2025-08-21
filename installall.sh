@@ -22,7 +22,6 @@ elif [[ $os_name == *"linux"* ]]; then
     bash ./installnode.sh
 elif [[ $os_name == *"android"* ]]; then
     bash ./installtermuxstyle.sh
-    bash ./installkubectl.sh
 fi
 
 # mac brew 로 설치되는 프로그램과 중복되지 않도록 하기 위해 installbrew 뒤에 오도록 한다.
@@ -37,6 +36,7 @@ bash ./installgolang.sh
 bash ./installgolangtools.sh
 bash ./installrust.sh
 bash ./installcargo.sh
+bash ./installkubectl.sh
 bash ./installnvm.sh
 bash ./installemojicli.sh
 if [[ $(command -v code) ]]; then
