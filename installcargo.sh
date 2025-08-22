@@ -54,24 +54,31 @@ mpkgs["zoxide"]="zoxide"                   # (https://github.com/ajeetdsouza/zox
 #fi
 
 install_pkgs=""
-already_installed_pkgs_by_brew=""
+already_installed_pkgs=""
 for pkg_name in "${!mpkgs[@]}"; do
     pkg_binary_name=${mpkgs[$pkg_name]}
     # echo $pkg_binary_name
     # brew 로 설치된 패키지는 cargo 로 설치 하지 않는 로직
-    if [[ $(uname) == 'Darwin' ]]; then
+    if [[ $(uname -o 2>/dev/null) == 'Darwin' ]]; then
         if [[ $(type -a $pkg_binary_name | grep -iE "/local/bin/|/homebrew/bin/") == *"$pkg_binary_name"* ]]; then
-            already_installed_pkgs_by_brew+="$pkg_name "
+            already_installed_pkgs+="$pkg_name "
+            continue
+        fi
+    fi
+    # android(termux) pkg 로 설치된 패키지($PREFIX/bin 에 설치)는 cargo 로 설치 하지 않는 로직
+    if [[ $(uname -o 2>/dev/null) == 'Android' ]]; then
+        if [[ $(type -a $pkg_binary_name | grep -iE "/bin/") == *"$pkg_binary_name"* ]]; then
+            already_installed_pkgs+="$pkg_name "
             continue
         fi
     fi
     install_pkgs+="$pkg_name "
 done
 echo "install_pkgs=$install_pkgs"
-echo "already_installed_pkgs_by_brew=$already_installed_pkgs_by_brew"
+echo "already_installed_pkgs=$already_installed_pkgs"
 
 cargo install ${install_pkgs} --locked
-cargo uninstall ${already_installed_pkgs_by_brew} 2>/dev/null
+cargo uninstall ${already_installed_pkgs} 2>/dev/null
 
 echo "-- show installed packages by cargo --"
 cargo install --list | awk 'NR%2==0 {print $1}'
