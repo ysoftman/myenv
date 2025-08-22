@@ -1,6 +1,6 @@
 #!/bin/bash
 # android
-pkgs_pkg='zsh vim neovim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python ruby golang rust man dnsutils ripgrep fd fzf lua53 openssh libandroid-support zoxide lsd bat wget which htop fastfetch neofetch git-delta jq nodejs gping eza gitui grex hyperfine jless procs sd zellij'
+pkgs_pkg='zsh vim neovim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python ruby golang rust man dnsutils ripgrep fd fzf lua53 openssh libandroid-support tsu zoxide lsd bat wget which htop fastfetch neofetch git-delta difftastic jq nodejs gping eza gitui grex hyperfine jless procs sd zellij'
 # redhat,centos
 pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang rust cargo man dnsutils python3-pip clang-format ncurses ncurses-devel git-delta jq'
 # debian,ubuntu
