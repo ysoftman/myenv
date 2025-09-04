@@ -68,17 +68,17 @@ cntsrc() {
     # IFS 원복
     IFS=' '
 
-    printf "\n[Easy Level]"
+    printf "\n[Easy Level]\n"
     temp=$(echo "${easy_files[@]}" | sort -h | sd "^ " "" | sed 1d)
     echo ${temp}
     cnt_unique_easy=$(echo $temp | awk '{print $1}' | uniq | wc | awk '{print $1}')
 
-    printf "\n[Medium Level]"
+    printf "\n[Medium Level]\n"
     temp=$(echo "${medium_files[@]}" | sort -h | sd "^ " "" | sed 1d)
     echo ${temp}
     cnt_unique_medium=$(echo $temp | awk '{print $1}' | uniq | wc | awk '{print $1}')
 
-    printf "\n[Hard Level]"
+    printf "\n[Hard Level]\n"
     temp=$(echo "${hard_files[@]}" | sort -h | sd "^ " "" | sed 1d)
     echo ${temp}
     cnt_unique_hard=$(echo $temp | awk '{print $1}' | uniq | wc | awk '{print $1}')
