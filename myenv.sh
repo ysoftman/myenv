@@ -234,6 +234,7 @@ function set_alias {
     alias x86_brew='arch -x86_64 /usr/local/bin/brew'
 
     # zellij layout 띄우기
+    alias zellij='if [[ $os_name == *"darwin"* ]]; then zellij --layout ${myenv_path}/zellij/layouts/mac.kdl; else zellij; fi'
     alias zellij1='zellij --layout ${myenv_path}/zellij/layouts/layout1.kdl'
     alias zellij2='zellij --layout ${myenv_path}/zellij/layouts/layout2.kdl'
     # 현재 zellij layout 저장
