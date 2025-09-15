@@ -234,7 +234,11 @@ function set_alias {
     alias x86_brew='arch -x86_64 /usr/local/bin/brew'
 
     # zellij layout 띄우기
-    alias zellij0='if [[ $os_name == *"darwin"* ]]; then zellij --layout ${myenv_path}/zellij/layouts/mac.kdl; else zellij; fi'
+    # alias는 텍스트를 그대로 다른 텍스트로 바꾸는 것이기 때문에, == (-z -eq 등은 된다.) 등의 조건부 로직을 alias 자체에 직접 포함시키면
+    # 쉘이 이를 올바르게 해석하고 구문 강조를 적용하는 데 어려움을 있어 syntax-highlighting 등이 되지 않는다.
+    # 제어문이 필요하면 function 으로 구현해서 사용하는게 좋다.
+    # alias zellij0='if [[ $os_name == *"darwin"* ]]; then zellij --layout ${myenv_path}/zellij/layouts/mac.kdl; else zellij; fi'
+    alias zellijmac='zellij --layout ${myenv_path}/zellij/layouts/mac.kdl'
     alias zellij1='zellij --layout ${myenv_path}/zellij/layouts/layout1.kdl'
     alias zellij2='zellij --layout ${myenv_path}/zellij/layouts/layout2.kdl'
     # 현재 zellij layout 저장
