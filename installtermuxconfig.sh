@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# termux 설정 파일 링크
+ln -sfv ${PWD}/termux.properties ~/.termux/termux.properties
+
+# storage 마운트 설정
+# 다음 명령을 실행하면 ~/storage 위치에 폰 스토리지가 마운트 된다.
+# 참고로 이 명령은 termux 설치 후 1번만 수행하면 된다.
+termux-setup-storage
+
+# termux-style 설치
 git clone https://github.com/adi1090x/termux-style.git
 cd termux-style || exit
 ./install

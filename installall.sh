@@ -21,7 +21,7 @@ if [[ $os_name == *"darwin"* ]]; then
 elif [[ $os_name == *"linux"* ]]; then
     bash ./installnode.sh
 elif [[ $os_name == *"android"* ]]; then
-    bash ./installtermuxstyle.sh
+    bash ./installtermuxconfig.sh
 fi
 
 # mac brew 로 설치되는 프로그램과 중복되지 않도록 하기 위해 installbrew 뒤에 오도록 한다.
