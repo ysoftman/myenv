@@ -120,9 +120,8 @@ function set_path_and_vars {
         export LC_ALL=ko_KR.utf8
         export LS_COLORS='no=00:fi=00:di=00;36:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:ow=01;36;40:*.sh=00;32'
     elif [[ $os_name == *"android"* ]]; then
-        # termux 는 현재 영어만 지원하고 있다.
-        # https://github.com/termux/termux-packages/issues/2796#issuecomment-424589888
-        export LANG=en_US.UTF-8
+        # export LANG=en_US.UTF-8
+        export LANG=ko_KR.UTF-8
         export LS_COLORS='no=00:fi=00:di=00;36:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:ow=01;36;40:*.sh=00;32'
     fi
 
