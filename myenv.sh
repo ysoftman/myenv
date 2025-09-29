@@ -58,6 +58,7 @@ function set_path_and_vars {
     fi
     export LESS='-g -i -M -R -S -w -X -z-4'
     export PAGER='less'
+    export KUBE_EDITOR=nvim
     export EDITOR=vim
     export VISUAL=vim
     export ANSIBLE_NOCOWS=1 # disable cowsay message when using ansible
