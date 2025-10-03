@@ -28,7 +28,16 @@ return {
           },
         },
 
-        pyright = {},
+        -- pyright(디폴트 활성화)는 비활성하고 ruff 만 사용하기
+        pyright = { enabled = false },
+        ruff_lsp = {
+          init_options = {
+            settings = {
+              -- 원하는 옵션 지정 가능
+              args = { "--line-length=100" },
+            },
+          },
+        },
         marksman = {},
         clangd = {
           -- Use of undeclared identifier 등의 에러 발생시 다음 명령으로 compile_commands.json 생성
