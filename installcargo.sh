@@ -26,6 +26,7 @@ mpkgs["hwatch"]="hwatch"                   # (https://github.com/blacknon/hwatch
 mpkgs["hyperfine"]="hyperfine"             # (https://github.com/sharkdp/hyperfine) time 대체
 mpkgs["jless"]="jless"                     # (https://github.com/PaulJuliusMartinez/jless) jq,less 대체
 mpkgs["lsd"]="lsd"                         # (https://github.com/Peltoche/lsd) ls 대체
+mpkgs["lychee"]="lychee"                   # (https://github.com/lycheeverse/lychee) broken hyperlinks 체크
 mpkgs["nu"]="nu"                           # (https://github.com/nushell/nushell) bash 대체
 mpkgs["oha"]="oha"                         # (https://github.com/hatoo/oha) 웹 부하 툴
 mpkgs["ohmystock"]="ohmystock"             # (https://github.com/ysoftman/ohmystock) 개인적으로 만든 주식값 파악
