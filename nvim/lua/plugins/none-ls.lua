@@ -10,7 +10,6 @@ return {
         nls.builtins.formatting.fish_indent,
         nls.builtins.diagnostics.fish,
         nls.builtins.formatting.stylua,
-        nls.builtins.formatting.shfmt,
         nls.builtins.formatting.prettier,
         nls.builtins.formatting.shfmt.with({
           -- conform shfmt 보다 none-ls shfmt 설정이 적용된다.
