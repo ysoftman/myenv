@@ -1,6 +1,7 @@
 return {
   {
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
+    -- nvim-lspconfig는 LSP 서버를 설정만 해주고, 설치는 해주지 않는다(ensure_installed 기능이 없음)
     "neovim/nvim-lspconfig",
     dependencies = {
       "jose-elias-alvarez/typescript.nvim",
@@ -12,7 +13,6 @@ return {
         end)
       end,
     },
-    ensure_installed = { "bashls" },
     opts = {
       servers = {
         taplo = {

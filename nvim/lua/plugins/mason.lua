@@ -3,26 +3,6 @@
 return {
   {
     "mason-org/mason.nvim",
-    opts = { ensure_installed = { "goimports", "gofumpt" } },
-  },
-  {
-    "mason-org/mason.nvim",
-    opts = { ensure_installed = { "gomodifytags", "impl" } },
-  },
-  {
-    "mason-org/mason.nvim",
-    opts = { ensure_installed = { "delve" } },
-  },
-  {
-    "mason-org/mason.nvim",
-    opts = { ensure_installed = { "markdownlint-cli2", "markdown-toc" } },
-  },
-  {
-    "mason-org/mason.nvim",
-    opts = { ensure_installed = { "ansible-lint", "ansible-language-server" } },
-  },
-  {
-    "mason-org/mason.nvim",
     opts = {
       -- a list of all tools you want to ensure are installed upon
       -- start
@@ -34,6 +14,15 @@ return {
         "prettier",
         "marksman",
         "markdownlint",
+        "goimports",
+        "gofumpt",
+        "gomodifytags",
+        "impl",
+        "delve",
+        "markdownlint-cli2",
+        "markdown-toc",
+        "ansible-lint",
+        "ansible-language-server",
       },
       -- automatically install / update on startup. If set to false nothing
       -- will happen on startup. You can use :MasonToolsInstall or
