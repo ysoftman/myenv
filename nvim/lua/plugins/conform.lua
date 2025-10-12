@@ -1,6 +1,7 @@
--- Conform.nvim은 Neovim에서 코드 포맷팅을 위한 플러그인입니다.
--- none-ls 의 포맷팅 기능과 충돌이 발생할 수 있다.
 return {
+  -- https://github.com/stevearc/conform.nvim
+  -- Conform.nvim은 Neovim에서 코드 포맷팅을 위한 플러그인입니다. mason 으로 설치된 formmatter/linter 패키지들을 설정하고 실행한다
+  -- none-ls 의 포맷팅 기능과 충돌이 발생할 수 있다.
   "stevearc/conform.nvim", -- For formatting
   event = { "BufWritePre" },
   cmd = { "ConformInfo" },
@@ -47,16 +48,21 @@ return {
     },
     -- formatters by file type
     formatters_by_ft = {
+      cpp = { "clang-format" }, -- 프로젝트 루트 위치에 .clang-format 설정을 참고하게 된다. (https://github.com/ysoftman/test_code/blob/master/cpp/.clang-format)
       fish = { "fish_indent" },
-      sh = { "shfmt" },
-      markdown = { "prettier", "markdownlint-cli2" }, -- Specify formatters for Markdown
+      javascript = { "biome" }, -- biome는 rust 로 만들어서 prettier 보다 성능이 좋다.(biome init 으로 biome.json 설정파일을 생성해 수정할 수 있다.)
+      -- javascript = { "prettierd", "prettier", stop_after_first = true },
+      javascriptreact = { "biome" },
+      json = { "biome" },
+      jsonc = { "biome" },
       lua = { "stylua" },
+      markdown = { "prettier", "markdownlint-cli2" }, -- Specify formatters for Markdown
       python = { "isort", "black" },
-      javascript = { "prettierd", "prettier", stop_after_first = true },
-      typescript = { "prettier" },
       rust = { "rustfmt" },
-      -- 프로젝트 루트 위치에 .clang-format 설정을 참고하게 된다. (https://github.com/ysoftman/test_code/blob/master/cpp/.clang-format)
-      cpp = { "clang-format" }, -- brew install clang-format
+      sh = { "shfmt" },
+      typescript = { "biome" },
+      -- typescript = { "prettier" },
+      typescriptreact = { "biome" },
     },
   },
 }
