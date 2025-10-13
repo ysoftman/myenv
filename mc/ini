@@ -82,11 +82,7 @@ editor_backup_extension=~
 editor_filesize_threshold=64M
 editor_stop_format_chars=-+*\\,.;:&>
 mcview_eof=
-#skin=default
-#skin=darkfar
-#skin=gotar
 skin=nicedark
-#skin=featured
 
 filepos_max_saved_entries=1024
 
@@ -103,7 +99,7 @@ menubar_visible=true
 free_space=true
 horizontal_split=false
 vertical_equal=true
-left_panel_size=52
+left_panel_size=114
 horizontal_equal=true
 top_panel_size=1
 
@@ -124,6 +120,7 @@ xterm-256color=
 color_terminals=
 
 screen-256color=
+alacritty=
 
 [Panels]
 show_mini_info=true
@@ -145,9 +142,10 @@ permission_mode=false
 torben_fj_mode=false
 quick_search_mode=2
 select_flags=6
+simple_swap=false
 
 [Panelize]
 SUID와 SGID 프로그램 찾기=find . \\( \\( -perm -04000 -a -perm /011 \\) -o \\( -perm -02000 -a -perm /01 \\) \\) -print
-Modified git files=git ls-files --modified
 *.orig 파일이 있습니다=find . -name \\*.orig -print
+Modified git files=git ls-files --modified
 기운 후 거부파일이 생겼습니다=find . -name \\*.rej -print
