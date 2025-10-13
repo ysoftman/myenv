@@ -4,6 +4,7 @@ declare -A mpkgs
 # package_name = package_binary_name
 # mpkgs["coreutils"]="coreutils" # (https://github.com/uutils/coreutils) gnu binary 대체(굳이 설치할 필요가 없어서)
 # mpkgs["exa"]="exa" # (https://github.com/ogham/exa) ls 대체(exa -> eza 로 대체 되었다.)
+# mpkgs["biome"]="biome"                     # (https://github.com/biomejs/biome) js,css,json,ts linter and formatter (brew install biome, cargo 용 binary는 없어 cargo add biome 만 된다.)
 mpkgs["alacritty"]="alacritty"             # (https://github.com/alacritty/alacritty) kitty, iterm2 대체
 mpkgs["bandwhich"]="bandwhich"             # (https://github.com/imsnif/bandwhich) iftop 대체
 mpkgs["bat"]="bat"                         # (https://github.com/sharkdp/bat) cat 대체
@@ -33,6 +34,7 @@ mpkgs["ohmystock"]="ohmystock"             # (https://github.com/ysoftman/ohmyst
 mpkgs["onefetch"]="onefetch"               # (https://github.com/o2sh/onefetch) git 저장소 neofetch
 mpkgs["procs"]="procs"                     # (https://github.com/dalance/procs) ps 대체
 mpkgs["ripgrep"]="rg"                      # (https://github.com/BurntSushi/ripgrep) grep 대체
+mpkgs["ruff"]="ruff"                       # (https://github.com/astral-sh/ruff) python linter and formatter
 mpkgs["scooter"]="scooter"                 # (https://github.com/thomasschafer/scooter) interactive find and replace terminal ui app
 mpkgs["scope-tui"]="scope-tui"             # (https://github.com/alemidev/scope-tui) cava 대체
 mpkgs["sd"]="sd"                           # (https://github.com/chmln/sd) sed 대체
