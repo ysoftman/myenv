@@ -1,13 +1,13 @@
 # typos 검사 제외 패턴
 [default]
-# 다음 식별자들은 오타가 아님
+# 다음 식별자(프로그래밍 파일등에서 사용되는 식별자)들은 오타가 아님
 extend-ignore-identifiers-re = [
   # *sigh* this just isn't worth the cost of fixing
   "iterm",
   "serie",
 ]
 
-# 오타 제외 regexp 패턴
+# 다음 단어(전체 파일에서) 오타 제외 regexp 패턴
 extend-ignore-re = [
   'mpkgs\["whome"\]="whome"',
   "noice.nvim",
