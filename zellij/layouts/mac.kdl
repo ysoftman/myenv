@@ -92,7 +92,7 @@ layout {
             // top -l 1 로 샘플링을 한번 했는데 terminal buffer, redraw 등의 이유로 mac OS 에서 top 이 안끝는 경우 발생
             // pid,command,cpu 등의 최소 컬럼만 표시되도록 한다.
             // timeout 으로 1초를 넘기면 종료하도록 한다.
-            // timeout 명령어는 brew install coreutil 로 설치
+            // timeout 명령어는 brew install coreutils 로 설치
             command_cpu_command    "timeout 1 bash -c \"top -l 1 -stats pid,command,cpu | awk '/CPU usage/ {print $3}'\""
             command_cpu_format     "#[bg=$bg0,fg=$red]#[fg=$crust,bg=$red] #[bg=$surface1,fg=$red,bold] {stdout}#[bg=$bg0,fg=$surface1]"
             command_cpu_interval   "5"
