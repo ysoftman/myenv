@@ -270,7 +270,9 @@ def help_and_exit():
         {0} issue
         {0} project
         {0} project _project_id_
-              """.format(sys.argv[0])
+              """.format(
+            sys.argv[0]
+        )
     )
     exit(0)
 
