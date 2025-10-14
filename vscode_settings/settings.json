@@ -129,7 +129,9 @@
   // "C_Cpp.clang_format_fallbackStyle": "google",
   // "C_Cpp.clang_format_fallbackStyle": "webkit",
   // "C_Cpp.clang_format_fallbackStyle": "mozilla",
-  "clang.cxxflags": ["-std=c++17"],
+  "clang.cxxflags": [
+    "-std=c++17"
+  ],
   "editor.lineNumbers": "on",
   "editor.tabSize": 4,
   "editor.wordWrap": "on",
@@ -143,10 +145,6 @@
   "editor.suggestSelection": "first",
   "editor.cursorStyle": "line",
   "editor.cursorBlinking": "expand",
-  "python.formatting.provider": "black",
-  "python.linting.enabled": true,
-  "python.linting.pylintEnabled": true,
-  "python.linting.pylintArgs": ["--disable=all", "--enable=W0611"],
   "python.languageServer": "Pylance",
   // Number of editors shown in the Open Editors pane.
   "explorer.openEditors.visible": 1,
@@ -164,7 +162,7 @@
     "editor.formatOnSave": true,
     "editor.insertSpaces": true,
     "editor.tabSize": 4,
-    "editor.defaultFormatter": "ms-python.black-formatter"
+    "editor.defaultFormatter": "charliermarsh.ruff"
   },
   "[jsonc]": {
     "editor.formatOnSave": true,
@@ -172,7 +170,18 @@
   },
   "[json]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
   },
   "[yaml]": {
     "editor.formatOnSave": true,
@@ -188,12 +197,6 @@
   "[html]": {
     "editor.defaultFormatter": "HookyQR.beautify"
   },
-  "[javascript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  },
   "[cpp]": {
     "editor.defaultFormatter": "ms-vscode.cpptools"
   },
@@ -207,16 +210,22 @@
   "terminal.integrated.profiles.osx": {
     "bash": {
       "path": "bash",
-      "args": ["-l"],
+      "args": [
+        "-l"
+      ],
       "icon": "terminal-bash"
     },
     "zsh": {
       "path": "zsh",
-      "args": ["-l"]
+      "args": [
+        "-l"
+      ]
     },
     "fish": {
       "path": "fish",
-      "args": ["-l"]
+      "args": [
+        "-l"
+      ]
     },
     "tmux": {
       "path": "tmux",
@@ -270,12 +279,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "workbench.iconTheme": "vscode-icons",
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
   "powermode.enabled": false,
   "csharp.suppressDotnetInstallWarning": true,
   "workbench.editor.enablePreview": false,
@@ -292,22 +295,41 @@
   "vim.hlsearch": true,
   "vim.insertModeKeyBindings": [
     {
-      "before": ["j", "j"],
-      "after": ["<Esc>"]
+      "before": [
+        "j",
+        "j"
+      ],
+      "after": [
+        "<Esc>"
+      ]
     }
   ],
   "vim.normalModeKeyBindingsNonRecursive": [
     {
-      "before": ["<leader>", "d"],
-      "after": ["d", "d"]
+      "before": [
+        "<leader>",
+        "d"
+      ],
+      "after": [
+        "d",
+        "d"
+      ]
     },
     {
-      "before": ["<C-n>"],
-      "commands": [":nohl"]
+      "before": [
+        "<C-n>"
+      ],
+      "commands": [
+        ":nohl"
+      ]
     },
     {
-      "before": ["K"],
-      "commands": ["lineBreakInsert"],
+      "before": [
+        "K"
+      ],
+      "commands": [
+        "lineBreakInsert"
+      ],
       "silent": true
     }
   ],
@@ -321,5 +343,10 @@
   "extensions.experimental.affinity": {
     "vscodevim.vim": 1
   },
-  "makefile.configureOnOpen": true
+  "makefile.configureOnOpen": true,
+  "yaml.schemas": {
+    "file:///Users/ysoftman/.vscode/extensions/continue.continue-1.2.8-darwin-arm64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
+    ]
+  }
 }

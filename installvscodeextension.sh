@@ -6,6 +6,8 @@ code --install-extension albymor.increment-selection
 code --install-extension alefragnani.bookmarks
 code --install-extension atomiks.moonlight
 code --install-extension bazelbuild.vscode-bazel
+code --install-extension biomejs.biome
+code --install-extension charliermarsh.ruff
 code --install-extension cliffordfajardo.highlight-line-vscode
 code --install-extension continue.continue
 code --install-extension cschlosser.doxdocgen
@@ -40,15 +42,16 @@ code --install-extension mechatroner.rainbow-csv
 code --install-extension mitaki28.vscode-clang
 code --install-extension mongodb.mongodb-vscode
 code --install-extension mrmlnc.vscode-apache
+code --install-extension ms-azuretools.vscode-containers
 code --install-extension ms-azuretools.vscode-docker
 code --install-extension ms-dotnettools.csharp
 code --install-extension ms-dotnettools.vscode-dotnet-runtime
 code --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
 code --install-extension ms-playwright.playwright
-code --install-extension ms-python.black-formatter
 code --install-extension ms-python.debugpy
 code --install-extension ms-python.python
 code --install-extension ms-python.vscode-pylance
+code --install-extension ms-python.vscode-python-envs
 code --install-extension ms-toolsai.jupyter
 code --install-extension ms-toolsai.jupyter-keymap
 code --install-extension ms-toolsai.jupyter-renderers
