@@ -2,7 +2,6 @@ return {
   {
     "folke/flash.nvim",
     event = "VeryLazy",
-    --stylua: ignore
     ---@type Flash.Config
     ---@diagnostic disable-next-line: missing-fields
     opts = {},
