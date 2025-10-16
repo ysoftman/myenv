@@ -62,7 +62,7 @@ fi
 # save credential(password)
 git config --global credential.helper store
 
-# gitignore, bash, zsh, vim, tmux, tigrc, mutt 등 기본 설정
+# unlin configuration
 export XDG_CONFIG_HOME="$HOME/.config"
 mkdir -p ${XDG_CONFIG_HOME}
 [ -h ~/.gitignore_global ] && unlink ~/.gitignore_global
@@ -80,6 +80,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ${XDG_CONFIG_HOME}/nvim ] && unlink ${XDG_CONFIG_HOME}/nvim
 [ -d ${XDG_CONFIG_HOME}/alacritty-colorscheme ] || git clone https://github.com/alacritty/alacritty-theme ${XDG_CONFIG_HOME}/alacritty-colorscheme
 [ -h ${XDG_CONFIG_HOME}/alacritty ] && unlink ${XDG_CONFIG_HOME}/alacritty
+[ -h ${XDG_CONFIG_HOME}/btop ] && unlink ${XDG_CONFIG_HOME}/btop
 [ -h ${XDG_CONFIG_HOME}/cava ] && unlink ${XDG_CONFIG_HOME}/cava
 [ -h ${XDG_CONFIG_HOME}/harlequin ] && unlink ${XDG_CONFIG_HOME}/harlequin
 [ -h ${XDG_CONFIG_HOME}/k9s ] && unlink ${XDG_CONFIG_HOME}/k9s
@@ -91,7 +92,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ${XDG_CONFIG_HOME}/starship.toml ] && unlink ${XDG_CONFIG_HOME}/starship.toml
 [ -h ${XDG_CONFIG_HOME}/ysoftman.omp.toml ] && unlink ${XDG_CONFIG_HOME}/ysoftman.omp.toml
 
-# backup previous settings
+# backup configuration
 [ -f ~/.gitignore_global ] && mv -fv ~/.gitignore_global ~/.gitignore_global.bak
 [ -f ~/.bashrc ] && mv -fv ~/.bashrc ~/.bashrc.bak
 [ -f ~/.zshrc ] && mv -fv ~/.zshrc ~/.zshrc.bak
@@ -106,6 +107,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -f ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup ] && mv -fv ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup.bak
 [ -f ${XDG_CONFIG_HOME}/nvim/init.vim ] && mv -fv ${XDG_CONFIG_HOME}/nvim ${XDG_CONFIG_HOME}/nvim.bak
 [ -d ${XDG_CONFIG_HOME}/alacritty ] && mv -fv ${XDG_CONFIG_HOME}/alacritty ${XDG_CONFIG_HOME}/alacritty.bak
+[ -d ${XDG_CONFIG_HOME}/btop ] && mv -fv ${XDG_CONFIG_HOME}/btop ${XDG_CONFIG_HOME}/btop.bak
 [ -d ${XDG_CONFIG_HOME}/cava ] && mv -fv ${XDG_CONFIG_HOME}/cava ${XDG_CONFIG_HOME}/cava.bak
 [ -d ${XDG_CONFIG_HOME}/harlequin ] && mv -fv ${XDG_CONFIG_HOME}/harlequin ${XDG_CONFIG_HOME}/harlequin.bak
 [ -d ${XDG_CONFIG_HOME}/k9s ] && mv -fv ${XDG_CONFIG_HOME}/k9s ${XDG_CONFIG_HOME}/k9s.bak
@@ -117,6 +119,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -f ${XDG_CONFIG_HOME}/starship.toml ] && mv -fv ${XDG_CONFIG_HOME}/starship.toml ${XDG_CONFIG_HOME}/starship.toml.bak
 [ -f ${XDG_CONFIG_HOME}/ysoftman.omp.toml ] && mv -fv ${XDG_CONFIG_HOME}/ysoftman.omp.toml ${XDG_CONFIG_HOME}/ysoftman.omp.toml.bak
 
+# link configuration
 ln -sfv ${PWD}/.gitignore_global ~/.gitignore_global
 ln -sfv ${PWD}/.bashrc ~/.bashrc
 ln -sfv ${PWD}/.zshrc ~/.zshrc
@@ -131,6 +134,7 @@ ln -sfv ${PWD}/prezto/zpreztorc ${HOME}/.zprezto/runcoms/zpreztorc
 ln -sfv ${PWD}/prezto/prompt_sorin_ysoftman_setup ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/nvim ${XDG_CONFIG_HOME}/nvim
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/alacritty ${XDG_CONFIG_HOME}/alacritty
+[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/btop ${XDG_CONFIG_HOME}/btop
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/cava ${XDG_CONFIG_HOME}/cava
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/harlequin ${XDG_CONFIG_HOME}/harlequin
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/karabiner ${XDG_CONFIG_HOME}/karabiner
