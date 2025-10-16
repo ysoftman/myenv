@@ -14,7 +14,6 @@ code --install-extension cschlosser.doxdocgen
 code --install-extension dart-code.dart-code
 code --install-extension dart-code.flutter
 code --install-extension davidanson.vscode-markdownlint
-code --install-extension dbaeumer.vscode-eslint
 code --install-extension dcortes92.freemarker
 code --install-extension dcr30.lualinter
 code --install-extension donjayamanne.jquerysnippets
@@ -106,7 +105,6 @@ code --install-extension vscjava.vscode-java-pack
 code --install-extension vscjava.vscode-java-test
 code --install-extension vscjava.vscode-maven
 code --install-extension vscode-icons-team.vscode-icons
-code --install-extension vscodevim.vim
 code --install-extension vuetifyjs.vuetify-vscode
 code --install-extension wholroyd.jinja
 code --install-extension xabikos.javascriptsnippets

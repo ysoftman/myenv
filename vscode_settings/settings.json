@@ -239,15 +239,6 @@
   "update.mode": "manual",
   "remote.SSH.showLoginTerminal": true,
   "oneDarkPro.vivid": true,
-  "eslint.enable": true,
-  "eslint.format.enable": true,
-  "eslint.validate": [
-    "vue",
-    "javascript",
-    "javascriptreact",
-    "html",
-    "typescript"
-  ],
   "vetur.format.enable": false,
   // completion, diagnostics, hover, jump to definition, find references
   "vetur.experimental.templateInterpolationService": true,
@@ -288,64 +279,9 @@
   "git.openRepositoryInParentFolders": "never",
   "playwright.reuseBrowser": true,
   "playwright.showTrace": false,
-  "vim.easymotion": true,
-  "vim.incsearch": true,
-  "vim.useSystemClipboard": true,
-  "vim.useCtrlKeys": true,
-  "vim.hlsearch": true,
-  "vim.insertModeKeyBindings": [
-    {
-      "before": [
-        "j",
-        "j"
-      ],
-      "after": [
-        "<Esc>"
-      ]
-    }
-  ],
-  "vim.normalModeKeyBindingsNonRecursive": [
-    {
-      "before": [
-        "<leader>",
-        "d"
-      ],
-      "after": [
-        "d",
-        "d"
-      ]
-    },
-    {
-      "before": [
-        "<C-n>"
-      ],
-      "commands": [
-        ":nohl"
-      ]
-    },
-    {
-      "before": [
-        "K"
-      ],
-      "commands": [
-        "lineBreakInsert"
-      ],
-      "silent": true
-    }
-  ],
-  // "vim.leader": "<space>",
-  "vim.leader": ",",
-  "vim.handleKeys": {
-    "<C-a>": false,
-    "<C-f>": false
-  },
-  // To improve performance
-  "extensions.experimental.affinity": {
-    "vscodevim.vim": 1
-  },
   "makefile.configureOnOpen": true,
   "yaml.schemas": {
-    "file:///Users/ysoftman/.vscode/extensions/continue.continue-1.2.8-darwin-arm64/config-yaml-schema.json": [
+    "file:///Users/ysoftman/.vscode/extensions/continue.continue-1.2.9-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
     ]
   }
