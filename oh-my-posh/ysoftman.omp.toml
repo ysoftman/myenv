@@ -101,12 +101,11 @@ type = "react"
 
 [[blocks.segments]]
 template = " <#ffffff></> {{ .Full }}"
-type = "bun"
 foreground = '#000000'
 background = "#3C82F6"
 powerline_symbol = ''
+type = "bun"
 style = 'powerline'
-# style = "plain"
 
 [[blocks.segments]]
 template = '  {{ .Full }}'
@@ -125,6 +124,18 @@ style = 'powerline'
 type = 'rust'
 
 [[blocks.segments]]
+background = "#a7cae1"
+foreground = "#100e23"
+powerline_symbol = ''
+template = " Helm {{ .Version }}"
+style = "powerline"
+type = "helm"
+
+[blocks.segments.properties]
+display_mode = "files"
+
+
+[[blocks.segments]]
 template = '  {{ .CurrentDate | date .Format }}'
 foreground = '#000000'
 powerline_symbol = ''
@@ -134,7 +145,8 @@ type = 'time'
 style = 'powerline'
 
 [blocks.segments.properties]
-time_format = '3:04 PM'
+# time_format = '3:04 PM'
+time_format = "15:04:05"
 
 [[blocks.segments]]
 template = ' <#000000>󰔟</> {{ .FormattedMs }}'
