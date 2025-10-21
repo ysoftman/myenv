@@ -15,14 +15,14 @@ alignment = 'left'
 
 [[blocks.segments]]
 leading_diamond = ''
-template = '{{ .Icon }} {{ .HostName }} '
+template = '{{ .Icon }} {{ .HostName }}'
 foreground = '#00c983'
 background = '#003543'
 type = 'os'
 style = 'diamond'
 
 [[blocks.segments]]
-template = '  {{.Context}}{{if .Namespace}}:{{.Namespace}}{{end}} '
+template = '  {{.Context}}{{if .Namespace}}:{{.Namespace}}{{end}}'
 foreground = '#000000'
 powerline_symbol = ''
 # background = '#ebcc34'
@@ -35,7 +35,7 @@ style = 'powerline'
 'arn:aws:eks:eu-west-1:1234567890:cluster/posh' = 'posh'
 
 [[blocks.segments]]
-template = ' <#000000> ➜</> {{ .Path }} '
+template = ' <#000000> </>{{ .Path }}'
 foreground = '#000000'
 powerline_symbol = ''
 # background = '#DA627D'
@@ -51,7 +51,7 @@ style = 'full'
 
 [[blocks.segments]]
 # template = ' ({{ .UpstreamIcon }}{{ .HEAD }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}) '
-template = " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} "
+template = " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}"
 background_templates = [
   "{{ if or (.Working.Changed) (.Staging.Changed) }}#FFEB3B{{ end }}",
   "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#FFCC80{{ end }}",
@@ -75,7 +75,7 @@ fetch_stash_count = true
 "bug/*" = "🐛 "
 
 [[blocks.segments]]
-template = '  {{ .Full }} '
+template = '  {{ .Full }}'
 foreground = '#100e23'
 powerline_symbol = ''
 background = '#906cff'
@@ -83,7 +83,7 @@ type = 'python'
 style = 'powerline'
 
 [[blocks.segments]]
-template = ' <#000000>󰎙</> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} '
+template = ' <#000000>󰎙</> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}'
 foreground = '#000000'
 powerline_symbol = ''
 # background = '#76b367'
@@ -92,7 +92,7 @@ type = 'node'
 style = 'powerline'
 
 [[blocks.segments]]
-template = "  {{ .Full }} "
+template = "  {{ .Full }}"
 style = "powerline"
 powerline_symbol = ""
 foreground = '#000000'
@@ -100,7 +100,7 @@ background = "#81a1c1"
 type = "react"
 
 [[blocks.segments]]
-template = " <#ffffff></> {{ .Full }} "
+template = " <#ffffff></> {{ .Full }}"
 type = "bun"
 foreground = '#000000'
 background = "#3C82F6"
@@ -109,7 +109,7 @@ style = 'powerline'
 # style = "plain"
 
 [[blocks.segments]]
-template = '  {{ .Full }} '
+template = '  {{ .Full }}'
 foreground = '#000000'
 powerline_symbol = ''
 background = '#7FD5EA'
@@ -117,7 +117,7 @@ style = 'powerline'
 type = 'go'
 
 [[blocks.segments]]
-template = '  {{ .Full }} '
+template = '  {{ .Full }}'
 foreground = '#193549'
 powerline_symbol = ''
 background = '#99908a'
@@ -125,7 +125,7 @@ style = 'powerline'
 type = 'rust'
 
 [[blocks.segments]]
-template = '  {{ .CurrentDate | date .Format }} '
+template = '  {{ .CurrentDate | date .Format }}'
 foreground = '#000000'
 powerline_symbol = ''
 # background = '#33658A'
@@ -137,7 +137,7 @@ style = 'powerline'
 time_format = '3:04 PM'
 
 [[blocks.segments]]
-template = ' <#000000>󰔟</> {{ .FormattedMs }} '
+template = ' <#000000>󰔟</> {{ .FormattedMs }}'
 foreground = '#000000'
 powerline_symbol = ''
 # background = '#83769c'
