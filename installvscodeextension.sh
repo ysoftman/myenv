@@ -6,6 +6,7 @@ code --install-extension albymor.increment-selection
 code --install-extension alefragnani.bookmarks
 code --install-extension atomiks.moonlight
 code --install-extension bazelbuild.vscode-bazel
+code --install-extension bierner.markdown-mermaid
 code --install-extension biomejs.biome
 code --install-extension charliermarsh.ruff
 code --install-extension cliffordfajardo.highlight-line-vscode
