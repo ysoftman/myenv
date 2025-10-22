@@ -28,9 +28,11 @@ rename_files() {
     IFS=$'\n'
     for from in $(fd $1$); do
         if [[ $2 == 'snake' ]]; then
-            to=$(echo $from | sed s/-/_/g)
+            # to=$(echo $from | sed s/-/_/g)
+            to=${from//-/_}
         elif [[ $2 == 'kebab' ]]; then
-            to=$(echo $from | sed s/_/-/g)
+            # to=$(echo $from | sed s/_/-/g)
+            to=${from//_/-}
         fi
         if [[ $from != "$to" ]]; then
             mv -v $from $to
