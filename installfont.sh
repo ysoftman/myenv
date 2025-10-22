@@ -2,7 +2,6 @@
 os_name=$(uname -o | tr '[:upper:]' '[:lower:]')
 
 if [[ $os_name == *"darwin"* ]]; then
-    # mac 에선 installbrew.sh 에서 brew install font-fira-code font-hack-nerd-font 로 설치된다.
     brew install font-fira-code font-hack-nerd-font
 fi
 

@@ -11,7 +11,17 @@ notice = false
 type = 'prompt'
 alignment = 'left'
 
-#                          
+# https://github.com/ysoftman/test_code/tree/master/rust/emoji/src
+# cargo run main.rs 로 현재 사용중인 폰트 리스트 볼 수 있도록 했음.
+# E0B0 ~ E0B3 : 4
+#    
+# E0B4 ~ E0C8 : 21
+#                     
+# E0CA ~ E0CA : 1
+# 
+# E0CC ~ E0D7 : 12
+#            
+# 또는 아이콘 참조: https://www.nerdfonts.com/cheat-sheet > nf-ple- 검색 > icon 복사
 
 [[blocks.segments]]
 leading_diamond = ''
@@ -37,7 +47,7 @@ style = 'powerline'
 [[blocks.segments]]
 template = ' <#000000> </>{{ .Path }}'
 foreground = '#000000'
-powerline_symbol = ''
+powerline_symbol = ''
 # background = '#DA627D'
 background = "#f38ba8"
 type = 'path'
@@ -59,7 +69,7 @@ background_templates = [
   "{{ if gt .Behind 0 }}#B388FB{{ end }}",
 ]
 foreground = '#000000'
-powerline_symbol = ''
+powerline_symbol = ''
 # background = '#FCA17D'
 background = "#fab387"
 type = 'git'
@@ -77,7 +87,7 @@ fetch_stash_count = true
 [[blocks.segments]]
 template = '  {{ .Full }}'
 foreground = '#100e23'
-powerline_symbol = ''
+powerline_symbol = ''
 background = '#906cff'
 type = 'python'
 style = 'powerline'
@@ -85,7 +95,7 @@ style = 'powerline'
 [[blocks.segments]]
 template = ' <#000000>󰎙</> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}'
 foreground = '#000000'
-powerline_symbol = ''
+powerline_symbol = ''
 # background = '#76b367'
 background = "#a6e3a1"
 type = 'node'
@@ -94,7 +104,7 @@ style = 'powerline'
 [[blocks.segments]]
 template = "  {{ .Full }}"
 style = "powerline"
-powerline_symbol = ""
+powerline_symbol = ""
 foreground = '#000000'
 background = "#81a1c1"
 type = "react"
@@ -103,14 +113,14 @@ type = "react"
 template = " <#ffffff></> {{ .Full }}"
 foreground = '#000000'
 background = "#3C82F6"
-powerline_symbol = ''
+powerline_symbol = ''
 type = "bun"
 style = 'powerline'
 
 [[blocks.segments]]
 template = '  {{ .Full }}'
 foreground = '#000000'
-powerline_symbol = ''
+powerline_symbol = ''
 background = '#7FD5EA'
 style = 'powerline'
 type = 'go'
@@ -118,7 +128,7 @@ type = 'go'
 [[blocks.segments]]
 template = '  {{ .Full }}'
 foreground = '#193549'
-powerline_symbol = ''
+powerline_symbol = ''
 background = '#99908a'
 style = 'powerline'
 type = 'rust'
@@ -126,7 +136,7 @@ type = 'rust'
 [[blocks.segments]]
 background = "#a7cae1"
 foreground = "#100e23"
-powerline_symbol = ''
+powerline_symbol = ''
 template = " Helm {{ .Version }}"
 style = "powerline"
 type = "helm"
@@ -138,7 +148,7 @@ display_mode = "files"
 [[blocks.segments]]
 template = '  {{ .CurrentDate | date .Format }}'
 foreground = '#000000'
-powerline_symbol = ''
+powerline_symbol = ''
 # background = '#33658A'
 background = "#89b4fa"
 type = 'time'
@@ -151,7 +161,7 @@ time_format = "15:04:05"
 [[blocks.segments]]
 template = ' <#000000>󰔟</> {{ .FormattedMs }}'
 foreground = '#000000'
-powerline_symbol = ''
+powerline_symbol = ''
 # background = '#83769c'
 background = "#cba6f7"
 type = 'executiontime'
@@ -164,7 +174,7 @@ always_enabled = true
 trailing_diamond = ''
 template = ' {{ if gt .Code 0 }}{{ else }}{{ end }} '
 foreground = '#ffffff'
-powerline_symbol = ''
+powerline_symbol = ''
 # background = '#2e9599'
 background = "#81c8be"
 type = 'status'
