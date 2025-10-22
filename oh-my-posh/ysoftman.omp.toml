@@ -86,7 +86,7 @@ fetch_stash_count = true
 type = 'python'
 style = 'powerline'
 powerline_symbol = ''
-template = ' <#f6F930></> {{ .Full }}'
+template = ' 󰌠 {{ .Full }}'
 foreground = '#100e23'
 background = '#906cff'
 
