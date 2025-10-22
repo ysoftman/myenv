@@ -23,6 +23,7 @@ alignment = 'left'
 #            
 # 또는 아이콘 참조: https://www.nerdfonts.com/cheat-sheet > nf-ple- 검색 > icon 복사
 
+# https://ohmyposh.dev/docs/configuration/segment
 [[blocks.segments]]
 leading_diamond = ''
 template = '{{ .Icon }} {{ .HostName }}'
@@ -134,10 +135,10 @@ style = 'powerline'
 type = 'rust'
 
 [[blocks.segments]]
+template = '  {{ .Version }}'
 background = "#a7cae1"
 foreground = "#100e23"
 powerline_symbol = ''
-template = " Helm {{ .Version }}"
 style = "powerline"
 type = "helm"
 
@@ -173,13 +174,13 @@ always_enabled = true
 [[blocks.segments]]
 trailing_diamond = ''
 template = ' {{ if gt .Code 0 }}{{ else }}{{ end }} '
+background_templates = ['{{ if gt .Code 0 }}red{{ end }}']
 foreground = '#ffffff'
 powerline_symbol = ''
 # background = '#2e9599'
 background = "#81c8be"
 type = 'status'
 style = 'diamond'
-background_templates = ['{{ if gt .Code 0 }}red{{ end }}']
 
 [blocks.segments.properties]
 always_enabled = true
