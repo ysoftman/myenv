@@ -19,7 +19,6 @@ brew tap nik-rev/tap
 brew tap oven-sh/bun
 brew tap pls-rs/pls
 brew tap techouse/sqlite3-to-mysql
-brew tap valkyrie00/bbrew
 brew tap vectordotdev/brew
 brew tap vladimirvivien/oss-tools
 brew tap vladkens/tap
