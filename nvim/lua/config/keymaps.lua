@@ -19,7 +19,8 @@ vim.keymap.set("n", "<c-l>", "<cmd>lua require('fzf-lua').buffers()<CR>", { sile
 
 -- neotree
 vim.keymap.set({ "n", "v" }, "<leader>tt", ":Neotree toggle reveal<cr>")
-vim.keymap.set({ "n", "v" }, "<leader>tf", ":Neotree toggle reveal_force_cwd<cr>")
+vim.keymap.set({ "n", "v" }, "<leader>tf", ":Neotree toggle reveal_force_cwd left<cr>")
+-- vim.keymap.set({ "n", "v" }, "<leader>tf", ":Neotree source=filesystem reveal=true position=left<cr>")
 
 -- lsp
 local lsp_keys = require("lazyvim.plugins.lsp.keymaps").get()
