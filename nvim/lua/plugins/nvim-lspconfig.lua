@@ -15,6 +15,13 @@ return {
     },
     opts = {
       servers = {
+        ["*"] = {
+          keys = {
+            { "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", has = "definition" },
+            { "gr", "<cmd>lua vim.lsp.buf.references()<CR>", has = "references" },
+          },
+        },
+
         taplo = {
           enabled = true,
           settings = {

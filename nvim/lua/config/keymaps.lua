@@ -22,12 +22,6 @@ vim.keymap.set({ "n", "v" }, "<leader>tt", ":Neotree toggle reveal<cr>")
 vim.keymap.set({ "n", "v" }, "<leader>tf", ":Neotree toggle reveal_force_cwd left<cr>")
 -- vim.keymap.set({ "n", "v" }, "<leader>tf", ":Neotree source=filesystem reveal=true position=left<cr>")
 
--- lsp
-local lsp_keys = require("lazyvim.plugins.lsp.keymaps").get()
--- gd, gr 로 사용하는데 다음도 추가
-lsp_keys[#lsp_keys + 1] = { "<leader>d", vim.lsp.buf.definition, desc = "Go to Definition" }
-lsp_keys[#lsp_keys + 1] = { "<leader>r", vim.lsp.buf.references, desc = "Go to References" }
-
 -- comment
 -- codelens 에서 해당 단축키를 사용하고 있다. 그냥 default gcc, gc 등을 사용하자.
 -- vim.keymap.set({ "n", "v" }, "<leader>cc", function()
