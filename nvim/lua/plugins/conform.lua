@@ -1,6 +1,6 @@
 return {
   -- https://github.com/stevearc/conform.nvim
-  -- Conform.nvim은 Neovim에서 코드 포맷팅을 위한 플러그인입니다. mason 으로 설치된 formmatter/linter 패키지들을 설정하고 실행한다
+  -- Conform.nvim은 Neovim에서 코드 포맷팅을 위한 플러그인입니다. mason 으로 설치된 formatter/linter 패키지들을 설정하고 실행한다
   -- none-ls 의 포맷팅 기능과 충돌이 발생할 수 있다.
   "stevearc/conform.nvim", -- For formatting
   event = { "BufWritePre" },
