@@ -171,10 +171,18 @@ return {
               gofumpt = true,
               usePlaceholders = true,
               completeUnimported = true,
-              staticcheck = true, -- https://staticcheck.dev/docs/checks#QF1003
+              staticcheck = false, -- golangci-lint 에서 staticcheck 를 하고 있어 비활성화 (https://staticcheck.dev/docs/checks)
               directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
               semanticTokens = true,
             },
+          },
+        },
+        golangci_lint_ls = {
+          cmd = { "golangci-lint-langserver" },
+          filetypes = { "go" },
+          root_dir = require("lspconfig.util").root_pattern(".git", "go.mod"),
+          init_options = {
+            command = { "golangci-lint", "run", "--out-format", "json" },
           },
         },
         -- tsserver will be automatically installed with mason and loaded with lspconfig
