@@ -50,8 +50,17 @@ return {
           keys = {
             { "<leader>ch", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
           },
+          -- c/c++ 프로젝트 root dir 파악
           root_dir = function(fname)
-            return require("lspconfig.util").root_pattern(
+            -- 파일명이 아닌 버펴번호 1 로 들어오는 경우
+            -- fname이 숫자일 경우 bufname으로 변환
+            if type(fname) == "number" then
+              fname = vim.api.nvim_buf_get_name(fname)
+            end
+            -- print("fname:", fname)
+
+            local util = require("lspconfig.util")
+            local root = util.root_pattern(
               ".clangd",
               ".clang-tidy",
               ".clang-format",
@@ -64,7 +73,20 @@ return {
               "meson.build",
               "meson_options.txt",
               "build.ninja"
-            )(fname) or vim.fs.dirname(vim.fs.find(".git", { path = fname, upward = true })[1])
+            )(fname)
+            if root then
+              return root
+            end
+
+            local git_dir = vim.fs.find(".git", { path = fname, upward = true })[1]
+            if git_dir then
+              -- print("✅ .git found at: " .. git_dir)
+              return vim.fs.dirname(git_dir)
+            else
+              -- print("❌ .git not found")
+            end
+
+            return vim.fs.dirname(fname)
           end,
           capabilities = {
             offsetEncoding = { "utf-8", "utf-16" },
