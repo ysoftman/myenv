@@ -1,11 +1,16 @@
 return {
   {
+    -- 단축키(키맵)를 시각적으로 탐색하고 기억하기 쉽게 도와주는 플러그인입니다.
     "folke/which-key.nvim",
     event = "VeryLazy",
     opts_extend = { "spec" },
     opts = {
       preset = "helix",
       defaults = {},
+      -- which-key 팝업을 띄울 트리거 키를 지정합니다.
+      triggers = {
+        { "<leader>", mode = { "n", "v" } },
+      },
       spec = {
         {
           mode = { "n", "v" },
