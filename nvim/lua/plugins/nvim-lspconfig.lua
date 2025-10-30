@@ -28,8 +28,9 @@ return {
           },
         },
 
-        -- pyright(디폴트 활성화)는 비활성하고 ruff 만 사용하기
-        pyright = { enabled = false },
+        -- pyright(디폴트 활성화), ruff_lsp 가 완벽하게 동작하지 않아서 pyright 계속 사용
+        pyright = { enabled = true },
+        -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#ruff_lsp
         ruff_lsp = {
           init_options = {
             settings = {
