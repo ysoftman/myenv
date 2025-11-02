@@ -31,7 +31,6 @@ fi
 if command -v uv >/dev/null 2>&1; then
     PIP="uv pip"
 fi
-
 if [[ $PIP != 'NONE' ]]; then
     install_file="installpip.sh"
     pip_list=$(${PIP} list --system | sed -n '3,$p' | awk '{print $1}' | tr '\n' ' ' | awk '{ sub(/[[:space:]]+$/, ""); print }')
@@ -50,18 +49,11 @@ fi
 \${PIP} install --upgrade --system pip
 \${PIP} install --upgrade --system $pip_list
 zzz
-
 fi
-# --upgrade 필요시에만 사용
-# echo ' --upgrade' >> ${install_file}
 
-# backup .ssh directory
 # 보안사항으로 github 저장소에 올리면 안됨.
-# mkdir -p .ssh
+# mkdir -p .ssh hosts
 # cp -v ~/.ssh/* ./.ssh/
-
-# backup hosts
-# 보안사항으로 github 저장소에 올리면 안됨.
 # cp -v /etc/hosts ./hosts
 
 # cargo packages 는 installcargo.sh 로 관리
