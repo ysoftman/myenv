@@ -39,7 +39,6 @@ return {
         tabWidth = 2,
         singleQuote = true,
       },
-      ["markdownlint-cli2"] = { command = "markdownlint" },
       shfmt = {
         -- use 4spaces instead of tabs(default)
         -- https://github.com/mvdan/sh/blob/master/cmd/shfmt/shfmt.1.scd#printer-flags
@@ -56,7 +55,8 @@ return {
       json = { "biome" },
       jsonc = { "biome" },
       lua = { "stylua" },
-      markdown = { "prettier", "markdownlint-cli2" }, -- Specify formatters for Markdown
+      -- markdownlint 는 느림,  markdownlint-cli2 는 병렬 처리로 좀더 빠름
+      markdown = { "markdownlint-cli2" },
       python = { "isort", "black" },
       rust = { "rustfmt" },
       sh = { "shfmt" },
