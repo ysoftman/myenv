@@ -49,6 +49,7 @@ return {
     formatters_by_ft = {
       cpp = { "clang-format" }, -- 프로젝트 루트 위치에 .clang-format 설정을 참고하게 된다. (https://github.com/ysoftman/test_code/blob/master/cpp/.clang-format)
       fish = { "fish_indent" },
+      html = { "prettier" }, -- biome 가 아직 html 포맷팅은 안돼 prettier 사용
       javascript = { "biome" }, -- biome는 rust 로 만들어서 prettier 보다 성능이 좋다.(biome init 으로 biome.json 설정파일을 생성해 수정할 수 있다.)
       -- javascript = { "prettierd", "prettier", stop_after_first = true },
       javascriptreact = { "biome" },
