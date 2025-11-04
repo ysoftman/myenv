@@ -209,20 +209,19 @@ function set_alias {
     alias vi='vim'
     alias nv='launch_neovide'
     alias vimlastfile='vim `(ls -1tr | tail -1)`'
-    alias gopath='cd $GOPATH'
-    alias myenv='cd ${myenv_path}'
-    alias work='cd ${HOME}/workspace'
-    alias testcode='cd ${HOME}/workspace/test_code'
-    alias cutstring='${HOME}/workspace/cutstring/cutstring'
-    alias enchash='${HOME}/workspace/enchash/enchash'
-    alias aleng='${HOME}/workspace/aleng/aleng'
+    alias gopath="cd $GOPATH"
+    alias myenv="cd ${myenv_path}"
+    alias work="cd ${HOME}/workspace"
+    alias testcode="cd ${HOME}/workspace/test_code"
+    alias cutstring="${HOME}/workspace/cutstring/cutstring"
+    alias enchash="${HOME}/workspace/enchash/enchash"
+    alias aleng="${HOME}/workspace/aleng/aleng"
     alias tig='tig --all'
     # gh command - 깃헙 호스트별 최초 로그인 필요(gh auth login)
     alias ghauthstatus='gh auth status'
     alias ghissueme='gh issue list --assignee @me'
     alias ghissueview='gh issue view' # 뒤에 이슈번호 아규먼트 명시
     alias k='kubectl'
-    alias m-c='/usr/local/Cellar/midnight-commander/4.8.28/bin/mc'
     alias duf="duf -theme dark"
     # ssh 원격 접속시 clear 실행하면 'alacritty': unknown terminal type. 메시지 발생 방지
     alias ssh='TERM=xterm-256color ssh'
