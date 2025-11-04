@@ -46,7 +46,7 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.lang.json" },
     { import = "lazyvim.plugins.extras.ui.mini-animate" },
     { import = "lazyvim.plugins.extras.ui.mini-starter" },
-    { import = "lazyvim.plugins.extras.lsp.none-ls" }, -- null-ls 를 대체(메시지에 null-ls 로 표시된다)
+    -- { import = "lazyvim.plugins.extras.lsp.none-ls" }, -- null-ls 를 대체(메시지에 null-ls 로 표시된다), nvm-lint 로 대체되는 추세로 non-ls(null-ls)는 사용하지 않는 추세
     { import = "plugins" },
   },
   defaults = {
