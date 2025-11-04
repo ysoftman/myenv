@@ -23,6 +23,7 @@ return {
         "shellcheck",
         "shfmt",
         "stylua",
+        "vale",
       },
       -- automatically install / update on startup. If set to false nothing
       -- will happen on startup. You can use :MasonToolsInstall or

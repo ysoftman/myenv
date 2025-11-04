@@ -11,7 +11,7 @@ return {
       -- Use the "_" filetype to run linters on filetypes that don't have other linters configured.
       -- ['_'] = { 'fallback linter' },
       -- ["*"] = { "typos" },
-      markdown = {}, -- markdownlint 를 비활성화, none-ls 에서 markdownlint-cli2 로 사용하고 있다.
+      markdown = { "markdownlint-cli2" },
     },
     -- LazyVim extension to easily override linter options
     -- or add custom linters.
