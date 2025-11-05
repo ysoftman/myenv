@@ -3,6 +3,10 @@ if [ "$(uname)" == 'Darwin' ]; then
     ln -sf ${PWD}/vscode_settings/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
     ln -sf ${PWD}/vscode_settings/locale.json ~/Library/Application\ Support/Code/User/locale.json
     ln -sf ${PWD}/vscode_settings/settings.json ~/Library/Application\ Support/Code/User/settings.json
+
+    # code --install-extension redhat.ansible 에서 ansible-lint 사용한다.
+    brew install ansible-lint
+
 elif [[ $(uname -r | awk '{print tolower($0)}') == *"wsl"* ]]; then
     echo 'Linux - WSL'
     username=$(wslvar userprofile | tr '\\' ' ' | awk '{print $NF}')
