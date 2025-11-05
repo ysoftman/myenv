@@ -5,4 +5,5 @@ emoji-cli
 lazy-lock.json
 cava/shaders
 cava/themes
+.ansible
 
