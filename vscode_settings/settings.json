@@ -157,7 +157,7 @@
   "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
   "ansibleServer.trace.server": "messages",
   // 쉘 확장이 안돼 env, $HOME, ~ 등을 사용할 수 없고 절대경로 명시해야 한다.
-  "ansible.python.interpreterPath": "/Users/ysoftman/.pyenv/versions/3.12.0/bin/python",
+  "ansible.python.interpreterPath": "/Users/ysoftman/.pyenv/versions/3.12.11/bin/python",
   "[python]": {
     "editor.formatOnSave": true,
     "editor.insertSpaces": true,
