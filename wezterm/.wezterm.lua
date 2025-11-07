@@ -44,8 +44,15 @@ config.colors = {
 
 -- 커서 애니메이션 (Neovide 느낌)
 config.cursor_blink_rate = 500
-config.cursor_blink_ease_in = "EaseInOut"
-config.cursor_blink_ease_out = "EaseInOut"
+-- 깜박임이 즉각적으로 켜졌다 꺼지게 설정
+-- config.cursor_blink_ease_in = "Constant"
+-- config.cursor_blink_ease_out = "Constant"
+-- 점진적인 효과
+-- config.cursor_blink_ease_in = "EaseIn"
+-- config.cursor_blink_ease_out = "EaseOut"
+config.cursor_blink_ease_in = "Linear"
+config.cursor_blink_ease_out = "Linear"
+
 config.default_cursor_style = "BlinkingBlock" -- BlinkingBlock,BlinkingBar,SteadyBar,SteadyUnderline,BlinkingUnderline
 
 -- https://wezterm.org/config/font-shaping.html
@@ -53,7 +60,7 @@ config.font = wezterm.font("FiraCode Nerd Font")
 -- config.font = wezterm.font("FiraCode Nerd Font", { weight = "Bold" })
 -- config.font = wezterm.font("FiraCode Nerd Font", { weight = "Bold", italic = true })
 
--- 키 매핑
+-- 키 매핑(rttps://wezterm.org/config/default-keys.html)
 -- ctrl+shift+p : command palette
 -- ctrl+shift+u : emoji 입력
 config.keys = {
