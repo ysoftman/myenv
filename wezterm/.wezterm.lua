@@ -61,6 +61,8 @@ config.font = wezterm.font("FiraCode Nerd Font")
 -- config.font = wezterm.font("FiraCode Nerd Font", { weight = "Bold", italic = true })
 
 -- 키 매핑(rttps://wezterm.org/config/default-keys.html)
+-- wezterm show-keys : 현재 설정된 키 정보 확인하는 CLI
+-- wezterm show-keys --lua --key-table search_mode : lua 모드에서 search_mode 테이블만 보기
 -- ctrl+shift+p : command palette
 -- ctrl+shift+u : emoji 입력
 config.keys = {
@@ -68,7 +70,8 @@ config.keys = {
 	-- https://wezterm.org/copymode.html
 	{ key = "Space", mods = "CTRL", action = wezterm.action.ActivateCopyMode },
 }
--- 상태 표시: vi 모드 진입 시 오른쪽에 표시
+
+-- 상태 표시(탭제목있는 보이는 경우): vi 모드 진입 시 오른쪽에 표시
 wezterm.on("update-right-status", function(window, _)
 	if window:active_key_table() == "copy_mode" then
 		window:set_right_status("📜 VI MODE")
