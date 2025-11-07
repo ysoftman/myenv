@@ -57,8 +57,11 @@ config.default_cursor_style = "BlinkingBlock" -- BlinkingBlock,BlinkingBar,Stead
 
 -- https://wezterm.org/config/font-shaping.html
 config.font = wezterm.font("FiraCode Nerd Font")
--- config.font = wezterm.font("FiraCode Nerd Font", { weight = "Bold" })
 -- config.font = wezterm.font("FiraCode Nerd Font", { weight = "Bold", italic = true })
+
+-- By default, wezterm enables ligature support in the font that you have selected.
+-- ligature(!=, --- >= <=) 비활성화
+config.harfbuzz_features = { "calt = 0", "clig = 0", "liga = 0" }
 
 -- 키 매핑(https://wezterm.org/config/default-keys.html)
 -- wezterm show-keys : 현재 설정된 키 정보 확인하는 CLI
