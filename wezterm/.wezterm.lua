@@ -69,6 +69,24 @@ config.keys = {
 	-- Ctrl+Space  vi 모드 (복사 모드) 토글
 	-- https://wezterm.org/copymode.html
 	{ key = "Space", mods = "CTRL", action = wezterm.action.ActivateCopyMode },
+	-- Alt + LeftArrow (단어 단위 왼쪽 이동)
+	{
+		key = "LeftArrow",
+		mods = "ALT",
+		action = wezterm.action.SendKey({
+			key = "b",
+			mods = "ALT",
+		}),
+	},
+	-- Alt + RightArrow (단어 단위 오른쪽 이동)
+	{
+		key = "RightArrow",
+		mods = "ALT",
+		action = wezterm.action.SendKey({
+			key = "f",
+			mods = "ALT",
+		}),
+	},
 }
 
 -- 상태 표시(탭제목있는 보이는 경우): vi 모드 진입 시 오른쪽에 표시
