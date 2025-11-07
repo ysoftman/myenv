@@ -60,7 +60,7 @@ config.font = wezterm.font("FiraCode Nerd Font")
 -- config.font = wezterm.font("FiraCode Nerd Font", { weight = "Bold" })
 -- config.font = wezterm.font("FiraCode Nerd Font", { weight = "Bold", italic = true })
 
--- 키 매핑(rttps://wezterm.org/config/default-keys.html)
+-- 키 매핑(https://wezterm.org/config/default-keys.html)
 -- wezterm show-keys : 현재 설정된 키 정보 확인하는 CLI
 -- wezterm show-keys --lua --key-table search_mode : lua 모드에서 search_mode 테이블만 보기
 -- ctrl+shift+p : command palette
