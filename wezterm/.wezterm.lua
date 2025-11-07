@@ -17,6 +17,13 @@ config.enable_tab_bar = true
 -- config.window_decorations = "RESIZE" -- 위쪽 제목표시 줄 없애기 윈도우 크기 조정이 됨
 config.window_decorations = "TITLE | RESIZE" -- 위쪽 제목표시 + 윈도우 크기 조정이 됨
 
+config.window_padding = {
+	left = 0,
+	right = 0,
+	top = 0,
+	bottom = 0,
+}
+
 -- config.window_background_opacity = 0.7
 -- config.macos_window_background_blur = 80
 
@@ -27,10 +34,12 @@ config.font_size = 18
 config.color_scheme = "Argonaut"
 
 config.colors = {
-	cursor_bg = "#ff5555", -- 커서 배경
+	-- cursor_bg = "#ff5555", -- 커서 배경
+	cursor_bg = "white", -- 커서 배경
 	-- cursor_fg를 지정하지 않으면 기본적으로 글자색이 커서색과 섞여서 글씨가 안 보일 수 있다.
 	cursor_fg = "#000000", -- 커서 위의 글자색 검정 등 대비색
-	cursor_border = "#ff5555", -- 커서 테두리색
+	-- cursor_border = "#ff5555", -- 커서 테두리색
+	cursor_border = "white", -- 커서 테두리색
 }
 
 -- 커서 애니메이션 (Neovide 느낌)
