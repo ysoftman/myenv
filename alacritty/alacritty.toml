@@ -55,7 +55,7 @@ vi_mode_style.blinking = "off"
 
 [[keyboard.bindings]]
 # \u001b = 0x1b = ESC
-# alt+let 왼쭉으로 커서 이동
+# alt+left 왼쭉으로 커서 이동
 chars = "\u001Bb"
 key = "Left"
 mods = "Alt|Option"
