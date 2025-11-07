@@ -11,6 +11,14 @@ config.initial_cols = 120
 config.initial_rows = 28
 
 config.hide_tab_bar_if_only_one_tab = true
+config.enable_tab_bar = true
+
+-- config.window_decorations = "NONE" -- 위쪽 제목표시 줄 없애기 윈도우 크기 조정이 안됨
+-- config.window_decorations = "RESIZE" -- 위쪽 제목표시 줄 없애기 윈도우 크기 조정이 됨
+config.window_decorations = "TITLE | RESIZE" -- 위쪽 제목표시 + 윈도우 크기 조정이 됨
+
+-- config.window_background_opacity = 0.7
+-- config.macos_window_background_blur = 80
 
 config.font_size = 18
 
@@ -24,6 +32,7 @@ config.colors = {
 	cursor_fg = "#000000", -- 커서 위의 글자색 검정 등 대비색
 	cursor_border = "#ff5555", -- 커서 테두리색
 }
+
 -- 커서 애니메이션 (Neovide 느낌)
 config.cursor_blink_rate = 500
 config.cursor_blink_ease_in = "EaseInOut"
@@ -36,6 +45,8 @@ config.font = wezterm.font("FiraCode Nerd Font")
 -- config.font = wezterm.font("FiraCode Nerd Font", { weight = "Bold", italic = true })
 
 -- 키 매핑
+-- ctrl+shift+p : command palette
+-- ctrl+shift+u : emoji 입력
 config.keys = {
 	-- Ctrl+Space  vi 모드 (복사 모드) 토글
 	-- https://wezterm.org/copymode.html
