@@ -59,6 +59,7 @@ return {
       lua = { "stylua" },
       -- markdownlint 는 느림,  markdownlint-cli2 는 병렬 처리로 좀더 빠름
       markdown = { "markdownlint-cli2" },
+      -- isort: import 문을 정렬, black: 전체 코드 스타일을 PEP 8에 따라 포맷
       python = { "isort", "black" },
       rust = { "rustfmt" },
       sh = { "shfmt" },
