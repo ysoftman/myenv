@@ -591,7 +591,7 @@ function welcome_message() {
 
     if which fastfetch >/dev/null 2>&1; then
         logo_args=""
-        if [[ $term_program_name == *"iterm"* ]]; then
+        if [[ $term_program_name == *"iterm"* || $term_program_name == *"wezterm"* ]]; then
             # --logo 는 --logo-type 이 있어야 에러가 발생하지 않는다.
             logo_args="--logo-type iterm --logo ${myenv_path}/xelloss.jpg"
         fi
@@ -602,7 +602,7 @@ function welcome_message() {
         unset logo_args
     elif which neofetch >/dev/null 2>&1; then
         backend_arg=""
-        if [[ $term_program_name == *"iterm"* ]]; then
+        if [[ $term_program_name == *"iterm"* || $term_program_name == *"wezterm"* ]]; then
             backend_arg="--backend iterm2"
         fi
         if [[ $term_program_name == *"kitty"* ]]; then
