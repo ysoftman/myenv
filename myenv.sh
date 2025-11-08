@@ -100,6 +100,10 @@ function set_path_and_vars {
         shopt -s histappend
     fi
 
+    # export LANG="en_US.UTF-8"
+    export LANG="ko_KR.UTF-8"
+    export LC_ALL="ko_KR.UTF-8"
+
     if [[ $TERM == *"alacritty"* ]]; then
         #"TERM=alacritty 에서는 마우스로 커서 이동이 안됨, 해결된것 같아 삭제
         #export TERM=xterm-256color
@@ -117,12 +121,8 @@ function set_path_and_vars {
             export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
         fi
     elif [[ $os_name == *"linux"* ]]; then
-        export LANG=ko_KR.utf8
-        export LC_ALL=ko_KR.utf8
         export LS_COLORS='no=00:fi=00:di=00;36:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:ow=01;36;40:*.sh=00;32'
     elif [[ $os_name == *"android"* ]]; then
-        # export LANG=en_US.UTF-8
-        export LANG=ko_KR.UTF-8
         export LS_COLORS='no=00:fi=00:di=00;36:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:ow=01;36;40:*.sh=00;32'
     fi
 
