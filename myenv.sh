@@ -100,9 +100,11 @@ function set_path_and_vars {
         shopt -s histappend
     fi
 
-    # export LANG="en_US.UTF-8"
-    export LANG="ko_KR.UTF-8"
-    export LC_ALL="ko_KR.UTF-8"
+    # vim 등 터미널 메시지를 영어로 보기 위해서
+    export LANG="en_US.UTF-8"
+    export LC_ALL="en_US.UTF-8"
+    # export LANG="ko_KR.UTF-8"
+    # export LC_ALL="ko_KR.UTF-8"
 
     if [[ $TERM == *"alacritty"* ]]; then
         #"TERM=alacritty 에서는 마우스로 커서 이동이 안됨, 해결된것 같아 삭제
