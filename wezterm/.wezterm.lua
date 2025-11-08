@@ -34,12 +34,49 @@ config.font_size = 18
 config.color_scheme = "Argonaut"
 
 config.colors = {
+	-- The default text color
+	foreground = "silver",
+	-- The default background color
+	background = "black",
+
 	-- cursor_bg = "#ff5555", -- 커서 배경
 	cursor_bg = "white", -- 커서 배경
 	-- cursor_fg를 지정하지 않으면 기본적으로 글자색이 커서색과 섞여서 글씨가 안 보일 수 있다.
 	cursor_fg = "#000000", -- 커서 위의 글자색 검정 등 대비색
-	-- cursor_border = "#ff5555", -- 커서 테두리색
+	-- Specifies the border color of the cursor when the cursor style is set to Block,
+	-- or the color of the vertical or horizontal bar when the cursor style is set to
+	-- Bar or Underline.
 	cursor_border = "white", -- 커서 테두리색
+
+	-- copy_mode(ViMode)나 마우스로 선택하는 경우
+	-- the foreground color of selected text
+	selection_fg = "black",
+	-- the background color of selected text
+	selection_bg = "Yellow",
+
+	-- The color of the scrollbar "thumb"; the portion that represents the current viewport
+	scrollbar_thumb = "#222222",
+
+	-- The color of the split lines between panes
+	split = "green",
+
+	-- use `AnsiColor` to specify one of the ansi color palette values
+	-- (index 0-15) using one of the names "Black", "Maroon", "Green",
+	--  "Olive", "Navy", "Purple", "Teal", "Silver", "Grey", "Red", "Lime",
+	-- "Yellow", "Blue", "Fuchsia", "Aqua" or "White". (대소문자 구분)
+	--  cmd+f search 로 매칭되는 모든 부분에서 선택(up,down)한 부분
+	copy_mode_active_highlight_bg = { AnsiColor = "Yellow" },
+	copy_mode_active_highlight_fg = { AnsiColor = "Yellow" },
+
+	--  cmd+f search 로 매칭되는 모든 부분들
+	copy_mode_inactive_highlight_bg = { Color = "#52ad70" },
+	copy_mode_inactive_highlight_fg = { AnsiColor = "White" },
+
+	-- ctrl+shift+space : 해시,컬러,url 등의 패턴에 앞에 알파벳이 표시되서 빠르게 선택(복사)할 수 있다.
+	quick_select_label_bg = { Color = "peru" },
+	quick_select_label_fg = { Color = "#ffffff" },
+	quick_select_match_bg = { AnsiColor = "Navy" },
+	quick_select_match_fg = { Color = "#ffffff" },
 }
 
 -- 커서 애니메이션 (Neovide 느낌)
