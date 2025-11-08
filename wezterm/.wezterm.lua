@@ -27,8 +27,6 @@ config.window_padding = {
 -- config.window_background_opacity = 0.7
 -- config.macos_window_background_blur = 80
 
-config.font_size = 18
-
 -- https://wezterm.org/colorschemes/index.html
 -- config.color_scheme = "AdventureTime"
 config.color_scheme = "Argonaut"
@@ -91,6 +89,8 @@ config.cursor_blink_ease_in = "Linear"
 config.cursor_blink_ease_out = "Linear"
 
 config.default_cursor_style = "BlinkingBlock" -- BlinkingBlock,BlinkingBar,SteadyBar,SteadyUnderline,BlinkingUnderline
+
+config.font_size = 18
 
 -- https://wezterm.org/config/font-shaping.html
 config.font = wezterm.font("FiraCode Nerd Font")
