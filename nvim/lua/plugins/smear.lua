@@ -24,5 +24,10 @@ return {
     -- Smear cursor color. Defaults to Cursor GUI color if not set.
     -- Set to "none" to match the text color at the target cursor position.
     -- cursor_color = "#d3cdc3",
+
+    -- 입력시 smear-cursor 흔적이 남아 글자를 가릴떄 다음 옵션을 사용한다.
+    -- 빨리 입력하면 가끔 흔적이 생기긴 해도 안하는것 보단 낫다.
+    hide_target_hack = true,
+    never_draw_over_target = true,
   },
 }
