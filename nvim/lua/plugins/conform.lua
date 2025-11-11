@@ -67,6 +67,7 @@ return {
       -- typescript = { "prettier" },
       typescriptreact = { "biome" },
       -- yaml = { "yamlfmt" }, -- ansible yaml 도 포맷하기 때문에 확장자로 yamlfmt 을 사용하지 않기로 함
+      toml = { "taplo" },
     },
   },
 }
