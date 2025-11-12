@@ -14,8 +14,8 @@ config.hide_tab_bar_if_only_one_tab = true
 config.enable_tab_bar = true
 
 -- config.window_decorations = "NONE" -- 위쪽 제목표시 줄 없애기 윈도우 크기 조정이 안됨
--- config.window_decorations = "RESIZE" -- 위쪽 제목표시 줄 없애기 윈도우 크기 조정이 됨
-config.window_decorations = "TITLE | RESIZE" -- 위쪽 제목표시 + 윈도우 크기 조정이 됨
+config.window_decorations = "RESIZE" -- 위쪽 제목표시 줄 없애기 윈도우 크기 조정이 됨
+-- config.window_decorations = "TITLE | RESIZE" -- 위쪽 제목표시 + 윈도우 크기 조정이 됨
 
 config.window_padding = {
 	left = 0,
@@ -100,6 +100,8 @@ config.font = wezterm.font("FiraCode Nerd Font")
 -- ligature(!=, --- >= <=) 비활성화
 config.harfbuzz_features = { "calt = 0", "clig = 0", "liga = 0" }
 
+config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
+
 -- 키 매핑(https://wezterm.org/config/default-keys.html)
 -- wezterm show-keys : 현재 설정된 키 정보 확인하는 CLI
 -- wezterm show-keys --lua --key-table search_mode : lua 모드에서 search_mode 테이블만 보기
@@ -127,6 +129,44 @@ config.keys = {
 			mods = "ALT",
 		}),
 	},
+	-- default:ctrl+shift+alt+%
+	{
+		key = "%",
+		mods = "LEADER",
+		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+	},
+	-- default:ctrl+shift+alt+"
+	{
+		key = '"',
+		mods = "LEADER",
+		action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+	},
+	-- default:ctrl+shift+LeftArrow
+	{
+		key = "h",
+		mods = "LEADER",
+		action = wezterm.action.ActivatePaneDirection("Left"),
+	},
+	-- default:ctrl+shift+DownArrow
+	{
+		key = "j",
+		mods = "LEADER",
+		action = wezterm.action.ActivatePaneDirection("Down"),
+	},
+	-- default:ctrl+shift+RightArrow
+	{
+		key = "l",
+		mods = "ALT",
+		action = wezterm.action.ActivatePaneDirection("Right"),
+	},
+	-- default:ctrl+shift+UpArrow
+	{
+		key = "k",
+		mods = "LEADER",
+		action = wezterm.action.ActivatePaneDirection("Up"),
+	},
+
+	-- default:ctrl+shift+alt+방향키로 pane 크기 조절(rectangle 윈도우 매지저와 충돌되는 경우가 있을 수 있다.)
 }
 
 -- 상태 표시(탭제목있는 보이는 경우): vi 모드 진입 시 오른쪽에 표시
