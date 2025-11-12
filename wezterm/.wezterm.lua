@@ -10,10 +10,10 @@ local config = wezterm.config_builder()
 config.initial_cols = 120
 config.initial_rows = 28
 
-config.hide_tab_bar_if_only_one_tab = true
+config.hide_tab_bar_if_only_one_tab = false
 config.enable_tab_bar = true
+config.tab_bar_at_bottom = false
 
--- config.window_decorations = "NONE" -- 위쪽 제목표시 줄 없애기 윈도우 크기 조정이 안됨
 config.window_decorations = "RESIZE" -- 위쪽 제목표시 줄 없애기 윈도우 크기 조정이 됨
 -- config.window_decorations = "TITLE | RESIZE" -- 위쪽 제목표시 + 윈도우 크기 조정이 됨
 
@@ -23,6 +23,23 @@ config.window_padding = {
 	top = 0,
 	bottom = 0,
 }
+
+config.status_update_interval = 500
+-- 상태 표시(탭제목있는 보이는 경우): vi 모드 진입 시 오른쪽에 표시
+wezterm.on("update-right-status", function(window, _)
+	local name = ""
+	if window:active_key_table() == "copy_mode" then
+		name = name .. "📜 VI MODE "
+	end
+	if window:leader_is_active() then
+		name = name .. "🍋 LEADER "
+	end
+	window:set_right_status(wezterm.format({
+		-- { Background = { Color = "#df8e1d" } },
+		{ Background = { Color = "#2071E2" } },
+		{ Text = name },
+	}))
+end)
 
 -- config.window_background_opacity = 0.7
 -- config.macos_window_background_blur = 80
@@ -168,15 +185,6 @@ config.keys = {
 
 	-- default:ctrl+shift+alt+방향키로 pane 크기 조절(rectangle 윈도우 매지저와 충돌되는 경우가 있을 수 있다.)
 }
-
--- 상태 표시(탭제목있는 보이는 경우): vi 모드 진입 시 오른쪽에 표시
-wezterm.on("update-right-status", function(window, _)
-	if window:active_key_table() == "copy_mode" then
-		window:set_right_status("📜 VI MODE")
-	else
-		window:set_right_status("")
-	end
-end)
 
 -- Finally, return the configuration to wezterm:
 return config
