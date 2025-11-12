@@ -122,8 +122,8 @@ return {
                 enabled = true,
                 config = {
                   yaml = {
-                    format = { enable = true },
-                    validate = false,
+                    format = { enable = false },
+                    validate = true,
                     completion = true,
                   },
                 },
