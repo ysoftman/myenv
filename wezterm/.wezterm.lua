@@ -14,6 +14,8 @@ config.hide_tab_bar_if_only_one_tab = false
 config.enable_tab_bar = true
 config.tab_bar_at_bottom = false
 
+config.window_close_confirmation = "AlwaysPrompt" -- AlwaysPrompt 또는 NeverPrompt
+
 config.window_decorations = "RESIZE" -- 위쪽 제목표시 줄 없애기 윈도우 크기 조정이 됨
 -- config.window_decorations = "TITLE | RESIZE" -- 위쪽 제목표시 + 윈도우 크기 조정이 됨
 
