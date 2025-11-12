@@ -173,7 +173,7 @@ config.keys = {
 	-- default:ctrl+shift+RightArrow
 	{
 		key = "l",
-		mods = "ALT",
+		mods = "LEADER",
 		action = wezterm.action.ActivatePaneDirection("Right"),
 	},
 	-- default:ctrl+shift+UpArrow
