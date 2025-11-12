@@ -116,6 +116,20 @@ return {
         -- helm_ls 는 mason-lspconfig 에서 관리되는 패키지다.
         -- helm_ls 에서 yamlls 를 통합하고 있다.
         helm_ls = {
+          settings = {
+            ["helm-ls"] = {
+              yamlls = {
+                enabled = true,
+                config = {
+                  yaml = {
+                    format = { enable = true },
+                    validate = false,
+                    completion = true,
+                  },
+                },
+              },
+            },
+          },
           on_attach = function(client, bufnr)
             vim.bo[bufnr].tabstop = 2
             vim.bo[bufnr].shiftwidth = 2
@@ -139,7 +153,7 @@ return {
             -- Lua에서 string.match, string.gmatch, string.gsub 등에서 사용하는 정규식은 우리가 흔히 말하는 일반 정규표현식(Perl-style regex)과 다릅니다.
             -- ex) 실제 . 문자 매칭lua:	%.	perl-style: \.
             -- :messages 로 print출력 확인
-            -- print("[yamlls].............", "ysoftman helm_ls debugging", bufname)
+            -- print("[yamlls].............", "ysoftman debugging", bufname)
             if bufname:match("%.yaml%.tpl$") or bufname:match(".*/templates?/.*%.ya?ml.*") then
               client.stop()
               vim.notify("[yamlls] " .. bufname .. "\n파일에 대해 비활성화합니다.", vim.log.levels.INFO)
