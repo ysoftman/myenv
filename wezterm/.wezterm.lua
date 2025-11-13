@@ -10,7 +10,7 @@ local config = wezterm.config_builder()
 config.initial_cols = 120
 config.initial_rows = 28
 
-config.hide_tab_bar_if_only_one_tab = false
+config.hide_tab_bar_if_only_one_tab = true
 config.enable_tab_bar = true
 config.tab_bar_at_bottom = false
 
