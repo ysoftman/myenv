@@ -90,6 +90,7 @@ opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift t
 opt.smartcase = true -- Don't ignore case with capitals
 opt.smartindent = true -- Insert indents automatically
 opt.spelllang = { "en" }
+opt.spellcapcheck = "" -- 문장 시작 대문자 검사 비활성화
 opt.splitbelow = true -- Put new windows below current
 opt.splitkeep = "screen"
 opt.splitright = true -- Put new windows right of current
