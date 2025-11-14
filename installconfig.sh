@@ -6,10 +6,14 @@ git config --global alias.co checkout
 git config --global alias.ci commit
 git config --global alias.st status
 git config --global color.ui auto
-git config --global core.editor vim
+# git config --global core.editor vim
+git config --global core.editor nvim
 # 윈도우에서만 autocrlf 활성화 하자, 기본은 false
 git config --global core.autocrlf false
-git config --global merge.tool vimdiff
+# git mergetool 사용시
+# git config --global merge.tool vimdiff
+# alias nvimdiff="nvim -d" 로 이미 설정되어 있다고 가정
+git config --global merge.tool nvimdiff
 # .lock .tmp 등 diff 에서 제외
 # git diff "$@" ':!*.lock' ':!*.tmp'
 git config --global alias.diffnotlocktmp "diff ':!*.lock' ':!*.tmp'"

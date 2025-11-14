@@ -211,6 +211,7 @@ function set_alias {
     alias vi='vim'
     alias nv='launch_neovide'
     alias vimlastfile='vim `(ls -1tr | tail -1)`'
+    alias nvimdiff="nvim -d"
     alias gopath="cd $GOPATH"
     alias myenv="cd ${myenv_path}"
     alias work="cd ${HOME}/workspace"
