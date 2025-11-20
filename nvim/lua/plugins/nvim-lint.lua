@@ -1,3 +1,7 @@
+-- Neovim과 같은 Lua 환경의 설정 파일에서 경로를 지정할 때, ~는 쉘(Shell)에서처럼 자동으로 홈 디렉토리로 확장되지 않고, 단순히 물결표 문자 그대로 인식됩니다.
+-- vim.fn.expand()를 사용하여 물결표('~')를 실제 홈 경로로 확장합니다.
+local global_markdownlint_config_file = vim.fn.expand("~/.markdownlint.yaml")
+
 return {
   "mfussenegger/nvim-lint",
   event = "LazyFile",
@@ -17,14 +21,13 @@ return {
     -- or add custom linters.
     ---@type table<string,table>
     linters = {
-      -- -- Example of using selene only when a selene.toml file is present
-      -- selene = {
-      --   -- `condition` is another LazyVim extension that allows you to
-      --   -- dynamically enable/disable linters based on the context.
-      --   condition = function(ctx)
-      --     return vim.fs.find({ "selene.toml" }, { path = ctx.filename, upward = true })[1]
-      --   end,
-      -- },
+      ["markdownlint-cli2"] = {
+        cmd = "markdownlint-cli2",
+        args = {
+          "--config",
+          global_markdownlint_config_file,
+        },
+      },
     },
   },
   config = function(_, opts)
