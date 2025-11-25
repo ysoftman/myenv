@@ -17,13 +17,16 @@ cntsrc() {
     # headers=$(rg -i -N "Easy|Medium|Hard" --heading --color=never --context-separator="___" --max-count 1 -B 1 ${files} | sd "^(# )"  "")
     ######################
 
+    echo "processing..."
+
     # 전체 파일에서 탐색 후 for 안에서 특정 파일 제외시키자.
     headers=$(rg -i -N "Easy|Medium|Hard" --heading --color=never --max-count 1 -B 1 | sd "^(# )" "" | sd '^\n' '___\n')
-    echo "processing..."
     # IFS(Internal Field Separator) 를 space(디폴트)면
     # headers 값들이 한줄로 한번에 처리되는데 이때 File name too long 에러가 발생한다.
     # IFS 를 newline 로해 파일 1개씩 처리되도록 해야 한다.
     IFS=$'\n'
+    # 아니면 다음과 같이 파이프로 전달하고 read -r 로 읽어도 된다.
+    # rg -i -N "Easy|Medium|Hard" --heading --color=never --max-count 1 -B 1 | sd "^(# )" "" | sd '^\n' '___\n' | while read -r h; do
     for h in $(echo $headers); do
         if [[ $h == "___" ]]; then
             file=""
