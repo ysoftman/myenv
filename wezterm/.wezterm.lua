@@ -148,6 +148,14 @@ config.keys = {
 			mods = "ALT",
 		}),
 	},
+	-- cmd+q : quit wziter (디폴트 물어보기 활성)
+	-- cmd+w : kill tab and all contained panes (디폴트 물어보기 활성)
+	-- ctrl+q : kill tab and all contained panes 로 wezterm 이 바로 종료되는 경우 물어보기
+	{
+		key = "q",
+		mods = "CTRL",
+		action = wezterm.action.CloseCurrentTab({ confirm = true }),
+	},
 	-- default:ctrl+shift+alt+%
 	{
 		key = "%",
