@@ -7,13 +7,12 @@ cntsrc() {
     hard_files=()
     no_level_files=()
 
-    files=$(fd ".go|.cpp|.c|.sh|.sql" --exclude="ysoftman_*")
-
-    # ${files} 개수가 많아 에러 --> File name too long (os error 63)
     ######################
     # grep, rg 은 멀티 결과 일때 디폴트로 -- 구분자를 추가한다.
     # https://learnbyexample.github.io/learn_gnugrep_ripgrep/context-matching.html
     # rg 는 --context-separator 로 변경할 수 있다.
+    # ${files} 개수가 많아 에러 --> File name too long (os error 63)
+    # files=$(fd --type file ".go|.cpp|.c|.sh|.sql" --exclude="ysoftman_*")
     # headers=$(rg -i -N "Easy|Medium|Hard" --heading --color=never --context-separator="___" --max-count 1 -B 1 ${files} | sd "^(# )"  "")
     ######################
 
@@ -86,23 +85,21 @@ cntsrc() {
     echo ${temp}
     cnt_unique_hard=$(echo $temp | awk '{print $1}' | uniq | wc | awk '{print $1}')
 
-    printf "\n[No Level]"
+    printf "\n[No Level]\n"
     temp=$(echo "${no_level_files[@]}" | sort -h | sd "^ " "" | sed 1d)
     echo ${temp}
+    cnt_unique_nolevel=$(echo $temp | awk '{print $1}' | uniq | wc | awk '{print $1}')
 
     echo ""
-    print_cyan_msg "Easy: ${#easy_files} (unique: ${cnt_unique_easy})"
-    print_yellow_msg "Medium: ${#medium_files} (unique: ${cnt_unique_medium})"
-    print_red_msg "Hard: ${#hard_files} (unique: ${cnt_unique_hard})"
-    echo "no level: ${#no_level_files}"
-    echo ""
-
-    # uniq 는 인접한 라인과 비교해 반복되는것은 필터링 시키기 때문에 sort 이후에 사용해야 한다.
-    cnt_unique_all=$(echo $files | sed -e "s/\.[^.]*$//" | sort | uniq | wc | awk '{print $1}')
-    print_green_msg "All(unique): ${cnt_unique_all}"
+    print_cyan_msg "$(printf "Easy\t: %3d (unique: %3d)" ${#easy_files} ${cnt_unique_easy})"
+    print_yellow_msg "$(printf "Medium\t: %3d (unique: %3d)" ${#medium_files} ${cnt_unique_medium})"
+    print_red_msg "$(printf "Hard\t: %3d (unique: %3d)" ${#hard_files} ${cnt_unique_hard})"
+    printf "nolevel\t: %3d (unique: %3d)\n" ${#no_level_files} ${cnt_unique_nolevel}
+    print_green_msg "$(printf "All\t: %3d (unique: %3d)" \
+        ${#easy_files}+${#medium_files}+${#hard_files}+${#no_level_files} \
+        $((cnt_unique_easy + cnt_unique_medium + cnt_unique_hard + ${#no_level_files})))"
 
     # 쉘에서 이 함수내에서 사용했던 변수들이 참조되지 않도록 한다.
-    unset files
     unset file
     unset title
     unset level
