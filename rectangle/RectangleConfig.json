@@ -89,7 +89,7 @@
 
     },
     "gapSize" : {
-      "float" : 10
+      "float" : 0
     },
     "hapticFeedbackOnSnap" : {
       "int" : 0
@@ -235,6 +235,9 @@
     "unsnapRestore" : {
       "int" : 0
     },
+    "widthStepSize" : {
+      "float" : 30
+    },
     "windowSnapping" : {
       "int" : 0
     }
@@ -333,5 +336,5 @@
       "modifierFlags" : 786432
     }
   },
-  "version" : "97"
+  "version" : "98"
 }
