@@ -109,7 +109,7 @@ config.cursor_blink_ease_out = "Linear"
 
 config.default_cursor_style = "BlinkingBlock" -- BlinkingBlock,BlinkingBar,SteadyBar,SteadyUnderline,BlinkingUnderline
 
-config.font_size = 18
+config.font_size = 16
 
 -- https://wezterm.org/config/font-shaping.html
 config.font = wezterm.font("FiraCode Nerd Font")
