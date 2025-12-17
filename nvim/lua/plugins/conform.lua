@@ -61,18 +61,18 @@ return {
       javascript = { "biome" }, -- biome는 rust 로 만들어서 prettier 보다 성능이 좋다.(biome init 으로 biome.json 설정파일을 생성해 수정할 수 있다.)
       -- javascript = { "prettierd", "prettier", stop_after_first = true },
       javascriptreact = { "biome" },
+      typescript = { "biome" },
+      typescriptreact = { "biome" },
+      vue = { "biome" },
       json = { "biome" },
       jsonc = { "biome" },
       lua = { "stylua" },
-      -- markdownlint 는 느림,  markdownlint-cli2 는 병렬 처리로 좀더 빠름
+      -- markdownlint 는 느림, markdownlint-cli2 는 병렬 처리로 좀더 빠름
       markdown = { "markdownlint-cli2" },
       -- isort: import 문을 정렬, black: 전체 코드 스타일을 PEP 8에 따라 포맷
       python = { "isort", "black" },
       rust = { "rustfmt" },
       sh = { "shfmt" },
-      typescript = { "biome" },
-      -- typescript = { "prettier" },
-      typescriptreact = { "biome" },
       -- yaml = { "yamlfmt" }, -- ansible yaml 도 포맷하기 때문에 확장자로 yamlfmt 을 사용하지 않기로 함
       toml = { "taplo" },
     },
