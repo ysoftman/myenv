@@ -15,7 +15,6 @@ bash ./installconfig.sh
 
 if [[ $os_name == *"darwin"* ]]; then
     bash ./installbrew.sh
-    bash ./installmacapp.sh
     bash ./installitermcolor.sh
     bash ./installlapcesettings.sh
 elif [[ $os_name == *"linux"* ]]; then
