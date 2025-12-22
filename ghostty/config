@@ -1,0 +1,24 @@
+# reloading the configuration : ctrl+shift+, (Linux) or cmd+shift+, (macOS)
+# The syntax is "key = value". The whitespace around the
+# equals doesn't matter.
+# background = 282c34
+background = 000000
+foreground = ffffff
+
+# Comments start with a `#` and are only valid on their own line.
+# Blank lines are ignored!
+
+keybind = ctrl+z=close_surface
+keybind = ctrl+d=new_split:right
+
+# Empty values reset the configuration to the default value
+font-family = "FiraCode Nerd Font"
+font-size = 16
+
+# Option 키를 Meta 키로 사용 (가장 권장되는 설정)
+macos-option-as-alt = true
+
+# theme 리스트 확인
+# ghostty +list-themes
+#
+theme= "Embark"
