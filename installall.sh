@@ -37,6 +37,7 @@ bash ./installrust.sh
 bash ./installcargo.sh
 bash ./installkubectl.sh
 bash ./installnvm.sh
+bash ./installgh.sh
 bash ./installemojicli.sh
 if [[ $(command -v code) ]]; then
     bash ./installvscodesettings.sh
