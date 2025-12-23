@@ -43,6 +43,7 @@ mpkgs["termscp"]="termscp"                 # (https://github.com/veeso/termscp) 
 mpkgs["termusic"]="termusic"               # (https://github.com/tramhao/termusic) terminal music player
 mpkgs["termusic-server"]="termusic-server" # (https://github.com/tramhao/termusic) terminal music server
 mpkgs["tokei"]="tokei"                     # (https://github.com/XAMPPRocky/tokei) 코드 통계
+mpkgs["trippy"]="trip"                     # (https://github.com/fujiapple852/trippy) network diagnostic tool
 mpkgs["ttysvr"]="ttysvr"                   # (https://github.com/cxreiff/ttysvr) screen saver
 mpkgs["typos-cli"]="typos"                 # (https://github.com/crate-ci/typos) 오타 체크
 mpkgs["whome"]="whome"                     # (https://github.com/ardaku/whoami) whoami 대체
