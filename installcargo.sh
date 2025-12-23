@@ -19,6 +19,7 @@ mpkgs["dog"]="dog"                         # (https://github.com/ogham/dog) dig 
 mpkgs["du-dust"]="dust"                    # (https://github.com/bootandy/dust) du 대체 brew 에선 dust 이름으로 사용
 mpkgs["eza"]="eza"                         # (https://github.com/eza-community/eza) ls 대체
 mpkgs["fd-find"]="fd"                      # (https://github.com/sharkdp/fd) find 대체
+mpkgs["feroxbuster"]="feroxbuster"         # (https://github.com/epi052/feroxbuster) A fast, simple, recursive content discovery tool, 웹 애플리케이션의 숨겨진 디렉터리,파일,엔드포인트를 빠르게 탐색(bruteforce)
 mpkgs["gitui"]="gitui"                     # (https://github.com/extrawurst/gitui) tig,lazygit 대체
 mpkgs["gping"]="gping"                     # (https://github.com/orf/gping) ping 대체
 mpkgs["grex"]="grex"                       # (https://github.com/pemistahl/grex) 정규표현식
