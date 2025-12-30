@@ -112,6 +112,9 @@ bindkey '^R' fzf-history-widget
 # 특정 node 버전이 필요한 경우 nvm use v{버전} 으로 변경해야 하는 수고가 있다.
 # [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" --no-use
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# mise
+[ -f ~/.local/bin/mise ] && eval "$(~/.local/bin/mise activate zsh)"
+[ -f /opt/homebrew/bin/mise ] && eval "$(/opt/homebrew/bin/mise activate zsh)"
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/mc mc
