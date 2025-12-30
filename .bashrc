@@ -12,3 +12,7 @@ export PS1="\u@\h:\w\$ "
 # volta -> mise 로 대체
 # export VOLTA_HOME="$HOME/.volta"
 # export PATH="$VOLTA_HOME/bin:$PATH"
+
+# mise
+[ -f ~/.local/bin/mise ] && eval "$(~/.local/bin/mise activate bash)"
+[ -f /opt/homebrew/bin/mise ] && eval "$(/opt/homebrew/bin/mise activate bash)"
