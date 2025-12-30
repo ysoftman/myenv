@@ -17,8 +17,6 @@ if [[ $os_name == *"darwin"* ]]; then
     bash ./installbrew.sh
     bash ./installitermcolor.sh
     bash ./installlapcesettings.sh
-elif [[ $os_name == *"linux"* ]]; then
-    bash ./installnode.sh
 elif [[ $os_name == *"android"* ]]; then
     bash ./installtermuxconfig.sh
 fi
@@ -36,7 +34,7 @@ bash ./installgolangtools.sh
 bash ./installrust.sh
 bash ./installcargo.sh
 bash ./installkubectl.sh
-bash ./installnvm.sh
+bash ./installnode.sh
 bash ./installgh.sh
 bash ./installemojicli.sh
 if [[ $(command -v code) ]]; then
