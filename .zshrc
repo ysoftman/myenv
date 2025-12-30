@@ -32,7 +32,7 @@ if [[ $? == 0 && -z $multiplexer_already_started ]]; then
         # exec 로 현재 프로세스를 ${multiplexer} 프로세스로 대체(replace)한다.
         # 변수 사용시 변수에 포함된 공백이 문자열로 취급하기 때문에 eval 로 쉘 규칙대 수행하도록 해야 한다.
         eval "exec ${multiplexer} ${multiplexer_args}"
-        # 또는 다음과 같이 배열 변수로 구분될 수 있도록 한다. 
+        # 또는 다음과 같이 배열 변수로 구분될 수 있도록 한다.
         # cmd=(zellij --layout $HOME/workspace/myenv/zellij/layouts/mac.kd); exec ${cmd[@]}
     fi
 fi
@@ -103,14 +103,15 @@ bindkey '^R' fzf-history-widget
 # TMOUT=1
 # TRAPALRM() { zle reset-prompt }
 
-export NVM_DIR="$HOME/.config/nvm"
+# nvm -> mise 로 대체
+# export NVM_DIR="$HOME/.config/nvm"
 # nmv.sh 로딩 속도가 느려서 사용하지 않기로 함
 # https://github.com/nvm-sh/nvm/issues/2724
 #[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 # --no-use 를 옵션을 사용해 로딩하면 nvm 명령은 사용할 수 있지만 새로운 쉘 시작시 항상 system node 가 되어
 # 특정 node 버전이 필요한 경우 nvm use v{버전} 으로 변경해야 하는 수고가 있다.
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" --no-use
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" --no-use
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/mc mc
