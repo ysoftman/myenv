@@ -66,6 +66,7 @@ return {
       vue = { "biome" },
       json = { "biome" },
       jsonc = { "biome" },
+      css = { "biome" },
       lua = { "stylua" },
       -- markdownlint 는 느림, markdownlint-cli2 는 병렬 처리로 좀더 빠름
       markdown = { "markdownlint-cli2" },
