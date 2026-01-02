@@ -2,9 +2,10 @@
 
 declare -A mpkgs
 # package_name = package_binary_name
-# mpkgs["coreutils"]="coreutils" # (https://github.com/uutils/coreutils) gnu binary 대체(굳이 설치할 필요가 없어서)
-# mpkgs["exa"]="exa" # (https://github.com/ogham/exa) ls 대체(exa -> eza 로 대체 되었다.)
 # mpkgs["biome"]="biome"                     # (https://github.com/biomejs/biome) js,css,json,ts linter and formatter (brew install biome, cargo 용 binary는 없어 cargo add biome 만 된다.)
+# mpkgs["coreutils"]="coreutils"             # (https://github.com/uutils/coreutils) gnu binary 대체(굳이 설치할 필요가 없어서)
+# mpkgs["exa"]="exa"                         # (https://github.com/ogham/exa) ls 대체(exa -> eza 로 대체 되었다.)
+# mpkgs["pls"]="pls"                         # (https://github.com/pls-rs/pls) prettier and powerful ls(cargo install --git https://github.com/pls-rs/pls)
 mpkgs["alacritty"]="alacritty"             # (https://github.com/alacritty/alacritty) kitty, iterm2 대체
 mpkgs["bandwhich"]="bandwhich"             # (https://github.com/imsnif/bandwhich) iftop 대체
 mpkgs["bat"]="bat"                         # (https://github.com/sharkdp/bat) cat 대체
@@ -88,4 +89,4 @@ cargo install ${install_pkgs} --locked
 cargo uninstall ${already_installed_pkgs} 2>/dev/null
 
 echo "-- show installed packages by cargo --"
-cargo install --list | awk 'NR%2==0 {print $1}'
+cargo install --list | sed '/^[[:space:]]/d'
