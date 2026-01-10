@@ -9,7 +9,9 @@ local vimrc = vim.fn.stdpath("config") .. "/_init.vim"
 vim.cmd.source(vimrc)
 
 -- "olimorris/onedarkpro.nvim",
-vim.cmd([[colorscheme tokyonight-night]])
+-- vim.cmd.colorscheme("tokyonight-night")
+-- vim.cmd.colorscheme("catppuccin")
+-- vim.cmd.colorscheme("catppuccin-mocha")
 -- vim.cmd("colorscheme onedark_vivid") -- zellij 와 같이 사용하면 배경이 갱신이 잘 안되는 문제가 있음(https://github.com/zellij-org/zellij/issues/3783)
 vim.cmd("colorscheme onedark_dark")
 -- vim.cmd("highlight Normal cterm=none guibg=none")
