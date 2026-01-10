@@ -47,6 +47,11 @@ vim.keymap.set("c", "<D-v>", "<C-R>+") -- Paste command mode
 vim.keymap.set("i", "<D-v>", '<ESC>l"+Pli') -- Paste insert mode
 vim.api.nvim_set_keymap("t", "<d-v>", '<C-\\><C-n>"+Pi', { noremap = true }) -- paste in terminal mode, fzf 사용시
 
+-- for debugging
+-- vim.keymap.set("n", "<C-.>", function()
+--   print("Ctrl + 마침표 작동 중!")
+-- end)
+
 -- neovide (https://neovide.dev/configuration.html)
 if vim.g.neovide then
   -- vim.o.guifont = "Hack Nerd Font:h18"

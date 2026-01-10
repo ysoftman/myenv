@@ -192,6 +192,16 @@ config.keys = {
 		mods = "LEADER",
 		action = wezterm.action.ActivatePaneDirection("Up"),
 	},
+	{
+		key = ".",
+		mods = "CTRL",
+		-- Neovim이 <C-.>으로 인식하게 하는 시퀀스 전달
+		-- \x1b[ 는 이스케이프(ESC) 문자로, "이제부터 제어 명령이 시작된다"는 신호
+		-- 46 는 마침표(.)의 ASCII 번호
+		-- ;5 는 Ctrl 키가 눌렸음을 의미하는 코드(참고: 2는 Shift, 3은 Alt, 5는 Ctrl, 8은 Meta(Cmd)
+		-- u 는 이 신호가 CSI u 프로토콜(유니코드 키보드 모드)을 따르고 있다는 마침표 역할
+		action = wezterm.action.SendString("\x1b[46;5u"),
+	},
 
 	-- default:ctrl+shift+alt+방향키로 pane 크기 조절(rectangle 윈도우 매지저와 충돌되는 경우가 있을 수 있다.)
 }
