@@ -20,6 +20,7 @@ return {
         "markdownlint-cli2",
         "marksman",
         "prettier",
+        "ruff",
         "shellcheck",
         "shfmt",
         "stylua",
