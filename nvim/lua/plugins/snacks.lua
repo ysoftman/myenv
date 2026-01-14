@@ -8,7 +8,17 @@ end
 return {
   "snacks.nvim",
   opts = {
-    bigfile = { enabled = true },
+    bigfile = {
+      enabled = true,
+      -- 원하는 파일 크기 설정 (단위: Bytes)
+      size = 500 * 1024 * 1024,
+
+      -- 한 줄의 길이가 너무 길 때도 bigfile로 처리 (Minified JS 파일 등 방지)
+      line_length = 1000,
+
+      -- 큰 파일 감지 시 알림 여부
+      notify = true,
+    },
     quickfile = { enabled = true },
     terminal = {
       win = {
