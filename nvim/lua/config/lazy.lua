@@ -61,17 +61,18 @@ require("lazy").setup({
   install = { colorscheme = { "tokyonight", "habamax" } },
   checker = { enabled = false }, -- automatically check for plugin updates
   performance = {
+    -- RunTimePath
     rtp = {
-      -- disable some rtp plugins
+      -- 잘 사용하지 않은 것들을 로딩 속도를 높이기 위해 비활성화
       disabled_plugins = {
-        "gzip",
+        -- "zipPlugin", -- zip 파일 브라우징을 위해 사용
+        -- "tarPlugin", -- tar 파일 브라이징을 위해 사용
         -- "matchit",
         -- "matchparen",
         -- "netrwPlugin",
-        "tarPlugin",
+        "gzip",
         "tohtml",
         "tutor",
-        "zipPlugin",
       },
     },
   },
