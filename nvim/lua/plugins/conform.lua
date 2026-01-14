@@ -55,6 +55,7 @@ return {
     -- formatters by file type
     formatters_by_ft = {
       ["*"] = { "trim_whitespace" },
+      c = { "clang-format" },
       cpp = { "clang-format" }, -- 프로젝트 루트 위치에 .clang-format 설정을 참고하게 된다. (https://github.com/ysoftman/test_code/blob/master/cpp/.clang-format)
       fish = { "fish_indent" },
       html = { "prettier" }, -- biome 가 아직 html 포맷팅은 안돼 prettier 사용
