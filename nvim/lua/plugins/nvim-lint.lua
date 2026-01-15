@@ -23,7 +23,7 @@ return {
     linters = {
       ["markdownlint-cli2"] = {
         cmd = "markdownlint-cli2",
-        args = {
+        prepend_args = {
           "--config",
           global_markdownlint_config_file,
         },
