@@ -49,32 +49,6 @@ return {
         condition = function()
           return true
         end,
-
-        -- 2. 설정 파일 탐색 로직 커스텀(저장등으로 실행될때 호출된다.)
-        args = function(self, ctx)
-          local util = require("conform.util")
-          -- 프로젝트 내 설정 파일이 있는지 확인
-          local local_conf = util.root_file({
-            ".markdownlint-cli2.jsonc",
-            ".markdownlint-cli2.yaml",
-            ".markdownlint.yaml",
-            ".markdownlint.json",
-          })(self, ctx)
-
-          local args = { "$FILENAME" }
-          local global_conf = vim.fn.expand("~/.markdownlint.yaml")
-          if local_conf then
-            print("[markdownlint-cli2] formatting with \nlocal_conf: " .. local_conf)
-          end
-
-          -- 프로젝트 설정이 없고, 홈 디렉토리에 설정 파일이 있다면 --config 인자 추가
-          if not local_conf and vim.loop.fs_stat(global_conf) then
-            vim.list_extend(args, { "--config", global_conf })
-            print("[markdownlint-cli2] formatting with\nglobal_conf: " .. global_conf)
-          end
-
-          return args
-        end,
       },
     },
     -- formatters by file type
