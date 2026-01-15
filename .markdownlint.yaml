@@ -12,7 +12,7 @@
 #   tables: true
 #   # Include headings
 #   headings: true
-#   # Strict length checking
+#   # Strict length checking, strict 이 활성화되어야 경고가 보인다.
 #   strict: false
 #   # Stern length checking
 #   stern: false
