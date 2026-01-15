@@ -1,7 +1,3 @@
--- Neovim과 같은 Lua 환경의 설정 파일에서 경로를 지정할 때, ~는 쉘(Shell)에서처럼 자동으로 홈 디렉토리로 확장되지 않고, 단순히 물결표 문자 그대로 인식됩니다.
--- vim.fn.expand()를 사용하여 물결표('~')를 실제 홈 경로로 확장합니다.
-local global_markdownlint_config_file = vim.fn.expand("~/.markdownlint.yaml")
-
 return {
   -- https://github.com/stevearc/conform.nvim
   -- Conform.nvim은 Neovim에서 코드 포맷팅을 위한 플러그인입니다. mason 으로 설치된 formatter/linter 패키지들을 설정하고 실행한다
@@ -49,7 +45,36 @@ return {
         prepend_args = { "-i", "4", "-ci" },
       },
       ["markdownlint-cli2"] = {
-        prepend_args = { "--config", global_markdownlint_config_file },
+        -- 1. "Condition failed" 방지를 위해 항상 true 반환
+        condition = function()
+          return true
+        end,
+
+        -- 2. 설정 파일 탐색 로직 커스텀(저장등으로 실행될때 호출된다.)
+        args = function(self, ctx)
+          local util = require("conform.util")
+          -- 프로젝트 내 설정 파일이 있는지 확인
+          local local_conf = util.root_file({
+            ".markdownlint-cli2.jsonc",
+            ".markdownlint-cli2.yaml",
+            ".markdownlint.yaml",
+            ".markdownlint.json",
+          })(self, ctx)
+
+          local args = { "$FILENAME" }
+          local global_conf = vim.fn.expand("~/.markdownlint.yaml")
+          if local_conf then
+            print("[markdownlint-cli2] formatting with \nlocal_conf: " .. local_conf)
+          end
+
+          -- 프로젝트 설정이 없고, 홈 디렉토리에 설정 파일이 있다면 --config 인자 추가
+          if not local_conf and vim.loop.fs_stat(global_conf) then
+            vim.list_extend(args, { "--config", global_conf })
+            print("[markdownlint-cli2] formatting with\nglobal_conf: " .. global_conf)
+          end
+
+          return args
+        end,
       },
     },
     -- formatters by file type
