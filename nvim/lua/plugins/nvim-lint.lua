@@ -1,7 +1,3 @@
--- Neovim과 같은 Lua 환경의 설정 파일에서 경로를 지정할 때, ~는 쉘(Shell)에서처럼 자동으로 홈 디렉토리로 확장되지 않고, 단순히 물결표 문자 그대로 인식됩니다.
--- vim.fn.expand()를 사용하여 물결표('~')를 실제 홈 경로로 확장합니다.
-local global_markdownlint_config_file = vim.fn.expand("~/.markdownlint.yaml")
-
 return {
   "mfussenegger/nvim-lint",
   event = "LazyFile",
@@ -23,10 +19,6 @@ return {
     linters = {
       ["markdownlint-cli2"] = {
         cmd = "markdownlint-cli2",
-        prepend_args = {
-          "--config",
-          global_markdownlint_config_file,
-        },
       },
     },
   },
