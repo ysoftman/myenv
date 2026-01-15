@@ -78,7 +78,6 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ~/.shellcheckrc ] && unlink ~/.shellcheckrc
 [ -h ~/.tigrc ] && unlink ~/.tigrc
 [ -h ~/.muttrc ] && unlink ~/.muttrc
-[ -h ~/.markdownlint.yaml ] && unlink ~/.markdownlint.yaml
 [ -h ${HOME}/.zprezto/runcoms/zlogin ] && unlink ${HOME}/.zprezto/runcoms/zlogin
 [ -h ${HOME}/.zprezto/runcoms/zpreztorc ] && unlink ${HOME}/.zprezto/runcoms/zpreztorc
 [ -h ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup ] && unlink ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup
@@ -108,7 +107,6 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -f ~/.shellcheckrc ] && mv -fv ~/.shellcheckrc ~/.shellcheckrc.bak
 [ -f ~/.tigrc ] && mv -fv ~/.tigrc ~/.tigrc.bak
 [ -f ~/.muttrc ] && mv -fv ~/.muttrc ~/.muttrc.bak
-[ -f ~/.markdownlint.yaml ] && mv -fv ~/.muttrc ~/.markdownlint.yaml.bak
 [ -f ${HOME}/.zprezto/runcoms/zlogin ] && mv -fv ${HOME}/.zprezto/runcoms/zlogin ${HOME}/.zprezto/runcoms/zlogin.bak
 [ -f ${HOME}/.zprezto/runcoms/zpreztorc ] && mv -fv ${HOME}/.zprezto/runcoms/zpreztorc ${HOME}/.zprezto/runcoms/zpreztorc.bak
 [ -f ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup ] && mv -fv ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup.bak
@@ -137,7 +135,6 @@ ln -sfv ${PWD}/.tmux.conf ~/.tmux.conf
 ln -sfv ${PWD}/.shellcheckrc ~/.shellcheckrc
 ln -sfv ${PWD}/.tigrc ~/.tigrc
 ln -sfv ${PWD}/.muttrc ~/.muttrc
-ln -sfv ${PWD}/.markdownlint.yaml ~/.markdownlint.yaml
 ln -sfv ${PWD}/prezto/zlogin ${HOME}/.zprezto/runcoms/zlogin
 ln -sfv ${PWD}/prezto/zpreztorc ${HOME}/.zprezto/runcoms/zpreztorc
 ln -sfv ${PWD}/prezto/prompt_sorin_ysoftman_setup ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup
