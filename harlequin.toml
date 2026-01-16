@@ -1,0 +1,47 @@
+# uv tool install harlequin --with harlequin-mysql
+# https://harlequin.sh/docs/config-file/creating-config
+default_profile = "local-mysql1"
+
+[[keymaps.more_arrows]]
+keys = "k"
+action = "results_viewer.cursor_up"
+key_display = "⬆/k"
+
+[[keymaps.more_arrows]]
+keys = "h"
+action = "results_viewer.cursor_left"
+key_display = "⬅/h"
+
+[[keymaps.more_arrows]]
+keys = "j"
+action = "results_viewer.cursor_down"
+key_display = "⬇/j"
+
+[[keymaps.more_arrows]]
+keys = "l"
+action = "results_viewer.cursor_right"
+key_display = "➡/l"
+
+[profiles.local-mysql1]
+adapter = "mysql"
+theme = "dracula"
+limit = 100_000
+host = "localhost"
+port = "3306"
+database = ""
+user = ""
+password = ""
+connection_timeout = "10"
+keymap_name = ["vscode", "more_arrows"]
+
+[profiles.local-mysql2]
+adapter = "mysql"
+theme = "dracula"
+limit = 100_000
+host = "localhost"
+port = "3306"
+database = ""
+user = ""
+password = ""
+connection_timeout = "10"
+keymap_name = ["vscode", "more_arrows"]
