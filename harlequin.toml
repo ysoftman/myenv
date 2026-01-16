@@ -4,7 +4,7 @@ default_profile = "ysoftman"
 
 # harlequin --keys 로 편집 가능
 [[keymaps.my_custom_keys]]
-keys = "ctrl+q,f12"
+keys = "ctrl+q,ctrl+alt+q"
 action = "quit"
 key_display = "quit"
 
