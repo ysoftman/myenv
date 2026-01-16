@@ -87,7 +87,6 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ${XDG_CONFIG_HOME}/alacritty ] && unlink ${XDG_CONFIG_HOME}/alacritty
 [ -h ${XDG_CONFIG_HOME}/ghostty ] && unlink ${XDG_CONFIG_HOME}/ghostty
 [ -h ${XDG_CONFIG_HOME}/cava ] && unlink ${XDG_CONFIG_HOME}/cava
-[ -h ${XDG_CONFIG_HOME}/harlequin ] && unlink ${XDG_CONFIG_HOME}/harlequin
 [ -h ${XDG_CONFIG_HOME}/k9s ] && unlink ${XDG_CONFIG_HOME}/k9s
 [ -h ${XDG_CONFIG_HOME}/karabiner ] && unlink ${XDG_CONFIG_HOME}/karabiner
 [ -h ${XDG_CONFIG_HOME}/kitty ] && unlink ${XDG_CONFIG_HOME}/kitty
@@ -115,7 +114,6 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -d ${XDG_CONFIG_HOME}/alacritty ] && mv -fv ${XDG_CONFIG_HOME}/alacritty ${XDG_CONFIG_HOME}/alacritty.bak
 [ -d ${XDG_CONFIG_HOME}/ghostty ] && mv -fv ${XDG_CONFIG_HOME}/ghostty ${XDG_CONFIG_HOME}/ghostty.bak
 [ -d ${XDG_CONFIG_HOME}/cava ] && mv -fv ${XDG_CONFIG_HOME}/cava ${XDG_CONFIG_HOME}/cava.bak
-[ -d ${XDG_CONFIG_HOME}/harlequin ] && mv -fv ${XDG_CONFIG_HOME}/harlequin ${XDG_CONFIG_HOME}/harlequin.bak
 [ -d ${XDG_CONFIG_HOME}/k9s ] && mv -fv ${XDG_CONFIG_HOME}/k9s ${XDG_CONFIG_HOME}/k9s.bak
 [ -d ${XDG_CONFIG_HOME}/karabiner ] && mv -fv ${XDG_CONFIG_HOME}/karabiner ${XDG_CONFIG_HOME}/karabiner.bak
 [ -d ${XDG_CONFIG_HOME}/kitty ] && mv -fv ${XDG_CONFIG_HOME}/kitty ${XDG_CONFIG_HOME}/kitty.bak
@@ -143,7 +141,6 @@ ln -sfv ${PWD}/wezterm/.wezterm.lua ${HOME}/.wezterm.lua
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/alacritty ${XDG_CONFIG_HOME}/alacritty
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/ghostty ${XDG_CONFIG_HOME}/ghostty
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/cava ${XDG_CONFIG_HOME}/cava
-[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/harlequin ${XDG_CONFIG_HOME}/harlequin
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/karabiner ${XDG_CONFIG_HOME}/karabiner
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/k9s ${XDG_CONFIG_HOME}/k9s
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/kitty ${XDG_CONFIG_HOME}/kitty
