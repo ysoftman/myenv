@@ -41,6 +41,7 @@ mpkgs["ruff"]="ruff"                       # (https://github.com/astral-sh/ruff)
 mpkgs["scooter"]="scooter"                 # (https://github.com/thomasschafer/scooter) interactive find and replace terminal ui app
 mpkgs["scope-tui"]="scope-tui"             # (https://github.com/alemidev/scope-tui) cava 대체
 mpkgs["sd"]="sd"                           # (https://github.com/chmln/sd) sed 대체
+mpkgs["skim"]="sk"                         # (https://github.com/skim-rs/skim) fuzzy finder, fzf 대체
 mpkgs["tealdeer"]="tldr"                   # (https://github.com/tealdeer-rs/tealdeer) tldr in rust
 mpkgs["termscp"]="termscp"                 # (https://github.com/veeso/termscp) scp,ftp 대체
 mpkgs["termusic"]="termusic"               # (https://github.com/tramhao/termusic) terminal music player
