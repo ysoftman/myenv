@@ -71,8 +71,9 @@ return {
       -- isort: import 문을 정렬
       -- black: 전체 코드 스타일을 PEP 8에 따라 포맷
       -- ruff_format(ruff format): An extremely fast Python linter and code formatter, written in Rust.
+      -- ruff_fix(ruff check --fix): An extremely fast Python linter and code formatter, written in Rust.
       -- python = { "isort", "black" },
-      python = { "isort", "ruff_format" },
+      python = { "isort", "ruff_format", "ruff_fix" },
       rust = { "rustfmt" },
       sh = { "shfmt" },
       -- yaml = { "yamlfmt" }, -- ansible yaml 도 포맷하기 때문에 확장자로 yamlfmt 을 사용하지 않기로 함
