@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ ! -n ${myenv_path} ]]; then
+if [[ -z ${myenv_path} ]]; then
     echo "can't find myenv_path variable"
 fi
 source "${myenv_path}/colors.sh"
