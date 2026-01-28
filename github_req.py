@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 github issue/project 파악(gh 커맨드로 gh issue/project list 등이 있지만 커스텀하게 사용하고 싶어서 만들었음)
@@ -39,7 +38,7 @@ repo = ""
 def load_config(git_remote_url):
     cfgFile = os.path.expanduser("~") + "/.git-credentials"
     try:
-        f = open(cfgFile, "r")
+        f = open(cfgFile)
     except BaseException:
         print("can't find ", cfgFile)
         print(
@@ -92,13 +91,7 @@ https://ysoftman:password@bbb.github.com
     print(f"repo: {repo}")
     print(f"user: {user}")
     # print(f"password: {password}")
-    if (
-        len(user) == 0
-        or len(password) == 0
-        or len(baseURL) == 0
-        or len(owner) == 0
-        or len(repo) == 0
-    ):
+    if len(user) == 0 or len(password) == 0 or len(baseURL) == 0 or len(owner) == 0 or len(repo) == 0:
         print("can't find the user/password about ->", git_remote_url)
         return False
 
@@ -108,11 +101,9 @@ https://ysoftman:password@bbb.github.com
 def get_open_issue_url():
     if baseURL == "https://github.com":
         # print("[https://api.github.com]")
-        return "https://api.github.com/repos/{}/{}/issues?state=open".format(
-            owner, repo
-        )
+        return f"https://api.github.com/repos/{owner}/{repo}/issues?state=open"
     # for github enterprise
-    return "{}/api/v3/repos/{}/{}/issues?state=open".format(baseURL, owner, repo)
+    return f"{baseURL}/api/v3/repos/{owner}/{repo}/issues?state=open"
 
 
 def issue_list():
@@ -139,23 +130,23 @@ def issue_list():
 
 def get_user_project_url():
     if baseURL == "https://github.com":
-        return "https://api.github.com/users/{}/projects".format(owner)
+        return f"https://api.github.com/users/{owner}/projects"
     # for github enterprise
-    return "{}/api/v3/users/{}/projects".format(baseURL, owner)
+    return f"{baseURL}/api/v3/users/{owner}/projects"
 
 
 def get_org_project_url():
     if baseURL == "https://github.com":
-        return "https://api.github.com/orgs/{}/projects".format(owner)
+        return f"https://api.github.com/orgs/{owner}/projects"
     # for github enterprise
-    return "{}/api/v3/orgs/{}/projects".format(baseURL, owner)
+    return f"{baseURL}/api/v3/orgs/{owner}/projects"
 
 
 def get_project_url(id: int):
     if baseURL == "https://github.com":
-        return "https://api.github.com/projects/{}".format(id)
+        return f"https://api.github.com/projects/{id}"
     # for github enterprise
-    return "{}/api/v3/projects/{}".format(baseURL, id)
+    return f"{baseURL}/api/v3/projects/{id}"
 
 
 def org_project_list():
@@ -191,18 +182,14 @@ def get_project(project_id: int):
     info_columns = []
     for column in columns:
         if "cards_url" in column:
-            cards_resp = requests.get(
-                column["cards_url"], auth=(user, password), params="per_page=100"
-            )
+            cards_resp = requests.get(column["cards_url"], auth=(user, password), params="per_page=100")
             cards = json.loads(cards_resp.content)
             info_issues = []
             for card in cards:
                 # print(card["content_url"])
                 # continue
                 if "content_url" in card:
-                    content_resp = requests.get(
-                        card["content_url"], auth=(user, password)
-                    )
+                    content_resp = requests.get(card["content_url"], auth=(user, password))
                     content = json.loads(content_resp.content)
                     assignees = []
                     for i in content["assignees"]:
@@ -215,10 +202,7 @@ def get_project(project_id: int):
                     }
                     assignee_users_str = ",".join(assignees)
                     print(
-                        "collecting... "
-                        + color.yellow
-                        + column["name"]
-                        + color.reset_color,
+                        "collecting... " + color.yellow + column["name"] + color.reset_color,
                         # color.cyan + issue["created_at"] + color.reset_color,
                         color.purple + issue["title"] + color.reset_color,
                         color.green + issue["html_url"] + color.reset_color,
@@ -258,21 +242,17 @@ def get_project(project_id: int):
         print(f"{color.cyan}{i}: {user_issue_cnt[i]}{color.reset_color}")
 
     not_assigned_issues_str = "\n".join(not_assigned_issues)
-    print(
-        f"{color.yellow}not assigned issues: {not_assigned_issue_cnt}\n{not_assigned_issues_str}{color.reset_color}"
-    )
+    print(f"{color.yellow}not assigned issues: {not_assigned_issue_cnt}\n{not_assigned_issues_str}{color.reset_color}")
     return
 
 
 def help_and_exit():
     print(
-        """example)
-        {0} issue
-        {0} project
-        {0} project _project_id_
-              """.format(
-            sys.argv[0]
-        )
+        f"""example)
+        {sys.argv[0]} issue
+        {sys.argv[0]} project
+        {sys.argv[0]} project _project_id_
+              """
     )
     exit(0)
 
