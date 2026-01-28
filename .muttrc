@@ -36,5 +36,5 @@ set sort="threads" # 메일 쓰레드 보기
 bind index G imap-fetch-mail # IMAP 서버에서 메일 가져오기
 
 # theme 설정
-source ~/workspace/myenv/.mutt/dracula.muttrc
+source ${myenv_path}/.mutt/dracula.muttrc
 

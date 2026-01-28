@@ -1,5 +1,9 @@
 #!/bin/bash
-source ${HOME}/workspace/myenv/colors.sh
+
+if [[ ! -n ${myenv_path} ]]; then
+    echo "can't find myenv_path variable"
+fi
+source "${myenv_path}/colors.sh"
 
 # .sh 파일 실행으로 사용하지 않고 function 자체를 호출로 사용, exit 하면 쉘 자체가 끝나서 return 값을 사용
 ret_value=""

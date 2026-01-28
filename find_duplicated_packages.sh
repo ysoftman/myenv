@@ -1,5 +1,9 @@
 #!/bin/bash
-source ${HOME}/workspace/myenv/colors.sh
+
+if [[ ! -n ${myenv_path} ]]; then
+    echo "can't find myenv_path variable"
+fi
+source "${myenv_path}/colors.sh"
 
 # go install, brew install 로 중복 설치된 패키지 찾기
 find_duplicated_packages_in_go_and_brew() {

@@ -8,7 +8,7 @@
 
 os_name=$(uname -o | tr '[:upper:]' '[:lower:]')
 os_name_kernel_release=$(uname -r | awk '{print tolower($0)}')
-declare myenv_path
+declare -x myenv_path
 declare current_shell="bash"
 if [[ $(ps -p $$ -o command | sed -e 1d) == *"bash"* ]]; then
     current_shell="bash"
