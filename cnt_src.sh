@@ -1,5 +1,9 @@
 #!/bin/bash
-source ${HOME}/workspace/myenv/colors.sh
+
+if [[ ! -n ${myenv_path} ]]; then
+    echo "can't find myenv_path variable"
+fi
+source "${myenv_path}/colors.sh"
 
 cntsrc() {
     easy_files=()
