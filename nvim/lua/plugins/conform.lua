@@ -68,8 +68,11 @@ return {
       lua = { "stylua" },
       -- markdownlint 는 느림, markdownlint-cli2 는 병렬 처리로 좀더 빠름
       markdown = { "markdownlint-cli2" },
-      -- isort: import 문을 정렬, black: 전체 코드 스타일을 PEP 8에 따라 포맷
-      python = { "isort", "black" },
+      -- isort: import 문을 정렬
+      -- black: 전체 코드 스타일을 PEP 8에 따라 포맷
+      -- ruff: An extremely fast Python linter and code formatter, written in Rust.
+      -- python = { "isort", "black" },
+      python = { "isort", "ruff" },
       rust = { "rustfmt" },
       sh = { "shfmt" },
       -- yaml = { "yamlfmt" }, -- ansible yaml 도 포맷하기 때문에 확장자로 yamlfmt 을 사용하지 않기로 함
