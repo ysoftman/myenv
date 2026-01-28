@@ -1,7 +1,7 @@
 export PS1="\u@\h:\w\$ "
+myenv_path="$HOME/workspace/myenv"
 
-[ -f ~/workspace/myenv/myenv.sh ] && source ~/workspace/myenv/myenv.sh
-
+[ -f ${myenv_path}/myenv.sh ] && source ${myenv_path}/myenv.sh
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # nvm -> mise 로 대체

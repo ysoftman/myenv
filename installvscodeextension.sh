@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # code --list-extensions | sed -e 's/^/code --install-extension /' | pbcopy
 code --install-extension 13xforever.language-x86-64-assembly
 code --install-extension abusaidm.html-snippets

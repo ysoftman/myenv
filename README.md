@@ -2,7 +2,7 @@
 
 개인 환경 백업 및 복구 자동화 스크립트~ :smile:
 
-- myenv 는 ~/workspace/myenv 에 위치해야 한다.
+- myenv 는 디폴트로 ~/workspace/myenv 에 위치(클론)해야 한다. 변경하려면 .zshrc/.bashrc > myenv_path 값을 수정해야 한다.
 - 설치 & 백업
 
 ```bash

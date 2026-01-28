@@ -17,6 +17,7 @@ elif [ ! -z $ZELLIJ_SESSION_NAME ]; then
 fi
 
 os_name=$(uname -o | tr '[:upper:]' '[:lower:]')
+myenv_path="$HOME/workspace/myenv"
 
 #multiplexer="tmux"
 multiplexer="zellij"
@@ -27,17 +28,17 @@ if [[ $? == 0 && -z $multiplexer_already_started ]]; then
     read answer
     if [ -z $answer ] || [ $(echo $answer | tr '[:upper:]' '[:lower:]') = 'y' ]; then
         if [[ $multiplexer == "zellij" && $os_name == *"darwin"* ]]; then
-            multiplexer_args="--layout $HOME/workspace/myenv/zellij/layouts/mac.kdl"
+            multiplexer_args="--layout $myenv_path/zellij/layouts/mac.kdl"
         fi
         # exec 로 현재 프로세스를 ${multiplexer} 프로세스로 대체(replace)한다.
         # 변수 사용시 변수에 포함된 공백이 문자열로 취급하기 때문에 eval 로 쉘 규칙대 수행하도록 해야 한다.
         eval "exec ${multiplexer} ${multiplexer_args}"
         # 또는 다음과 같이 배열 변수로 구분될 수 있도록 한다.
-        # cmd=(zellij --layout $HOME/workspace/myenv/zellij/layouts/mac.kd); exec ${cmd[@]}
+        # cmd=(zellij --layout $myenv_path/zellij/layouts/mac.kdl); exec ${cmd[@]}
     fi
 fi
 
-[ -f ~/workspace/myenv/myenv.sh ] && source ~/workspace/myenv/myenv.sh
+[ -f ${myenv_path}/myenv.sh ] && source ${myenv_path}/myenv.sh
 [ -f ~/workspace/bill-ysoftman/env.sh ] && source ~/workspace/bill-ysoftman/env.sh
 
 ### Added by Zplugin's installer
