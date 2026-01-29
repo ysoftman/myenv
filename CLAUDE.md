@@ -17,3 +17,10 @@
 
 - Markdown 파일 검사: `bunx markdownlint-cli2 "**/*.md"`
 - 자동 수정: `bunx markdownlint-cli2 --fix "**/*.md"`
+
+## Shell Formatting
+
+shell 스크립트 작성 시 shfmt를 사용하여 포맷팅한다.
+
+- 포맷팅: `shfmt -i 4 -ci -w <file.sh>`
+- 검사만: `shfmt -d <file.sh>`
