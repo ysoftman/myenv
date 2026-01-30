@@ -20,33 +20,17 @@ if [[ $os_name == *"darwin"* ]]; then
     <key>XDG_CONFIG_HOME</key>
     <string>/Users/ysoftman/.config</string>
   </dict>
-  <key>KeepAlive</key>
-  <dict>
-    <key>SuccessfulExit</key>
-    <true/>
-  </dict>
-  <key>Label</key>
-  <string>homebrew.mxcl.colima</string>
-  <key>LimitLoadToSessionType</key>
-  <array>
-    <string>Aqua</string>
-    <string>Background</string>
-    <string>LoginWindow</string>
-    <string>StandardIO</string>
-    <string>System</string>
-  </array>
+  <string>com.ysoftman.colima</string>
   <key>ProgramArguments</key>
   <array>
-    <string>/opt/homebrew/opt/colima/bin/colima</string>
+    <string>/opt/homebrew/bin/colima</string>
     <string>start</string>
     <string>-f</string>
   </array>
-  <key>RunAtLoad</key>
-  <true/>
   <key>StandardErrorPath</key>
-  <string>/opt/homebrew/var/log/colima.log</string>
+  <string>/tmp/colima_error.log</string>
   <key>StandardOutPath</key>
-  <string>/opt/homebrew/var/log/colima.log</string>
+  <string>/tmp/colima.log</string>
   <key>WorkingDirectory</key>
   <string>/Users/ysoftman</string>
 </dict>
