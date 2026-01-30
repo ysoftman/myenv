@@ -82,7 +82,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ${HOME}/.zprezto/runcoms/zpreztorc ] && unlink ${HOME}/.zprezto/runcoms/zpreztorc
 [ -h ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup ] && unlink ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup
 [ -h ${HOME}/.wezterm.lua ] && unlink ${HOME}/.wezterm.lua
-[ -h ${HOME}/.claude/CLAUDE.md ] && unlink ${HOME}/.CLAUDE.md
+[ -h ${HOME}/.claude/CLAUDE.md ] && unlink ${HOME}/.claude/CLAUDE.md
 [ -h ${XDG_CONFIG_HOME}/nvim ] && unlink ${XDG_CONFIG_HOME}/nvim
 [ -d ${XDG_CONFIG_HOME}/alacritty-colorscheme ] || git clone https://github.com/alacritty/alacritty-theme ${XDG_CONFIG_HOME}/alacritty-colorscheme
 [ -h ${XDG_CONFIG_HOME}/alacritty ] && unlink ${XDG_CONFIG_HOME}/alacritty
