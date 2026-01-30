@@ -16,7 +16,6 @@ bash ./installconfig.sh
 if [[ $os_name == *"darwin"* ]]; then
     bash ./installbrew.sh
     bash ./installitermcolor.sh
-    bash ./installlapcesettings.sh
 elif [[ $os_name == *"android"* ]]; then
     bash ./installtermuxconfig.sh
 fi
@@ -26,6 +25,7 @@ bash ./installzsh.sh
 bash ./installvim.sh
 bash ./installvimplug.sh
 bash ./installneovim.sh
+bash ./installlapcesettings.sh
 bash ./installtmuxplugin.sh
 bash ./installpip.sh
 bash ./installfzf.sh
@@ -37,6 +37,7 @@ bash ./installkubectl.sh
 bash ./installnode.sh
 bash ./installgh.sh
 bash ./installemojicli.sh
+bash ./installcolima.sh
 if [[ $(command -v code) ]]; then
     bash ./installvscodesettings.sh
     bash ./installvscodeextension.sh
