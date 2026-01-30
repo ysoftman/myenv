@@ -20,7 +20,10 @@ if [[ $os_name == *"darwin"* ]]; then
     <key>XDG_CONFIG_HOME</key>
     <string>/Users/ysoftman/.config</string>
   </dict>
+  <key>Label</key>
   <string>com.ysoftman.colima</string>
+  <key>RunAtLoad</key>
+  <true/>
   <key>ProgramArguments</key>
   <array>
     <string>/opt/homebrew/bin/colima</string>
@@ -40,5 +43,11 @@ ZZZ
     set -x
     launchctl unload /Users/ysoftman/Library/LaunchAgents/com.ysoftman.colima.plist 2>/dev/null
     launchctl load ~/Library/LaunchAgents/com.ysoftman.colima.plist
+
+    # plist 문법 확인
+    plutil -lint ~/Library/LaunchAgents/com.ysoftman.colima.plist
+
+    # 서비스 등록 확인
+    launchctl list | grep colima
     set +x
 fi
