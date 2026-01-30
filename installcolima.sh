@@ -28,7 +28,6 @@ if [[ $os_name == *"darwin"* ]]; then
   <array>
     <string>/opt/homebrew/bin/colima</string>
     <string>start</string>
-    <string>-f</string>
   </array>
   <key>StandardErrorPath</key>
   <string>/tmp/colima_error.log</string>
