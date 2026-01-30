@@ -50,6 +50,7 @@ mpkgs["tokei"]="tokei"                     # (https://github.com/XAMPPRocky/toke
 mpkgs["trippy"]="trip"                     # (https://github.com/fujiapple852/trippy) network diagnostic tool(ping, traceroute 조합)
 mpkgs["ttysvr"]="ttysvr"                   # (https://github.com/cxreiff/ttysvr) screen saver
 mpkgs["typos-cli"]="typos"                 # (https://github.com/crate-ci/typos) 오타 체크
+mpkgs["uv"]="uv"                           # (https://github.com/astral-sh/uv) pipenv, poetry 듣 python version package manager 대체
 mpkgs["whome"]="whome"                     # (https://github.com/ardaku/whoami) whoami 대체
 mpkgs["ytop"]="ytop"                       # (https://github.com/cjbassi/ytop) top,htop 대체
 mpkgs["zellij"]="zellij"                   # (https://github.com/zellij-org/zellij) tmux 대체
