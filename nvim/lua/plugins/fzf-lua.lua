@@ -133,7 +133,8 @@ return {
         -- fzf 내부적으로 rg -> grep 순으로 명령을 찾아 실행한다.
         -- cmd            = "rg --vimgrep",
         grep_opts = "--binary-files=without-match --line-number --recursive --color=auto --perl-regexp -e",
-        rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
+        -- installbrew.sh 처럼 한줄이 경우 검색되기 위해서 max-columns 값을 명시한지 않는다(디폴트 제한 없음)
+        rg_opts = "--column --line-number --no-heading --color=always --smart-case -e",
         -- Uncomment to use the rg config file `$RIPGREP_CONFIG_PATH`
         -- RIPGREP_CONFIG_PATH = vim.env.RIPGREP_CONFIG_PATH
         --
