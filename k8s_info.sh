@@ -221,6 +221,11 @@ k8s_find_terminated_containers() {
     done
 }
 
+k8s_start_debug_shell() {
+    # curl, vi 등 디버깅용 pod 실행해서 접속한다. exit 하면 pod 종료
+    kubectl run -i --tty --rm debug-shell --image=curlimages/curl -- sh
+}
+
 get_argo_workflow_token() {
     check_command_existence kubectl
     if [[ $ret_value == "fail" ]]; then
