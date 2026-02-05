@@ -13,10 +13,10 @@
 
 ## Markdown Linting
 
-모든 프로젝트에서 markdownlint-cli2를 사용한다.
+모든 프로젝트에서 rumdl을 사용한다. (Rust 기반으로 markdownlint-cli2보다 빠름)
 
-- Markdown 파일 검사: `bunx markdownlint-cli2 "**/*.md"`
-- 자동 수정: `bunx markdownlint-cli2 --fix "**/*.md"`
+- Markdown 파일 검사: `rumdl check .`
+- 자동 수정: `rumdl fmt .`
 
 ## Shell Formatting
 
