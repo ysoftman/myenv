@@ -11,7 +11,8 @@ return {
       -- Use the "_" filetype to run linters on filetypes that don't have other linters configured.
       -- ['_'] = { 'fallback linter' },
       -- ["*"] = { "typos" },
-      markdown = { "markdownlint-cli2" },
+      -- markdown = { "markdownlint-cli2" },
+      markdown = { "rumdl" }, -- markdownlint-cli2 대신 rumdl 이 rust 기반이라 빠르다.
     },
     -- LazyVim extension to easily override linter options
     -- or add custom linters.
@@ -19,6 +20,9 @@ return {
     linters = {
       ["markdownlint-cli2"] = {
         cmd = "markdownlint-cli2",
+      },
+      rumdl = {
+        stream = "stdout", -- 기본값 stderr에서 stdout으로 변경 (JSON 출력이 stdout으로 나옴)
       },
     },
   },

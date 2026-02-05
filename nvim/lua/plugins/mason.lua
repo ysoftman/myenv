@@ -21,6 +21,7 @@ return {
         "marksman",
         "prettier",
         "ruff",
+        "rumdl",
         "shellcheck",
         "shfmt",
         "stylua",
