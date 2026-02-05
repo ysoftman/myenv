@@ -38,6 +38,7 @@ mpkgs["onefetch"]="onefetch"               # (https://github.com/o2sh/onefetch) 
 mpkgs["procs"]="procs"                     # (https://github.com/dalance/procs) ps 대체
 mpkgs["ripgrep"]="rg"                      # (https://github.com/BurntSushi/ripgrep) grep 대체
 mpkgs["ruff"]="ruff"                       # (https://github.com/astral-sh/ruff) python linter and formatter
+mpkgs["rumdl"]="rumdl"                     # (https://github.com/rvben/rumdl) markdown linter and formatter, markdownlint-cli2 대체
 mpkgs["scooter"]="scooter"                 # (https://github.com/thomasschafer/scooter) interactive find and replace terminal ui app
 mpkgs["scope-tui"]="scope-tui"             # (https://github.com/alemidev/scope-tui) cava 대체
 mpkgs["sd"]="sd"                           # (https://github.com/chmln/sd) sed 대체
