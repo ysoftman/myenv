@@ -48,6 +48,11 @@ return {
         -- nvim-lint markdownlint-cli2 lint 문제가 있어야 동작한다. 문제가 없으면 condition failed 동작하지 않는다.
         cmd = "markdownlint-cli2",
       },
+      rumdl = {
+        command = "rumdl",
+        args = { "fmt", "--stdin", "--stdin-filename", "$FILENAME" },
+        stdin = true, -- stdin으로 입력받아 stdout으로 수정된 내용 출력
+      },
     },
     -- formatters by file type
     formatters_by_ft = {
@@ -67,7 +72,8 @@ return {
       css = { "biome" },
       lua = { "stylua" },
       -- markdownlint 는 느림, markdownlint-cli2 는 병렬 처리로 좀더 빠름
-      markdown = { "markdownlint-cli2" },
+      -- markdown = { "markdownlint-cli2" },
+      markdown = { "rumdl" }, -- markdownlint-cli2 대신 rumdl 이 rust 기반이라 빠르다.
       -- isort: import 문을 정렬
       -- black: 전체 코드 스타일을 PEP 8에 따라 포맷
       -- ruff_format(ruff format): An extremely fast Python linter and code formatter, written in Rust.
