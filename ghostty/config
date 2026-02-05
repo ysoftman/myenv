@@ -1,3 +1,11 @@
+# 현재 키바인딩 조회
+# ghostty +list-keybinds
+# 디폴트 키바인딩 조회
+# ghostty +list-keybinds --default
+
+# 설정 리로드
+keybind = super+shift+,=reload_config
+
 # reloading the configuration : ctrl+shift+, (Linux) or cmd+shift+, (macOS)
 # The syntax is "key = value". The whitespace around the
 # equals doesn't matter.
@@ -8,8 +16,14 @@ foreground = ffffff
 # Comments start with a `#` and are only valid on their own line.
 # Blank lines are ignored!
 
-keybind = ctrl+z=close_surface
-keybind = ctrl+d=new_split:right
+# ctrl+d(EOF)로 쉘 종료 시 창 유지 (아무 키나 누르면 닫힘)
+wait-after-command = true
+
+# 사용자가 직접 창을 닫을 때 확인 (cmd+w, 창 닫기 버튼 등)
+# 프로세스 실행중일때만 확인
+# confirm-close-surface = true
+# 항상 확인
+confirm-close-surface = always
 
 # Empty values reset the configuration to the default value
 font-family = "FiraCode Nerd Font"
