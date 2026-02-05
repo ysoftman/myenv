@@ -1,0 +1,7 @@
+[global]
+disable = ["MD013"]
+
+[MD033]
+allowed-elements = ["br"]
+table-allowed-elements = []
+
