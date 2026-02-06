@@ -18,7 +18,7 @@ if [[ $os_name == *"darwin"* ]]; then
     <key>PATH</key>
     <string>/opt/homebrew/bin:/opt/homebrew/sbin:/usr/bin:/bin:/usr/sbin:/sbin</string>
     <key>XDG_CONFIG_HOME</key>
-    <string>/Users/ysoftman/.config</string>
+    <string>$HOME/.config</string>
   </dict>
   <key>Label</key>
   <string>com.ysoftman.colima</string>
@@ -34,14 +34,14 @@ if [[ $os_name == *"darwin"* ]]; then
   <key>StandardOutPath</key>
   <string>/tmp/colima.log</string>
   <key>WorkingDirectory</key>
-  <string>/Users/ysoftman</string>
+  <string>$HOME</string>
 </dict>
 </plist>
 ZZZ
     # 서비스 등록, 다음부터 맥시작시 자동으로 colima 실행
     set -x
-    launchctl unload /Users/ysoftman/Library/LaunchAgents/com.ysoftman.colima.plist 2>/dev/null
-    launchctl load ~/Library/LaunchAgents/com.ysoftman.colima.plist
+    launchctl unload $HOME/Library/LaunchAgents/com.ysoftman.colima.plist 2>/dev/null
+    launchctl load $HOME/Library/LaunchAgents/com.ysoftman.colima.plist
 
     # plist 문법 확인
     plutil -lint ~/Library/LaunchAgents/com.ysoftman.colima.plist
