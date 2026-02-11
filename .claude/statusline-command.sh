@@ -5,7 +5,6 @@ input=$(cat)
 
 # 사용자명, 호스트명, 현재 디렉토리 가져오기
 username=$(whoami)
-hostname=$(hostname -s)
 current_dir=$(echo "$input" | jq -r '.workspace.current_dir')
 
 # 모델명 가져오기
@@ -96,4 +95,4 @@ fi
 token_info=" ${WHITE}[${bar_color}${bar_filled}${RST}${bar_empty}${WHITE}] ${bar_color}${used_pct}%${RST}${WHITE}/${context_fmt}${RST}"
 
 # 상태 표시줄 출력 (printf %b 로 escape 코드 해석)
-printf '%b' "${BLUE}${username}@${hostname}${RST} ${CYAN}${display_path}${RST}${git_info}${token_info} ${YELLOW}${model_name}${RST}"
+printf '%b' "${BLUE}${username}${RST} ${CYAN}${display_path}${RST}${git_info}${token_info} ${YELLOW}${model_name}${RST}"
