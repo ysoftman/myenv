@@ -37,3 +37,12 @@
 - 텍스트 검색: `rg "pattern"` (grep 대신)
 - 파일 찾기: `fd "pattern"` (find 대신)
 - 특정 확장자 검색: `fd -e js` (find -name "*.js" 대신)
+
+## Python Linting & Formatting
+
+모든 프로젝트에서 Python 코드 린팅/포맷팅 시 ruff를 사용한다. (Rust 기반으로 flake8, black, isort보다 빠름)
+
+- 린트 검사: `ruff check .`
+- 린트 자동 수정: `ruff check --fix .`
+- 포맷팅: `ruff format .`
+- 포맷팅 검사만: `ruff format --check .`
