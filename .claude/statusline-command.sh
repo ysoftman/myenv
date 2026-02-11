@@ -8,10 +8,12 @@ username=$(whoami)
 hostname=$(hostname -s)
 current_dir=$(echo "$input" | jq -r '.workspace.current_dir')
 
+# 모델명 가져오기
+model_name=$(echo "$input" | jq -r '.model.display_name // "unknown"')
+
 # 토큰 사용량 가져오기
-total_input=$(echo "$input" | jq -r '.context_window.total_input_tokens // 0')
-total_output=$(echo "$input" | jq -r '.context_window.total_output_tokens // 0')
 used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // 0')
+context_size=$(echo "$input" | jq -r '.context_window.context_window_size // 0')
 
 # 색상 정의 (연속 코드는 반드시 합쳐서 사용)
 RST='\033[0m'
@@ -58,21 +60,6 @@ if [ -d "$current_dir/.git" ] || git -C "$current_dir" rev-parse --git-dir >/dev
     fi
 fi
 
-# 토큰 수를 K/M 단위로 변환
-format_tokens() {
-    local tokens=$1
-    if [ "$tokens" -ge 1000000 ]; then
-        printf "%.1fM" "$(echo "scale=1; $tokens / 1000000" | bc)"
-    elif [ "$tokens" -ge 1000 ]; then
-        printf "%.1fK" "$(echo "scale=1; $tokens / 1000" | bc)"
-    else
-        printf "%d" "$tokens"
-    fi
-}
-
-input_fmt=$(format_tokens "$total_input")
-output_fmt=$(format_tokens "$total_output")
-
 # 프로그레스바 생성
 bar_width=10
 filled=$(( used_pct * bar_width / 100 ))
@@ -97,7 +84,16 @@ for ((i = 0; i < empty; i++)); do
     bar_empty="${bar_empty}░"
 done
 
-token_info=" ${WHITE}[${bar_color}${bar_filled}${RST}${bar_empty}${WHITE}] ${bar_color}${used_pct}%${RST} ${WHITE}in:${input_fmt} out:${output_fmt}${RST}"
+# 전체 토큰수를 K 단위로 변환
+if [ "$context_size" -ge 1000000 ]; then
+    context_fmt="$(echo "scale=0; $context_size / 1000" | bc)K"
+elif [ "$context_size" -ge 1000 ]; then
+    context_fmt="$(echo "scale=0; $context_size / 1000" | bc)K"
+else
+    context_fmt="$context_size"
+fi
+
+token_info=" ${WHITE}[${bar_color}${bar_filled}${RST}${bar_empty}${WHITE}] ${bar_color}${used_pct}%${RST}${WHITE}/${context_fmt}${RST}"
 
 # 상태 표시줄 출력 (printf %b 로 escape 코드 해석)
-printf '%b' "${BLUE}${username}@${hostname}${RST} ${CYAN}${display_path}${RST}${git_info}${token_info}"
+printf '%b' "${BLUE}${username}@${hostname}${RST} ${CYAN}${display_path}${RST}${git_info}${token_info} ${YELLOW}${model_name}${RST}"
