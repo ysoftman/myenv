@@ -147,6 +147,8 @@ keybinds clear-defaults=true {
         bind "Alt l" { MoveFocusOrTab "right"; }
         bind "Alt n" { NewPane; }
         bind "Ctrl q" { Quit; }
+        // shift-enter를 kitty keyboard protocol 시퀀스(ESC[13;2u)로 터미널에 전달(claude-code, opencode 등에서 멀티라인 입력시 필요)
+        bind "Shift enter" { Write 27 91 49 51 59 50 117; }
         // vim 설정값과 중복
         unbind "Alt f"
         unbind "Alt i"

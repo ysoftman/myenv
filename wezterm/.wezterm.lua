@@ -203,6 +203,13 @@ config.keys = {
 		action = wezterm.action.SendString("\x1b[46;5u"),
 	},
 
+	-- shift-enter를 CSI u 시퀀스로 전달 (zellij 위에서 claude-code 등 멀티라인 입력용)
+	{
+		key = "Enter",
+		mods = "SHIFT",
+		action = wezterm.action.SendString("\x1b[13;2u"),
+	},
+
 	-- default:ctrl+shift+alt+방향키로 pane 크기 조절(rectangle 윈도우 매지저와 충돌되는 경우가 있을 수 있다.)
 }
 
