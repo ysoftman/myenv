@@ -203,7 +203,7 @@ config.keys = {
 		action = wezterm.action.SendString("\x1b[46;5u"),
 	},
 
-	-- shift-enter를 CSI u 시퀀스로 전달 (zellij 위에서 claude-code 등 멀티라인 입력용)
+	-- shift-enter를 CSI u 시퀀스로 전달 (claude-code , opencode 등 멀티라인 입력용)
 	{
 		key = "Enter",
 		mods = "SHIFT",
