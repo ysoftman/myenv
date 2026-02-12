@@ -38,6 +38,34 @@
 - 파일 찾기: `fd "pattern"` (find 대신)
 - 특정 확장자 검색: `fd -e js` (find -name "*.js" 대신)
 
+## JavaScript/TypeScript Linting & Formatting
+
+모든 프로젝트에서 JavaScript/TypeScript 코드 린팅/포맷팅 시 Biome를 사용한다. (Rust 기반으로 ESLint, Prettier보다 빠름)
+
+- 린트 검사: `biome lint .`
+- 포맷팅: `biome format --write .`
+- 포맷팅 검사만: `biome format .`
+- 린트 + 포맷팅 한번에: `biome check --write .`
+- 검사만 (수정 없이): `biome check .`
+
+## Go Linting & Formatting
+
+모든 프로젝트에서 Go 코드 린팅 시 golangci-lint를 사용한다. (다양한 린터를 통합 실행)
+
+- 린트 검사: `golangci-lint run`
+- 특정 디렉터리 검사: `golangci-lint run ./...`
+- 자동 수정: `golangci-lint run --fix`
+- 포맷팅: `gofmt -w .`
+
+## Rust Linting & Formatting
+
+모든 프로젝트에서 Rust 코드 린팅/포맷팅 시 clippy와 rustfmt를 사용한다.
+
+- 린트 검사: `cargo clippy`
+- 린트 자동 수정: `cargo clippy --fix`
+- 포맷팅: `cargo fmt`
+- 포맷팅 검사만: `cargo fmt --check`
+
 ## Python Linting & Formatting
 
 모든 프로젝트에서 Python 코드 린팅/포맷팅 시 ruff를 사용한다. (Rust 기반으로 flake8, black, isort보다 빠름)
