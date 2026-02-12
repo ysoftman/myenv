@@ -1,8 +1,19 @@
 # Global Instructions
 
+## 코드 수정 후 체크
+
+코드 수정 후 커밋 전에 반드시 해당 언어의 lint/format을 실행한다.
+
+- JavaScript/TypeScript: `biome check --write .`
+- Go: `golangci-lint run --fix && gofmt -w .`
+- Rust: `cargo clippy --fix && cargo fmt`
+- Python: `ruff check --fix . && ruff format .`
+- Shell: `shfmt -i 4 -ci -w <수정된 파일>`
+- Markdown: `rumdl fmt .`
+
 ## Package Manager
 
-모든 프로젝트에서 npm 대신 bun을 사용한다.
+모든 프로젝트에서 npm 대신 bun을 사용한다. (Zig 기반으로 npm/yarn보다 빠름)
 
 - `npm install` → `bun install`
 - `npm run` → `bun run`
@@ -29,8 +40,8 @@
 
 모든 프로젝트에서 더 빠른 검색 도구를 사용한다.
 
-- `grep` → `rg` (ripgrep)
-- `find` → `fd`
+- `grep` → `rg` (ripgrep, Rust 기반으로 grep보다 빠름)
+- `find` → `fd` (Rust 기반으로 find보다 빠름)
 
 예시:
 
