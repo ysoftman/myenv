@@ -1,5 +1,9 @@
 # Global Instructions
 
+## Git 작업 시 확인
+
+git commit, push, force push, branch 삭제 등 되돌리기 어려운 git 작업은 실행 전에 반드시 사용자에게 확인을 받는다. 커밋 메시지는 항상 영어로 작성한다.
+
 ## 코드 수정 후 체크
 
 코드 수정 후 커밋 전에 반드시 해당 언어의 lint/format을 실행한다.
