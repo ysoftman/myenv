@@ -17,6 +17,7 @@ git config --global merge.tool nvimdiff
 # .lock .tmp 등 diff 에서 제외
 # git diff "$@" ':!*.lock' ':!*.tmp'
 git config --global alias.diffnotlocktmp "diff ':!*.lock' ':!*.tmp'"
+git config --global core.excludesfile ~/.gitignore_global
 
 # user_email="ysoftman@gmail.com"
 # user_name="ysoftman"
