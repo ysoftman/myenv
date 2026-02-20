@@ -1,0 +1,33 @@
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(go build:*)",
+      "Bash(make:*)",
+      "Bash(xxd:*)",
+      "Bash(air:*)",
+      "WebSearch",
+      "Bash(gh pr:*)",
+      "Bash(ls:*)",
+      "Bash(xargs cat:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(go install:*)",
+      "mcp__plugin_oh-my-claudecode_t__state_list_active",
+      "Bash(git log:*)",
+      "Bash(fd:*)",
+      "Bash(golangci-lint run:*)"
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "node /Users/ysoftman/.claude/hud/omc-hud.mjs"
+  },
+  "enabledPlugins": {
+    "gopls-lsp@claude-plugins-official": true,
+    "plannotator@plannotator": true,
+    "oh-my-claudecode@omc": true
+  },
+  "language": "korean"
+}
