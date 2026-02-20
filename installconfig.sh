@@ -84,6 +84,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup ] && unlink ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup
 [ -h ${HOME}/.wezterm.lua ] && unlink ${HOME}/.wezterm.lua
 [ -h ${HOME}/.claude/CLAUDE.md ] && unlink ${HOME}/.claude/CLAUDE.md
+[ -h ${HOME}/.claude/settings.json ] && unlink ${HOME}/.claude/settings.json
 [ -h ${HOME}/.claude/statusline-command.sh ] && unlink ${HOME}/.claude/statusline-command.sh
 [ -h ${XDG_CONFIG_HOME}/nvim ] && unlink ${XDG_CONFIG_HOME}/nvim
 [ -d ${XDG_CONFIG_HOME}/alacritty-colorscheme ] || git clone https://github.com/alacritty/alacritty-theme ${XDG_CONFIG_HOME}/alacritty-colorscheme
@@ -115,6 +116,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -f ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup ] && mv -fv ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup.bak
 [ -f ${HOME}/.wezterm.lua ] && mv -fv ${HOME}/.wezterm.lua ${HOME}/.wezterm.lua.bak
 [ -f ${HOME}/.claude/CLAUDE.md ] && mv -fv ${HOME}/.claude/CLAUDE.md ${HOME}/.claude/CLAUDE.md.bak
+[ -f ${HOME}/.claude/settings.json ] && mv -fv ${HOME}/.claude/settings.json ${HOME}/.claude/settings.json.bak
 [ -f ${HOME}/.claude/statusline-command.sh ] && mv -fv ${HOME}/.claude/statusline-command.sh ${HOME}/.claude/statusline-command.sh.bak
 [ -f ${XDG_CONFIG_HOME}/nvim/init.vim ] && mv -fv ${XDG_CONFIG_HOME}/nvim ${XDG_CONFIG_HOME}/nvim.bak
 [ -d ${XDG_CONFIG_HOME}/alacritty ] && mv -fv ${XDG_CONFIG_HOME}/alacritty ${XDG_CONFIG_HOME}/alacritty.bak
@@ -145,6 +147,7 @@ ln -sfv ${PWD}/prezto/zpreztorc ${HOME}/.zprezto/runcoms/zpreztorc
 ln -sfv ${PWD}/prezto/prompt_sorin_ysoftman_setup ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup
 ln -sfv ${PWD}/wezterm/.wezterm.lua ${HOME}/.wezterm.lua
 ln -sfv ${PWD}/.claude/CLAUDE.md ${HOME}/.claude/CLAUDE.md
+ln -sfv ${PWD}/.claude/settings.json ${HOME}/.claude/settings.json
 ln -sfv ${PWD}/.claude/statusline-command.sh ${HOME}/.claude/statusline-command.sh
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/nvim ${XDG_CONFIG_HOME}/nvim
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/alacritty ${XDG_CONFIG_HOME}/alacritty
