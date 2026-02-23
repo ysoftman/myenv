@@ -22,7 +22,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "node /Users/ysoftman/.claude/hud/omc-hud.mjs"
+    "command": "bash -c 'input=$(cat); custom=$(echo \"$input\" | bash /Users/ysoftman/.claude/statusline-command.sh 2>/dev/null); omc=$(echo \"$input\" | node /Users/ysoftman/.claude/hud/omc-hud.mjs 2>/dev/null); if [ -n \"$custom\" ] && [ -n \"$omc\" ]; then printf \"%s\\n%s\" \"$custom\" \"$omc\"; elif [ -n \"$custom\" ]; then printf \"%s\" \"$custom\"; elif [ -n \"$omc\" ]; then printf \"%s\" \"$omc\"; fi'"
   },
   "enabledPlugins": {
     "gopls-lsp@claude-plugins-official": true,
