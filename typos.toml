@@ -17,6 +17,7 @@ extend-ignore-re = [
   '\$\{PIP\} install.*',
   # (?i)는 정규식에서 대소문자를 무시하라는 플래그
   "(?i)noice",
+  "certifi",
 ]
 
 # typos 검사 제외파일
