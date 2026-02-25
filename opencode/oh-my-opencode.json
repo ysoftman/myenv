@@ -1,0 +1,59 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
+  "agents": {
+    "sisyphus": {
+      "model": "anthropic/claude-opus-4-6",
+      "enabled": true,
+      "replace_plan": false
+    },
+    "librarian": {
+      "model": "anthropic/claude-sonnet-4-5",
+      "enabled": true
+    },
+    "explore": {
+      "model": "opencode/grok-code",
+      "enabled": true
+    },
+    "oracle": {
+      "model": "openai/gpt-5.2",
+      "enabled": true
+    },
+    "frontend-ui-ux-engineer": {
+      "model": "google/gemini-3-pro",
+      "enabled": true
+    },
+    "document-writer": {
+      "model": "anthropic/claude-sonnet-4-5",
+      "enabled": true
+    },
+    "multimodal-looker": {
+      "model": "google/gemini-3-flash",
+      "enabled": true
+    },
+    "atlas": {
+      "model": "anthropic/claude-opus-4-6",
+      "enabled": true
+    },
+    "prometheus-prompt": {
+      "model": "openai/gpt-5.2",
+      "enabled": true
+    },
+    "metis": {
+      "model": "anthropic/claude-sonnet-4-5",
+      "enabled": true
+    },
+    "momus": {
+      "model": "anthropic/claude-sonnet-4-5",
+      "enabled": true
+    }
+  },
+  "disabled_hooks": ["comment-checker", "agent-usage-reminder"],
+  "experimental": {
+    "preemptive_compaction_threshold": 0.85,
+    "auto_resume": false
+  },
+  "_migrations": [
+    "model-version:anthropic/claude-opus-4-5->anthropic/claude-opus-4-6",
+    "model-version:anthropic/claude-opus-4-5->anthropic/claude-opus-4-6"
+  ]
+}
