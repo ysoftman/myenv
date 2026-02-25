@@ -27,7 +27,8 @@
   "enabledPlugins": {
     "gopls-lsp@claude-plugins-official": true,
     "plannotator@plannotator": true,
-    "oh-my-claudecode@omc": true
+    "oh-my-claudecode@omc": true,
+    "rust-analyzer-lsp@claude-plugins-official": true
   },
   "language": "korean"
 }
