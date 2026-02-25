@@ -1,0 +1,23 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "anthropic/claude-opus-4-6",
+  "small_model": "google/gemini-2.0-flash",
+  "autoupdate": true,
+  "provider": {
+    "anthropic": {
+      "options": {
+        "timeout": 300000
+      }
+    },
+    "google": {
+      "options": {
+        "timeout": 300000
+      }
+    },
+    "openai": {
+      "options": {
+        "timeout": 300000
+      }
+    }
+  }
+}
