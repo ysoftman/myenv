@@ -92,7 +92,7 @@ else
     context_fmt="$context_size"
 fi
 
-token_info=" ${WHITE}[${bar_color}${bar_filled}${RST}${bar_empty}${WHITE}] ${bar_color}${used_pct}%${RST}${WHITE}/${context_fmt}${RST}"
+token_info=" ${WHITE}context[${bar_color}${bar_filled}${RST}${bar_empty}${WHITE}] ${bar_color}${used_pct}%${RST}${WHITE}/${context_fmt}${RST}"
 
 # 상태 표시줄 출력 (printf %b 로 escape 코드 해석)
 printf '%b' "${BLUE}${username}${RST} ${CYAN}${display_path}${RST}${git_info}${token_info} ${YELLOW}${model_name}${RST}"
