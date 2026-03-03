@@ -4,21 +4,6 @@
   "small_model": "google/gemini-2.0-flash",
   "autoupdate": true,
   "provider": {
-    "ollama": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Ollama (Local)",
-      "options": {
-        "baseURL": "http://localhost:11434/v1"
-      },
-      "models": {
-        "llama3.2:latest": {
-          "name": "Llama 3.2"
-        },
-        "codegemma:latest": {
-          "name": "CodeGemma"
-        }
-      }
-    },
     "anthropic": {
       "options": {
         "timeout": 300000
