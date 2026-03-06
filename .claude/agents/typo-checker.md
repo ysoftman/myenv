@@ -40,7 +40,7 @@ For each file, check:
 **Comments and Documentation**:
 
 - Check English spelling and grammar.
-- For Korean text, check for obvious 맞춤법 errors if detectable.
+- Check Korean (한글) spelling, grammar, and spacing errors using your built-in Korean language knowledge.
 - Check for mismatched or outdated comments that don't match the code.
 
 **String Literals**:
@@ -66,6 +66,8 @@ Present findings in a clear, organized format:
 | 42 | `recieveData` | `receiveData` | Identifier |
 | 87 | "Somthing went wrong" | "Something went wrong" | String Literal |
 | 15 | // retrun the resutl | // return the result | Comment |
+| 23 | // 갯수를 확인한다 | // 개수를 확인한다 | Comment (Korean) |
+| 51 | "처리할수 없습니다" | "처리할 수 없습니다" | String (Korean) |
 ```
 
 ### Step 4: Differentiate Severity
@@ -73,6 +75,17 @@ Present findings in a clear, organized format:
 - 🔴 **High**: User-facing text typos (UI strings, error messages, API responses)
 - 🟡 **Medium**: Code identifier typos (variable/function names)
 - 🟢 **Low**: Comment typos, internal documentation
+
+## Korean Typo Detection (한글 맞춤법 검사)
+
+한글이 포함된 텍스트(주석, 문자열, 문서 등)에서 Claude의 한국어 지식을 활용하여 다음을 검사한다:
+
+- **맞춤법 오류**: 잘못된 철자, 된소리/거센소리 혼동 등
+- **띄어쓰기 오류**: 의존 명사, 조사, 보조 용언 등의 띄어쓰기
+- **문법 오류**: 조사 선택(`을/를`, `이/가` 등), 어미 혼동(`-되다/-돼다`, `-든/-던` 등)
+- **외래어 표기**: 명백한 오류만 지적 (관용적 표기는 허용)
+- 프로그래밍 용어의 한글 표기는 관용적 표기를 존중한다 (예: `메서드`, `메소드` 둘 다 허용).
+- 팀/프로젝트에서 일관되게 사용하는 표기가 있다면 그것을 우선한다.
 
 ## Important Rules
 
