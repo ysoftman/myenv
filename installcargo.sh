@@ -28,6 +28,7 @@ mpkgs["hexyl"]="hexyl"                     # (https://github.com/sharkdp/hexyl) 
 mpkgs["hwatch"]="hwatch"                   # (https://github.com/blacknon/hwatch) watch 대체
 mpkgs["hyperfine"]="hyperfine"             # (https://github.com/sharkdp/hyperfine) time 대체
 mpkgs["jless"]="jless"                     # (https://github.com/PaulJuliusMartinez/jless) jq,less 대체
+mpkgs["llmfit"]="llmfit"                   # (https://github.com/AlexsJones/llmfit) 내 장비에 맞는 llm 찾기
 mpkgs["lsd"]="lsd"                         # (https://github.com/Peltoche/lsd) ls 대체
 mpkgs["lychee"]="lychee"                   # (https://github.com/lycheeverse/lychee) broken hyperlinks 체크
 mpkgs["mise"]="mise"                       # (https://github.com/jdx/mise) node(nvm, volta대체), python, go등 버전 관리
