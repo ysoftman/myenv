@@ -120,7 +120,7 @@ background = "#54002B"
 type = "bun"
 style = 'powerline'
 powerline_symbol = ''
-template = " <#ffffff></> {{ .Full }}"
+template = " <#00E8A2></> {{ .Full }}"
 foreground = '#00E8A2'
 background = "#004A3A"
 
