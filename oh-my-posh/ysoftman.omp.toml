@@ -180,7 +180,7 @@ style = 'diamond'
 powerline_symbol = ''
 trailing_diamond = ''
 template = ' {{ if gt .Code 0 }}{{ else }}{{ end }} '
-background_templates = ['{{ if gt .Code 0 }}red{{ end }}']
+background_templates = ['{{ if gt .Code 0 }}#540012{{ end }}']
 foreground = '#FF6BD6'
 background = "#540043"
 
