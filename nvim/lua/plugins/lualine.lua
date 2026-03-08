@@ -11,13 +11,14 @@ local white = "#cccccc"
 -- local purple = "#5E409D"
 -- local magenta = "#A02F6F"
 
--- https://github.com/joshdick/onedark.vim
-local blue = "#61AFEF"
-local cyan = "#56B6C2"
-local green = "#98C379"
-local purple = "#C678DD"
-local red = "#E06C75"
-local yellow = "#E5C07B"
+-- rainbow colors (빨주노초파남보)
+local rainbow_red = "#E06C75"
+local rainbow_orange = "#E0956C"
+local rainbow_yellow = "#E5C07B"
+local rainbow_green = "#98C379"
+local rainbow_blue = "#61AFEF"
+local rainbow_indigo = "#8A70C8"
+local rainbow_violet = "#C678DD" -- luacheck: ignore (reserved for 7th item)
 
 -- for debug
 local function printTable(t)
@@ -52,7 +53,7 @@ return {
     table.insert(opts.sections.lualine_x, 1, {
       "filetype",
       color = function()
-        return { bg = black, fg = yellow }
+        return { bg = rainbow_indigo, fg = black }
       end,
       separator = { left = "", right = "" },
     })
@@ -63,7 +64,7 @@ return {
         return vim.diagnostic.is_enabled() and " " or " "
       end,
       color = function()
-        return { bg = "#eba0ac", fg = black }
+        return { bg = rainbow_blue, fg = black }
       end,
       separator = { left = "", right = "" },
     })
@@ -86,7 +87,7 @@ return {
         return vim.g.autoformat and "󰉶 " or "󰉶 "
       end,
       color = function()
-        return { bg = "#e27333", fg = black }
+        return { bg = rainbow_green, fg = black }
       end,
       separator = { left = "", right = "" },
     })
@@ -96,21 +97,21 @@ return {
         return vim.wo.spell and " " or "󰓆 "
       end,
       color = function()
-        return { bg = purple, fg = black }
+        return { bg = rainbow_yellow, fg = black }
       end,
       separator = { left = "", right = "" },
     })
     table.insert(opts.sections.lualine_x, 1, {
       "encoding",
       color = function()
-        return { bg = green, fg = black }
+        return { bg = rainbow_orange, fg = black }
       end,
       separator = { left = "", right = "" },
     })
     table.insert(opts.sections.lualine_x, 1, {
       get_file_permissions,
       color = function()
-        return { bg = cyan, fg = black }
+        return { bg = rainbow_red, fg = black }
       end,
       separator = { left = "", right = "" },
     })
