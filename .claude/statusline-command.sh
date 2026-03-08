@@ -41,16 +41,22 @@ total_output=$(echo "$input" | jq -r '.context_window.total_output_tokens // 0')
 lines_added=$(echo "$input" | jq -r '.cost.total_lines_added // 0')
 lines_removed=$(echo "$input" | jq -r '.cost.total_lines_removed // 0')
 
-# 색상 정의 (연속 코드는 반드시 합쳐서 사용)
+# 색상 정의 (항목마다 겹치지 않는 무지개 색상, 256-color)
 RST='\033[0m'
-BLUE='\033[34m'
-CYAN='\033[36m'
+C_RED='\033[38;5;203m'
+C_ORANGE='\033[38;5;209m'
+C_YELLOW='\033[38;5;221m'
+C_GREEN='\033[38;5;114m'
+C_CYAN='\033[38;5;80m'
+C_BLUE='\033[38;5;75m'
+C_INDIGO='\033[38;5;105m'
+C_VIOLET='\033[38;5;177m'
+C_PINK='\033[38;5;211m'
+# git 상태 아이콘용
 GREEN='\033[32m'
 YELLOW='\033[33m'
 RED='\033[31m'
 MAGENTA='\033[35m'
-BOLD_GREEN='\033[1;32m'
-WHITE='\033[37m'
 
 # 경로 축약 (HOME → ~)
 display_path="$current_dir"
@@ -64,7 +70,7 @@ if [ -d "$current_dir/.git" ] || git -C "$current_dir" rev-parse --git-dir >/dev
     branch=$(cd "$current_dir" && git -c advice.detachedHead=false rev-parse --abbrev-ref HEAD 2>/dev/null)
 
     if [ -n "$branch" ]; then
-        git_info=" ${BOLD_GREEN}${branch}${RST}"
+        git_info=" ${C_YELLOW}${branch}${RST}"
 
         # git 상태 확인
         git_status=$(cd "$current_dir" && git -c core.fileMode=false status --porcelain 2>/dev/null)
@@ -131,22 +137,25 @@ cache_w_fmt=$(fmt_tokens "$cache_write")
 # 비용 포맷 (소수점 4자리)
 cost_fmt=$(printf '%.4f' "$cost_usd")
 
-token_info=" ${WHITE}context[${bar_color}${bar_filled}${RST}${bar_empty}${WHITE}] ${bar_color}${used_pct}%${RST}${WHITE}/${context_fmt}${RST}"
+token_info=" ${C_INDIGO}context[${bar_color}${bar_filled}${RST}${bar_empty}${C_INDIGO}] ${bar_color}${used_pct}%${RST}${C_INDIGO}/${context_fmt}${RST}"
 
 # 캐시 정보
-cache_info=" ${WHITE}cache[${GREEN}R:${cache_r_fmt}${RST}${WHITE}/${MAGENTA}W:${cache_w_fmt}${RST}${WHITE}]${RST}"
+cache_info=" ${C_GREEN}cache[R:${cache_r_fmt}/W:${cache_w_fmt}]${RST}"
 
 # 누적 토큰 정보
-cumulative_info=" ${WHITE}tokens[${CYAN}in:${total_in_fmt}${RST}${WHITE}/${GREEN}out:${total_out_fmt}${RST}${WHITE}]${RST}"
+cumulative_info=" ${C_PINK}tokens[in:${total_in_fmt}/out:${total_out_fmt}]${RST}"
 
 # 코드 변경 정보
 diff_info=""
 if [ "$lines_added" -gt 0 ] || [ "$lines_removed" -gt 0 ]; then
-    diff_info=" ${GREEN}+${lines_added}${RST}/${RED}-${lines_removed}${RST}"
+    diff_info=" ${C_BLUE}+${lines_added}/-${lines_removed}${RST}"
 fi
 
-# 세션 시간 및 비용
-session_info=" ${WHITE}${session_time}${RST} ${YELLOW}\$${cost_fmt}${RST}"
+# 세션 시간
+session_info=" ${C_ORANGE}${session_time}${RST}"
+
+# 비용
+cost_info=" ${C_YELLOW}\$${cost_fmt}${RST}"
 
 # 상태 표시줄 출력 (printf %b 로 escape 코드 해석)
-printf '%b' "${BLUE}${username}${RST} ${CYAN}${display_path}${RST}${git_info}${token_info}${cache_info}${cumulative_info}${diff_info}${session_info} ${YELLOW}${model_name}${RST}"
+printf '%b' "${C_RED}${username}${RST} ${C_CYAN}${display_path}${RST}${git_info}${token_info}${cache_info}${cumulative_info}${diff_info}${session_info}${cost_info} ${C_VIOLET}${model_name}${RST}"
