@@ -38,8 +38,8 @@ type = 'kubectl'
 style = 'powerline'
 powerline_symbol = ''
 template = '  {{.Context}}{{if .Namespace}}:{{.Namespace}}{{end}}'
-foreground = '#000000'
-background = "#f9e2af"
+foreground = '#FFD166'
+background = "#433500"
 
 [blocks.segments.properties]
 [blocks.segments.properties.context_aliases]
@@ -49,9 +49,9 @@ background = "#f9e2af"
 type = 'path'
 style = 'powerline'
 powerline_symbol = ''
-template = ' <#000000> </>{{ .Path }}'
-foreground = '#000000'
-background = "#f38ba8"
+template = ' <#74B9FF> </>{{ .Path }}'
+foreground = '#74B9FF'
+background = "#002B54"
 
 [blocks.segments.properties]
 folder_icon = ''
@@ -66,16 +66,22 @@ powerline_symbol = ''
 # template = ' ({{ .UpstreamIcon }}{{ .HEAD }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}) '
 template = " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}"
 background_templates = [
-  "{{ if or (.Working.Changed) (.Staging.Changed) }}#FFEB3B{{ end }}",
-  "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#FFCC80{{ end }}",
-  "{{ if gt .Ahead 0 }}#B388FF{{ end }}",
-  "{{ if gt .Behind 0 }}#B388FB{{ end }}",
+  "{{ if or (.Working.Changed) (.Staging.Changed) }}#4A4A0D{{ end }}",
+  "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#4A4A0D{{ end }}",
+  "{{ if gt .Ahead 0 }}#2A1054{{ end }}",
+  "{{ if gt .Behind 0 }}#2A1054{{ end }}",
 ]
-foreground = '#000000'
-background = "#fab387"
+foreground_templates = [
+  "{{ if or (.Working.Changed) (.Staging.Changed) }}#FFF192{{ end }}",
+  "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#FFF192{{ end }}",
+  "{{ if gt .Ahead 0 }}#C77DFF{{ end }}",
+  "{{ if gt .Behind 0 }}#C77DFF{{ end }}",
+]
+foreground = '#FF7F5F'
+background = "#542A1A"
 
 [blocks.segments.properties]
-branch_icon = ' <#000000> </>'
+branch_icon = '  '
 fetch_status = true
 fetch_upstream_icon = true
 fetch_stash_count = true
@@ -88,8 +94,8 @@ type = 'python'
 style = 'powerline'
 powerline_symbol = ''
 template = ' 󰌠 {{ .Full }}'
-foreground = '#100e23'
-background = '#906cff'
+foreground = '#C77DFF'
+background = '#35004E'
 
 [blocks.segments.properties]
 display_mode = "files"
@@ -98,49 +104,49 @@ display_mode = "files"
 type = 'node'
 style = 'powerline'
 powerline_symbol = ''
-template = ' <#000000>󰎙</> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}'
-foreground = '#000000'
-background = "#a6e3a1"
+template = ' <#55EF72>󰎙</> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}'
+foreground = '#55EF72'
+background = "#0D4E1A"
 
 [[blocks.segments]]
 type = "react"
 style = "powerline"
 powerline_symbol = ""
 template = "  {{ .Full }}"
-foreground = '#000000'
-background = "#81a1c1"
+foreground = '#FF6B9D'
+background = "#54002B"
 
 [[blocks.segments]]
 type = "bun"
 style = 'powerline'
 powerline_symbol = ''
 template = " <#ffffff></> {{ .Full }}"
-foreground = '#000000'
-background = "#3C82F6"
+foreground = '#00E8A2'
+background = "#004A3A"
 
 [[blocks.segments]]
 style = 'powerline'
 type = 'go'
 powerline_symbol = ''
 template = '  {{ .Full }}'
-foreground = '#000000'
-background = '#7FD5EA'
+foreground = '#9B7FFF'
+background = '#1A0054'
 
 [[blocks.segments]]
 style = 'powerline'
 type = 'rust'
 powerline_symbol = ''
 template = '  {{ .Full }}'
-foreground = '#193549'
-background = '#99908a'
+foreground = '#FFAA44'
+background = '#543500'
 
 [[blocks.segments]]
 style = "powerline"
 type = "helm"
 powerline_symbol = ''
 template = '  {{ .Version }}'
-background = "#a7cae1"
-foreground = "#100e23"
+background = "#0D1A54"
+foreground = "#6B8CFF"
 
 [blocks.segments.properties]
 display_mode = "files"
@@ -150,8 +156,8 @@ type = 'time'
 style = 'powerline'
 powerline_symbol = ''
 template = '  {{ .CurrentDate | date .Format }}'
-foreground = '#000000'
-background = "#89b4fa"
+foreground = '#FF5C6F'
+background = "#540012"
 
 [blocks.segments.properties]
 # time_format = '3:04 PM'
@@ -161,9 +167,9 @@ time_format = "15:04:05"
 type = 'executiontime'
 style = 'powerline'
 powerline_symbol = ''
-template = ' <#000000>󰔟</> {{ .FormattedMs }}'
-foreground = '#000000'
-background = "#cba6f7"
+template = ' <#7BEF44>󰔟</> {{ .FormattedMs }}'
+foreground = '#7BEF44'
+background = "#1A5400"
 
 [blocks.segments.properties]
 always_enabled = true
@@ -175,8 +181,8 @@ powerline_symbol = ''
 trailing_diamond = ''
 template = ' {{ if gt .Code 0 }}{{ else }}{{ end }} '
 background_templates = ['{{ if gt .Code 0 }}red{{ end }}']
-foreground = '#ffffff'
-background = "#81c8be"
+foreground = '#FF6BD6'
+background = "#540043"
 
 [blocks.segments.properties]
 always_enabled = true
