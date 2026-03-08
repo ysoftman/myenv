@@ -5,6 +5,7 @@ extend-ignore-identifiers-re = [
   # *sigh* this just isn't worth the cost of fixing
   "iterm",
   "serie",
+  "cowsay",
 ]
 
 # 다음 단어(전체 파일에서) 오타 제외 regexp 패턴

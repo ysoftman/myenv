@@ -150,7 +150,7 @@ function set_path_and_vars {
 
 function launch_neovide {
     if ! command -v neovide >/dev/null 2>&1; then
-        echo "can't find neovid, run nvim" "$@"
+        echo "can't find neovide, run nvim" "$@"
         nvim "$@"
         return
     fi
@@ -336,7 +336,7 @@ function set_fzf {
         # alt-b 는 alt-left(showkey 로 확인)라 alt-B 로 사용하자
         # bindkey "^[B" fzf-git-files-widget
         # bindkey "^[B" fzf-git-tags-widget
-        # bindkey "^[B" fzf-git-retmote-widget
+        # bindkey "^[B" fzf-git-remote-widget
         # bindkey "^[B" fzf-git-hashes-widget
         # bindkey "^[B" fzf-git-stashes-widget
         bindkey "^[B" fzf-git-branches-widget

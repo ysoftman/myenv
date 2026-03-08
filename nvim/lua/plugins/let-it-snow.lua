@@ -20,7 +20,7 @@ return {
           [7] = "\u{2587}",
           [8] = "\u{2588}",
         },
-        ---@type integer Max attempts at spawning a snowfile
+        ---@type integer Max attempts at spawning a snowflake
         max_spawn_attempts = 500,
         ---@type boolean Whether to create highlight groups or not
         create_highlight_groups = true,
