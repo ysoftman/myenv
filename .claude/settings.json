@@ -14,7 +14,6 @@
       "Bash(xargs cat:*)",
       "WebFetch(domain:github.com)",
       "Bash(go install:*)",
-      "mcp__plugin_oh-my-claudecode_t__state_list_active",
       "Bash(git log:*)",
       "Bash(fd:*)",
       "Bash(golangci-lint run:*)"
@@ -22,12 +21,11 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "bash -c 'input=$(cat); custom=$(echo \"$input\" | bash /Users/ysoftman/.claude/statusline-command.sh 2>/dev/null); omc=$(echo \"$input\" | node /Users/ysoftman/.claude/hud/omc-hud.mjs 2>/dev/null); if [ -n \"$custom\" ] && [ -n \"$omc\" ]; then printf \"%s | %s\" \"$custom\" \"$omc\"; elif [ -n \"$custom\" ]; then printf \"%s\" \"$custom\"; elif [ -n \"$omc\" ]; then printf \"%s\" \"$omc\"; fi'"
+    "command": "bash -c 'cat | bash /Users/ysoftman/.claude/statusline-command.sh 2>/dev/null'"
   },
   "enabledPlugins": {
     "gopls-lsp@claude-plugins-official": true,
     "plannotator@plannotator": true,
-    "oh-my-claudecode@omc": true,
     "rust-analyzer-lsp@claude-plugins-official": true
   },
   "language": "korean"

@@ -14,6 +14,33 @@ model_name=$(echo "$input" | jq -r '.model.display_name // "unknown"')
 used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // 0')
 context_size=$(echo "$input" | jq -r '.context_window.context_window_size // 0')
 
+# 세션 시간 가져오기
+duration_ms=$(echo "$input" | jq -r '.cost.total_duration_ms // 0')
+duration_s=$((duration_ms / 1000))
+duration_h=$((duration_s / 3600))
+duration_m=$(((duration_s % 3600) / 60))
+duration_sec=$((duration_s % 60))
+if [ "$duration_h" -gt 0 ]; then
+    session_time="${duration_h}h${duration_m}m"
+else
+    session_time="${duration_m}m${duration_sec}s"
+fi
+
+# 비용 가져오기
+cost_usd=$(echo "$input" | jq -r '.cost.total_cost_usd // 0')
+
+# 캐시 토큰 가져오기
+cache_read=$(echo "$input" | jq -r '.context_window.current_usage.cache_read_input_tokens // 0')
+cache_write=$(echo "$input" | jq -r '.context_window.current_usage.cache_creation_input_tokens // 0')
+
+# 누적 토큰 가져오기
+total_input=$(echo "$input" | jq -r '.context_window.total_input_tokens // 0')
+total_output=$(echo "$input" | jq -r '.context_window.total_output_tokens // 0')
+
+# 코드 변경량 가져오기
+lines_added=$(echo "$input" | jq -r '.cost.total_lines_added // 0')
+lines_removed=$(echo "$input" | jq -r '.cost.total_lines_removed // 0')
+
 # 색상 정의 (연속 코드는 반드시 합쳐서 사용)
 RST='\033[0m'
 BLUE='\033[34m'
@@ -61,8 +88,8 @@ fi
 
 # 프로그레스바 생성
 bar_width=10
-filled=$(( used_pct * bar_width / 100 ))
-empty=$(( bar_width - filled ))
+filled=$((used_pct * bar_width / 100))
+empty=$((bar_width - filled))
 
 # 사용률에 따른 색상 결정
 if [ "$used_pct" -ge 80 ]; then
@@ -83,16 +110,43 @@ for ((i = 0; i < empty; i++)); do
     bar_empty="${bar_empty}░"
 done
 
-# 전체 토큰수를 K 단위로 변환
-if [ "$context_size" -ge 1000000 ]; then
-    context_fmt="$(echo "scale=0; $context_size / 1000" | bc)K"
-elif [ "$context_size" -ge 1000 ]; then
-    context_fmt="$(echo "scale=0; $context_size / 1000" | bc)K"
-else
-    context_fmt="$context_size"
-fi
+# 토큰수를 K 단위로 변환하는 함수
+fmt_tokens() {
+    local n=$1
+    if [ "$n" -ge 1000000 ]; then
+        echo "$(echo "scale=1; $n / 1000000" | bc)M"
+    elif [ "$n" -ge 1000 ]; then
+        echo "$(echo "scale=1; $n / 1000" | bc)K"
+    else
+        echo "$n"
+    fi
+}
+
+context_fmt=$(fmt_tokens "$context_size")
+total_in_fmt=$(fmt_tokens "$total_input")
+total_out_fmt=$(fmt_tokens "$total_output")
+cache_r_fmt=$(fmt_tokens "$cache_read")
+cache_w_fmt=$(fmt_tokens "$cache_write")
+
+# 비용 포맷 (소수점 4자리)
+cost_fmt=$(printf '%.4f' "$cost_usd")
 
 token_info=" ${WHITE}context[${bar_color}${bar_filled}${RST}${bar_empty}${WHITE}] ${bar_color}${used_pct}%${RST}${WHITE}/${context_fmt}${RST}"
 
+# 캐시 정보
+cache_info=" ${WHITE}cache[${GREEN}R:${cache_r_fmt}${RST}${WHITE}/${MAGENTA}W:${cache_w_fmt}${RST}${WHITE}]${RST}"
+
+# 누적 토큰 정보
+cumulative_info=" ${WHITE}tokens[${CYAN}in:${total_in_fmt}${RST}${WHITE}/${GREEN}out:${total_out_fmt}${RST}${WHITE}]${RST}"
+
+# 코드 변경 정보
+diff_info=""
+if [ "$lines_added" -gt 0 ] || [ "$lines_removed" -gt 0 ]; then
+    diff_info=" ${GREEN}+${lines_added}${RST}/${RED}-${lines_removed}${RST}"
+fi
+
+# 세션 시간 및 비용
+session_info=" ${WHITE}${session_time}${RST} ${YELLOW}\$${cost_fmt}${RST}"
+
 # 상태 표시줄 출력 (printf %b 로 escape 코드 해석)
-printf '%b' "${BLUE}${username}${RST} ${CYAN}${display_path}${RST}${git_info}${token_info} ${YELLOW}${model_name}${RST}"
+printf '%b' "${BLUE}${username}${RST} ${CYAN}${display_path}${RST}${git_info}${token_info}${cache_info}${cumulative_info}${diff_info}${session_info} ${YELLOW}${model_name}${RST}"
