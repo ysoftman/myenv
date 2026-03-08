@@ -149,3 +149,10 @@ if [ -x "($command -v brew)" ] && [ -f "$(brew --prefix)/share/google-cloud-sdk/
 #zprof
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# --- Zellij-tmux-shim (Claude Code agent teams in zellij) ---
+if [[ -n "$ZELLIJ" ]]; then
+    _shim="${XDG_DATA_HOME:-$HOME/.local/share}/zellij-tmux-shim/activate.sh"
+    [[ -f "$_shim" ]] && source "$_shim"
+    unset _shim
+fi
