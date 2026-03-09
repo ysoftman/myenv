@@ -128,7 +128,7 @@ background = "#004A3A"
 style = 'powerline'
 type = 'go'
 powerline_symbol = ''
-template = '  {{ .Full }}'
+template = '  {{ .Full }}'
 foreground = '#9B7FFF'
 background = '#1A0054'
 
