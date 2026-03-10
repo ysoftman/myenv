@@ -56,7 +56,7 @@ background = "#002B54"
 [blocks.segments.properties]
 folder_icon = ''
 folder_separator_icon = '/'
-home_icon = ''
+home_icon = '~'
 style = 'full'
 
 [[blocks.segments]]
