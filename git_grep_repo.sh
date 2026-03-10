@@ -65,6 +65,7 @@ git_clone_ysoftman_repository() {
     git_clone_and_pull https://github.com/ysoftman/cutstring
     git_clone_and_pull https://github.com/ysoftman/dvc_test
     git_clone_and_pull https://github.com/ysoftman/enchash
+    git_clone_and_pull https://github.com/ysoftman/findm.git
     git_clone_and_pull https://github.com/ysoftman/git-lfs-test.git
     git_clone_and_pull https://github.com/ysoftman/github_webhook_action.git
     git_clone_and_pull https://github.com/ysoftman/myenv.git
@@ -75,6 +76,7 @@ git_clone_ysoftman_repository() {
     git_clone_and_pull https://github.com/ysoftman/ysoftman
     git_clone_and_pull https://github.com/ysoftman/ysoftman-lemon.git
     git_clone_and_pull https://github.com/ysoftman/ysoftman.github.io
+    git_local_settings_for_ysoftman
 }
 
 # ysoftman 저장소를 사용하는 소스들의 로컬 git 설정
