@@ -4,6 +4,9 @@
   },
   "permissions": {
     "allow": [
+      "Read",
+      "Glob",
+      "Grep",
       "Bash(go build *)",
       "Bash(go install *)",
       "Bash(go run *)",
