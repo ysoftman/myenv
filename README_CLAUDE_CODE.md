@@ -1,3 +1,18 @@
+# ysoftman personal settings for claude code
+
+claude code 관련 개인 설정 및 설명입니다.
+
+## mcp 설치
+
+```bash
+# 인증은 claude code  > mcp > atlassian > 웹 로그인
+claude mcp add -s user --transport sse atlassian https://mcp.atlassian.com/v1/sse
+```
+
+## local LLM 연결해서 사용할 경우
+
+```bash
+cat >> .local_llm_env_for_claude_code << zzz
 # 로컬 llm URL
 export ANTHROPIC_BASE_URL="http://localhost:8001"
 
@@ -13,11 +28,14 @@ export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
 
 # API 요청 시 Claude Code가 보내는 attribution 헤더(어떤 클라이언트에서 요청했는지 식별하는 정보)를 비활성화
 export CLAUDE_CODE_ATTRIBUTION_HEADER=0
+zzz
 
 # claude code 에서는 openAI api 호환이 되지 않아 중간에 litellm(proxy) 서버를 둬야 한다.
 # 참고로 litellm[proxy] 로 기본 + 프록시 실행에 필요한 추가 패키지들(backoff, uvicorn, fastapi 등)을 함께 설치해야 한다.
-# uv pip install 'litellm[proxy]' --system
+uv pip install 'litellm[proxy]' --system
 
 # litellm 프록시로 변환
-# litellm --model qwen-coder3 --api_base http://localhost:11434/v1 --port 8001
+litellm --model qwen-coder3 --api_base http://localhost:11434/v1 --port 8001
 
+source .local_llm_env_for_claude_code; claude --model qwen3-coder
+```
