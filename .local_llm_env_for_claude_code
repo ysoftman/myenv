@@ -1,0 +1,23 @@
+# 로컬 llm URL
+export ANTHROPIC_BASE_URL="http://localhost:8001"
+
+# 더미값으로 설정하면 된다.(sk:SecretKey)
+export ANTHROPIC_API_KEY="sk-dummy-key"
+
+# Claude Code의 외부 통신을 최소화하기 위해 다음 환경변수도 설정하자.
+# 텔레메트리(사용 통계 수집)를 비활성화
+export CLAUDE_CODE_ENABLE_TELEMETRY=0
+
+# 핵심 API 호출 외의 불필요한 네트워크 트래픽 차단
+export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+
+# API 요청 시 Claude Code가 보내는 attribution 헤더(어떤 클라이언트에서 요청했는지 식별하는 정보)를 비활성화
+export CLAUDE_CODE_ATTRIBUTION_HEADER=0
+
+# claude code 에서는 openAI api 호환이 되지 않아 중간에 litellm(proxy) 서버를 둬야 한다.
+# 참고로 litellm[proxy] 로 기본 + 프록시 실행에 필요한 추가 패키지들(backoff, uvicorn, fastapi 등)을 함께 설치해야 한다.
+# uv pip install 'litellm[proxy]' --system
+
+# litellm 프록시로 변환
+# litellm --model qwen-coder3 --api_base http://localhost:11434/v1 --port 8001
+
