@@ -2,7 +2,7 @@
 
 ## Git 작업 시 확인
 
-git commit, push, force push, branch 삭제 등 되돌리기 어려운 git 작업은 실행 전에 반드시 사용자에게 확인을 받는다. 커밋 메시지는 항상 영어로 작성한다. Co-Authored-By 라인은 커밋 메시지에 포함하지 않는다.
+git commit, push, force push, branch 삭제 등 되돌리기 어려운 git 작업은 실행 전에 반드시 사용자에게 확인을 받는다. 커밋 메시지는 항상 영어로 작성한다. Co-Authored-By 라인은 커밋 메시지에 포함하지 않는다. PR, issue, 커밋 등 GitHub 액션에 Claude Code 사용 문구(예: "Generated with Claude Code")를 추가하지 않는다.
 
 ## 코드 수정 후 체크
 
