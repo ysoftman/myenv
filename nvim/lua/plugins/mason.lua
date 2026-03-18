@@ -9,6 +9,7 @@ return {
         "ansible-language-server",
         "ansible-lint",
         "biome",
+        "codelldb",
         "black",
         "delve",
         "gofumpt",
