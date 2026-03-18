@@ -39,7 +39,7 @@ git_grep_repo() {
 git_pull_all() {
     for dir in $(fd -H -I -d 2 ".git$" | awk -F "/.git" "{print \$1}"); do
         printf "${green}[%s]==> $reset_color" "$dir"
-        git -C "$dir" pull
+        git -C "$dir" pull --prune
     done
 }
 
