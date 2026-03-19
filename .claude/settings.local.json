@@ -63,7 +63,12 @@
       "Bash(cargo:*)",
       "WebFetch(domain:ohmyposh.dev)",
       "Bash(litellm:*)",
-      "Bash(lsof:*)"
+      "Bash(lsof:*)",
+      "Bash(fzf --version)",
+      "Bash(/usr/bin/ruby --disable-gems -e 'puts File.expand_path\\(ARGV.first\\)' /Users/ysoftman/workspace/myenv/fzf-git.sh)",
+      "Bash(zsh -c 'source /Users/ysoftman/workspace/myenv/myenv.sh 2>&1; bindkey | grep -i \"fzf-git\"')",
+      "Bash(zsh -i -c '_fzf_git_branches')",
+      "Bash(TMUX=zellij-shim:/tmp/zellij-shim,75130,0 fzf-tmux -p80%,60% -- --version 2>&1)"
     ]
   }
 }
