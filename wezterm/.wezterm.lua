@@ -16,12 +16,11 @@ config.tab_bar_at_bottom = false
 
 config.window_close_confirmation = "AlwaysPrompt" -- AlwaysPrompt 또는 NeverPrompt
 
+-- config.window_decorations = "TITLE | RESIZE" -- 위쪽 제목표시 + 윈도우 크기 조정이 됨
 -- config.window_decorations = "RESIZE" -- 위쪽 제목표시 줄 없애기 윈도우 크기 조정이 됨
 -- mac os tahoe(26.3.1)에서 MACOS_FORCE_DISABLE_SHADOW 가 없으면 gpu 50%가 넘어간다.
 -- 그래도 alacritty GPU 사용률 보단 좀 높다.
 config.window_decorations = "MACOS_FORCE_DISABLE_SHADOW | RESIZE"
-
--- config.window_decorations = "TITLE | RESIZE" -- 위쪽 제목표시 + 윈도우 크기 조정이 됨
 
 config.window_padding = {
 	left = 0,
