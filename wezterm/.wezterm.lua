@@ -18,9 +18,11 @@ config.window_close_confirmation = "AlwaysPrompt" -- AlwaysPrompt 또는 NeverPr
 
 -- config.window_decorations = "TITLE | RESIZE" -- 위쪽 제목표시 + 윈도우 크기 조정이 됨
 -- config.window_decorations = "RESIZE" -- 위쪽 제목표시 줄 없애기 윈도우 크기 조정이 됨
--- mac os tahoe(26.3.1)에서 MACOS_FORCE_DISABLE_SHADOW 가 없으면 gpu 50%가 넘어간다.
+-- mac os tahoe(26.3.1)에서 MACOS_FORCE_DISABLE_SHADOW 가 없으면 GPU 50%가 넘어간다.
 -- 그래도 alacritty GPU 사용률 보단 좀 높다.
 config.window_decorations = "MACOS_FORCE_DISABLE_SHADOW | RESIZE"
+config.window_background_opacity = 1.0
+config.macos_window_background_blur = 50
 
 config.window_padding = {
 	left = 0,
@@ -46,8 +48,18 @@ wezterm.on("update-right-status", function(window, _)
 	}))
 end)
 
--- config.window_background_opacity = 0.7
--- config.macos_window_background_blur = 80
+-- 커서 깜박임 속도(작을수록 빠르고 GPU 사용률도 높다.)
+config.cursor_blink_rate = 500
+-- 일정한 속도로 밝아집니다.(아무것도 안하고 그냥 커서 깜박임에 GPU 사용률 10%)
+-- config.cursor_blink_ease_in = "Linear"
+-- config.cursor_blink_ease_out = "Linear"
+-- 시작은 아주 느리게, 끝으로 갈수록 빠르게 밝아집니다.(아무것도 안하고 그냥 커서 깜박임에 GPU 사용률 10%)
+-- config.cursor_blink_ease_in = "EaseIn"
+-- config.cursor_blink_ease_out = "EaseOut"
+-- 깜박임이 즉각적으로 켜졌다 꺼지게(아무것도 안하고 그냥 커서 깜박임에 GPU 사용률 3~4%)
+config.cursor_blink_ease_in = "Constant"
+config.cursor_blink_ease_out = "Constant"
+config.default_cursor_style = "BlinkingBlock" -- BlinkingBlock,BlinkingBar,SteadyBar,SteadyUnderline,BlinkingUnderline
 
 -- https://wezterm.org/colorschemes/index.html
 -- config.color_scheme = "AdventureTime"
@@ -98,19 +110,6 @@ config.colors = {
 	quick_select_match_bg = { AnsiColor = "Navy" },
 	quick_select_match_fg = { Color = "#ffffff" },
 }
-
--- 커서 애니메이션 (Neovide 느낌)
-config.cursor_blink_rate = 500
--- 깜박임이 즉각적으로 켜졌다 꺼지게 설정
--- config.cursor_blink_ease_in = "Constant"
--- config.cursor_blink_ease_out = "Constant"
--- 점진적인 효과
--- config.cursor_blink_ease_in = "EaseIn"
--- config.cursor_blink_ease_out = "EaseOut"
-config.cursor_blink_ease_in = "Linear"
-config.cursor_blink_ease_out = "Linear"
-
-config.default_cursor_style = "BlinkingBlock" -- BlinkingBlock,BlinkingBar,SteadyBar,SteadyUnderline,BlinkingUnderline
 
 config.font_size = 16
 
