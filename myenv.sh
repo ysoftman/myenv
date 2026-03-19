@@ -332,7 +332,17 @@ function set_fzf {
         bindkey "^r" fzf-history-widget
 
         source "${myenv_path}/fzf-git.sh"
-        # fzf-git.sh 에선 ctrl-g ctrl-b 로 사용하는데, zellij 와 중복되어 alt-b 로도 바인딩함
+        # zellij 환경에서 fzf-tmux 가 tmux popup 을 시도하면 실패하므로 fzf 를 직접 사용
+        if [[ -n "$ZELLIJ" ]]; then
+            _fzf_git_fzf() {
+                fzf --layout=reverse --multi --height=50% --min-height=20 --border \
+                    --border-label-pos=2 \
+                    --color='header:italic:underline,label:blue' \
+                    --preview-window='right,50%,border-left' \
+                    --bind='ctrl-/:change-preview-window(down,50%,border-top|hidden|)' "$@"
+            }
+        fi
+        # fzf-git.sh 에선 ctrl-g ctrl-b 로 사용하는데, zellij 와 중복되어 alt-B 로도 바인딩함
         # alt-b 는 alt-left(showkey 로 확인)라 alt-B 로 사용하자
         # bindkey "^[B" fzf-git-files-widget
         # bindkey "^[B" fzf-git-tags-widget
