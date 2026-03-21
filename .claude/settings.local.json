@@ -73,7 +73,8 @@
       "Bash(brew list:*)",
       "Bash(brew untap:*)",
       "Bash(rm .claude/commands/commit.md .claude/commands/typos.md .claude/commands/team.md .claude/commands/tldr.md .claude/commands/jira.md)",
-      "Bash(rmdir .claude/commands)"
+      "Bash(rmdir .claude/commands)",
+      "Bash(claude mcp:*)"
     ]
   }
 }
