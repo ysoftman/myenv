@@ -71,7 +71,9 @@
       "Bash(TMUX=zellij-shim:/tmp/zellij-shim,75130,0 fzf-tmux -p80%,60% -- --version 2>&1)",
       "Bash(brew tap:*)",
       "Bash(brew list:*)",
-      "Bash(brew untap:*)"
+      "Bash(brew untap:*)",
+      "Bash(rm .claude/commands/commit.md .claude/commands/typos.md .claude/commands/team.md .claude/commands/tldr.md .claude/commands/jira.md)",
+      "Bash(rmdir .claude/commands)"
     ]
   }
 }

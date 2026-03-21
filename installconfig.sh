@@ -87,7 +87,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ${HOME}/.claude/settings.json ] && unlink ${HOME}/.claude/settings.json
 [ -h ${HOME}/.claude/statusline-command.sh ] && unlink ${HOME}/.claude/statusline-command.sh
 [ -h ${HOME}/.claude/agents ] && unlink ${HOME}/.claude/agents
-[ -h ${HOME}/.claude/commands ] && unlink ${HOME}/.claude/commands
+[ -h ${HOME}/.claude/skills ] && unlink ${HOME}/.claude/skills
 [ -h ${XDG_CONFIG_HOME}/opencode.json ] && unlink ${XDG_CONFIG_HOME}/opencode/opencode.json
 [ -h ${XDG_CONFIG_HOME}/oh-my-opencode.json ] && unlink ${XDG_CONFIG_HOME}/opencode/oh-my-opencode.json
 [ -h ${XDG_CONFIG_HOME}/nvim ] && unlink ${XDG_CONFIG_HOME}/nvim
@@ -123,7 +123,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -f ${HOME}/.claude/settings.json ] && mv -fv ${HOME}/.claude/settings.json ${HOME}/.claude/settings.json.bak
 [ -f ${HOME}/.claude/statusline-command.sh ] && mv -fv ${HOME}/.claude/statusline-command.sh ${HOME}/.claude/statusline-command.sh.bak
 [ -d ${HOME}/.claude/agents ] && mv -fv ${HOME}/.claude/agents ${HOME}/.claude/agents.bak
-[ -d ${HOME}/.claude/commands ] && mv -fv ${HOME}/.claude/commands ${HOME}/.claude/commands.bak
+[ -d ${HOME}/.claude/skills ] && mv -fv ${HOME}/.claude/skills ${HOME}/.claude/skills.bak
 [ -f ${XDG_CONFIG_HOME}/opencode/opencode.json ] && mv -fv ${XDG_CONFIG_HOME}/opencode/opencode.json ${XDG_CONFIG_HOME}/opencode/opencode.json.bak
 [ -f ${XDG_CONFIG_HOME}/opencode/oh-my-opencode.json ] && mv -fv ${XDG_CONFIG_HOME}/opencode/oh-my-opencode.json ${XDG_CONFIG_HOME}/opencode/oh-my-opencode.json.bak
 [ -f ${XDG_CONFIG_HOME}/nvim/init.vim ] && mv -fv ${XDG_CONFIG_HOME}/nvim ${XDG_CONFIG_HOME}/nvim.bak
@@ -158,7 +158,7 @@ ln -sfv ${PWD}/.claude/CLAUDE.md ${HOME}/.claude/CLAUDE.md
 ln -sfv ${PWD}/.claude/settings.json ${HOME}/.claude/settings.json
 ln -sfv ${PWD}/.claude/statusline-command.sh ${HOME}/.claude/statusline-command.sh
 ln -sfv ${PWD}/.claude/agents ${HOME}/.claude/agents
-ln -sfv ${PWD}/.claude/commands ${HOME}/.claude/commands
+ln -sfv ${PWD}/.claude/skills ${HOME}/.claude/skills
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/opencode/opencode.json ${XDG_CONFIG_HOME}/opencode/opencode.json
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/opencode/oh-my-opencode.json ${XDG_CONFIG_HOME}/opencode/oh-my-opencode.json
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/nvim ${XDG_CONFIG_HOME}/nvim

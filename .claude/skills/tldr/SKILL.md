@@ -1,4 +1,5 @@
 ---
+name: tldr
 description: Explain programming language syntax with examples
 allowed-tools: WebSearch, WebFetch
 model: claude-sonnet-4-6

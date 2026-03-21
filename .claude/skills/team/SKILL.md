@@ -1,4 +1,5 @@
 ---
+name: team
 description: Start an agent team for parallel collaborative work
 allowed-tools: Agent, Bash(tmux:*), TaskCreate, TaskUpdate, TaskList, TaskGet, SendMessage, TeamCreate, TeamDelete
 ---
