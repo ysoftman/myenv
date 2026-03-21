@@ -6,4 +6,4 @@ lazy-lock.json
 cava/shaders
 cava/themes
 .ansible
-
+.local_llm_env_for_claude_code
