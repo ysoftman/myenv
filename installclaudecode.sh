@@ -4,13 +4,13 @@
 
 set -euo pipefail
 
-# bun으로 claude code 설치
-echo "bun으로 Claude Code를 설치합니다..."
-bun install -g @anthropic-ai/claude-code
+# claude code 설치
+echo "Claude Code를 설치합니다..."
+curl -fsSL https://claude.ai/install.sh | bash
 
 # mcp 설치
 # 인증은 claude code > mcp > atlassian > 웹 로그인
-if claude mcp list -s user 2>/dev/null | grep -q "atlassian"; then
+if claude mcp list 2>&1 | grep -q "atlassian"; then
     echo "Atlassian MCP 서버가 이미 설정되어 있습니다. 스킵합니다."
 else
     echo "Atlassian MCP 서버를 설치합니다..."
