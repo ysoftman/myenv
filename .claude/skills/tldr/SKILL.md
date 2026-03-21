@@ -2,10 +2,9 @@
 name: tldr
 description: Explain programming language syntax with examples
 allowed-tools: WebSearch, WebFetch
-model: claude-sonnet-4-6
 ---
 
-## Programming Language Syntax Explainer
+# Programming Language Syntax Explainer
 
 사용자 입력: $ARGUMENTS
 

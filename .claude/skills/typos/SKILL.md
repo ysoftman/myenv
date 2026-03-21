@@ -4,7 +4,7 @@ description: Check typos in the current project (English and Korean)
 allowed-tools: Agent(typo-checker), Bash(typos:*), Bash(git diff:*), Bash(git status:*)
 ---
 
-## Typo Check
+# Typo Check
 
 Use the `typo-checker` agent to scan the current project for typos, spelling mistakes, and naming inconsistencies.
 

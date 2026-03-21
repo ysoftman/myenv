@@ -4,7 +4,7 @@ description: Start an agent team for parallel collaborative work
 allowed-tools: Agent, Bash(tmux:*), TaskCreate, TaskUpdate, TaskList, TaskGet, SendMessage, TeamCreate, TeamDelete
 ---
 
-## Agent Team Mode
+# Agent Team Mode
 
 Create an agent team to work on the given task in parallel.
 
