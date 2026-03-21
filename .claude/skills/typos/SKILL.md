@@ -1,4 +1,5 @@
 ---
+name: typos
 description: Check typos in the current project (English and Korean)
 allowed-tools: Agent(typo-checker), Bash(typos:*), Bash(git diff:*), Bash(git status:*)
 ---
