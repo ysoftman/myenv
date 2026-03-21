@@ -17,8 +17,9 @@ disable-model-invocation: true
    - Co-Authored-By 라인은 포함하지 않음
    - Claude Code 사용 문구를 포함하지 않음
 4. 사용자에게 커밋 메시지와 대상 파일을 보여주고 확인을 받습니다.
-5. 확인 후 `git add`로 해당 파일만 staging하고 커밋합니다.
-6. 커밋 메시지는 HEREDOC 형식으로 전달합니다:
+5. 확인 후 `git status`와 `git diff`를 다시 실행하여 대기 중 추가 변경이 없는지 확인합니다. 변경이 있으면 1단계부터 다시 수행합니다.
+6. `git add`로 해당 파일만 staging하고 커밋합니다.
+7. 커밋 메시지는 HEREDOC 형식으로 전달합니다:
 
 ```bash
 git commit -m "$(cat <<'EOF'
