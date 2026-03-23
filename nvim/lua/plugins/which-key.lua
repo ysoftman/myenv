@@ -10,6 +10,13 @@ return {
       -- which-key 팝업을 띄울 트리거 키를 지정합니다.
       triggers = {
         { "<leader>", mode = { "n", "v" } },
+        { "g", mode = { "n", "v" } },
+        { "z", mode = { "n", "v" } },
+        { "[", mode = { "n", "v" } },
+        { "]", mode = { "n", "v" } },
+        { '"', mode = "n" },
+        { "`", mode = "n" },
+        { "<C-w>", mode = "n" },
       },
       spec = {
         {
@@ -21,6 +28,7 @@ return {
           { "<leader>f", group = "file/find" },
           { "<leader>g", group = "git/gen" }, -- add gen plugin
           { "<leader>gh", group = "hunks" },
+          { "<leader>o", group = "opencode" },
           { "<leader>q", group = "quit/session" },
           { "<leader>s", group = "search" },
           { "<leader>u", group = "ui", icon = { icon = "󰙵 ", color = "cyan" } },
@@ -29,6 +37,7 @@ return {
           { "]", group = "next" },
           { "g", group = "goto" },
           { "gs", group = "surround" },
+          { "gx", desc = "Open with system app" }, -- better descriptions
           { "z", group = "fold" },
           {
             "<leader>b",
@@ -45,8 +54,6 @@ return {
               return require("which-key.extras").expand.win()
             end,
           },
-          -- better descriptions
-          { "gx", desc = "Open with system app" },
         },
       },
     },
