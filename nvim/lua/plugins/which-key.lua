@@ -16,7 +16,7 @@ return {
         { "]", mode = { "n", "v" } },
         { '"', mode = "n" },
         { "`", mode = "n" },
-        { "<C-w>", mode = "n" },
+        { "<C-w>", mode = { "n", "t" } },
       },
       spec = {
         {
@@ -28,6 +28,7 @@ return {
           { "<leader>f", group = "file/find" },
           { "<leader>g", group = "git/gen" }, -- add gen plugin
           { "<leader>gh", group = "hunks" },
+          { "<leader>a", group = "claude code" },
           { "<leader>o", group = "opencode" },
           { "<leader>q", group = "quit/session" },
           { "<leader>s", group = "search" },

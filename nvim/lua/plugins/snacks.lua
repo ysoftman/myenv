@@ -22,11 +22,14 @@ return {
     quickfile = { enabled = true },
     terminal = {
       win = {
+        -- 터미널 모드에서 <C-w>h/j/k/l 로 포커스 이동
+        -- <C-w>H/J/K/L (대문자) 창 위치 이동
+        -- <C-w>+/-/>/< 창 크기 조절
         keys = {
-          nav_h = { "<C-h>", term_nav("h"), desc = "Go to Left Window", expr = true, mode = "t" },
-          nav_j = { "<C-j>", term_nav("j"), desc = "Go to Lower Window", expr = true, mode = "t" },
-          nav_k = { "<C-k>", term_nav("k"), desc = "Go to Upper Window", expr = true, mode = "t" },
-          nav_l = { "<C-l>", term_nav("l"), desc = "Go to Right Window", expr = true, mode = "t" },
+          nav_h = { "<C-w>h", term_nav("h"), desc = "Go to Left Window", expr = true, mode = "t" },
+          nav_j = { "<C-w>j", term_nav("j"), desc = "Go to Lower Window", expr = true, mode = "t" },
+          nav_k = { "<C-w>k", term_nav("k"), desc = "Go to Upper Window", expr = true, mode = "t" },
+          nav_l = { "<C-w>l", term_nav("l"), desc = "Go to Right Window", expr = true, mode = "t" },
         },
       },
     },
