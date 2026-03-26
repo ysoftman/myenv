@@ -41,6 +41,7 @@ USER_PLUGINS=(
     "ralph-loop@claude-plugins-official"
     "plannotator@plannotator"
     "skill-creator@claude-plugins-official"
+    "example-skills@anthropic-agent-skills"
 )
 for plugin in "${USER_PLUGINS[@]}"; do
     if claude plugins list 2>&1 | grep -q "${plugin%%@*}"; then
