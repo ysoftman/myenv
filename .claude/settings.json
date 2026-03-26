@@ -81,14 +81,16 @@
     "plannotator@plannotator": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
     "ralph-loop@claude-plugins-official": true,
-    "skill-creator@claude-plugins-official": true
+    "skill-creator@claude-plugins-official": true,
+    "example-skills@anthropic-agent-skills": true
   },
   "extraKnownMarketplaces": {
     "anthropic-agent-skills": {
       "source": {
         "source": "github",
         "repo": "anthropics/skills"
-      }
+      },
+      "autoUpdate": true
     }
   },
   "language": "korean"
