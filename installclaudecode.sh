@@ -18,6 +18,39 @@ else
     echo "완료. claude code > mcp > atlassian 에서 웹 로그인하세요."
 fi
 
+# marketplace 추가
+# claude-plugins-official 은 기본 포함
+USER_MARKETPLACES=(
+    "backnotprop/plannotator"
+    "anthropics/skills"
+)
+for mp in "${USER_MARKETPLACES[@]}"; do
+    mp_name="${mp##*/}"
+    if claude plugin marketplace list 2>&1 | grep -q "${mp_name}"; then
+        echo "Marketplace ${mp}이(가) 이미 설정되어 있습니다. 스킵합니다."
+    else
+        echo "Marketplace ${mp}을(를) 추가합니다..."
+        claude plugin marketplace add -s user "${mp}"
+    fi
+done
+
+# 플러그인 설치 (user scope)
+USER_PLUGINS=(
+    "gopls-lsp@claude-plugins-official"
+    "rust-analyzer-lsp@claude-plugins-official"
+    "ralph-loop@claude-plugins-official"
+    "plannotator@plannotator"
+    "skill-creator@claude-plugins-official"
+)
+for plugin in "${USER_PLUGINS[@]}"; do
+    if claude plugins list 2>&1 | grep -q "${plugin%%@*}"; then
+        echo "플러그인 ${plugin}이(가) 이미 설치되어 있습니다. 스킵합니다."
+    else
+        echo "플러그인 ${plugin}을(를) 설치합니다..."
+        claude plugins install -s user "${plugin}"
+    fi
+done
+
 # local LLM 연결해서 사용할 경우
 # 환경변수 파일 생성
 ENV_FILE=".local_llm_env_for_claude_code"
