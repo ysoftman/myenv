@@ -226,6 +226,7 @@ function set_alias {
     alias ghissueview='gh issue view' # 뒤에 이슈번호 아규먼트 명시
     alias k='kubectl'
     alias duf="duf -theme dark"
+    alias shfmt='shfmt -i 4 -ci'
     # ssh 원격 접속시 clear 실행하면 'alacritty': unknown terminal type. 메시지 발생 방지
     alias ssh='TERM=xterm-256color ssh'
 
