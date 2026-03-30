@@ -71,6 +71,7 @@ git_clone_ysoftman_repository() {
     git_clone_and_pull https://github.com/ysoftman/myenv.git
     git_clone_and_pull https://github.com/ysoftman/ohmystock.git
     git_clone_and_pull https://github.com/ysoftman/pr-slack-notifier
+    git_clone_and_pull https://github.com/ysoftman/supabase
     git_clone_and_pull https://github.com/ysoftman/taja
     git_clone_and_pull https://github.com/ysoftman/test_code
     git_clone_and_pull https://github.com/ysoftman/watchDust
