@@ -37,7 +37,7 @@ git_grep_repo() {
 
 # 현재 하위 모든 git 디렉토리 pull 받기
 git_pull_all() {
-    for dir in $(fd -H -I -d 2 ".git$" | awk -F "/.git" "{print \$1}"); do
+    for dir in $(fd -H -I -d 2 ".git$" | sed 's|/\.git/$||; s|^\.git/$|.|'); do
         printf "${green}[%s]==> $reset_color" "$dir"
         git -C "$dir" pull --prune
     done
