@@ -1,4 +1,5 @@
 return {
+  -- https://github.com/ibhagwan/fzf-lua
   "ibhagwan/fzf-lua",
   -- optional for icon support
   dependencies = { "nvim-tree/nvim-web-devicons", { "junegunn/fzf", build = "./install --bin" } },
@@ -12,8 +13,8 @@ return {
           -- default uses the 'builtin' previewer
           border = "border", -- border|noborder, applies only to
           -- native fzf previewers (bat/cat/git/etc)
-          wrap = "nowrap", -- wrap|nowrap
-          hidden = "nohidden", -- hidden|nohidden
+          wrap = false, -- true|false
+          hidden = false, -- true|false
           vertical = "down:45%", -- up|down:size
           horizontal = "right:60%", -- right|left:size
           layout = "vertical", -- horizontal|vertical|flex
@@ -24,7 +25,7 @@ return {
           scrollbar = "float", -- `false` or string:'float|border'
           -- float:  in-window floating border
           -- border: in-border chars (see below)
-          scrolloff = "-2", -- float scrollbar offset from right
+          scrolloff = -2, -- float scrollbar offset from right
           -- applies only when scrollbar = 'float'
           scrollchars = { "█", "" }, -- scrollbar chars ({ <full>, <empty> }
           -- applies only when scrollbar = 'border'
@@ -40,6 +41,8 @@ return {
             list = false,
             foldenable = false,
             foldmethod = "manual",
+            scrolloff = 0,
+            winblend = 0,
           },
         },
       },
