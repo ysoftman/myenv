@@ -82,7 +82,8 @@
     "rust-analyzer-lsp@claude-plugins-official": true,
     "ralph-loop@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
-    "example-skills@anthropic-agent-skills": true
+    "example-skills@anthropic-agent-skills": true,
+    "lua-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "anthropic-agent-skills": {

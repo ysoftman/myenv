@@ -3,18 +3,10 @@ return {
     -- https://github.com/hrsh7th/nvim-cmp
     "hrsh7th/nvim-cmp",
     dependencies = { "hrsh7th/cmp-emoji" },
-    ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
+      opts.sources = opts.sources or {}
       table.insert(opts.sources, { name = "emoji" })
-    end,
-  },
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      "hrsh7th/cmp-emoji",
-    },
-    ---@param opts cmp.ConfigSchema
-    opts = function(_, opts)
+
       local has_words_before = function()
         unpack = unpack or table.unpack
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -24,12 +16,10 @@ return {
       local luasnip = require("luasnip")
       local cmp = require("cmp")
 
-      opts.mapping = vim.tbl_extend("force", opts.mapping, {
+      opts.mapping = vim.tbl_extend("force", opts.mapping or {}, {
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
-            -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-            -- this way you will only jump inside the snippet region
           elseif luasnip.expand_or_jumpable() then
             luasnip.expand_or_jump()
           elseif has_words_before() then
