@@ -1,9 +1,9 @@
 return {
+  -- https://github.com/nickjvandyke/opencode.nvim
   "NickvanDyke/opencode.nvim",
   dependencies = {
     -- Recommended for `ask()` and `select()`.
     -- Required for `snacks` provider.
-    ---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
     { "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
   },
   -- lazy.nvim에 키맵을 미리 등록하여 which-key에 표시되고,
