@@ -1,4 +1,5 @@
 return {
+  -- https://github.com/mfussenegger/nvim-lint
   "mfussenegger/nvim-lint",
   event = "LazyFile",
   opts = {
@@ -32,6 +33,7 @@ return {
     local lint = require("lint")
     for name, linter in pairs(opts.linters) do
       if type(linter) == "table" and type(lint.linters[name]) == "table" then
+        ---@diagnostic disable-next-line: param-type-mismatch
         lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name], linter)
         if type(linter.prepend_args) == "table" then
           lint.linters[name].args = lint.linters[name].args or {}
@@ -44,7 +46,7 @@ return {
     lint.linters_by_ft = opts.linters_by_ft
 
     function M.debounce(ms, fn)
-      local timer = vim.uv.new_timer()
+      local timer = assert(vim.uv.new_timer())
       return function(...)
         local argv = { ... }
         timer:start(ms, 0, function()
@@ -80,6 +82,7 @@ return {
         if not linter then
           LazyVim.warn("Linter not found: " .. name, { title = "nvim-lint" })
         end
+        ---@diagnostic disable-next-line: undefined-field
         return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
       end, names)
 
