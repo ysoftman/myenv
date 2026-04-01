@@ -338,36 +338,7 @@ return {
         -- example to setup with typescript.nvim
         -- Specify * to use this function as a fallback for any server
         -- ["*"] = function(server, opts) end,
-        taplo = function()
-          -- neovim 0.11.x 에서 taplo 서버 종료 시 NO_RESULT_CALLBACK_FOUND 에러 발생
-          -- 원인: client.lua:_on_error() 에서 write_error()(로그+UI 에러 표시)를 먼저 실행한 뒤
-          -- 사용자 on_error 콜백을 호출하므로, on_error 콜백으로는 에러 표시를 막을 수 없음
-          -- LSP 스펙상 서버가 shutdown 중 에러 응답(-32600)을 보내는 것은 정상이지만,
-          -- neovim 0.11.x 부터 에러 리포팅이 엄격해지면서 이전 버전에서 무시되던 에러가 표면화됨
-          -- taplo 문제가 아니라 neovim LSP client 쪽 수정이 필요하며,
-          -- neovim 업데이트 버전에서 shutdown 시 에러를 graceful 하게 처리하면 제거 가능
-          -- https://github.com/neovim/neovim/issues/11515
-          -- https://github.com/neovim/neovim/issues/15844
-          vim.api.nvim_create_autocmd("LspAttach", {
-            group = vim.api.nvim_create_augroup("TaploErrorSuppress", { clear = true }),
-            callback = function(args)
-              local client = vim.lsp.get_client_by_id(args.data.client_id)
-              if not client or client.name ~= "taplo" then
-                return
-              end
-              -- client:write_error() 를 override 하여 NO_RESULT_CALLBACK_FOUND 에러를 무시
-              local orig_write_error = client.write_error
-              client.write_error = function(self, code, err)
-                local client_error = vim.lsp.rpc.client_errors[code]
-                if client_error == "NO_RESULT_CALLBACK_FOUND" then
-                  return
-                end
-                return orig_write_error(self, code, err)
-              end
-            end,
-          })
-          -- return nil: lspconfig 기본 setup 계속 진행
-        end,
+        taplo = function() end,
         tsserver = function(_, opts)
           require("typescript").setup({ server = opts })
           return true
