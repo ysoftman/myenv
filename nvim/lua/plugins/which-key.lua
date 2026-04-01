@@ -6,17 +6,19 @@ return {
     opts_extend = { "spec" },
     opts = {
       preset = "helix",
-      defaults = {},
       -- which-key 팝업을 띄울 트리거 키를 지정합니다.
       triggers = {
-        { "<leader>", mode = { "n", "v" } },
-        { "g", mode = { "n", "v" } },
-        { "z", mode = { "n", "v" } },
-        { "[", mode = { "n", "v" } },
-        { "]", mode = { "n", "v" } },
+        { "'", mode = "n" },
         { '"', mode = "n" },
         { "`", mode = "n" },
         { "<C-w>", mode = { "n", "t" } },
+        { "<leader>", mode = { "n", "v" } },
+        { "@", mode = "n" },
+        { "[", mode = { "n", "v" } },
+        { "]", mode = { "n", "v" } },
+        { "c", mode = { "n", "v" } },
+        { "g", mode = { "n", "v" } },
+        { "z", mode = { "n", "v" } },
       },
       spec = {
         {
@@ -77,10 +79,6 @@ return {
     config = function(_, opts)
       local wk = require("which-key")
       wk.setup(opts)
-      if not vim.tbl_isempty(opts.defaults) then
-        LazyVim.warn("which-key: opts.defaults is deprecated. Please use opts.spec instead.")
-        wk.register(opts.defaults)
-      end
     end,
   },
 }
