@@ -1,6 +1,6 @@
 ---
 name: review
-description: Review GitHub PRs and track improvements as tasks
+description: Review GitHub PRs and track improvements as tasks. Use when user asks to review a PR, check a pull request, or provides a GitHub PR URL or number.
 allowed-tools: Bash(gh:*), Read, Glob, Grep, TaskCreate, TaskUpdate, TaskList, TaskGet
 ---
 
@@ -18,22 +18,23 @@ Input: $ARGUMENTS
 
 ## 실행 절차
 
-### 1. PR 리뷰
+### PR 리뷰
 
 메인 에이전트가 직접 리뷰를 수행한다:
 
 1. `gh pr view <number>`로 PR 상세 정보를 확인한다
 2. `gh pr diff <number>`로 변경 내용을 가져온다
-3. 변경된 파일의 주변 코드 컨텍스트를 읽어 충분한 이해를 확보한다
-4. 아래 관점에서 리뷰한다:
+3. 변경 파일이 20개 이상이면 핵심 파일을 우선 리뷰하고 나머지는 카테고리별로 요약한다
+4. 변경된 파일의 주변 코드 컨텍스트를 읽어 충분한 이해를 확보한다
+5. 아래 관점에서 리뷰한다:
    - 코드 정확성 및 버그 위험
-   - 프로젝트 컨벤션 준수
+   - 프로젝트 컨벤션 준수 (CLAUDE.md 규칙 포함: bun/rg/fd/biome/rumdl 등 도구 사용 여부)
    - 성능 영향
    - 테스트 커버리지
    - 보안 고려사항
-5. 리뷰 결과를 섹션별로 정리하여 표시한다
+6. 리뷰 결과를 섹션별로 정리하여 한국어로 표시한다
 
-### 2. 개선사항 task 등록
+### 개선사항 task 등록
 
 같은 PR을 다시 리뷰하는 경우, 기존 task를 모두 삭제(TaskUpdate status=deleted)한 후 새로 생성한다.
 
@@ -57,7 +58,7 @@ Input: $ARGUMENTS
   - ⏩ 스킵 (skipped)
 - 사용자가 "1번 완료", "2번 스킵" 등으로 지시하면 TaskUpdate로 상태를 변경하고 테이블을 다시 표시한다
 
-### 3. 코멘트 요청 처리
+### 코멘트 요청 처리
 
 사용자가 특정 이슈에 대해 PR 코멘트를 요청하면:
 

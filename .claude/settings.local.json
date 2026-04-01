@@ -53,7 +53,8 @@
       "WebFetch(domain:ohmyposh.dev)",
       "WebFetch(domain:yoonbh2714.blogspot.com)",
       "Read(//Users/ysoftman/.local/share/nvim/mason/packages/taplo/**)",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "Skill(commit)"
     ]
   }
 }
