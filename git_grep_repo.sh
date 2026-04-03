@@ -56,29 +56,9 @@ git_clone_ysoftman_repository() {
         git -C ~/workspace/${targetdir} pull
     }
 
-    # 목록 취합은 git_grep_repo() 사용
-    git_clone_and_pull https://github.com/ysoftman/aleng
-    git_clone_and_pull https://github.com/ysoftman/bookmark-check
-    git_clone_and_pull https://github.com/ysoftman/codingtest.git
-    git_clone_and_pull https://github.com/ysoftman/colorfulURL.git
-    git_clone_and_pull https://github.com/ysoftman/confetty
-    git_clone_and_pull https://github.com/ysoftman/coretemp
-    git_clone_and_pull https://github.com/ysoftman/cutstring
-    git_clone_and_pull https://github.com/ysoftman/dvc_test
-    git_clone_and_pull https://github.com/ysoftman/enchash
-    git_clone_and_pull https://github.com/ysoftman/findm.git
-    git_clone_and_pull https://github.com/ysoftman/git-lfs-test.git
-    git_clone_and_pull https://github.com/ysoftman/github_webhook_action.git
-    git_clone_and_pull https://github.com/ysoftman/myenv.git
-    git_clone_and_pull https://github.com/ysoftman/ohmystock.git
-    git_clone_and_pull https://github.com/ysoftman/pr-slack-notifier
-    git_clone_and_pull https://github.com/ysoftman/supabase
-    git_clone_and_pull https://github.com/ysoftman/taja
-    git_clone_and_pull https://github.com/ysoftman/test_code
-    git_clone_and_pull https://github.com/ysoftman/watchDust
-    git_clone_and_pull https://github.com/ysoftman/ysoftman
-    git_clone_and_pull https://github.com/ysoftman/ysoftman-lemon.git
-    git_clone_and_pull https://github.com/ysoftman/ysoftman.github.io
+    for url in $(gh repo list ysoftman --source --json url --jq '.[].url' | sort); do
+        git_clone_and_pull $url
+    done
     git_local_settings_for_ysoftman
 }
 
