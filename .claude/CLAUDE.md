@@ -97,9 +97,3 @@ Claude 관련 설정 파일(CLAUDE.md, AGENTS.md, `.claude/agents/*.md`, `.claud
 ## Team 모드 작업 규칙
 
 작업 시 항상 team 모드(병렬 에이전트)를 사용한다. 각 pane 창은 종료하지 않는다(keep alive). 기존 팀이 있으면 TeamDelete하지 않고 재사용한다. 팀 재사용이 불가능한 경우에만 정리 후 새로 생성한다.
-
-## 자동 에이전트 실행
-
-코드 수정 후 커밋 전에 항상 `typo-checker` 에이전트를 실행하여 변경된 파일의 오타를 검사한다.
-
-의존성 변경(package.json, go.mod, Cargo.toml, requirements.txt, pyproject.toml 등) 후 항상 `vulnerability-package-checker` 에이전트를 실행하여 취약점을 검사한다.
