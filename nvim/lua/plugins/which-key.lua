@@ -17,7 +17,7 @@ return {
         { "[", mode = { "n", "v" } },
         { "]", mode = { "n", "v" } },
         { "c", mode = { "n", "v" } },
-        { "g", mode = { "n", "v" } },
+        -- { "g", mode = { "n", "v" } }, -- gcc(comment) 사용시 g 트리거후 O-PENDING 되는 문제로 비활성화
         { "z", mode = { "n", "v" } },
       },
       spec = {
