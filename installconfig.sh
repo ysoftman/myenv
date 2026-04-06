@@ -74,6 +74,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ~/.bashrc ] && unlink ~/.bashrc
 [ -h ~/.zshrc ] && unlink ~/.zshrc
 [ -h ~/.zprofile ] && unlink ~/.zprofile
+[ -h ~/.zshenv ] && unlink ~/.zshenv
 [ -h ~/.vimrc ] && unlink ~/.vimrc
 [ -h ~/.tmux.conf ] && unlink ~/.tmux.conf
 [ -h ~/.shellcheckrc ] && unlink ~/.shellcheckrc
@@ -110,6 +111,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -f ~/.bashrc ] && mv -fv ~/.bashrc ~/.bashrc.bak
 [ -f ~/.zshrc ] && mv -fv ~/.zshrc ~/.zshrc.bak
 [ -f ~/.zprofile ] && mv -fv ~/.zprofile ~/.zprofile.bak
+[ -f ~/.zshenv ] && mv -fv ~/.zshenv ~/.zshenv.bak
 [ -f ~/.vimrc ] && mv -fv ~/.vimrc ~/.vimrc.bak
 [ -f ~/.tmux.conf ] && mv -fv ~/.tmux.conf ~/.tmux.conf.bak
 [ -f ~/.shellcheckrc ] && mv -fv ~/.shellcheckrc ~/.shellcheckrc.bak
@@ -145,6 +147,7 @@ ln -sfv ${PWD}/.gitignore_global ~/.gitignore_global
 ln -sfv ${PWD}/.bashrc ~/.bashrc
 ln -sfv ${PWD}/.zshrc ~/.zshrc
 ln -sfv ${PWD}/.zprofile ~/.zprofile
+ln -sfv ${PWD}/.zshenv ~/.zshenv
 ln -sfv ${PWD}/.vimrc ~/.vimrc
 ln -sfv ${PWD}/.tmux.conf ~/.tmux.conf
 ln -sfv ${PWD}/.shellcheckrc ~/.shellcheckrc
