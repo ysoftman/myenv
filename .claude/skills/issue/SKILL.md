@@ -1,5 +1,5 @@
 ---
-name: github-issue
+name: issue
 description: Create GitHub issues with auto-generated English titles and contextual body content. Use when the user wants to create an issue, report a bug, request a feature, file a ticket, or says "이슈 만들어줘", "이슈 생성", "버그 리포트", "feature request". Also trigger when the user discusses a bug or feature and then says "이거 이슈로 올려줘" or similar.
 allowed-tools: Bash, Read, Grep, Glob
 ---

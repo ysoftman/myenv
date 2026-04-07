@@ -55,7 +55,8 @@
       "Read(//Users/ysoftman/.local/share/nvim/mason/packages/taplo/**)",
       "Read(//tmp/**)",
       "Skill(commit)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(mv:*)"
     ]
   }
 }
