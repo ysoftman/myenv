@@ -44,10 +44,10 @@ allowed-tools: Bash, Read, Grep, Glob
 
 ## 본문 템플릿
 
-관련 이슈가 있으면 본문 첫 줄에 `#이슈번호`를 명시한다. 이슈가 여러 개이면 쉼표로 구분한다.
+관련 이슈가 있으면 본문 첫 줄에 `Closes #이슈번호`를 명시한다. PR 머지 시 관련 이슈가 자동으로 닫힌다. 이슈가 여러 개이면 각각 `Closes`를 붙여 쉼표로 구분한다.
 
 ```markdown
-#123
+Closes #123
 
 ## 변경 사항
 
@@ -59,7 +59,7 @@ allowed-tools: Bash, Read, Grep, Glob
 커밋이 많거나 변경이 복잡하면 카테고리별로 그룹핑한다:
 
 ```markdown
-#123, #456
+Closes #123, Closes #456
 
 ## 변경 사항
 
