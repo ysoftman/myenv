@@ -56,7 +56,8 @@
       "Read(//tmp/**)",
       "Skill(commit)",
       "Bash(rm:*)",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "Skill(team)"
     ]
   }
 }
