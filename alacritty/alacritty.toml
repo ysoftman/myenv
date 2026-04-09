@@ -25,11 +25,12 @@ background = "#f0c674"
 foreground = "#000000"
 
 [colors.selection]
-background = "#e5c07b"
-text = "CellForeground"
+background = "#f0c674"
+foreground = "#000000"
+# text = "CellForeground"
 
 [font]
-size = 18.0
+size = 17.0
 
 [font.bold]
 # family = "Hack Nerd Font"
