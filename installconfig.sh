@@ -50,6 +50,7 @@ if delta --version 2>/dev/null 2>&1; then
     git config --global delta.line-numbers "true"
     git config --global delta.side-by-side "true"
     git config --global delta.syntax-theme "OneHalfDark"
+    git config --global http.connectTimeout 5
 fi
 if difft --version 2>/dev/null 2>&1; then
     # `git log` with patches shown with difftastic.
