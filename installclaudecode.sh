@@ -23,6 +23,7 @@ fi
 USER_MARKETPLACES=(
     "backnotprop/plannotator"
     "anthropics/skills"
+    "simple10/agents-observe"
 )
 for mp in "${USER_MARKETPLACES[@]}"; do
     mp_name="${mp##*/}"
@@ -42,6 +43,7 @@ USER_PLUGINS=(
     "plannotator@plannotator"
     "skill-creator@claude-plugins-official"
     "example-skills@anthropic-agent-skills"
+    "agents-observe"
 )
 for plugin in "${USER_PLUGINS[@]}"; do
     if claude plugins list 2>&1 | grep -q "${plugin%%@*}"; then

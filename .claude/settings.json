@@ -85,7 +85,8 @@
     "ralph-loop@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
     "example-skills@anthropic-agent-skills": true,
-    "lua-lsp@claude-plugins-official": true
+    "lua-lsp@claude-plugins-official": true,
+    "agents-observe@agents-observe": true
   },
   "extraKnownMarketplaces": {
     "anthropic-agent-skills": {
@@ -94,6 +95,12 @@
         "repo": "anthropics/skills"
       },
       "autoUpdate": true
+    },
+    "agents-observe": {
+      "source": {
+        "source": "github",
+        "repo": "simple10/agents-observe"
+      }
     }
   },
   "language": "korean"
