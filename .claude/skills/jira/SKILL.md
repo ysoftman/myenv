@@ -12,7 +12,7 @@ Input: $ARGUMENTS
 
 ## Cloud ID 조회
 
-먼저 `getAccessibleAtlassianResources`로 Cloud ID를 조회한다. 실패 시 fallback Cloud ID: `<your-cloud-id>`
+먼저 `getAccessibleAtlassianResources`로 Cloud ID를 조회한다.
 
 ## 인자 파싱 규칙
 
@@ -37,7 +37,7 @@ Input: $ARGUMENTS
 2. 이슈 키가 주어지면 해당 이슈 상세 정보를 조회한다
 3. "내 이슈" 요청 시 `lookupJiraAccountId`로 현재 사용자 계정 ID를 조회한 뒤 assignee로 필터링한다
 4. 이슈 생성 시 프로젝트, 이슈 유형, 제목, 설명을 사용자에게 확인한다
-5. 결과는 테이블 형태로 간결하게 한국어로 표시한다. **각 이슈 키는 Jira URL로 링크**를 건다 — 형식: `https://<site>.atlassian.net/browse/<KEY>` (site 는 `getAccessibleAtlassianResources` 응답의 `url`에서 추출, 예: `<site>`). 마크다운 링크 형태 `[PROJ-123](https://<site>.atlassian.net/browse/PROJ-123)`로 표시한다.
+5. 결과는 테이블 형태로 간결하게 한국어로 표시한다. **각 이슈 키는 Jira URL로 링크**를 건다 — 형식: `https://<site>.atlassian.net/browse/<KEY>` (site 는 `getAccessibleAtlassianResources` 응답의 `url`에서 추출). 마크다운 링크 형태 `[PROJ-123](https://<site>.atlassian.net/browse/PROJ-123)`로 표시한다.
 6. 프로젝트 목록을 출력할 때는 **보드 URL**도 함께 보여준다 — 형식: `https://<site>.atlassian.net/jira/software/projects/<KEY>/boards` 또는 `/browse/<KEY>`.
 7. 기본 조회 수는 20건. 사용자가 "더 보기"를 요청하면 startAt 파라미터로 다음 페이지를 조회한다
 8. JQL 쿼리를 직접 입력할 수도 있다 (예: `/jira project = PROJ AND status = "In Progress"`)

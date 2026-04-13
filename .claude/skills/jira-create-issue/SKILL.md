@@ -26,7 +26,7 @@ allowed-tools: mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__
 
 ### 2. Cloud ID 확보
 
-`getAccessibleAtlassianResources`로 Cloud ID를 조회한다. 실패하면 fallback 으로 `<your-cloud-id>`를 사용한다.
+`getAccessibleAtlassianResources`로 Cloud ID를 조회한다. 실패 시 사용자에게 Atlassian MCP 서버 연결 상태를 확인해 달라고 안내하고 중단한다.
 
 ### 3. 프로젝트 결정
 
