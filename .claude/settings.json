@@ -3,6 +3,11 @@
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "permissions": {
+    "defaultMode": "acceptEdits",
+    "ask": [
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ],
     "allow": [
       "Edit",
       "Write",
