@@ -59,7 +59,8 @@
       "Bash(mv:*)",
       "Skill(team)",
       "mcp__atlassian__getAccessibleAtlassianResources",
-      "mcp__atlassian__getVisibleJiraProjects"
+      "mcp__atlassian__getVisibleJiraProjects",
+      "mcp__atlassian__searchJiraIssuesUsingJql"
     ]
   }
 }

@@ -37,13 +37,15 @@ allowed-tools: mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__
 3. 최근 대화 맥락에 단일 프로젝트가 뚜렷이 언급된 경우 → 그것을 **제안**하되 미리보기에서 사용자에게 확인 받는다
 4. 그 외 → `getVisibleJiraProjects`로 목록을 가져와 **번호와 함께** 보여주고 선택받는다
 
+목록을 표시할 때는 각 프로젝트의 **보드 URL**도 함께 보여준다. URL 형식은 `https://<site>.atlassian.net/browse/<KEY>` (site 는 `getAccessibleAtlassianResources` 응답의 `url`에서 추출).
+
 목록 표시 예:
 
 ```text
 접근 가능한 프로젝트:
-  1. Backend Platform (BP)
-  2. Data Pipeline (DP)
-  3. Mobile App (MA)
+  1. Backend Platform (BP)  — https://<site>.atlassian.net/browse/BP
+  2. Data Pipeline (DP)     — https://<site>.atlassian.net/browse/DP
+  3. Mobile App (MA)        — https://<site>.atlassian.net/browse/MA
 어느 프로젝트에 생성할까요?
 ```
 
@@ -91,7 +93,7 @@ allowed-tools: mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__
 
 ```text
 ─── Jira 이슈 미리보기 ───
-프로젝트: Backend Platform (BP)
+프로젝트: Backend Platform (BP) — https://<site>.atlassian.net/browse/BP
 이슈 유형: Task
 제목: [Backend Platform] Fix login error
 
