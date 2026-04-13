@@ -57,7 +57,9 @@
       "Skill(commit)",
       "Bash(rm:*)",
       "Bash(mv:*)",
-      "Skill(team)"
+      "Skill(team)",
+      "mcp__atlassian__getAccessibleAtlassianResources",
+      "mcp__atlassian__getVisibleJiraProjects"
     ]
   }
 }
