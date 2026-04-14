@@ -4,10 +4,7 @@
   },
   "permissions": {
     "defaultMode": "acceptEdits",
-    "ask": [
-      "Bash(git commit:*)",
-      "Bash(git push:*)"
-    ],
+    "ask": ["Bash(git commit:*)", "Bash(git push:*)"],
     "allow": [
       "Edit",
       "Write",
@@ -75,6 +72,35 @@
       "Bash(colima list *)",
       "Bash(plutil *)",
       "Bash(launchctl list *)",
+      "Bash(cd *)",
+      "Bash(pwd)",
+      "Bash(env *)",
+      "Bash(export *)",
+      "Bash(source *)",
+      "Bash(sleep *)",
+      "Bash(true)",
+      "Bash(false)",
+      "Bash(test *)",
+      "Bash(find *)",
+      "Bash(sed *)",
+      "Bash(awk *)",
+      "Bash(basename *)",
+      "Bash(dirname *)",
+      "Bash(date *)",
+      "Bash(touch *)",
+      "Bash(stat *)",
+      "Bash(file *)",
+      "Bash(realpath *)",
+      "Bash(readlink *)",
+      "Bash(tee *)",
+      "Bash(tr *)",
+      "Bash(cut *)",
+      "Bash(tar *)",
+      "Bash(unzip *)",
+      "Bash(zip *)",
+      "Bash(open *)",
+      "Bash(printf *)",
+      "Bash(printenv *)",
       "WebSearch",
       "WebFetch(domain:github.com)"
     ]
@@ -98,8 +124,7 @@
       "source": {
         "source": "github",
         "repo": "anthropics/skills"
-      },
-      "autoUpdate": true
+      }
     },
     "agents-observe": {
       "source": {
@@ -107,6 +132,5 @@
         "repo": "simple10/agents-observe"
       }
     }
-  },
-  "language": "korean"
+  }
 }
