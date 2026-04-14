@@ -1,7 +1,7 @@
 ---
 name: review
 description: Review GitHub PRs and track improvements as tasks. Use when user asks to review a PR, check a pull request, or provides a GitHub PR URL or number.
-allowed-tools: Bash(gh:*), Read, Glob, Grep, TaskCreate, TaskUpdate, TaskList, TaskGet
+allowed-tools: Bash(gh:*), Bash(printf:*), Read, Glob, Grep, TaskCreate, TaskUpdate, TaskList, TaskGet
 ---
 
 # PR Review
@@ -32,7 +32,7 @@ Input: $ARGUMENTS
    - 성능 영향
    - 테스트 커버리지
    - 보안 고려사항
-6. 리뷰 결과를 섹션별로 정리하여 한국어로 표시한다
+6. 리뷰 결과를 섹션별로 정리하여 한국어로 표시한다 (리뷰 본문은 일반 출력으로 둔다)
 
 ### 개선사항 task 등록
 
@@ -42,13 +42,16 @@ Input: $ARGUMENTS
 
 - subject 형식: `#번호 [우선순위] 제목` (예: `#1 [높음] retry 루프에서 context 취소 확인 누락`)
 - description에 구체적인 문제 상황과 개선 방안을 기술한다
-- 리뷰 완료 후 아래 형식의 요약 테이블을 표시한다:
+- 리뷰 완료 후 아래 형식의 요약 테이블을 표시한다. 테이블은 `printf`에 ANSI 녹색(`\033[32m ... \033[0m`) escape 코드를 씌워 터미널에 녹색으로 출력한다:
 
-```text
+```bash
+printf '\033[32m%s\033[0m\n' "$(cat <<'EOF'
 | # | 상태 | 우선순위 | 내용 |
 |---|------|---------|------|
 | 1 | 💤 대기 | 높음 | retry 루프에서 context 취소 확인 누락 |
 | 2 | 💤 대기 | 낮음 | isBodyStreamError 문자열 매칭 |
+EOF
+)"
 ```
 
 - 상태 표기:

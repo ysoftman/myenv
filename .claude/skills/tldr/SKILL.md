@@ -1,7 +1,7 @@
 ---
 name: tldr
 description: Explain programming language syntax in Korean with concise examples. Use when user asks about syntax like "python list comprehension", "go goroutine", "rust ownership", or any programming concept explanation.
-allowed-tools: WebSearch, WebFetch
+allowed-tools: WebSearch, WebFetch, Bash(printf:*)
 ---
 
 # Programming Language Syntax Explainer
@@ -25,7 +25,16 @@ allowed-tools: WebSearch, WebFetch
 
 - **한줄 요약**: 해당 문법/개념이 무엇인지 한 문장으로 설명
 - **설명**: 핵심 개념을 2-5줄로 설명
-- **예제 코드**: 실행 가능한 코드 예제 (코드 블록 사용)
+- **예제 코드**: 실행 가능한 코드 예제. 코드 본문은 `printf`에 ANSI 녹색(`\033[32m ... \033[0m`) escape 코드를 씌워 터미널에 녹색으로 출력한다 (설명 텍스트는 일반 출력으로 둔다):
+
+  ```bash
+  printf '\033[32m%s\033[0m\n' "$(cat <<'EOF'
+  # 예제 코드
+  ...
+  EOF
+  )"
+  ```
+
 - **주의사항** (선택): 흔한 실수나 주의할 점이 있으면 간단히 언급
 
 ## 참고

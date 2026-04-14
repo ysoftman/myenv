@@ -30,7 +30,16 @@ allowed-tools: Bash, Read, Grep, Glob
    - **제목**: 영어, 70자 이내, 동사 원형으로 시작 (add, fix, update, refactor 등)
    - **본문**: 한글로 작성, 아래 템플릿을 기반으로 작성
 
-5. 사용자에게 제목, 본문을 보여주고 확인을 받는다.
+5. 사용자에게 제목, 본문을 보여주고 확인을 받는다. 제목과 본문은 `printf`에 ANSI 녹색(`\033[32m ... \033[0m`) escape 코드를 씌워 터미널에 녹색으로 출력한다:
+
+   ```bash
+   printf '\033[32m%s\033[0m\n' "$(cat <<'EOF'
+   제목: ...
+   본문:
+   ...
+   EOF
+   )"
+   ```
 
 6. 확인 후 remote에 push하고 PR을 생성한다:
    - remote에 현재 브랜치가 없으면 `git push -u origin <branch>`로 push

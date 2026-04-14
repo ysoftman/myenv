@@ -1,7 +1,7 @@
 ---
 name: typos
 description: Check typos in the current project (English and Korean). Scans variables, functions, comments, docs, and strings. Run before commits or on demand. Use when user asks to check spelling, find typos, or review text quality.
-allowed-tools: Agent(typo-checker), Bash(typos:*), Bash(git diff:*), Bash(git status:*), Bash(fd:*), Bash(rg:*)
+allowed-tools: Agent(typo-checker), Bash(typos:*), Bash(git diff:*), Bash(git status:*), Bash(fd:*), Bash(rg:*), Bash(printf:*)
 ---
 
 # Typo Check
@@ -31,3 +31,12 @@ Input: $ARGUMENTS
    - 파일별로 그룹화
    - 각 오타에 대해 위치, 원본, 수정 제안을 표시
    - 오타가 없으면 "오타가 발견되지 않았습니다"로 보고
+   - 결과 리포트 본문은 `printf`에 ANSI 녹색(`\033[32m ... \033[0m`) escape 코드를 씌워 터미널에 녹색으로 출력한다:
+
+   ```bash
+   printf '\033[32m%s\033[0m\n' "$(cat <<'EOF'
+   오타 리포트
+   ...
+   EOF
+   )"
+   ```

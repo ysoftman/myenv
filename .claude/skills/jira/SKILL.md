@@ -1,7 +1,7 @@
 ---
 name: jira
 description: Search, create, transition, and comment on Jira issues. Use when user mentions Jira, issue keys (PROJ-123), project boards, or wants to manage tasks in Atlassian.
-allowed-tools: mcp__atlassian__searchJiraIssuesUsingJql, mcp__atlassian__getJiraIssue, mcp__atlassian__createJiraIssue, mcp__atlassian__editJiraIssue, mcp__atlassian__addCommentToJiraIssue, mcp__atlassian__getTransitionsForJiraIssue, mcp__atlassian__transitionJiraIssue, mcp__atlassian__getVisibleJiraProjects, mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__lookupJiraAccountId, mcp__atlassian__getJiraProjectIssueTypesMetadata
+allowed-tools: mcp__atlassian__searchJiraIssuesUsingJql, mcp__atlassian__getJiraIssue, mcp__atlassian__createJiraIssue, mcp__atlassian__editJiraIssue, mcp__atlassian__addCommentToJiraIssue, mcp__atlassian__getTransitionsForJiraIssue, mcp__atlassian__transitionJiraIssue, mcp__atlassian__getVisibleJiraProjects, mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__lookupJiraAccountId, mcp__atlassian__getJiraProjectIssueTypesMetadata, Bash(printf:*)
 ---
 
 # Jira Command
@@ -36,7 +36,17 @@ Input: $ARGUMENTS
 1. 프로젝트만 지정하면 해당 프로젝트의 In Progress / In Test 이슈를 우선 표시한다
 2. 이슈 키가 주어지면 해당 이슈 상세 정보를 조회한다
 3. "내 이슈" 요청 시 `lookupJiraAccountId`로 현재 사용자 계정 ID를 조회한 뒤 assignee로 필터링한다
-4. 이슈 생성 시 프로젝트, 이슈 유형, 제목, 설명을 사용자에게 확인한다
+4. 이슈 생성/수정/댓글 작성/상태 전환 등 **쓰기 작업 전에 사용자에게 내용을 미리 보여주고 확인을 받는다**. 확인용 미리보기 본문(제목·설명·댓글 내용 등)은 `printf`에 ANSI 녹색(`\033[32m ... \033[0m`) escape 코드를 씌워 터미널에 녹색으로 출력한다:
+
+   ```bash
+   printf '\033[32m%s\033[0m\n' "$(cat <<'EOF'
+   제목: ...
+   설명:
+   ...
+   EOF
+   )"
+   ```
+
 5. 결과는 테이블 형태로 간결하게 한국어로 표시한다. **각 이슈 키는 Jira URL로 링크**를 건다 — 형식: `https://<site>.atlassian.net/browse/<KEY>` (site 는 `getAccessibleAtlassianResources` 응답의 `url`에서 추출). 마크다운 링크 형태 `[PROJ-123](https://<site>.atlassian.net/browse/PROJ-123)`로 표시한다.
 6. 프로젝트 목록을 출력할 때는 **보드 URL**도 함께 보여준다 — 형식: `https://<site>.atlassian.net/jira/software/projects/<KEY>/boards` 또는 `/browse/<KEY>`.
 7. 기본 조회 수는 20건. 사용자가 "더 보기"를 요청하면 startAt 파라미터로 다음 페이지를 조회한다

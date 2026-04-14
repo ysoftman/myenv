@@ -89,9 +89,10 @@ allowed-tools: mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__
 
 ### 7. 미리보기 출력
 
-생성 직전에 아래 형식으로 출력한다.
+생성 직전에 아래 형식으로 출력한다. 미리보기 블록(`─── ...` 사이 내용)은 `printf`에 ANSI 녹색(`\033[32m ... \033[0m`) escape 코드를 씌워 터미널에 녹색으로 출력한다:
 
-```text
+```bash
+printf '\033[32m%s\033[0m\n' "$(cat <<'EOF'
 ─── Jira 이슈 미리보기 ───
 프로젝트: Backend Platform (BP) — https://<site>.atlassian.net/browse/BP
 이슈 유형: Task
@@ -106,8 +107,11 @@ allowed-tools: mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__
 - 재현 경로 확인
 - 원인 수정
 ─────────────────────────
-이대로 생성할까요? (네 / 수정할 내용 입력)
+EOF
+)"
 ```
+
+그 뒤 "이대로 생성할까요? (네 / 수정할 내용 입력)" 안내문은 일반 텍스트로 이어서 표시한다.
 
 사용자가 "네"라고 하면 생성한다. 수정 요청이 오면 반영 후 다시 미리보기를 출력한다.
 
@@ -133,9 +137,10 @@ allowed-tools: mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__
 1. 이슈 키를 확보한다. 없으면 사용자에게 묻는다.
 2. `getJiraIssue`로 현재 상태를 읽고 요약해서 보여준다.
 3. 변경할 필드(제목/본문/이슈 유형 등)를 결정한다.
-4. **변경 전 → 변경 후** 미리보기를 보여준다.
+4. **변경 전 → 변경 후** 미리보기를 보여준다. 미리보기 블록(`─── ...` 사이 내용)은 `printf`에 ANSI 녹색(`\033[32m ... \033[0m`) escape 코드를 씌워 터미널에 녹색으로 출력한다:
 
-```text
+```bash
+printf '\033[32m%s\033[0m\n' "$(cat <<'EOF'
 ─── 수정 미리보기 (BP-482) ───
 제목
   변경 전: [Backend Platform] Fix login error
@@ -143,8 +148,11 @@ allowed-tools: mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__
 
 본문: (변경 없음)
 ─────────────────────────────
-이대로 수정할까요? (네 / 추가 수정)
+EOF
+)"
 ```
+
+그 뒤 "이대로 수정할까요? (네 / 추가 수정)" 안내문은 일반 텍스트로 이어서 표시한다.
 
 5. 확인되면 `editJiraIssue`로 적용한다.
 
