@@ -3,8 +3,6 @@
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "permissions": {
-    "defaultMode": "acceptEdits",
-    "ask": ["Bash(git commit:*)", "Bash(git push:*)"],
     "allow": [
       "Edit",
       "Write",
@@ -115,7 +113,12 @@
       "mcp__atlassian__searchJiraIssuesUsingJql",
       "WebSearch",
       "WebFetch"
-    ]
+    ],
+    "ask": [
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ],
+    "defaultMode": "acceptEdits"
   },
   "statusLine": {
     "type": "command",
@@ -129,7 +132,8 @@
     "skill-creator@claude-plugins-official": true,
     "example-skills@anthropic-agent-skills": true,
     "lua-lsp@claude-plugins-official": true,
-    "agents-observe@agents-observe": true
+    "agents-observe@agents-observe": true,
+    "ui-ux-pro-max@ui-ux-pro-max-skill": true
   },
   "extraKnownMarketplaces": {
     "anthropic-agent-skills": {
@@ -142,6 +146,12 @@
       "source": {
         "source": "github",
         "repo": "simple10/agents-observe"
+      }
+    },
+    "ui-ux-pro-max-skill": {
+      "source": {
+        "source": "github",
+        "repo": "nextlevelbuilder/ui-ux-pro-max-skill"
       }
     }
   }

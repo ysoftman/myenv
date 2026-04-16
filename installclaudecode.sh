@@ -24,6 +24,7 @@ USER_MARKETPLACES=(
     "backnotprop/plannotator"
     "anthropics/skills"
     "simple10/agents-observe"
+    "nextlevelbuilder/ui-ux-pro-max-skill"
 )
 for mp in "${USER_MARKETPLACES[@]}"; do
     mp_name="${mp##*/}"
@@ -31,7 +32,7 @@ for mp in "${USER_MARKETPLACES[@]}"; do
         echo "Marketplace ${mp}이(가) 이미 설정되어 있습니다. 스킵합니다."
     else
         echo "Marketplace ${mp}을(를) 추가합니다..."
-        claude plugin marketplace add -s user "${mp}"
+        claude plugin marketplace add "${mp}"
     fi
 done
 
@@ -44,6 +45,7 @@ USER_PLUGINS=(
     "skill-creator@claude-plugins-official"
     "example-skills@anthropic-agent-skills"
     "agents-observe"
+    "ui-ux-pro-max@ui-ux-pro-max-skill"
 )
 for plugin in "${USER_PLUGINS[@]}"; do
     if claude plugins list 2>&1 | grep -q "${plugin%%@*}"; then
