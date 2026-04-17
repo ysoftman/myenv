@@ -114,10 +114,6 @@
       "WebSearch",
       "WebFetch"
     ],
-    "ask": [
-      "Bash(git commit:*)",
-      "Bash(git push:*)"
-    ],
     "defaultMode": "acceptEdits"
   },
   "statusLine": {
