@@ -1,1 +1,8 @@
-{}
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/ysoftman/.claude/plugins/cache/**)",
+      "Read(//Users/ysoftman/.claude/**)"
+    ]
+  }
+}
