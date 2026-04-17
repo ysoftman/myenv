@@ -124,6 +124,19 @@
     "type": "command",
     "command": "bash -c 'cat | bash /Users/ysoftman/.claude/statusline-command.sh 2>/dev/null'"
   },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -c '{systemMessage: (\"Skill loaded: \" + .tool_input.skill)}'"
+          }
+        ]
+      }
+    ]
+  },
   "enabledPlugins": {
     "gopls-lsp@claude-plugins-official": true,
     "plannotator@plannotator": true,
