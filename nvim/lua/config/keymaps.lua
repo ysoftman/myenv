@@ -28,7 +28,7 @@ vim.keymap.set("v", "<S-A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)
 vim.keymap.set("n", "<a-r>", "<cmd>lua require('fzf-lua').registers()<CR>", { silent = true })
 vim.keymap.set("n", "<a-t>", "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
 vim.keymap.set("n", "<a-f>", "<cmd>lua require('fzf-lua').grep_cword()<CR>", { silent = true }) -- search word under cursor
-vim.keymap.set("n", "<c-f>", "<cmd>lua require('fzf-lua').grep({search=''})<CR>", { silent = true }) -- search pattern, search 옵션이 없으면 input_prompt 가 뜬다.
+vim.keymap.set("n", "<c-f>", "<cmd>lua require('fzf-lua').live_grep()<CR>", { silent = true }) -- live grep, 입력마다 rg 재실행하여 정확한 line:col 점프 유지
 vim.keymap.set("n", "<c-l>", "<cmd>lua require('fzf-lua').buffers()<CR>", { silent = true })
 
 -- neotree
