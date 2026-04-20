@@ -1,5 +1,7 @@
 return {
-  "David-Kunz/gen.nvim", -- ollama 사용하기
+  -- llm prompt
+  -- https://github.com/David-Kunz/gen.nvim
+  "David-Kunz/gen.nvim",
   opts = {
     -- model = "mistral", -- The default model to use.
     model = "llama3.2", -- The default model to use.
