@@ -91,7 +91,6 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ${HOME}/.claude/agents ] && unlink ${HOME}/.claude/agents
 [ -h ${HOME}/.claude/skills ] && unlink ${HOME}/.claude/skills
 [ -h ${XDG_CONFIG_HOME}/opencode.json ] && unlink ${XDG_CONFIG_HOME}/opencode/opencode.json
-[ -h ${XDG_CONFIG_HOME}/oh-my-opencode.json ] && unlink ${XDG_CONFIG_HOME}/opencode/oh-my-opencode.json
 [ -h ${XDG_CONFIG_HOME}/nvim ] && unlink ${XDG_CONFIG_HOME}/nvim
 [ -d ${XDG_CONFIG_HOME}/alacritty-colorscheme ] || git clone https://github.com/alacritty/alacritty-theme ${XDG_CONFIG_HOME}/alacritty-colorscheme
 [ -h ${XDG_CONFIG_HOME}/alacritty ] && unlink ${XDG_CONFIG_HOME}/alacritty
@@ -128,7 +127,6 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -d ${HOME}/.claude/agents ] && mv -fv ${HOME}/.claude/agents ${HOME}/.claude/agents.bak
 [ -d ${HOME}/.claude/skills ] && mv -fv ${HOME}/.claude/skills ${HOME}/.claude/skills.bak
 [ -f ${XDG_CONFIG_HOME}/opencode/opencode.json ] && mv -fv ${XDG_CONFIG_HOME}/opencode/opencode.json ${XDG_CONFIG_HOME}/opencode/opencode.json.bak
-[ -f ${XDG_CONFIG_HOME}/opencode/oh-my-opencode.json ] && mv -fv ${XDG_CONFIG_HOME}/opencode/oh-my-opencode.json ${XDG_CONFIG_HOME}/opencode/oh-my-opencode.json.bak
 [ -f ${XDG_CONFIG_HOME}/nvim/init.vim ] && mv -fv ${XDG_CONFIG_HOME}/nvim ${XDG_CONFIG_HOME}/nvim.bak
 [ -d ${XDG_CONFIG_HOME}/alacritty ] && mv -fv ${XDG_CONFIG_HOME}/alacritty ${XDG_CONFIG_HOME}/alacritty.bak
 [ -d ${XDG_CONFIG_HOME}/ghostty ] && mv -fv ${XDG_CONFIG_HOME}/ghostty ${XDG_CONFIG_HOME}/ghostty.bak
@@ -164,7 +162,6 @@ ln -sfv ${PWD}/.claude/statusline-command.sh ${HOME}/.claude/statusline-command.
 ln -sfv ${PWD}/.claude/agents ${HOME}/.claude/agents
 ln -sfv ${PWD}/.claude/skills ${HOME}/.claude/skills
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/opencode/opencode.json ${XDG_CONFIG_HOME}/opencode/opencode.json
-[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/opencode/oh-my-opencode.json ${XDG_CONFIG_HOME}/opencode/oh-my-opencode.json
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/nvim ${XDG_CONFIG_HOME}/nvim
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/alacritty ${XDG_CONFIG_HOME}/alacritty
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/ghostty ${XDG_CONFIG_HOME}/ghostty
