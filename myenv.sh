@@ -246,6 +246,10 @@ function set_alias {
     alias zellij2='zellij --layout ${myenv_path}/zellij/layouts/layout2.kdl'
     # 현재 zellij layout 저장
     alias zellij_dump='zellij setup --dump-layout default >! ${myenv_path}/zellij/layouts/current.kdl'
+
+    alias mxlserver='mlx_lm.server \
+    --model lmstudio-community/Qwen3-Coder-30B-A3B-Instruct-MLX-4bit  \
+    --port 8080'
 }
 
 # kube prompt 사용

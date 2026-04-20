@@ -19,6 +19,18 @@
         "timeout": 300000
       }
     },
+    "mlx-local": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "MLX Local",
+      "options": {
+        "baseURL": "http://localhost:8080/v1"
+      },
+      "models": {
+        "lmstudio-community/Qwen3-Coder-30B-A3B-Instruct-MLX-4bit": {
+          "name": "Qwen3 Coder 30B A3B"
+        }
+      }
+    },
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Ollama (local)",
@@ -29,12 +41,6 @@
         "qwen3-coder:latest": {
           "name": "Qwen3 Coder 30.5B"
         },
-        "codegemma:latest": {
-          "name": "CodeGemma 9B"
-        },
-        "llama3.2:latest": {
-          "name": "Llama 3.2 3B"
-        }
       }
     }
   }
