@@ -1,47 +1,50 @@
 {
-  "$schema": "https://opencode.ai/config.json",
-  "model": "opencode/big-pickle",
-  "small_model": "google/gemini-2.0-flash",
-  "autoupdate": true,
-  "provider": {
-    "anthropic": {
-      "options": {
-        "timeout": 300000
-      }
-    },
-    "google": {
-      "options": {
-        "timeout": 300000
-      }
-    },
-    "openai": {
-      "options": {
-        "timeout": 300000
-      }
-    },
-    "mlx-local": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "MLX Local",
-      "options": {
-        "baseURL": "http://localhost:8080/v1"
-      },
-      "models": {
-        "lmstudio-community/Qwen3-Coder-30B-A3B-Instruct-MLX-4bit": {
-          "name": "Qwen3 Coder 30B A3B"
-        }
-      }
-    },
-    "ollama": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Ollama (local)",
-      "options": {
-        "baseURL": "http://localhost:11434/v1"
-      },
-      "models": {
-        "qwen3-coder:latest": {
-          "name": "Qwen3 Coder 30.5B"
-        },
-      }
-    }
-  }
+	"$schema": "https://opencode.ai/config.json",
+	"model": "opencode/big-pickle",
+	"small_model": "google/gemini-2.0-flash",
+	"autoupdate": true,
+	"provider": {
+		"anthropic": {
+			"options": {
+				"timeout": 300000
+			}
+		},
+		"google": {
+			"options": {
+				"timeout": 300000
+			}
+		},
+		"openai": {
+			"options": {
+				"timeout": 300000
+			}
+		},
+		"mlx-local": {
+			"npm": "@ai-sdk/openai-compatible",
+			"name": "MLX Local",
+			"options": {
+				"baseURL": "http://localhost:8080/v1"
+			},
+			"models": {
+				"deepseek-ai/DeepSeek-R1-Distill-Qwen-32B": {
+					"name": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+				},
+				"lmstudio-community/Qwen3-Coder-30B-A3B-Instruct-MLX-4bit": {
+					"name": "lmstudio-community/Qwen3-Coder-30B-A3B-Instruct-MLX-4bit"
+				}
+			}
+		},
+		"ollama": {
+			"npm": "@ai-sdk/openai-compatible",
+			"name": "Ollama (local)",
+			"options": {
+				"baseURL": "http://localhost:11434/v1"
+			},
+			"models": {
+				"qwen3-coder:latest": {
+					"name": "Qwen3 Coder 30.5B"
+				}
+			}
+		}
+	}
 }

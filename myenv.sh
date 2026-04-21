@@ -247,8 +247,8 @@ function set_alias {
     # 현재 zellij layout 저장
     alias zellij_dump='zellij setup --dump-layout default >! ${myenv_path}/zellij/layouts/current.kdl'
 
-    alias mxlserver='mlx_lm.server \
-    --model lmstudio-community/Qwen3-Coder-30B-A3B-Instruct-MLX-4bit  \
+    alias mlxserver='mlx_lm.server \
+    --model deepseek-ai/DeepSeek-R1-Distill-Qwen-32B \
     --port 8080'
 }
 
