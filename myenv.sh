@@ -66,7 +66,9 @@ function set_path_and_vars {
     export DISPLAY=localhost:0.0
 
     # mac 에선 yarn bin /opt/homebrew/bin 으로 설정되어 있어 tidy_path 실행전에 선언
-    export PATH=$(yarn global bin 2>/dev/null):$PATH
+    local yarn_global_bin
+    yarn_global_bin=$(yarn global bin 2>/dev/null)
+    export PATH=$yarn_global_bin:$PATH
 
     # 수동 nvim 설치경로
     export PATH=$HOME/nvim-linux64/bin:$PATH
@@ -418,7 +420,7 @@ function set_zsh_plugin {
     # 디렉터리를 fpath 맨 앞에 두어 이쪽을 먼저 쓰도록 하여
     # git checkout <TAB> 등에서도 대소문자 구분 없이 후보가 뜨도록 한다.
     if [ -d "/opt/homebrew/opt/zsh/share/zsh/functions" ]; then
-        fpath=("/opt/homebrew/opt/zsh/share/zsh/functions" $fpath)
+        fpath=("/opt/homebrew/opt/zsh/share/zsh/functions" "${fpath[@]}")
     fi
     if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
         source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
