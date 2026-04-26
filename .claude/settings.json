@@ -116,10 +116,6 @@
     ],
     "defaultMode": "acceptEdits"
   },
-  "statusLine": {
-    "type": "command",
-    "command": "bash -c 'cat | bash /Users/ysoftman/.claude/statusline-command.sh 2>/dev/null'"
-  },
   "hooks": {
     "PreToolUse": [
       {
@@ -132,6 +128,10 @@
         ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash -c 'cat | bash /Users/ysoftman/.claude/statusline-command.sh 2>/dev/null'"
   },
   "enabledPlugins": {
     "gopls-lsp@claude-plugins-official": true,
@@ -170,5 +170,6 @@
         "repo": "forrestchang/andrej-karpathy-skills"
       }
     }
-  }
+  },
+  "teammateMode": "auto"
 }
