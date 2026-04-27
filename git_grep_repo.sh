@@ -50,15 +50,11 @@ git_clone_ysoftman_repository() {
         exit 1
     fi
 
-    git_clone_and_pull() {
-        git clone ${1}
-        local targetdir
-        targetdir=$(echo ${1} | sed 's/^.*ysoftman\///' | sed 's/\.git$//')
-        git -C ~/workspace/${targetdir} pull
-    }
-
+    local targetdir
     for url in $(gh repo list ysoftman --source --json url --jq '.[].url' | sort); do
-        git_clone_and_pull $url
+        targetdir=$HOME/workspace/$(echo $url | sed 's#^.*ysoftman/##' | sed 's#\.git$##')
+        git clone ${url} ${targetdir}
+        git -C ${targetdir} pull
     done
     git_local_settings_for_ysoftman
 }
@@ -76,7 +72,7 @@ git_local_settings_for_ysoftman() {
         gitdirs=$(fd '\.git$' --hidden --no-ignore --type d $HOME/workspace -E "*gopath*" -E "*chromium*" -E "*node_module*")
     else
         echo "using find..."
-        gitdirs=$(find $HOME/workspace/ -name .git -type d)
+        gitdirs=$(find $HOME/workspace -name .git -type d)
     fi
 
     local grep
