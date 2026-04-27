@@ -90,6 +90,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ${HOME}/.claude/statusline-command.sh ] && unlink ${HOME}/.claude/statusline-command.sh
 [ -h ${HOME}/.claude/agents ] && unlink ${HOME}/.claude/agents
 [ -h ${HOME}/.claude/skills ] && unlink ${HOME}/.claude/skills
+[ -h ${HOME}/.codex/skills ] && unlink ${HOME}/.codex/skills
 [ -h ${XDG_CONFIG_HOME}/opencode.json ] && unlink ${XDG_CONFIG_HOME}/opencode/opencode.json
 [ -h ${XDG_CONFIG_HOME}/nvim ] && unlink ${XDG_CONFIG_HOME}/nvim
 [ -d ${XDG_CONFIG_HOME}/alacritty-colorscheme ] || git clone https://github.com/alacritty/alacritty-theme ${XDG_CONFIG_HOME}/alacritty-colorscheme
@@ -126,6 +127,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -f ${HOME}/.claude/statusline-command.sh ] && mv -fv ${HOME}/.claude/statusline-command.sh ${HOME}/.claude/statusline-command.sh.bak
 [ -d ${HOME}/.claude/agents ] && mv -fv ${HOME}/.claude/agents ${HOME}/.claude/agents.bak
 [ -d ${HOME}/.claude/skills ] && mv -fv ${HOME}/.claude/skills ${HOME}/.claude/skills.bak
+[ -d ${HOME}/.codex/skills ] && mv -fv ${HOME}/.codex/skills ${HOME}/.codex/skills.bak
 [ -f ${XDG_CONFIG_HOME}/opencode/opencode.json ] && mv -fv ${XDG_CONFIG_HOME}/opencode/opencode.json ${XDG_CONFIG_HOME}/opencode/opencode.json.bak
 [ -f ${XDG_CONFIG_HOME}/nvim/init.vim ] && mv -fv ${XDG_CONFIG_HOME}/nvim ${XDG_CONFIG_HOME}/nvim.bak
 [ -d ${XDG_CONFIG_HOME}/alacritty ] && mv -fv ${XDG_CONFIG_HOME}/alacritty ${XDG_CONFIG_HOME}/alacritty.bak
@@ -161,6 +163,7 @@ ln -sfv ${PWD}/.claude/settings.json ${HOME}/.claude/settings.json
 ln -sfv ${PWD}/.claude/statusline-command.sh ${HOME}/.claude/statusline-command.sh
 ln -sfv ${PWD}/.claude/agents ${HOME}/.claude/agents
 ln -sfv ${PWD}/.claude/skills ${HOME}/.claude/skills
+ln -sfv ${PWD}/.claude/skills ${HOME}/.codex/skills
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/opencode/opencode.json ${XDG_CONFIG_HOME}/opencode/opencode.json
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/nvim ${XDG_CONFIG_HOME}/nvim
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/alacritty ${XDG_CONFIG_HOME}/alacritty
