@@ -8,6 +8,7 @@ source "${myenv_path}/colors.sh"
 # git 정보 파악할때 사용
 git_grep_repo() {
     # 특정 repo url 만 파악할 경우 인자 추가
+    local url
     url="https?://github.com/ysoftman"
     if (($# > 0)); then
         url=${1}
@@ -52,6 +53,7 @@ git_clone_ysoftman_repository() {
 
     git_clone_and_pull() {
         git clone ${1}
+        local targetdir
         targetdir=$(echo ${1} | sed 's/^.*ysoftman\///' | sed 's/\.git$//')
         git -C ~/workspace/${targetdir} pull
     }
@@ -69,6 +71,7 @@ git_local_settings_for_ysoftman() {
         exit 1
     fi
     cd $HOME/workspace || exit
+    local gitdirs
     if [ "$(which fd)" ]; then
         echo "using fd..."
         gitdirs=$(fd -E "*gopath*" -E "*chromium*" -E "*node_module*" '\.git$' --hidden --no-ignore --type d .)
@@ -77,6 +80,7 @@ git_local_settings_for_ysoftman() {
         gitdirs=$(find . -name .git -type d)
     fi
 
+    local grep
     if [ "$(which rg)" ]; then
         echo "using rg(ripgrep)"
         grep="rg"
@@ -86,16 +90,21 @@ git_local_settings_for_ysoftman() {
     fi
 
     # for item in `cat gitdirs`
+    local out
+    local user_email
+    local user_name
+    user_email="ysoftman@gmail.com"
+    user_name="ysoftman"
     for item in ${(f)gitdirs}; do
         out=$(git -C ${item} remote -v | ${grep} -c "https://github.com/ysoftman/" | awk '{print $1}')
         if [[ $out == 2 ]]; then
             # echo $item
             cat <<zzz
-git -C ${item} config user.email "ysoftman@gmail.com"
-git -C ${item} config user.name "ysoftman"
+git -C ${item} config user.email "${user_email}"
+git -C ${item} config user.name "${user_name}"
 zzz
-            git -C ${item} config user.email "ysoftman@gmail.com"
-            git -C ${item} config user.name "ysoftman"
+            git -C ${item} config user.email "${user_email}"
+            git -C ${item} config user.name "${user_name}"
         fi
     done
 }
