@@ -49,7 +49,6 @@ git_clone_ysoftman_repository() {
         echo "$HOME/workspace doesn't exists"
         exit 1
     fi
-    cd $HOME/workspace || exit
 
     git_clone_and_pull() {
         git clone ${1}
@@ -70,14 +69,14 @@ git_local_settings_for_ysoftman() {
         echo "$HOME/workspace doesn't exists"
         exit 1
     fi
-    cd $HOME/workspace || exit
+
     local gitdirs
     if [ "$(which fd)" ]; then
         echo "using fd..."
-        gitdirs=$(fd -E "*gopath*" -E "*chromium*" -E "*node_module*" '\.git$' --hidden --no-ignore --type d .)
+        gitdirs=$(fd '\.git$' --hidden --no-ignore --type d $HOME/workspace -E "*gopath*" -E "*chromium*" -E "*node_module*")
     else
         echo "using find..."
-        gitdirs=$(find . -name .git -type d)
+        gitdirs=$(find $HOME/workspace/ -name .git -type d)
     fi
 
     local grep
