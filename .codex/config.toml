@@ -1,0 +1,24 @@
+[projects."/Users/ysoftman/workspace/ysoftman.github.io"]
+trust_level = "trusted"
+
+[projects."/Users/ysoftman/workspace/worldcup-match"]
+trust_level = "trusted"
+
+[projects."/Users/ysoftman"]
+trust_level = "trusted"
+
+[projects."/Users/ysoftman/workspace/searchengine/helm-charts"]
+trust_level = "trusted"
+
+[projects."/Users/ysoftman/workspace/myenv"]
+trust_level = "trusted"
+
+[tui]
+theme = "catppuccin-mocha"
+status_line = ["model-with-reasoning", "current-dir", "model", "project-name", "git-branch", "run-state", "context-used", "five-hour-limit", "weekly-limit", "context-window-size", "used-tokens"]
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+
+[mcp_servers.atlassian]
+url = "https://mcp.atlassian.com/v1/mcp"
