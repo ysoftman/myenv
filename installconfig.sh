@@ -91,7 +91,6 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ${HOME}/.claude/agents ] && unlink ${HOME}/.claude/agents
 [ -h ${HOME}/.claude/skills ] && unlink ${HOME}/.claude/skills
 [ -h ${HOME}/.codex/instructions.md ] && unlink ${HOME}/.codex/instructions.md
-[ -h ${HOME}/.codex/config.toml ] && unlink ${HOME}/.codex/config.toml
 [ -h ${HOME}/.codex/skills ] && unlink ${HOME}/.codex/skills
 [ -h ${XDG_CONFIG_HOME}/opencode/opencode.json ] && unlink ${XDG_CONFIG_HOME}/opencode/opencode.json
 [ -h ${XDG_CONFIG_HOME}/opencode/tui.json ] && unlink ${XDG_CONFIG_HOME}/opencode/tui.json
@@ -131,7 +130,6 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -d ${HOME}/.claude/agents ] && mv -fv ${HOME}/.claude/agents ${HOME}/.claude/agents.bak
 [ -d ${HOME}/.claude/skills ] && mv -fv ${HOME}/.claude/skills ${HOME}/.claude/skills.bak
 [ -f ${HOME}/.codex/instructions.md ] && mv -fv ${HOME}/.codex/instructions.md ${HOME}/.codex/instructions.md.bak
-[ -f ${HOME}/.codex/config.toml ] && mv -fv ${HOME}/.codex/config.toml ${HOME}/.codex/config.toml.bak
 [ -d ${HOME}/.codex/skills ] && mv -fv ${HOME}/.codex/skills ${HOME}/.codex/skills.bak
 [ -f ${XDG_CONFIG_HOME}/opencode/opencode.json ] && mv -fv ${XDG_CONFIG_HOME}/opencode/opencode.json ${XDG_CONFIG_HOME}/opencode/opencode.json.bak
 [ -f ${XDG_CONFIG_HOME}/opencode/tui.json ] && mv -fv ${XDG_CONFIG_HOME}/opencode/tui.json ${XDG_CONFIG_HOME}/opencode/tui.json.bak
@@ -170,7 +168,6 @@ ln -sfv ${PWD}/.claude/statusline-command.sh ${HOME}/.claude/statusline-command.
 ln -sfv ${PWD}/.claude/agents ${HOME}/.claude/agents
 ln -sfv ${PWD}/.claude/skills ${HOME}/.claude/skills
 ln -sfv ${PWD}/.codex/instructions.md ${HOME}/.codex/instructions.md
-ln -sfv ${PWD}/.codex/config.toml ${HOME}/.codex/config.toml
 ln -sfv ${PWD}/.claude/skills ${HOME}/.codex/skills
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/opencode/opencode.json ${XDG_CONFIG_HOME}/opencode/opencode.json
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/opencode/tui.json ${XDG_CONFIG_HOME}/opencode/tui.json
