@@ -39,6 +39,7 @@ bash ./installgh.sh
 bash ./installemojicli.sh
 bash ./installcolima.sh
 bash ./installclaudecode.sh
+bash ./installcodex.sh
 bash ./installzellij_tmux_shim.sh
 if [[ $(command -v code) ]]; then
     bash ./installvscodesettings.sh
