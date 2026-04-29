@@ -93,7 +93,8 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ${HOME}/.codex/instructions.md ] && unlink ${HOME}/.codex/instructions.md
 [ -h ${HOME}/.codex/config.toml ] && unlink ${HOME}/.codex/config.toml
 [ -h ${HOME}/.codex/skills ] && unlink ${HOME}/.codex/skills
-[ -h ${XDG_CONFIG_HOME}/opencode.json ] && unlink ${XDG_CONFIG_HOME}/opencode/opencode.json
+[ -h ${XDG_CONFIG_HOME}/opencode/opencode.json ] && unlink ${XDG_CONFIG_HOME}/opencode/opencode.json
+[ -h ${XDG_CONFIG_HOME}/opencode/tui.json ] && unlink ${XDG_CONFIG_HOME}/opencode/tui.json
 [ -h ${XDG_CONFIG_HOME}/nvim ] && unlink ${XDG_CONFIG_HOME}/nvim
 [ -d ${XDG_CONFIG_HOME}/alacritty-colorscheme ] || git clone https://github.com/alacritty/alacritty-theme ${XDG_CONFIG_HOME}/alacritty-colorscheme
 [ -h ${XDG_CONFIG_HOME}/alacritty ] && unlink ${XDG_CONFIG_HOME}/alacritty
@@ -133,6 +134,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -f ${HOME}/.codex/config.toml ] && mv -fv ${HOME}/.codex/config.toml ${HOME}/.codex/config.toml.bak
 [ -d ${HOME}/.codex/skills ] && mv -fv ${HOME}/.codex/skills ${HOME}/.codex/skills.bak
 [ -f ${XDG_CONFIG_HOME}/opencode/opencode.json ] && mv -fv ${XDG_CONFIG_HOME}/opencode/opencode.json ${XDG_CONFIG_HOME}/opencode/opencode.json.bak
+[ -f ${XDG_CONFIG_HOME}/opencode/tui.json ] && mv -fv ${XDG_CONFIG_HOME}/opencode/tui.json ${XDG_CONFIG_HOME}/opencode/tui.json.bak
 [ -f ${XDG_CONFIG_HOME}/nvim/init.vim ] && mv -fv ${XDG_CONFIG_HOME}/nvim ${XDG_CONFIG_HOME}/nvim.bak
 [ -d ${XDG_CONFIG_HOME}/alacritty ] && mv -fv ${XDG_CONFIG_HOME}/alacritty ${XDG_CONFIG_HOME}/alacritty.bak
 [ -d ${XDG_CONFIG_HOME}/ghostty ] && mv -fv ${XDG_CONFIG_HOME}/ghostty ${XDG_CONFIG_HOME}/ghostty.bak
@@ -171,6 +173,7 @@ ln -sfv ${PWD}/.codex/instructions.md ${HOME}/.codex/instructions.md
 ln -sfv ${PWD}/.codex/config.toml ${HOME}/.codex/config.toml
 ln -sfv ${PWD}/.claude/skills ${HOME}/.codex/skills
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/opencode/opencode.json ${XDG_CONFIG_HOME}/opencode/opencode.json
+[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/opencode/tui.json ${XDG_CONFIG_HOME}/opencode/tui.json
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/nvim ${XDG_CONFIG_HOME}/nvim
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/alacritty ${XDG_CONFIG_HOME}/alacritty
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/ghostty ${XDG_CONFIG_HOME}/ghostty
