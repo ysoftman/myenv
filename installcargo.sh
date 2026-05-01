@@ -9,8 +9,8 @@ declare -A mpkgs
 mpkgs["alacritty"]="alacritty"             # (https://github.com/alacritty/alacritty) kitty, iterm2 대체
 mpkgs["bandwhich"]="bandwhich"             # (https://github.com/imsnif/bandwhich) iftop 대체
 mpkgs["bat"]="bat"                         # (https://github.com/sharkdp/bat) cat 대체
-mpkgs["bottom"]="btm"                      # (https://github.com/ClementTsang/bottom) top,htop 대체
 mpkgs["binsider"]="binsider"               # (https://github.com/orhun/binsider) Analyze ELF(Executable and Linkable Format) binaries(mac 에서 동작안함)
+mpkgs["bottom"]="btm"                      # (https://github.com/ClementTsang/bottom) top,htop 대체
 mpkgs["cargo-watch"]="cargo-watch"         # (https://github.com/watchexec/cargo-watch) golang air 툴과 같은 소스 변경시 자동 빌드
 mpkgs["cfonts"]="cfonts"                   # (https://github.com/dominikwilkowski/cfonts) toilet,figlet 대체
 mpkgs["delta"]="delta"                     # (https://github.com/dandavison/delta) git diff
@@ -34,6 +34,7 @@ mpkgs["lsd"]="lsd"                         # (https://github.com/Peltoche/lsd) l
 mpkgs["lychee"]="lychee"                   # (https://github.com/lycheeverse/lychee) broken hyperlinks 체크
 mpkgs["mdcat"]="mdcat"                     # (https://github.com/swsnr/mdcat) cat for markdown
 mpkgs["mise"]="mise"                       # (https://github.com/jdx/mise) node(nvm, volta대체), python, go등 버전 관리
+mpkgs["netwatch-tui"]="netwatch"           # (https://github.com/matthart1983/netwatch) iftop, bandwhich 대체
 mpkgs["nu"]="nu"                           # (https://github.com/nushell/nushell) bash 대체
 mpkgs["oha"]="oha"                         # (https://github.com/hatoo/oha) 웹 부하 툴
 mpkgs["ohmystock"]="ohmystock"             # (https://github.com/ysoftman/ohmystock) 개인적으로 만든 주식값 파악
