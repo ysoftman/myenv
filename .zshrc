@@ -145,8 +145,7 @@ if [ -x "($command -v brew)" ] && [ -f "$(brew --prefix)/share/google-cloud-sdk/
 if [ -f '/Users/ysoftman/workspace/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ysoftman/workspace/google-cloud-sdk/completion.zsh.inc'; fi
 if [ -x "($command -v brew)" ] && [ -f "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc" ]; then source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"; fi
 
-# zsh 프로파일링할때 사용
-#zprof
-
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+# zsh 프로파일링할때 사용
+#zprof
