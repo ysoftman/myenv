@@ -21,3 +21,6 @@ node_modules/
 
 # claudecode
 .claude
+
+# codex
+.codex
