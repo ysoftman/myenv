@@ -1,43 +1,47 @@
 return {
-  {
-    -- https://github.com/hrsh7th/nvim-cmp
-    "hrsh7th/nvim-cmp",
-    dependencies = { "hrsh7th/cmp-emoji" },
-    opts = function(_, opts)
-      opts.sources = opts.sources or {}
-      table.insert(opts.sources, { name = "emoji" })
-
-      local has_words_before = function()
-        unpack = unpack or table.unpack
-        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-      end
-
-      local luasnip = require("luasnip")
-      local cmp = require("cmp")
-
-      opts.mapping = vim.tbl_extend("force", opts.mapping or {}, {
-        ["<Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          elseif luasnip.expand_or_jumpable() then
-            luasnip.expand_or_jump()
-          elseif has_words_before() then
-            cmp.complete()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_prev_item()
-          elseif luasnip.jumpable(-1) then
-            luasnip.jump(-1)
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-      })
-    end,
-  },
+  -- https://newreleases.io/project/github/LazyVim/LazyVim/release/v14.0.0 부터 blink.cmp 로 대체되었음
+  -- https://github.com/hrsh7th/nvim-cmp
+  -- "hrsh7th/nvim-cmp",
+  -- dependencies = { "hrsh7th/cmp-emoji" },
+  -- opts = function(_, opts)
+  --   opts.sources = opts.sources or {}
+  --   table.insert(opts.sources, { name = "emoji" })
+  --
+  --   local has_words_before = function()
+  --     unpack = unpack or table.unpack
+  --     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  --     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+  --   end
+  --
+  --   local luasnip = require("luasnip")
+  --   local cmp = require("cmp")
+  --
+  --   local next_item = cmp.mapping(function(fallback)
+  --     if cmp.visible() then
+  --       cmp.select_next_item()
+  --     elseif luasnip.expand_or_jumpable() then
+  --       luasnip.expand_or_jump()
+  --     elseif has_words_before() then
+  --       cmp.complete()
+  --     else
+  --       fallback()
+  --     end
+  --   end, { "i", "s" })
+  --
+  --   local prev_item = cmp.mapping(function(fallback)
+  --     if cmp.visible() then
+  --       cmp.select_prev_item()
+  --     elseif luasnip.jumpable(-1) then
+  --       luasnip.jump(-1)
+  --     else
+  --       fallback()
+  --     end
+  --   end, { "i", "s" })
+  --
+  --   opts.mapping = vim.tbl_extend("force", opts.mapping or {}, {
+  --     -- 자동 완성 항목 선택 이동시 디폴트 ctrl-p, ctrl-n 이 zellij 단축키와 겹쳐 tab, s-tab 을 추가
+  --     ["<Tab>"] = next_item,
+  --     ["<S-Tab>"] = prev_item,
+  --   })
+  -- end,
 }
