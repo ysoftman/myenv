@@ -6,6 +6,9 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CODEX_HOME="${CODEX_HOME:-${HOME}/.codex}"
+CODEX_CONFIG="${CODEX_HOME}/config.toml"
+CODEX_CONFIG_MARKER_BEGIN="# BEGIN myenv codex config"
+CODEX_CONFIG_MARKER_END="# END myenv codex config"
 
 # codex cli 설치
 if command -v codex >/dev/null 2>&1; then
@@ -23,8 +26,53 @@ else
     fi
 fi
 
-# codex 설정 링크
+# project path 등 민감 정보 빼고 설정
 mkdir -p "${CODEX_HOME}"
+touch "${CODEX_CONFIG}"
+
+if grep -Fq "${CODEX_CONFIG_MARKER_BEGIN}" "${CODEX_CONFIG}"; then
+    echo "Codex 기본 설정이 이미 있습니다. 스킵합니다."
+else
+    echo "Codex 기본 설정을 추가합니다..."
+    cat >>"${CODEX_CONFIG}" <<EOF
+
+${CODEX_CONFIG_MARKER_BEGIN}
+model = "gpt-5.5"
+# model_reasoning_effort = "medium"
+model_reasoning_effort = "low"
+model_reasoning_summary = "concise"
+model_verbosity = "low"
+
+[features]
+fast_mode = false
+
+[tui]
+theme = "catppuccin-mocha"
+status_line = [
+  "model-with-reasoning",
+  "current-dir",
+  "model",
+  "project-name",
+  "git-branch",
+  "run-state",
+  "context-used",
+  "five-hour-limit",
+  "weekly-limit",
+  "context-window-size",
+  "used-tokens",
+  "total-input-tokens",
+  "total-output-tokens",
+]
+
+[tui.keymap.global]
+# zelij ctrl-t 탭 단축키와 겹쳐서 커스텀으로 추가
+open_transcript = "ctrl-alt-o"
+
+[notice]
+fast_default_opt_out = true
+${CODEX_CONFIG_MARKER_END}
+EOF
+fi
 
 # mcp 설치
 # 인증은 codex mcp login atlassian 으로 진행
