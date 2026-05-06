@@ -3,6 +3,13 @@
   "model": "opencode/big-pickle",
   "small_model": "google/gemini-2.0-flash",
   "autoupdate": true,
+  "mcp": {
+    "atlassian": {
+      "type": "remote",
+      "url": "https://mcp.atlassian.com/v1/mcp",
+      "enabled": true
+    }
+  },
   "provider": {
     "anthropic": {
       "options": {
