@@ -25,10 +25,15 @@ allowed-tools: Bash, Read, Grep, Glob
    - 커밋 메시지에서 이슈 번호 패턴 (#123) 을 검색한다
    - 대화 맥락에서 사용자가 언급한 이슈 번호를 확인한다
    - 이슈 번호가 있으면 `gh issue view <번호> --json title,number -q '"\(.number): \(.title)"'`로 이슈 정보를 확인한다
+   - 브랜치명, 커밋 메시지, 대화 맥락에서 Jira 이슈 키 패턴(`PROJECT-123`)을 찾는다
+   - Jira 이슈 키가 있으면 PR 본문에 관련 이슈 섹션을 추가하고, 해당 Jira 사이트 URL을 Markdown 링크 형식으로 넣는다.
+     예: `[PROJECT-123](https://jira.example.com/browse/PROJECT-123)`
 
 4. PR 내용을 작성한다:
    - **제목**: 영어, 70자 이내, 동사 원형으로 시작 (add, fix, update, refactor 등)
    - **본문**: 한글로 작성, 아래 템플릿을 기반으로 작성
+   - 본문에 URL을 넣을 때는 평문 URL 대신 Markdown 링크 형식(`[텍스트](URL)`)을 사용한다.
+     예: `[Issue #123](https://github.example.com/org/repo/issues/123)`
 
 5. 사용자에게 제목, 본문을 보여주고 확인을 받는다. 제목과 본문은 `printf`에 ANSI 녹색(`\033[32m ... \033[0m`) escape 코드를 씌워 터미널에 녹색으로 출력한다:
 
