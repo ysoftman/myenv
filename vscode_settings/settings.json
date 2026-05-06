@@ -289,6 +289,12 @@
     ],
     "file:///Users/ysoftman/.vscode/extensions/continue.continue-1.2.16-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
+    ],
+    "file:///Users/ysoftman/.vscode/extensions/continue.continue-1.2.17-darwin-arm64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
+    ],
+    "file:///Users/ysoftman/.vscode/extensions/continue.continue-1.2.22-darwin-arm64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
     ]
   },
   "vs-kubernetes": {
