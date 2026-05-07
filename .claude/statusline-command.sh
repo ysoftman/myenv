@@ -178,20 +178,32 @@ token_info=" ${C_INDIGO}context[${bar_color}${bar_filled}${RST}${bar_empty}${C_I
 # 캐시 정보
 cache_info=" ${C_GREEN}cache[R:${cache_r_fmt}/W:${cache_w_fmt}]${RST}"
 
-# 누적 토큰 정보
-cumulative_info=" ${C_PINK}tokens[in:${total_in_fmt}/out:${total_out_fmt}]${RST}"
+# model + effort + thinking (한 그룹으로 묶음, line 1 끝에 표시)
+model_group=" ${C_VIOLET}${model_name}${RST}"
 
-# 코드 변경 정보
-diff_info=""
-if [ "$lines_added" -gt 0 ] || [ "$lines_removed" -gt 0 ]; then
-    diff_info=" ${C_BLUE}+${lines_added}/-${lines_removed}${RST}"
+if [ -n "$effort_level" ]; then
+    case "$effort_level" in
+        low) eff_color="$C_INDIGO" ;;
+        medium) eff_color="$C_CYAN" ;;
+        high) eff_color="$C_VIOLET" ;;
+        xhigh | max) eff_color="$C_PINK" ;;
+        *) eff_color="$RST" ;;
+    esac
+    model_group="${model_group} ${eff_color}effort:${effort_level}${RST}"
 fi
 
-# 세션 시간
-session_info=" ${C_ORANGE}${session_time}${RST}"
+if [ "$thinking_enabled" = "true" ]; then
+    model_group="${model_group} ${C_VIOLET}✦think${RST}"
+fi
 
-# Line 2: 비용 / rate limit / effort / thinking
-line2="${C_YELLOW}\$${cost_fmt}${RST}"
+# Line 2: 누적·예산 (tokens, diff, session | $cost | rate limits)
+line2="${C_PINK}tokens[in:${total_in_fmt}/out:${total_out_fmt}]${RST}"
+if [ "$lines_added" -gt 0 ] || [ "$lines_removed" -gt 0 ]; then
+    line2="${line2} ${C_BLUE}+${lines_added}/-${lines_removed}${RST}"
+fi
+line2="${line2} ${C_ORANGE}${session_time}${RST}"
+line2="${line2}  ${C_YELLOW}\$${cost_fmt}${RST}"
+
 now_epoch=$(date +%s)
 
 # 5h rate limit
@@ -209,7 +221,7 @@ if [ -n "$rl_5h_pct" ]; then
         rem=" $(fmt_remaining $((rl_5h_reset - now_epoch)) hm)"
     fi
     seg="${rl_color}5h used:${pct_int}%${rem}${RST}"
-    line2="${line2:+$line2  }${seg}"
+    line2="${line2}  ${seg}"
 fi
 
 # 7d rate limit
@@ -227,30 +239,12 @@ if [ -n "$rl_7d_pct" ]; then
         rem=" $(fmt_remaining $((rl_7d_reset - now_epoch)) dh)"
     fi
     seg="${rl_color}7d used:${pct_int}%${rem}${RST}"
-    line2="${line2:+$line2  }${seg}"
-fi
-
-# effort
-if [ -n "$effort_level" ]; then
-    case "$effort_level" in
-        low) eff_color="$C_INDIGO" ;;
-        medium) eff_color="$C_CYAN" ;;
-        high) eff_color="$C_VIOLET" ;;
-        xhigh | max) eff_color="$C_PINK" ;;
-        *) eff_color="$RST" ;;
-    esac
-    seg="${eff_color}effort:${effort_level}${RST}"
-    line2="${line2:+$line2  }${seg}"
-fi
-
-# thinking
-if [ "$thinking_enabled" = "true" ]; then
-    seg="${C_VIOLET}✦think${RST}"
-    line2="${line2:+$line2  }${seg}"
+    line2="${line2} ${seg}"
 fi
 
 # 상태 표시줄 출력 (printf %b 로 escape 코드 해석)
-printf '%b' "${C_RED}${username}${RST} ${C_CYAN}${display_path}${RST}${git_info}${token_info}${cache_info}${cumulative_info}${diff_info}${session_info} ${C_VIOLET}${model_name}${RST}"
+# Line 1: 현재 상태 (user · path · git | context · cache | model · effort · think)
+printf '%b' "${C_RED}${username}${RST} ${C_CYAN}${display_path}${RST}${git_info}${token_info}${cache_info}${model_group}"
 if [ -n "$line2" ]; then
     printf '\n%b' "$line2"
 fi
