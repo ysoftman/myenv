@@ -41,6 +41,14 @@ total_output=$(echo "$input" | jq -r '.context_window.total_output_tokens // 0')
 lines_added=$(echo "$input" | jq -r '.cost.total_lines_added // 0')
 lines_removed=$(echo "$input" | jq -r '.cost.total_lines_removed // 0')
 
+# rate limit / effort / thinking 가져오기
+rl_5h_pct=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
+rl_5h_reset=$(echo "$input" | jq -r '.rate_limits.five_hour.resets_at // empty')
+rl_7d_pct=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
+rl_7d_reset=$(echo "$input" | jq -r '.rate_limits.seven_day.resets_at // empty')
+effort_level=$(echo "$input" | jq -r '.effort.level // empty')
+thinking_enabled=$(echo "$input" | jq -r '.thinking.enabled // false')
+
 # 색상 정의 (항목마다 겹치지 않는 무지개 색상, 256-color)
 RST='\033[0m'
 C_RED='\033[38;5;203m'
@@ -128,6 +136,34 @@ fmt_tokens() {
     fi
 }
 
+# 잔여 초를 짧게 포맷
+# mode=hm  → "HhMm" (1시간 미만이면 "Mm")
+# mode=dh  → "DdHh" (1일 미만이면 "HhMm")
+fmt_remaining() {
+    local sec=$1
+    local mode=$2
+    if [ "$sec" -le 0 ]; then
+        echo "0m"
+        return
+    fi
+    local d=$((sec / 86400))
+    local h=$(((sec % 86400) / 3600))
+    local m=$(((sec % 3600) / 60))
+    if [ "$mode" = "dh" ]; then
+        if [ "$d" -gt 0 ]; then
+            echo "${d}d${h}h"
+        else
+            echo "${h}h${m}m"
+        fi
+    else
+        if [ "$h" -gt 0 ]; then
+            echo "${h}h${m}m"
+        else
+            echo "${m}m"
+        fi
+    fi
+}
+
 context_fmt=$(fmt_tokens "$context_size")
 total_in_fmt=$(fmt_tokens "$total_input")
 total_out_fmt=$(fmt_tokens "$total_output")
@@ -154,8 +190,67 @@ fi
 # 세션 시간
 session_info=" ${C_ORANGE}${session_time}${RST}"
 
-# 비용
-cost_info=" ${C_YELLOW}\$${cost_fmt}${RST}"
+# Line 2: 비용 / rate limit / effort / thinking
+line2="${C_YELLOW}\$${cost_fmt}${RST}"
+now_epoch=$(date +%s)
+
+# 5h rate limit
+if [ -n "$rl_5h_pct" ]; then
+    pct_int=$(printf '%.0f' "$rl_5h_pct")
+    if [ "$pct_int" -ge 80 ]; then
+        rl_color="$RED"
+    elif [ "$pct_int" -ge 50 ]; then
+        rl_color="$YELLOW"
+    else
+        rl_color="$GREEN"
+    fi
+    rem=""
+    if [ -n "$rl_5h_reset" ]; then
+        rem=" $(fmt_remaining $((rl_5h_reset - now_epoch)) hm)"
+    fi
+    seg="${rl_color}5h used:${pct_int}%${rem}${RST}"
+    line2="${line2:+$line2  }${seg}"
+fi
+
+# 7d rate limit
+if [ -n "$rl_7d_pct" ]; then
+    pct_int=$(printf '%.0f' "$rl_7d_pct")
+    if [ "$pct_int" -ge 80 ]; then
+        rl_color="$RED"
+    elif [ "$pct_int" -ge 50 ]; then
+        rl_color="$YELLOW"
+    else
+        rl_color="$GREEN"
+    fi
+    rem=""
+    if [ -n "$rl_7d_reset" ]; then
+        rem=" $(fmt_remaining $((rl_7d_reset - now_epoch)) dh)"
+    fi
+    seg="${rl_color}7d used:${pct_int}%${rem}${RST}"
+    line2="${line2:+$line2  }${seg}"
+fi
+
+# effort
+if [ -n "$effort_level" ]; then
+    case "$effort_level" in
+        low) eff_color="$C_INDIGO" ;;
+        medium) eff_color="$C_CYAN" ;;
+        high) eff_color="$C_VIOLET" ;;
+        xhigh | max) eff_color="$C_PINK" ;;
+        *) eff_color="$RST" ;;
+    esac
+    seg="${eff_color}effort:${effort_level}${RST}"
+    line2="${line2:+$line2  }${seg}"
+fi
+
+# thinking
+if [ "$thinking_enabled" = "true" ]; then
+    seg="${C_VIOLET}✦think${RST}"
+    line2="${line2:+$line2  }${seg}"
+fi
 
 # 상태 표시줄 출력 (printf %b 로 escape 코드 해석)
-printf '%b' "${C_RED}${username}${RST} ${C_CYAN}${display_path}${RST}${git_info}${token_info}${cache_info}${cumulative_info}${diff_info}${session_info}${cost_info} ${C_VIOLET}${model_name}${RST}"
+printf '%b' "${C_RED}${username}${RST} ${C_CYAN}${display_path}${RST}${git_info}${token_info}${cache_info}${cumulative_info}${diff_info}${session_info} ${C_VIOLET}${model_name}${RST}"
+if [ -n "$line2" ]; then
+    printf '\n%b' "$line2"
+fi
