@@ -28,6 +28,7 @@ bash ./installneovim.sh
 bash ./installlapcesettings.sh
 bash ./installtmuxplugin.sh
 bash ./installpip.sh
+bash ./installbun.sh
 bash ./installfzf.sh
 bash ./installgolang.sh
 bash ./installgolangtools.sh
