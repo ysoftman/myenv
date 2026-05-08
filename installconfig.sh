@@ -46,7 +46,14 @@ if delta --version 2>/dev/null 2>&1; then
     git config --global interactive.diffFilter "delta --color-only"
     git config --global add.interactive.userBuiltin "false"
     git config --global delta.navigate "true"
-    git config --global delta.light "false"
+    # OSC(Operating System Command): 터미널 에뮬레이터와 통신하는 ANSI escape 시퀀스.
+    # OSC 10 = 전경색 질의, OSC 11 = 배경색 질의. 응답은 ESC ]N;rgb:RRRR/GGGG/BBBB ESC \ 형태.
+    # delta.dark=true 로 dark 명시 → delta가 light/dark 자동 감지(OSC 10/11 질의)를 스킵.
+    # 자동 감지가 켜져 있으면 zellij/wezterm 등에서 응답(rgb:NNNN/NNNN/NNNN)이
+    # stdin에 남아 다음 프롬프트로 노출되는 문제가 있음. light=false 만으론 부족.
+    # https://github.com/dandavison/delta/issues/1707
+    # https://github.com/zellij-org/zellij/issues/3590
+    git config --global delta.dark "true"
     git config --global delta.line-numbers "true"
     git config --global delta.side-by-side "true"
     git config --global delta.syntax-theme "OneHalfDark"
