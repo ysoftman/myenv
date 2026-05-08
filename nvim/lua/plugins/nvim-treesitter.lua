@@ -50,6 +50,8 @@ return {
           ["helmfile.*%.ya?ml"] = "helm",
           [".*%.tpl"] = "helm",
           [".*nginx%.conf%.j2"] = "nginx",
+          [".*jenkinsfile.*"] = "groovy",
+          [".*Jenkinsfile.*"] = "groovy",
         },
       })
     end,
