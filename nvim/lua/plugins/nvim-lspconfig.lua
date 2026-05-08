@@ -2,6 +2,10 @@ return {
   {
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
     -- nvim-lspconfig는 LSP 서버를 설정만 해주고, 설치는 해주지 않는다(ensure_installed 기능이 없음)
+    -- 최근 nvim-lspconfig 업데이트에서 :LspInfo 명령이 제거됐습니다.
+    -- Neovim 0.11+ 기준 대체 명령:
+    -- :checkhealth vim.lsp - LSP 클라이언트 상태/연결된 서버/로그 경로 등 확인
+    -- <leader>cl - Lsp Config, 전체 lsp 설정 보기
     "neovim/nvim-lspconfig",
     dependencies = {
       "jose-elias-alvarez/typescript.nvim",
