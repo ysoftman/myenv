@@ -26,13 +26,7 @@ allowed-tools: Bash, Read, Grep, Glob
    - 사용자가 거부하면 커밋하지 않고 대기. 승인하거나 해당 라인을 수정/제거하라고 지시하면 그에 따른다.
 
    후보가 없으면 이 step을 조용히 통과한다.
-4. 변경된 파일의 언어를 감지하고 해당 lint/format 도구를 실행한다:
-   - JavaScript/TypeScript: `biome check --write .`
-   - Go: `golangci-lint run --fix && gofmt -w .`
-   - Rust: `cargo clippy --fix && cargo fmt`
-   - Python: `ruff check --fix . && ruff format .`
-   - Shell: `shfmt -i 4 -ci -w <파일>`
-   - Markdown: `rumdl fmt .`
+4. 변경된 파일의 언어를 감지하고 `lint-formatting` 스킬의 표준 명령어를 실행하여 lint/format을 적용한다.
 5. 변경 사항을 분석하여 커밋 메시지를 작성한다:
    - 제목은 영어 소문자로, 동사 원형으로 시작 (add, fix, update, tidy, upgrade, remove 등)
    - 70자 이내로 간결하게 작성
