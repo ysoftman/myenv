@@ -49,10 +49,6 @@ Claude 관련 설정 파일(CLAUDE.md, AGENTS.md, `.claude/agents/*.md`, `.claud
 - 오타 / 철자 / 네이밍 일관성 검사 → `typo-checker`
 - 의존성 보안 취약점 / CVE 검사 → `vulnerability-package-checker`
 
-## Team 모드 작업 규칙
-
-작업 시 항상 team 모드(병렬 에이전트)를 사용한다. 각 pane 창은 종료하지 않는다(keep alive). 기존 팀이 있으면 TeamDelete하지 않고 재사용한다. 팀 재사용이 불가능한 경우에만 정리 후 새로 생성한다.
-
 ## 스킬 사용 표시
 
 - 스킬 사용 시(`Skill` 도구 호출이든 슬래시 커맨드로 이미 로드된 상태든) 첫 응답에서 어떤 스킬로 처리하는지 한 문장으로 안내한다.

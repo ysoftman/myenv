@@ -10,6 +10,12 @@ allowed-tools: Agent, Bash(tmux:*), TaskCreate, TaskUpdate, TaskList, TaskGet, S
 
 Input: $ARGUMENTS
 
+## 작업 방침
+
+- 작업 시 가능한 한 team 모드(병렬 에이전트)를 우선 사용한다. 단일 파일 작은 수정 등 분해가 의미 없는 경우만 예외.
+- 각 pane 창은 종료하지 않는다(keep alive). 사용자가 명시적으로 요청한 경우에만 shutdown.
+- 기존 팀이 있으면 `TeamDelete`하지 않고 재사용한다. 재사용이 완전히 불가능한 경우에만 정리 후 새로 생성한다.
+
 ## 실행 절차
 
 ### 1. 작업 분석 및 분해
@@ -112,5 +118,4 @@ SendMessage로 추가 컨텍스트를 제공하거나 작업 범위를 조정한
 - TeamCreate 없이 Agent만 사용하면 in-process로 실행되어 tmux pane이 생성되지 않는다
 - Agent의 `team_name`이 TeamCreate의 team_name과 일치해야 한다
 - teammate는 idle 상태가 정상이며, SendMessage로 메시지를 보내면 깨어난다
-- pane은 종료하지 않는다. 사용자가 명시적으로 요청할 때만 shutdown_request를 사용한다
-- 팀을 삭제하지 않는다. 재사용이 완전히 불가능한 경우에만 정리 후 새로 생성한다
+- pane keep-alive / 팀 재사용 규칙은 `작업 방침` 섹션 참고
