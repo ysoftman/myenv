@@ -8,3 +8,4 @@ cava/themes
 .ansible
 .local_llm_env_for_claude_code
 .claude/settings.local.json
+.serena
