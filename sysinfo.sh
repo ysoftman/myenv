@@ -4,17 +4,18 @@ mac_used_mem() {
     if ! command -v vm_stat >/dev/null 2>&1; then
         return
     fi
-    local PAGE_SIZE
-    local WIRED
-    local ACTIVE
-    local COMPRESSED
-    local USED
-    PAGE_SIZE=$(vm_stat | grep "page size of" | awk '{print $8}')
-    WIRED=$(vm_stat | grep "wired down" | awk '{print $4}' | sed 's/\.//')
-    ACTIVE=$(vm_stat | grep "Pages active" | awk '{print $3}' | sed 's/\.//')
-    COMPRESSED=$(vm_stat | grep "Pages occupied by compressor" | awk '{print $5}' | sed 's/\.//')
-    USED=$(((WIRED + ACTIVE + COMPRESSED) * PAGE_SIZE / 1024 / 1024 / 1024))
-    echo "${USED}Gi used"
+    # vm_stat 를 한 번만 호출해 모든 값을 한 스냅샷에서 추출한다.
+    # 여러 번 호출하면 값이 어긋나거나 호출당 비용이 누적된다.
+    vm_stat | awk '
+        /page size of/        { page = $8 }
+        /Pages wired down/    { wired = $4; sub(/\./, "", wired) }
+        /Pages active/        { active = $3; sub(/\./, "", active) }
+        /Pages occupied by compressor/ { compressed = $5; sub(/\./, "", compressed) }
+        END {
+            used = (wired + active + compressed) * page / 1024 / 1024 / 1024
+            printf "%dGi used\n", used
+        }
+    '
 }
 
 mac_info() {

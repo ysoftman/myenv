@@ -89,23 +89,25 @@ layout {
             // Set to "0" for running the command once. Only non-negative integers are allowed.
             // top -l 0 은 중지 없이 계속 샘플링한다.
             // top -l 1 로 샘플링을 한번 했는데 terminal buffer, redraw 등의 이유로 mac OS 에서 top 이 안끝는 경우 발생
-            // pid,command,cpu 등의 최소 컬럼만 표시되도록 한다.
-            // timeout 으로 1초를 넘기면 종료하도록 한다.
+            // -n 0 으로 프로세스 행을 0개로 줄여 헤더(CPU usage, PhysMem)만 빠르게 받는다.
+            // timeout 으로 3초를 넘기면 종료한다 (1초는 가끔 top 이 살짝 넘겨 빈 출력이 됨).
+            // zjstatus 는 셸을 거치지 않고 명령을 실행하므로 fallback(|| echo -) 은 bash -c 안쪽에 둔다.
+            // awk 의 $N 은 백슬래시 없이 그대로 둔다 — \$N 으로 escape 하면 macOS awk 가 syntax error.
             // timeout 명령어는 brew install coreutils 로 설치
-            command_cpu_command    "timeout 1 bash -c \"top -l 1 -stats pid,command,cpu | awk '/CPU usage/ {print $3}'\""
+            command_cpu_command    "bash -c \"timeout 3 top -l 1 -n 0 | awk '/CPU usage/ {print $3}' || echo -\""
             command_cpu_format     "#[bg=$bg0,fg=$red]#[fg=$crust,bg=$red] #[bg=$surface1,fg=$red,bold] {stdout}#[bg=$bg0,fg=$surface1]"
             command_cpu_interval   "5"
             command_cpu_rendermode "static"
 
 
             // mac 에선 cache/buffer 가 포함된 메모리로 실제 사용메모리 보다 크게 보인다.
-            command_mem_command    "timeout 1 bash -c \"(source ${myenv_path}/sysinfo.sh && mac_used_mem) || top -l 1 -stats pid,command,cpu | awk '/PhysMem/ {print $2,$3}'\""
+            command_mem_command    "bash -c \"(source ${myenv_path}/sysinfo.sh && mac_used_mem) || (timeout 3 top -l 1 -n 0 | awk '/PhysMem/ {print $2,$3}') || echo -\""
             // mac_used_mem()에서 cache/buffer 를 제외한 사용 메모리 계산
             command_mem_format     "#[bg=$bg0,fg=$green]#[fg=$crust,bg=$green] #[bg=$surface1,fg=$green,bold] {stdout}#[bg=$bg0,fg=$surface1]"
             command_mem_interval   "10"
             command_mem_rendermode "static"
 
-            command_disk_command    "timeout 1 bash -c \"df -h / | awk 'NR==2 {print $4}'\""
+            command_disk_command    "bash -c \"df -h / | awk 'NR==2 {print $4}' || echo -\""
             command_disk_format     "#[bg=$bg0,fg=$sky]#[fg=$crust,bg=$sky]󰋊 #[bg=$surface1,fg=$sky,bold] {stdout} avail#[bg=$bg0,fg=$surface1]"
             command_disk_interval   "60"
             command_disk_rendermode "static"
@@ -116,7 +118,7 @@ layout {
             // command_host_interval   "0"
             // command_host_rendermode "static"
 
-            command_user_command    "timeout 1 bash -c \"whoami\""
+            command_user_command    "bash -c \"whoami || echo -\""
             command_user_format     "#[bg=$bg0,fg=$flamingo]#[fg=$crust,bg=$flamingo]󰀄 #[bg=$surface1,fg=$flamingo,bold] {stdout}#[bg=$bg0,fg=$surface1]"
             command_user_interval   "10"
             command_user_rendermode "static"
