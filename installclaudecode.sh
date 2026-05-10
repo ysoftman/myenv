@@ -18,6 +18,17 @@ else
     echo "완료. claude code > mcp > atlassian 에서 웹 로그인하세요."
 fi
 
+# Serena MCP 설치 (https://github.com/oraios/serena)
+# 코드 심볼 검색/편집을 위한 의미론적 코딩 도구
+# 시작 시 브라우저 탭 자동 열기 비활성화: ~/.serena/serena_config.yml 에서
+# web_dashboard_open_on_launch: false 로 변경한다.
+if claude mcp list 2>&1 | grep -q "serena"; then
+    echo "Serena MCP 서버가 이미 설정되어 있습니다. 스킵합니다."
+else
+    echo "Serena MCP 서버를 설치합니다..."
+    claude mcp add -s user serena -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context ide-assistant
+fi
+
 # marketplace 추가
 # claude-plugins-official 은 기본 포함
 USER_MARKETPLACES=(
