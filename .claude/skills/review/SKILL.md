@@ -1,7 +1,7 @@
 ---
 name: review
-description: Review GitHub PRs and track improvements as tasks. Use when user asks to review a PR, check a pull request, says "PR 리뷰해줘", "코드 리뷰", "리뷰해줘", "PR 봐줘", or provides a GitHub PR URL or number.
-allowed-tools: Bash(gh:*), Bash(printf:*), Read, Glob, Grep, TaskCreate, TaskUpdate, TaskList, TaskGet
+description: Review GitHub PRs and track improvements as tasks. Use when user asks to review a PR, check a pull request, says "PR 리뷰해줘", "PR 봐줘", or provides a GitHub PR URL or number. Delegates the actual review judgment to the `reviewer` agent.
+allowed-tools: Agent, Bash(gh:*), Bash(printf:*), Read, Glob, Grep, TaskCreate, TaskUpdate, TaskList, TaskGet
 ---
 
 # PR Review
@@ -43,19 +43,20 @@ Input: $ARGUMENTS
 
 ### PR 리뷰
 
-메인 에이전트가 직접 리뷰를 수행한다:
+리뷰 판단은 `reviewer` 에이전트에게 위임한다. 메인은 입력 준비와 결과 후처리만 담당한다.
 
-1. `gh pr view <number>`로 PR 상세 정보를 확인한다
+1. `gh pr view <number>`로 PR 상세 정보(제목, 본문)를 확인한다
 2. `gh pr diff <number>`로 변경 내용을 가져온다
-3. 변경 규모나 위험도가 크다고 판단되면(파일 수가 많거나, 핵심 모듈이 포함된 경우) 핵심 파일을 우선 깊게 보고 나머지는 카테고리별로 요약한다. lock 파일이나 generated 코드처럼 자동 생성된 변경은 빠르게 훑는다.
-4. 변경된 파일의 주변 코드 컨텍스트를 읽어 충분한 이해를 확보한다. diff만 보고 판단하면 의도와 제약을 놓치기 쉽다.
-5. 아래 관점에서 리뷰한다:
-   - 코드 정확성 및 버그 위험
-   - 프로젝트 컨벤션 준수 (CLAUDE.md 규칙 포함: bun/rg/fd/biome/rumdl 등 도구 사용 여부)
-   - 성능 영향
-   - 테스트 커버리지
-   - 보안 고려사항
-6. 리뷰 결과를 섹션별로 정리하여 한국어로 표시한다 (리뷰 본문은 일반 출력으로 둔다)
+3. 변경 규모가 매우 크면(파일 수가 많거나 핵심 모듈 포함) 핵심 파일 우선이라는 가이드를 함께 전달한다. lock 파일이나 generated 코드는 빠르게 훑도록 지시한다.
+4. **`Agent` 도구로 `reviewer` 서브에이전트를 호출**한다. 다음을 prompt에 포함:
+   - PR 번호와 제목
+   - 변경된 diff 전체
+   - PR 본문/설명 (의도 컨텍스트)
+   - 사전 컨텍스트 수집 단계에서 확인한 기존 코멘트 (중복 지적 방지)
+   - 변경된 파일의 컨텍스트가 필요하면 에이전트가 직접 Read하도록 안내
+   - 프로젝트 컨벤션(CLAUDE.md 규칙: bun/rg/fd/biome/rumdl 등) 위반 여부도 체크 항목에 포함
+5. 에이전트가 반환한 리뷰 결과(🔴 높음 / 🟡 중간 / 🟢 낮음으로 분류된 findings)를 받는다
+6. 받은 결과 본문은 사용자에게 그대로 표시한다 (일반 출력)
 
 ### 개선사항 task 등록
 
@@ -66,22 +67,28 @@ Input: $ARGUMENTS
 3. 이번 리뷰에서 새로 발견한 항목만 `TaskCreate`로 추가한다(번호는 기존과 충돌하지 않게 이어 부여)
 4. 변경/삭제로 더 이상 해당 없는 기존 task는 `TaskUpdate status=skipped`로 처리한다(삭제하지 않고 흔적을 남긴다)
 
-리뷰에서 발견된 개선사항을 TaskCreate로 등록한다:
+리뷰에서 발견된 개선사항을 TaskCreate로 등록한다. 표기 체계는 `reviewer` 에이전트와 완전히 동일하다 (`🔴 높음` / `🟡 중간` / `🟢 낮음`).
 
-- subject 형식: `#번호 [우선순위] 제목` (예: `#1 [높음] retry 루프에서 context 취소 확인 누락`)
-- 우선순위 기준:
-  - **높음**: 버그/데이터 손상/보안 위험/장애 유발 가능성. 머지 전에 반드시 처리.
-  - **중간**: 동작은 하지만 성능/유지보수성/테스트 커버리지 등 명확한 약점. 가능하면 같은 PR에서 처리.
-  - **낮음**: 스타일/네이밍/사소한 리팩토링 제안. 작성자 재량.
-- description에 구체적인 문제 상황과 개선 방안을 기술한다
-- 리뷰 완료 후 아래 형식의 요약 테이블을 표시한다. 테이블은 `printf`에 ANSI 녹색(`\033[32m ... \033[0m`) escape 코드를 씌워 터미널에 녹색으로 출력한다(일반 리뷰 본문과 시각적으로 구분되어 후속 지시 대상을 빠르게 찾을 수 있다):
+- subject 형식: `#번호 우선순위 — 제목` (예: `#1 🔴 높음 — retry 루프에서 context 취소 확인 누락`)
+- 우선순위 기준 (에이전트와 동일):
+  - **🔴 높음**: 버그/데이터 손상/보안 위험/장애 유발 가능성. 머지 전에 반드시 처리.
+  - **🟡 중간**: 동작은 하지만 성능/유지보수성/테스트 커버리지 등 명확한 약점. 가능하면 같은 PR에서 처리.
+  - **🟢 낮음**: 스타일/네이밍/사소한 리팩토링 제안. 작성자 재량.
+- description에 구체적인 문제 상황과 개선 방안을 기술한다 (가능하면 `file:line` 위치 포함)
+
+### 표 출력 정책
+
+- **초기 표 출력은 에이전트가 담당**한다. 스킬은 별도로 초기 표를 다시 출력하지 않는다 (중복 방지).
+- **상태 업데이트는 스킬이 담당**한다. 사용자가 "1번 완료", "2번 스킵" 등으로 지시하면:
+  1. 해당 Task를 `TaskUpdate`로 상태 변경
+  2. 전체 표를 아래 형식으로 다시 출력 (에이전트 표와 동일 포맷, 상태 컬럼만 업데이트)
 
 ```bash
 printf '\033[32m%s\033[0m\n' "$(cat <<'EOF'
 | # | 상태 | 우선순위 | 내용 |
 |---|------|---------|------|
-| 1 | 💤 대기 | 높음 | retry 루프에서 context 취소 확인 누락 |
-| 2 | 💤 대기 | 낮음 | isBodyStreamError 문자열 매칭 |
+| 1 | ✅ 완료 | 🔴 높음 | retry 루프에서 context 취소 확인 누락 |
+| 2 | 💤 대기 | 🟢 낮음 | isBodyStreamError 문자열 매칭 |
 EOF
 )"
 ```
@@ -91,7 +98,6 @@ EOF
   - ⚡ 진행 (in_progress)
   - ✅ 완료 (completed)
   - ⏩ 스킵 (skipped)
-- 사용자가 "1번 완료", "2번 스킵" 등으로 지시하면 TaskUpdate로 상태를 변경하고 테이블을 다시 표시한다
 
 ### 코멘트 요청 처리
 
