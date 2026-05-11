@@ -5,6 +5,17 @@
 - 되돌리기 어려운 git 작업(commit, push, force push, branch 삭제 등)은 실행 전에 반드시 사용자에게 확인을 받는다.
 - 단, 사용자가 현재 세션에서 사전 승인을 명시한 경우(예: "이후 커밋은 자동 진행해도 됨") 그 범위 내에서는 재확인 생략 가능.
 
+## PR 머지 (절대 규칙)
+
+- PR 머지는 **반드시 GitHub 웹 UI 에서 사람이 직접 수행**한다. Claude 는 **절대 PR 머지를 실행하지 않는다**.
+- 머지는 **리뷰 승인(approve)이 받아진 PR 에 한해서만** 진행 가능하다. mergeable 상태나 branch protection 우회 가능 여부와 무관하게 적용된다.
+- 다음 명령은 Claude 가 실행하지 않는다:
+  - `gh pr merge` (모든 모드: --merge / --squash / --rebase)
+  - base 브랜치 fast-forward 또는 직접 머지하는 `git merge` / `git push` 조합
+  - GitHub API 의 PR merge 엔드포인트 호출
+- 사용자가 "머지해", "merge", "이대로 머지하자" 등 명시 지시하더라도 Claude 는 머지를 직접 수행하지 않고 **사용자에게 웹 UI 에서 머지하도록 안내**한다.
+- 자기 작업 브랜치의 로컬 통합(예: 로컬 feature branch 를 다른 로컬 브랜치로 머지)은 위 규칙에서 제외 — 다만 머지된 결과를 protected 브랜치로 push 하는 단계는 여전히 위 규칙에 따른다.
+
 ## 커밋 / PR / Issue 메시지 규칙
 
 - 커밋 메시지는 항상 영어로 작성한다.
