@@ -19,22 +19,29 @@ fi
 os_name=$(uname -o | tr '[:upper:]' '[:lower:]')
 myenv_path="$HOME/workspace/myenv"
 
-#multiplexer="tmux"
-multiplexer="zellij"
-eval "type ${multiplexer}"
-if [[ $? == 0 && -z $multiplexer_already_started ]]; then
+if [ -z $multiplexer_already_started ]; then
     # 터미널 시작시 바로 tmux 전환하면 signal 6(abort) 되는 환경도 있어 물어본다.
-    echo "start ${multiplexer}? (y/n, default:y)"
+    # t=tmux, z=zellij, n=실행 안 함. 빈 입력은 default(tmux).
+    echo "start multiplexer? (t=tmux / z=zellij / n=no, default:t)"
     read answer
-    if [ -z $answer ] || [ $(echo $answer | tr '[:upper:]' '[:lower:]') = 'y' ]; then
-        if [[ $multiplexer == "zellij" && $os_name == *"darwin"* ]]; then
-            multiplexer_args="--layout $myenv_path/zellij/layouts/mac.kdl"
+    case "$(echo $answer | tr '[:upper:]' '[:lower:]')" in
+        ""|t|tmux)  multiplexer="tmux" ;;
+        z|zellij)   multiplexer="zellij" ;;
+        *)          multiplexer="" ;;
+    esac
+
+    if [ -n "$multiplexer" ]; then
+        eval "type ${multiplexer}" > /dev/null
+        if [[ $? == 0 ]]; then
+            if [[ $multiplexer == "zellij" && $os_name == *"darwin"* ]]; then
+                multiplexer_args="--layout $myenv_path/zellij/layouts/mac.kdl"
+            fi
+            # exec 로 현재 프로세스를 ${multiplexer} 프로세스로 대체(replace)한다.
+            # 변수 사용시 변수에 포함된 공백이 문자열로 취급하기 때문에 eval 로 쉘 규칙대 수행하도록 해야 한다.
+            eval "exec ${multiplexer} ${multiplexer_args}"
+            # 또는 다음과 같이 배열 변수로 구분될 수 있도록 한다.
+            # cmd=(zellij --layout $myenv_path/zellij/layouts/mac.kdl); exec ${cmd[@]}
         fi
-        # exec 로 현재 프로세스를 ${multiplexer} 프로세스로 대체(replace)한다.
-        # 변수 사용시 변수에 포함된 공백이 문자열로 취급하기 때문에 eval 로 쉘 규칙대 수행하도록 해야 한다.
-        eval "exec ${multiplexer} ${multiplexer_args}"
-        # 또는 다음과 같이 배열 변수로 구분될 수 있도록 한다.
-        # cmd=(zellij --layout $myenv_path/zellij/layouts/mac.kdl); exec ${cmd[@]}
     fi
 fi
 
