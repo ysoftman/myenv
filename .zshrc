@@ -45,6 +45,22 @@ if [ -z $multiplexer_already_started ]; then
     fi
 fi
 
+# zsh main 키맵을 emacs 로 고정한다.
+#
+# zsh 의 자동 키맵 결정 규칙 (셸 시작 시 단 1회):
+#   1) $VISUAL 에 "vi" 포함 → viins(vi insert mode)
+#   2) 아니면 $EDITOR 에 "vi" 포함 → viins(vi insert mode)
+#   3) 둘 다 아님 → emacs
+#   ※ 부분 문자열 매칭 → "vim", "nvim", "view" 모두 vi 로 잡힘.
+#   ※ 한 번 잡히면 .zshrc 에서 EDITOR 를 바꿔도 키맵은 안 바뀜. bindkey -e/-v 로만 변경 가능.
+#
+# 사용자 환경은 myenv.sh 가 EDITOR=nvim 을 export 하므로,
+# - WezTerm 직접: zsh 시작 시점에 EDITOR 미존재 → emacs
+# - WezTerm → tmux: 안쪽 zsh 가 EDITOR=nvim 상속 상태로 시작 → viins(vi insert mode) → ^[f 가 word-jump 안 됨
+# 두 환경을 일치시키기 위해 myenv.sh 소스 전에 emacs 키맵을 강제한다.
+# (myenv.sh 의 bindkey '^[t' 등 커스텀 매핑도 emacs 키맵에 들어가야 하므로 위치 중요)
+bindkey -e
+
 [ -f ${myenv_path}/myenv.sh ] && source ${myenv_path}/myenv.sh
 [ -f ~/workspace/bill-ysoftman/env.sh ] && source ~/workspace/bill-ysoftman/env.sh
 
