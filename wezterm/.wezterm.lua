@@ -15,6 +15,18 @@ config.enable_tab_bar = true
 config.tab_bar_at_bottom = false
 
 config.window_close_confirmation = "AlwaysPrompt" -- AlwaysPrompt 또는 NeverPrompt
+-- tmux 안에서 ctrl+q 가 확인 없이 바로 닫히는 문제 방지
+-- 기본 skip 리스트에 tmux 가 포함되어 있어 tmux 가 foreground 면 confirm 을 건너뜀
+config.skip_close_confirmation_for_processes_named = {
+	"bash",
+	"sh",
+	"zsh",
+	"fish",
+	"nu",
+	"cmd.exe",
+	"pwsh.exe",
+	"powershell.exe",
+}
 
 -- config.window_decorations = "TITLE | RESIZE" -- 위쪽 제목표시 + 윈도우 크기 조정이 됨
 -- config.window_decorations = "RESIZE" -- 위쪽 제목표시 줄 없애기 윈도우 크기 조정이 됨
