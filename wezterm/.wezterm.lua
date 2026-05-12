@@ -100,7 +100,6 @@ config.colors = {
 	copy_mode_active_highlight_bg = { AnsiColor = "Yellow" },
 	copy_mode_active_highlight_fg = { AnsiColor = "Yellow" },
 
-	--  cmd+f search 로 매칭되는 모든 부분들
 	copy_mode_inactive_highlight_bg = { Color = "#52ad70" },
 	copy_mode_inactive_highlight_fg = { AnsiColor = "White" },
 
@@ -121,7 +120,12 @@ config.font = wezterm.font("FiraCode Nerd Font")
 -- ligature(!=, --- >= <=) 비활성화
 config.harfbuzz_features = { "calt = 0", "clig = 0", "liga = 0" }
 
-config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
+-- leader 키 비활성화
+-- WezTerm leader(C-b)가 tmux prefix(C-b)와 충돌해서 tmux 안에서 C-b 가 동작하지 않음.
+-- WezTerm 이 leader 모드로 먼저 잡아 1초 대기하고 매칭 없으면 폐기해 tmux 에 도달 못 함.
+-- 아래 LEADER mods 매핑들(split / pane 이동 등)도 함께 비활성 상태가 됨.
+-- 다시 사용하려면 충돌 안 나는 키(예: C-a, C-Space)로 leader 를 지정하면 매핑은 그대로 살아남.
+-- config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
 
 -- 키 매핑(https://wezterm.org/config/default-keys.html)
 -- wezterm show-keys : 현재 설정된 키 정보 확인하는 CLI
