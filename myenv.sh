@@ -589,7 +589,10 @@ fi
 
 # pyenv 사용
 if which pyenv >/dev/null 2>&1; then
+    # PATH 앞에 ~/.pyenv/shims 를 설정해서 pyenv  를 우선 사용하도록 한다.
     eval "$(pyenv init -)"
+    # .pyenv-shiim(stake lock file) 이 남아 있어 에러가 발생하는 경우 삭제
+    # rm -f /Users/ysoftman/.pyenv/shims/.pyenv-shim
 fi
 
 # virtualenv 설정
