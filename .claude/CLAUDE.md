@@ -60,6 +60,11 @@
 
 Claude 관련 설정 파일(CLAUDE.md, AGENTS.md, `.claude/agents/*.md`, `.claude/skills/**/SKILL.md` 등) 작성 시 frontmatter 이후 본문은 반드시 `#`(h1) heading으로 시작하고, 이후 섹션은 `##` 이하를 사용한다.
 
+## Team 모드 자동 사용
+
+- 작업이 병렬 진행에 유리하면 사용자가 `/team`을 명시하지 않아도 `team` 스킬을
+  자동으로 사용한다. 세부 판단 기준은 `team` 스킬을 따른다.
+
 ## 전문 에이전트 활용
 
 서브에이전트 또는 team 모드에서 작업 유형이 다음 중 하나에 해당하면 `general-purpose` 대신 `.claude/agents/`의 전문 에이전트를 우선 사용한다.
