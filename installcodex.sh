@@ -30,12 +30,11 @@ fi
 mkdir -p "${CODEX_HOME}"
 touch "${CODEX_CONFIG}"
 
-if grep -Fq "${CODEX_CONFIG_MARKER_BEGIN}" "${CODEX_CONFIG}"; then
-    echo "Codex 기본 설정이 이미 있습니다. 스킵합니다."
-else
-    echo "Codex 기본 설정을 추가합니다..."
-    cat >>"${CODEX_CONFIG}" <<EOF
+codex_config_block="$(mktemp)"
+codex_config_without_block="$(mktemp)"
+trap 'rm -f "${codex_config_block}" "${codex_config_without_block}"' EXIT
 
+cat >"${codex_config_block}" <<EOF
 ${CODEX_CONFIG_MARKER_BEGIN}
 model = "gpt-5.5"
 # model_reasoning_effort = "medium"
@@ -71,8 +70,22 @@ open_transcript = "ctrl-alt-o"
 [notice]
 fast_default_opt_out = true
 ${CODEX_CONFIG_MARKER_END}
+
 EOF
+
+if grep -Fq "${CODEX_CONFIG_MARKER_BEGIN}" "${CODEX_CONFIG}"; then
+    echo "Codex 기본 설정을 갱신합니다..."
+    awk \
+        -v begin="${CODEX_CONFIG_MARKER_BEGIN}" \
+        -v end="${CODEX_CONFIG_MARKER_END}" \
+        '$0 == begin { skip = 1; next } $0 == end { skip = 0; next } !skip { print }' \
+        "${CODEX_CONFIG}" >"${codex_config_without_block}"
+else
+    echo "Codex 기본 설정을 추가합니다..."
+    cp "${CODEX_CONFIG}" "${codex_config_without_block}"
 fi
+
+cat "${codex_config_block}" "${codex_config_without_block}" >"${CODEX_CONFIG}"
 
 # mcp 설치
 # 인증은 codex mcp login atlassian 으로 진행
