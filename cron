@@ -1,3 +1,9 @@
+# 네트워크 속도가 불안정해 주기적으로 속도 측정
 #0 * * * * bash /Users/ysoftman/workspace/test_code/speedtestcron/speedtestcron.sh 2>> $HOME/speedtestcron.log
+
+# github pr 리뷰 하지 않은 사용자에 알림 보내기
 0 9-20 * * 1-5 /Users/ysoftman/workspace/pr-slack-notifier/target/debug/pr-slack-notifier --auto-send --config /Users/ysoftman/workspace/pr-slack-notifier/config.json 2>> /Users/ysoftman/workspace/pr-slack-notifier/send_log.log
 
+# 7일 동안 실제 DB 쿼리(REST API 호출 포함)가 단 한 건도 없으면 Supabase는 이 프로젝트를 휴면 상태로 판단하고 서버(Compute 인스턴스)를 잠재워 버린다.
+# 이를 방지하고자 sbbs(Supabase 사용)를 주기적으로 요청한다.
+0 */2 * * * curl -fsS -I https://ysoftman.github.io/sbbs/ >> $HOME/sbbs.log 2>&1
