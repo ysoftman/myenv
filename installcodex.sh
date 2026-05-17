@@ -43,7 +43,7 @@ model_reasoning_summary = "concise"
 model_verbosity = "low"
 
 [features]
-fast_mode = false
+fast_mode = true
 
 [tui]
 theme = "catppuccin-mocha"
@@ -78,7 +78,13 @@ if grep -Fq "${CODEX_CONFIG_MARKER_BEGIN}" "${CODEX_CONFIG}"; then
     awk \
         -v begin="${CODEX_CONFIG_MARKER_BEGIN}" \
         -v end="${CODEX_CONFIG_MARKER_END}" \
-        '$0 == begin { skip = 1; next } $0 == end { skip = 0; next } !skip { print }' \
+        '
+        # 기존 설정에서 마커 블록(begin~end)을 제거하고
+        # 그 외 라인만 출력한다.
+        $0 == begin { skip = 1; next }   # 시작 마커: skip 켜기, 마커 라인은 출력 안 함
+        $0 == end   { skip = 0; next }   # 종료 마커: skip 끄기, 마커 라인은 출력 안 함
+        !skip       { print }            # skip 꺼진 상태일 때만 라인 출력
+        ' \
         "${CODEX_CONFIG}" >"${codex_config_without_block}"
 else
     echo "Codex 기본 설정을 추가합니다..."
