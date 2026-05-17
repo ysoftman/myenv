@@ -37,8 +37,8 @@ trap 'rm -f "${codex_config_block}" "${codex_config_without_block}"' EXIT
 cat >"${codex_config_block}" <<EOF
 ${CODEX_CONFIG_MARKER_BEGIN}
 model = "gpt-5.5"
-# model_reasoning_effort = "medium"
-model_reasoning_effort = "low"
+# model_reasoning_effort = "low"
+model_reasoning_effort = "medium"
 model_reasoning_summary = "concise"
 model_verbosity = "low"
 
