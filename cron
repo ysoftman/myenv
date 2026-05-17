@@ -1,0 +1,3 @@
+#0 * * * * bash /Users/ysoftman/workspace/test_code/speedtestcron/speedtestcron.sh 2>> $HOME/speedtestcron.log
+0 9-20 * * 1-5 /Users/ysoftman/workspace/pr-slack-notifier/target/debug/pr-slack-notifier --auto-send --config /Users/ysoftman/workspace/pr-slack-notifier/config.json 2>> /Users/ysoftman/workspace/pr-slack-notifier/send_log.log
+

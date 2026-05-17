@@ -69,5 +69,12 @@ fi
 # cp -v ~/.ssh/* ./.ssh/
 # cp -v /etc/hosts ./hosts
 
-# cargo packages 는 installcargo.sh 로 관리
-# vim plugins 는 .vimrc 로 관리
+# cron job 백업
+crontab -l >cron
+
+echo "cron 파일로 백업되었습니다. cron 잡을 다시 복구하려면 다음 명령으로 기존 cron 잡을 모두 삭제하고 다시 등록하세요."
+echo "crontab -r"
+echo "crontab cron"
+
+# 커밋되지 민감정보 알림
+bash ./scan_gitignored_secrets.sh
