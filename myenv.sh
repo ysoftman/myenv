@@ -280,12 +280,19 @@ function set_kube_prompt {
 }
 
 function fzf-rg-widget {
-    local RG_PREFIX="rg --hidden --column --line-number --no-heading --color=always --smart-case "
+    local RG_HIDDEN="rg --hidden --column --line-number --no-heading --color=always --smart-case"
+    local RG_NOHIDDEN="rg --column --line-number --no-heading --color=always --smart-case"
     local FZF_INITIAL_QUERY="${*:-}"
     # fzf의 become(...)이나 execute(...) 명령은 별도 셸 프로세스(서브셸)에서 실행
     # 현재 셸에 정의된 함수(my_func)는 서브셸로 전파되지 않아 "command not found: my_func" 오류 발생.
+    # alt-d 로 hidden 파일(.git 등) 포함/제외 토글.
+    # fzf 의 transform 액션 출력이 곧 다음 액션 목록이 된다.
+    # 현재 상태는 별도 변수 없이 FZF_PROMPT 텍스트로 판별한다.
+    # 토글 상태는 --header 와 프롬프트 양쪽에 표시한다.
     fzf --ansi --query "$FZF_INITIAL_QUERY" \
-        --bind "start:reload:$RG_PREFIX {q}" \
+        --bind "start:reload:$RG_HIDDEN {q}" \
+        --bind "alt-d:transform:[[ \$FZF_PROMPT == *no-hidden* ]] && echo \"change-prompt(rg+fzf> )+change-header([alt-d] hidden: ON  (.git 등 포함))+reload($RG_HIDDEN {q})\" || echo \"change-prompt(rg+fzf [no-hidden]> )+change-header([alt-d] hidden: OFF (.git 등 제외))+reload($RG_NOHIDDEN {q})\"" \
+        --header "[alt-d] hidden: ON  (.git 등 포함)" \
         --color "hl:underline,hl+:underline:reverse" \
         --prompt 'rg+fzf> ' \
         --delimiter : \
