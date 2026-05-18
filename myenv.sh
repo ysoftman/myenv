@@ -380,11 +380,14 @@ function set_fzf {
     # fzf ctrl-t(파일찾기)시
     # 숨김파일도 보기
     findcmd='find'
-    export FZF_CTRL_T_COMMAND="$findcmd . -type f"
+    local FD_HIDDEN="find . -type f"
+    local FD_NOHIDDEN="find . -type f -not -path '*/.*'"
     if which fd >/dev/null 2>&1; then
         findcmd='fd'
-        export FZF_CTRL_T_COMMAND="$findcmd --hidden --no-ignore"
+        FD_HIDDEN="fd --hidden --no-ignore"
+        FD_NOHIDDEN="fd"
     fi
+    export FZF_CTRL_T_COMMAND="$FD_HIDDEN"
     # fzf vim 에서 FZF_DEFAULT_COMMAND 를 사용함
     export FZF_DEFAULT_COMMAND=$FZF_CTRL_T_COMMAND
 
@@ -396,7 +399,10 @@ function set_fzf {
         catcmd="${batcmd} {}"
         alias bat="${batcmd}"
     fi
+    # alt-d 로 hidden 파일(.git 등) 포함/제외 토글 (fzf-rg-widget 과 동일 패턴)
     export FZF_CTRL_T_OPTS="--prompt '$findcmd+fzf> ' \
+--header '[alt-d] hidden: ON  (.git 등 포함)' \
+--bind 'alt-d:transform:[[ \$FZF_PROMPT == *no-hidden* ]] && echo \"change-prompt($findcmd+fzf> )+change-header([alt-d] hidden: ON  (.git 등 포함))+reload($FD_HIDDEN)\" || echo \"change-prompt($findcmd+fzf [no-hidden]> )+change-header([alt-d] hidden: OFF (.git 등 제외))+reload($FD_NOHIDDEN)\"' \
 --preview '($catcmd || tree -C {}) 2> /dev/null | head -200'
 "
     # fzf ctrl-r(히스토리)시
