@@ -44,6 +44,7 @@ model_verbosity = "low"
 
 [features]
 fast_mode = true
+goals = true
 
 [tui]
 theme = "catppuccin-mocha"
