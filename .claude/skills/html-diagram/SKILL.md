@@ -1,6 +1,6 @@
 ---
 name: html-diagram
-description: Build dark-theme HTML documents with inline SVG diagrams (flow, sequence, timeline, mapping, architecture, state). Use whenever the user wants to draw/render/visualize a diagram as HTML, asks for "다이어그램", "diagram", "플로우", "타임라인", "시퀀스", "아키텍처", "도식", references an existing HTML diagram doc, or wants to add a new diagram section to such a doc. Also trigger when the user describes a process, pipeline, system, or migration steps and asks to visualize it — even if they don't explicitly say "HTML".
+description: Build dark-theme HTML documents with inline SVG diagrams (flow, sequence, timeline, mapping, architecture, state). Use whenever the user wants to draw/render/visualize a diagram as HTML, asks for "다이어그램", "diagram", "플로우", "타임라인", "시퀀스", "아키텍처", "도식", references an existing HTML diagram doc, or wants to add a new diagram section to such a doc. Also trigger when the user describes a process, pipeline, system, or migration steps and asks to visualize it — even if they don't explicitly say "HTML". Also trigger when the user asks for "example", "예시", "샘플", "모든 패턴", "showcase" of this skill — copy `examples/showcase.html` to the current working directory and open it.
 ---
 
 # html-diagram
@@ -11,12 +11,15 @@ The goal is not to invent a new diagramming framework. It is to produce dependab
 
 ## When to use what output mode
 
-Two output modes. Pick based on the user's intent — ask only if it's genuinely ambiguous after one careful read:
+Three output modes. Pick based on the user's intent — ask only if it's genuinely ambiguous after one careful read:
 
 1. **Standalone HTML file** — when there's no existing doc, or when the user asks for "a new HTML diagram / new page / 새 HTML". Use the scaffold in `assets/base.html`.
 2. **Insert into existing HTML** — when the user references an existing HTML diagram doc, or says "여기에 추가", "이 문서에 섹션 추가", "기존 doc 에 다이어그램 하나 더". Find the file, locate the right insertion point (typically right before the markdown-body section or after the latest `section.diagram`), and add a new `<section class="diagram">`. Also update the TOC `<nav class="toc">` if one exists.
+3. **Showcase example** — when the user types just `example`, `예시`, `샘플`, `showcase`, `모든 패턴`, or asks "이 스킬의 예시 보여줘 / 어떤 다이어그램이 가능한지 보여줘". Copy `examples/showcase.html` to the current working directory (default filename `html-diagram-showcase.html`, but honor any path the user gives) and offer to `open` it. Do NOT regenerate from scratch — the showcase is the canonical reference for every pattern + component.
 
 For the second mode: read the existing doc first to confirm conventions (CSS variables actually present, section id pattern, TOC structure). Don't overwrite shared `<style>` or `<defs>`; reuse them.
+
+For the third mode: the showcase file already contains all 8 SVG patterns (flow, sequence, timeline, mapping, architecture, state, swimlane, dependency) plus palette, badges, callouts, legend, and mapping-table examples. It's self-contained (no external CSS/JS), so plain `cp` is enough. Don't edit the source `examples/showcase.html` in response to a user's example request — copy it. If the user later wants to tweak the copy, treat that as mode 2 (insert/edit existing).
 
 ## Diagram section anatomy
 
@@ -72,6 +75,7 @@ Don't invent colors. Reuse the existing CSS variables defined in the host docume
 | `--skip` | `#64748b` | skipped / dropped |
 
 For SVG content, the same colors appear with alpha for fills:
+
 - ok fill `rgba(34,197,94,.18)` stroke `rgba(34,197,94,.5)`
 - wip fill `rgba(245,158,11,.18)` stroke `rgba(245,158,11,.5)`
 - todo fill `rgba(100,116,139,.18)` stroke `rgba(100,116,139,.5)`
@@ -96,8 +100,9 @@ Don't use external libraries. Inline SVG with a small embedded `<style>` block i
 | **dependency** | DAG with fan-in/fan-out (job dependencies) |
 
 For each pattern, prefer:
+
 - viewBox sized so the diagram renders crisp at typical container widths (~1100×H for full-width, ~700×H for compact).
-- A single `<defs>` arrowhead marker (`id="arr1"`) reused across paths. If multiple colors are needed, define `arr1`, `arr2`, … with distinct fills.
+- One `<defs>` arrowhead marker per SVG with a **section-scoped id** like `arr-<section>` (e.g. `arr-flow`, `arr-seq`). SVG marker IDs are document-scoped in HTML, so `id="arr1"` reused across sections is invalid and breaks `url(#…)` resolution when fills differ. For multiple arrow colors in one SVG, suffix the color (`arr-flow-ok`, `arr-flow-warn`).
 - An SVG-scoped `<style>` block instead of inline `fill=` on every shape, so semantic classes (`.ok`, `.wip`, …) stay consistent.
 - Grouped nodes via `<g class="step ok" transform="translate(x,y)">` so one transform moves the whole node.
 
@@ -125,6 +130,7 @@ SVG `<text>` does not wrap and `foreignObject` rendering is unreliable across br
 Repeat `x` on each `<tspan>` so the line restarts at the same horizontal origin; `dy="1.2em"` advances the baseline.
 
 **Length rules of thumb:**
+
 - Korean: keep a single visual line to ≤ ~14 characters at 13–15px font; otherwise wrap.
 - English: keep ≤ ~22 characters per line at the same size.
 - If the label still won't fit after wrapping to 2 lines, the node box is too small — enlarge it or move detail into a `<desc>` / callout below the SVG.
@@ -145,12 +151,14 @@ Korean characters render fine in `sans-serif`; no explicit font needed. Avoid fo
 - **Inventing colors** that don't appear in the existing token set — diagrams look off and merge requests get review comments. Always pull from the tokens above.
 - **Wrapping SVG text** with `\n` — SVG ignores it. Use multiple `<text>` rows.
 - **Forgetting `viewBox`** — the SVG won't scale responsively. Always set viewBox; let CSS handle width/height.
-- **Re-defining markers** in every section. Define `arr1` once at the top SVG and reuse, or use one per section if the diagrams are otherwise independent.
+- **Duplicate marker IDs across SVGs.** Marker IDs (`id="arr1"`) are document-scoped — using the same ID in multiple `<defs>` is invalid HTML and the browser will resolve every `url(#arr1)` to the first match, breaking color variants. Always section-scope: `arr-flow`, `arr-seq`, `arr-state`, …
 - **Overstuffing one diagram.** If the diagram is getting > 14 nodes or > 1200px wide, split into two related sections with shared legend.
 - **Light-theme contrast.** This palette is dark-only. Don't insert light backgrounds inside dark panels.
+- **Letting wide SVGs shrink unreadably on mobile.** When a SVG is dense (≥ 7 nodes or `viewBox` width ≥ 1000), add `class="wide"` to the `<div class="svgwrap">` so it scrolls horizontally below ~880px instead of collapsing past legibility. The base template's `@media print` block then restores fit-to-page so prints aren't clipped.
 
 ## Reference files
 
 - `references/design-tokens.md` — full CSS variable list, badge/callout/legend HTML.
 - `references/svg-patterns.md` — working snippets for each diagram pattern (flow, sequence, timeline, mapping, architecture, state, swimlane, dependency).
 - `assets/base.html` — standalone HTML scaffold: head with style block, body with `<div class="wrap">` + sticky TOC + `<main>` ready for `section.diagram` blocks.
+- `examples/showcase.html` — end-to-end example page rendering every pattern + every component (palette, badges, callouts, legend, mapping table). Copy this verbatim when the user asks for `example` / `예시` / `샘플` / `showcase`.

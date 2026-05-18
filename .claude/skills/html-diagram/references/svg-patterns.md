@@ -1,44 +1,34 @@
 # SVG Diagram Patterns
 
-Each pattern is a copy-friendly skeleton. Adjust viewBox, coordinates, and labels to fit the data. Keep semantics in classes (`.ok`, `.wip`, …) rather than inline `fill=` so colors stay consistent with `design-tokens.md`.
+Each pattern below is a **complete, copy-pasteable snippet** — the `<defs>` marker and the pattern's `<style>` block are inlined so you can drop a single `<svg>…</svg>` block into any page and it renders correctly. Adjust the viewBox, coordinates, and labels to fit your data, but keep semantics in classes (`.ok`, `.wip`, …) rather than inline `fill=` so colors stay consistent with `design-tokens.md`.
 
-Every SVG in this file follows the accessibility contract from `SKILL.md`: `role="img"` + `aria-labelledby` pointing at first-child `<title>` and `<desc>`. Replace the IDs and copy in real content for your diagram — don't strip them.
+Two non-negotiable rules:
 
-## Shared building blocks
+1. **Accessibility contract.** Every SVG follows `SKILL.md` §Accessibility: `role="img"` + `aria-labelledby` referencing first-child `<title>` and `<desc>`. Replace the IDs with section-unique ones; don't strip the elements.
+2. **Section-scoped marker IDs.** Each pattern uses `id="arr-<pattern>"` (e.g. `arr-flow`, `arr-seq`). When you embed multiple patterns in one HTML document, **rename the marker to match your section id** (`arr-deploy-flow`, `arr-rollout-seq`, …) so document-scoped IDs don't collide.
 
-### Arrow marker (define once, reuse)
+## Shared style fragments (reference only)
 
-```html
-<defs>
-  <marker id="arr1" viewBox="0 0 10 10" refX="9" refY="5"
-          markerWidth="8" markerHeight="8" orient="auto">
-    <path d="M0,0 L10,5 L0,10 z" fill="#98a2b3" />
-  </marker>
-</defs>
+If you want to share a status style block across many flow diagrams in one host doc, lift this into the page-level `<style>` instead of repeating it per SVG:
+
+```css
+.step rect   { stroke: #2a3142; stroke-width: 1.5; }
+.step text   { fill: #e6e8ee; font: 600 15px sans-serif; text-anchor: middle; }
+.step .sub   { font: 13px sans-serif; fill: #98a2b3; }
+.step .stat  { font: 700 12px sans-serif; }
+.ok   rect   { fill: rgba(34,197,94,.18);  stroke: rgba(34,197,94,.5); }
+.wip  rect   { fill: rgba(245,158,11,.18); stroke: rgba(245,158,11,.5); }
+.todo rect   { fill: rgba(100,116,139,.18); stroke: rgba(100,116,139,.5); }
+.skip rect   { fill: rgba(100,116,139,.10); stroke: rgba(100,116,139,.4);
+               stroke-dasharray: 4 3; }
+.ok   .stat  { fill: #22c55e; }
+.wip  .stat  { fill: #f59e0b; }
+.todo .stat  { fill: #64748b; }
+.skip .stat  { fill: #64748b; }
+.arrow       { stroke: #98a2b3; stroke-width: 1.5; fill: none; }
 ```
 
-For colored arrows, define `arr-ok`, `arr-warn`, etc. with matching `fill`.
-
-### Status style block
-
-```html
-<style>
-  .step rect   { stroke: #2a3142; stroke-width: 1.5; }
-  .step text   { fill: #e6e8ee; font: 600 15px sans-serif; text-anchor: middle; }
-  .step .sub   { font: 13px sans-serif; fill: #98a2b3; }
-  .step .stat  { font: 700 12px sans-serif; }
-  .ok   rect   { fill: rgba(34,197,94,.18);  stroke: rgba(34,197,94,.5); }
-  .wip  rect   { fill: rgba(245,158,11,.18); stroke: rgba(245,158,11,.5); }
-  .todo rect   { fill: rgba(100,116,139,.18); stroke: rgba(100,116,139,.5); }
-  .skip rect   { fill: rgba(100,116,139,.10); stroke: rgba(100,116,139,.4);
-                 stroke-dasharray: 4 3; }
-  .ok   .stat  { fill: #22c55e; }
-  .wip  .stat  { fill: #f59e0b; }
-  .todo .stat  { fill: #64748b; }
-  .skip .stat  { fill: #64748b; }
-  .arrow       { stroke: #98a2b3; stroke-width: 1.5; fill: none; }
-</style>
-```
+For colored arrowhead variants, add more markers next to your `arr-<section>` (e.g. `arr-<section>-ok`) with a matching `fill`.
 
 ---
 
@@ -51,20 +41,45 @@ Use when the story is "first A, then B, then C, branching on D". Boxes 130–160
      role="img" aria-labelledby="flow-t flow-d">
   <title id="flow-t">Pipeline progress</title>
   <desc id="flow-d">Three sequential steps from left to right with status badges (done, in progress, todo).</desc>
-  <defs>… arr1 …</defs>
-  <style>… status block …</style>
+  <defs>
+    <marker id="arr-flow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#98a2b3" />
+    </marker>
+  </defs>
+  <style>
+    .step rect   { stroke-width: 1.5; }
+    .step text   { fill: #e6e8ee; font: 600 15px sans-serif; text-anchor: middle; }
+    .step .sub   { font: 13px sans-serif; fill: #98a2b3; }
+    .step .stat  { font: 700 12px sans-serif; }
+    .ok   rect   { fill: rgba(34,197,94,.18);  stroke: rgba(34,197,94,.5); }
+    .wip  rect   { fill: rgba(245,158,11,.18); stroke: rgba(245,158,11,.5); }
+    .todo rect   { fill: rgba(100,116,139,.18); stroke: rgba(100,116,139,.5); }
+    .ok   .stat  { fill: #22c55e; }
+    .wip  .stat  { fill: #f59e0b; }
+    .todo .stat  { fill: #64748b; }
+    .arrow       { stroke: #98a2b3; stroke-width: 1.5; fill: none; }
+  </style>
 
   <g class="step ok"   transform="translate(20,40)">
     <rect width="130" height="80" rx="6" />
     <text x="65" y="22">Step 1</text>
     <text x="65" y="40" class="sub">subtitle</text>
-    <text x="65" y="72" class="stat">✅ DONE</text>
+    <text x="65" y="72" class="stat">DONE</text>
   </g>
-  <g class="step wip"  transform="translate(170,40)"> … </g>
-  <g class="step todo" transform="translate(320,40)"> … </g>
+  <g class="step wip"  transform="translate(170,40)">
+    <rect width="130" height="80" rx="6" />
+    <text x="65" y="22">Step 2</text>
+    <text x="65" y="72" class="stat">WIP</text>
+  </g>
+  <g class="step todo" transform="translate(320,40)">
+    <rect width="130" height="80" rx="6" />
+    <text x="65" y="22">Step 3</text>
+    <text x="65" y="72" class="stat">TODO</text>
+  </g>
 
-  <path class="arrow" d="M150,80 L170,80" marker-end="url(#arr1)" />
-  <path class="arrow" d="M300,80 L320,80" marker-end="url(#arr1)" />
+  <path class="arrow" d="M150,80 L170,80" marker-end="url(#arr-flow)" />
+  <path class="arrow" d="M300,80 L320,80" marker-end="url(#arr-flow)" />
 </svg>
 ```
 
@@ -82,7 +97,7 @@ Two-column or three-column actors on top, dashed lifelines down, horizontal arro
   <title id="seq-t">Request sequence between three services</title>
   <desc id="seq-d">Client triggers a job on the orchestrator, which calls the backend; backend responds, orchestrator returns the result.</desc>
   <defs>
-    <marker id="arr1" viewBox="0 0 10 10" refX="9" refY="5"
+    <marker id="arr-seq" viewBox="0 0 10 10" refX="9" refY="5"
             markerWidth="8" markerHeight="8" orient="auto">
       <path d="M0,0 L10,5 L0,10 z" fill="#98a2b3" />
     </marker>
@@ -111,13 +126,13 @@ Two-column or three-column actors on top, dashed lifelines down, horizontal arro
 
   <!-- messages -->
   <text class="lbl" x="295" y="95" text-anchor="middle">start job</text>
-  <path class="msg" d="M140,105 L450,105" marker-end="url(#arr1)" />
+  <path class="msg" d="M140,105 L450,105" marker-end="url(#arr-seq)" />
 
   <text class="lbl" x="605" y="155" text-anchor="middle">POST /work</text>
-  <path class="msg" d="M450,165 L760,165" marker-end="url(#arr1)" />
+  <path class="msg" d="M450,165 L760,165" marker-end="url(#arr-seq)" />
 
   <text class="lbl" x="605" y="215" text-anchor="middle">200 OK</text>
-  <path class="msg" d="M760,225 L450,225" marker-end="url(#arr1)" stroke-dasharray="5 3" />
+  <path class="msg" d="M760,225 L450,225" marker-end="url(#arr-seq)" stroke-dasharray="5 3" />
 </svg>
 ```
 
@@ -185,7 +200,12 @@ Left column boxes, right column boxes, arrows crossing. Use when comparing "old 
      role="img" aria-labelledby="map-t map-d">
   <title id="map-t">Legacy to new system mapping</title>
   <desc id="map-d">Two boxes on the left (legacy components) map with arrows to two boxes on the right (replacements).</desc>
-  <defs>… arr1 …</defs>
+  <defs>
+    <marker id="arr-map" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#98a2b3" />
+    </marker>
+  </defs>
   <style>
     .col-title { fill: #98a2b3; font: 600 14px sans-serif; text-anchor: middle; }
     .box rect  { stroke-width: 1.5; }
@@ -208,8 +228,8 @@ Left column boxes, right column boxes, arrows crossing. Use when comparing "old 
   <g class="box dst"><rect x="640" y="140" width="220" height="56" rx="6" />
     <text x="750" y="173">Declarative Apply</text></g>
 
-  <path class="arrow" d="M260,88  L640,88"  marker-end="url(#arr1)" />
-  <path class="arrow" d="M260,168 L640,168" marker-end="url(#arr1)" />
+  <path class="arrow" d="M260,88  L640,88"  marker-end="url(#arr-map)" />
+  <path class="arrow" d="M260,168 L640,168" marker-end="url(#arr-map)" />
 </svg>
 ```
 
@@ -267,7 +287,12 @@ Small graph with circles or rounded rectangles for states, arrows with text labe
      role="img" aria-labelledby="state-t state-d">
   <title id="state-t">Gate verdict state machine</title>
   <desc id="state-d">Running state transitions to PASS when all gates succeed, or FAIL when any gate fails.</desc>
-  <defs>… arr1 …</defs>
+  <defs>
+    <marker id="arr-state" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#98a2b3" />
+    </marker>
+  </defs>
   <style>
     .state rect { fill: rgba(110,168,254,.18); stroke: rgba(110,168,254,.5); stroke-width: 1.5; }
     .state text { fill: #e6e8ee; font: 600 14px sans-serif; text-anchor: middle; }
@@ -284,10 +309,10 @@ Small graph with circles or rounded rectangles for states, arrows with text labe
   <g class="state fail"><rect x="340" y="200" width="120" height="50" rx="25" />
     <text x="400" y="230">FAIL</text></g>
 
-  <path class="edge" d="M200,140 Q270,80 340,65" marker-end="url(#arr1)" />
+  <path class="edge" d="M200,140 Q270,80 340,65" marker-end="url(#arr-state)" />
   <text class="lbl" x="240" y="100">all gates ok</text>
 
-  <path class="edge" d="M200,160 Q270,220 340,225" marker-end="url(#arr1)" />
+  <path class="edge" d="M200,160 Q270,220 340,225" marker-end="url(#arr-state)" />
   <text class="lbl" x="240" y="200">any gate fail</text>
 </svg>
 ```
@@ -303,7 +328,12 @@ Horizontal lanes, each labeled on the left; activities flow left-to-right within
      role="img" aria-labelledby="swim-t swim-d">
   <title id="swim-t">Cross-system workflow swimlanes</title>
   <desc id="swim-d">Three lanes — CI, staging cluster, production cluster — with activities flowing left-to-right and handoffs between lanes.</desc>
-  <defs>… arr1 …</defs>
+  <defs>
+    <marker id="arr-swim" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#98a2b3" />
+    </marker>
+  </defs>
   <style>
     .lane rect  { fill: none; stroke: #2a3142; stroke-width: 1; }
     .lane text  { fill: #98a2b3; font: 600 13px sans-serif; }
@@ -328,8 +358,8 @@ Horizontal lanes, each labeled on the left; activities flow left-to-right within
   <g class="act"><rect x="620" y="215" width="180" height="50" rx="6" />
     <text x="710" y="245">smoke test</text></g>
 
-  <path class="arrow" d="M320,80  L380,160" marker-end="url(#arr1)" />
-  <path class="arrow" d="M560,160 L620,240" marker-end="url(#arr1)" />
+  <path class="arrow" d="M320,80  L380,160" marker-end="url(#arr-swim)" />
+  <path class="arrow" d="M560,160 L620,240" marker-end="url(#arr-swim)" />
 </svg>
 ```
 
@@ -344,7 +374,12 @@ Free-form positioned nodes with multiple in/out arrows. Use when jobs have non-t
      role="img" aria-labelledby="dag-t dag-d">
   <title id="dag-t">Build job dependency graph</title>
   <desc id="dag-d">Build feeds two parallel jobs (deploy and index); deploy and index both feed load-test; all feed the final report job.</desc>
-  <defs>… arr1 …</defs>
+  <defs>
+    <marker id="arr-dag" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#98a2b3" />
+    </marker>
+  </defs>
   <style>
     .job rect { fill: rgba(110,168,254,.18); stroke: rgba(110,168,254,.5); stroke-width: 1.5; }
     .job text { fill: #e6e8ee; font: 600 14px sans-serif; text-anchor: middle; }
@@ -362,11 +397,11 @@ Free-form positioned nodes with multiple in/out arrows. Use when jobs have non-t
   <g class="job"><rect x="680" y="100" width="160" height="50" rx="6" />
     <text x="760" y="130">report</text></g>
 
-  <path class="edge" d="M220,65  L370,65"  marker-end="url(#arr1)" />
-  <path class="edge" d="M220,185 L370,185" marker-end="url(#arr1)" />
-  <path class="edge" d="M220,90  L370,160" marker-end="url(#arr1)" />
-  <path class="edge" d="M530,65  L680,120" marker-end="url(#arr1)" />
-  <path class="edge" d="M530,185 L680,130" marker-end="url(#arr1)" />
+  <path class="edge" d="M220,65  L370,65"  marker-end="url(#arr-dag)" />
+  <path class="edge" d="M220,185 L370,185" marker-end="url(#arr-dag)" />
+  <path class="edge" d="M220,90  L370,160" marker-end="url(#arr-dag)" />
+  <path class="edge" d="M530,65  L680,120" marker-end="url(#arr-dag)" />
+  <path class="edge" d="M530,185 L680,130" marker-end="url(#arr-dag)" />
 </svg>
 ```
 

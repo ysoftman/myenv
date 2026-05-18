@@ -4,7 +4,9 @@ Single source for the dark-theme palette and shared components. Reuse these inst
 
 ## CSS variables
 
-Declared on `:root`. Drop this block verbatim into the host doc's `<style>` (or rely on `assets/base.html`).
+### Core (canonical — matches `assets/base.html`)
+
+Drop this block verbatim into the host doc's `<style>`, or rely on `assets/base.html`. These 12 tokens are the contract: every diagram and every example in this skill uses only these.
 
 ```css
 :root {
@@ -16,17 +18,28 @@ Declared on `:root`. Drop this block verbatim into the host doc's `<style>` (or 
   --muted: #98a2b3;     /* secondary text, arrow strokes */
   --accent: #6ea8fe;    /* links, h1/h2 accents, focus */
   --accent-2: #4ade80;  /* secondary accent */
-  --warn: #f59e0b;
-  --err: #ef4444;
-  --ok: #22c55e;
-  --skip: #64748b;
-  /* domain-specific (optional, drop if unused) */
-  --base: #60a5fa;
-  --comp: #a78bfa;
-  --diff: #f472b6;
-  --report: #34d399;
+  --ok: #22c55e;        /* success / DONE */
+  --warn: #f59e0b;      /* warning / WIP */
+  --err: #ef4444;       /* error / FAIL */
+  --skip: #64748b;      /* skipped / dropped */
 }
 ```
+
+### Optional domain-specific extensions
+
+If a doc consistently talks about specific roles (base vs. comparator, before/after diff, periodic report), it can extend the palette with extra named tokens. These are **not part of the core contract** — base.html omits them on purpose. Add them only to the docs that use them, and reference them in your `<style>` so the intent stays semantic:
+
+```css
+:root {
+  /* …core tokens above… */
+  --base:   #60a5fa;   /* baseline / reference dataset */
+  --comp:   #a78bfa;   /* comparator / alternative */
+  --diff:   #f472b6;   /* delta / changed */
+  --report: #34d399;   /* aggregated report */
+}
+```
+
+`examples/showcase.html` extends with `--comp` to demonstrate this pattern in the palette section. If your diagram doesn't need them, leave them out — extra unused tokens just create noise.
 
 ## Status fills for SVG
 
@@ -70,6 +83,24 @@ section.diagram p.desc { color: var(--fg); font-size: 16px; margin: 0 0 18px; }
   overflow-x: auto;
 }
 .svgwrap svg { display: block; max-width: 100%; height: auto; }
+/* opt-in: complex SVGs that should scroll on narrow screens instead of shrinking */
+.svgwrap.wide svg { min-width: 880px; }
+```
+
+## Print rules
+
+Both `assets/base.html` and `examples/showcase.html` include the following `@media print` block. Include it in any host doc that should print or export to PDF cleanly: it drops the TOC sidebar, prevents diagrams from being split across pages, and disables horizontal scroll so the SVG fits the printable width.
+
+```css
+@media print {
+  .wrap { grid-template-columns: 1fr; }
+  nav.toc { display: none; }
+  main { padding: 0; }
+  section.diagram { break-inside: avoid; page-break-inside: avoid; margin-bottom: 24px; }
+  .svgwrap { overflow: visible; }
+  .svgwrap.wide svg { min-width: 0; }   /* un-do the mobile min-width so it fits the page */
+  a { color: inherit; text-decoration: none; }
+}
 ```
 
 ## Badges (inline status pills)
