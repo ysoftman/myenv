@@ -286,19 +286,20 @@ function fzf-rg-widget {
     # fzf의 become(...)이나 execute(...) 명령은 별도 셸 프로세스(서브셸)에서 실행
     # 현재 셸에 정의된 함수(my_func)는 서브셸로 전파되지 않아 "command not found: my_func" 오류 발생.
     # alt-d 로 hidden 파일(.git 등) 포함/제외 토글.
-    # fzf 의 transform 액션 출력이 곧 다음 액션 목록이 된다.
-    # 현재 상태는 별도 변수 없이 FZF_PROMPT 텍스트로 판별한다.
-    # 토글 상태는 --header 와 프롬프트 양쪽에 표시한다.
+    # 상태 표시는 헤더에만 두고(프롬프트와 중복 X), 현재 상태는 마커 파일 존재 여부로 판별한다(있으면 hidden ON).
+    local marker="${TMPDIR:-/tmp}/fzf-rg-hidden.$$"
+    rm -f "$marker"
     fzf --ansi --query "$FZF_INITIAL_QUERY" \
-        --bind "start:reload:$RG_HIDDEN {q}" \
-        --bind "alt-d:transform:[[ \$FZF_PROMPT == *no-hidden* ]] && echo \"change-prompt(rg+fzf> )+change-header([alt-d] hidden: ON  (.git 등 포함))+reload($RG_HIDDEN {q})\" || echo \"change-prompt(rg+fzf [no-hidden]> )+change-header([alt-d] hidden: OFF (.git 등 제외))+reload($RG_NOHIDDEN {q})\"" \
-        --header "[alt-d] hidden: ON  (.git 등 포함)" \
+        --bind "start:reload:$RG_NOHIDDEN {q}" \
+        --bind "alt-d:transform:if [ -e '$marker' ]; then rm -f '$marker'; echo \"change-header([alt-d] hidden: OFF (.git 등 제외))+reload($RG_NOHIDDEN {q})\"; else touch '$marker'; echo \"change-header([alt-d] hidden: ON  (.git 등 포함))+reload($RG_HIDDEN {q})\"; fi" \
+        --header "[alt-d] hidden: OFF (.git 등 제외)" \
         --color "hl:underline,hl+:underline:reverse" \
         --prompt 'rg+fzf> ' \
         --delimiter : \
         --preview 'bat --color=always {1} --highlight-line {2}' \
         --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
         --bind 'enter:become(nvim {1} +{2})'
+    rm -f "$marker"
     zle reset-prompt
 }
 
@@ -387,7 +388,7 @@ function set_fzf {
         FD_HIDDEN="fd --hidden --no-ignore"
         FD_NOHIDDEN="fd"
     fi
-    export FZF_CTRL_T_COMMAND="$FD_HIDDEN"
+    export FZF_CTRL_T_COMMAND="$FD_NOHIDDEN"
     # fzf vim 에서 FZF_DEFAULT_COMMAND 를 사용함
     export FZF_DEFAULT_COMMAND=$FZF_CTRL_T_COMMAND
 
@@ -400,9 +401,13 @@ function set_fzf {
         alias bat="${batcmd}"
     fi
     # alt-d 로 hidden 파일(.git 등) 포함/제외 토글 (fzf-rg-widget 과 동일 패턴)
+    # 상태 표시는 헤더에만 두고, 현재 상태는 마커 파일 존재 여부로 판별한다(있으면 hidden ON).
+    local fzf_ctrl_t_marker="${TMPDIR:-/tmp}/fzf-ctrl-t-hidden.$$"
+    rm -f "$fzf_ctrl_t_marker"
     export FZF_CTRL_T_OPTS="--prompt '$findcmd+fzf> ' \
---header '[alt-d] hidden: ON  (.git 등 포함)' \
---bind 'alt-d:transform:[[ \$FZF_PROMPT == *no-hidden* ]] && echo \"change-prompt($findcmd+fzf> )+change-header([alt-d] hidden: ON  (.git 등 포함))+reload($FD_HIDDEN)\" || echo \"change-prompt($findcmd+fzf [no-hidden]> )+change-header([alt-d] hidden: OFF (.git 등 제외))+reload($FD_NOHIDDEN)\"' \
+--header '[alt-d] hidden: OFF (.git 등 제외)' \
+--bind 'start:execute-silent(rm -f $fzf_ctrl_t_marker)' \
+--bind 'alt-d:transform:if [ -e $fzf_ctrl_t_marker ]; then rm -f $fzf_ctrl_t_marker; echo \"change-header([alt-d] hidden: OFF (.git 등 제외))+reload($FD_NOHIDDEN)\"; else touch $fzf_ctrl_t_marker; echo \"change-header([alt-d] hidden: ON  (.git 등 포함))+reload($FD_HIDDEN)\"; fi' \
 --preview '($catcmd || tree -C {}) 2> /dev/null | head -200'
 "
     # fzf ctrl-r(히스토리)시
