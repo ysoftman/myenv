@@ -51,7 +51,6 @@ theme = "catppuccin-mocha"
 status_line = [
   "model-with-reasoning",
   "current-dir",
-  "model",
   "project-name",
   "git-branch",
   "run-state",
@@ -62,7 +61,12 @@ status_line = [
   "used-tokens",
   "total-input-tokens",
   "total-output-tokens",
+  "pull-request-number",
+  "branch-changes",
+  "task-progress",
+  "fast-mode",
 ]
+status_line_use_colors = true
 
 [tui.keymap.global]
 # zelij ctrl-t 탭 단축키와 겹쳐서 커스텀으로 추가
