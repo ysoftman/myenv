@@ -24,6 +24,11 @@ return {
       },
       rumdl = {
         stream = "stdout", -- 기본값 stderr에서 stdout으로 변경 (JSON 출력이 stdout으로 나옴)
+        -- 기본 MD013.line-length(80) 을 150 으로 완화한다.
+        -- 우선순위: inline --config 는 rumdl 에서 최우선이므로 프로젝트
+        -- .rumdl.toml 의 line-length 값도 덮어쓴다. 단, 프로젝트가
+        -- MD013 을 disable 한 경우엔 rule 자체가 꺼져 override 무의미.
+        prepend_args = { "--config", "MD013.line-length = 150" },
       },
     },
   },

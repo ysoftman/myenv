@@ -44,6 +44,16 @@ return {
           },
         },
         marksman = {},
+        -- rumdl LSP: 기본 MD013.line-length(80) 을 150 으로 완화.
+        -- `rumdl server --config` CLI 플래그는 LSP 모드에서 무시되므로 반드시
+        -- initializationOptions.settings 로 넘겨야 한다.
+        rumdl = {
+          init_options = {
+            settings = {
+              MD013 = { lineLength = 150 },
+            },
+          },
+        },
         clangd = {
           -- Use of undeclared identifier 등의 에러 발생시 다음 명령으로 compile_commands.json 생성
           -- cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .
