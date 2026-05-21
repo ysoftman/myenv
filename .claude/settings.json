@@ -2,7 +2,6 @@
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
-  "teammateMode": "auto",
   "permissions": {
     "allow": [
       "Edit",
@@ -144,7 +143,8 @@
     "lua-lsp@claude-plugins-official": true,
     "agents-observe@agents-observe": true,
     "ui-ux-pro-max@ui-ux-pro-max-skill": true,
-    "andrej-karpathy-skills@karpathy-skills": true
+    "andrej-karpathy-skills@karpathy-skills": true,
+    "codex@openai-codex": true
   },
   "extraKnownMarketplaces": {
     "anthropic-agent-skills": {
@@ -170,7 +170,14 @@
         "source": "github",
         "repo": "forrestchang/andrej-karpathy-skills"
       }
+    },
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      }
     }
   },
+  "teammateMode": "auto",
   "skipAutoPermissionPrompt": true
 }
