@@ -1,6 +1,6 @@
 ---
 name: review
-description: Review GitHub PRs and track improvements as tasks. Use when user asks to review a PR, check a pull request, says "PR 리뷰해줘", "PR 봐줘", or provides a GitHub PR URL or number. Delegates primary review judgment to the `reviewer` agent and, when available, cross-checks with `review-cross-checker`.
+description: Review GitHub PRs and track improvements as tasks. Use when user asks to review a PR, check a pull request, says "PR 리뷰해줘", "PR 봐줘", or provides a GitHub PR URL or number. Delegates the actual review judgment to the `reviewer` agent.
 allowed-tools: Agent, Bash(gh:*), Bash(printf:*), Read, Glob, Grep, TaskCreate, TaskUpdate, TaskList, TaskGet
 ---
 
@@ -43,9 +43,7 @@ Input: $ARGUMENTS
 
 ### PR 리뷰
 
-리뷰 판단은 `reviewer` 에이전트에게 위임한다. 기본적으로 별도 `review-cross-checker` 에이전트로 결과를 교차 검증한다. 메인은 입력 준비, cross-check 조정, 결과 병합, 후처리를 담당한다.
-
-표준 근거 형식은 `근거 = 파일:라인 + 실패 조건/재현 시나리오 + 영향 범위` 로 통일한다. 🔴/🟡 finding 에는 근거와 confidence 를 반드시 포함하고, 🟢 finding 은 권장을 필수로 하되 근거/영향/confidence 는 필요할 때만 포함한다.
+리뷰 판단은 `reviewer` 에이전트에게 위임한다. 메인은 입력 준비와 결과 후처리만 담당한다.
 
 1. `gh pr view <number>`로 PR 상세 정보(제목, 본문)를 확인한다
 2. `gh pr diff <number>`로 변경 내용을 가져온다
@@ -58,21 +56,8 @@ Input: $ARGUMENTS
    - 변경된 파일의 컨텍스트가 필요하면 에이전트가 직접 Read하도록 안내
    - 프로젝트 컨벤션(CLAUDE.md 규칙: bun/rg/fd/biome/rumdl 등) 위반 여부도 체크 항목에 포함
    - 코드 변경으로 바로 고칠 수 있는 지적은 가능한 한 GitHub suggestion용 수정 코드 블록(```suggestion ... ```)을 포함하도록 안내
-   - 🔴/🟡 finding 에 표준 근거와 confidence 를 포함하도록 요청한다
-5. 기본적으로 **별도 `review-cross-checker` 에이전트**를 호출한다.
-   - 생략 조건은 둘 중 하나로 제한한다: `Agent` 도구/별도 모델이 런타임에서 차단된 경우, 또는 변경이 매우 작고 위험도가 낮은 경우(예: 단일 파일 50줄 미만이며 공유 로직/런타임/보안/데이터 경로를 건드리지 않음)
-   - 입력: PR 번호/제목, PR 본문, diff, 기존 코멘트, `reviewer` 결과
-   - 역할: false positive 검증, 누락된 🔴/🟡 탐색, 기존 코멘트와 중복 제거, 근거가 약한 지적 기각
-   - 출력은 사용자 표시용 최종 리뷰가 아니라 병합 판단용으로 받는다
-6. 런타임에서 별도 에이전트 또는 다른 모델 사용이 불가능하면 메인 에이전트가 2-pass cross-check 를 수행하고, 최종 응답에 "별도 cross-check agent 미사용" 여부를 짧게 명시한다.
-7. 메인은 `reviewer` 결과와 cross-check 결과를 병합한다.
-   - 기존 코멘트와 중복되거나 cross-check 가 명확히 false positive 로 판정한 항목은 제외한다
-   - cross-check 의 `Missed Candidates` 중 `Confidence: high` 이고 변경 범위에 직접 관련된 항목만 finding 으로 추가한다
-   - `Confidence: medium` 은 open question 으로 낮추고, `Confidence: low` 는 제외한다
-   - 확신이 낮은 의견은 finding 으로 올리지 말고 open question 으로 낮춘다
-8. 병합된 리뷰 결과를 사용자에게 표시한다.
-   - 출력은 findings(🔴 높음 / 🟡 중간 / 🟢 낮음)와 `Open Questions` 섹션으로 구성한다
-   - task 등록 대상은 findings 로 한정하고, open question 은 task 로 만들지 않는다
+5. 에이전트가 반환한 리뷰 결과(🔴 높음 / 🟡 중간 / 🟢 낮음으로 분류된 findings)를 받는다
+6. 받은 결과 본문은 사용자에게 그대로 표시한다 (일반 출력)
 
 ### 개선사항 task 등록
 

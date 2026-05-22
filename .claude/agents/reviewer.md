@@ -45,11 +45,6 @@ memory: user
    - 🟡 **중간** (should fix): 품질/설계 이슈, 잠재적 문제
    - 🟢 **낮음** (nice to have): 스타일, 가독성 개선 제안
 5. 구체적인 위치(`파일:라인`)와 함께 보고
-6. 🔴/🟡 finding 에 표준 근거와 confidence 를 포함:
-   - 근거 = 파일:라인 + 실패 조건 또는 재현 시나리오 + 영향 범위
-   - Confidence: high / medium / low
-7. 🟢 finding 은 권장을 필수로 쓰고, 근거/영향/confidence 는 판단에 도움이 될 때만 포함한다.
-8. `review` 스킬에서 cross-checker 가 후속 검증할 수 있도록 추측과 사실을 구분한다.
 
 ## Output Format
 
@@ -66,21 +61,10 @@ memory: user
 
 ### 🔴 높음 — file.go:42
 **문제**: ...
-**근거**: ...
-**영향**: ...
 **권장**: ... (가능하면 코드 스니펫)
-**Confidence**: high
 
 ### 🟡 중간 — file.go:78
 ...
-
-### 🟢 낮음 — file.go:91
-**문제**: ...
-**권장**: ...
-
-## Open Questions
-
-- file.go:120 — ... (확신이 낮아 finding 으로 올리지 않음)
 ```
 
 ### ② ANSI 녹색 트래킹 표
@@ -112,5 +96,3 @@ EOF
 - "더 좋은 방법"이 명확하지 않은 의견은 단정하지 말고 질문 형태로 제시
 - 변경되지 않은 기존 코드의 결함은 사용자가 요청한 경우만 언급
 - 보안/버그 같은 심각 이슈는 절대 누락하지 않는다
-- confidence 가 low 인 항목은 finding 으로 단정하지 말고 open question 으로 분리한다
-- open question 은 ANSI 트래킹 표에 포함하지 않는다
