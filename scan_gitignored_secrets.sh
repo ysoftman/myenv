@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ~/workspace 아래 git 저장소에서 .gitignore 로 무시된 파일의 secret 의심 항목을 요약한다.
+# $HOME 아래 git 저장소에서 .gitignore 로 무시된 파일의 secret 의심 항목을 요약한다.
 # 실제 값은 출력하지 않고 파일/라인/매칭 수만 표시한다.
 
 set -o pipefail
@@ -9,11 +9,12 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=colors.sh
 source "$SCRIPT_DIR/colors.sh"
 
-ROOT="${HOME}/workspace"
+ROOT="${HOME}"
 MAX_BYTES=$((2 * 1024 * 1024))
 MAX_DEPTH=4
 
-FILE_RE='\.(conf|config|env|json|ya?ml|toml|ini|properties|cfg)(\.[a-z0-9_-]+)*$|(^|/)\.?[a-z0-9_-]*env(rc)?$'
+# FILE_RE 는 발견된 경로가 secret 스캔 후보 파일인지 판정한다.
+FILE_RE='\.(conf|config|env|json|ya?ml|toml|ini|properties|cfg)(\.[a-z0-9_-]+)*$|(^|/)\.?[a-z0-9_-]*env(rc)?$|(^|/)\.git-credentials$'
 SKIP_RE='(^|/)(node_modules|vendor|target|dist|build|\.next|\.cache|tmp|logs?)(/|$)'
 
 # SECRET_RE 는 아래 패턴들을 '|' 로 합쳐 만든다.
@@ -32,6 +33,8 @@ SECRET_PATTERNS=(
     'ASIA[0-9A-Z]{16}'
     # OpenAI 류 sk- 시크릿
     'sk-[A-Za-z0-9_-]{20,}'
+    # URL basic-auth credential (예: ~/.git-credentials)
+    '://[^[:space:]/:@]+:[^[:space:]@]{6,}@[^[:space:]/]+'
     # PEM 시작 마커
     '-----BEGIN (RSA |DSA |EC |OPENSSH )?PRIVATE KEY-----'
 )
@@ -44,8 +47,9 @@ usage() {
     cat <<EOF
 Usage: $(basename "$0") [--max-bytes N] [--max-depth N] [root]
 
-Scan git repositories found under root(default: ~/workspace) for
-secret-like values in files matched by .gitignore. Secret values
+Scan git repositories found under root(default: ~) for
+secret-like values in files matched by .gitignore, plus known local
+credential files under root such as ~/.git-credentials. Secret values
 are never printed.
 
 Options:
@@ -55,7 +59,7 @@ Options:
 
 Examples:
   $(basename "$0")
-  $(basename "$0") --max-depth 6 ~/workspace
+  $(basename "$0") --max-depth 6 ~
 EOF
 }
 
@@ -114,6 +118,11 @@ ROOT=${ROOT/#\~/$HOME}
     usage >&2
     exit 2
 }
+ROOT="$(cd "$ROOT" && pwd -P)"
+# KNOWN_SECRET_FILES 는 선택한 root 바로 아래에 있지만 git repo 밖이라 git ls-files 로 발견되지 않는 파일을 스캔 큐에 추가한다.
+KNOWN_SECRET_FILES=(
+    "$ROOT/.git-credentials"
+)
 
 command -v git >/dev/null 2>&1 || {
     echo "error: git is required" >&2
@@ -129,7 +138,9 @@ command -v rg >/dev/null 2>&1 || {
 }
 
 is_candidate_file() {
-    local path=${1,,}
+    local path
+
+    path=$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')
     [[ $path =~ $FILE_RE ]] || return 1
     [[ $path =~ $SKIP_RE ]] && return 1
     return 0
@@ -158,16 +169,18 @@ gitignored_files() {
     git -C "$1" ls-files --others --ignored --exclude-standard --directory -z 2>/dev/null
 }
 
-scan_file() {
-    local repo=$1
-    local file=$2
-    local fullpath="${repo%/}/$file"
+scan_path() {
+    local group=$1
+    local display_path=$2
+    local fullpath=$3
+    local candidate_path=${4:-$display_path}
+    local group_kind=${5:-repo}
     local size
     local matches
     local count
 
     [[ -f $fullpath ]] || return
-    is_candidate_file "$file" || return
+    is_candidate_file "$candidate_path" || return
 
     candidate_files=$((candidate_files + 1))
     size=$(file_size "$fullpath")
@@ -185,17 +198,40 @@ scan_file() {
     HIT_PATHS+=("$fullpath:$count")
 
     if [[ $repo_printed -eq 0 ]]; then
-        printf '\n[%s]\n' "$repo"
+        printf '\n[%s]\n' "$group"
         repo_printed=1
-        repos_with_hits=$((repos_with_hits + 1))
+        if [[ $group_kind == repo ]]; then
+            repos_with_hits=$((repos_with_hits + 1))
+        else
+            extra_groups_with_hits=$((extra_groups_with_hits + 1))
+        fi
     fi
 
-    printf '  - %b%s%b (%s match lines)\n' "$yellow" "$file" "$reset_color" "$count"
+    printf '  - %b%s%b (%s match lines)\n' "$yellow" "$display_path" "$reset_color" "$count"
 
     while IFS= read -r line; do
         [[ -n $line ]] || continue
         printf '      line %s: matched secret pattern (content hidden)\n' "${line%%:*}"
     done <<<"$matches"
+}
+
+scan_file() {
+    local repo=$1
+    local file=$2
+    local fullpath="${repo%/}/$file"
+
+    scan_path "$repo" "$file" "$fullpath" "$file" repo
+}
+
+scan_known_secret_files() {
+    local file
+
+    repo_printed=0
+    for file in "${KNOWN_SECRET_FILES[@]}"; do
+        [[ -e $file ]] || continue
+        known_secret_files_checked=$((known_secret_files_checked + 1))
+        scan_path "known local credential files" "$file" "$file" "${file##*/}" extra
+    done
 }
 
 repo_count=0
@@ -204,11 +240,13 @@ candidate_files=0
 hit_files=0
 hit_lines=0
 skipped_large=0
+extra_groups_with_hits=0
+known_secret_files_checked=0
 HIT_PATHS=()
 
-print_green_msg ".gitignore 에 등록된 민감성 정보 파일을 스캔합니다..."
+print_green_msg ".gitignore 에 등록된 민감성 정보 파일과 알려진 로컬 credential 파일을 스캔합니다..."
 printf 'root: %s\n' "$ROOT"
-printf 'scan: files matched by .gitignore\n'
+printf 'scan: files matched by .gitignore + known local credential files\n'
 printf 'max_bytes: %s\n' "$MAX_BYTES"
 
 if [[ -t 2 ]]; then
@@ -228,7 +266,11 @@ progress_clear() {
 }
 
 printf 'discovering repos...\n' >&2
-mapfile -t REPOS < <(find_repos)
+REPOS=()
+while IFS= read -r repo; do
+    [[ -n $repo ]] || continue
+    REPOS+=("$repo")
+done < <(find_repos)
 total_repos=${#REPOS[@]}
 printf 'found %s repo(s)\n' "$total_repos" >&2
 
@@ -242,11 +284,12 @@ for repo in "${REPOS[@]}"; do
         scan_file "$repo" "$file"
     done < <(gitignored_files "$repo")
 done
+scan_known_secret_files
 progress_clear
 
 printf '\n== summary ==\n'
-printf 'repos_scanned=%s repos_with_hits=%s candidate_files=%s hit_files=%s hit_lines=%s skipped_large=%s\n' \
-    "$repo_count" "$repos_with_hits" "$candidate_files" "$hit_files" "$hit_lines" "$skipped_large"
+printf 'repos_scanned=%s repos_with_hits=%s extra_groups_with_hits=%s candidate_files=%s hit_files=%s hit_lines=%s skipped_large=%s known_secret_files_checked=%s\n' \
+    "$repo_count" "$repos_with_hits" "$extra_groups_with_hits" "$candidate_files" "$hit_files" "$hit_lines" "$skipped_large" "$known_secret_files_checked"
 
 if ((${#HIT_PATHS[@]} > 0)); then
     printf '\nhit files:\n'
