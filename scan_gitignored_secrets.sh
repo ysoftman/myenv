@@ -169,6 +169,36 @@ gitignored_files() {
     git -C "$1" ls-files --others --ignored --exclude-standard --directory -z 2>/dev/null
 }
 
+copy_hit_files_to_clipboard() {
+    local entry
+    local path
+    local count
+
+    ((${#HIT_PATHS[@]} > 0)) || return 0
+
+    if ! command -v pbcopy >/dev/null 2>&1; then
+        printf 'warning: pbcopy not found; skipped copying hit file contents\n' >&2
+        return 0
+    fi
+
+    if {
+        printf 'secret-like files found by %s\n' "$(basename "$0")"
+        printf 'root: %s\n' "$ROOT"
+        printf 'values below are copied to clipboard only, not printed by the scanner\n'
+        for entry in "${HIT_PATHS[@]}"; do
+            path=${entry%:*}
+            count=${entry##*:}
+            printf '\n===== %s (%s match lines) =====\n' "$path" "$count"
+            cat -- "$path"
+            printf '\n'
+        done
+    } | pbcopy; then
+        print_green_msg "찾은 secret 파일 경로와 내용을 pbcopy로 복사했습니다"
+    else
+        printf 'warning: failed to copy hit file contents to pbcopy\n' >&2
+    fi
+}
+
 scan_path() {
     local group=$1
     local display_path=$2
@@ -299,3 +329,5 @@ if ((${#HIT_PATHS[@]} > 0)); then
         printf '  - %b%s%b (%s match lines)\n' "$yellow" "$path" "$reset_color" "$count"
     done
 fi
+
+copy_hit_files_to_clipboard
