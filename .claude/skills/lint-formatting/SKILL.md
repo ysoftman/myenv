@@ -6,19 +6,7 @@ allowed-tools: Bash, Read, Glob
 
 # Lint & Formatting
 
-언어별 lint/format 도구의 전체 명령어 reference. 표준 "수정 후 자동 수정" 명령어는 CLAUDE.md `코드 수정 후 체크` 섹션에 있으며, 이 스킬은 check-only, 부분 적용 등 변형 명령어를 다룬다.
-
-## 표준 명령어 (수정 + 포맷팅 통합)
-
-CLAUDE.md `코드 수정 후 체크` 섹션과 동일하지만 빠른 참조용:
-
-- JavaScript/TypeScript: `biome check --write .`
-- Go: `golangci-lint run --fix && gofmt -w .`
-- Rust: `cargo clippy --fix && cargo fmt`
-- Python: `ruff check --fix . && ruff format .`
-- HTML: `bunx prettier --write <파일>`
-- Shell: `shfmt -i 4 -ci -w <파일>`
-- Markdown: `rumdl fmt .`
+언어별 lint/format 도구의 명령어 reference. 표준 "수정 + 포맷팅 통합" 명령어와 check-only, 부분 적용 등 변형을 함께 다룬다.
 
 ## JavaScript/TypeScript (Biome)
 
@@ -67,8 +55,11 @@ Biome가 HTML을 미지원하므로 Prettier를 사용한다.
 
 ## Markdown (rumdl)
 
-- 검사만 (수정 없이): `rumdl check .`
-- 자동 수정: `rumdl fmt .`
+MD013(line-length) 은 기본적으로 비활성화한다. `--extend-disable` 은 프로젝트 `.rumdl.toml` 의 disable 목록에 더해지는 형태라 기존 설정과 충돌 없이 안전하다.
+
+- 검사만 (수정 없이): `rumdl check --extend-disable MD013 .`
+- 자동 수정: `rumdl fmt --extend-disable MD013 .`
+- 추가 규칙 끄기: `--extend-disable MD013,MD024` 처럼 콤마로 나열한다.
 
 ## 실행 절차
 
