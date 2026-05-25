@@ -1,6 +1,6 @@
 ---
 name: jira-git-checkout-branch
-description: Pick one of the user's In Progress Jira issues and create/checkout a git branch named after it. Use when the user says things like "jira 이슈로 브랜치 만들어", "내 지라 이슈 기반으로 브랜치 파줘", "jira issue branch", or `/jira-git-checkout-branch`. Halts if the working tree is dirty or the Atlassian MCP server is not available.
+description: Pick one of the user's In Progress Jira issues and create/checkout a git branch named after it. Use when the user says things like "jira 이슈로 브랜치 만들어", "내 지라 이슈 기반으로 브랜치 파줘", "jira issue branch", or `/jira-git-checkout-branch`. If the working tree is dirty, asks the user whether to proceed; halts if the Atlassian MCP server is not available.
 allowed-tools: mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__lookupJiraAccountId, mcp__atlassian__searchJiraIssuesUsingJql, Bash
 ---
 
@@ -10,7 +10,7 @@ allowed-tools: mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__
 
 ## 핵심 원칙
 
-- **실행 전 안전 점검을 먼저** 한다: dirty working tree, MCP 미연결 상태에서는 브랜치를 만들지 않는다.
+- **실행 전 안전 점검을 먼저** 한다: MCP 미연결 상태에서는 브랜치를 만들지 않는다. dirty working tree 인 경우 사용자에게 진행 여부를 묻고, 허용했을 때만 진행한다.
 - 브랜치 이름은 **이슈 키로 시작**하고, **영어 소문자 + 하이픈**으로만 구성한다 (ASCII only).
 - 브랜치 이름은 **최대 50자**, 단어 경계에서 자른다 (단어를 중간에 자르지 않는다).
 - 브랜치를 만들기 전에 **사용자에게 이름을 미리 보여주고 확인**을 받는다.
@@ -22,18 +22,23 @@ allowed-tools: mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__
 `git status --porcelain` 을 실행한다.
 
 - 출력이 비어 있으면 정상. 다음 단계로 진행한다.
-- 출력이 비어 있지 않으면 **즉시 중단**하고 사용자에게 알린다. 변경사항을 자동으로 stash/commit 하지 않는다.
+- 출력이 비어 있지 않으면 변경된 파일 목록을 보여주고 **사용자에게 그대로 진행할지 묻는다**. 변경사항을 자동으로 stash/commit 하지 않는다.
 
-중단 메시지 예:
+확인 메시지 예:
 
 ```text
-작업 디렉터리에 커밋되지 않은 변경사항이 있어 브랜치를 생성하지 않습니다.
-변경사항을 커밋하거나 stash한 뒤 다시 시도하세요.
+작업 디렉터리에 커밋되지 않은 변경사항이 있습니다.
+이 상태로 새 브랜치를 생성/체크아웃하면 변경사항이 새 브랜치로 함께 옮겨집니다.
 
 변경된 파일 목록:
 - A  staged.txt   (staged)
 - ?? untracked.txt (untracked)
+
+그대로 진행할까요? (y/N)
 ```
+
+- `y`/`Y`: 다음 단계로 진행한다.
+- 그 외(엔터 포함): 중단하고, 변경사항을 커밋/stash 한 뒤 다시 시도하라고 안내한다.
 
 ### Step 2. Atlassian MCP 가용성 확인
 
@@ -139,7 +144,7 @@ assignee = "<accountId>" AND status = "In Progress" ORDER BY updated DESC
 
 ## 왜 이렇게 하는가
 
-- dirty working tree 상태에서 브랜치를 만들면 변경사항이 새 브랜치로 끌려와서 예상과 다르게 섞일 수 있다. 사용자의 in-flight 작업을 보호한다.
+- dirty working tree 상태에서 브랜치를 만들면 변경사항이 새 브랜치로 끌려와서 예상과 다르게 섞일 수 있다. 그래서 자동으로 진행하지 않고 사용자에게 확인을 받는다 — 의도적으로 작업 중 변경을 새 브랜치로 가져가려는 경우도 있기 때문에 강제 중단 대신 명시적 동의를 받는 방식으로 보호한다.
 - 브랜치 이름을 이슈 키로 시작시키면 PR/커밋 로그에서 이슈 추적이 쉬워지고, CI에서 키 추출 규칙도 단순해진다.
 - 50자 제한은 터미널 프롬프트/PR UI에서 잘리지 않고 표시되는 실용적인 상한이다. 단어 경계에서 자르는 것은 가독성을 위해서다.
 - 미리보기 후 확인을 강제하는 이유: 브랜치명은 리모트에 push 되면 남고, 이름만 바꾸는 작업도 협업 맥락에선 성가시기 때문이다.
