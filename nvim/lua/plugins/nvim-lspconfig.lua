@@ -44,13 +44,16 @@ return {
           },
         },
         marksman = {},
-        -- rumdl LSP: 기본 MD013.line-length(80) 을 150 으로 완화.
+        -- rumdl LSP: MD013(line-length) 규칙 자체를 비활성화한다.
         -- `rumdl server --config` CLI 플래그는 LSP 모드에서 무시되므로 반드시
         -- initializationOptions.settings 로 넘겨야 한다.
+        -- 참고: settings.disable 는 LspRuleSettings 의 최상위 필드로,
+        -- 여기서 비활성화한 규칙은 프로젝트 .rumdl.toml 의 enable 설정도 덮어쓴다.
         rumdl = {
           init_options = {
             settings = {
-              MD013 = { lineLength = 150 },
+              -- MD013 = { lineLength = 150 },
+              disable = { "MD013" },
             },
           },
         },
