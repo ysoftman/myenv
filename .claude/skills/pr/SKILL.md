@@ -34,6 +34,7 @@ allowed-tools: Bash, Read, Grep, Glob
    - **본문**: 한글로 작성, 아래 템플릿을 기반으로 작성
    - 본문에 URL을 넣을 때는 평문 URL 대신 Markdown 링크 형식(`[텍스트](URL)`)을 사용한다.
      예: `[Issue #123](https://github.example.com/org/repo/issues/123)`
+   - **본문 줄 길이 제한 없음**: rumdl MD013 (80자) 같은 줄 길이 규칙을 PR 본문에 적용하지 않는다. GitHub UI 가 본문을 자동으로 wrap 하기 때문에, 의미 단위로 한 단락/한 bullet 을 한 줄로 자연스럽게 흘려라. 특히 한국어 문장을 80자에서 강제로 끊으면 가독성이 떨어진다. 단락 구분은 빈 줄로만, bullet 항목은 한 줄에 하나씩.
 
 5. 사용자에게 제목, 본문을 보여주고 확인을 받는다. 제목과 본문은 `printf`에 ANSI 녹색(`\033[32m ... \033[0m`) escape 코드를 씌워 터미널에 녹색으로 출력한다:
 
