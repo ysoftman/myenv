@@ -51,7 +51,6 @@ theme = "catppuccin-mocha"
 status_line = [
   "model-with-reasoning",
   "current-dir",
-  "project-name",
   "git-branch",
   "run-state",
   "context-used",
