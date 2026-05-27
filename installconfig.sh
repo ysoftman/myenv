@@ -93,7 +93,6 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup ] && unlink ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup
 [ -h ${HOME}/.wezterm.lua ] && unlink ${HOME}/.wezterm.lua
 [ -h ${HOME}/.claude/CLAUDE.md ] && unlink ${HOME}/.claude/CLAUDE.md
-[ -h ${HOME}/.claude/settings.json ] && unlink ${HOME}/.claude/settings.json
 [ -h ${HOME}/.claude/statusline-command.sh ] && unlink ${HOME}/.claude/statusline-command.sh
 [ -h ${HOME}/.claude/agents ] && unlink ${HOME}/.claude/agents
 [ -h ${HOME}/.claude/skills ] && unlink ${HOME}/.claude/skills
@@ -132,7 +131,6 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -f ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup ] && mv -fv ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup.bak
 [ -f ${HOME}/.wezterm.lua ] && mv -fv ${HOME}/.wezterm.lua ${HOME}/.wezterm.lua.bak
 [ -f ${HOME}/.claude/CLAUDE.md ] && mv -fv ${HOME}/.claude/CLAUDE.md ${HOME}/.claude/CLAUDE.md.bak
-[ -f ${HOME}/.claude/settings.json ] && mv -fv ${HOME}/.claude/settings.json ${HOME}/.claude/settings.json.bak
 [ -f ${HOME}/.claude/statusline-command.sh ] && mv -fv ${HOME}/.claude/statusline-command.sh ${HOME}/.claude/statusline-command.sh.bak
 [ -d ${HOME}/.claude/agents ] && mv -fv ${HOME}/.claude/agents ${HOME}/.claude/agents.bak
 [ -d ${HOME}/.claude/skills ] && mv -fv ${HOME}/.claude/skills ${HOME}/.claude/skills.bak
@@ -170,7 +168,6 @@ ln -sfv ${PWD}/prezto/zpreztorc ${HOME}/.zprezto/runcoms/zpreztorc
 ln -sfv ${PWD}/prezto/prompt_sorin_ysoftman_setup ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup
 ln -sfv ${PWD}/wezterm/.wezterm.lua ${HOME}/.wezterm.lua
 ln -sfv ${PWD}/.claude/CLAUDE.md ${HOME}/.claude/CLAUDE.md
-ln -sfv ${PWD}/.claude/settings.json ${HOME}/.claude/settings.json
 ln -sfv ${PWD}/.claude/statusline-command.sh ${HOME}/.claude/statusline-command.sh
 ln -sfv ${PWD}/.claude/agents ${HOME}/.claude/agents
 ln -sfv ${PWD}/.claude/skills ${HOME}/.claude/skills
