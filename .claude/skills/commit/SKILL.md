@@ -27,6 +27,7 @@ allowed-tools: Bash, Read, Grep, Glob
 
    후보가 없으면 이 step을 조용히 통과한다.
 4. 변경된 파일의 언어를 감지하고 `lint-formatting` 스킬의 표준 명령어를 실행하여 lint/format을 적용한다.
+   - **Markdown 파일이 포함된 경우**: 반드시 `rumdl fmt --extend-disable MD013 .` 형태로 실행한다. `--extend-disable MD013` 플래그를 빠뜨리면 한국어 본문이 80자 wrap 조건에 걸려 false positive 가 대량 발생한다. 추가 규칙을 더 끄려면 `--extend-disable MD013,MD024` 처럼 콤마로 나열하되 MD013 은 항상 포함한다.
 5. 변경 사항을 분석하여 커밋 메시지를 작성한다:
    - 제목은 영어 소문자로, 동사 원형으로 시작 (add, fix, update, tidy, upgrade, remove 등)
    - 70자 이내로 간결하게 작성

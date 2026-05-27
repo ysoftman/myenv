@@ -55,11 +55,11 @@ Biome가 HTML을 미지원하므로 Prettier를 사용한다.
 
 ## Markdown (rumdl)
 
-MD013(line-length) 은 기본적으로 비활성화한다. `--extend-disable` 은 프로젝트 `.rumdl.toml` 의 disable 목록에 더해지는 형태라 기존 설정과 충돌 없이 안전하다.
+**필수: rumdl 을 실행할 때는 항상 `--extend-disable MD013` 플래그를 붙인다.** 플래그 없는 `rumdl check .` / `rumdl fmt .` 형태는 이 환경에서 사용하지 않는다. MD013(line-length) 은 한국어 본문 가독성 때문에 의도적으로 끈 정책이며, `--extend-disable` 은 프로젝트 `.rumdl.toml` 의 disable 목록에 더해지는 형태라 기존 설정과 충돌하지 않는다.
 
 - 검사만 (수정 없이): `rumdl check --extend-disable MD013 .`
 - 자동 수정: `rumdl fmt --extend-disable MD013 .`
-- 추가 규칙 끄기: `--extend-disable MD013,MD024` 처럼 콤마로 나열한다.
+- 추가 규칙 끄기: `--extend-disable MD013,MD024` 처럼 콤마로 나열한다 (MD013 은 항상 포함).
 
 ## 실행 절차
 
