@@ -13,20 +13,138 @@ curl -fsSL https://claude.ai/install.sh | bash
 SETTINGS_FILE="${HOME}/.claude/settings.json"
 STATUSLINE_CMD="bash -c 'cat | bash ${HOME}/.claude/statusline-command.sh 2>/dev/null'"
 mkdir -p "${HOME}/.claude"
-if [[ -f "${SETTINGS_FILE}" ]] && jq -e '.statusLine and .env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS' "${SETTINGS_FILE}" &>/dev/null; then
+PERMISSIONS_ALLOW='[
+      "Bash(/bin/bash *)",
+      "Bash(/usr/bin/ruby *)",
+      "Bash(air *)",
+      "Bash(awk *)",
+      "Bash(basename *)",
+      "Bash(bash *)",
+      "Bash(biome *)",
+      "Bash(brew *)",
+      "Bash(bun *)",
+      "Bash(bunx *)",
+      "Bash(cargo *)",
+      "Bash(cat *)",
+      "Bash(cd *)",
+      "Bash(claude *)",
+      "Bash(colima list *)",
+      "Bash(curl *)",
+      "Bash(cut *)",
+      "Bash(date *)",
+      "Bash(diff *)",
+      "Bash(dirname *)",
+      "Bash(docker *)",
+      "Bash(docker ps *)",
+      "Bash(echo *)",
+      "Bash(env *)",
+      "Bash(export *)",
+      "Bash(false)",
+      "Bash(fd *)",
+      "Bash(file *)",
+      "Bash(find *)",
+      "Bash(fzf *)",
+      "Bash(fzf-tmux *)",
+      "Bash(gh *)",
+      "Bash(git *)",
+      "Bash(go *)",
+      "Bash(gofmt *)",
+      "Bash(golangci-lint *)",
+      "Bash(grep *)",
+      "Bash(head *)",
+      "Bash(ioreg *)",
+      "Bash(jq *)",
+      "Bash(kubectl *)",
+      "Bash(launchctl list *)",
+      "Bash(litellm *)",
+      "Bash(ls *)",
+      "Bash(make *)",
+      "Bash(mkdir *)",
+      "Bash(mv *)",
+      "Bash(npm *)",
+      "Bash(nvim *)",
+      "Bash(open *)",
+      "Bash(perl *)",
+      "Bash(pip *)",
+      "Bash(pip3 *)",
+      "Bash(plutil *)",
+      "Bash(printenv *)",
+      "Bash(printf *)",
+      "Bash(pwd)",
+      "Bash(python *)",
+      "Bash(python3 *)",
+      "Bash(readlink *)",
+      "Bash(realpath *)",
+      "Bash(rg *)",
+      "Bash(rm *)",
+      "Bash(ruff *)",
+      "Bash(rumdl *)",
+      "Bash(rustfmt *)",
+      "Bash(sed *)",
+      "Bash(shfmt *)",
+      "Bash(sleep *)",
+      "Bash(sort *)",
+      "Bash(source *)",
+      "Bash(stat *)",
+      "Bash(sudo *)",
+      "Bash(sysctl *)",
+      "Bash(tail *)",
+      "Bash(taplo *)",
+      "Bash(tar *)",
+      "Bash(tee *)",
+      "Bash(test *)",
+      "Bash(tmux *)",
+      "Bash(top *)",
+      "Bash(touch *)",
+      "Bash(tr *)",
+      "Bash(true)",
+      "Bash(uniq *)",
+      "Bash(unzip *)",
+      "Bash(uv *)",
+      "Bash(vm_stat *)",
+      "Bash(wc *)",
+      "Bash(which *)",
+      "Bash(xargs *)",
+      "Bash(xxd *)",
+      "Bash(zellij *)",
+      "Bash(zip *)",
+      "Bash(zsh *)",
+      "Bash(~/.local/share/nvim/mason/bin/taplo *)",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "Read(//Users/ysoftman/.local/share/nvim/mason/packages/taplo/**)",
+      "Read(//tmp/**)",
+      "Skill",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__atlassian__getAccessibleAtlassianResources",
+      "mcp__atlassian__getVisibleJiraProjects",
+      "mcp__atlassian__searchJiraIssuesUsingJql"
+]'
+if [[ -f "${SETTINGS_FILE}" ]] && jq -e --argjson allow "${PERMISSIONS_ALLOW}" '
+    .statusLine
+    and .env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS
+    and (.permissions.allow | type == "array")
+    and (($allow - .permissions.allow) | length == 0)
+' "${SETTINGS_FILE}" &>/dev/null; then
     echo "Claude Code 설정이 이미 적용되어 있습니다. 스킵합니다."
 else
     echo "Claude Code 설정을 적용합니다..."
     tmp=$(mktemp)
     if [[ -f "${SETTINGS_FILE}" ]]; then
-        jq --arg cmd "${STATUSLINE_CMD}" '
+        jq --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" '
             .statusLine = {type: "command", command: $cmd}
             | .env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1"
+            | .permissions.allow = ((.permissions.allow // []) + $allow | unique)
         ' "${SETTINGS_FILE}" >"${tmp}" && mv "${tmp}" "${SETTINGS_FILE}"
     else
-        jq -n --arg cmd "${STATUSLINE_CMD}" '{
+        jq -n --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" '{
             statusLine: {type: "command", command: $cmd},
-            env: {CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS: "1"}
+            env: {CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS: "1"},
+            permissions: {allow: $allow}
         }' >"${SETTINGS_FILE}"
     fi
 fi
