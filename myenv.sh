@@ -625,8 +625,10 @@ fi
 
 # emoji-cli 사용
 if [ -d "$myenv_path/emoji-cli" ]; then
-    # 기본 ctrl-s 단축키가 zellij 와 겹쳐서 alt-e 로 변경
     if [[ $current_shell == "zsh" ]]; then
+        # 실제 이모지로 출력(이게 꺼져 있으면 실제 이모지가 표시되지 않고 :fire: 처럼 표시된다.)
+        export EMOJI_CLI_USE_EMOJI=1
+        # 기본 ctrl-s 단축키가 zellij 와 겹쳐서 alt-e 로 변경
         export EMOJI_CLI_KEYBIND="^[e"
         source "$myenv_path/emoji-cli/emoji-cli.zsh"
     fi
