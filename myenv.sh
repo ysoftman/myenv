@@ -318,8 +318,13 @@ function fzf-hosts-widget {
     fi
     hosts=$(echo ${hosts} | sort -u)
 
+    # branches 위젯과 동일하게 tmux 팝업으로 표시한다.
+    # zellij 에서는 tmux 팝업이 실패하므로 --tmux 를 빼고 인라인(--height)으로 동작시킨다.
+    local fzf_opts=()
+    [[ -z "$ZELLIJ" ]] && fzf_opts+=(--tmux 80%,70%)
+
     local selected
-    selected=$(printf '%s\n' "${hosts}" | fzf --prompt="host: ") || return 1
+    selected=$(printf '%s\n' "${hosts}" | fzf "${fzf_opts[@]}" --prompt="host: ") || return 1
 
     LBUFFER="${LBUFFER}${selected}"
     zle reset-prompt
