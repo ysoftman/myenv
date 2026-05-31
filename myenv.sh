@@ -338,7 +338,7 @@ function set_fzf {
         zle -N fzf-rg-widget
         bindkey "^f" fzf-rg-widget
 
-        # zellij 에서 ctrl-t 가 tab 명령 단축키라 FZF_CTRL_T_COMMAND(ctrl-t)와 중복된다.
+        # zellij 에서 ctrl-t 가 tab 명령 단축키라 FZF_CTRL_T_COMMAND(ctrl-t)와 중복된다.(tmux 에서도 ctrl-t tab 선택으로 사용중이다)
         # alt-t 로도 FZF_CTRL_T_COMMAND(fzf-file-widget) 사용할 수 있도록 등록한다.
         bindkey "^[t" fzf-file-widget
 
@@ -367,6 +367,10 @@ function set_fzf {
 
         zle -N fzf-hosts-widget
         bindkey "^[H" fzf-hosts-widget
+
+        # 전체 바인디키 목록 확인
+        # bindkey
+        # bindkey | rg -i fzf
     fi
 
     ## fzf default options
