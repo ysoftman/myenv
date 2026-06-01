@@ -20,7 +20,8 @@ SKIP_RE='(^|/)(node_modules|vendor|target|dist|build|\.next|\.cache|tmp|logs?)(/
 # SECRET_RE 는 아래 패턴들을 '|' 로 합쳐 만든다.
 SECRET_PATTERNS=(
     # key=value 형태: key 토큰 + 구분자(:|=) + 6자 이상의 값
-    '(token|secret|password|passwd|pwd|credential|api[._-]?key|access[._-]?key|secret[._-]?key|private[._-]?key|client[._-]?secret|authorization|bearer|session|cookie|webhook)[A-Za-z0-9_. -]{0,50}["'"'"']?[[:space:]]*[:=][[:space:]]*["'"'"']?[^"'"'"'[:space:]#,}\]]{6,}'
+    # 'key' 는 접두사 없이도 매칭하므로 PUBLISHABLE_KEY 같은 임의의 ..._KEY 도 잡는다.
+    '(token|secret|password|passwd|pwd|credential|key|client[._-]?secret|authorization|bearer|session|cookie|webhook)[A-Za-z0-9_. -]{0,50}["'"'"']?[[:space:]]*[:=][[:space:]]*["'"'"']?[^"'"'"'[:space:]#,}\]]{6,}'
     # GitHub 토큰: ghp_/gho_/ghu_/ghs_/ghr_/ghpat_
     'gh[pousr]_[A-Za-z0-9_]{20,}'
     'github_pat_[A-Za-z0-9_]{20,}'
@@ -146,6 +147,15 @@ is_candidate_file() {
     return 0
 }
 
+# is_env_file: .env, .env.local, .env.production 등 dotenv 류면 0.
+# 이런 파일은 secret 패턴 매칭 여부와 무관하게 항상 스캔 대상으로 취급한다.
+is_env_file() {
+    local path
+
+    path=$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')
+    [[ $path =~ (^|/)\.env(\.[a-z0-9_-]+)*$ ]]
+}
+
 if [[ $OSTYPE == darwin* ]]; then
     file_size() { stat -f%z "$1"; }
 else
@@ -220,7 +230,10 @@ scan_path() {
     fi
 
     matches=$(rg -nI --color=never --no-heading -i -e "$SECRET_RE" -- "$fullpath" 2>/dev/null)
-    [[ -n $matches ]] || return
+    local is_env=0
+    is_env_file "$candidate_path" && is_env=1
+    # secret 패턴이 안 걸려도 .env 류면 무조건 대상으로 포함한다.
+    [[ -n $matches ]] || ((is_env)) || return
 
     count=$(printf '%s\n' "$matches" | sed '/^[[:space:]]*$/d' | wc -l | tr -d '[:space:]')
     hit_files=$((hit_files + 1))
@@ -237,12 +250,15 @@ scan_path() {
         fi
     fi
 
-    printf '  - %b%s%b (%s match lines)\n' "$yellow" "$display_path" "$reset_color" "$count"
-
-    while IFS= read -r line; do
-        [[ -n $line ]] || continue
-        printf '      line %s: matched secret pattern (content hidden)\n' "${line%%:*}"
-    done <<<"$matches"
+    if ((count > 0)); then
+        printf '  - %b%s%b (%s match lines)\n' "$yellow" "$display_path" "$reset_color" "$count"
+        while IFS= read -r line; do
+            [[ -n $line ]] || continue
+            printf '      line %s: matched secret pattern (content hidden)\n' "${line%%:*}"
+        done <<<"$matches"
+    else
+        printf '  - %b%s%b (env file; included by policy)\n' "$yellow" "$display_path" "$reset_color"
+    fi
 }
 
 scan_file() {
