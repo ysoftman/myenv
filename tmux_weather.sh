@@ -3,8 +3,7 @@
 # tmux status-right 용 날씨 모듈 (wttr.in) — xamut/tmux-weather 플러그인 대체용.
 #
 # 플러그인 소스(~/.tmux/plugins/tmux-weather/scripts/weather.sh)를 직접 고치면 TPM 업데이트(prefix + U) 때 덮어써져 패치가 사라진다.
-# 그래서 .tmux.conf 와 함께 myenv 레포에서 버전관리되는 이 스크립트로 대체하고,
-# .tmux.conf 의 @catppuccin_weather_text 가 이 파일을 직접 호출한다.
+# 그래서 .tmux.conf 와 함께 myenv 레포에서 버전관리되는 이 스크립트로 대체하고, .tmux.conf 의 @catppuccin_weather_text 가 이 파일을 직접 호출한다.
 #
 # 사내 보안 프록시(Menlo Security 등)가 wttr.in 을 차단하면 HTTP 200 으로 "Web Page Blocked" HTML 페이지가 돌아온다.
 # curl 종료코드만 보면 성공(0)이라 그대로 캐시·출력되어 상태줄에 HTML 이 노출된다. => 응답이 정상 날씨 문자열일 때만 캐시/출력한다.
