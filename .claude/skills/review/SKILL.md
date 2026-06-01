@@ -1,7 +1,7 @@
 ---
 name: review
-description: Review GitHub PRs and track improvements as tasks. Use when user asks to review a PR, check a pull request, says "PR 리뷰해줘", "PR 봐줘", or provides a GitHub PR URL or number. Delegates the actual review judgment to the `reviewer` agent.
-allowed-tools: Agent, Bash(gh:*), Bash(printf:*), Read, Glob, Grep, TaskCreate, TaskUpdate, TaskList, TaskGet
+description: Review GitHub PRs and track improvements as tasks. Use when user asks to review a PR, check a pull request, says "PR 리뷰해줘", "PR 봐줘", or provides a GitHub PR URL or number. Delegates both the review judgment and comment writing to the `reviewer` agent (run in the background).
+allowed-tools: Agent, Bash(gh:*), Read, TaskCreate, TaskUpdate, TaskList, TaskGet
 ---
 
 # PR Review
@@ -16,22 +16,28 @@ Input: $ARGUMENTS
 - 숫자(예: `108`): 해당 PR을 바로 리뷰한다
 - URL(예: `https://github.com/.../pull/108`): URL에서 PR 번호를 추출하여 리뷰한다
 
+## 역할 분담 원칙
+
+리뷰 관련 처리(PR 리뷰 판단, 코멘트 달기 등)는 **항상 별도 에이전트가 담당**한다. 시점·상황과 무관하게 메인 에이전트는 리뷰 관련 실제 작업을 직접 수행하지 않으며, **언제나 사용자 인터랙션에 집중**한다.
+
+- **메인 에이전트**(직접 수행): 인자 파싱, PR 선택, 에이전트 입력 준비, 사용자 확인, 에이전트 디스패치, 결과 보고, task 등록/상태 관리. 그 외 리뷰 관련 판단·작성은 직접 하지 않는다.
+- **별도 에이전트**(항상 위임, 둘 다 `reviewer` 에이전트로 디스패치):
+  - PR 리뷰 판단 → `reviewer` 에이전트 (아래 "PR 리뷰")
+  - 코멘트 작성 → `reviewer` 에이전트 (아래 "코멘트 요청 처리")
+- 위임은 **항상 `Agent` 도구를 `run_in_background: true`로** 한다. 메인은 호출 직후 사용자 입력 대기/처리로 돌아가고, 완료 알림이 오면 후처리(결과 보고, task 등록/완료)만 진행한다.
+- 사용자 확인이 필요한 단계(코멘트 작성 승인 등)는 메인이 직접 수행하고 에이전트에 위임하지 않는다.
+
 ## 실행 절차
 
 ### 작업 환경 보존
 
-리뷰는 사용자의 현재 작업 환경을 바꾸지 않고 끝나야 한다. PR checkout, diff 저장, 임시 테스트, 파일 생성이 필요하더라도 리뷰 종료 시 리뷰 전 상태로 되돌린다.
+리뷰/코멘트는 사용자의 현재 작업 환경을 바꾸지 않고 끝나야 한다. 별도 에이전트가 백그라운드로, 때로는 여러 인스턴스가 동시에 도는 구조이므로 **공유 작업트리의 브랜치를 절대 바꾸지 않는다**(`gh pr checkout`/`git checkout`으로 현재 브랜치를 전환하면 사용자 작업과 동시 실행 인스턴스가 깨진다).
 
-1. 리뷰 시작 직후 아래 상태를 기록한다:
-   - 현재 브랜치: `git branch --show-current`
-   - 현재 HEAD: `git rev-parse HEAD`
-   - 작업트리 상태: `git status --short`
-   - 추적되지 않은 파일 목록: `git ls-files --others --exclude-standard`
-2. PR 내용을 확인하기 위해 브랜치를 바꾸거나 `gh pr checkout`을 실행해야 하면, 시작 시 기록한 브랜치/HEAD로 돌아갈 수 있는지 먼저 확인한다. 작업트리가 dirty이면 사용자의 변경을 덮어쓰거나 stash하지 말고, 가능한 한 `gh pr diff`, `gh pr view`, `git show`, 원격 ref 읽기처럼 checkout 없는 방식으로 리뷰한다.
-3. 리뷰 중 생성한 임시 파일, 패치 파일, 로그, 테스트 산출물은 경로를 기록하고 리뷰 종료 전에 삭제한다. 임시 산출물은 가능하면 repo 밖의 `/tmp` 계열 디렉터리에 만든다.
-4. 리뷰 종료 직전에 시작 시 기록한 브랜치로 돌아온다. 브랜치명이 없던 detached HEAD 상태였다면 기록한 HEAD로 돌아온다.
-5. 리뷰 중 발생한 작업트리 변경은 모두 되돌린다. 단, 시작 시 이미 존재했던 사용자 변경은 유지한다. 리뷰 전 `git status --short`와 종료 직전 상태를 비교해 리뷰가 만든 변경만 제거한다.
-6. 최종 응답 전에 `git status --short`와 현재 브랜치/HEAD를 확인하고, 리뷰 전 상태와 다르면 복원 작업을 계속한다. 자동 복원이 충돌이나 사용자 변경과 겹쳐 안전하지 않으면 즉시 멈추고 남은 차이를 구체적으로 보고한다.
+- **정적 리뷰·코멘트(기본)**: checkout이 필요 없다. 변경 내용은 `gh pr diff`/`gh pr view`로, hunk 밖 파일 컨텍스트는 `gh api .../contents?ref=<headSha>`(또는 `git fetch origin pull/<n>/head` 후 `git show <sha>:<path>` — 둘 다 작업트리/브랜치를 바꾸지 않는다)로 확인한다. `<headSha>`는 에이전트가 PR 번호로 도출한다(방법은 `reviewer` 단일 출처). 이 스킬의 리뷰·코멘트는 여기에 해당한다.
+- **전체 트리가 필요할 때**(테스트 실행, 빌드, 전 repo 정적분석 등): 공유 브랜치를 바꾸지 말고 **격리된 worktree**를 쓴다(`git worktree add`, 또는 `Agent` 도구의 `isolation: "worktree"`). 별도 디렉터리라 사용자 작업·동시 실행과 충돌하지 않으며, 종료 시 worktree만 제거한다.
+- 임시 산출물(패치/로그/테스트 출력 등)은 repo 밖(`/tmp` 계열)에 만들고 종료 전 삭제한다.
+
+이 규칙은 디스패치 prompt에 함께 전달해 실제로 작업하는 에이전트가 지키게 한다. 메인은 입력 준비에 `gh`만 쓰므로 작업 환경을 건드리지 않는다.
 
 ### 사전 컨텍스트 수집
 
@@ -43,21 +49,21 @@ Input: $ARGUMENTS
 
 ### PR 리뷰
 
-리뷰 판단은 `reviewer` 에이전트에게 위임한다. 메인은 입력 준비와 결과 후처리만 담당한다.
+리뷰 판단은 **항상 `reviewer` 에이전트에게 위임**한다. 메인은 리뷰 판단을 직접 하지 않고 입력 준비와 결과 후처리만 담당하며, 위임 후에는 사용자 입력에 계속 반응한다.
 
 1. `gh pr view <number>`로 PR 상세 정보(제목, 본문)를 확인한다
 2. `gh pr diff <number>`로 변경 내용을 가져온다
 3. 변경 규모가 매우 크면(파일 수가 많거나 핵심 모듈 포함) 핵심 파일 우선이라는 가이드를 함께 전달한다. lock 파일이나 generated 코드는 빠르게 훑도록 지시한다.
-4. **`Agent` 도구로 `reviewer` 서브에이전트를 호출**한다. 다음을 prompt에 포함:
+4. **`Agent` 도구로 `reviewer` 서브에이전트를 `run_in_background: true`로 디스패치**한다. 호출 직후 메인은 사용자 입력 대기/처리로 돌아간다(리뷰 완료를 동기적으로 기다리지 않는다). prompt에 다음을 포함:
    - PR 번호와 제목
    - 변경된 diff 전체
    - PR 본문/설명 (의도 컨텍스트)
    - 사전 컨텍스트 수집 단계에서 확인한 기존 코멘트 (중복 지적 방지)
-   - 변경된 파일의 컨텍스트가 필요하면 에이전트가 직접 Read하도록 안내
+   - hunk 밖 파일 컨텍스트가 필요하면 **checkout 없이 PR head 파일을 확인**하도록 안내한다(`gh api .../contents?ref=<headSha>` 또는 `git fetch origin pull/<n>/head` 후 `git show <sha>:<path>`, `<headSha>`는 에이전트가 PR 번호로 도출). 현재 작업트리를 그대로 읽는 `Read`는 PR head와 내용이 다를 수 있으므로 쓰지 않는다.
    - 프로젝트 컨벤션(CLAUDE.md 규칙: bun/rg/fd/biome/rumdl 등) 위반 여부도 체크 항목에 포함
    - 코드 변경으로 바로 고칠 수 있는 지적은 가능한 한 GitHub suggestion용 수정 코드 블록(```suggestion ... ```)을 포함하도록 안내
-5. 에이전트가 반환한 리뷰 결과(🔴 높음 / 🟡 중간 / 🟢 낮음으로 분류된 findings)를 받는다
-6. 받은 결과 본문은 사용자에게 그대로 표시한다 (일반 출력)
+5. 서브에이전트 완료 알림이 오면 반환된 리뷰 결과(🔴 높음 / 🟡 중간 / 🟢 낮음으로 분류된 findings)를 받는다
+6. 받은 결과 본문은 사용자에게 그대로 표시하고, 이어서 "개선사항 task 등록"을 진행한다
 
 ### 개선사항 task 등록
 
@@ -68,49 +74,39 @@ Input: $ARGUMENTS
 3. 이번 리뷰에서 새로 발견한 항목만 `TaskCreate`로 추가한다(번호는 기존과 충돌하지 않게 이어 부여)
 4. 변경/삭제로 더 이상 해당 없는 기존 task는 `TaskUpdate status=skipped`로 처리한다(삭제하지 않고 흔적을 남긴다)
 
-리뷰에서 발견된 개선사항을 TaskCreate로 등록한다. 표기 체계는 `reviewer` 에이전트와 완전히 동일하다 (`🔴 높음` / `🟡 중간` / `🟢 낮음`).
+리뷰에서 발견된 개선사항을 TaskCreate로 등록한다. 우선순위는 **`reviewer`가 분류한 값(🔴 높음 / 🟡 중간 / 🟢 낮음)을 그대로 반영**한다. 분류 기준의 단일 출처는 `reviewer` 에이전트 정의(Methodology)이며, 스킬은 기준을 중복 기술하지 않는다.
 
 - subject 형식: `#번호 우선순위 — 제목` (예: `#1 🔴 높음 — retry 루프에서 context 취소 확인 누락`)
-- 우선순위 기준 (에이전트와 동일):
-  - **🔴 높음**: 버그/데이터 손상/보안 위험/장애 유발 가능성. 머지 전에 반드시 처리.
-  - **🟡 중간**: 동작은 하지만 성능/유지보수성/테스트 커버리지 등 명확한 약점. 가능하면 같은 PR에서 처리.
-  - **🟢 낮음**: 스타일/네이밍/사소한 리팩토링 제안. 작성자 재량.
 - description에 구체적인 문제 상황과 개선 방안을 기술한다 (가능하면 `file:line` 위치 포함)
 
-### 표 출력 정책
+### 상태 업데이트
 
-- **초기 표 출력은 에이전트가 담당**한다. 스킬은 별도로 초기 표를 다시 출력하지 않는다 (중복 방지).
-- **상태 업데이트는 스킬이 담당**한다. 사용자가 "1번 완료", "2번 스킵" 등으로 지시하면:
-  1. 해당 Task를 `TaskUpdate`로 상태 변경
-  2. 전체 표를 아래 형식으로 다시 출력 (에이전트 표와 동일 포맷, 상태 컬럼만 업데이트)
+리뷰 결과는 task로 추적하므로 **별도의 표는 출력하지 않는다**. 진행 상황은 task 목록으로 확인한다.
 
-```bash
-printf '\033[32m%s\033[0m\n' "$(cat <<'EOF'
-| # | 상태 | 우선순위 | 내용 |
-|---|------|---------|------|
-| 1 | ✅ 완료 | 🔴 높음 | retry 루프에서 context 취소 확인 누락 |
-| 2 | 💤 대기 | 🟢 낮음 | isBodyStreamError 문자열 매칭 |
-EOF
-)"
-```
-
-- 상태 표기:
-  - 💤 대기 (pending)
-  - ⚡ 진행 (in_progress)
-  - ✅ 완료 (completed)
-  - ⏩ 스킵 (skipped)
+- 사용자가 "1번 완료", "2번 스킵" 등으로 지시하면 해당 Task를 `TaskUpdate`로 상태 변경만 한다(completed / skipped 등).
+- 상태 변경 후에는 어떤 task를 어떤 상태로 바꿨는지 한 줄로 간단히 확인해 준다(표 재출력 없음).
 
 ### 코멘트 요청 처리
 
-사용자가 특정 이슈에 대해 PR 코멘트를 요청하면:
+사용자가 특정 이슈에 대해 PR 코멘트를 요청하면, **실제 코멘트 작성은 `reviewer` 에이전트에게 위임**한다. 메인은 코멘트 작성에 묶여 있지 않고 사용자 입력을 계속 대기/처리할 수 있어야 한다.
 
-- `gh api`를 사용하여 해당 라인에 리뷰 코멘트를 작성한다
-- 코멘트 본문은 사용자가 다른 언어를 명시하지 않는 한 한국어로 작성한다.
-- 코드 변경으로 바로 고칠 수 있는 코멘트는 GitHub suggestion 코드 블록(```suggestion ... ```)을 우선 포함한다.
-- suggestion은 코멘트가 달릴 diff 라인과 정확히 대응해야 한다. 수정이 여러 줄이면 한 줄 코멘트가 아니라 `start_line`/`line` 범위를 지정한 range review comment로 작성해 suggestion이 바로 적용 가능하게 한다.
-- suggestion 범위가 정확히 맞지 않거나 여러 파일 수정이 필요한 경우에만 일반 코드 블록이나 설명으로 대체하고, 왜 suggestion으로 만들지 않았는지 짧게 설명한다.
-- 코멘트 작성 전에는 PR 브랜치의 대상 파일을 `nl -ba` 등으로 확인해 line/range와 suggestion 대체 코드가 실제 diff에 맞는지 검증한다.
-- 코멘트 작성 전 사용자에게 내용을 확인받는다(작성된 코멘트는 다른 협업자에게 즉시 보이므로 되돌리기 비용이 크다)
+#### 메인 에이전트의 역할
+
+1. 코멘트 대상(이슈/task 번호, 파일, 라인)을 정한다. 코멘트 본문은 메인이 새로 작성하는 것이 아니라 **`reviewer`가 낸 finding(문제/권장 + suggestion 코드)을 그대로 코멘트 본문으로 구성**한다(메인은 리뷰 내용을 직접 작성하지 않는다 — 역할 분담 원칙).
+2. **코멘트 작성 전 사용자에게 내용을 확인받는다.** 작성된 코멘트는 다른 협업자에게 즉시 보이므로 되돌리기 비용이 크다. 이 확인 단계는 메인이 직접 수행한다(서브에이전트에게 위임하지 않는다).
+3. 사용자가 승인하면 **`Agent` 도구로 `reviewer` 서브에이전트를 `run_in_background: true`로 호출**해 코멘트 작성을 넘긴다. 호출 직후 메인은 즉시 사용자 입력 대기/처리로 돌아간다(작성 완료를 동기적으로 기다리지 않는다).
+4. 서브에이전트 완료 알림이 오면 결과(코멘트 URL 또는 실패 사유)를 사용자에게 간단히 보고한다. 실패 시 사용자에게 재시도 여부를 확인한다.
+5. **코멘트가 특정 task(개선사항)에 대응하고 작성이 성공하면, 해당 Task를 `TaskUpdate status=completed`로 변경**한다. 코멘트 작성이 실패했으면 task 상태는 그대로 둔다(성공한 코멘트만 완료 처리).
+6. 여러 코멘트를 한 번에 요청받으면, 각 코멘트를 독립 서브에이전트로 동시에 디스패치한다. 각 서브에이전트가 완료될 때마다 대응 task를 개별적으로 완료 처리한다(전체가 끝날 때까지 기다리지 않는다).
+
+#### `reviewer`에 전달할 prompt 내용
+
+- PR 번호와 repo(owner/repo)
+- 코멘트 대상 파일 경로, line 또는 `start_line`/`line` 범위
+- 승인된 코멘트 본문(`reviewer` finding 기반)
+- suggestion 적용 시 대체 코드
+
+코멘트 작성의 구체 규칙(`gh api` 사용, suggestion 우선, line 검증, checkout 금지, 결과 반환 형식 등)은 **`reviewer` 에이전트 정의(`~/.claude/agents/reviewer.md`)의 "코멘트 작성 위임" 섹션을 단일 출처**로 한다. 스킬은 규칙을 중복 기술하지 않으며, 위 입력만 전달하면 `reviewer`가 자신의 규칙대로 처리한다.
 
 ## 사용 예시
 
