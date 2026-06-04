@@ -147,7 +147,23 @@ config.harfbuzz_features = { "calt = 0", "clig = 0", "liga = 0" }
 config.keys = {
 	-- Ctrl+Space  vi 모드 (복사 모드) 토글
 	-- https://wezterm.org/copymode.html
-	{ key = "Space", mods = "CTRL", action = wezterm.action.ActivateCopyMode },
+	-- tmux 안이면 tmux 네이티브 copy-mode 로 진입한다. WezTerm CopyMode 는 자기 그리드
+	-- 위의 오버레이라, tmux 가 status-interval/repaint 로 화면을 갈아엎으면 선택 영역이
+	-- 사라진다. tmux 안에서는 그리드 주인인 tmux 의 copy-mode 를 써야 선택이 안정적이다.
+	{
+		key = "Space",
+		mods = "CTRL",
+		action = wezterm.action_callback(function(window, pane)
+			local proc = pane:get_foreground_process_name() or ""
+			if proc:find("tmux") then
+				-- tmux prefix(C-b) + [ 로 tmux copy-mode 진입
+				window:perform_action(wezterm.action.SendKey({ key = "b", mods = "CTRL" }), pane)
+				window:perform_action(wezterm.action.SendKey({ key = "[" }), pane)
+			else
+				window:perform_action(wezterm.action.ActivateCopyMode, pane)
+			end
+		end),
+	},
 	-- Alt + LeftArrow (단어 단위 왼쪽 이동)
 	{
 		key = "LeftArrow",
