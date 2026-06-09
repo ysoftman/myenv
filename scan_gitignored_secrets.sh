@@ -14,7 +14,12 @@ MAX_BYTES=$((2 * 1024 * 1024))
 MAX_DEPTH=4
 
 # FILE_RE 는 발견된 경로가 secret 스캔 후보 파일인지 판정한다.
-FILE_RE='\.(conf|config|env|json|ya?ml|toml|ini|properties|cfg)(\.[a-z0-9_-]+)*$|(^|/)\.?[a-z0-9_-]*env(rc)?$|(^|/)\.git-credentials$'
+# 커밋 대상이 아닌(=gitignore 된) 파일 중 아래 이름 규칙에 맞는 것만 후보로 삼는다.
+#   - .env / .env*       : .env, .env.local, .env.production, .envrc 등
+#   - .*env              : .flaskenv, .dockerenv 등
+#   - config.toml / config.json
+#   - .git-credentials
+FILE_RE='(^|/)\.env[a-z0-9_.-]*$|(^|/)\.[a-z0-9_.-]*env$|(^|/)config\.(toml|json)$|(^|/)\.git-credentials$'
 SKIP_RE='(^|/)(node_modules|vendor|target|dist|build|\.next|\.cache|tmp|logs?)(/|$)'
 
 # SECRET_RE 는 아래 패턴들을 '|' 로 합쳐 만든다.
