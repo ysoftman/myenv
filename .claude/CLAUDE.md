@@ -78,4 +78,6 @@ Claude 관련 설정 파일(CLAUDE.md, AGENTS.md, `.claude/agents/*.md`, `.claud
 
 - 스킬 사용 시(`Skill` 도구 호출이든 슬래시 커맨드로 이미 로드된 상태든) 첫 응답에서 어떤 스킬로 처리하는지 한 문장으로 안내한다.
 - 여러 스킬을 함께 쓰면 모든 이름을 표시한다.
-- 예: "`commit` 스킬로 처리합니다", "`commit`, `pr` 스킬로 처리합니다".
+- 스킬 frontmatter에 `model`/`effort`가 지정돼 있으면 지정된 값을 함께 표시한다. 지정이 없으면 생략한다(세션 모델 그대로 동작).
+- model/effort 값을 모르면 추측으로 표시하지 말고 해당 SKILL.md frontmatter를 확인한 뒤 표시한다.
+- 예: "`commit` 스킬로 처리합니다 (model: sonnet, effort: low)", "`commit`, `pr` 스킬로 처리합니다".
