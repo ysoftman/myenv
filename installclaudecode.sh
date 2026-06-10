@@ -8,11 +8,12 @@ set -euo pipefail
 echo "Claude Code를 설치합니다..."
 curl -fsSL https://claude.ai/install.sh | bash
 
-# Claude Code 기본 설정 (statusLine, env)
+# Claude Code 기본 설정
 # .claude/settings.json 은 더 이상 dotfiles 로 관리하지 않으므로 jq 로 항목을 직접 설정한다.
+mkdir -p "${HOME}/.claude"
 SETTINGS_FILE="${HOME}/.claude/settings.json"
 STATUSLINE_CMD="bash -c 'cat | bash ${HOME}/.claude/statusline-command.sh 2>/dev/null'"
-mkdir -p "${HOME}/.claude"
+SPINNER_VERBS='{"mode": "replace", "verbs": ["Reconciling", "Syncing", "Applying"]}'
 PERMISSIONS_ALLOW='[
       "Bash(/bin/bash *)",
       "Bash(/usr/bin/ruby *)",
@@ -124,27 +125,30 @@ PERMISSIONS_ALLOW='[
       "mcp__atlassian__getVisibleJiraProjects",
       "mcp__atlassian__searchJiraIssuesUsingJql"
 ]'
-if [[ -f "${SETTINGS_FILE}" ]] && jq -e --argjson allow "${PERMISSIONS_ALLOW}" '
+if [[ -f "${SETTINGS_FILE}" ]] && jq -e --argjson allow "${PERMISSIONS_ALLOW}" --argjson spinner "${SPINNER_VERBS}" '
     .statusLine
     and .env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS
     and (.permissions.allow | type == "array")
     and (($allow - .permissions.allow) | length == 0)
+    and (.spinnerVerbs == $spinner)
 ' "${SETTINGS_FILE}" &>/dev/null; then
     echo "Claude Code 설정이 이미 적용되어 있습니다. 스킵합니다."
 else
     echo "Claude Code 설정을 적용합니다..."
     tmp=$(mktemp)
     if [[ -f "${SETTINGS_FILE}" ]]; then
-        jq --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" '
+        jq --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" --argjson spinner "${SPINNER_VERBS}" '
             .statusLine = {type: "command", command: $cmd}
             | .env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1"
             | .permissions.allow = ((.permissions.allow // []) + $allow | unique)
+            | .spinnerVerbs = $spinner
         ' "${SETTINGS_FILE}" >"${tmp}" && mv "${tmp}" "${SETTINGS_FILE}"
     else
-        jq -n --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" '{
+        jq -n --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" --argjson spinner "${SPINNER_VERBS}" '{
             statusLine: {type: "command", command: $cmd},
             env: {CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS: "1"},
-            permissions: {allow: $allow}
+            permissions: {allow: $allow},
+            spinnerVerbs: $spinner
         }' >"${SETTINGS_FILE}"
     fi
 fi
