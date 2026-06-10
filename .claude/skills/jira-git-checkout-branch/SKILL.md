@@ -2,6 +2,8 @@
 name: jira-git-checkout-branch
 description: Pick one of the user's In Progress Jira issues and create/checkout a git branch named after it. Use when the user says things like "jira 이슈로 브랜치 만들어", "내 지라 이슈 기반으로 브랜치 파줘", "jira issue branch", or `/jira-git-checkout-branch`. If the working tree is dirty, asks the user whether to proceed; halts if the Atlassian MCP server is not available.
 allowed-tools: mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__lookupJiraAccountId, mcp__atlassian__searchJiraIssuesUsingJql, Bash
+model: sonnet
+effort: low
 ---
 
 # Jira → Git Checkout Branch

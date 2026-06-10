@@ -2,6 +2,8 @@
 name: jira-create-issue
 description: Create or edit Jira issues on boards the user has access to. Use this skill whenever the user asks to create, add, file, open, write, or edit a Jira issue/ticket/task, mentions `/jira-create-issue`, `jira 이슈 생성`, `지라 이슈 만들어`, `이슈 수정`, or asks to "티켓 올려줘", even when the project or issue key is not stated explicitly — the skill will infer the project from conversation context or present accessible boards for the user to pick. Always trigger this over generic jira lookup when the intent is to create or modify an issue.
 allowed-tools: mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__getVisibleJiraProjects, mcp__atlassian__getJiraProjectIssueTypesMetadata, mcp__atlassian__createJiraIssue, mcp__atlassian__editJiraIssue, mcp__atlassian__getJiraIssue, mcp__atlassian__lookupJiraAccountId, mcp__atlassian__getTransitionsForJiraIssue, mcp__atlassian__transitionJiraIssue, Bash
+model: sonnet
+effort: low
 ---
 
 # Jira Create / Edit Issue
@@ -60,7 +62,7 @@ allowed-tools: mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__
 - 영어 요약은 발화/맥락에서 추출해 **동사로 시작**하고 60자 이내로 간결하게 쓴다. (`Add`, `Fix`, `Investigate`, `Refactor`, `Deploy` 등)
 - 사용자가 제목을 직접 제공했으면 그대로 존중하되, 한국어로 주면 영어로 번역하고 대괄호 접두사를 붙인다.
 
-**예시**
+#### 예시
 
 | 발화 / 컨텍스트 | 제목 |
 |---|---|

@@ -2,6 +2,8 @@
 name: typos
 description: Check typos in the current project (English and Korean). Scans variables, functions, comments, docs, and strings. Run before commits or on demand. Use when user asks to check spelling, find typos, or review text quality.
 allowed-tools: Agent(typo-checker), Bash(typos:*), Bash(git diff:*), Bash(git status:*), Bash(fd:*), Bash(rg:*), Bash(printf:*)
+model: sonnet
+effort: low
 ---
 
 # Typo Check

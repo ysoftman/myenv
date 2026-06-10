@@ -2,6 +2,8 @@
 name: pr
 description: Create GitHub pull requests with English titles and structured body content. Use when the user wants to create a PR, open a pull request, merge request, or says "PR 만들어줘", "PR 생성", "풀리퀘", "pull request". Also trigger when the user finishes work on a branch and says "이거 올려줘" or similar.
 allowed-tools: Bash, Read, Grep, Glob
+model: sonnet
+effort: low
 ---
 
 # GitHub PR Creator

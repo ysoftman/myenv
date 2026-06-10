@@ -2,6 +2,8 @@
 name: jira
 description: Search, create, transition, and comment on Jira issues. Use when user mentions Jira, issue keys (PROJ-123), project boards, or wants to manage tasks in Atlassian.
 allowed-tools: mcp__atlassian__searchJiraIssuesUsingJql, mcp__atlassian__getJiraIssue, mcp__atlassian__createJiraIssue, mcp__atlassian__editJiraIssue, mcp__atlassian__addCommentToJiraIssue, mcp__atlassian__getTransitionsForJiraIssue, mcp__atlassian__transitionJiraIssue, mcp__atlassian__getVisibleJiraProjects, mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__lookupJiraAccountId, mcp__atlassian__getJiraProjectIssueTypesMetadata, Bash(printf:*)
+model: sonnet
+effort: low
 ---
 
 # Jira Command

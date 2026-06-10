@@ -2,6 +2,8 @@
 name: commit
 description: Review changes, run lint/format, then create a git commit with English message. Use when user wants to commit, save changes, or says "커밋", "git commit", "git ci".
 allowed-tools: Bash, Read, Grep, Glob
+model: sonnet
+effort: low
 ---
 
 # Git Commit

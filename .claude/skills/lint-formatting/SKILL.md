@@ -2,6 +2,8 @@
 name: lint-formatting
 description: Run language-specific linters and formatters with full command reference. Use when user asks to lint, format, check style, or says "린트", "포맷", "lint", "format", "biome", "ruff", "clippy", "golangci-lint", "rumdl", "prettier", "shfmt". Also use when needing detailed command variants (check-only, fix-only, partial scope) beyond the standard fix-everything command.
 allowed-tools: Bash, Read, Glob
+model: sonnet
+effort: low
 ---
 
 # Lint & Formatting
