@@ -14,6 +14,34 @@ mkdir -p "${HOME}/.claude"
 SETTINGS_FILE="${HOME}/.claude/settings.json"
 STATUSLINE_CMD="bash -c 'cat | bash ${HOME}/.claude/statusline-command.sh 2>/dev/null'"
 SPINNER_VERBS='{"mode": "replace", "verbs": ["⏳ Working", "🔄 Processing", "🏃 Running", "🌀 Crunching", "🚧 Building"]}'
+HOOKS=$(
+    cat <<'EOF'
+{
+    "PreToolUse": [
+        {
+            "matcher": "Skill",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "jq -c '{systemMessage: (\"Skill loaded: \" + .tool_input.skill)}'"
+                }
+            ]
+        }
+    ],
+    "PostToolUseFailure": [
+        {
+            "matcher": "mcp__jenkins-.*",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "jq -c '{systemMessage: (\"⚠️ jenkins MCP 호출 실패(\" + (.tool_name // \"?\") + \") — 연결 끊김이면 /mcp 로 재연결 후 다시 시도하세요.\"), hookSpecificOutput: {hookEventName: \"PostToolUseFailure\", additionalContext: \"jenkins MCP tool failed. If this looks like a connection/timeout error, do NOT silently retry — tell the user to run /mcp to reconnect, then retry after reconnection.\"}}'"
+                }
+            ]
+        }
+    ]
+}
+EOF
+)
 PERMISSIONS_ALLOW='[
       "Bash(/bin/bash *)",
       "Bash(/usr/bin/ruby *)",
@@ -125,33 +153,19 @@ PERMISSIONS_ALLOW='[
       "mcp__atlassian__getVisibleJiraProjects",
       "mcp__atlassian__searchJiraIssuesUsingJql"
 ]'
-if [[ -f "${SETTINGS_FILE}" ]] && jq -e --argjson allow "${PERMISSIONS_ALLOW}" --argjson spinner "${SPINNER_VERBS}" '
-    .statusLine
-    and .env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS
-    and (.permissions.allow | type == "array")
-    and (($allow - .permissions.allow) | length == 0)
-    and (.spinnerVerbs == $spinner)
-' "${SETTINGS_FILE}" &>/dev/null; then
-    echo "Claude Code 설정이 이미 적용되어 있습니다. 스킵합니다."
-else
-    echo "Claude Code 설정을 적용합니다..."
-    tmp=$(mktemp)
-    if [[ -f "${SETTINGS_FILE}" ]]; then
-        jq --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" --argjson spinner "${SPINNER_VERBS}" '
-            .statusLine = {type: "command", command: $cmd}
-            | .env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1"
-            | .permissions.allow = ((.permissions.allow // []) + $allow | unique)
-            | .spinnerVerbs = $spinner
-        ' "${SETTINGS_FILE}" >"${tmp}" && mv "${tmp}" "${SETTINGS_FILE}"
-    else
-        jq -n --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" --argjson spinner "${SPINNER_VERBS}" '{
-            statusLine: {type: "command", command: $cmd},
-            env: {CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS: "1"},
-            permissions: {allow: $allow},
-            spinnerVerbs: $spinner
-        }' >"${SETTINGS_FILE}"
-    fi
-fi
+echo "Claude Code 설정을 적용합니다..."
+[[ -s "${SETTINGS_FILE}" ]] || echo '{}' >"${SETTINGS_FILE}"
+tmp=$(mktemp)
+jq --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" --argjson spinner "${SPINNER_VERBS}" --argjson hooks "${HOOKS}" '
+    .statusLine = {type: "command", command: $cmd}
+    | .env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1"
+    | .env.MCP_TIMEOUT = "30000"
+    | .env.MCP_TOOL_TIMEOUT = "60000"
+    | .permissions.allow = ((.permissions.allow // []) + $allow | unique)
+    | .spinnerVerbs = $spinner
+    | .hooks.PreToolUse = ((.hooks.PreToolUse // []) + $hooks.PreToolUse | unique)
+    | .hooks.PostToolUseFailure = ((.hooks.PostToolUseFailure // []) + $hooks.PostToolUseFailure | unique)
+' "${SETTINGS_FILE}" >"${tmp}" && mv "${tmp}" "${SETTINGS_FILE}"
 
 # Atlassian mcp 설치
 # 인증은 claude code > mcp > atlassian > 웹 로그인
