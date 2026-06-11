@@ -189,11 +189,16 @@ else
 fi
 
 # Jenkins mcp 설치
-# HTTP transport 로 직접 연결하면 사내 proxy/LB의 idle timeout(수십 초~수 분)으로 MCP 연결이 자주 끊긴다.
-# mcp-remote를 로컬 stdio 프로세스로 중간에 두면 Claude Code↔mcp-remote 구간은 항상 연결된 상태를 유지한다.
+# native HTTP transport 직결로 등록한다 — 호출마다 독립 HTTP 요청이라 끊길
+# 장수 연결 자체가 없다.
+# (과거에는 mcp-remote stdio proxy 를 경유했는데, mcp-remote 가 원격에 유지하는
+# 장수 세션이 사내 proxy/LB idle timeout 으로 끊긴 뒤 재연결을 못 하고 행이
+# 걸려 — 호출이 무기한 대기, /mcp 수동 재연결 필요 — 오히려 끊김의 원인이었다.
+# 2026-06-11 사내 Jenkins 에서 실증: HTTP 직결은 수 분 idle 후에도 다음 호출이
+# 그냥 성공한다.)
 # 실행 시 Jenkins URL, 사용자 ID, API Token 을 입력받는다.
 # 토큰 입력 단계는 stty -echo 로 키 입력을 숨긴다 (bash/zsh 공통 — zsh 의 read -p 는 의미가 달라 호환되지 않는다).
-# 중간의 Auth check 는 토큰 검증(200 이면 OK)이고, claude mcp remove ... 는 이전 HTTP 방식 등록이 있으면 정리한다.
+# 중간의 Auth check 는 토큰 검증(200 이면 OK).
 if claude mcp list 2>&1 | grep -q "^jenkins-"; then
     echo "Jenkins MCP 서버가 이미 설정되어 있습니다. 스킵합니다."
 else
@@ -212,7 +217,7 @@ else
     curl -s -o /dev/null -w "%{http_code}\n" -u "${JENKINS_USER}:${JENKINS_TOKEN}" "${JENKINS_URL}/me/api/json"
     JENKINS_HOST="${JENKINS_URL#*://}"
     JENKINS_MCP_NAME="jenkins-$(printf '%s' "${JENKINS_HOST}" | tr -c 'a-zA-Z0-9' '-' | sed 's/-\{2,\}/-/g; s/^-//; s/-$//')"
-    claude mcp add -s user "${JENKINS_MCP_NAME}" -- npx -y mcp-remote "${JENKINS_URL}/mcp-server/mcp" --header "Authorization: Basic ${TOKEN_B64}"
+    claude mcp add -s user --transport http "${JENKINS_MCP_NAME}" "${JENKINS_URL}/mcp-server/mcp" --header "Authorization: Basic ${TOKEN_B64}"
     unset JENKINS_URL JENKINS_HOST JENKINS_MCP_NAME JENKINS_USER JENKINS_TOKEN TOKEN_B64
 fi
 
