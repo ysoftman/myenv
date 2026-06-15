@@ -62,6 +62,7 @@ Input: $ARGUMENTS
    - 사전 컨텍스트 수집 단계에서 확인한 기존 코멘트 (중복 지적 방지)
    - hunk 밖 파일 컨텍스트가 필요하면 **checkout 없이 PR head 파일을 확인**하도록 안내한다(`gh api .../contents?ref=<headSha>` 또는 `git fetch origin pull/<n>/head` 후 `git show <sha>:<path>`, `<headSha>`는 에이전트가 PR 번호로 도출). 현재 작업트리를 그대로 읽는 `Read`는 PR head와 내용이 다를 수 있으므로 쓰지 않는다.
    - 프로젝트 컨벤션(CLAUDE.md 규칙: bun/rg/fd/biome/rumdl 등) 위반 여부도 체크 항목에 포함
+   - **🔴/고심각도 finding 은 `reviewer` 방법론의 "검증 게이트"(Methodology #4)를 통과한 것만 보고**하도록 지시한다: diff 패턴만으로 race/dangling/overflow 등을 단정하지 말고 hunk 밖 실제 head 코드로 확인(타입·락·수명·참조)하며, 확신이 없으면 🔴 로 올리지 말고 한 단계 낮추거나 질문 형태로 제시하라고 명시한다. (기준 자체는 `reviewer` 단일 출처)
    - 각 finding 에 우선순위를 붙이되, **PR 변경 영향이 아닌 finding 에만 `[PR 무관]` 마커**를 달고(PR 변경에서 비롯된 finding 은 무표시가 기본), `[PR 무관]`은 base 대조로 확인 후 별도 섹션으로 분리해 달라고 안내(기준은 `reviewer` 정의가 단일 출처)
    - 코드 변경으로 바로 고칠 수 있는 지적은 가능한 한 GitHub suggestion용 수정 코드 블록(```suggestion ... ```)을 포함하도록 안내
 5. 서브에이전트 완료 알림이 오면 반환된 리뷰 결과(🔴 높음 / 🟡 중간 / 🟢 낮음 + PR 변경 영향이 아닌 것만 `[PR 무관]`으로 표시된 findings)를 받는다
