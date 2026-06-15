@@ -1,7 +1,7 @@
 ---
 name: reviewer
 description: "Use this agent for thorough code review of uncommitted changes, a specific PR, or specified files. Reviews code quality, design, potential bugs, security, performance, and best practices. Triggers when user says '리뷰', '코드 리뷰해줘', '검토', 'review this', or proactively before commits/PRs to verify changes."
-model: sonnet
+model: opus
 color: cyan
 memory: user
 ---

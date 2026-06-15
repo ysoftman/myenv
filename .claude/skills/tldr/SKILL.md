@@ -2,6 +2,8 @@
 name: tldr
 description: Explain programming language syntax in Korean with concise examples. Use when user asks about syntax like "python list comprehension", "go goroutine", "rust ownership", or any programming concept explanation.
 allowed-tools: WebSearch, WebFetch, Bash(printf:*)
+model: sonnet
+effort: low
 ---
 
 # Programming Language Syntax Explainer
