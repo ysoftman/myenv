@@ -229,7 +229,6 @@ USER_MARKETPLACES=(
     "simple10/agents-observe"
     "nextlevelbuilder/ui-ux-pro-max-skill"
     "forrestchang/andrej-karpathy-skills"
-    "JuliusBrussee/caveman"
     "DietrichGebert/ponytail"
 )
 for mp in "${USER_MARKETPLACES[@]}"; do
@@ -253,7 +252,6 @@ USER_PLUGINS=(
     "agents-observe"
     "ui-ux-pro-max@ui-ux-pro-max-skill"
     "andrej-karpathy-skills@karpathy-skills"
-    "caveman@caveman"
     "ponytail@ponytail"
 )
 for plugin in "${USER_PLUGINS[@]}"; do
