@@ -31,6 +31,9 @@ vim.keymap.set("n", "<a-f>", "<cmd>lua require('fzf-lua').grep_cword()<CR>", { s
 vim.keymap.set("n", "<c-f>", "<cmd>lua require('fzf-lua').live_grep()<CR>", { silent = true }) -- live grep, 입력마다 rg 재실행하여 정확한 line:col 점프 유지
 vim.keymap.set("n", "<c-l>", "<cmd>lua require('fzf-lua').buffers()<CR>", { silent = true })
 
+-- toggle list (공백 문자 표시). <leader>ul 은 LazyVim 기본 Line Number 토글이라 space 키 사용, Snacks.toggle 로 등록하면 which-key 메뉴에 자동 표시
+Snacks.toggle.option("list", { name = "List Chars" }):map("<leader>u<space>")
+
 -- neotree
 vim.keymap.set({ "n", "v" }, "<leader>tt", ":Neotree toggle reveal<cr>")
 vim.keymap.set({ "n", "v" }, "<leader>tf", ":Neotree toggle reveal_force_cwd left<cr>")

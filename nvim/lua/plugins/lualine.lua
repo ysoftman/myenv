@@ -18,7 +18,7 @@ local rainbow_yellow = "#E5C07B"
 local rainbow_green = "#98C379"
 local rainbow_blue = "#61AFEF"
 local rainbow_indigo = "#8A70C8"
-local rainbow_violet = "#C678DD" -- luacheck: ignore (reserved for 7th item)
+local rainbow_violet = "#C678DD"
 
 -- for debug
 local function printTable(t)
@@ -33,12 +33,7 @@ local function printTable(t)
   end
 end
 
-local function get_file_permissions()
-  local filepath = vim.fn.expand("%:p") -- Get the full path of the current file
-  local permissions = vim.fn.getfperm(filepath) -- Get file permissions
-  return permissions ~= "" and permissions or "No Permissions" -- Return permissions or a default message
-end
-
+-- 아이콘 참조: https://www.nerdfonts.com/cheat-sheet > 검색 > icon 복사
 return {
   "nvim-lualine/lualine.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -53,11 +48,20 @@ return {
     table.insert(opts.sections.lualine_x, 1, {
       "filetype",
       color = function()
+        return { bg = rainbow_violet, fg = black }
+      end,
+      separator = { left = "", right = "" },
+    })
+    table.insert(opts.sections.lualine_x, 1, {
+      function()
+        -- toggle list: leader > u > space (customization)
+        return vim.wo.list and "󱁐 " or "󱁐 "
+      end,
+      color = function()
         return { bg = rainbow_indigo, fg = black }
       end,
       separator = { left = "", right = "" },
     })
-    -- 아이콘 참조: https://www.nerdfonts.com/cheat-sheet > 검색 > icon 복사
     table.insert(opts.sections.lualine_x, 1, {
       function()
         -- toggle diagnostic: leader > u > d
@@ -93,7 +97,7 @@ return {
     })
     table.insert(opts.sections.lualine_x, 1, {
       function()
-        -- toggle autoformat: leader > u > s
+        -- toggle spell: leader > u > s
         return vim.wo.spell and " " or "󰓆 "
       end,
       color = function()
@@ -102,19 +106,34 @@ return {
       separator = { left = "", right = "" },
     })
     table.insert(opts.sections.lualine_x, 1, {
-      "encoding",
+      function()
+        -- toggle wrap: leader > u > w
+        return vim.wo.wrap and "󰖶 " or "󰯟 "
+      end,
       color = function()
         return { bg = rainbow_orange, fg = black }
       end,
       separator = { left = "", right = "" },
     })
     table.insert(opts.sections.lualine_x, 1, {
-      get_file_permissions,
+      "encoding",
       color = function()
         return { bg = rainbow_red, fg = black }
       end,
       separator = { left = "", right = "" },
     })
+    -- 굳이 표시할 필요 없음
+    -- table.insert(opts.sections.lualine_x, 1, {
+    --   function()
+    --     local filepath = vim.fn.expand("%:p") -- Get the full path of the current file
+    --     local permissions = vim.fn.getfperm(filepath) -- Get file permissions
+    --     return permissions ~= "" and permissions or "No Permissions" -- Return permissions or a default message
+    --   end,
+    --   color = function()
+    --     return { bg = rainbow_red, fg = black }
+    --   end,
+    --   separator = { left = "", right = "" },
+    -- })
     -- printTable(opts.sections.lualine_x)
   end,
 }
