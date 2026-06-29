@@ -34,6 +34,7 @@ mpkgs["lsd"]="lsd"                         # (https://github.com/Peltoche/lsd) l
 mpkgs["lychee"]="lychee"                   # (https://github.com/lycheeverse/lychee) broken hyperlinks 체크
 mpkgs["mdcat"]="mdcat"                     # (https://github.com/swsnr/mdcat) cat for markdown
 mpkgs["mise"]="mise"                       # (https://github.com/jdx/mise) node(nvm, volta대체), python, go등 버전 관리
+mpkgs["nbping"]="nbping"                   # (https://github.com/hanshuaikang/NBping) ping 대체
 mpkgs["netwatch-tui"]="netwatch"           # (https://github.com/matthart1983/netwatch) iftop, bandwhich 대체
 mpkgs["nu"]="nu"                           # (https://github.com/nushell/nushell) bash 대체
 mpkgs["oha"]="oha"                         # (https://github.com/hatoo/oha) 웹 부하 툴
