@@ -13,7 +13,7 @@ curl -fsSL https://claude.ai/install.sh | bash
 mkdir -p "${HOME}/.claude"
 SETTINGS_FILE="${HOME}/.claude/settings.json"
 STATUSLINE_CMD="bash -c 'cat | bash ${HOME}/.claude/statusline-command.sh 2>/dev/null'"
-SPINNER_VERBS='{"mode": "replace", "verbs": ["⏳ Working", "🍥 Processing", ]}'
+SPINNER_VERBS='{"mode": "replace", "verbs": ["⏳ Working", "🍥 Processing"]}'
 HOOKS=$(
     cat <<'EOF'
 {
