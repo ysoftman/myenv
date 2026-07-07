@@ -25,6 +25,7 @@ mpkgs["feroxbuster"]="feroxbuster"         # (https://github.com/epi052/feroxbus
 mpkgs["gitui"]="gitui"                     # (https://github.com/extrawurst/gitui) tig,lazygit 대체
 mpkgs["gping"]="gping"                     # (https://github.com/orf/gping) ping 대체
 mpkgs["grex"]="grex"                       # (https://github.com/pemistahl/grex) 정규표현식
+mpkgs["herdr"]="herdr"                     # (https://github.com/ogulcancelik/herdr) agent multiplexer that lives in your terminal, cmux 대체
 mpkgs["hexyl"]="hexyl"                     # (https://github.com/sharkdp/hexyl) hexdump 대체
 mpkgs["hwatch"]="hwatch"                   # (https://github.com/blacknon/hwatch) watch 대체
 mpkgs["hyperfine"]="hyperfine"             # (https://github.com/sharkdp/hyperfine) time 대체
