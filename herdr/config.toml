@@ -1,10 +1,15 @@
 onboarding = false
+[ui]
+sidebar_width = 26
+sidebar_min_width = 26
+
 [theme]
 name = "terminal"
 auto_switch = false
 
-# tmux root 바인딩(C-b, M-*, C-p/t/h/n)과 Rectangle(ctrl+alt+U/I/J/K, ctrl+alt+화살표,
-# ctrl+alt+shift+화살표)을 피해서 focus 는 ctrl+alt+shift+글자, swap 은 prefix 전용
+# direct 키 규칙: 기본 동작 = ctrl+alt+<키>, 반대 동작 = ctrl+alt+shift+<같은 키>
+# 예외: Rectangle(ctrl+alt+U/I/J/K/T, ctrl+alt+화살표)과 충돌하는 키는 shift 추가
+# (focus hjkl, new_tab t), swap 은 prefix 전용, next/previous_tab 은 방향을 키로 표현([/])
 [keys]
 prefix = "ctrl+alt+b"
 focus_pane_left = ["prefix+h", "ctrl+alt+shift+h"]
@@ -22,9 +27,14 @@ cycle_pane_previous = ["prefix+shift+tab", "ctrl+alt+shift+o"]
 close_pane = ["prefix+x", "ctrl+alt+x"]
 new_tab = ["prefix+t", "ctrl+alt+shift+t"]
 switch_tab = ["prefix+1..9", "ctrl+alt+1..9"]
+# shift+] 는 터미널이 } 문자로 보고할 수 있어(키보드 프로토콜에 따라 다름)
+# 같은 키 입력의 두 표기(shift+], })를 모두 바인딩
+next_tab = ["prefix+n", "ctrl+alt+shift+]", "ctrl+alt+}"]
+previous_tab = ["prefix+p", "ctrl+alt+shift+[", "ctrl+alt+{"]
 resize_mode = ["prefix+r", "ctrl+alt+r"]
 workspace_picker = ["prefix+w", "ctrl+alt+w"]
 next_agent = ["prefix+a", "ctrl+alt+a"]
+toggle_sidebar = ["prefix+b", "ctrl+alt+s"]
 previous_agent = ["prefix+shift+a", "ctrl+alt+shift+a"]
 
 [[keys.command]]
