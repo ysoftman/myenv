@@ -104,6 +104,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -d ${XDG_CONFIG_HOME}/alacritty-colorscheme ] || git clone https://github.com/alacritty/alacritty-theme ${XDG_CONFIG_HOME}/alacritty-colorscheme
 [ -h ${XDG_CONFIG_HOME}/alacritty ] && unlink ${XDG_CONFIG_HOME}/alacritty
 [ -h ${XDG_CONFIG_HOME}/ghostty ] && unlink ${XDG_CONFIG_HOME}/ghostty
+[ -h ${XDG_CONFIG_HOME}/herdr/config.toml ] && unlink ${XDG_CONFIG_HOME}/herdr/config.toml
 [ -h ${XDG_CONFIG_HOME}/cava ] && unlink ${XDG_CONFIG_HOME}/cava
 [ -h ${XDG_CONFIG_HOME}/colima/default/colima.yaml ] && unlink ${XDG_CONFIG_HOME}/colima/default/colima.yaml
 [ -h ${XDG_CONFIG_HOME}/k9s ] && unlink ${XDG_CONFIG_HOME}/k9s
@@ -141,6 +142,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -f ${XDG_CONFIG_HOME}/nvim/init.vim ] && mv -fv ${XDG_CONFIG_HOME}/nvim ${XDG_CONFIG_HOME}/nvim.bak
 [ -d ${XDG_CONFIG_HOME}/alacritty ] && mv -fv ${XDG_CONFIG_HOME}/alacritty ${XDG_CONFIG_HOME}/alacritty.bak
 [ -d ${XDG_CONFIG_HOME}/ghostty ] && mv -fv ${XDG_CONFIG_HOME}/ghostty ${XDG_CONFIG_HOME}/ghostty.bak
+[ -f ${XDG_CONFIG_HOME}/herdr/config.toml ] && mv -fv ${XDG_CONFIG_HOME}/herdr/config.toml ${XDG_CONFIG_HOME}/herdr/config.toml.bak
 [ -d ${XDG_CONFIG_HOME}/cava ] && mv -fv ${XDG_CONFIG_HOME}/cava ${XDG_CONFIG_HOME}/cava.bak
 [ -d ${XDG_CONFIG_HOME}/colima/default/colima.yaml ] && mv -fv ${XDG_CONFIG_HOME}/colima/default/colima.yaml ${XDG_CONFIG_HOME}/colima/default/colima.yaml.bak
 [ -d ${XDG_CONFIG_HOME}/k9s ] && mv -fv ${XDG_CONFIG_HOME}/k9s ${XDG_CONFIG_HOME}/k9s.bak
@@ -178,6 +180,7 @@ ln -sfv ${PWD}/.claude/skills ${HOME}/.codex/skills
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/nvim ${XDG_CONFIG_HOME}/nvim
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/alacritty ${XDG_CONFIG_HOME}/alacritty
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/ghostty ${XDG_CONFIG_HOME}/ghostty
+[ -d ${XDG_CONFIG_HOME} ] && mkdir -p ${XDG_CONFIG_HOME}/herdr/ && ln -sfv ${PWD}/herdr/config.toml ${XDG_CONFIG_HOME}/herdr/config.toml
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/cava ${XDG_CONFIG_HOME}/cava
 [ -d ${XDG_CONFIG_HOME} ] && mkdir -p ${XDG_CONFIG_HOME}/colima/default/ && ln -sfv ${PWD}/colima/default/colima.yaml ${XDG_CONFIG_HOME}/colima/default/colima.yaml
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/karabiner ${XDG_CONFIG_HOME}/karabiner

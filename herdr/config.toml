@@ -1,0 +1,34 @@
+onboarding = false
+[theme]
+name = "terminal"
+auto_switch = false
+
+# tmux root 바인딩(C-b, M-*, C-p/t/h/n)과 Rectangle(ctrl+alt+U/I/J/K, ctrl+alt+화살표,
+# ctrl+alt+shift+화살표)을 피해서 focus 는 ctrl+alt+shift+글자, swap 은 prefix 전용
+[keys]
+prefix = "ctrl+alt+b"
+focus_pane_left  = ["prefix+h", "ctrl+alt+shift+h"]
+focus_pane_down  = ["prefix+j", "ctrl+alt+shift+j"]
+focus_pane_up    = ["prefix+k", "ctrl+alt+shift+k"]
+focus_pane_right = ["prefix+l", "ctrl+alt+shift+l"]
+swap_pane_left   = ["prefix+shift+h"]
+swap_pane_down   = ["prefix+shift+j"]
+swap_pane_up     = ["prefix+shift+k"]
+swap_pane_right  = ["prefix+shift+l"]
+split_vertical   = ["prefix+v", "ctrl+alt+n"]
+split_horizontal = ["prefix+minus", "ctrl+alt+m"]
+cycle_pane_next     = ["prefix+tab", "ctrl+alt+o"]
+cycle_pane_previous = ["prefix+shift+tab", "ctrl+alt+shift+o"]
+close_pane       = ["prefix+x", "ctrl+alt+x"]
+new_tab          = ["prefix+c", "ctrl+alt+shift+t"]
+switch_tab       = ["prefix+1..9", "ctrl+alt+1..9"]
+resize_mode      = ["prefix+r", "ctrl+alt+r"]
+workspace_picker = ["prefix+w", "ctrl+alt+w"]
+next_agent       = ["prefix+a", "ctrl+alt+a"]
+previous_agent   = ["prefix+shift+a", "ctrl+alt+shift+a"]
+
+[[keys.command]]
+key = "prefix+shift+r"
+type = "shell"
+command = "herdr server reload-config"
+description = "reload herdr config"
