@@ -50,8 +50,7 @@ kubernetes:
   
   # Additional args to pass to k3s https://docs.k3s.io/cli/server
   # Default: traefik is disabled
-  k3sArgs:
-    - --disable=traefik
+  k3sArgs: []
   
   # Kubernetes port to listen on
   # A common port is 6443, though left unbound to ensure no port conflicts
