@@ -163,7 +163,7 @@ function launch_neovide {
 
 # cowsay 종류 계속 보이기
 function infinite_cowsay {
-    for (( ; ; )); do for i in $(cowsay -l | sed 1d); do
+    for (( ; ; )); do for i in $(cowsay -l); do
         echo $i
         cowsay -f $i "$(fortune)" | lolcat
         sleep 0.2
