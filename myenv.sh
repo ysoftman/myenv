@@ -697,23 +697,20 @@ function welcome_message() {
 
     if which cowsay >/dev/null 2>&1; then
         # print cowsay list number
-        # cnt=0; for i in $(cowsay -l | sed 1d); do echo "$((cnt++)) $i"; done;
+        # cowsay -l 을 | 나 $()로 출력하면 헤더 표시 제거해서 sed 1d 등으로 지울 필요 없다.
+        # cnt=0; for i in $(cowsay -l); do echo "$((cnt++)) $i"; done;
         # cowfile 랜덤으로 선택
         local cowfile=""
         local cnt=0
-        local random=$((RANDOM % $(cowsay -l | sed 1d | wc -w)))
-        for i in $(cowsay -l | sed 1d); do
-            if [[ "$cnt" == "$random" ]]; then
-                if [[ $i == "sodomized" ]] || [[ $i == "telebears" ]]; then
-                    printf "change rude coway type to cheese!\n"
-                    i="cheese"
-                fi
-                cowfile=$i
-                break
-            fi
-            cnt=$((cnt + 1))
-        done
-        #echo "$cowfile"
+        local cowfiles=($(cowsay -l))
+        local random=$((RANDOM % ${#cowfiles[@]}))
+        cowfile=${cowfiles[$random]}
+        if [[ ${cowfiles[$random]} == "sodomized" ]] || [[ ${cowfiles[$random]} == "telebears" ]]; then
+            printf "change rude coway type to cheese!\n"
+            cowfile="cheese"
+        fi
+        # echo "$cowfiles"
+        # echo "$cowfile"
 
         # figlet 을 메시지로 사용할 경우 -n 이 필요하다.
         if which lolcat >/dev/null 2>&1; then
