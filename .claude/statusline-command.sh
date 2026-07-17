@@ -1,4 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+# 숫자 로케일만 C로 고정 (comma-decimal 로케일에서 printf %f 깨짐 방지)
+# LC_ALL=C는 금지: ${var:0:n} 슬라이싱이 바이트 단위가 되어 멀티바이트 바(█) 깨짐
+unset LC_ALL
+export LC_NUMERIC=C
 
 # JSON 입력 읽기
 input=$(cat)
@@ -44,8 +49,6 @@ rl_7d_reset="${_fields[15]}"
 effort_level="${_fields[16]}"
 thinking_enabled="${_fields[17]}"
 
-username=$(whoami)
-
 # 세션 시간 계산
 duration_s=$((duration_ms / 1000))
 duration_h=$((duration_s / 3600))
@@ -57,35 +60,38 @@ else
     session_time="${duration_m}m${duration_sec}s"
 fi
 
-# 색상 정의 (256-color)
-RST='\033[0m'
-C_RED='\033[38;5;203m'
-C_ORANGE='\033[38;5;209m'
-C_YELLOW='\033[38;5;221m'
-C_GREEN='\033[38;5;114m'
-C_CYAN='\033[38;5;80m'
-C_BLUE='\033[38;5;75m'
-C_INDIGO='\033[38;5;105m'
-C_VIOLET='\033[38;5;177m'
-C_PINK='\033[38;5;211m'
+# 색상 정의 (256-color, ANSI-C quoting → %s로 출력 가능)
+RST=$'\033[0m'
+C_RED=$'\033[38;5;203m'
+C_ORANGE=$'\033[38;5;209m'
+C_YELLOW=$'\033[38;5;221m'
+C_GREEN=$'\033[38;5;114m'
+C_CYAN=$'\033[38;5;80m'
+C_BLUE=$'\033[38;5;75m'
+C_INDIGO=$'\033[38;5;105m'
+C_VIOLET=$'\033[38;5;177m'
+C_PINK=$'\033[38;5;211m'
 # git 상태 아이콘용
-GREEN='\033[32m'
-YELLOW='\033[33m'
-RED='\033[31m'
-MAGENTA='\033[35m'
+GREEN=$'\033[32m'
+YELLOW=$'\033[33m'
+RED=$'\033[31m'
+MAGENTA=$'\033[35m'
+
+username="${C_RED}${USER:-$(whoami)}${RST}"
 
 # 경로 축약 (HOME → ~)
 display_path="$current_dir"
 if [[ "$display_path" == "$HOME"* ]]; then
     display_path="~${display_path#"$HOME"}"
 fi
+display_path="${C_CYAN}${display_path}${RST}"
 
 # git 브랜치/상태 (output cap + bash glob 매칭)
 git_info=""
 if git -C "$current_dir" rev-parse --git-dir >/dev/null 2>&1; then
     branch=$(git -C "$current_dir" -c advice.detachedHead=false rev-parse --abbrev-ref HEAD 2>/dev/null)
     if [ -n "$branch" ]; then
-        git_info=" ${C_YELLOW}${branch}${RST}"
+        git_info="${C_YELLOW}${branch}${RST}"
         # 4KB cap: 거대한 dirty tree에서도 statusline 렌더링 지연을 막음
         git_status=$(git -C "$current_dir" -c core.fileMode=false status --porcelain --no-renames 2>/dev/null | head -c 4096)
         if [ -n "$git_status" ]; then
@@ -93,7 +99,7 @@ if git -C "$current_dir" rev-parse --git-dir >/dev/null 2>&1; then
             [[ "$gs" == *$'\n'A* ]] && git_info="${git_info} ${GREEN}✚${RST}"
             [[ "$gs" == *$'\nM'* || "$gs" == *$'\n M'* ]] && git_info="${git_info} ${YELLOW}✱${RST}"
             [[ "$gs" == *$'\nD'* || "$gs" == *$'\n D'* ]] && git_info="${git_info} ${RED}✖${RST}"
-            [[ "$gs" == *$'\n[?][?]'* ]] && git_info="${git_info} ${MAGENTA}◼${RST}"
+            [[ "$gs" == *$'\n'"??"* ]] && git_info="${git_info} ${MAGENTA}◼${RST}"
         fi
     fi
 fi
@@ -156,8 +162,9 @@ fmt_remaining() {
     fi
 }
 
-# context 바
-[ "$used_pct" -gt 100 ] 2>/dev/null && used_pct=100
+# context 바 (used_percentage는 소수로 올 수 있음 → 반올림)
+used_pct=$(printf '%.0f' "$used_pct")
+[ "$used_pct" -gt 100 ] && used_pct=100
 make_bar "$used_pct"
 
 context_fmt=$(fmt_tokens "$context_size")
@@ -174,18 +181,18 @@ else
     cost_fmt=$(printf '%.4f' "$cost_usd")
 fi
 
-token_info=" ${C_INDIGO}context[${BAR_COLOR}${BAR_FILLED}${RST}${BAR_EMPTY}${C_INDIGO}] ${BAR_COLOR}${used_pct}%${RST}${C_INDIGO}/${context_fmt}${RST}"
-cache_info=" ${C_GREEN}cache[R:${cache_r_fmt}/W:${cache_w_fmt}]${RST}"
+token_info="${C_INDIGO}context[${BAR_COLOR}${BAR_FILLED}${RST}${BAR_EMPTY}${C_INDIGO}] ${BAR_COLOR}${used_pct}%${RST}${C_INDIGO}/${context_fmt}${RST} ${C_PINK}tokens[in:${total_in_fmt}/out:${total_out_fmt}]${RST}"
+cache_info="${C_GREEN}cache[R:${cache_r_fmt}/W:${cache_w_fmt}]${RST}"
 
 # model + effort + thinking
-model_group=" ${C_VIOLET}${model_name}${RST}"
+model_group="${C_VIOLET}${model_name}${RST}"
 
 if [ -n "$effort_level" ]; then
     case "$effort_level" in
-        low) eff_color="$C_INDIGO" ;;
-        medium) eff_color="$C_CYAN" ;;
-        high) eff_color="$C_VIOLET" ;;
-        xhigh | max) eff_color="$C_PINK" ;;
+        low) eff_color="$C_GREEN" ;;
+        medium) eff_color="$C_YELLOW" ;;
+        high) eff_color="$C_ORANGE" ;;
+        xhigh | max) eff_color="$C_RED" ;;
         *) eff_color="$RST" ;;
     esac
     model_group="${model_group} ${eff_color}effort:${effort_level}${RST}"
@@ -196,15 +203,14 @@ if [ "$thinking_enabled" = "true" ]; then
     model_group="${model_group} ${C_CYAN}✦think${RST}"
 fi
 
-# Line 2: tokens, diff, session, cost, rate limits
-line2="${C_PINK}tokens[in:${total_in_fmt}/out:${total_out_fmt}]${RST}"
+# Line 2: diff, session, cost, rate limits
+line2=""
 if [ "$lines_added" -gt 0 ] || [ "$lines_removed" -gt 0 ]; then
-    line2="${line2} ${C_BLUE}+${lines_added}/-${lines_removed}${RST}"
+    line2="${C_BLUE}+${lines_added}/-${lines_removed}${RST} "
 fi
-line2="${line2} ${C_ORANGE}${session_time}${RST}"
-line2="${line2}  ${C_YELLOW}\$${cost_fmt}${RST}"
+line2="${line2}${C_ORANGE}${session_time}${RST}"
 
-now_epoch=$(date +%s)
+printf -v now_epoch '%(%s)T' -1
 
 fmt_rl_segment() {
     local label=$1 pct_raw=$2 reset=$3 mode=$4
@@ -231,9 +237,13 @@ if [ -n "$rl_7d_pct" ]; then
     seg=$(fmt_rl_segment "7d" "$rl_7d_pct" "$rl_7d_reset" "dh")
     line2="${line2} ${seg}"
 fi
+line2="${line2}  ${C_YELLOW}\$${cost_fmt}${RST}"
 
-# 출력
-printf '%b' "${C_RED}${username}${RST} ${C_CYAN}${display_path}${RST}${git_info}${token_info}${cache_info}${model_group}"
+# 출력 (공백 구분은 여기서 일괄 처리)
+line1=("$username" "$display_path")
+[ -n "$git_info" ] && line1+=("$git_info")
+line1+=("$model_group" "$token_info" "$cache_info")
+printf '%s' "${line1[*]}"
 if [ -n "$line2" ]; then
-    printf '\n%b' "$line2"
+    printf '\n%s' "$line2"
 fi
