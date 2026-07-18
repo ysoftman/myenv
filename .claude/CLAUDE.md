@@ -23,6 +23,10 @@
 - Co-Authored-By 라인은 포함하지 않는다.
 - PR, issue, 커밋 등 GitHub 액션에 Claude Code 사용 문구(예: "Generated with Claude Code")를 추가하지 않는다.
 
+## ponytail 주석 금지
+
+- ponytail 모드가 활성화되어 있어도 `ponytail:` 마커 주석은 코드에 추가하지 않는다. 단순화는 주석 없이 그냥 적용하고, 설명이 필요하면 응답 텍스트로만 전달한다.
+
 ## 코드 수정 후 체크
 
 코드 수정 후 커밋 전에 반드시 해당 언어의 lint/format을 실행한다. 도구와 명령어는 `lint-formatting` 스킬을 참고한다.
