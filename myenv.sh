@@ -704,8 +704,10 @@ function welcome_message() {
         local cnt=0
         local cowfiles=($(cowsay -l))
         local random=$((RANDOM % ${#cowfiles[@]}))
-        cowfile=${cowfiles[$random]}
-        if [[ ${cowfiles[$random]} == "sodomized" ]] || [[ ${cowfiles[$random]} == "telebears" ]]; then
+        # zsh 배열 인덱스는 1-based 라서 ${arr[0]} 이 빈 값이 되는 버그가 있었다.
+        # ${arr[*]:offset:1} 슬라이스의 offset 은 bash/zsh 모두 0-based 라 이 문법으로 해결.
+        cowfile=${cowfiles[*]:$random:1}
+        if [[ $cowfile == "sodomized" ]] || [[ $cowfile == "telebears" ]]; then
             printf "change rude coway type to cheese!\n"
             cowfile="cheese"
         fi
