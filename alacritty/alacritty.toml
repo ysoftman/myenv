@@ -67,6 +67,12 @@ key = "Right"
 mods = "Alt|Option"
 
 [[keyboard.bindings]]
+# shift+enter 를 ESC+CR 로 보내 claude code 등에서 다음 줄 입력으로 동작
+chars = "\u001B\r"
+key = "Enter"
+mods = "Shift"
+
+[[keyboard.bindings]]
 action = "SpawnNewInstance"
 key = "N"
 mods = "Command"
