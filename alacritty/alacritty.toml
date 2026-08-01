@@ -93,6 +93,7 @@ mods = "Control"
 program = "/bin/zsh"
 
 [window]
+decorations = "Buttonless"
 option_as_alt = "Both"
 opacity = 1
 blur = false
