@@ -7,9 +7,6 @@ return {
     -- :checkhealth vim.lsp - LSP 클라이언트 상태/연결된 서버/로그 경로 등 확인
     -- <leader>cl - Lsp Config, 전체 lsp 설정 보기
     "neovim/nvim-lspconfig",
-    dependencies = {
-      "jose-elias-alvarez/typescript.nvim",
-    },
     opts = {
       servers = {
         ["*"] = {
@@ -352,14 +349,9 @@ return {
       -- you can do any additional lsp server setup here
       -- return true if you don't want this server to be setup with lspconfig
       setup = {
-        -- example to setup with typescript.nvim
         -- Specify * to use this function as a fallback for any server
         -- ["*"] = function(server, opts) end,
         taplo = function() end,
-        tsserver = function(_, opts)
-          require("typescript").setup({ server = opts })
-          return true
-        end,
 
         gopls = function(_, opts)
           -- workaround for gopls not supporting semanticTokensProvider
