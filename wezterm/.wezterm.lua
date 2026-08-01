@@ -122,7 +122,13 @@ config.colors = {
 	quick_select_match_fg = { Color = "#ffffff" },
 }
 
-config.font_size = 16
+config.font_size = 17.0
+-- macOS CoreText(alacritty)와 비슷한 렌더링: 힌팅 제거로 원본 글자 모양 유지
+-- 힌팅(hinting): 글자 외곽선(곡선)을 픽셀 격자에 맞춰 획을 이동/변형하는 기술.
+-- 저해상도에선 선명해지지만 원본 글자 모양이 틀어진다. macOS(CoreText)는 힌팅을
+-- 무시하고 원본 모양 그대로 그리므로, NO_HINTING 이 alacritty 등 네이티브 앱과
+-- 같은 렌더링을 낸다. Retina 는 힌팅 없이도 충분히 선명하다.
+config.freetype_load_flags = "NO_HINTING"
 
 -- https://wezterm.org/config/font-shaping.html
 config.font = wezterm.font("FiraCode Nerd Font")
