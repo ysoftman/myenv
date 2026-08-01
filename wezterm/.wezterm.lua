@@ -129,6 +129,8 @@ config.font_size = 17.0
 -- 무시하고 원본 모양 그대로 그리므로, NO_HINTING 이 alacritty 등 네이티브 앱과
 -- 같은 렌더링을 낸다. Retina 는 힌팅 없이도 충분히 선명하다.
 config.freetype_load_flags = "NO_HINTING"
+-- freetype 은 CoreText 보다 획이 가늘게 그려져 글자가 어둡게 보임 -> 밝기 보정
+config.foreground_text_hsb = { hue = 1.0, saturation = 1.0, brightness = 1.2 }
 
 -- https://wezterm.org/config/font-shaping.html
 config.font = wezterm.font("FiraCode Nerd Font")
