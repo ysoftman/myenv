@@ -249,8 +249,11 @@ function set_alias {
     # 현재 zellij layout 저장
     alias zellij_dump='zellij setup --dump-layout default >! ${myenv_path}/zellij/layouts/current.kdl'
 
+    # 모델이 너무 커서 M1 MAX 32G RAM 100% 사용(스왑 발생으로 CPU 100% 로 느려서 사용하기 힘들다.)
     # alias mlxserver='mlx_lm.server --port 8080 --model lmstudio-community/Qwen3-Coder-30B-A3B-Instruct-MLX-4bit'
-    alias mlxserver='mlx_lm.server --port 8080 --model lmstudio-community/Qwen2.5-Coder-7B-Instruct-MLX-4bit'
+    # tool_call(LLM 은 텍스트만 생성, 파일을 쓰거나 명령을 실행하는 건 못 하는데 그 간극을 메우는 약속)지원 안된다.
+    # alias mlxserver='mlx_lm.server --port 8080 --model lmstudio-community/Qwen2.5-Coder-7B-Instruct-MLX-4bit'
+    alias mlxserver='mlx_lm.server --port 8080 --model mlx-community/Qwen3-8B-4bit'
 }
 
 # kube prompt 사용
