@@ -33,11 +33,11 @@
         "baseURL": "http://localhost:8080/v1"
       },
       "models": {
-        "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B": {
-          "name": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
-        },
         "lmstudio-community/Qwen3-Coder-30B-A3B-Instruct-MLX-4bit": {
           "name": "lmstudio-community/Qwen3-Coder-30B-A3B-Instruct-MLX-4bit"
+        },
+        "lmstudio-community/Qwen2.5-Coder-7B-Instruct-MLX-4bit": {
+          "name": "lmstudio-community/Qwen2.5-Coder-7B-Instruct-MLX-4bit"
         }
       }
     },
