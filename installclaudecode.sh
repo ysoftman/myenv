@@ -222,7 +222,7 @@ else
 fi
 
 # marketplace 추가
-# claude-plugins-official 은 기본 포함
+# claude-plugins-official marketplace 는 기본 포함
 USER_MARKETPLACES=(
     "backnotprop/plannotator"
     "anthropics/skills"
@@ -242,12 +242,14 @@ for mp in "${USER_MARKETPLACES[@]}"; do
 done
 
 # 플러그인 설치 (user scope)
+# https://claude.com/plugins
 USER_PLUGINS=(
     "gopls-lsp@claude-plugins-official"
     "rust-analyzer-lsp@claude-plugins-official"
     "ralph-loop@claude-plugins-official"
     "plannotator@plannotator"
     "skill-creator@claude-plugins-official"
+    "slack@claude-plugins-official"
     "example-skills@anthropic-agent-skills"
     "agents-observe"
     "ui-ux-pro-max@ui-ux-pro-max-skill"
