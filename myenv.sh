@@ -364,7 +364,7 @@ function set_fzf {
                     --bind='ctrl-/:change-preview-window(down,50%,border-top|hidden|)' "$@"
             }
         fi
-        # fzf-git.sh 에선 ctrl-g ctrl-b 로 사용하는데, zellij 와 중복되어 alt-B 로도 바인딩함
+        # fzf-git.sh 에선 ctrl-g ctrl-b 로 사용하는데, tmux(c-b : prefix) / zellij(c-g : lock) 와 중복되어 alt-B 로도 바인딩함
         # alt-b 는 alt-left(showkey 로 확인)라 alt-B 로 사용하자
         # bindkey "^[B" fzf-git-files-widget
         # bindkey "^[B" fzf-git-tags-widget
