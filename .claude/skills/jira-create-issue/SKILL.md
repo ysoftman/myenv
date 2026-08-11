@@ -1,7 +1,7 @@
 ---
 name: jira-create-issue
 description: Create or edit Jira issues on boards the user has access to. Use this skill whenever the user asks to create, add, file, open, write, or edit a Jira issue/ticket/task, mentions `/jira-create-issue`, `jira 이슈 생성`, `지라 이슈 만들어`, `이슈 수정`, or asks to "티켓 올려줘", even when the project or issue key is not stated explicitly — the skill will infer the project from conversation context or present accessible boards for the user to pick. Always trigger this over generic jira lookup when the intent is to create or modify an issue.
-allowed-tools: mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__getVisibleJiraProjects, mcp__atlassian__getJiraProjectIssueTypesMetadata, mcp__atlassian__createJiraIssue, mcp__atlassian__editJiraIssue, mcp__atlassian__getJiraIssue, mcp__atlassian__lookupJiraAccountId, mcp__atlassian__getTransitionsForJiraIssue, mcp__atlassian__transitionJiraIssue, Bash
+allowed-tools: mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__getVisibleJiraProjects, mcp__atlassian__getJiraProjectIssueTypesMetadata, mcp__atlassian__createJiraIssue, mcp__atlassian__editJiraIssue, mcp__atlassian__getJiraIssue, mcp__atlassian__getTransitionsForJiraIssue, mcp__atlassian__transitionJiraIssue, Bash(git rev-parse:*), Bash(pwd), Bash(basename:*)
 model: sonnet
 effort: low
 ---
@@ -39,15 +39,15 @@ effort: low
 3. 최근 대화 맥락에 단일 프로젝트가 뚜렷이 언급된 경우 → 그것을 **제안**하되 미리보기에서 사용자에게 확인 받는다
 4. 그 외 → `getVisibleJiraProjects`로 목록을 가져와 **번호와 함께** 보여주고 선택받는다
 
-목록을 표시할 때는 각 프로젝트의 **보드 URL**도 함께 보여준다. URL 형식은 `https://<site>.atlassian.net/browse/<KEY>` (site 는 `getAccessibleAtlassianResources` 응답의 `url`에서 추출).
+목록을 표시할 때는 각 프로젝트의 **보드 URL**도 함께 보여준다. URL 형식은 `https://<site>.atlassian.net/jira/software/projects/<KEY>/boards` (site 는 `getAccessibleAtlassianResources` 응답의 `url`에서 추출).
 
 목록 표시 예:
 
 ```text
 접근 가능한 프로젝트:
-  1. Backend Platform (BP)  — https://<site>.atlassian.net/browse/BP
-  2. Data Pipeline (DP)     — https://<site>.atlassian.net/browse/DP
-  3. Mobile App (MA)        — https://<site>.atlassian.net/browse/MA
+  1. Backend Platform (BP)  — https://<site>.atlassian.net/jira/software/projects/BP/boards
+  2. Data Pipeline (DP)     — https://<site>.atlassian.net/jira/software/projects/DP/boards
+  3. Mobile App (MA)        — https://<site>.atlassian.net/jira/software/projects/MA/boards
 어느 프로젝트에 생성할까요?
 ```
 
@@ -96,9 +96,10 @@ effort: low
 ```text
 **📋 Jira 이슈 미리보기**
 
-- **프로젝트**: Backend Platform (BP) — https://<site>.atlassian.net/browse/BP
+- **프로젝트**: Backend Platform (BP) — https://<site>.atlassian.net/jira/software/projects/BP/boards
 - **이슈 유형**: Task
 - **제목**: [Backend Platform] Fix login error
+- **생성 후 상태**: In Progress (자동 전이)
 
 > ## 배경
 > 사용자가 특정 조건에서 로그인 시 500 에러를 받고 있음.

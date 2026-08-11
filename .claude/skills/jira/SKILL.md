@@ -1,14 +1,14 @@
 ---
 name: jira
-description: Search, create, transition, and comment on Jira issues. Use when user mentions Jira, issue keys (PROJ-123), project boards, or wants to manage tasks in Atlassian.
-allowed-tools: mcp__atlassian__searchJiraIssuesUsingJql, mcp__atlassian__getJiraIssue, mcp__atlassian__createJiraIssue, mcp__atlassian__editJiraIssue, mcp__atlassian__addCommentToJiraIssue, mcp__atlassian__getTransitionsForJiraIssue, mcp__atlassian__transitionJiraIssue, mcp__atlassian__getVisibleJiraProjects, mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__lookupJiraAccountId, mcp__atlassian__getJiraProjectIssueTypesMetadata, Bash(printf:*)
+description: Search, transition, and comment on Jira issues. Use when user mentions Jira, issue keys (PROJ-123), project boards, or wants to manage tasks in Atlassian. For creating or editing issues, the jira-create-issue skill takes precedence.
+allowed-tools: mcp__atlassian__searchJiraIssuesUsingJql, mcp__atlassian__getJiraIssue, mcp__atlassian__addCommentToJiraIssue, mcp__atlassian__getTransitionsForJiraIssue, mcp__atlassian__transitionJiraIssue, mcp__atlassian__getVisibleJiraProjects, mcp__atlassian__getAccessibleAtlassianResources
 model: sonnet
 effort: low
 ---
 
 # Jira Command
 
-Atlassian Jira 이슈를 조회, 생성, 수정한다.
+Atlassian Jira 이슈를 조회하고 댓글·상태 전환을 처리한다. 이슈 생성/수정은 `jira-create-issue` 스킬로 위임한다.
 
 Input: $ARGUMENTS
 
@@ -28,7 +28,7 @@ Input: $ARGUMENTS
 - `/jira DUMMY` — DUMMY 프로젝트 최근 이슈 목록
 - `/jira PROJ-1234` — 특정 이슈 상세 조회
 - `/jira PROJ 내 이슈` — PROJ 프로젝트에서 나에게 할당된 이슈
-- `/jira PROJ 생성 [제목]` — 새 이슈 생성 (상세 내용은 대화로 확인)
+- `/jira PROJ 생성 [제목]` — 새 이슈 생성 (`jira-create-issue` 스킬로 위임)
 - `/jira PROJ 검색 [키워드]` — 키워드로 이슈 검색
 - `/jira PROJ 상태변경 PROJ-1234 [상태]` — 이슈 상태 전환
 - `/jira PROJ 댓글 PROJ-1234 [내용]` — 이슈에 댓글 추가
@@ -37,20 +37,10 @@ Input: $ARGUMENTS
 
 1. 프로젝트만 지정하면 해당 프로젝트의 In Progress / In Test 이슈를 우선 표시한다
 2. 이슈 키가 주어지면 해당 이슈 상세 정보를 조회한다
-3. "내 이슈" 요청 시 `lookupJiraAccountId`로 현재 사용자 계정 ID를 조회한 뒤 assignee로 필터링한다
-4. 이슈 생성/수정/댓글 작성/상태 전환 등 **쓰기 작업 전에 사용자에게 내용을 미리 보여주고 확인을 받는다**. 확인용 미리보기 본문(제목·설명·댓글 내용 등)은 `printf`에 ANSI 녹색(`\033[32m ... \033[0m`) escape 코드를 씌워 터미널에 녹색으로 출력한다:
-
-   ```bash
-   printf '\033[32m%s\033[0m\n' "$(cat <<'EOF'
-   제목: ...
-   설명:
-   ...
-   EOF
-   )"
-   ```
-
+3. "내 이슈" 요청 시 JQL `assignee = currentUser()`로 필터링한다
+4. 댓글 작성/상태 전환 등 **쓰기 작업 전에 사용자에게 내용을 미리 보여주고 확인을 받는다**. 미리보기는 **어시스턴트 응답(마크다운)으로 직접 출력**한다 — `printf`/Bash 도구 출력은 사용자가 ctrl+o로 펼쳐야만 보이기 때문이다. 이슈 생성/수정 요청은 `jira-create-issue` 스킬로 위임한다.
 5. 결과는 테이블 형태로 간결하게 한국어로 표시한다. **각 이슈 키는 Jira URL로 링크**를 건다 — 형식: `https://<site>.atlassian.net/browse/<KEY>` (site 는 `getAccessibleAtlassianResources` 응답의 `url`에서 추출). 마크다운 링크 형태 `[PROJ-123](https://<site>.atlassian.net/browse/PROJ-123)`로 표시한다.
-6. 프로젝트 목록을 출력할 때는 **보드 URL**도 함께 보여준다 — 형식: `https://<site>.atlassian.net/jira/software/projects/<KEY>/boards` 또는 `/browse/<KEY>`.
+6. 프로젝트 목록을 출력할 때는 **보드 URL**도 함께 보여준다 — 형식: `https://<site>.atlassian.net/jira/software/projects/<KEY>/boards`.
 7. 기본 조회 수는 20건. 사용자가 "더 보기"를 요청하면 startAt 파라미터로 다음 페이지를 조회한다
 8. JQL 쿼리를 직접 입력할 수도 있다 (예: `/jira project = PROJ AND status = "In Progress"`)
 9. MCP 도구 연결 실패 시 사용자에게 Atlassian MCP 서버 연결 상태를 확인하도록 안내한다

@@ -1,7 +1,7 @@
 ---
 name: jira-git-checkout-branch
 description: Pick one of the user's In Progress Jira issues and create/checkout a git branch named after it. Use when the user says things like "jira 이슈로 브랜치 만들어", "내 지라 이슈 기반으로 브랜치 파줘", "jira issue branch", or `/jira-git-checkout-branch`. If the working tree is dirty, asks the user whether to proceed; halts if the Atlassian MCP server is not available.
-allowed-tools: mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__lookupJiraAccountId, mcp__atlassian__searchJiraIssuesUsingJql, Bash
+allowed-tools: mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__searchJiraIssuesUsingJql, Bash(git:*)
 model: sonnet
 effort: low
 ---
@@ -44,7 +44,7 @@ effort: low
 
 ### Step 2. Atlassian MCP 가용성 확인
 
-`mcp__atlassian__*` 도구가 사용 가능한지 확인한다. deferred tool 목록에 있으면 `ToolSearch`로 `getAccessibleAtlassianResources`, `lookupJiraAccountId`, `searchJiraIssuesUsingJql` 스키마를 로드한다.
+`mcp__atlassian__*` 도구가 사용 가능한지 확인한다. deferred tool 목록에 있으면 `ToolSearch`로 `getAccessibleAtlassianResources`, `searchJiraIssuesUsingJql` 스키마를 로드한다.
 
 MCP 서버에 접근할 수 없으면 **즉시 중단**한다.
 
@@ -53,20 +53,16 @@ Atlassian(Jira) MCP 서버가 연결되어 있지 않아 이슈를 조회할 수
 MCP 설정을 확인한 뒤 다시 시도하세요.
 ```
 
-### Step 3. Cloud ID 및 사용자 계정 ID 조회
+### Step 3. Cloud ID 조회
 
-1. `getAccessibleAtlassianResources` 를 호출해 Cloud ID와 사이트 URL(`https://<site>.atlassian.net`)을 가져온다.
-2. 현재 사용자의 accountId를 확보한다.
-   - 사용자가 발화에 이름/핸들을 준 경우 `lookupJiraAccountId` 로 조회한다.
-   - 한 번에 찾지 못하면 짧은 변형으로 재시도한다 (예: `john.doe` → `john`).
-   - 그래도 실패하면 사용자에게 정확한 이름/이메일을 묻는다.
+`getAccessibleAtlassianResources` 를 호출해 Cloud ID와 사이트 URL(`https://<site>.atlassian.net`)을 가져온다.
 
 ### Step 4. 이슈 검색
 
-`searchJiraIssuesUsingJql` 로 다음 JQL을 실행한다.
+`searchJiraIssuesUsingJql` 로 다음 JQL을 실행한다. 현재 사용자는 JQL `currentUser()`가 자동으로 해석하므로 별도의 accountId 조회가 필요 없다.
 
 ```jql
-assignee = "<accountId>" AND status = "In Progress" ORDER BY updated DESC
+assignee = currentUser() AND status = "In Progress" ORDER BY updated DESC
 ```
 
 - fields: `summary, status, issuetype, updated, priority`
