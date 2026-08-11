@@ -2,6 +2,7 @@
 """ASCII 다이어그램 조립·검증 헬퍼.
 
   python3 draw.py check < diagram.txt   # 폭 + 세로 문자 컬럼 리포트, 1칸 밀림 경고
+  python3 draw.py check 70 < ...        # 폭 한계를 바꿔서 검증 (기본 100)
   python3 draw.py demo                  # 자기 검증 (정렬 assert)
 
 조립 예 (좌우 비교 패턴) — 컬럼은 절대값으로 넘기고, 결과는 stdout 으로 print 한다:
@@ -114,10 +115,10 @@ def check(text, max_width=100):
     return problems
 
 
-def report(text):
+def report(text, max_width=100):
     for i, line in enumerate(text.rstrip("\n").split("\n"), 1):
         print(f"{i:3d}  폭 {w(line.rstrip()):3d}  세로 {columns(line)}")
-    for p in check(text):
+    for p in check(text, max_width):
         print("!!", p)
 
 
@@ -147,4 +148,5 @@ if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "demo":
         demo()
     else:
-        report(sys.stdin.read())
+        widths = [int(a) for a in sys.argv[1:] if a.isdigit()]
+        report(sys.stdin.read(), widths[0] if widths else 100)
