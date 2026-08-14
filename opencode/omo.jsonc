@@ -1,0 +1,73 @@
+// OMO configuration
+{
+	"[opencode]": {
+		"$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/omo.schema.json",
+		"agents": {
+			"hephaestus": {
+				"model": "opencode/deepseek-v4-flash-free"
+			},
+			"oracle": {
+				"model": "opencode/deepseek-v4-flash-free"
+			},
+			"librarian": {
+				"model": "opencode/deepseek-v4-flash-free"
+			},
+			"explore": {
+				"model": "opencode/deepseek-v4-flash-free"
+			},
+			"multimodal-looker": {
+				"model": "opencode/deepseek-v4-flash-free"
+			},
+			"prometheus": {
+				"model": "opencode/deepseek-v4-flash-free"
+			},
+			"metis": {
+				"model": "opencode/deepseek-v4-flash-free"
+			},
+			"momus": {
+				"model": "opencode/deepseek-v4-flash-free"
+			},
+			"atlas": {
+				"model": "opencode/deepseek-v4-flash-free"
+			},
+			"sisyphus-junior": {
+				"model": "opencode/deepseek-v4-flash-free"
+			},
+			"sisyphus": {
+				"model": "opencode/deepseek-v4-flash-free"
+			}
+		},
+		"categories": {
+			"visual-engineering": {
+				"model": "opencode/deepseek-v4-flash-free"
+			},
+			"ultrabrain": {
+				"model": "opencode/deepseek-v4-flash-free"
+			},
+			"deep": {
+				"model": "opencode/deepseek-v4-flash-free"
+			},
+			"artistry": {
+				"model": "opencode/deepseek-v4-flash-free"
+			},
+			"quick": {
+				"model": "opencode/deepseek-v4-flash-free"
+			},
+			"unspecified-low": {
+				"model": "opencode/deepseek-v4-flash-free"
+			},
+			"unspecified-high": {
+				"model": "opencode/deepseek-v4-flash-free"
+			},
+			"writing": {
+				"model": "opencode/deepseek-v4-flash-free"
+			}
+		},
+		"model_fallback": false
+	},
+	"_migrations": [
+		"2026-08-reasoning-unification",
+		"2026-07-opencode-config-unification"
+	],
+	"$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/omo.schema.json"
+}
