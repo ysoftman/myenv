@@ -56,5 +56,8 @@
         }
       }
     }
-  }
+  },
+  "plugin": [
+    "oh-my-openagent@latest"
+  ]
 }
