@@ -58,6 +58,7 @@
     }
   },
   "plugin": [
-    "oh-my-openagent@latest"
+    "oh-my-openagent@latest",
+    "@slkiser/opencode-quota"
   ]
 }
