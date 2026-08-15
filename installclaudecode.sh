@@ -265,6 +265,15 @@ for plugin in "${USER_PLUGINS[@]}"; do
     fi
 done
 
+# taste-skill 설치 (https://github.com/leonxlnx/taste-skill)
+# marketplace/plugin 이 아닌 skills CLI(skills add) 로 설치하는 저장소다.
+if [[ -d "${HOME}/.claude/skills/design-taste-frontend" ]]; then
+    echo "taste-skill이 이미 설치되어 있습니다. 스킵합니다."
+else
+    echo "taste-skill을 설치합니다..."
+    bunx skills add https://github.com/leonxlnx/taste-skill --skill "design-taste-frontend" -g -a claude-code -y
+fi
+
 # local LLM 연결해서 사용할 경우
 # 환경변수 파일 생성
 ENV_FILE=".local_llm_env_for_claude_code"
