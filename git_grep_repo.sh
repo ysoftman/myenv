@@ -51,7 +51,8 @@ git_clone_ysoftman_repository() {
     fi
 
     local targetdir
-    for url in $(gh repo list ysoftman --source --json url --jq '.[].url' | sort); do
+    # --source : only non-forks
+    for url in $(gh repo list ysoftman --json url --jq '.[].url' | sort); do
         targetdir=$HOME/workspace/$(echo $url | sed 's#^.*ysoftman/##' | sed 's#\.git$##')
         git clone ${url} ${targetdir}
         git -C ${targetdir} pull
