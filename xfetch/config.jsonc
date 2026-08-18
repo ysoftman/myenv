@@ -80,5 +80,13 @@
         "datetime": "Magenta",
         "palette": "White"
     },
-    "palette_style": "circles"
+    "palette_style": "circles",
+    "logo_animation": {
+        "plugin": "animate-logo",
+        // "style": "sweep",
+        "style": "wave",
+        "fps": 12,
+        "duration_ms": 1200,
+        "loop": false
+    }
 }
