@@ -83,10 +83,11 @@
     "palette_style": "circles",
     "logo_animation": {
         "plugin": "animate-logo",
-        // "style": "sweep",
-        "style": "wave",
-        "fps": 12,
-        "duration_ms": 1200,
-        "loop": false
+        "style": "frame",
+        "fps": 7,
+        "duration_ms": 1500,
+        "loop": false,
+        // frame(=== 로 구분되는) .txt 파일
+        "frames_path": "~/.config/xfetch/logos/matrix_rain.txt"
     }
 }
