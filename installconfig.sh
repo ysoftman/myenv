@@ -99,9 +99,9 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ${HOME}/.claude/skills ] && unlink ${HOME}/.claude/skills
 [ -h ${HOME}/.codex/AGENTS.md ] && unlink ${HOME}/.codex/AGENTS.md
 [ -h ${HOME}/.codex/skills ] && unlink ${HOME}/.codex/skills
+[ -h ${HOME}/.omo/omo.jsonc ] && unlink ${HOME}/.omo/omo.jsonc
 [ -h ${XDG_CONFIG_HOME}/opencode/opencode.json ] && unlink ${XDG_CONFIG_HOME}/opencode/opencode.json
 [ -h ${XDG_CONFIG_HOME}/opencode/tui.json ] && unlink ${XDG_CONFIG_HOME}/opencode/tui.json
-[ -h ${HOME}/.omo/omo.jsonc ] && unlink ${HOME}/.omo/omo.jsonc
 [ -h ${XDG_CONFIG_HOME}/nvim ] && unlink ${XDG_CONFIG_HOME}/nvim
 [ -d ${XDG_CONFIG_HOME}/alacritty-colorscheme ] || git clone https://github.com/alacritty/alacritty-theme ${XDG_CONFIG_HOME}/alacritty-colorscheme
 [ -h ${XDG_CONFIG_HOME}/alacritty ] && unlink ${XDG_CONFIG_HOME}/alacritty
@@ -139,9 +139,9 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -d ${HOME}/.claude/skills ] && mv -fv ${HOME}/.claude/skills ${HOME}/.claude/skills.bak
 [ -f ${HOME}/.codex/AGENTS.md ] && mv -fv ${HOME}/.codex/AGENTS.md ${HOME}/.codex/AGENTS.md.bak
 [ -d ${HOME}/.codex/skills ] && mv -fv ${HOME}/.codex/skills ${HOME}/.codex/skills.bak
+[ -f ${HOME}/.omo/omo.jsonc ] && mv -fv ${HOME}/.omo/omo.jsonc ${HOME}/.omo/omo.jsonc.bak
 [ -f ${XDG_CONFIG_HOME}/opencode/opencode.json ] && mv -fv ${XDG_CONFIG_HOME}/opencode/opencode.json ${XDG_CONFIG_HOME}/opencode/opencode.json.bak
 [ -f ${XDG_CONFIG_HOME}/opencode/tui.json ] && mv -fv ${XDG_CONFIG_HOME}/opencode/tui.json ${XDG_CONFIG_HOME}/opencode/tui.json.bak
-[ -f ${HOME}/.omo/omo.jsonc ] && mv -fv ${HOME}/.omo/omo.jsonc ${HOME}/.omo/omo.jsonc.bak
 [ -f ${XDG_CONFIG_HOME}/nvim/init.vim ] && mv -fv ${XDG_CONFIG_HOME}/nvim ${XDG_CONFIG_HOME}/nvim.bak
 [ -d ${XDG_CONFIG_HOME}/alacritty ] && mv -fv ${XDG_CONFIG_HOME}/alacritty ${XDG_CONFIG_HOME}/alacritty.bak
 [ -d ${XDG_CONFIG_HOME}/ghostty ] && mv -fv ${XDG_CONFIG_HOME}/ghostty ${XDG_CONFIG_HOME}/ghostty.bak
@@ -172,15 +172,17 @@ ln -sfv ${PWD}/prezto/zlogin ${HOME}/.zprezto/runcoms/zlogin
 ln -sfv ${PWD}/prezto/zpreztorc ${HOME}/.zprezto/runcoms/zpreztorc
 ln -sfv ${PWD}/prezto/prompt_sorin_ysoftman_setup ${HOME}/.zprezto/modules/prompt/functions/prompt_sorin_ysoftman_setup
 ln -sfv ${PWD}/wezterm/.wezterm.lua ${HOME}/.wezterm.lua
+mkdir -p ${HOME}/.claude
 ln -sfv ${PWD}/.claude/CLAUDE.md ${HOME}/.claude/CLAUDE.md
 ln -sfv ${PWD}/.claude/statusline-command.sh ${HOME}/.claude/statusline-command.sh
 ln -sfv ${PWD}/.claude/agents ${HOME}/.claude/agents
 ln -sfv ${PWD}/.claude/skills ${HOME}/.claude/skills
+mkdir -p ${HOME}/.codex
 ln -sfv ${PWD}/.codex/AGENTS.md ${HOME}/.codex/AGENTS.md
 ln -sfv ${PWD}/.claude/skills ${HOME}/.codex/skills
-[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/opencode/opencode.json ${XDG_CONFIG_HOME}/opencode/opencode.json
-[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/opencode/tui.json ${XDG_CONFIG_HOME}/opencode/tui.json
 mkdir -p ${HOME}/.omo && ln -sfv ${PWD}/opencode/omo.jsonc ${HOME}/.omo/omo.jsonc
+[ -d ${XDG_CONFIG_HOME} ] && mkdir -p ${XDG_CONFIG_HOME}/opencode && ln -sfv ${PWD}/opencode/opencode.json ${XDG_CONFIG_HOME}/opencode/opencode.json
+[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/opencode/tui.json ${XDG_CONFIG_HOME}/opencode/tui.json
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/nvim ${XDG_CONFIG_HOME}/nvim
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/alacritty ${XDG_CONFIG_HOME}/alacritty
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/ghostty ${XDG_CONFIG_HOME}/ghostty
