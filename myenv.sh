@@ -690,11 +690,12 @@ function welcome_message() {
     fi
 
     if command -v cfonts >/dev/null 2>&1; then
-        # cfonts 는 cowsay msg 로 담으면 제대로 처리되지 않아 그냥 출력한다.
-        cfonts ysoftman -s -f block -g red,green 2>/dev/null
-    fi
-
-    if command -v figlet >/dev/null 2>&1; then
+        # cfonts 는 cowsay msg 로 담으려면 색상없고 박스모양 없는 console, simple, 3d, simple3d 만 사용해야 한다.
+        local banner
+        # banner=$(cfonts ysoftman -s -f block -g red,green 2>/dev/null)
+        banner=$(cfonts ysoftman -s -f simple3d 2>/dev/null)
+        msg="${banner}\n${msg}"
+    elif command -v figlet >/dev/null 2>&1; then
         local banner
         banner=$(figlet ysoftman 2>/dev/null)
         msg="${banner}\n${msg}"
