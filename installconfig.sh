@@ -115,6 +115,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ${XDG_CONFIG_HOME}/lsd ] && unlink ${XDG_CONFIG_HOME}/lsd
 [ -h ${XDG_CONFIG_HOME}/mc ] && unlink ${XDG_CONFIG_HOME}/mc
 [ -h ${XDG_CONFIG_HOME}/zellij ] && unlink ${XDG_CONFIG_HOME}/zellij
+[ -h ${XDG_CONFIG_HOME}/xfetch/config.jsonc ] && unlink ${XDG_CONFIG_HOME}/xfetch/config.jsonc
 [ -h ${XDG_CONFIG_HOME}/starship.toml ] && unlink ${XDG_CONFIG_HOME}/starship.toml
 [ -h ${XDG_CONFIG_HOME}/ysoftman.omp.toml ] && unlink ${XDG_CONFIG_HOME}/ysoftman.omp.toml
 
@@ -154,6 +155,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -d ${XDG_CONFIG_HOME}/lsd ] && mv -fv ${XDG_CONFIG_HOME}/lsd ${XDG_CONFIG_HOME}/lsd.bak
 [ -d ${XDG_CONFIG_HOME}/mc ] && mv -fv ${XDG_CONFIG_HOME}/mc ${XDG_CONFIG_HOME}/mc.bak
 [ -d ${XDG_CONFIG_HOME}/zellij ] && mv -fv ${XDG_CONFIG_HOME}/zellij ${XDG_CONFIG_HOME}/zellij.bak
+[ -f ${XDG_CONFIG_HOME}/xfetch/config.jsonc ] && mv -fv ${XDG_CONFIG_HOME}/xfetch/config.jsonc ${XDG_CONFIG_HOME}/xfetch/config.jsonc
 [ -f ${XDG_CONFIG_HOME}/starship.toml ] && mv -fv ${XDG_CONFIG_HOME}/starship.toml ${XDG_CONFIG_HOME}/starship.toml.bak
 [ -f ${XDG_CONFIG_HOME}/ysoftman.omp.toml ] && mv -fv ${XDG_CONFIG_HOME}/ysoftman.omp.toml ${XDG_CONFIG_HOME}/ysoftman.omp.toml.bak
 
@@ -195,6 +197,7 @@ mkdir -p ${HOME}/.omo && ln -sfv ${PWD}/opencode/omo.jsonc ${HOME}/.omo/omo.json
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/lsd ${XDG_CONFIG_HOME}/lsd
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/mc ${XDG_CONFIG_HOME}/mc
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/zellij ${XDG_CONFIG_HOME}/zellij
+[ -d ${XDG_CONFIG_HOME} ] && mkdir -p ${XDG_CONFIG_HOME}/xfetch && ln -sfv ${PWD}/xfetch/config.jsonc ${XDG_CONFIG_HOME}/xfetch/config.jsonc
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/starship/starship.toml ${XDG_CONFIG_HOME}/starship.toml
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/oh-my-posh/ysoftman.omp.toml ${XDG_CONFIG_HOME}/ysoftman.omp.toml
 

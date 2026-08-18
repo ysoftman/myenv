@@ -43,7 +43,7 @@ function tidy_path {
     # PATH 중간에 :: 부분이 있어야 한다.
     # ./a.sh 대신 a.sh 실행 가능해야 한다.
     # apple silicon 용 brew (/opt/homebrew) 를 우선 실행할 수 있도록 한다.
-    export PATH=$HOME/.cargo/bin:$GOPATH/bin:/opt/homebrew/bin:/opt/homebrew/opt/curl/bin:/usr/local/go/bin:/usr/local/bin::$temp_path
+    export PATH=$HOME/.cargo/bin:$HOME/.local/bin:$GOPATH/bin:/opt/homebrew/bin:/opt/homebrew/opt/curl/bin:/usr/local/go/bin:/usr/local/bin::$temp_path
 }
 
 function set_path_and_vars {
@@ -654,7 +654,9 @@ function welcome_message() {
         term_program_name=$(echo "$TERM" | tr "[:upper:]" "[:lower:]")
     fi
 
-    if which fastfetch >/dev/null 2>&1; then
+    if which xfetch >/dev/null 2>&1; then
+        xfetch
+    elif which fastfetch >/dev/null 2>&1; then
         logo_args=""
         if [[ $term_program_name == *"iterm"* || $term_program_name == *"wezterm"* ]]; then
             # --logo 는 --logo-type 이 있어야 에러가 발생하지 않는다.

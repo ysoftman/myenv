@@ -42,6 +42,7 @@ bash ./installcolima.sh
 bash ./installclaudecode.sh
 bash ./installcodex.sh
 bash ./installopencode.sh
+bash ./installxfetch.sh
 if [[ $(command -v code) ]]; then
     bash ./installvscodesettings.sh
     bash ./installvscodeextension.sh
