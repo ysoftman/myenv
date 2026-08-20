@@ -694,11 +694,11 @@ function welcome_message() {
         local banner
         # banner=$(cfonts ysoftman -s -f block -g red,green 2>/dev/null)
         banner=$(cfonts ysoftman -s -f simple3d 2>/dev/null)
-        msg="${banner}\n${msg}"
+        msg="${banner}"$'\n'"${msg}"
     elif command -v figlet >/dev/null 2>&1; then
         local banner
         banner=$(figlet ysoftman 2>/dev/null)
-        msg="${banner}\n${msg}"
+        msg="${banner}"$'\n'"${msg}"
     fi
 
     if which cowsay >/dev/null 2>&1; then
@@ -721,10 +721,11 @@ function welcome_message() {
         # echo "$cowfile"
 
         # figlet 을 메시지로 사용할 경우 -n 이 필요하다.
+        # echo -e 는 배너 아트의 \ 를 escape 로 해석해 지워버리므로 printf '%s\n' 사용
         if which lolcat >/dev/null 2>&1; then
-            echo -e "$msg" | cowsay -n -f "$cowfile" | lolcat
+            printf '%s\n' "$msg" | cowsay -n -f "$cowfile" | lolcat
         else
-            echo -e "$msg" | cowsay -n -f "$cowfile"
+            printf '%s\n' "$msg" | cowsay -n -f "$cowfile"
         fi
     fi
 
