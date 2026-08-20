@@ -133,7 +133,11 @@ config.freetype_load_flags = "NO_HINTING"
 config.foreground_text_hsb = { hue = 1.0, saturation = 1.0, brightness = 1.2 }
 
 -- https://wezterm.org/config/font-shaping.html
-config.font = wezterm.font("FiraCode Nerd Font")
+-- FiraCode 에 없는 ✽(U+273D) 등이 Menlo 폴백으로 치우쳐 그려짐 -> DejaVu 폴백 지정
+config.font = wezterm.font_with_fallback({
+	"FiraCode Nerd Font",
+	"DejaVu Sans Mono for Powerline",
+})
 -- config.font = wezterm.font("FiraCode Nerd Font", { weight = "Bold", italic = true })
 
 -- By default, wezterm enables ligature support in the font that you have selected.
