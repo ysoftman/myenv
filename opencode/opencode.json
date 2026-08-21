@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "opencode/deepseek-v4-flash-free",
+  "model": "opencode/big-pickle",
   "small_model": "google/gemini-2.0-flash",
   "autoupdate": true,
   "mcp": {

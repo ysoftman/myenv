@@ -4,63 +4,63 @@
 		"$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/omo.schema.json",
 		"agents": {
 			"hephaestus": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			},
 			"oracle": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			},
 			"librarian": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			},
 			"explore": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			},
 			"multimodal-looker": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			},
 			"prometheus": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			},
 			"metis": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			},
 			"momus": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			},
 			"atlas": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			},
 			"sisyphus-junior": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			},
 			"sisyphus": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			}
 		},
 		"categories": {
 			"visual-engineering": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			},
 			"ultrabrain": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			},
 			"deep": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			},
 			"artistry": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			},
 			"quick": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			},
 			"unspecified-low": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			},
 			"unspecified-high": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			},
 			"writing": {
-				"model": "opencode/deepseek-v4-flash-free"
+				"model": "opencode/big-pickle"
 			}
 		},
 		"model_fallback": false
