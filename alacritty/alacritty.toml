@@ -88,6 +88,7 @@ action = "None"
 key = "W"
 mods = "Command"
 
+# tmux 를 사용하면 alacritty vimode 오버레이를 덮어버려 블럭표시가 tmux 위 표시되지 않는다. prefix(ctrl-b) [ 키로 tmux copy mode 를 사용해야 한다.
 [[keyboard.bindings]]
 action = "ToggleViMode"
 key = "Space"
