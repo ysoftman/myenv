@@ -11,7 +11,11 @@ return {
       -- 순정 :copen 대신 Trouble UI로 열기 위함
       defaults = {
         -- toggle 이면 이미 열려있을 때 닫혀버려 매번 열리지 않을 수 있어 open 사용
-        copen = "Trouble qflist open",
+        -- 반대편 모드 창을 먼저 닫아 Trouble 창을 하나만 유지
+        copen = function()
+          vim.cmd("Trouble qffiles close")
+          vim.cmd("Trouble qflist open")
+        end,
       },
       winopts = {
         preview = {
@@ -91,6 +95,11 @@ return {
         -- (name from 'previewers' table)
         -- set to 'false' to disable
         prompt = "Files❯ ",
+        -- 파일 찾기 결과는 라인 정보가 없어 기본 qflist 모드에선 파일당 2행이 생김
+        copen = function()
+          vim.cmd("Trouble qflist close")
+          vim.cmd("Trouble qffiles open")
+        end,
         multiprocess = true, -- run command in a separate process
         git_icons = true, -- show git icons?
         file_icons = true, -- show file icons (true|"devicons"|"mini")?

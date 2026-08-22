@@ -8,6 +8,16 @@ return {
   cmd = "Trouble",
   opts = {
     use_diagnostic_signs = true,
+    modes = {
+      -- 파일 찾기처럼 라인 정보 없는 커스텀한 quickfix
+      -- 기본 qflist 모드는 라인 정보 없으면 [1,1])으로 파일당 2행이 생겨 이동이 번거로움
+      -- 그룹 없이 파일 1개 = 1행으로 표시
+      qffiles = {
+        desc = "Quickfix Files",
+        source = "qf.qflist",
+        format = "{file_icon} {filename}",
+      },
+    },
   },
   keys = {
     {
