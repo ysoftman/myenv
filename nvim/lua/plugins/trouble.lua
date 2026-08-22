@@ -1,4 +1,8 @@
 return {
+  -- https://github.com/folke/trouble.nvim
+  -- 커맨드 사용예
+  -- https://github.com/folke/trouble.nvim#commands
+  -- :Trouble [mode] [action] [options]
   "folke/trouble.nvim",
   enabled = true,
   cmd = "Trouble",

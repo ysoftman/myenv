@@ -7,6 +7,12 @@ return {
     -- calling `setup` is optional for customization
     local actions = require("fzf-lua.actions")
     require("fzf-lua").setup({
+      -- 전체 picker 공통 기본값. quickfix로 보낸 결과(다중 선택 enter 등)를
+      -- 순정 :copen 대신 Trouble UI로 열기 위함
+      defaults = {
+        -- toggle 이면 이미 열려있을 때 닫혀버려 매번 열리지 않을 수 있어 open 사용
+        copen = "Trouble qflist open",
+      },
       winopts = {
         preview = {
           -- default     = 'bat',           -- override the default previewer?
