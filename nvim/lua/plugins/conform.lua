@@ -5,17 +5,7 @@ return {
   "stevearc/conform.nvim", -- For formatting
   event = { "BufWritePre" },
   cmd = { "ConformInfo" },
-  keys = {
-    {
-      -- Customize or remove this keymap to your liking
-      "<leader>f",
-      function()
-        require("conform").format({ async = true })
-      end,
-      mode = "",
-      desc = "Format buffer",
-    },
-  },
+  -- 수동 포맷은 LazyVim 기본 <leader>cf 사용
   -- This will provide type hinting with LuaLS
   ---@module "conform"
   ---@type conform.setupOpts
