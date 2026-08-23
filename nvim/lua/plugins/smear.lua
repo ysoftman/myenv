@@ -2,6 +2,8 @@ return {
   -- cursor color effect
   -- https://github.com/sphamba/smear-cursor.nvim
   "sphamba/smear-cursor.nvim",
+  -- neovide 사용시 겹쳐서 비활성화
+  enabled = false,
 
   opts = {
     -- Smear cursor when switching buffers or windows.
