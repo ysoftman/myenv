@@ -7,19 +7,6 @@ return {
     -- calling `setup` is optional for customization
     local actions = require("fzf-lua.actions")
     require("fzf-lua").setup({
-      -- 전체 picker 공통 기본값. quickfix로 보낸 결과(다중 선택 enter 등)를
-      -- 순정 :copen 대신 Trouble UI로 열기 위함
-      defaults = {
-        -- toggle 이면 이미 열려있을 때 닫혀버려 매번 열리지 않을 수 있어 open 사용
-        -- 반대편 모드 창을 먼저 닫아 Trouble 창을 하나만 유지
-        copen = function()
-          -- fzf float 창 정리가 끝난 다음 tick 에 실행 (잔상/커서 꼬임 방지)
-          vim.schedule(function()
-            vim.cmd("Trouble qffiles close")
-            vim.cmd("Trouble qflist open")
-          end)
-        end,
-      },
       winopts = {
         preview = {
           -- default     = 'bat',           -- override the default previewer?
@@ -67,14 +54,20 @@ return {
           -- Pickers inheriting these actions:
           --   files, git_files, git_status, grep, lsp, oldfiles, quickfix, loclist,
           --   tags, btags, args, buffers, tabs, lines, blines
-          -- `file_edit_or_qf` opens a single selection or sends multiple selection to quickfix
-          -- replace `enter` with `file_edit` to open all files/bufs whether single or multiple
-          -- replace `enter` with `file_switch_or_edit` to attempt a switch in current tab first
-          ["enter"] = actions.file_edit_or_qf,
+          -- 단일 선택은 열고, 다중 선택은 Trouble 로 (fzf/fzf_files 모드 자동 분기)
+          ["enter"] = function(selected, opts)
+            if #selected > 1 then
+              require("trouble.sources.fzf").open(selected, opts)
+            else
+              actions.file_edit(selected, opts)
+            end
+          end,
           ["ctrl-s"] = actions.file_split,
           ["ctrl-v"] = actions.file_vsplit,
           ["ctrl-t"] = actions.file_tabedit,
-          ["alt-q"] = actions.file_sel_to_qf,
+          ["alt-q"] = function(selected, opts)
+            require("trouble.sources.fzf").add(selected, opts)
+          end,
           ["alt-Q"] = actions.file_sel_to_ll,
           ["alt-i"] = { actions.toggle_ignore },
           -- ["alt-h"] = { actions.toggle_hidden }, -- zellij 키와 겹칩
@@ -98,13 +91,6 @@ return {
         -- (name from 'previewers' table)
         -- set to 'false' to disable
         prompt = "Files❯ ",
-        -- 파일 찾기 결과는 라인 정보가 없어 기본 qflist 모드에선 파일당 2행이 생김
-        copen = function()
-          vim.schedule(function()
-            vim.cmd("Trouble qflist close")
-            vim.cmd("Trouble qffiles open")
-          end)
-        end,
         multiprocess = true, -- run command in a separate process
         git_icons = true, -- show git icons?
         file_icons = true, -- show file icons (true|"devicons"|"mini")?
