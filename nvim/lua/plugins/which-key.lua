@@ -1,6 +1,7 @@
 return {
   {
     -- 단축키(키맵)를 시각적으로 탐색하고 기억하기 쉽게 도와주는 플러그인입니다.
+    -- https://github.com/folke/which-key.nvim
     "folke/which-key.nvim",
     event = "VeryLazy",
     opts_extend = { "spec" },
