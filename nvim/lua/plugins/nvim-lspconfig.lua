@@ -11,7 +11,7 @@ return {
       ["*"] = {
         keys = {
           { "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", has = "definition" },
-          { "gr", "<cmd>lua vim.lsp.buf.references()<CR>", has = "references" },
+          { "gr", "<cmd>Trouble lsp_references toggle focus=true<cr>", has = "references" },
         },
       },
 
