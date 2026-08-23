@@ -10,7 +10,20 @@ effort: low
 
 언어별 lint/format/정적 타입 체크 도구의 명령어 reference. 표준 "수정 + 포맷팅 통합" 명령어와 check-only, 부분 적용 등 변형을 함께 다룬다.
 
-## JavaScript/TypeScript (Biome)
+## JavaScript/TypeScript/JSON (Biome)
+
+JSON/JSONC 도 Biome 을 기본으로 사용한다 (prettier 아님). 단 Biome 기본 `indentStyle` 은 tab 이라 2-space JSON 파일이 전부 탭으로 바뀐다 — 2-space 저장소면 repo 루트에 `biome.json` 을 두고 고정한다.
+
+```json
+{
+  "formatter": {
+    "indentStyle": "space",
+    "indentWidth": 2
+  }
+}
+```
+
+명령어:
 
 - 린트만: `biome lint .`
 - 포맷팅만 (수정): `biome format --write .`
