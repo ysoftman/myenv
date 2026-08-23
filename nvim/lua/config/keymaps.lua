@@ -23,14 +23,6 @@ vim.keymap.set("i", "<S-A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
 vim.keymap.set("v", "<S-A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { desc = "Move Down" })
 vim.keymap.set("v", "<S-A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = "Move Up" })
 
--- fzf-lua
--- https://github.com/ibhagwan/fzf-lua?tab=readme-ov-file#commands
-vim.keymap.set("n", "<a-r>", "<cmd>lua require('fzf-lua').registers()<CR>", { silent = true })
-vim.keymap.set("n", "<a-t>", "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
-vim.keymap.set("n", "<a-f>", "<cmd>lua require('fzf-lua').grep_cword()<CR>", { silent = true }) -- search word under cursor
-vim.keymap.set("n", "<c-f>", "<cmd>lua require('fzf-lua').live_grep()<CR>", { silent = true }) -- live grep, 입력마다 rg 재실행하여 정확한 line:col 점프 유지
-vim.keymap.set("n", "<c-l>", "<cmd>lua require('fzf-lua').buffers()<CR>", { silent = true })
-
 -- toggle list (공백 문자 표시). <leader>ul 은 LazyVim 기본 Line Number 토글이라 space 키 사용, Snacks.toggle 로 등록하면 which-key 메뉴에 자동 표시
 Snacks.toggle.option("list", { name = "List Chars" }):map("<leader>u<space>")
 

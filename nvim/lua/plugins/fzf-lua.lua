@@ -10,6 +10,16 @@ return {
         k.desc = "FzfLua " .. k.desc
       end
     end
+    -- ctrl, alt 조합 단축키들은 fzf-lua 로 사용
+    -- https://github.com/ibhagwan/fzf-lua?tab=readme-ov-file#commands
+    vim.list_extend(keys, {
+      { "<a-r>", "<cmd>FzfLua registers<cr>", desc = "FzfLua Registers" },
+      { "<a-t>", "<cmd>FzfLua files<cr>", desc = "FzfLua Files" },
+      { "<a-f>", "<cmd>FzfLua grep_cword<cr>", desc = "FzfLua Grep Word" }, -- search word under cursor
+      -- live grep, 입력마다 rg 재실행하여 정확한 line:col 점프 유지
+      { "<c-f>", "<cmd>FzfLua live_grep<cr>", desc = "FzfLua Live Grep" },
+      { "<c-l>", "<cmd>FzfLua buffers<cr>", desc = "FzfLua Buffers" },
+    })
     return keys
   end,
   config = function()

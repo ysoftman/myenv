@@ -19,7 +19,7 @@ vim.g.autoformat = true
 -- { "<leader>fc", LazyVim.pick.config_files(), desc = "Find Config File" },
 -- { "<leader>ff", LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
 -- { "<leader>fF", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
--- ctrl-f(grep), alt-t(find files)등의 조합은 fzf-lua 가 동작하도록 하고(keympas.lua) 를 사용하고
+-- ctrl-f(grep), alt-t(find files)등의 조합은 fzf-lua 가 동작하도록 설정해 사용하고
 -- 그외 디폴트키(<leader>ff/fc 등)은 telescope 가 동작되도록 하기 위해서 기본 picker 는 telescope 를 설정한다.
 vim.g.lazyvim_picker = "telescope"
 
