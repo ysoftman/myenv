@@ -3,10 +3,15 @@ return {
   dependencies = {
     { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
   },
-  keys = {
-    -- add a keymap to browse plugin files
-    -- stylua: ignore
-  },
+  -- LazyVim telescope extra 의 디폴트 키들, 어느 픽커인지 알수 있게 desc 앞에 Telescope 를 붙인다
+  keys = function(_, keys)
+    for _, k in ipairs(keys) do
+      if type(k) == "table" and type(k.desc) == "string" and not k.desc:match("^Telescope ") then
+        k.desc = "Telescope " .. k.desc
+      end
+    end
+    return keys
+  end,
   -- change some options
   opts = function(_, opts)
     local actions = require("telescope.actions")

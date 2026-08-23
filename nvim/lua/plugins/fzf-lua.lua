@@ -3,6 +3,15 @@ return {
   "ibhagwan/fzf-lua",
   -- optional for icon support
   dependencies = { "nvim-tree/nvim-web-devicons", { "junegunn/fzf", build = "./install --bin" } },
+  -- LazyVim fzf extra 의 디폴트 키들, 어느 픽커인지 알수 있게 desc 앞에 FzfLua 를 붙인다
+  keys = function(_, keys)
+    for _, k in ipairs(keys) do
+      if type(k) == "table" and type(k.desc) == "string" and not k.desc:match("^FzfLua ") then
+        k.desc = "FzfLua " .. k.desc
+      end
+    end
+    return keys
+  end,
   config = function()
     -- calling `setup` is optional for customization
     local actions = require("fzf-lua.actions")
