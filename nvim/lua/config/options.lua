@@ -13,7 +13,15 @@ vim.g.autoformat = true
 -- Can be one of: telescope, fzf
 -- Leave it to "auto" to automatically use the picker
 -- enabled with `:LazyExtras`
-vim.g.lazyvim_picker = "auto"
+-- telescope, fzf 두 설정 모두 디폴트로 다음과 같은키들이 공통 맵핍되어 있다.
+-- https://www.lazyvim.org/extras/editor/fzf#fzf-lua > full spec
+-- https://www.lazyvim.org/extras/editor/telescope#telescopenvim > full spec
+-- { "<leader>fc", LazyVim.pick.config_files(), desc = "Find Config File" },
+-- { "<leader>ff", LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
+-- { "<leader>fF", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
+-- ctrl-f(grep), alt-t(find files)등의 조합은 fzf-lua 가 동작하도록 하고(keympas.lua) 를 사용하고
+-- 그외 디폴트키(<leader>ff/fc 등)은 telescope 가 동작되도록 하기 위해서 기본 picker 는 telescope 를 설정한다.
+vim.g.lazyvim_picker = "telescope"
 
 -- if the completion engine supports the AI source,
 -- use that instead of inline suggestions
