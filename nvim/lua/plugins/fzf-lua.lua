@@ -48,7 +48,7 @@ return {
           -- applies only when scrollbar = 'float'
           scrollchars = { "█", "" }, -- scrollbar chars ({ <full>, <empty> }
           -- applies only when scrollbar = 'border'
-          delay = 100, -- delay(ms) displaying the preview
+          delay = 20, -- delay(ms) displaying the preview
           -- prevents lag on fast scrolling
           winopts = { -- builtin previewer window options
             number = true,
@@ -63,6 +63,11 @@ return {
             scrolloff = 0,
             winblend = 0,
           },
+        },
+      },
+      previewers = {
+        builtin = {
+          syntax_limit_b = 1024 * 100, -- 100KB 초과 파일은 하이라이트 생략
         },
       },
       actions = {
@@ -111,7 +116,7 @@ return {
         -- set to 'false' to disable
         prompt = "Files❯ ",
         multiprocess = true, -- run command in a separate process
-        git_icons = true, -- show git icons?
+        git_icons = false, -- git status 실행해 대조하느라 느려서 끔
         file_icons = true, -- show file icons (true|"devicons"|"mini")?
         color_icons = true, -- colorize file|git icons
         -- path_shorten   = 1,              -- 'true' or number, shorten path?
@@ -152,7 +157,7 @@ return {
         prompt = "Rg❯ ",
         input_prompt = "Grep For❯ ",
         multiprocess = true, -- run command in a separate process
-        git_icons = true, -- show git icons?
+        git_icons = false, -- git status 실행해 대조하느라 느려서 끔
         file_icons = true, -- show file icons (true|"devicons"|"mini")?
         color_icons = true, -- colorize file|git icons
         -- executed command priority is 'cmd' (if exists)
