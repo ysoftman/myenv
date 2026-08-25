@@ -2,7 +2,7 @@
 # ghostty +list-keybinds
 # 디폴트 키바인딩 조회
 # ghostty +list-keybinds --default
-
+# cmd+alt+i 로 화면 아래에서 디버거(inspector)창을 토글할 수 있다.
 # 설정 리로드
 keybind = super+shift+,=reload_config
 
@@ -49,3 +49,6 @@ macos-titlebar-style = hidden
 
 background-opacity = 1.0
 background-blur = true
+
+# 마우스 드래그(블럭지정)시 클립보드로 자동복사
+copy-on-select = clipboard
