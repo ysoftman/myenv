@@ -52,3 +52,6 @@ background-blur = true
 
 # 마우스 드래그(블럭지정)시 클립보드로 자동복사
 copy-on-select = clipboard
+
+# URL 열기: cmd+click (tmux mouse on 상태에선 tmux 가 클릭을 가로채므로 cmd+shift+click)
+# https://ghostty.org/docs/config/reference#link-url

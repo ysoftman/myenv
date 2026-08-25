@@ -259,5 +259,8 @@ config.keys = {
 	-- default:ctrl+shift+alt+방향키로 pane 크기 조절(rectangle 윈도우 매지저와 충돌되는 경우가 있을 수 있다.)
 }
 
+-- URL 열기: click (tmux mouse on 상태에선 tmux 가 클릭을 가로채므로 shift+click)
+-- https://wezterm.org/config/mouse.html
+
 -- Finally, return the configuration to wezterm:
 return config
