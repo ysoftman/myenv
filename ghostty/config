@@ -23,7 +23,7 @@ cursor-text = 1e1c31
 # equals doesn't matter.
 # background = 282c34
 background = 000000
-foreground = ffffff
+foreground = d8d8d8
 
 # Comments start with a `#` and are only valid on their own line.
 # Blank lines are ignored!
