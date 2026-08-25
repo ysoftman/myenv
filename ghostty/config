@@ -32,6 +32,9 @@ font-size = 16
 # Option 키를 Meta 키로 사용 (가장 권장되는 설정)
 macos-option-as-alt = true
 
+# 타이틀바 숨김 (native, transparent, tabs, hidden)
+macos-titlebar-style = hidden
+
 # theme 리스트 확인
 # ghostty +list-themes
 #
