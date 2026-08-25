@@ -47,3 +47,5 @@ macos-option-as-alt = true
 # 타이틀바 숨김 (native, transparent, tabs, hidden)
 macos-titlebar-style = hidden
 
+background-opacity = 1.0
+background-blur = true
