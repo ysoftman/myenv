@@ -7,38 +7,41 @@ sidebar_min_width = 26
 name = "terminal"
 auto_switch = false
 
-# direct 키 규칙: 기본 동작 = ctrl+alt+<키>, 반대 동작 = ctrl+alt+shift+<같은 키>
-# 예외: Rectangle(ctrl+alt+U/I/J/K/T, ctrl+alt+화살표)과 충돌하는 키는 shift 추가
-# (focus hjkl, new_tab t), swap 은 prefix 전용, next/previous_tab 은 방향을 키로 표현([/])
+# direct 키 규칙: ~/.tmux.conf 의 root 바인딩(M-<키>)과 동일한 alt+<키>,
+# 반대 동작 = alt+shift+<같은 키>. Rectangle 은 ctrl+alt 라 충돌 없음.
+# swap 은 tmux move 모드(C-h)처럼 prefix 전용. resize 는 tmux 와 같은 ctrl+n.
 [keys]
-prefix = "ctrl+alt+b"
-focus_pane_left = ["prefix+h", "ctrl+alt+shift+h"]
-focus_pane_down = ["prefix+j", "ctrl+alt+shift+j"]
-focus_pane_up = ["prefix+k", "ctrl+alt+shift+k"]
-focus_pane_right = ["prefix+l", "ctrl+alt+shift+l"]
+prefix = "ctrl+b"
+focus_pane_left = ["prefix+h", "alt+h"]
+focus_pane_down = ["prefix+j", "alt+j"]
+focus_pane_up = ["prefix+k", "alt+k"]
+focus_pane_right = ["prefix+l", "alt+l"]
 swap_pane_left = ["prefix+shift+h"]
 swap_pane_down = ["prefix+shift+j"]
 swap_pane_up = ["prefix+shift+k"]
 swap_pane_right = ["prefix+shift+l"]
-split_vertical = ["prefix+v", "ctrl+alt+shift+n"]
-split_horizontal = ["prefix+minus", "ctrl+alt+shift+m"]
-cycle_pane_next = ["prefix+tab", "ctrl+alt+o"]
-cycle_pane_previous = ["prefix+shift+tab", "ctrl+alt+shift+o"]
-close_pane = ["prefix+x", "ctrl+alt+x"]
-new_tab = ["prefix+t", "ctrl+alt+shift+t"]
-switch_tab = ["prefix+1..9", "ctrl+alt+1..9"]
+split_vertical = ["prefix+v", "alt+n"]
+split_horizontal = ["prefix+minus", "alt+m"]
+cycle_pane_next = ["prefix+tab", "alt+o"]
+cycle_pane_previous = ["prefix+shift+tab", "alt+shift+o"]
+close_pane = ["prefix+x", "alt+x"]
+new_tab = ["prefix+t", "alt+t"]
+switch_tab = ["prefix+1..9", "alt+1..9"]
 # shift+] 는 터미널이 } 문자로 보고할 수 있어(키보드 프로토콜에 따라 다름)
 # 같은 키 입력의 두 표기(shift+], })를 모두 바인딩
-next_tab = ["prefix+n", "ctrl+alt+shift+]", "ctrl+alt+}"]
-previous_tab = ["prefix+p", "ctrl+alt+shift+[", "ctrl+alt+{"]
-resize_mode = ["prefix+r", "ctrl+alt+r"]
-workspace_picker = ["prefix+w", "ctrl+alt+w"]
-next_agent = ["prefix+a", "ctrl+alt+a"]
-toggle_sidebar = ["prefix+b", "ctrl+alt+s"]
-previous_agent = ["prefix+shift+a", "ctrl+alt+shift+a"]
+next_tab = ["prefix+n", "alt+shift+]", "alt+}"]
+previous_tab = ["prefix+p", "alt+shift+[", "alt+{"]
+resize_mode = ["prefix+r", "ctrl+n"]
+# detach: 세션에서 빠져나오기 (tmux prefix+d 와 동일, 서버는 백그라운드 유지)
+# 완전 종료(서버까지 내리기)는 단축키 없이 `herdr server stop` 실행
+detach = ["prefix+d"]
+workspace_picker = ["prefix+w", "alt+w"]
+next_agent = ["prefix+a", "alt+a"]
+toggle_sidebar = ["prefix+b", "alt+s"]
+previous_agent = ["prefix+shift+a", "alt+shift+a"]
 
 [[keys.command]]
-key = "ctrl+alt+shift+r"
+key = "alt+r"
 type = "shell"
 command = "herdr server reload-config"
 description = "reload herdr config"
