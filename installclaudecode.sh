@@ -230,6 +230,7 @@ USER_MARKETPLACES=(
     "nextlevelbuilder/ui-ux-pro-max-skill"
     "forrestchang/andrej-karpathy-skills"
     "DietrichGebert/ponytail"
+    "cathrynlavery/diagram-design"
 )
 for mp in "${USER_MARKETPLACES[@]}"; do
     mp_name="${mp##*/}"
@@ -255,6 +256,7 @@ USER_PLUGINS=(
     "ui-ux-pro-max@ui-ux-pro-max-skill"
     "andrej-karpathy-skills@karpathy-skills"
     "ponytail@ponytail"
+    "diagram-design@diagram-design"
 )
 for plugin in "${USER_PLUGINS[@]}"; do
     if claude plugins list 2>&1 | grep -q "${plugin%%@*}"; then
