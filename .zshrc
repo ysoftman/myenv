@@ -6,14 +6,16 @@
 # 그리고 arm64 bin 들을 우선 사용하도록 한다.
 if [ -x /opt/homebrew/bin/zsh ]; then
     export SHELL=/opt/homebrew/bin/zsh
-    export PATH=/opt/homebrew/bin:$PATH
+    export PATH=/opt/homebrew/bin:"$PATH"
 fi
 
-# tmux, zellij 가 실행중인지 체크
+# tmux, zellij, herdr 가 실행중인지 체크
 if [ ! -z $TMUX ]; then
     multiplexer_already_started="tmux"
 elif [ ! -z $ZELLIJ_SESSION_NAME ]; then
     multiplexer_already_started="zellij"
+elif [ ! -z $HERDR_ENV ]; then
+    multiplexer_already_started="herdr"
 fi
 
 os_name=$(uname -o | tr '[:upper:]' '[:lower:]')
@@ -22,11 +24,12 @@ myenv_path="$HOME/workspace/myenv"
 if [ -z $multiplexer_already_started ]; then
     # 터미널 시작시 바로 tmux 전환하면 signal 6(abort) 되는 환경도 있어 물어본다.
     # t=tmux, z=zellij, n=실행 안 함. 빈 입력은 default(tmux).
-    echo "start multiplexer? (t=tmux / z=zellij / n=no, default:t)"
+    echo "start multiplexer? (t=tmux / z=zellij / h=herdr / n=no, default:t)"
     read answer
     case "$(echo $answer | tr '[:upper:]' '[:lower:]')" in
         ""|t|tmux)  multiplexer="tmux" ;;
         z|zellij)   multiplexer="zellij" ;;
+        h|herdr)    multiplexer="herdr" ;;
         *)          multiplexer="" ;;
     esac
 
