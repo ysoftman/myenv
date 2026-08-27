@@ -40,6 +40,11 @@ confirm-close-surface = always
 # Empty values reset the configuration to the default value
 font-family = "FiraCode Nerd Font"
 font-size = 17
+# ligature 비활성화
+# calt: 문맥 치환 (FiraCode 는 ->, => 등 코딩 리가처를 calt 로 구현하므로 -calt 필수)
+# liga: 표준 합자 (fi, fl 등)
+# dlig: 장식용 합자 (st, ct 등, 기본 비활성)
+font-feature = +calt, -liga, -dlig
 
 # Option 키를 Meta 키로 사용 (가장 권장되는 설정)
 macos-option-as-alt = true
