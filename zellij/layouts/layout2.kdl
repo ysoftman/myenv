@@ -14,7 +14,6 @@ layout {
         pane split_direction="horizontal" {
             pane command="cava" {
                 cwd "~/workspace/"
-                args ""
             }
             pane command="~/.cargo/bin/scope-tui" {
                 cwd "~/workspace/"
