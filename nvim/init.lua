@@ -16,7 +16,7 @@ vim.cmd.source(vimrc)
 vim.cmd("colorscheme onedark_dark")
 -- vim.cmd("highlight Normal cterm=none guibg=none")
 -- Visual Block 컬러
-vim.cmd("hi Visual cterm=underline ctermbg=lightyellow guibg=yellow")
+vim.cmd("hi Visual guifg=black guibg=yellow")
 vim.cmd("highlight CursorLine guibg=#003f00")
 -- popup menu selected item color
 vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#61afef", fg = "#282c34" })
