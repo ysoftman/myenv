@@ -3,8 +3,9 @@ onboarding = false
 sidebar_width = 26
 sidebar_min_width = 26
 
+show_agent_labels_on_pane_borders = true
 [theme]
-name = "terminal"
+name = "catppuccin"
 auto_switch = false
 
 # direct 키 규칙: ~/.tmux.conf 의 root 바인딩(M-<키>)과 동일한 alt+<키>,
@@ -45,3 +46,6 @@ key = "alt+r"
 type = "shell"
 command = "herdr server reload-config"
 description = "reload herdr config"
+
+[ui.toast]
+delivery = "terminal"
