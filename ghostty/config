@@ -1,8 +1,15 @@
+# mac 에서는 command 를 명시해도 /usr/bin/login -flp 로 실행해 "Last login:"/"You have mail" 메시지는 출력된다.
+# touch ~/.hushlogin 파일 생성하면 로그인시 메시지가 안보인다.
+# /var/mail/ysoftman 디렉토리를 삭제해도 you have mail 메시지는 안보인다.
+# command = /opt/homebrew/bin/zsh
+
 # 현재 키바인딩 조회
 # ghostty +list-keybinds
 # 디폴트 키바인딩 조회
 # ghostty +list-keybinds --default
+
 # cmd+alt+i 로 화면 아래에서 디버거(inspector)창을 토글할 수 있다.
+
 # 설정 리로드
 keybind = super+shift+,=reload_config
 
