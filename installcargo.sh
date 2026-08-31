@@ -5,6 +5,7 @@ declare -A mpkgs
 # mpkgs["biome"]="biome"                     # (https://github.com/biomejs/biome) js,css,json,ts linter and formatter (brew install biome, cargo 용 binary는 없어 cargo add biome 만 된다.)
 # mpkgs["coreutils"]="coreutils"             # (https://github.com/uutils/coreutils) gnu binary 대체(굳이 설치할 필요가 없어서)
 # mpkgs["exa"]="exa"                         # (https://github.com/ogham/exa) ls 대체(exa -> eza 로 대체 되었다.)
+# mpkgs["impala"]="impala"                   # (https://github.com/pythops/impala) TUI for managing wifi on Linux (mac 에선 동작 안해서 설치 안함)
 # mpkgs["pls"]="pls"                         # (https://github.com/pls-rs/pls) prettier and powerful ls(cargo install --git https://github.com/pls-rs/pls)
 mpkgs["alacritty"]="alacritty"             # (https://github.com/alacritty/alacritty) kitty, iterm2 대체
 mpkgs["bandwhich"]="bandwhich"             # (https://github.com/imsnif/bandwhich) iftop 대체
