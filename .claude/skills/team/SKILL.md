@@ -1,6 +1,7 @@
 ---
 name: team
 description: Start a temporary agent team for collaborative work, with at most 5 total agents including the main agent. Keep the main agent focused on user interaction, coordination, monitoring, and final integration while delegating independent work to teammates whenever feasible. Use proactively when a task can be split across independent files, modules, or concerns. Also trigger when the user asks to work on multiple things at once, speed up a large task, or mentions "팀", "병렬", "parallel", "동시에", "나눠서".
+argument-hint: [병렬로 처리할 작업 설명]
 allowed-tools: Agent, ListAgents, SendMessage, TaskCreate, TaskUpdate, TaskList, TaskGet, TaskStop, Bash(git status:*), Bash(git diff:*), Bash(rg:*)
 ---
 

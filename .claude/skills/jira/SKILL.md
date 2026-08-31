@@ -1,6 +1,7 @@
 ---
 name: jira
 description: Search, transition, and comment on Jira issues. Use when user mentions Jira, issue keys (PROJ-123), project boards, or wants to manage tasks in Atlassian. For creating or editing issues, the jira-create-issue skill takes precedence.
+argument-hint: [PROJECT | ISSUE-KEY] [내 이슈 | 검색 | 상태변경 | 댓글] [...]
 allowed-tools: mcp__atlassian__searchJiraIssuesUsingJql, mcp__atlassian__getJiraIssue, mcp__atlassian__addCommentToJiraIssue, mcp__atlassian__getTransitionsForJiraIssue, mcp__atlassian__transitionJiraIssue, mcp__atlassian__getVisibleJiraProjects, mcp__atlassian__getAccessibleAtlassianResources
 model: sonnet
 effort: low

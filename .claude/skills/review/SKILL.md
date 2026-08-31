@@ -1,7 +1,10 @@
 ---
 name: review
 description: Review GitHub PRs and track improvements as tasks. Use when user asks to review a PR, check a pull request, says "PR 리뷰해줘", "PR 봐줘", or provides a GitHub PR URL or number. Delegates both the review judgment and comment writing to the `reviewer` agent (run in the background).
+argument-hint: [PR 번호 | PR URL]
 allowed-tools: Agent, Bash(gh:*), Read, TaskCreate, TaskUpdate, TaskList, TaskGet
+model: sonnet
+effort: low
 ---
 
 # PR Review

@@ -88,6 +88,17 @@ Biome가 HTML을 미지원하므로 Prettier를 사용한다.
 - 자동 수정: `rumdl fmt --extend-disable MD013 .`
 - 추가 규칙 끄기: `--extend-disable MD013,MD024` 처럼 콤마로 나열한다 (MD013 은 항상 포함).
 
+## TOML (taplo)
+
+`taplo` 는 PATH 에 없다. mason 경로로 실행한다 — `~/.local/share/nvim/mason/bin/taplo` (이하 `$TAPLO`).
+
+- 린트 검사: `$TAPLO lint <파일...>`
+- 포맷팅: `$TAPLO format <파일...>`
+- 포맷팅 검사만: `$TAPLO format --check <파일...>`
+- 변경 내용만 보기: `$TAPLO format --diff <파일...>`
+
+파일 인자를 생략하면 cwd 이하를 재귀 탐색한다. `format` 은 인자 없이 실행하면 하위 모든 `.toml` 을 그 자리에서 수정하므로, 범위를 확인하려면 먼저 `--check` 나 `--diff` 로 돌린다.
+
 ## 실행 절차
 
 1. 사용자 요청에서 대상 언어와 작업(검사 vs 수정)을 파악한다. 명시되지 않으면 `git status`로 변경된 파일의 확장자를 확인하여 추론한다.
