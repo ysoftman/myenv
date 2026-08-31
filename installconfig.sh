@@ -187,7 +187,7 @@ mkdir -p ${HOME}/.omo && ln -sfv ${PWD}/opencode/omo.jsonc ${HOME}/.omo/omo.json
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/opencode/tui.json ${XDG_CONFIG_HOME}/opencode/tui.json
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/nvim ${XDG_CONFIG_HOME}/nvim
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/alacritty ${XDG_CONFIG_HOME}/alacritty
-[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/ghostty ${XDG_CONFIG_HOME}/ghostty
+[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/ghostty ${XDG_CONFIG_HOME}/ghostty && git clone https://github.com/sahaj-b/ghostty-cursor-shaders ${XDG_CONFIG_HOME}/ghostty/shaders 2>/dev/null
 [ -d ${XDG_CONFIG_HOME} ] && mkdir -p ${XDG_CONFIG_HOME}/herdr/ && ln -sfv ${PWD}/herdr/config.toml ${XDG_CONFIG_HOME}/herdr/config.toml
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/cava ${XDG_CONFIG_HOME}/cava
 [ -d ${XDG_CONFIG_HOME} ] && mkdir -p ${XDG_CONFIG_HOME}/colima/default/ && ln -sfv ${PWD}/colima/default/colima.yaml ${XDG_CONFIG_HOME}/colima/default/colima.yaml

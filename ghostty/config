@@ -67,3 +67,11 @@ copy-on-select = clipboard
 
 # URL 열기: cmd+click (tmux mouse on 상태에선 tmux 가 클릭을 가로채므로 cmd+shift+click)
 # https://ghostty.org/docs/config/reference#link-url
+
+
+# https://github.com/sahaj-b/ghostty-cursor-shaders
+# git clone https://github.com/sahaj-b/ghostty-cursor-shaders ~/.config/ghostty/shaders
+# custom-shader = ~/.config/ghostty/shaders/cursor_sweep.glsl
+# custom-shader = ~/.config/ghostty/shaders/cursor_tail.glsl
+custom-shader = ~/.config/ghostty/shaders/cursor_warp.glsl
+
