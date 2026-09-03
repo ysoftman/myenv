@@ -652,6 +652,10 @@ function welcome_message() {
     if [[ $term_program_name == "" ]]; then
         # check kitty
         term_program_name=$(echo "$TERM" | tr "[:upper:]" "[:lower:]")
+    elif [[ $term_program_name == "tmux" ]]; then # tmux 사용중일때
+        if [[ $GHOSTTY_RESOURCES_DIR == *"Ghostty.app"* ]]; then
+            term_program_name="ghostty"
+        fi
     fi
 
     if which xfetch >/dev/null 2>&1; then
@@ -660,19 +664,17 @@ function welcome_message() {
         logo_args=""
         if [[ $term_program_name == *"iterm"* || $term_program_name == *"wezterm"* ]]; then
             # --logo 는 --logo-type 이 있어야 에러가 발생하지 않는다.
-            logo_args="--logo-type iterm --logo ${myenv_path}/xelloss.jpg"
+            logo_args="--logo-type iterm"
+        elif [[ $term_program_name == *"kitty"* || $term_program_name == "ghostty" ]]; then
+            logo_args="--logo-type kitty"
         fi
-        if [[ $term_program_name == *"kitty"* ]]; then
-            logo_args="--logo-type kitty --logo ${myenv_path}/xelloss.jpg"
-        fi
-        eval fastfetch "${logo_args}"
+        eval fastfetch "${logo_args} --logo ${myenv_path}/xelloss.jpg"
         unset logo_args
     elif which neofetch >/dev/null 2>&1; then
         backend_arg=""
         if [[ $term_program_name == *"iterm"* || $term_program_name == *"wezterm"* ]]; then
             backend_arg="--backend iterm2"
-        fi
-        if [[ $term_program_name == *"kitty"* ]]; then
+        elif [[ $term_program_name == *"kitty"* || $term_program_name == "ghostty" ]]; then
             backend_arg="--backend kitty"
         fi
         eval neofetch "${backend_arg} --size auto --source ${myenv_path}/xelloss.jpg"
