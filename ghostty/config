@@ -9,6 +9,8 @@
 # ghostty +list-keybinds --default
 
 # cmd+alt+i 로 화면 아래에서 디버거(inspector)창을 토글할 수 있다.
+# URL 열기: cmd+click (tmux mouse on 상태에선 tmux 가 클릭을 가로채므로 cmd+shift+click)
+# https://ghostty.org/docs/config/reference#link-url
 
 # Ghostty 가 인식하는 modifier
 # shift
@@ -48,6 +50,12 @@ wait-after-command = true
 # 항상 확인
 confirm-close-surface = always
 
+# 창 높이가 셀 높이의 배수가 아니면 남는 픽셀이 하단 여백으로 몰려 마지막 라인이 빈 줄처럼 보인다.
+# 남는 픽셀을 위아래로 분산
+window-padding-balance = true
+# 창 크기 조절 시 셀 단위로 스냅해 남는 픽셀 제거 (직접 드래그할 때만 적용, 최대화/타일링은 미적용)
+window-step-resize = true
+
 # Empty values reset the configuration to the default value
 font-family = "FiraCode Nerd Font"
 font-size = 17
@@ -63,15 +71,11 @@ macos-option-as-alt = true
 # 타이틀바 숨김 (native, transparent, tabs, hidden)
 macos-titlebar-style = hidden
 
-background-opacity = 1.0
-background-blur = true
-
 # 마우스 드래그(블럭지정)시 클립보드로 자동복사
 copy-on-select = clipboard
 
-# URL 열기: cmd+click (tmux mouse on 상태에선 tmux 가 클릭을 가로채므로 cmd+shift+click)
-# https://ghostty.org/docs/config/reference#link-url
-
+background-opacity = 1.0
+background-blur = true
 
 # shader 많이 적용되면 느리니 필요한것만 설정(추가)하자.
 # https://github.com/sahaj-b/ghostty-cursor-shaders
