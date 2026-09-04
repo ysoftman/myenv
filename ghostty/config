@@ -1,6 +1,6 @@
-# mac 에서는 command 를 명시해도 /usr/bin/login -flp 로 실행해 "Last login:"/"You have mail" 메시지는 출력된다.
-# touch ~/.hushlogin 파일 생성하면 로그인시 메시지가 안보인다.
-# /var/mail/ysoftman 디렉토리를 삭제해도 you have mail 메시지는 안보인다.
+# ghostty 시작 command 를 명시해도 mac 에서는 /usr/bin/login -flp 로 실행해 last login.. you have mail.. 메시지는 출력된다.
+# touch ~/.hushlogin 파일 생성하면 로그인시 last login.. you have mail.. 메시지가 안보인다.
+# you have mail 메시지는 /var/mail/ysoftman 디렉토리를 삭제해도 안보인다.
 # command = /opt/homebrew/bin/zsh
 
 # 현재 키바인딩 조회
