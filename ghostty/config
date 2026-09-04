@@ -10,8 +10,15 @@
 
 # cmd+alt+i 로 화면 아래에서 디버거(inspector)창을 토글할 수 있다.
 
+# Ghostty 가 인식하는 modifier
+# shift
+# ctrl == control
+# alt == opt == option
+# super == cmd == command
 # 설정 리로드
 keybind = super+shift+,=reload_config
+# tmux copy-mode(ctrl-b [) 바인딩
+keybind = ctrl+space=text:\x02[
 
 # theme 리스트 확인(tmux 안에서는 zsh: permission denied: ghostty 발생함)
 # ghostty +list-themes
@@ -25,9 +32,6 @@ theme= "Argonaut"
 cursor-color = a1efd3
 cursor-text = 1e1c31
 
-# reloading the configuration : ctrl+shift+, (Linux) or cmd+shift+, (macOS)
-# The syntax is "key = value". The whitespace around the
-# equals doesn't matter.
 # background = 282c34
 background = 000000
 foreground = d8d8d8
