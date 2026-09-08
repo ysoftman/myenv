@@ -179,6 +179,11 @@ function set_alias {
     if [[ $os_name == *"darwin"* ]]; then
         alias ll='ls -ahlG'
         alias sn='pmset displaysleepnow'
+        # scope-tui (Galaxy Buds2 Pro 용)
+        # Background Music 가상 장치는 실제 출력 장치의 샘플레이트를 따라간다.
+        # Buds2 Pro(블루투스 A2DP)는 44100Hz 라 scope-tui 기본값(48000)으로 열면
+        # StreamConfigNotSupported 에러가 나서 -r 44100 을 지정한다. 모니터/스피커 출력시엔 기본(48000)
+        alias scope-tui-buds2pro='scope-tui -r 44100 audio "Background Music"'
     fi
     if which colorls >/dev/null 2>&1; then
         alias ll='colorls -ahl'
