@@ -8,6 +8,7 @@ return {
   cmd = "Trouble",
   opts = {
     use_diagnostic_signs = true,
+    win = { wo = { wrap = true, linebreak = true, breakindent = true } },
   },
   keys = {
     {
