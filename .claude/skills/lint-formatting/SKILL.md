@@ -1,6 +1,6 @@
 ---
 name: lint-formatting
-description: Run language-specific linters, formatters, and static type checks with full command reference. Use when user asks to lint, format, type-check, check style, or says "린트", "포맷", "타입 체크", "lint", "format", "type check", "biome", "ruff", "pyright", "clippy", "golangci-lint", "rumdl", "prettier", "shfmt". Also use when needing detailed command variants (check-only, fix-only, partial scope) beyond the standard fix-everything command.
+description: Run language-specific linters, formatters, and static type checks with full command reference. Use when user asks to lint, format, type-check, check style, or says "린트", "포맷", "타입 체크", "lint", "format", "type check", "biome", "ruff", "pyright", "clippy", "golangci-lint", "gopls", "rumdl", "prettier", "shfmt". Also use when needing detailed command variants (check-only, fix-only, partial scope) beyond the standard fix-everything command.
 allowed-tools: Bash, Read, Glob
 model: sonnet
 effort: low
@@ -31,14 +31,20 @@ JSON/JSONC 도 Biome 을 기본으로 사용한다 (prettier 아님). 단 Biome 
 - 린트 + 포맷팅 통합 수정: `biome check --write .`
 - 검사만 (수정 없이): `biome check .`
 
-## Go (golangci-lint + gofmt)
+## Go (golangci-lint + gopls + gofmt)
 
-golangci-lint는 다양한 린터를 통합 실행한다.
+golangci-lint는 다양한 린터를 통합 실행한다. gopls check 는 golangci-lint 와 go vet 이 잡지 않는 gopls 자체 analyzer 진단(scannererr, modernize 등)을 보여 주므로 Go 코드 수정 후 검증에 함께 포함한다 — 사용자가 에디터에서 gopls diagnostics 를 보고 있다.
 
 - 린트 검사: `golangci-lint run`
 - 특정 디렉터리 검사: `golangci-lint run ./...`
 - 자동 수정: `golangci-lint run --fix`
+- gopls 진단 (warning 이상): `gopls check $(fd -e go)`
+- gopls 진단 (modernize 힌트 포함): `gopls check -severity=hint $(fd -e go)`
 - 포맷팅: `gofmt -w .`
+
+gopls check 는 진단이 있어도 exit code 가 항상 0 이다 — 출력이 비어 있으면 정상으로 판단한다. `fd .go` 는 regex 라 `.golden`, `logo.png` 도 잡히므로 `fd -e go` 를 쓴다.
+
+modernize 힌트(`-severity=hint`)는 버그가 아닌 스타일 제안이다. 수정한 파일에 돌려 결과를 보고만 하고, 반영은 사용자와 합의 후 진행한다 — 새로 쓴 코드의 힌트도 임의로 고치지 않는다.
 
 ## Rust (clippy + rustfmt)
 
