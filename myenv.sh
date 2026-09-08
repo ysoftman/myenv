@@ -223,9 +223,6 @@ function set_alias {
     alias myenv="cd ${myenv_path}"
     alias work="cd ${HOME}/workspace"
     alias testcode="cd ${HOME}/workspace/test_code"
-    alias cutstring="${HOME}/workspace/cutstring/cutstring"
-    alias enchash="${HOME}/workspace/enchash/enchash"
-    alias aleng="${HOME}/workspace/aleng/aleng"
     alias tig='tig --all'
     # gh command - 깃헙 호스트별 최초 로그인 필요(gh auth login)
     alias ghauthstatus='gh auth status'
