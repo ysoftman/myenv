@@ -30,6 +30,17 @@ return {
         -- prepend_args = { "--config", "MD013.line-length = 150" },
         prepend_args = { "--extend-disable", "MD013" },
       },
+      golangcilint = {
+        -- 기본 parser 는 source 에 린터 이름(typecheck, errcheck ...)만 넣어 trouble 에 그대로 표시된다.
+        -- errcheck(golangci-lint) 처럼 어느 도구인지 함께 보이도록 한다.
+        parser = function(...)
+          local diagnostics = require("lint.linters.golangcilint").parser(...)
+          for _, d in ipairs(diagnostics) do
+            d.source = d.source .. "(golangci-lint)"
+          end
+          return diagnostics
+        end,
+      },
     },
   },
   config = function(_, opts)

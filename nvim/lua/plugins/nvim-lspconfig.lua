@@ -181,6 +181,16 @@ return {
         filetypes = { "zig" },
       },
       gopls = {
+        handlers = {
+          -- gopls 는 source 에 analyzer 이름(scannererr, modernize ...)만 넣어 trouble 에 그대로 표시된다.
+          -- scannererr(gopls) 처럼 어느 도구인지 함께 보이도록 한다.
+          ["textDocument/publishDiagnostics"] = function(err, result, ctx)
+            for _, d in ipairs(result and result.diagnostics or {}) do
+              d.source = d.source .. "(gopls)"
+            end
+            vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx)
+          end,
+        },
         settings = {
           gopls = {
             codelenses = {
@@ -227,14 +237,9 @@ return {
           },
         },
       },
-      golangci_lint_ls = {
-        cmd = { "golangci-lint-langserver" },
-        filetypes = { "go" },
-        root_dir = require("lspconfig.util").root_pattern(".git", "go.mod"),
-        init_options = {
-          command = { "golangci-lint", "run", "--out-format", "json" },
-        },
-      },
+      -- golangci-lint 는 nvim-lint(golangcilint) 가 돌린다. mason 에 golangci-lint-langserver 가 설치돼 있어
+      -- automatic_enable 로 켜지면 같은 진단이 두 번 나오므로 명시적으로 끈다.
+      golangci_lint_ls = { enabled = false },
       -- tsserver will be automatically installed with mason and loaded with lspconfig
       tsserver = {
         enabled = false,
