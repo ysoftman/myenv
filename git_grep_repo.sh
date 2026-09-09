@@ -53,7 +53,7 @@ git_clone_ysoftman_repository() {
     local targetdir
     # --source : only non-forks
     # fork 저장소는 원본(parent)을 upstream 으로 등록해 같이 fetch
-    gh repo list ysoftman --json url,isFork,parent \
+    gh repo list ysoftman -L 31 --json url,isFork,parent \
         --jq '.[] | [.url, (if .isFork then "https://github.com/\(.parent.owner.login)/\(.parent.name)" else "" end)] | @tsv' |
         sort |
         while IFS=$'\t' read -r url upstream; do
@@ -64,7 +64,7 @@ git_clone_ysoftman_repository() {
                 git -C ${targetdir} remote add upstream ${upstream} 2>/dev/null ||
                     git -C ${targetdir} remote set-url upstream ${upstream}
                 git -C ${targetdir} fetch upstream
-                git -C ${targetdir} merge --ff-only upstream/$(git -C ${targetdir} branch --show-current)
+                git -C ${targetdir} merge --ff-only upstream/"$(git -C ${targetdir} branch --show-current)"
             fi
         done
     git_local_settings_for_ysoftman
