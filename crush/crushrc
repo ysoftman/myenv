@@ -1,0 +1,22 @@
+# crush global config (bash)
+# docs: https://github.com/charmbracelet/crush/blob/main/docs/config/README.md
+
+# --- models ---------------------------------------------------------------
+# hyper / bedrock 는 crush login, AWS 자격증명으로 이미 연결돼 있으므로 provider 추가 불필요.
+# 아래를 켜면 매 실행마다 슬롯이 고정된다 (ctrl+l 로 고른 값보다 config 가 우선).
+model large hyper/kimi-k3 --reasoning-effort max --max-tokens 16000
+# model small hyper/qwen3.8-max
+
+# --- permissions: 읽기 전용 도구만 승인 없이 ------------------------------
+permissions allow view ls glob grep todos lsp_diagnostics crush_info
+
+# --- context: 기존 규칙 재사용 --------------------------------------------
+option global-context-path "$HOME/.claude/CLAUDE.md"
+
+# --- attribution: 커밋/PR 에 도구 문구 넣지 않음 --------------------------
+option attribution-generated-with false
+option attribution-trailer-style none
+
+# --- UI -------------------------------------------------------------------
+option ui diff split
+option ui exit-banner compact

@@ -100,6 +100,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ${HOME}/.codex/AGENTS.md ] && unlink ${HOME}/.codex/AGENTS.md
 [ -h ${HOME}/.codex/skills ] && unlink ${HOME}/.codex/skills
 [ -h ${HOME}/.omo/omo.jsonc ] && unlink ${HOME}/.omo/omo.jsonc
+[ -h ${XDG_CONFIG_HOME}/crush/crushrc ] && unlink ${XDG_CONFIG_HOME}/crush/crushrc
 [ -h ${XDG_CONFIG_HOME}/opencode/opencode.json ] && unlink ${XDG_CONFIG_HOME}/opencode/opencode.json
 [ -h ${XDG_CONFIG_HOME}/opencode/tui.json ] && unlink ${XDG_CONFIG_HOME}/opencode/tui.json
 [ -h ${XDG_CONFIG_HOME}/nvim ] && unlink ${XDG_CONFIG_HOME}/nvim
@@ -141,6 +142,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -f ${HOME}/.codex/AGENTS.md ] && mv -fv ${HOME}/.codex/AGENTS.md ${HOME}/.codex/AGENTS.md.bak
 [ -d ${HOME}/.codex/skills ] && mv -fv ${HOME}/.codex/skills ${HOME}/.codex/skills.bak
 [ -f ${HOME}/.omo/omo.jsonc ] && mv -fv ${HOME}/.omo/omo.jsonc ${HOME}/.omo/omo.jsonc.bak
+[ -f ${XDG_CONFIG_HOME}/crush/crushrc ] && mv -fv ${XDG_CONFIG_HOME}/crush/crushrc ${XDG_CONFIG_HOME}/crush/crushrc.bak
 [ -f ${XDG_CONFIG_HOME}/opencode/opencode.json ] && mv -fv ${XDG_CONFIG_HOME}/opencode/opencode.json ${XDG_CONFIG_HOME}/opencode/opencode.json.bak
 [ -f ${XDG_CONFIG_HOME}/opencode/tui.json ] && mv -fv ${XDG_CONFIG_HOME}/opencode/tui.json ${XDG_CONFIG_HOME}/opencode/tui.json.bak
 [ -f ${XDG_CONFIG_HOME}/nvim/init.vim ] && mv -fv ${XDG_CONFIG_HOME}/nvim ${XDG_CONFIG_HOME}/nvim.bak
@@ -183,6 +185,7 @@ mkdir -p ${HOME}/.codex
 ln -sfv ${PWD}/.codex/AGENTS.md ${HOME}/.codex/AGENTS.md
 ln -sfv ${PWD}/.claude/skills ${HOME}/.codex/skills
 mkdir -p ${HOME}/.omo && ln -sfv ${PWD}/opencode/omo.jsonc ${HOME}/.omo/omo.jsonc
+[ -d ${XDG_CONFIG_HOME} ] && mkdir -p ${XDG_CONFIG_HOME}/crush && ln -sfv ${PWD}/crush/crushrc ${XDG_CONFIG_HOME}/crush/crushrc
 [ -d ${XDG_CONFIG_HOME} ] && mkdir -p ${XDG_CONFIG_HOME}/opencode && ln -sfv ${PWD}/opencode/opencode.json ${XDG_CONFIG_HOME}/opencode/opencode.json
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/opencode/tui.json ${XDG_CONFIG_HOME}/opencode/tui.json
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/nvim ${XDG_CONFIG_HOME}/nvim
