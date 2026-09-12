@@ -40,6 +40,10 @@ return {
         },
       },
       marksman = {},
+      -- harper-ls: 영어 스펠/문법 검사 (markdown, gitcommit, 코드 주석). 한글은 건드리지 않는다.
+      harper_ls = {
+        enabled = false,
+      },
       -- rumdl LSP: MD013(line-length) 규칙 자체를 비활성화한다.
       -- `rumdl server --config` CLI 플래그는 LSP 모드에서 무시되므로 반드시
       -- initializationOptions.settings 로 넘겨야 한다.

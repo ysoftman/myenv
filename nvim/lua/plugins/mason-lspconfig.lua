@@ -9,6 +9,7 @@ return {
       "yamlls",
       "bashls",
       "helm_ls",
+      "harper_ls",
     },
     automatic_installation = true,
   },
