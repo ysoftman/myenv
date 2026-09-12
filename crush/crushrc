@@ -4,7 +4,7 @@
 # --- models ---------------------------------------------------------------
 # hyper / bedrock 는 crush login, AWS 자격증명으로 이미 연결돼 있으므로 provider 추가 불필요.
 # 아래를 켜면 매 실행마다 슬롯이 고정된다 (ctrl+l 로 고른 값보다 config 가 우선).
-model large hyper/kimi-k3 --reasoning-effort max --max-tokens 16000
+model large hyper/kimi-k3 --reasoning-effort high
 # model small hyper/qwen3.8-max
 
 # --- permissions: 읽기 전용 도구만 승인 없이 ------------------------------
