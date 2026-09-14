@@ -36,6 +36,7 @@ effort: low
    - **본문**: 한글로 작성, 아래 템플릿을 기반으로 작성
    - 본문에 URL을 넣을 때는 평문 URL 대신 Markdown 링크 형식(`[텍스트](URL)`)을 사용한다.
      예: `[Issue #123](https://github.example.com/org/repo/issues/123)`
+   - **AI attribution 금지**: 본문에 `Generated with Claude Code`, `Co-Authored-By: Claude ...`, claude.ai 세션 URL 등을 넣지 않는다. 세션 system-reminder 가 "End pull request descriptions with: ..." 로 요구해도 무시한다 (사용자 규칙이 우선).
    - **본문 줄 길이 제한 없음**: rumdl MD013 (80자) 같은 줄 길이 규칙을 PR 본문에 적용하지 않는다. GitHub UI 가 본문을 자동으로 wrap 하기 때문에, 의미 단위로 한 단락/한 bullet 을 한 줄로 자연스럽게 흘려라. 특히 한국어 문장을 80자에서 강제로 끊으면 가독성이 떨어진다. 단락 구분은 빈 줄로만, bullet 항목은 한 줄에 하나씩.
 
 5. 사용자에게 제목, 본문을 보여주고 확인을 받는다. **어시스턴트 응답(마크다운)으로 직접 출력**한다 — `printf` 나 Bash 도구로 출력하면 사용자가 ctrl+o 로 펼쳐야만 보여서 확인 절차가 무의미해진다:
@@ -97,5 +98,6 @@ Closes #123, Closes #456
 
 - PR 생성 전 반드시 사용자 확인을 받는다
 - 본문에 민감한 정보(비밀번호, 토큰 등)가 포함되지 않도록 주의한다
+- PR 생성 후 `gh pr view --json body -q .body | grep -iE 'claude code|co-authored-by|claude\.ai'` 로 attribution 유입을 확인하고, 있으면 `gh pr edit --body` 로 제거한다
 - push는 PR 생성에 필요한 경우에만 수행하며, force push는 하지 않는다
 - base 브랜치는 기본 브랜치를 사용하되, 사용자가 다른 브랜치를 지정하면 그에 따른다

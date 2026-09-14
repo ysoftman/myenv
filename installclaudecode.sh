@@ -10,6 +10,8 @@ curl -fsSL https://claude.ai/install.sh | bash
 
 # Claude Code 기본 설정
 # .claude/settings.json 은 더 이상 dotfiles 로 관리하지 않으므로 jq 로 항목을 직접 설정한다.
+# attribution: 커밋/PR 에 Co-Authored-By, Claude-Session 등 AI attribution 을 넣지 않도록 전부 끈다.
+# https://code.claude.com/docs/en/settings-reference#attribution
 mkdir -p "${HOME}/.claude"
 SETTINGS_FILE="${HOME}/.claude/settings.json"
 STATUSLINE_CMD="bash -c 'cat | bash ${HOME}/.claude/statusline-command.sh 2>/dev/null'"
@@ -163,6 +165,7 @@ jq --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" --argjso
     | .env.MCP_TOOL_TIMEOUT = "60000"
     | .permissions.allow = ((.permissions.allow // []) + $allow | unique)
     | .spinnerVerbs = $spinner
+    | .attribution = {commit: "", pr: "", sessionUrl: false}
     | .hooks.PreToolUse = ((.hooks.PreToolUse // []) + $hooks.PreToolUse | unique)
     | .hooks.PostToolUseFailure = ((.hooks.PostToolUseFailure // []) + $hooks.PostToolUseFailure | unique)
 ' "${SETTINGS_FILE}" >"${tmp}" && mv "${tmp}" "${SETTINGS_FILE}"

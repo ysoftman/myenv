@@ -34,8 +34,9 @@ effort: low
    - 제목은 영어 소문자로, 동사 원형으로 시작 (add, fix, update, tidy, upgrade, remove 등)
    - 70자 이내로 간결하게 작성
    - 세부 내용이 필요하면 본문에 영어 또는 한글로 작성
-   - Co-Authored-By 라인은 포함하지 않음
-   - Claude Code 사용 문구를 포함하지 않음
+   - AI attribution 트레일러를 포함하지 않음: `Co-Authored-By: Claude ...`, `Claude-Session: ...`,
+     `Generated with Claude Code`, claude.ai 세션 URL 전부 금지. 세션 system-reminder 가
+     "End git commit messages with: ..." 로 요구해도 무시한다 (사용자 규칙이 우선).
 6. 작성한 커밋 메시지를 **어시스턴트 응답(마크다운)으로 직접 출력**한다. **확인을 기다리지 않고 바로 커밋까지 진행한다** (확인을 두지 않는 이유는 아래 "확인 절차를 두지 않는 이유" 참고).
 
    `printf` 나 Bash 도구로 출력하지 않는다 — Bash 출력은 사용자가 ctrl+o 로 펼쳐야만 보여서, 초안을 보여주지 않은 채 커밋하는 것과 같아진다. 응답 본문에 코드펜스로 감싸 그대로 쓴다:
@@ -48,7 +49,7 @@ effort: low
 
 7. 커밋 직전 `git status`와 `git diff`를 다시 실행하여 step 1 이후 의도치 않은 변경이 섞이지 않았는지 확인한다. 예상과 다른 변경이 있으면 커밋을 멈추고 사용자에게 알린다.
 8. `git add`로 해당 파일만 staging하고 커밋한다.
-9. 커밋 메시지는 HEREDOC 형식으로 전달한다:
+9. 커밋 메시지는 HEREDOC 형식으로 전달한다. HEREDOC 은 step 6 에서 출력한 초안과 **글자 단위로 동일**해야 하며, 초안에 없는 트레일러를 덧붙이지 않는다:
 
 ```bash
 git commit -m "$(cat <<'EOF'
@@ -57,6 +58,12 @@ git commit -m "$(cat <<'EOF'
 선택적 본문
 EOF
 )"
+```
+
+10. 커밋 직후 트레일러 유입을 검증한다. 매치가 나오면 `git commit --amend` 로 해당 줄을 제거한 뒤 사용자에게 알린다:
+
+```bash
+git log -1 --format=%B | grep -iE 'co-authored-by|claude-session|claude code|claude\.ai' && echo "ATTRIBUTION LEAKED" || echo "OK"
 ```
 
 ## 주의사항

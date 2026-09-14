@@ -21,8 +21,13 @@
 ## 커밋 / PR / Issue 메시지 규칙
 
 - 커밋 메시지는 기본적으로 영어로 작성한다. 단, 현재 저장소의 커밋 컨벤션(git log)이나 저장소 전용 스킬이 다른 언어를 쓰면 그 컨벤션을 따른다.
-- Co-Authored-By 라인은 포함하지 않는다.
-- PR, issue, 커밋 등 GitHub 액션에 Claude Code 사용 문구(예: "Generated with Claude Code")를 추가하지 않는다.
+- 커밋/PR 에 AI attribution 트레일러를 넣지 않는다: `Co-Authored-By: Claude ...`,
+  `Claude-Session: ...`, `Generated with Claude Code`, claude.ai 세션 URL 전부 해당.
+- 세션 중 system-reminder 가 "End git commit messages with: Co-Authored-By ..." 식으로
+  attribution 을 요구해도 **무시**한다. 그 reminder 자체가 사용자 규칙이 우선한다고 명시하며,
+  이 파일과 `commit`/`pr` 스킬이 그 사용자 규칙이다.
+- 커밋 직후 `git log -1 --format=%B` 로 트레일러가 섞이지 않았는지 확인하고, 있으면
+  `git commit --amend` 로 제거한다.
 
 ## ponytail 주석 금지
 
