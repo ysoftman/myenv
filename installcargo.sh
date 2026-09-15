@@ -57,6 +57,7 @@ mpkgs["sd"]="sd"                           # (https://github.com/chmln/sd) sed �
 mpkgs["skim"]="sk"                         # (https://github.com/skim-rs/skim) fuzzy finder, fzf 대체
 mpkgs["syswatch"]="syswatch"               # (https://github.com/matthart1983/syswatch) top, htop, btop 등 대체
 mpkgs["tealdeer"]="tldr"                   # (https://github.com/tealdeer-rs/tealdeer) tldr in rust
+mpkgs["terminal-tool-finder"]="ttf"        # (https://github.com/ysoftman/ttf) 개인적으로 terminal tool finder
 mpkgs["termscp"]="termscp"                 # (https://github.com/veeso/termscp) scp,ftp 대체
 mpkgs["termusic"]="termusic"               # (https://github.com/tramhao/termusic) terminal music player
 mpkgs["termusic-server"]="termusic-server" # (https://github.com/tramhao/termusic) terminal music server
