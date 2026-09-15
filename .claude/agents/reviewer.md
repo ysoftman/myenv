@@ -61,21 +61,19 @@ memory: user
 
 ## 코멘트 작성 위임
 
-호출자가 코멘트 작성을 위임하면, 리뷰 판단이 아니라 **승인된 코멘트를 PR에 다는 작업**을 수행한다. 이때는 아래 출력 형식(상세 섹션/표)을 내지 않고, 코멘트 작성 결과만 반환한다.
+호출자가 코멘트 작성을 위임하면, 리뷰 판단이 아니라 **승인된 코멘트를 게시 가능한 형태로 검증·구성하는 작업**을 수행한다. 이때는 아래 출력 형식(상세 섹션/표)을 내지 않고, 구성 결과만 반환한다. **게시(`gh api` POST/PATCH)는 하지 않는다** — 서브에이전트 세션은 권한 프롬프트를 띄울 수 없어 External System Writes 로 차단된다(실측: 2026-09-15). 게시는 호출자(메인)가 반환값으로 수행한다.
 
 입력으로 받는 것: PR 번호와 repo(owner/repo), 대상 파일 경로와 line 또는 `start_line`/`line` 범위, 승인된 코멘트 본문, suggestion 적용 시 대체 코드.
 
-작성 규칙:
+구성 규칙:
 
-- `gh api`로 해당 라인에 리뷰 코멘트를 작성한다. 본문은 임시 파일에 써서 **`-F body=@<file>`**(대문자 F — `@file` 확장) 또는 `--input <json>` 으로 넘긴다. **소문자 `-f body=@<file>` 은 금지** — `@` 를 펼치지 않아 파일 경로 문자열이 그대로 게시된다(실측 사고: 2026-09-14).
 - 코멘트 본문은 호출자가 다른 언어를 지정하지 않는 한 한국어로 작성한다.
 - 코멘트 본문은 호출자가 지정한 Conventional Comments 접두어(`issue (blocking):` / `question:` / `suggestion (non-blocking):`)로 시작한다.
-- 코드 변경으로 바로 고칠 수 있는 코멘트는 GitHub suggestion 코드 블록(```suggestion ... ```)을 우선 포함한다. 수정이 여러 줄이면 `start_line`/`line` 범위를 지정한 range review comment로 작성해 바로 적용 가능하게 한다.
-- suggestion 범위가 정확히 맞지 않거나 여러 파일 수정이 필요한 경우에만 일반 코드 블록/설명으로 대체하고, 그 이유를 짧게 덧붙인다.
-- 작성 전 line/range와 대체 코드가 실제 diff에 맞는지 검증하되, **절대 `gh pr checkout`/`git checkout`을 하지 않는다**. 백그라운드로, 여러 인스턴스가 동시에 도는 경로라 checkout은 호출자의 작업 브랜치를 바꾸고 인스턴스끼리 충돌시킨다. 검증은 checkout 없는 방식으로만 한다: `gh pr diff <number>`의 hunk 라인 번호, 또는 `git show <headSha>:<path>` / `gh api .../contents?ref=<headSha>`로 대상 파일을 읽어 확인한다(`<headSha>`는 위 Methodology의 "head SHA 도출" 방식으로 PR 번호에서 얻는다). 검증 실패 시 코멘트를 작성하지 말고 실패 사유를 반환한다.
-- checkout을 하지 않으므로 작업트리/브랜치는 건드리지 않는다. 임시 파일을 만들었다면 repo 밖(`/tmp` 계열)에 만들고 종료 전 삭제한다.
-- **게시 후 검증(필수)**: 응답의 `.body` (또는 `gh api repos/{owner}/{repo}/pulls/comments/<id> -q .body`)를 다시 읽어 승인된 본문과 첫 줄이 일치하는지 확인한다. 불일치하면 같은 id 에 `-X PATCH -F body=@<file>` 로 정정하고, 정정도 실패하면 실패 사유와 코멘트 id 를 반환한다. 검증 없이 성공을 보고하지 않는다.
-- 결과로 코멘트 URL(또는 실패 사유)을 반환한다.
+- 코드 변경으로 바로 고칠 수 있는 코멘트는 GitHub suggestion 코드 블록(```suggestion ... ```)을 우선 포함한다. 수정이 여러 줄이면 `start_line`/`line` 범위를 지정한 range review comment 로 구성해 바로 적용 가능하게 한다. suggestion 은 대상 range 의 head 원문을 **바이트 그대로** 기반으로 만든다(변수명·시그니처가 승인본 가정과 다르면 실제 코드에 맞춰 조정하고 그 사실을 본문에 한 줄 명시).
+- suggestion 범위가 정확히 맞지 않거나(중간에 무관한 코드가 끼는 경우 포함) 여러 파일 수정이 필요한 경우에만 일반 코드 블록/설명으로 대체하고, 그 이유를 짧게 덧붙인다.
+- line/range 와 대체 코드가 실제 diff 에 맞는지 검증하되, **절대 `gh pr checkout`/`git checkout`을 하지 않는다**. 백그라운드로, 여러 인스턴스가 동시에 도는 경로라 checkout 은 호출자의 작업 브랜치를 바꾸고 인스턴스끼리 충돌시킨다. 검증은 checkout 없는 방식으로만 한다: `gh pr diff <number>`의 hunk 라인 번호, 또는 `git show <headSha>:<path>` / `gh api .../contents?ref=<headSha>`로 대상 파일을 읽어 확인한다(`<headSha>`는 위 Methodology 의 "head SHA 도출" 방식으로 PR 번호에서 얻는다). 대상 라인은 diff 의 RIGHT side 에 존재해야 한다. 호출자가 준 라인이 틀렸으면 실제 라인으로 보정하고 본문 내 라인 표기(`:N`)도 함께 고친다. 검증 실패 시 본문을 구성하지 말고 실패 사유를 반환한다.
+- checkout 을 하지 않으므로 작업트리/브랜치는 건드리지 않는다. 본문은 repo 밖(세션 scratchpad)에 파일로 저장하고 **삭제하지 않는다** — 호출자가 그 파일로 게시한다.
+- 결과로 다음을 반환한다: 본문 파일 절대 경로, `path`, `line`(+ range 면 `start_line`), `side`, suggestion 포함 여부, 승인본 대비 보정 요지(라인 번호 정정·suggestion 생략·변수명 조정 등, 없으면 "없음"). 실패 시 실패 사유.
 
 ## Output Format
 
