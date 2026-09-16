@@ -19,7 +19,8 @@ elif [ ! -z $HERDR_ENV ]; then
 fi
 
 os_name=$(uname -o | tr '[:upper:]' '[:lower:]')
-myenv_path="$HOME/workspace/myenv"
+# export: exec 되는 zellij server 가 상속해 zjstatus 명령(mac.kdl)에서 참조한다.
+export myenv_path="$HOME/workspace/myenv"
 
 if [ -z $multiplexer_already_started ]; then
     # 터미널 시작시 바로 tmux 전환하면 signal 6(abort) 되는 환경도 있어 물어본다.

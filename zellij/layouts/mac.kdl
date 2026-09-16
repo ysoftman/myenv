@@ -87,21 +87,18 @@ layout {
 
             // interval in seconds, between two command runs
             // Set to "0" for running the command once. Only non-negative integers are allowed.
-            // top -l 0 은 중지 없이 계속 샘플링한다.
-            // top -l 1 로 샘플링을 한번 했는데 terminal buffer, redraw 등의 이유로 mac OS 에서 top 이 안끝는 경우 발생
-            // -n 0 으로 프로세스 행을 0개로 줄여 헤더(CPU usage, PhysMem)만 빠르게 받는다.
-            // timeout 으로 3초를 넘기면 종료한다 (1초는 가끔 top 이 살짝 넘겨 빈 출력이 됨).
+            // zjstatus 는 결과가 돌아올 때까지 매 render 마다 명령을 다시 띄운다(in-flight 가드 없음).
+            // top(1초 이상)처럼 느린 명령은 폭주하므로 즉시 끝나는 ps 합산(코어 수로 나눔)을 쓴다.
             // zjstatus 는 셸을 거치지 않고 명령을 실행하므로 fallback(|| echo -) 은 bash -c 안쪽에 둔다.
             // awk 의 $N 은 백슬래시 없이 그대로 둔다 — \$N 으로 escape 하면 macOS awk 가 syntax error.
-            // timeout 명령어는 brew install coreutils 로 설치
-            command_cpu_command    "bash -c \"timeout 3 top -l 1 -n 0 | awk '/CPU usage/ {print $3}' || echo -\""
+            command_cpu_command    "bash -c \"ps -A -o %cpu= | awk -v n=$(sysctl -n hw.ncpu) -v p=% -v OFMT='%.1f' '{s+=$1} END {print s/n p}' || echo -\""
             command_cpu_format     "#[bg=$bg0,fg=$red]#[fg=$crust,bg=$red] #[bg=$surface1,fg=$red,bold] {stdout}#[bg=$bg0,fg=$surface1]"
             command_cpu_interval   "5"
             command_cpu_rendermode "static"
 
 
-            // mac 에선 cache/buffer 가 포함된 메모리로 실제 사용메모리 보다 크게 보인다.
-            command_mem_command    "bash -c \"(source ${myenv_path}/sysinfo.sh && mac_used_mem) || (timeout 3 top -l 1 -n 0 | awk '/PhysMem/ {print $2,$3}') || echo -\""
+            // myenv_path 는 .zshrc 에서 export 되어 zellij server 환경으로 전달된다.
+            command_mem_command    "bash -c \"(source ${myenv_path}/sysinfo.sh && mac_used_mem) || echo -\""
             // mac_used_mem()에서 cache/buffer 를 제외한 사용 메모리 계산
             command_mem_format     "#[bg=$bg0,fg=$green]#[fg=$crust,bg=$green] #[bg=$surface1,fg=$green,bold] {stdout}#[bg=$bg0,fg=$surface1]"
             command_mem_interval   "10"
