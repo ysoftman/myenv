@@ -24,11 +24,11 @@ myenv_path="$HOME/workspace/myenv"
 if [ -z $multiplexer_already_started ]; then
     # 터미널 시작시 바로 tmux 전환하면 signal 6(abort) 되는 환경도 있어 물어본다.
     # t=tmux, z=zellij, n=실행 안 함. 빈 입력은 default(tmux).
-    echo "start multiplexer? (t=tmux / z=zellij / h=herdr / n=no, default:t)"
+    echo "start multiplexer? (t=tmux / z=zellij / h=herdr / n=no, default:zellij)"
     read answer
     case "$(echo $answer | tr '[:upper:]' '[:lower:]')" in
-        ""|t|tmux)  multiplexer="tmux" ;;
-        z|zellij)   multiplexer="zellij" ;;
+        t|tmux)  multiplexer="tmux" ;;
+        ""|z|zellij)   multiplexer="zellij" ;;
         h|herdr)    multiplexer="herdr" ;;
         *)          multiplexer="" ;;
     esac
