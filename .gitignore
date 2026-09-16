@@ -16,4 +16,5 @@ ghostty/ghostty-shaders
 .claude-flow/
 
 # zellaude 플러그인이 런타임에 생성하는 hook 스크립트/설정 (~/.config/zellij -> zellij/)
-zellij/plugins/
+zellij/plugins/*
+!zellij/plugins/zellaude.json
