@@ -293,8 +293,15 @@ load_plugins {
 
 // Choose the theme that is specified in the themes section.
 // Default: default
-//
-theme "dracula"
+// zellij 바이너리에 내장된 테마
+// ao ayu-dark ayu-light ayu-mirage
+// catppuccin-frappe catppuccin-latte catppuccin-macchiato catppuccin-mocha
+// cyber-noir dayfox dracula everforest-dark everforest-light
+// gruber-darker gruvbox-light iceberg-light kanagawa lucario menace
+// night-owl nightfox one-half-dark onedark retro-wave
+// solarized-dark solarized-light terafox
+// tokyo-night tokyo-night-dark tokyo-night-light tokyo-night-storm vesper
+theme "tokyo-night-dark"
 
 // Choose the base input mode of zellij.
 // Default: normal
