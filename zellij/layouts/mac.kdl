@@ -90,9 +90,9 @@ layout {
             // claude_zjstatus_hook.sh: Claude Code hook 으로 세션별 상태를 쓰고, render 인자로 그 상태를 아이콘으로 출력한다. 세션이 없으면 위젯 숨김.
             // interval 최소 단위가 1초라 working spinner 는 1fps 로 돈다.
             command_claude_command           "bash -c \"${myenv_path}/zellij/claude_zjstatus_hook.sh render\""
-            command_claude_format            "#[bg=$bg0,fg=$peach]󰚩#[bg=$surface1] {stdout}#[bg=$bg0,fg=$surface1]"
+            command_claude_format            "{stdout}"
             command_claude_interval          "1"
-            command_claude_rendermode        "dynamic"
+            command_claude_rendermode        "dynamic" // dynamic 모드에서 command_claude_format 에 적힌 #[..] 색 태그를 전부 버리고, stdout 안에 들어 있는 #[..] 태그만 적용
             command_claude_hideonemptystdout "true"
 
             // interval in seconds, between two command runs

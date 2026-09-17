@@ -7,16 +7,18 @@ dir=/tmp/claude-zjstatus
 if [[ $1 == render ]]; then
     frames=(· ✢ ✳ ✶ ✻ ✽ ✻ ✶ ✳ ✢)
     spin=${frames[$(date +%s) % ${#frames[@]}]}
+    out='#[bg=$bg0,fg=$peach]󰚩 '
     for f in "$dir"/*; do
         [[ -f $f ]] || continue
         read -r proj state <"$f"
         case $state in
-            working) icon='#[bg=$surface1,fg=$yellow,bold]'$spin ;;
-            blocked) icon='#[bg=$surface1,fg=$red,bold]!' ;;
-            *) icon='#[bg=$surface1,fg=$green]●' ;;
+            working) icon='#[bg=$bg0,fg=$yellow]'$spin ;;
+            blocked) icon='#[bg=$bg0,fg=$red]!' ;;
+            *) icon='#[bg=$bg0,fg=$green]●' ;;
         esac
-        out+='#[bg=$surface1,fg=$text]'"$proj $icon "
+        out+='#[bg=$bg0,fg=$text]'"$proj$icon "
     done
+    out+=' '
     printf '%s' "${out% }"
     exit 0
 fi
