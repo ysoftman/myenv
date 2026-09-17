@@ -44,6 +44,13 @@ HOOKS=$(
 }
 EOF
 )
+# zjstatus 상태 표시용 hook: Claude Code 이벤트를 claude_zjstatus_hook.sh 가 세션별 상태 파일로 기록한다.
+# shellcheck disable=SC2154  # myenv_path 는 .zshrc 에서 export 되는 외부 변수
+ZJSTATUS_HOOKS=$(jq -nc --arg cmd "${myenv_path}/zellij/claude_zjstatus_hook.sh" '
+    {type: "command", command: $cmd, async: true, timeout: 5} as $h
+    | (["SessionStart", "UserPromptSubmit", "PreToolUse", "PostToolUse", "Stop", "SessionEnd"] | map({(.): [{hooks: [$h]}]}) | add)
+    + {Notification: [{matcher: "permission_prompt|idle_prompt", hooks: [$h]}]}
+')
 PERMISSIONS_ALLOW='[
       "Bash(/bin/bash *)",
       "Bash(/usr/bin/ruby *)",
@@ -158,7 +165,7 @@ PERMISSIONS_ALLOW='[
 echo "Claude Code 설정을 적용합니다..."
 [[ -s "${SETTINGS_FILE}" ]] || echo '{}' >"${SETTINGS_FILE}"
 tmp=$(mktemp)
-jq --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" --argjson spinner "${SPINNER_VERBS}" --argjson hooks "${HOOKS}" '
+jq --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" --argjson spinner "${SPINNER_VERBS}" --argjson hooks "${HOOKS}" --argjson zjhooks "${ZJSTATUS_HOOKS}" '
     .statusLine = {type: "command", command: $cmd}
     | .env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1"
     | .env.MCP_TIMEOUT = "30000"
@@ -166,8 +173,7 @@ jq --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" --argjso
     | .permissions.allow = ((.permissions.allow // []) + $allow | unique)
     | .spinnerVerbs = $spinner
     | .attribution = {commit: "", pr: "", sessionUrl: false}
-    | .hooks.PreToolUse = ((.hooks.PreToolUse // []) + $hooks.PreToolUse | unique)
-    | .hooks.PostToolUseFailure = ((.hooks.PostToolUseFailure // []) + $hooks.PostToolUseFailure | unique)
+    | .hooks = reduce ([$hooks, $zjhooks][] | to_entries[]) as $e (.hooks // {}; .[$e.key] = ((.[$e.key] // []) + $e.value | unique))
 ' "${SETTINGS_FILE}" >"${tmp}" && mv "${tmp}" "${SETTINGS_FILE}"
 
 # Atlassian mcp 설치
