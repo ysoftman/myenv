@@ -42,7 +42,7 @@ layout {
             color_mantle "#181825"
             color_crust "#11111b"
 
-            format_left   "#[bg=$bg0,fg=$sapphire]#[bg=$sapphire,fg=$crust,bold] zellij ({session}) #[bg=$bg0]{mode}#[bg=$bg0] {tabs}"
+            format_left   "#[bg=$bg0,fg=$sapphire]#[bg=$sapphire,fg=$crust,bold] {session} #[bg=$bg0]{mode}#[bg=$bg0] {tabs}"
             format_center "{notifications}"
             format_right "{command_claude}{command_cpu}{command_mem}{command_disk}{command_user}{datetime}"
             format_space  "#[bg=$bg0]"
@@ -90,7 +90,7 @@ layout {
             // claude_zjstatus_hook.sh: Claude Code hook 으로 세션별 상태를 쓰고, render 인자로 그 상태를 아이콘으로 출력한다. 세션이 없으면 위젯 숨김.
             // interval 최소 단위가 1초라 working spinner 는 1fps 로 돈다.
             command_claude_command           "bash -c \"${myenv_path}/zellij/claude_zjstatus_hook.sh render\""
-            command_claude_format            "#[bg=$bg0,fg=$lavender]#[fg=$crust,bg=$lavender]󰚩#[bg=$surface1] {stdout}#[bg=$bg0,fg=$surface1]"
+            command_claude_format            "#[bg=$bg0,fg=$peach]󰚩#[bg=$surface1] {stdout}#[bg=$bg0,fg=$surface1]"
             command_claude_interval          "1"
             command_claude_rendermode        "dynamic"
             command_claude_hideonemptystdout "true"
@@ -102,7 +102,7 @@ layout {
             // zjstatus 는 셸을 거치지 않고 명령을 실행하므로 fallback(|| echo -) 은 bash -c 안쪽에 둔다.
             // awk 의 $N 은 백슬래시 없이 그대로 둔다 — \$N 으로 escape 하면 macOS awk 가 syntax error.
             command_cpu_command    "bash -c \"ps -A -o %cpu= | awk -v n=$(sysctl -n hw.ncpu) -v p=% -v OFMT='%.1f' '{s+=$1} END {print s/n p}' || echo -\""
-            command_cpu_format     "#[bg=$bg0,fg=$red]#[fg=$crust,bg=$red] #[bg=$surface1,fg=$red,bold] {stdout}#[bg=$bg0,fg=$surface1]"
+            command_cpu_format     "#[bg=$bg0,fg=$red]#[fg=$crust,bg=$red] #[bg=$surface1,fg=$red] {stdout}#[bg=$bg0,fg=$surface1]"
             command_cpu_interval   "5"
             command_cpu_rendermode "static"
 
@@ -110,12 +110,12 @@ layout {
             // myenv_path 는 .zshrc 에서 export 되어 zellij server 환경으로 전달된다.
             command_mem_command    "bash -c \"(source ${myenv_path}/sysinfo.sh && mac_used_mem) || echo -\""
             // mac_used_mem()에서 cache/buffer 를 제외한 사용 메모리 계산
-            command_mem_format     "#[bg=$bg0,fg=$green]#[fg=$crust,bg=$green] #[bg=$surface1,fg=$green,bold] {stdout}#[bg=$bg0,fg=$surface1]"
+            command_mem_format     "#[bg=$bg0,fg=$green]#[fg=$crust,bg=$green] #[bg=$surface1,fg=$green] {stdout}#[bg=$bg0,fg=$surface1]"
             command_mem_interval   "10"
             command_mem_rendermode "static"
 
             command_disk_command    "bash -c \"df -h / | awk 'NR==2 {print $4}' || echo -\""
-            command_disk_format     "#[bg=$bg0,fg=$sky]#[fg=$crust,bg=$sky]󰋊 #[bg=$surface1,fg=$sky,bold] {stdout} avail#[bg=$bg0,fg=$surface1]"
+            command_disk_format     "#[bg=$bg0,fg=$sky]#[fg=$crust,bg=$sky]󰋊 #[bg=$surface1,fg=$sky] {stdout} avail#[bg=$bg0,fg=$surface1]"
             command_disk_interval   "60"
             command_disk_rendermode "static"
 
@@ -126,12 +126,12 @@ layout {
             // command_host_rendermode "static"
 
             command_user_command    "bash -c \"whoami || echo -\""
-            command_user_format     "#[bg=$bg0,fg=$flamingo]#[fg=$crust,bg=$flamingo]󰀄 #[bg=$surface1,fg=$flamingo,bold] {stdout}#[bg=$bg0,fg=$surface1]"
+            command_user_format     "#[bg=$bg0,fg=$flamingo]#[fg=$crust,bg=$flamingo]󰀄 #[bg=$surface1,fg=$flamingo] {stdout}#[bg=$bg0,fg=$surface1]"
             command_user_interval   "10"
             command_user_rendermode "static"
 
             // datetime          "{format}"
-            datetime          "#[bg=$bg0,fg=$mauve]#[bg=$mauve,fg=$crust] #[bg=$surface1,fg=$mauve,bold] {format}#[bg=$bg0,fg=$surface1]"
+            datetime          "#[bg=$bg0,fg=$mauve]#[bg=$mauve,fg=$crust] #[bg=$surface1,fg=$mauve] {format}#[bg=$bg0,fg=$surface1]"
             datetime_format   "%Y-%m-%d 󰅐 %H:%M"
             datetime_timezone "Asia/Seoul"
         }
