@@ -102,7 +102,7 @@ layout {
             // zjstatus 는 셸을 거치지 않고 명령을 실행하므로 fallback(|| echo -) 은 bash -c 안쪽에 둔다.
             // awk 의 $N 은 백슬래시 없이 그대로 둔다 — \$N 으로 escape 하면 macOS awk 가 syntax error.
             command_cpu_command    "bash -c \"ps -A -o %cpu= | awk -v n=$(sysctl -n hw.ncpu) -v p=% '{s+=$1} END {print int(s/n+0.5) p}' || echo -\""
-            command_cpu_format     "#[bg=$bg0,fg=$red]#[fg=$crust,bg=$red] #[bg=$surface1,fg=$red] {stdout}#[bg=$bg0,fg=$surface1]"
+            command_cpu_format     "#[bg=$bg0,fg=$red]#[fg=$crust,bg=$red] #[bg=$red,fg=$crust]{stdout}#[bg=$bg0,fg=$red]"
             command_cpu_interval   "5"
             command_cpu_rendermode "static"
 
@@ -110,13 +110,13 @@ layout {
             // myenv_path 는 .zshrc 에서 export 되어 zellij server 환경으로 전달된다.
             command_mem_command    "bash -c \"(source ${myenv_path}/sysinfo.sh && mac_used_mem | rg -o '[0-9]+%') || echo -\""
             // mac_used_mem()에서 cache/buffer 를 제외한 사용 메모리 계산
-            command_mem_format     "#[bg=$bg0,fg=$green]#[fg=$crust,bg=$green] #[bg=$surface1,fg=$green] {stdout}#[bg=$bg0,fg=$surface1]"
+            command_mem_format     "#[bg=$bg0,fg=$green]#[fg=$crust,bg=$green] #[bg=$green,fg=$crust]{stdout}#[bg=$bg0,fg=$green]"
             command_mem_interval   "10"
             command_mem_rendermode "static"
 
             // df 는 purgeable(정리 가능) 공간을 사용 가능 용량에 넣지 않아 Stats/Finder 보다 사용률이 약 3% 높게 나온다.
             command_disk_command    "bash -c \"df -k / | awk -v p=% 'NR==2 {print int(($2-$4)/$2*100+0.5) p}' || echo -\""
-            command_disk_format     "#[bg=$bg0,fg=$sky]#[fg=$crust,bg=$sky]󰋊 #[bg=$surface1,fg=$sky] {stdout}#[bg=$bg0,fg=$surface1]"
+            command_disk_format     "#[bg=$bg0,fg=$sky]#[fg=$crust,bg=$sky]󰋊 #[bg=$sky,fg=$crust]{stdout}#[bg=$bg0,fg=$sky]"
             command_disk_interval   "60"
             command_disk_rendermode "static"
 
@@ -127,12 +127,12 @@ layout {
             // command_host_rendermode "static"
 
             command_user_command    "bash -c \"whoami || echo -\""
-            command_user_format     "#[bg=$bg0,fg=$flamingo]#[fg=$crust,bg=$flamingo]󰀄 #[bg=$surface1,fg=$flamingo] {stdout}#[bg=$bg0,fg=$surface1]"
+            command_user_format     "#[bg=$bg0,fg=$flamingo]#[fg=$crust,bg=$flamingo]󰀄 #[bg=$flamingo,fg=$crust]{stdout}#[bg=$bg0,fg=$flamingo]"
             command_user_interval   "10"
             command_user_rendermode "static"
 
             // datetime          "{format}"
-            datetime          "#[bg=$bg0,fg=$mauve]#[bg=$mauve,fg=$crust] #[bg=$surface1,fg=$mauve] {format}#[bg=$bg0,fg=$surface1]"
+            datetime          "#[bg=$bg0,fg=$mauve]#[bg=$mauve,fg=$crust] #[bg=$mauve,fg=$crust]{format}#[bg=$bg0,fg=$mauve]"
             datetime_format   "%Y-%m-%d 󰅐 %H:%M"
             datetime_timezone "Asia/Seoul"
         }
