@@ -7,6 +7,8 @@ layout {
     // }
     // 아이콘 참조: https://www.nerdfonts.com/cheat-sheet > 검색 > icon 복사
     pane size=1 borderless=true {
+        // zellij 는 plugin URL 해시 이름의 캐시 파일을 한 번 받으면 다시 받지 않아 releases/latest 도 첫 다운로드 버전에 고정된다.
+        // 업데이트: rm -rf ~/Library/Caches/org.Zellij-Contributors.Zellij 후 세션 재시작(플러그인 권한은 다시 y 로 승인).
         plugin location="https://github.com/dj95/zjstatus/releases/latest/download/zjstatus.wasm" {
             // formatting can be done with #[..]
             // widgets and properties are surrounded by {..}
@@ -88,7 +90,7 @@ layout {
             // claude_zjstatus_hook.sh: Claude Code hook 으로 세션별 상태를 쓰고, render 인자로 그 상태를 아이콘으로 출력한다. 세션이 없으면 위젯 숨김.
             // interval 최소 단위가 1초라 working spinner 는 1fps 로 돈다.
             command_claude_command           "bash -c \"${myenv_path}/zellij/claude_zjstatus_hook.sh render\""
-            command_claude_format            "#[bg=$bg0,fg=$peach]#[fg=$crust,bg=$peach]󰚩 #[bg=$surface1] {stdout}#[bg=$bg0,fg=$surface1]"
+            command_claude_format            "#[bg=$bg0,fg=$lavender]#[fg=$crust,bg=$lavender]󰚩#[bg=$surface1] {stdout}#[bg=$bg0,fg=$surface1]"
             command_claude_interval          "1"
             command_claude_rendermode        "dynamic"
             command_claude_hideonemptystdout "true"
