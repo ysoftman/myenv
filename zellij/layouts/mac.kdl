@@ -108,7 +108,7 @@ layout {
 
 
             // myenv_path 는 .zshrc 에서 export 되어 zellij server 환경으로 전달된다.
-            command_mem_command    "bash -c \"(source ${myenv_path}/sysinfo.sh && mac_used_mem) || echo -\""
+            command_mem_command    "bash -c \"(source ${myenv_path}/sysinfo.sh && mac_used_mem | rg -o '[0-9]+%') || echo -\""
             // mac_used_mem()에서 cache/buffer 를 제외한 사용 메모리 계산
             command_mem_format     "#[bg=$bg0,fg=$green]#[fg=$crust,bg=$green] #[bg=$surface1,fg=$green] {stdout}#[bg=$bg0,fg=$surface1]"
             command_mem_interval   "10"
