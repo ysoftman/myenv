@@ -126,10 +126,6 @@ layout {
             datetime_timezone "Asia/Seoul"
         }
     }
-    // zellaude: 탭별 Claude Code 활동 표시 탭바 (첫 로드 시 ~/.claude/settings.json 에 hook 자동 등록)
-    pane size=1 borderless=true {
-        plugin location="https://github.com/ishefi/zellaude/releases/latest/download/zellaude.wasm"
-    }
     pane
     pane size=1 borderless=true {
         plugin location="zellij:status-bar"
@@ -139,10 +135,6 @@ layout {
     tab_template name="ui" {
         pane size=1 borderless=true {
             plugin location="tab-bar"
-        }
-        // zellaude: 탭별 Claude Code 활동 표시 탭바 (첫 로드 시 ~/.claude/settings.json 에 hook 자동 등록)
-        pane size=1 borderless=true {
-            plugin location="https://github.com/ishefi/zellaude/releases/latest/download/zellaude.wasm"
         }
         children
         pane size=1 borderless=true {
