@@ -1,15 +1,20 @@
 #!/usr/bin/env bash
 # 인자 없음: Claude Code hook. 세션별 상태 파일("<proj> <working|idle|blocked>")을 쓴다.
-# render: zjstatus command_claude 위젯(rendermode dynamic). 상태 파일을 아이콘으로 출력한다.
+# render: zjstatus command_claude 위젯(rendermode dynamic). 상태 파일을 아이콘으로 출력한다. ~/.claude/sessions 에 없는(죽은) 세션 파일은 지운다.
 #   working: 노란 spinner(Claude Code 와 같은 프레임), idle: 초록 ●, blocked(권한 대기): 빨간 !
 # shellcheck disable=SC2016  # $surface1 등은 zjstatus 색 변수라 리터럴로 출력한다.
 dir=/tmp/claude-zjstatus
 if [[ $1 == render ]]; then
     frames=(· ✢ ✳ ✶ ✻ ✽ ✻ ✶ ✳ ✢)
     spin=${frames[$(date +%s) % ${#frames[@]}]}
+    live=" $(jq -r '"\(.pid) \(.sessionId)"' ~/.claude/sessions/*.json 2>/dev/null | while read -r pid sid; do kill -0 "$pid" 2>/dev/null && printf '%s ' "$sid"; done)"
     out='#[bg=$bg0,fg=$peach]󰚩 '
     for f in "$dir"/*; do
         [[ -f $f ]] || continue
+        if [[ -d ~/.claude/sessions && $live != *" ${f##*/} "* ]]; then
+            rm -f "$f"
+            continue
+        fi
         read -r proj state <"$f"
         case $state in
             working) icon='#[bg=$bg0,fg=$yellow]'$spin ;;
