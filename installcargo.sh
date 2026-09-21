@@ -42,6 +42,7 @@ mpkgs["mise"]="mise"                       # (https://github.com/jdx/mise) node(
 mpkgs["nbping"]="nbping"                   # (https://github.com/hanshuaikang/NBping) ping 대체
 mpkgs["netwatch-tui"]="netwatch"           # (https://github.com/matthart1983/netwatch) netstat, iftop, bandwhich 대체
 mpkgs["nu"]="nu"                           # (https://github.com/nushell/nushell) bash 대체
+mpkgs["numbat-cli"]="numbat"               # (https://github.com/sharkdp/numbat) bc, calc 대체
 mpkgs["oha"]="oha"                         # (https://github.com/hatoo/oha) 웹 부하 툴
 mpkgs["ohmystock"]="ohmystock"             # (https://github.com/ysoftman/ohmystock) 개인적으로 만든 주식값 파악
 mpkgs["onefetch"]="onefetch"               # (https://github.com/o2sh/onefetch) git 저장소 neofetch
