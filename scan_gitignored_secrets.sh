@@ -187,7 +187,6 @@ gitignored_files() {
 copy_hit_files_to_clipboard() {
     local entry
     local path
-    local count
 
     ((${#HIT_PATHS[@]} > 0)) || return 0
 
@@ -197,15 +196,14 @@ copy_hit_files_to_clipboard() {
     fi
 
     if {
-        printf 'secret-like files found by %s\n' "$(basename "$0")"
-        printf 'root: %s\n' "$ROOT"
-        printf 'values below are copied to clipboard only, not printed by the scanner\n'
+        printf '# secret-like files found by %s\n' "$(basename "$0")"
+        printf '# root: %s\n' "$ROOT"
+        printf '# values below are copied to clipboard only, not printed by the scanner\n'
         for entry in "${HIT_PATHS[@]}"; do
             path=${entry%:*}
-            count=${entry##*:}
-            printf '\n===== %s (%s match lines) =====\n' "$path" "$count"
+            printf "\nmkdir -p %q && cat > %q << 'SECRET_EOF'\n" "${path%/*}" "$path"
             cat -- "$path"
-            printf '\n'
+            printf "\nSECRET_EOF"
         done
     } | pbcopy; then
         print_green_msg "찾은 secret 파일 경로와 내용을 pbcopy로 복사했습니다"
