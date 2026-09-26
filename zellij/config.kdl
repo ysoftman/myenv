@@ -350,6 +350,7 @@ theme "tokyo-night-dark"
 
 // pane border(테두리선) 보이기(v0.45.0 이상)
 // pane_frame_style "full"
+pane_frame_style "titles"
 
 // When attaching to an existing session with other users,
 // should the session be mirrored (true)
