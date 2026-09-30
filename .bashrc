@@ -16,3 +16,10 @@ myenv_path="$HOME/workspace/myenv"
 # mise
 [ -f ~/.local/bin/mise ] && eval "$(~/.local/bin/mise activate bash)"
 [ -f /opt/homebrew/bin/mise ] && eval "$(/opt/homebrew/bin/mise activate bash)"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# xfetch path
+export PATH="/home/ysoftman/.local/bin:$PATH"
