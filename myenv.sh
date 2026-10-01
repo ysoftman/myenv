@@ -687,15 +687,16 @@ function welcome_message() {
         fi
         eval fastfetch "${logo_args} --logo ${myenv_path}/xelloss.jpg"
         unset logo_args
-    elif which neofetch >/dev/null 2>&1; then
-        backend_arg=""
-        if [[ $term_program_name == *"iterm"* || $term_program_name == *"wezterm"* ]]; then
-            backend_arg="--backend iterm2"
-        elif [[ $term_program_name == *"kitty"* || $term_program_name == "ghostty" ]]; then
-            backend_arg="--backend kitty"
-        fi
-        eval neofetch "${backend_arg} --size auto --source ${myenv_path}/xelloss.jpg"
-        unset backend_arg
+    # neofetch 는 공식적으로 중단(archived)
+    # elif which neofetch >/dev/null 2>&1; then
+    #     backend_arg=""
+    #     if [[ $term_program_name == *"iterm"* || $term_program_name == *"wezterm"* ]]; then
+    #         backend_arg="--backend iterm2"
+    #     elif [[ $term_program_name == *"kitty"* || $term_program_name == "ghostty" ]]; then
+    #         backend_arg="--backend kitty"
+    #     fi
+    #     eval neofetch "${backend_arg} --size auto --source ${myenv_path}/xelloss.jpg"
+    #     unset backend_arg
     elif which screenfetch >/dev/null 2>&1; then
         screenfetch -E
     fi
