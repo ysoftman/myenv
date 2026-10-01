@@ -28,8 +28,10 @@ bash ./installall.sh
 
 - windows terminal 사용시
 
-  - hack nerd 폰트 다운로드 받아 설치 <https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/Hack.zip>
-  - terminal 에서 ctrl + , 로 설정 파일을 오픈 후 windows_terminal/settings.json 내용 복사 & 붙여넣기로 설정 적용
+  - 폰트 다운로드 받아 설치
+    - <https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Hack.zip>
+    - <https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/FiraCode.zip>
+  - terminal 에서 ctrl + , 로 설정 파일을 오픈 후 [settings.json](./windows_terminal/settings.json) 내용 복사 & 붙여넣기로 설정 적용
   - 터미널앱 사용(창 선택)시 배경색이 바뀌는 경우, 윈도우 투명도(settings > transparency effects > off)를 비활성화 해야 한다.
 
 - Ubuntu, sh > dash 쉘로 링크되어 있어 bash 로 쉘스크립트를 실행하려면 상단에 `#!/usr/bin/env bash` shebang 을 추가하거나, 아래처럼 전역 `sh` 링크를 `bash`로 변경한다.
