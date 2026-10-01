@@ -134,8 +134,22 @@ function set_path_and_vars {
     if [[ $os_name_kernel_release == *"wsl"* ]]; then
         if ! wslvar userprofile >/dev/null 2>&1; then
             # wslvar reg.exe 등의 에러 발생시 업데이트
-            echo "need to install wslu for wslvar(reg.exe...)"
-            sudo apt install -y wslu
+            echo "need to install wslu(Windows Subsystem for Linux Utilities) for wslvar(reg.exe...)"
+
+            local os_id=$(cat /etc/os-release | grep -E '^ID=' | sed 's/ID=//')
+            if [[ $os_id == "debian" ]]; then
+                sudo apt update
+                sudo apt install -y git make
+                git clone --depth 1 --branch v4.1.3 https://github.com/wslutilities/wslu.git
+                cd wslu
+                make
+                sudo make install
+                cd ..
+                rm -rf wslu
+            elif [[ $os_id == "ubuntu" ]]; then
+                sudo apt update
+                sudo apt install -y wslu
+            fi
         fi
         # wsl.conf appendWindowsPath=false 인경우 vscode 경로 추가 필요
         # export PATH=$PATH:"/mnt/c/Program Files/Microsoft VS Code/bin:"
