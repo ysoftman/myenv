@@ -4,22 +4,18 @@
     "actions": [],
     "alwaysShowNotificationIcon": false,
     "alwaysShowTabs": true,
-    "defaultProfile": "{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}",
+    "defaultProfile": "{26531faa-72de-4ad7-9588-1c24c22dee57}",
     "initialCols": 120,
     "initialRows": 30,
     "keybindings":
     [
         {
-            "id": "Terminal.NextTab",
-            "keys": "ctrl+tab"
-        },
-        {
             "id": null,
             "keys": "ctrl+shift+1"
         },
         {
-            "id": null,
-            "keys": "ctrl+shift+5"
+            "id": "Terminal.NextTab",
+            "keys": "ctrl+tab"
         },
         {
             "id": null,
@@ -27,15 +23,19 @@
         },
         {
             "id": null,
-            "keys": "ctrl+shift+3"
+            "keys": "ctrl+shift+5"
         },
         {
             "id": null,
-            "keys": "ctrl+shift+4"
+            "keys": "ctrl+shift+3"
         },
         {
             "id": "Terminal.OpenNewTab",
             "keys": "ctrl+shift+t"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+shift+4"
         },
         {
             "id": null,
@@ -139,7 +139,14 @@
     ],
     "profiles":
     {
-        "defaults": {},
+        "defaults":
+        {
+            "font":
+            {
+                "face": "FiraCode Nerd Font",
+                "size": 14
+            }
+        },
         "list":
         [
             {
