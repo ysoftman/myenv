@@ -574,6 +574,7 @@ if [[ $current_shell == "zsh" ]]; then
     if [[ $os_name == *"android"* ]]; then
         source_ohmyzsh
     else
+        tidy_path # .local/bin/oh-my-posh 를 찾을 수 있도록
         if command -v oh-my-posh >/dev/null 2>&1; then
             source_ohmyposh
         elif command -v starship >/dev/null 2>&1; then
