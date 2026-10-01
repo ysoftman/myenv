@@ -1,5 +1,6 @@
 .DS_Store
 *.swp
+*.tar.gz
 karabiner/automatic_backups
 emoji-cli
 lazy-lock.json
