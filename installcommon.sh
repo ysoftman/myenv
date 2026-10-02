@@ -4,7 +4,7 @@ pkgs_pkg='zsh vim neovim curl git tig tmux cmake ctags fortune cowsay figlet cma
 # redhat,centos
 pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang rust cargo man dnsutils python3-pip clang-format ncurses ncurses-devel git-delta jq'
 # debian,ubuntu
-pkgs_aptget='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev python3-dev default-jdk ruby golang rust cargo man dnsutils python3-pip expect clang-format build-essential libncurses5-dev jq screenfetch fastfetch lolcat fonts-powerline ripgrep bat fd-find lsd duf du-dust fzf'
+pkgs_aptget='zsh vim curl git tig tmux cmake universal-ctags fortune cowsay figlet cmatrix python3-dev default-jdk ruby golang cargo man dnsutils python3-pip expect clang-format build-essential libncurses5-dev jq screenfetch fastfetch lolcat fonts-powerline ripgrep bat fd-find lsd duf du-dust fzf locales'
 # arch
 pkgs_pacman='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python ruby go man dnsutils screenfetch fastfetch lolcat lsd eza git-delta'
 # mac
