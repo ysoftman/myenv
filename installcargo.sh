@@ -81,24 +81,15 @@ mpkgs["zoxide"]="zoxide"                   # (https://github.com/ajeetdsouza/zox
 #    done
 #fi
 
+cargo_bin="${CARGO_HOME:-$HOME/.cargo}/bin"
 install_pkgs=""
 already_installed_pkgs=""
 for pkg_name in "${!mpkgs[@]}"; do
     pkg_binary_name=${mpkgs[$pkg_name]}
-    # echo $pkg_binary_name
-    # brew 로 설치된 패키지는 cargo 로 설치 하지 않는 로직
-    if [[ $(uname -o 2>/dev/null) == 'Darwin' ]]; then
-        if [[ $(type -a $pkg_binary_name 2>/dev/null | grep -iE "/local/bin/|/opt/homebrew/bin/") == *"$pkg_binary_name"* ]]; then
-            already_installed_pkgs+="$pkg_name "
-            continue
-        fi
-    fi
-    # android(termux) pkg 로 설치된 패키지($PREFIX/bin 에 설치)는 cargo 로 설치 하지 않는 로직
-    if [[ $(uname -o 2>/dev/null) == 'Android' ]]; then
-        if [[ $(type -a $pkg_binary_name 2>/dev/null | grep -iE "/bin/") == *"$pkg_binary_name"* ]]; then
-            already_installed_pkgs+="$pkg_name "
-            continue
-        fi
+    # cargo 외(brew, dnf, apt, termux pkg 등)로 설치된 패키지는 cargo 로 설치 하지 않기
+    if type -a "$pkg_binary_name" 2>/dev/null | grep -vF "$cargo_bin/" | grep -q " is /"; then
+        already_installed_pkgs+="$pkg_name "
+        continue
     fi
     install_pkgs+="$pkg_name "
 done
