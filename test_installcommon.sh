@@ -13,8 +13,8 @@ cd "$(dirname "$0")" || exit 1
 docker info >/dev/null 2>&1 || colima start || exit 1
 
 # container 에서 installcommon.sh 을 설치해 에러를 파악한다.
-docker run --rm -v "$PWD":/myenv:ro -w /myenv -e DEBIAN_FRONTEND=noninteractive "$image" bash -c '
-(apt-get update -qq && apt-get install -y -qq sudo || yum install -y -q sudo) >/dev/null || { echo "FAIL (sudo install)"; exit 1; }
+docker run --rm --pull=always -v "$PWD":/myenv:ro -w /myenv -e DEBIAN_FRONTEND=noninteractive "$image" bash -c '
+(apt-get update -qq && apt-get install -y -qq sudo && echo "Defaults env_keep += DEBIAN_FRONTEND" >/etc/sudoers.d/debian_frontend || yum install -y -q sudo) >/dev/null || { echo "FAIL (sudo install)"; exit 1; }
 bash ./installcommon.sh 2>&1 | tee /tmp/install.log
 grep -E "^(E|Error): |^\[error\]|^dpkg: error|subprocess returned error" /tmp/install.log |
     grep -v "Sub-process /usr/bin/dpkg" | awk "!seen[\$0]++" >/tmp/errors.log
