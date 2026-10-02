@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # https://github.com/xfetch-cli/xfetch
-curl -fsSL https://raw.githubusercontent.com/xfetch-cli/xfetch/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/xfetch-cli/xfetch/main/install.sh | bash -s -- --no-modify-path
 
 ~/.local/bin/xfetch plugin install animate-logo
 

@@ -176,6 +176,3 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 # zsh 프로파일링할때 사용
 #zprof
-
-# xfetch path
-export PATH="$HOME/.local/bin:$PATH"

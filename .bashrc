@@ -20,6 +20,3 @@ myenv_path="$HOME/workspace/myenv"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-
-# xfetch path
-export PATH="$HOME/.local/bin:$PATH"
