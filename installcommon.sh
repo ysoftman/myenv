@@ -1,8 +1,8 @@
 #!/bin/bash
 # android
 pkgs_pkg='zsh vim neovim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python ruby golang rust man dnsutils ripgrep fd fzf lua53 openssh libandroid-support tsu zoxide lsd bat wget which htop fastfetch git-delta difftastic jq nodejs gping eza gitui grex hyperfine jless procs sd zellij duf dust'
-# redhat,centos
-pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune cowsay figlet cmatrix python python-dev ruby golang rust cargo man dnsutils python3-pip clang-format ncurses ncurses-devel git-delta jq'
+# redhat,rocky
+pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python python3-devel ruby golang rust cargo man dnsutils python3-pip clang-tools-extra ncurses ncurses-devel git-delta jq glibc-locale-source'
 # debian,ubuntu
 pkgs_aptget='zsh vim curl git tig tmux cmake universal-ctags fortune cowsay figlet cmatrix python3-dev default-jdk ruby golang cargo man dnsutils python3-pip expect clang-format build-essential libncurses5-dev jq screenfetch fastfetch lolcat fonts-powerline ripgrep bat fd-find lsd duf du-dust fzf locales'
 # arch
@@ -29,13 +29,16 @@ elif [[ $(uname) == 'Darwin' ]]; then
     brew install ${pkgs_brew}
 elif [[ $(uname) == 'Linux' ]]; then
     echo 'Linux Environment'
-    # centos
     if yum --version >/dev/null 2>&1; then
         package_program="yum"
         ${sudo_cmd} ${package_program} update
-        ${sudo_cmd} ${package_program} install -y ${pkgs_yum}
+        # tig, cowsay 등은 epel, ctags 는 crb 저장소에 있다.
+        ${sudo_cmd} ${package_program} install -y epel-release
+        ${sudo_cmd} crb enable
+        for i in ${pkgs_yum}; do
+            ${sudo_cmd} ${package_program} install -y $i
+        done
     else
-        # ubuntu
         if apt --version >/dev/null 2>&1; then
             package_program="apt"
             ${sudo_cmd} ${package_program} update
