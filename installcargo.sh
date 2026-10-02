@@ -19,7 +19,7 @@ mpkgs["cfonts"]="cfonts"                   # (https://github.com/dominikwilkowsk
 mpkgs["difftastic"]="difft"                # (https://github.com/wilfred/difftastic) git diff
 mpkgs["diskonaut"]="diskonaut"             # (https://github.com/imsnif/diskonaut) du 대체
 mpkgs["diskus"]="diskus"                   # (https://github.com/sharkdp/diskus) du 대체
-mpkgs["diskwatch"]="diswatch"              # (https://github.com/matthart1983/diskwatch) disk monitoring
+mpkgs["diskwatch"]="diskwatch"             # (https://github.com/matthart1983/diskwatch) disk monitoring
 mpkgs["du-dust"]="dust"                    # (https://github.com/bootandy/dust) du 대체 brew 에선 dust 이름으로 사용
 mpkgs["eza"]="eza"                         # (https://github.com/eza-community/eza) ls 대체
 mpkgs["fd-find"]="fd"                      # (https://github.com/sharkdp/fd) find 대체
@@ -88,7 +88,7 @@ for pkg_name in "${!mpkgs[@]}"; do
     # echo $pkg_binary_name
     # brew 로 설치된 패키지는 cargo 로 설치 하지 않는 로직
     if [[ $(uname -o 2>/dev/null) == 'Darwin' ]]; then
-        if [[ $(type -a $pkg_binary_name 2>/dev/null | grep -iE "/local/bin/|/homebrew/bin/") == *"$pkg_binary_name"* ]]; then
+        if [[ $(type -a $pkg_binary_name 2>/dev/null | grep -iE "/local/bin/|/opt/homebrew/bin/") == *"$pkg_binary_name"* ]]; then
             already_installed_pkgs+="$pkg_name "
             continue
         fi
@@ -102,8 +102,8 @@ for pkg_name in "${!mpkgs[@]}"; do
     fi
     install_pkgs+="$pkg_name "
 done
-echo "install_pkgs=$install_pkgs"
 echo "already_installed_pkgs=$already_installed_pkgs"
+echo "install_pkgs=$install_pkgs"
 
 cargo install ${install_pkgs} --locked
 cargo uninstall ${already_installed_pkgs} 2>/dev/null
