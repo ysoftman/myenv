@@ -178,4 +178,4 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 #zprof
 
 # xfetch path
-export PATH="/home/ysoftman/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"

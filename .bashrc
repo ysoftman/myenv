@@ -22,4 +22,4 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 # xfetch path
-export PATH="/home/ysoftman/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
