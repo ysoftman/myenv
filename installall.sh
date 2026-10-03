@@ -35,7 +35,7 @@ bash ./installgolangtools.sh
 bash ./installrust.sh
 bash ./installcargo.sh
 bash ./installkubectl.sh
-bash ./installnode.sh
+bash ./installmise.sh
 bash ./installgh.sh
 bash ./installemojicli.sh
 bash ./installcolima.sh
