@@ -27,12 +27,11 @@ if [[ $os_name == *"linux"* ]]; then
     echo "install mise"
     curl https://mise.run | sh
     ~/.local/bin/mise --version
-    mise use -g node@latest
-    mise use -g python@latest
-
 elif [[ $os_name == *"darwin"* ]]; then
     # brew install nvm
     # brew install volta
     brew install mise
-    exit 0
 fi
+
+mise use -g node@latest
+mise use -g python@latest
