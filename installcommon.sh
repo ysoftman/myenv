@@ -4,7 +4,7 @@ pkgs_pkg='zsh vim neovim curl git tig tmux cmake ctags fortune cowsay figlet cma
 # redhat,rocky
 pkgs_yum='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python python3-devel ruby golang rust cargo man dnsutils python3-pip clang-tools-extra ncurses ncurses-devel git-delta jq glibc-locale-source bat difftastic diskus fd-find hyperfine lsd nushell onefetch procs ripgrep ruff tokei uv zoxide'
 # debian,ubuntu
-pkgs_aptget='zsh vim curl git tig tmux cmake universal-ctags fortune cowsay figlet cmatrix python3-dev default-jdk ruby golang cargo man dnsutils python3-pip expect clang-format build-essential libncurses5-dev jq screenfetch fastfetch lolcat fonts-powerline ripgrep bat fd-find lsd duf du-dust fzf locales alacritty eza git-delta gping hexyl hyperfine numbat procs sd tealdeer tokei trippy zoxide'
+pkgs_aptget='zsh vim neovim curl git tig tmux cmake universal-ctags fortune cowsay figlet cmatrix python3-dev default-jdk ruby golang cargo man dnsutils python3-pip expect clang-format build-essential libncurses5-dev jq screenfetch fastfetch lolcat fonts-powerline ripgrep bat fd-find lsd duf du-dust fzf locales alacritty eza git-delta gping hexyl hyperfine numbat procs sd tealdeer tokei trippy zoxide'
 # arch
 pkgs_pacman='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python ruby go man dnsutils screenfetch fastfetch lolcat lsd eza git-delta alacritty bandwhich bat binsider bottom cargo-watch difftastic diskonaut diskus dust fd gitui gping grex hexyl hyperfine jless llmfit lychee mise nushell numbat oha onefetch presenterm procs qsv ripgrep ruff rumdl sd skim tealdeer termscp termusic tokei trippy ttysvr typos uv xan zellij zenith zoxide'
 # mac
