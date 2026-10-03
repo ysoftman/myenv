@@ -157,7 +157,15 @@ function set_path_and_vars {
         export PATH=$PATH:"/mnt/c/Users/${username}/AppData/Local/Programs/Microsoft VS Code/bin"
         # 윈도우 netstat.exe 사용해야 실제 네트워크 상태를 알 수 있다.
         alias netstat='/mnt/c/Windows/System32/netstat.exe'
-        alias pbcopy='/mnt/c/Windows/System32/clip.exe'
+        # clip.exe 는 neovim 클립보드 연동이 안 돼 win32yank.exe(복사/붙여넣기, --crlf 변환, neovim 자동 감지)로 대체
+        # alias pbcopy='/mnt/c/Windows/System32/clip.exe'
+        if ! command -v win32yank.exe >/dev/null 2>&1; then
+            echo "install win32yank.exe to $HOME/.local/bin"
+            curl -sL https://github.com/equalsraf/win32yank/releases/latest/download/win32yank-x64.zip -o /tmp/win32yank.zip
+            unzip -o -q /tmp/win32yank.zip win32yank.exe -d $HOME/.local/bin && chmod +x $HOME/.local/bin/win32yank.exe
+        fi
+        alias pbcopy='win32yank.exe -i --crlf'
+        alias pbpaste='win32yank.exe -o --lf'
         # wsl+terminal 앱에서 less(git diff, man ls...)페이지 처음/끝에서 더 이동시 beep 발생 방지를 위해 기존 옵션에 -R -Q 을 추가해야 한다.
         export LESS="$LESS -R -Q"
     fi
