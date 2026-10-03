@@ -10,92 +10,20 @@
     "keybindings":
     [
         {
-            "id": null,
-            "keys": "ctrl+shift+1"
-        },
-        {
             "id": "Terminal.NextTab",
             "keys": "ctrl+tab"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+shift+2"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+shift+5"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+shift+3"
         },
         {
             "id": "Terminal.OpenNewTab",
             "keys": "ctrl+shift+t"
         },
         {
-            "id": null,
-            "keys": "ctrl+shift+4"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+shift+6"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+shift+7"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+shift+8"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+shift+9"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+alt+1"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+alt+9"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+alt+2"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+alt+3"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+alt+7"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+alt+4"
-        },
-        {
             "id": "Terminal.CopyToClipboard",
             "keys": "ctrl+shift+c"
         },
         {
-            "id": null,
-            "keys": "ctrl+alt+5"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+alt+6"
-        },
-        {
             "id": "Terminal.PasteFromClipboard",
             "keys": "ctrl+shift+v"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+alt+8"
         },
         {
             "id": "Terminal.DuplicateTab",
