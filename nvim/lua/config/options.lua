@@ -57,6 +57,10 @@ opt.autowrite = true -- Enable auto write
 -- only set clipboard if not in ssh, to make sure the OSC 52
 -- integration works automatically. Requires Neovim >= 0.10.0
 opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
+-- WSL 에서는 win32yank.exe 를 클립보드 도구로 고정(mac 은 자동 감지로 pbcopy 사용)
+if vim.fn.has("wsl") == 1 then
+  vim.g.clipboard = "win32yank"
+end
 opt.completeopt = "menu,menuone,noselect"
 opt.conceallevel = 2 -- Hide * markup for bold and italic, but not markers with substitutions
 opt.confirm = true -- Confirm to save changes before exiting modified buffer
