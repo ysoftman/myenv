@@ -27,6 +27,7 @@ if [[ $os_name == *"linux"* ]]; then
     echo "install mise"
     curl https://mise.run | sh
     ~/.local/bin/mise --version
+    mise use -g node@latest
 
 elif [[ $os_name == *"darwin"* ]]; then
     # brew install nvm
