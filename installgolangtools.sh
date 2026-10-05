@@ -4,7 +4,7 @@
 # gup update
 #
 # 에러 패키지 체크해서 있으면 제거
-# gup check
+# gup check | rg -i error
 # gup remove 패키지1, 패키지2...
 #
 # 패키지 목록 파악 설치 커맨드로 변경시
