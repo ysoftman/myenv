@@ -21,19 +21,14 @@ else
 fi
 
 # 현재 유저의 기본 쉘을 zsh 로 변경
-# /etc/shells 는 >> 를 허용하지 않아 수정 파일로 바꿔친다.
-${sudo_cmd} cp -fv /etc/shells /etc/shells.bak
-${sudo_cmd} cp -fv /etc/pam.d/chsh /etc/pam.d/chsh.bak
-${sudo_cmd} cp -fv shells /etc/shells
-${sudo_cmd} cp -fv chsh /etc/pam.d/chsh
-if [ -x /opt/homebrew/bin/zsh ]; then
-    ${sudo_cmd} chsh -s /opt/homebrew/bin/zsh ${USER}
-elif [ -x /usr/local/bin/zsh ]; then
-    ${sudo_cmd} chsh -s /usr/local/bin/zsh ${USER}
-elif [ -x /usr/bin/zsh ]; then
-    ${sudo_cmd} chsh -s /usr/bin/zsh ${USER}
-elif [ -x /bin/zsh ]; then
-    ${sudo_cmd} chsh -s /bin/zsh ${USER}
-else
+for zsh_path in /opt/homebrew/bin/zsh /usr/local/bin/zsh /usr/bin/zsh /bin/zsh; do
+    [ -x "${zsh_path}" ] && break
+    zsh_path=""
+done
+if [ -z "${zsh_path}" ]; then
     echo 'can not find zsh'
+    exit 1
 fi
+# brew, 소스 빌드로 설치한 zsh 는 /etc/shells 에 자동 등록되지 않는다.
+grep -qxF "${zsh_path}" /etc/shells || echo "${zsh_path}" | ${sudo_cmd} tee -a /etc/shells
+${sudo_cmd} chsh -s "${zsh_path}" "${USER}"
