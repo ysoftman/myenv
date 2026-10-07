@@ -44,7 +44,7 @@ layout {
 
             format_left   "#[bg=$bg0,fg=$sapphire]#[bg=$sapphire,fg=$crust] {session} #[bg=$bg0]{mode}#[bg=$bg0] {tabs}"
             format_center "{notifications}"
-            format_right "{command_claude}{command_cpu}{command_mem}{command_disk}{command_user}{datetime}"
+            format_right "{command_claude}{command_codex}{command_cpu}{command_mem}{command_disk}{command_user}{datetime}"
             format_space  "#[bg=$bg0]"
             format_hide_on_overlength "true"
             format_precedence "lrc"
@@ -94,6 +94,13 @@ layout {
             command_claude_interval          "1"
             command_claude_rendermode        "dynamic" // dynamic 모드에서 command_claude_format 에 적힌 #[..] 색 태그를 전부 버리고, stdout 안에 들어 있는 #[..] 태그만 적용
             command_claude_hideonemptystdout "true"
+
+            // codex_zjstatus_hook.sh: Codex CLI hook 으로 세션별 상태를 쓰고, render 인자로 그 상태를 아이콘으로 출력한다. 세션이 없으면 위젯 숨김.
+            command_codex_command           "bash -c \"${myenv_path}/zellij/codex_zjstatus_hook.sh render\""
+            command_codex_format            "{stdout}"
+            command_codex_interval          "1"
+            command_codex_rendermode        "dynamic"
+            command_codex_hideonemptystdout "true"
 
             // interval in seconds, between two command runs
             // Set to "0" for running the command once. Only non-negative integers are allowed.

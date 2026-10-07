@@ -97,6 +97,12 @@ fi
 
 cat "${codex_config_block}" "${codex_config_without_block}" >"${CODEX_CONFIG}"
 
+# zjstatus 상태 표시용 hook: Codex 이벤트를 codex_zjstatus_hook.sh 가 세션별 상태 파일로 기록한다.
+jq -n --arg cmd "${SCRIPT_DIR}/zellij/codex_zjstatus_hook.sh" '
+    {hooks: (["SessionStart", "UserPromptSubmit", "PreToolUse", "PermissionRequest", "PostToolUse", "Stop", "Interrupt", "SessionEnd"]
+        | map({(.): [{hooks: [{type: "command", command: $cmd, timeout: 5}]}]}) | add)}
+' >"${CODEX_HOME}/hooks.json"
+
 # mcp 설치
 # 인증은 codex mcp login atlassian 으로 진행
 mcp_list="$(codex mcp list 2>&1 || true)"
