@@ -8,10 +8,10 @@ if [[ $1 == render ]]; then
     frames=(· ✢ ✳ ✶ ✻ ✽ ✻ ✶ ✳ ✢)
     spin=${frames[$(date +%s) % ${#frames[@]}]}
     live=" $(jq -r '"\(.pid) \(.sessionId)"' ~/.claude/sessions/*.json 2>/dev/null | while read -r pid sid; do kill -0 "$pid" 2>/dev/null && printf '%s ' "$sid"; done)"
-    out='#[bg=$bg0,fg=$peach]󰚩 '
+    sessions=''
     for f in "$dir"/*; do
         [[ -f $f ]] || continue
-        if [[ -d ~/.claude/sessions && $live != *" ${f##*/} "* ]]; then
+        if [[ ! -d ~/.claude/sessions || $live != *" ${f##*/} "* ]]; then
             rm -f "$f"
             continue
         fi
@@ -21,10 +21,10 @@ if [[ $1 == render ]]; then
             blocked) icon='#[bg=$bg0,fg=$red]!' ;;
             *) icon='#[bg=$bg0,fg=$green]●' ;;
         esac
-        out+='#[bg=$bg0,fg=$text]'"$proj$icon "
+        sessions+='#[bg=$bg0,fg=$text]'"$proj$icon "
     done
-    out+=' '
-    printf '%s' "${out% }"
+    [[ -n $sessions ]] || exit 0
+    printf '%s' '#[bg=$bg0,fg=$peach]󰚩 '"${sessions% }"
     exit 0
 fi
 in=$(cat)
