@@ -24,7 +24,7 @@ if [[ $1 == render ]]; then
         sessions+='#[bg=$bg0,fg=$text]'"$proj$icon "
     done
     [[ -n $sessions ]] || exit 0
-    printf '%s' '#[bg=$bg0,fg=$peach]󰚩 '"${sessions% }"
+    printf '%s' '#[bg=$bg0,fg=$peach]󰚩 '"$sessions"
     exit 0
 fi
 in=$(cat)
