@@ -580,6 +580,12 @@ if [[ $current_shell == "zsh" ]]; then
     unalias run-help 2>/dev/null
     autoload run-help
 
+    # WSL 터미널에서 ESC 입력시 터미널에서 소리가 난다.
+    # bash 라면
+    # echo "set bell-style none | sudo tee -a /etc/inputrc"
+    # Disable zsh terminal beep
+    unsetopt beep
+
     if [[ $os_name == *"android"* ]]; then
         source_ohmyzsh
     else
