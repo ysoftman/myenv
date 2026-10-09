@@ -51,6 +51,12 @@ ZJSTATUS_HOOKS=$(jq -nc --arg cmd "${myenv_path}/zellij/claude_zjstatus_hook.sh"
     | (["SessionStart", "UserPromptSubmit", "PreToolUse", "PostToolUse", "Stop", "SessionEnd"] | map({(.): [{hooks: [$h]}]}) | add)
     + {Notification: [{matcher: "permission_prompt|idle_prompt", hooks: [$h]}]}
 ')
+# mod(function hook 플러그인)는 .claude/mods/<name> 에 두고 CLAUDE_CODE_PLUGIN_DIRS(':' 구분)로 로드한다.
+MOD_DIRS=("${myenv_path}"/.claude/mods/*)
+PLUGIN_DIRS=$(
+    IFS=:
+    echo "${MOD_DIRS[*]}"
+)
 PERMISSIONS_ALLOW='[
       "Bash(/bin/bash *)",
       "Bash(/usr/bin/ruby *)",
@@ -165,9 +171,10 @@ PERMISSIONS_ALLOW='[
 echo "Claude Code 설정을 적용합니다..."
 [[ -s "${SETTINGS_FILE}" ]] || echo '{}' >"${SETTINGS_FILE}"
 tmp=$(mktemp)
-jq --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" --argjson spinner "${SPINNER_VERBS}" --argjson hooks "${HOOKS}" --argjson zjhooks "${ZJSTATUS_HOOKS}" '
+jq --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" --argjson spinner "${SPINNER_VERBS}" --argjson hooks "${HOOKS}" --argjson zjhooks "${ZJSTATUS_HOOKS}" --arg plugindirs "${PLUGIN_DIRS}" '
     .statusLine = {type: "command", command: $cmd}
     | .env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1"
+    | .env.CLAUDE_CODE_PLUGIN_DIRS = $plugindirs
     | .env.MCP_TIMEOUT = "30000"
     | .env.MCP_TOOL_TIMEOUT = "60000"
     | .permissions.allow = ((.permissions.allow // []) + $allow | unique)
