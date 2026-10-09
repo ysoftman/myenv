@@ -1,0 +1,6 @@
+{
+  "name": "agent-status",
+  "version": "0.1.0",
+  "description": "Show each parallel subagent/teammate's status, name, model and elapsed time above the prompt",
+  "types": "./types/index.d.ts"
+}
