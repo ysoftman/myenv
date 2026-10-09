@@ -1,7 +1,14 @@
-export type SkillBadge = string
+export type SkillRun = {
+  skills: string[]
+  model: string
+  effort?: string
+  startedAt: number
+  endedAt?: number
+  result?: 'done' | 'failed' | 'aborted'
+}
 
 declare module 'claude-code' {
   interface PluginState {
-    'skill-badge': { badge: SkillBadge }
+    'skill-badge': { runs: SkillRun[]; model: string }
   }
 }

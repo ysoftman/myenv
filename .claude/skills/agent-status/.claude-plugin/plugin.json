@@ -1,6 +1,7 @@
 {
   "name": "agent-status",
   "version": "0.1.0",
-  "description": "Show each parallel subagent/teammate's status, name, model and elapsed time above the prompt",
-  "types": "./types/index.d.ts"
+  "description": "Toggle a summary pane (ctrl+x s) of the running skills and each subagent/teammate's status, name, model and elapsed time",
+  "types": "./types/index.d.ts",
+  "dependencies": ["skill-badge"]
 }

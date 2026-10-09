@@ -1,23 +1,34 @@
-import type { EngineInterface, Register, TurnStepInput } from 'claude-code'
+import type { EngineInterface, Register, TurnCompleteReason } from 'claude-code'
 import { atom, read, update } from 'claude-code'
 
-import type { SkillBadge } from '../types'
+import type { SkillRun } from '../types'
 
-const badge = atom({ plugin: 'skill-badge', key: 'badge' } as const, '')
+const runs = atom({ plugin: 'skill-badge', key: 'runs' } as const, [])
+const model = atom({ plugin: 'skill-badge', key: 'model' } as const, '')
 
-const tagOf = (e: TurnStepInput) =>
-  [e.model.replace(/^.*claude-/, ''), e.effort].filter(v => v !== undefined).join(' · ')
+const KEEP = 8
 
-const show = async ($: EngineInterface, text: SkillBadge) => {
-  if ((await read($, badge)) !== text) {
-    await update($, badge, () => text)
+const RESULT: Record<TurnCompleteReason, SkillRun['result']> = {
+  answer: 'done',
+  aborted: 'aborted',
+  refusal: 'failed',
+  error: 'failed',
+}
+
+const short = (m: string) => m.replace(/^.*claude-/, '')
+
+const isOpen = (r: SkillRun | undefined) => r !== undefined && r.result === undefined
+
+const patchOpen = async ($: EngineInterface, fn: (r: SkillRun) => SkillRun) => {
+  const list = await read($, runs)
+  const last = list.at(-1)
+  if (last !== undefined && isOpen(last) && JSON.stringify(fn(last)) !== JSON.stringify(last)) {
+    await update($, runs, l => [...l.slice(0, -1), fn(last)])
   }
 }
 
 export const register: Register = on => {
   let loaded: string[] = []
-  let tag = ''
-  let done: { skills: string; tag: string } | undefined
 
   on('prompt.submit', async ($, e, next) => {
     if (e.turnId === undefined) {
@@ -28,40 +39,46 @@ export const register: Register = on => {
     return next(e)
   })
 
-  on('tool.call', { tool: 'Skill' }, (_, e, next) => {
-    if (e.agentId === undefined) {
+  on('tool.call', { tool: 'Skill' }, async (_, e, next) => {
+    const ran = await next(e)
+    if (e.agentId === undefined && ran.deny === undefined && ran.isError !== true) {
       loaded = [...new Set([...loaded, e.skill])]
     }
-    return next(e)
+    return ran
   })
 
   on('turn.step', async function* ($, e, next) {
-    if (e.agentId === undefined) {
-      tag = tagOf(e)
-      if (loaded.length > 0) {
-        await show($, `▶ skill ${loaded.join(', ')} · ${tag}`)
-      } else if (e.index === 0) {
-        await show(
-          $,
-          done !== undefined && done.tag !== tag ? `↩ skill ${done.skills} ended · now ${tag}` : '',
-        )
-        done = undefined
+    if (e.agentId !== undefined) {
+      return yield* next(e)
+    }
+    const effort = e.effort === undefined ? {} : { effort: String(e.effort) }
+    if (loaded.length > 0) {
+      const skills = loaded
+      if (isOpen((await read($, runs)).at(-1))) {
+        await patchOpen($, r => ({ ...r, skills }))
+      } else {
+        const run = { skills, model: short(e.model), ...effort, startedAt: await $.clock.now() }
+        await update($, runs, l => [...l, run].slice(-KEEP))
       }
     }
-    return yield* next(e)
+    const step = yield* next(e)
+    const answered = short(step.usage?.model ?? e.model)
+    if (loaded.length > 0) {
+      await patchOpen($, r => ({ ...r, model: answered }))
+    }
+    const tag = [answered, effort.effort].filter(v => v !== undefined).join(' · ')
+    if ((await read($, model)) !== tag) {
+      await update($, model, () => tag)
+    }
+    return step
   })
 
   on('turn.complete', async ($, e, next) => {
     if (e.agentId === undefined && loaded.length > 0) {
-      done = { skills: loaded.join(', '), tag }
-      await show($, `✓ skill ${done.skills} · ${tag}`)
+      const endedAt = await $.clock.now()
+      await patchOpen($, r => ({ ...r, endedAt, result: RESULT[e.reason] }))
       loaded = []
     }
     return next(e)
-  })
-
-  on('ui.render', { component: 'SessionMode' }, async ($, e, next) => {
-    const text = await read($, badge)
-    return next(text === '' ? e : { ...e, props: { ...e.props, modes: [...e.props.modes, text] } })
   })
 }
