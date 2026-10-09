@@ -1,7 +1,7 @@
 import type { AgentStatus, EngineInterface, Register, TurnCompleteReason } from 'claude-code'
 import { atom, read, update } from 'claude-code'
 
-import type { AgentRow, Alert, SkillRun, WorkItem } from '../types'
+import type { AgentRow, Alert, FileTouch, SkillRun, WorkItem } from '../types'
 
 const agents = atom({ plugin: 'summary', key: 'agents' } as const, [])
 const now = atom({ plugin: 'summary', key: 'now' } as const, 0)
@@ -11,6 +11,9 @@ const dirty = atom({ plugin: 'summary', key: 'dirty' } as const, 0)
 const alerts = atom({ plugin: 'summary', key: 'alerts' } as const, [])
 const skillRuns = atom({ plugin: 'summary', key: 'runs' } as const, [])
 const mainModel = atom({ plugin: 'summary', key: 'model' } as const, '')
+const paneOpen = atom({ plugin: 'summary', key: 'open' } as const, false)
+const chord = atom({ plugin: 'summary', key: 'chord' } as const, '')
+const seen = atom({ plugin: 'summary', key: 'seen' } as const, [])
 
 const PANE = 'summary'
 const TOGGLE_ACTION = 'app:toggleDiffPreSession'
@@ -18,6 +21,7 @@ const RECENT_MAX = 5
 const RUNS_MAX = 8
 const FILES_MAX = 20
 const FILES_SHOWN = 6
+const AGENTS_ENDED_SHOWN = 5
 const ALERTS_MAX = 4
 const EDIT_TOOLS = new Set(['Edit', 'MultiEdit', 'Write', 'NotebookEdit'])
 const SUMMARY =
@@ -178,7 +182,10 @@ const pathOf = (e: object) => {
   return typeof path === 'string' ? path : undefined
 }
 
-const refreshGit = async ($: EngineInterface, root: string) => {
+const refreshGit = async ($: EngineInterface, root: string | undefined, adopt: boolean) => {
+  if (root === undefined) {
+    return
+  }
   const run = await $.process
     .run(['git', '-C', root, 'status', '--porcelain=v1', '--untracked-files=all'], {
       timeoutMs: 5_000,
@@ -196,8 +203,16 @@ const refreshGit = async ($: EngineInterface, root: string) => {
   if ((await read($, dirty)) !== status.size) {
     await update($, dirty, () => status.size)
   }
+  const before = await read($, seen)
+  const paths = [...status.keys()]
+  if (JSON.stringify(paths) !== JSON.stringify(before)) {
+    await update($, seen, () => paths)
+  }
   const list = await read($, files)
-  const next = list.map(({ status: _, ...f }) => {
+  const known = new Set([...before, ...list.map(f => f.path)])
+  const fresh = adopt ? paths.filter(p => !known.has(p) && !known.has(`${root}/${p}`)) : []
+  const added: FileTouch[] = fresh.map(p => ({ path: `${root}/${p}`, edits: 0 }))
+  const next = [...added, ...list].slice(0, FILES_MAX).map(({ status: _, ...f }) => {
     const s = f.path.startsWith(`${root}/`) ? status.get(f.path.slice(root.length + 1)) : undefined
     return s === undefined ? f : { ...f, status: s }
   })
@@ -287,14 +302,34 @@ const openRun = async ($: EngineInterface, skills: string[], model: string, effo
 
 const isPaneOpen = async ($: EngineInterface) => (await $.ui.panes()).some(p => p.id === PANE)
 
-const toggle = async ($: EngineInterface) => {
+const setOpen = async ($: EngineInterface, isOpen: boolean) => {
+  if ((await read($, paneOpen)) !== isOpen) {
+    await update($, paneOpen, () => isOpen)
+  }
+}
+
+const syncChord = async ($: EngineInterface) => {
+  const key = (await boundKey($)) ?? ''
+  if ((await read($, chord)) !== key) {
+    await update($, chord, () => key)
+  }
+  return key
+}
+
+const toggle = async ($: EngineInterface, root: string | undefined) => {
   if (await isPaneOpen($)) {
     await $.ui.close({ id: PANE })
+    await setOpen($, false)
     return false
   }
   await $.ui.open({ id: PANE, title: 'summary', columns: 60 })
+  await setOpen($, true)
+  await syncChord($)
+  await refreshGit($, root, false)
   return true
 }
+
+const hintOf = (key: string) => key || `/${PANE}`
 
 const boundKey = async ($: EngineInterface) => {
   try {
@@ -322,19 +357,22 @@ export const register: Register = on => {
   let draining = false
   let tick = 0
   let root: string | undefined
-  let toggleKey: string | undefined
-  const hint = () => toggleKey ?? `/${PANE}`
 
   on('session.start', async ($, e, next) => {
-    toggleKey = await boundKey($)
+    const key = await syncChord($)
     const top = await $.process
       .run(['git', 'rev-parse', '--show-toplevel'], { timeoutMs: 5_000 })
       .catch(() => undefined)
     root = top?.exitCode === 0 ? top.stdout.trim() : undefined
+    await refreshGit($, root, false)
+    await setOpen($, await isPaneOpen($))
     $.clock.every(100, async () => {
+      if (!(await read($, paneOpen))) {
+        return
+      }
       tick++
       const busy = isBusy(await read($, agents), await read($, skillRuns), await read($, recent))
-      if ((busy || tick % 100 === 0) && (await isPaneOpen($))) {
+      if (busy || tick % 100 === 0) {
         $.ui.invalidate('ui.render')
       }
     })
@@ -372,7 +410,7 @@ export const register: Register = on => {
 
     await $.command.register({
       name: PANE,
-      description: `Open or close the summary pane${toggleKey === undefined ? '' : ` (${toggleKey})`}`,
+      description: `Open or close the summary pane${key === '' ? '' : ` (${key})`}`,
       immediate: true,
     })
 
@@ -397,7 +435,7 @@ export const register: Register = on => {
     await update($, now, () => row.startedAt)
 
     return ran
-  })
+  }).catch((_, e, next) => next(e))
 
   on('turn.step', async function* ($, e, next) {
     if (e.agentId !== undefined) {
@@ -428,7 +466,7 @@ export const register: Register = on => {
     }
 
     return ran
-  })
+  }).catch((_, e, next) => next(e))
 
   on('tool.call', async ($, e, next) => {
     const tool = String(e.tool)
@@ -447,7 +485,7 @@ export const register: Register = on => {
     await record($, tool, id, pathOf(e), ran)
 
     return ran
-  })
+  }).catch((_, e, next) => next(e))
 
   on('tool.call', { tool: 'TaskStop' }, async ($, e, next) => {
     const ran = await next(e)
@@ -464,7 +502,7 @@ export const register: Register = on => {
     }
 
     return ran
-  })
+  }).catch((_, e, next) => next(e))
 
   on('turn.complete', async ($, e, next) => {
     const id = e.agentId
@@ -473,6 +511,9 @@ export const register: Register = on => {
       await patch($, id, a =>
         isLive(a) && !a.listed ? { ...a, status: TURN_END[e.reason], endedAt } : undefined,
       )
+    }
+    if (id !== undefined) {
+      await refreshGit($, root, true)
     }
     if (id === undefined) {
       if (loaded.length > 0) {
@@ -501,8 +542,8 @@ export const register: Register = on => {
           [item, ...list.filter(w => w.id !== item.id)].slice(0, RECENT_MAX),
         )
       }
-      if (worked && root !== undefined) {
-        await refreshGit($, root)
+      if (worked) {
+        await refreshGit($, root, true)
       }
       worked = false
     }
@@ -525,24 +566,34 @@ export const register: Register = on => {
     }
 
     return next(e)
-  })
+  }).catch((_, e, next) => next(e))
 
   on('command.run', { command: PANE }, async $ => ({
-    text: (await toggle($)) ? `summary pane opened (${hint()} to close)` : 'summary pane closed',
-  }))
+    text: (await toggle($, root))
+      ? `summary pane opened (${hintOf(await read($, chord))} to close)`
+      : 'summary pane closed',
+  })).catch((_, e, next) => next(e))
+
+  on('ui.close', { id: PANE }, async ($, e, next) => {
+    const closed = await next(e)
+    await setOpen($, false)
+
+    return closed
+  }).catch((_, e, next) => next(e))
 
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
-    if (e.props.hasSurvey) {
+    if (e.props.hasSurvey || (await read($, paneOpen))) {
       return next(e)
     }
+    const key = await read($, chord)
     const below = await next(e)
     const { Box, Button, Text } = $.ui.resolve(e)
 
     return (
       <Box flexDirection="column">
-        <Button plain key="toggle" action={TOGGLE_ACTION} onPress={() => toggle($)}>
-          <Text backgroundColor={C.surface0} color={C.lavender}>{` ${hint()} `}</Text>
-          <Text color={C.overlay}>{toggleKey === undefined ? '' : ' summary'}</Text>
+        <Button plain key="toggle" action={TOGGLE_ACTION} onPress={() => toggle($, root)}>
+          <Text backgroundColor={C.surface0} color={C.lavender}>{` ${hintOf(key)} `}</Text>
+          <Text color={C.overlay}>{key === '' ? '' : ' summary'}</Text>
         </Button>
         {below}
       </Box>
@@ -567,8 +618,11 @@ export const register: Register = on => {
     const rule = width - 2
     const at = busy ? (frame % (rule + 6)) - 3 : -3
     const lit = [at, at + 3].map(n => Math.min(rule, Math.max(0, n))) as [number, number]
-    const labelWidth = Math.max(0, ...list.map(a => a.label.length))
-    const modelWidth = Math.max(0, ...list.map(a => a.model.length))
+    const ended = list.filter(a => !isLive(a))
+    const hidden = new Set(ended.slice(0, Math.max(0, ended.length - AGENTS_ENDED_SHOWN)))
+    const shown = list.filter(a => !hidden.has(a))
+    const labelWidth = Math.max(0, ...shown.map(a => a.label.length))
+    const modelWidth = Math.max(0, ...shown.map(a => a.model.length))
     const pathWidth = width - 4 - 3 - 4
     const shortPath = (p: string) =>
       root !== undefined && p.startsWith(`${root}/`) ? p.slice(root.length + 1) : p
@@ -648,7 +702,7 @@ export const register: Register = on => {
               ))}
           </Text>
           {list.length === 0 && <Text color={C.overlay}>no agent running</Text>}
-          {list.map(a => (
+          {shown.map(a => (
             <Text wrap="truncate-end">
               <Text color={COLOR[a.status]}>{a.status === 'running' ? spin : ICON[a.status]}</Text>{' '}
               <Text color={C.text} dimColor={a.status !== 'running'}>
@@ -666,6 +720,7 @@ export const register: Register = on => {
               </Text>
             </Text>
           ))}
+          {hidden.size > 0 && <Text color={C.overlay}>{`+${hidden.size} more`}</Text>}
         </Box>
         <Box flexDirection="column" borderStyle="round" borderColor={C.surface1} paddingX={1}>
           <Text>
@@ -682,7 +737,7 @@ export const register: Register = on => {
               <Text color={f.status === undefined ? C.overlay : (GIT_COLOR[f.status] ?? C.peach)}>
                 {(f.status ?? '·').padEnd(2)}
               </Text>{' '}
-              <Text color={C.overlay}>{`${f.edits}×`.padStart(3)}</Text>{' '}
+              <Text color={C.overlay}>{(f.edits > 0 ? `${f.edits}×` : '·').padStart(3)}</Text>{' '}
               <Text color={C.text}>{tail(shortPath(f.path), pathWidth)}</Text>
             </Text>
           ))}
@@ -716,8 +771,8 @@ export const register: Register = on => {
           ))}
         </Box>
         <Box paddingX={1} gap={2}>
-          <Button plain key="toggle" action={TOGGLE_ACTION} onPress={() => toggle($)}>
-            {keycap(hint())}
+          <Button plain key="toggle" action={TOGGLE_ACTION} onPress={() => toggle($, root)}>
+            {keycap(hintOf(await read($, chord)))}
             <Text color={C.subtext}> close</Text>
           </Button>
           <Text>

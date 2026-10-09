@@ -240,7 +240,7 @@ test('a stopped or vanished teammate keeps the time it worked', async ($, on) =>
   expect(await shows(/^agents {2}✓ 1 done {2}■ 1 killed$/)).toBe(true)
 })
 
-test('the band only offers the summary toggle and keeps the band beneath', async ($, on) => {
+test('the band offers the summary toggle only while the pane is closed', async ($, on) => {
   const { panes } = await setup($, on)
   await $.agent.spawn(spawn('PR 리뷰', 'reviewer'))
   const ui = await $.ui.mount({ plugin: 'summary', surface: 'terminal', ...BAND })
@@ -252,8 +252,12 @@ test('the band only offers the summary toggle and keeps the band beneath', async
 
   await ui.press({ key: 'toggle' })
   expect(panes).toEqual(['summary'])
-  await ui.press({ key: 'toggle' })
+  expect(await ui.find({ key: 'toggle' })).toBeUndefined()
+  expect(await ui.find({ text: /^below$/ })).toBeDefined()
+
+  await $.command.run({ command: 'summary', args: '' } as never)
   expect(panes).toEqual([])
+  expect(await ui.find({ key: 'toggle' })).toBeDefined()
   await ui.unmount()
 })
 
@@ -357,6 +361,9 @@ test('a summary the model cannot give falls back to the first line of the reply'
 
 test('files lists what the session edited with its git status', async ($, on) => {
   const { git, shows } = await setup($, on)
+  git.status = ' M other.ts\n'
+  await $.command.run({ command: 'summary', args: '' } as never)
+  expect(await shows(/^files {2}0 edited · 1 uncommitted$/)).toBe(true)
   const edit = { tool: 'Edit', file_path: '/repo/src/a.ts', old_string: 'a', new_string: 'b' }
   await $.tool.call(edit as never)
   await $.tool.call(edit as never)
@@ -368,6 +375,45 @@ test('files lists what the session edited with its git status', async ($, on) =>
   expect(await shows(/^\?\? +1× b\.ts$/)).toBe(true)
   expect(await shows(/^M +2× src\/a\.ts$/)).toBe(true)
   expect(await shows(/c\.ts/)).toBe(false)
+})
+
+test('files a shell or a finished subagent changed join without an edit count', async ($, on) => {
+  const { git, shows } = await setup($, on)
+  git.status = ' M other.ts\n'
+  await $.command.run({ command: 'summary', args: '' } as never)
+  await $.tool.call({ tool: 'Bash', command: 'sed -i s/a/b/ sh.ts' } as never)
+  git.status = ' M other.ts\n M sh.ts\n'
+  await $.turn.complete(finish('m1', 'done'))
+  expect(await shows(/^files {2}1 edited · 2 uncommitted$/)).toBe(true)
+  expect(await shows(/^M +· sh\.ts$/)).toBe(true)
+  expect(await shows(/other\.ts/)).toBe(false)
+
+  git.status += '?? bg.ts\n'
+  await $.turn.complete({
+    answer: 'ok',
+    durationMs: 1_000,
+    isAborted: false,
+    turnId: 't2',
+    agentId: 'a9',
+    reason: 'answer',
+  })
+  expect(await shows(/^\?\? +· bg\.ts$/)).toBe(true)
+})
+
+test('the pane keeps live agents and only the latest finished ones', async ($, on) => {
+  const { clock, live, shows } = await setup($, on)
+  for (let i = 1; i <= 8; i++) {
+    await $.agent.spawn(spawn(`작업${i}`, 'general-purpose'))
+  }
+  for (let i = 1; i <= 7; i++) {
+    live[`a${i}`] = 'completed'
+  }
+  await clock.advance(1_000)
+  expect(await shows(/^agents {2}● 1 running {2}✓ 7 done$/)).toBe(true)
+  expect(await shows(/작업8/)).toBe(true)
+  expect(await shows(/작업3/)).toBe(true)
+  expect(await shows(/작업2/)).toBe(false)
+  expect(await shows(/^\+2 more$/)).toBe(true)
 })
 
 test('alerts collect denied and failed tool calls until the next prompt', async ($, on) => {
