@@ -23,6 +23,8 @@ JSON/JSONC 도 Biome 을 기본으로 사용한다 (prettier 아님). 단 Biome 
 }
 ```
 
+`biome.json` 이 없는 저장소의 JS/TS 는 기본값(tab, 큰따옴표, 세미콜론, 폭 80) 그대로 포맷한다. 기존 코드나 예제 스타일에 맞추려고 `--indent-style`, `--quote-style`, `--semicolons`, `--line-width` 같은 포맷 플래그를 즉석에서 붙이지 않는다 — 플래그는 어디에도 남지 않아 에디터(conform → biome 기본값)와 결과가 어긋난다.
+
 명령어:
 
 - 린트만: `biome lint .`

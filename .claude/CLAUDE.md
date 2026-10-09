@@ -39,6 +39,11 @@
 
 단, draft/WIP 커밋 등 의도적으로 lint 실패 상태를 보존해야 하는 경우, 사용자에게 확인 후 생략할 수 있다.
 
+## mod 작성 스타일
+
+- mod(`.claude/mods/`, dev-mods) 의 TS/TSX 코드는 `plugin-authoring` 예제 스타일(작은따옴표, 세미콜론 없음, 2-space)을 따르지 않고 처음부터 biome 기본 포맷(tab, 큰따옴표, 세미콜론, 폭 80)으로 작성한다.
+- 포맷은 플래그 없이 `biome check --write <파일>` 로 적용한다.
+
 ## 작업 명세 확인
 
 - 구현, 리뷰, 포맷, 린트, 커밋, PR, issue 작업을 시작하기 전에 현재 요청에
