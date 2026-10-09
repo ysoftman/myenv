@@ -281,6 +281,8 @@ function set_alias {
     # tool_call(LLM 은 텍스트만 생성, 파일을 쓰거나 명령을 실행하는 건 못 하는데 그 간극을 메우는 약속)지원 안된다.
     # alias mlxserver='mlx_lm.server --port 8080 --model lmstudio-community/Qwen2.5-Coder-7B-Instruct-MLX-4bit'
     alias mlxserver='mlx_lm.server --port 8080 --model mlx-community/Qwen3-8B-4bit'
+
+    alias aiusage="${myenv_path}/ai_usage.py"
 }
 
 # kube prompt 사용
