@@ -14,7 +14,6 @@ const mainModel = atom({ plugin: 'summary', key: 'model' } as const, '')
 
 const PANE = 'summary'
 const TOGGLE_ACTION = 'app:toggleDiffPreSession'
-const TOGGLE_KEY = 'ctrl+x s'
 const RECENT_MAX = 5
 const RUNS_MAX = 8
 const FILES_MAX = 20
@@ -297,6 +296,20 @@ const toggle = async ($: EngineInterface) => {
   return true
 }
 
+const boundKey = async ($: EngineInterface) => {
+  try {
+    const { bindings = [] } = JSON.parse(
+      await $.fs.read(`${await $.env.get('HOME')}/.claude/keybindings.json`),
+    ) as { bindings?: { context?: string; bindings?: Record<string, unknown> }[] }
+    return bindings
+      .filter(b => b.context === 'Global')
+      .flatMap(b => Object.entries(b.bindings ?? {}))
+      .find(([, action]) => action === TOGGLE_ACTION)?.[0]
+  } catch {
+    return undefined
+  }
+}
+
 const isBusy = (list: AgentRow[], runs: SkillRun[], work: WorkItem[]) =>
   list.some(a => a.status === 'running') ||
   (runs.length > 0 && runs.at(-1)?.result === undefined) ||
@@ -309,8 +322,11 @@ export const register: Register = on => {
   let draining = false
   let tick = 0
   let root: string | undefined
+  let toggleKey: string | undefined
+  const hint = () => toggleKey ?? `/${PANE}`
 
   on('session.start', async ($, e, next) => {
+    toggleKey = await boundKey($)
     const top = await $.process
       .run(['git', 'rev-parse', '--show-toplevel'], { timeoutMs: 5_000 })
       .catch(() => undefined)
@@ -356,7 +372,7 @@ export const register: Register = on => {
 
     await $.command.register({
       name: PANE,
-      description: `Open or close the summary pane (${TOGGLE_KEY})`,
+      description: `Open or close the summary pane${toggleKey === undefined ? '' : ` (${toggleKey})`}`,
       immediate: true,
     })
 
@@ -512,9 +528,7 @@ export const register: Register = on => {
   })
 
   on('command.run', { command: PANE }, async $ => ({
-    text: (await toggle($))
-      ? `summary pane opened (${TOGGLE_KEY} to close)`
-      : 'summary pane closed',
+    text: (await toggle($)) ? `summary pane opened (${hint()} to close)` : 'summary pane closed',
   }))
 
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
@@ -527,8 +541,8 @@ export const register: Register = on => {
     return (
       <Box flexDirection="column">
         <Button plain key="toggle" action={TOGGLE_ACTION} onPress={() => toggle($)}>
-          <Text backgroundColor={C.surface0} color={C.lavender}>{` ${TOGGLE_KEY} `}</Text>
-          <Text color={C.overlay}> summary</Text>
+          <Text backgroundColor={C.surface0} color={C.lavender}>{` ${hint()} `}</Text>
+          <Text color={C.overlay}>{toggleKey === undefined ? '' : ' summary'}</Text>
         </Button>
         {below}
       </Box>
@@ -703,7 +717,7 @@ export const register: Register = on => {
         </Box>
         <Box paddingX={1} gap={2}>
           <Button plain key="toggle" action={TOGGLE_ACTION} onPress={() => toggle($)}>
-            {keycap(TOGGLE_KEY)}
+            {keycap(hint())}
             <Text color={C.subtext}> close</Text>
           </Button>
           <Text>

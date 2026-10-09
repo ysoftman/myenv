@@ -394,8 +394,32 @@ test('the header icon pulses only while something runs', async ($, on) => {
 
 test('/summary opens and closes the pane without a keybinding', async ($, on) => {
   const { panes } = await setup($, on)
-  expect((await $.command.run({ command: 'summary', args: '' } as never)).text).toMatch(/opened/)
+  const ui = await $.ui.mount({ plugin: 'summary', surface: 'terminal', ...BAND })
+  expect(await ui.find({ text: /^ \/summary $/ })).toBeDefined()
+  await ui.unmount()
+  expect((await $.command.run({ command: 'summary', args: '' } as never)).text).toBe(
+    'summary pane opened (/summary to close)',
+  )
   expect(panes).toEqual(['summary'])
   expect((await $.command.run({ command: 'summary', args: '' } as never)).text).toMatch(/closed/)
   expect(panes).toEqual([])
+})
+
+test('the toggle hint names the chord bound to the toggle action', async ($, on) => {
+  on('env.get', () => ({ value: '/home/me' }))
+  on('fs.read', (_, e) => ({
+    value:
+      e.path === '/home/me/.claude/keybindings.json'
+        ? JSON.stringify({
+            bindings: [{ context: 'Global', bindings: { 'ctrl+x s': 'app:toggleDiffPreSession' } }],
+          })
+        : '',
+  }))
+  await setup($, on)
+  const ui = await $.ui.mount({ plugin: 'summary', surface: 'terminal', ...BAND })
+  expect(await ui.find({ text: /^ ctrl\+x s $/ })).toBeDefined()
+  await ui.unmount()
+  expect((await $.command.run({ command: 'summary', args: '' } as never)).text).toBe(
+    'summary pane opened (ctrl+x s to close)',
+  )
 })
