@@ -37,6 +37,11 @@ const TURN_END: Record<TurnCompleteReason, AgentRow['status']> = {
   error: 'failed',
 }
 
+const ORDER: AgentRow['status'][] = ['running', 'idle', 'done', 'failed', 'killed']
+
+const modelColor = (model: string) =>
+  model.startsWith('opus') ? 'claude' : model.startsWith('haiku') ? 'planMode' : 'suggestion'
+
 const LABEL_MAX = 20
 
 const elapsed = (ms: number) => {
@@ -165,18 +170,28 @@ export const register: Register = on => {
     const { Box, Text } = $.ui.resolve(e)
     const labelWidth = Math.max(...list.map(a => a.label.length))
     const modelWidth = Math.max(...list.map(a => a.model.length))
-    const running = list.filter(a => a.status === 'running').length
+    const counts = ORDER.map(s => [s, list.filter(a => a.status === s).length] as const)
 
     return (
       <Box flexDirection="column">
-        <Text dimColor>
-          agents {running} running / {list.length}
+        <Text>
+          <Text bold>agents</Text>
+          {counts
+            .filter(([, n]) => n > 0)
+            .map(([s, n]) => (
+              <Text color={COLOR[s]}>{`  ${ICON[s]} ${n} ${s}`}</Text>
+            ))}
         </Text>
         {list.map(a => (
           <Text wrap="truncate-end">
-            <Text color={COLOR[a.status]}>{ICON[a.status]}</Text> {a.label.padEnd(labelWidth)}{' '}
-            <Text color="suggestion">{a.model.padEnd(modelWidth)}</Text>{' '}
-            {elapsed((a.status === 'running' ? t : (a.endedAt ?? t)) - a.startedAt).padStart(6)}{' '}
+            <Text color={COLOR[a.status]}>{ICON[a.status]}</Text>{' '}
+            <Text dimColor={a.status !== 'running'}>{a.label.padEnd(labelWidth)}</Text>{' '}
+            <Text color={modelColor(a.model)} dimColor={a.status !== 'running'}>
+              {a.model.padEnd(modelWidth)}
+            </Text>{' '}
+            <Text dimColor={a.status !== 'running'}>
+              {elapsed((a.status === 'running' ? t : (a.endedAt ?? t)) - a.startedAt).padStart(6)}
+            </Text>{' '}
             <Text dimColor>
               {a.description}
               {a.status === 'running' && a.tool !== undefined ? ` · ${a.tool}` : ''}

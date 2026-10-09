@@ -77,9 +77,14 @@ test('tracks status, name, model and elapsed time per agent', async ($, on) => {
 
   for (const surface of ['terminal', 'desktop'] as const) {
     const ui = await $.ui.mount({ plugin: 'agent-status', surface, ...BAND })
-    expect(await ui.find({ text: /agents 1 running \/ 2/ })).toBeDefined()
+    expect(await ui.find({ text: /^agents {2}● 1 running {2}✓ 1 done$/ })).toBeDefined()
     expect(await ui.find({ text: /● reviewer sonnet-5-5 +1m05s PR 리뷰 · Read/ })).toBeDefined()
     expect(await ui.find({ text: /✓ typo +haiku-5-5 +43s 오타 검사/ })).toBeDefined()
+    const part = async (text: RegExp) => (await ui.find({ type: 'Text', text }))?.props
+    expect(await part(/^sonnet-5-5 *$/)).toMatchObject({ color: 'suggestion', dimColor: false })
+    expect(await part(/^haiku-5-5 *$/)).toMatchObject({ color: 'planMode', dimColor: true })
+    expect(await part(/^reviewer *$/)).toMatchObject({ dimColor: false })
+    expect(await part(/^typo *$/)).toMatchObject({ dimColor: true })
     await ui.unmount()
   }
 
@@ -149,4 +154,5 @@ test('a stopped or vanished teammate keeps the time it worked', async ($, on) =>
   await clock.advance(2_000)
   expect(await shows(/■ idler +haiku-5-5 +3s/)).toBe(true)
   expect(await shows(/✓ scout +haiku-5-5 +3s/)).toBe(true)
+  expect(await shows(/^agents {2}✓ 1 done {2}■ 1 killed$/)).toBe(true)
 })
