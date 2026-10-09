@@ -291,9 +291,10 @@ const isPaneOpen = async ($: EngineInterface) => (await $.ui.panes()).some(p => 
 const toggle = async ($: EngineInterface) => {
   if (await isPaneOpen($)) {
     await $.ui.close({ id: PANE })
-  } else {
-    await $.ui.open({ id: PANE, title: 'summary', columns: 60 })
+    return false
   }
+  await $.ui.open({ id: PANE, title: 'summary', columns: 60 })
+  return true
 }
 
 const isBusy = (list: AgentRow[], runs: SkillRun[], work: WorkItem[]) =>
@@ -351,6 +352,12 @@ export const register: Register = on => {
       if ((await read($, agents)).some(a => a.status === 'running')) {
         await update($, now, () => t)
       }
+    })
+
+    await $.command.register({
+      name: PANE,
+      description: `Open or close the summary pane (${TOGGLE_KEY})`,
+      immediate: true,
     })
 
     return next(e)
@@ -503,6 +510,12 @@ export const register: Register = on => {
 
     return next(e)
   })
+
+  on('command.run', { command: PANE }, async $ => ({
+    text: (await toggle($))
+      ? `summary pane opened (${TOGGLE_KEY} to close)`
+      : 'summary pane closed',
+  }))
 
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
     if (e.props.hasSurvey) {

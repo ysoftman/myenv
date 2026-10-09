@@ -48,6 +48,7 @@ const setup = async ($: Engine, on: On) => {
   const live: Record<string, AgentStatus> = {}
   let n = 0
   on('session.start', (_, e) => ({ cwd: e.cwd }))
+  on('command.register', (_, e) => ({ value: { command: e.name } }))
   on('agent.spawn', (_, e) => {
     const id = `a${++n}`
     if (e.workflow === undefined) {
@@ -389,4 +390,12 @@ test('the header icon pulses only while something runs', async ($, on) => {
   expect(await shows(/^◆ summary$/)).toBe(true)
   await $.agent.spawn(spawn('PR 리뷰', 'reviewer'))
   expect(await shows(/^[◇◈◆] summary$/)).toBe(true)
+})
+
+test('/summary opens and closes the pane without a keybinding', async ($, on) => {
+  const { panes } = await setup($, on)
+  expect((await $.command.run({ command: 'summary', args: '' } as never)).text).toMatch(/opened/)
+  expect(panes).toEqual(['summary'])
+  expect((await $.command.run({ command: 'summary', args: '' } as never)).text).toMatch(/closed/)
+  expect(panes).toEqual([])
 })
