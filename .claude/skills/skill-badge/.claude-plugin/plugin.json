@@ -1,0 +1,6 @@
+{
+  "name": "skill-badge",
+  "version": "0.1.0",
+  "description": "Show the active skill with the model/effort its turn actually runs on, and flag when the next turn falls back to another model",
+  "types": "./types/index.d.ts"
+}
