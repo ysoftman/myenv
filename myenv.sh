@@ -5,6 +5,7 @@
 # shellcheck disable=SC1090
 # shellcheck disable=SC2139
 # shellcheck disable=SC2045
+# shellcheck disable=SC2207
 
 os_name=$(uname -o | tr '[:upper:]' '[:lower:]')
 os_name_kernel_release=$(uname -r | awk '{print tolower($0)}')
@@ -136,7 +137,8 @@ function set_path_and_vars {
             # wslvar reg.exe 등의 에러 발생시 업데이트
             echo "need to install wslu(Windows Subsystem for Linux Utilities) for wslvar(reg.exe...)"
 
-            local os_id=$(cat /etc/os-release | grep -E '^ID=' | sed 's/ID=//')
+            local os_id
+            os_id=$(cat /etc/os-release | grep -E '^ID=' | sed 's/ID=//')
             if [[ $os_id == "debian" ]]; then
                 sudo apt update
                 sudo apt install -y git make
@@ -349,7 +351,7 @@ function fzf-hosts-widget {
     # branches 위젯과 동일하게 tmux 팝업으로 표시한다.
     # zellij 에서는 tmux 팝업이 실패하므로 --tmux 를 빼고 인라인(--height)으로 동작시킨다.
     local fzf_opts=()
-    [[ -z "$ZELLIJ" ]] && fzf_opts+=(--tmux 80%,70%)
+    [[ -z "$ZELLIJ" ]] && fzf_opts+=(--tmux "80%,70%")
 
     local selected
     selected=$(printf '%s\n' "${hosts}" | fzf "${fzf_opts[@]}" --prompt="host: ") || return 1
