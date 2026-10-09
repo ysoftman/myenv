@@ -94,13 +94,9 @@ const setup = async ($: Engine, on: On) => {
       usage: null,
     }
   })
-  const skill: Record<string, unknown> = { runs: [], model: '' }
-  let version = 0
-  on('state.get', (_, e, next) =>
-    e.plugin === 'skill-badge'
-      ? { value: { value: skill[e.key] as never, version: ++version } }
-      : next(e),
-  )
+  on('command.list', () => ({
+    value: ['jira', 'commit'].map(name => ({ name, description: '', source: 'user' as const })),
+  }))
   const ai: { text?: string; prompt?: string } = { text: 'summary pane 커밋' }
   const usage = {
     input_tokens: 0,
@@ -141,12 +137,12 @@ const setup = async ($: Engine, on: On) => {
   await $.session.start({ cwd: '/', surface: 'terminal', isInteractive: true })
 
   const shows = async (text: RegExp) => {
-    const ui = await $.ui.mount({ plugin: 'agent-status', surface: 'terminal', ...PANE })
+    const ui = await $.ui.mount({ plugin: 'summary', surface: 'terminal', ...PANE })
     const found = await ui.find({ text })
     await ui.unmount()
     return found !== undefined
   }
-  return { ai, clock, fail, git, live, panes, skill, shows, writes }
+  return { ai, clock, fail, git, live, panes, shows, writes }
 }
 
 test('tracks status, name, model and elapsed time per agent', async ($, on) => {
@@ -160,7 +156,7 @@ test('tracks status, name, model and elapsed time per agent', async ($, on) => {
   await clock.advance(23_000)
 
   for (const surface of ['terminal', 'desktop'] as const) {
-    const ui = await $.ui.mount({ plugin: 'agent-status', surface, ...PANE })
+    const ui = await $.ui.mount({ plugin: 'summary', surface, ...PANE })
     expect(await ui.find({ text: /^agents {2}● 1 running {2}✓ 1 done$/ })).toBeDefined()
     expect(
       await ui.find({ text: new RegExp(`${SPIN} reviewer sonnet-5-5 +1m05s PR 리뷰 · Read`) }),
@@ -246,7 +242,7 @@ test('a stopped or vanished teammate keeps the time it worked', async ($, on) =>
 test('the band only offers the summary toggle and keeps the band beneath', async ($, on) => {
   const { panes } = await setup($, on)
   await $.agent.spawn(spawn('PR 리뷰', 'reviewer'))
-  const ui = await $.ui.mount({ plugin: 'agent-status', surface: 'terminal', ...BAND })
+  const ui = await $.ui.mount({ plugin: 'summary', surface: 'terminal', ...BAND })
   expect((await ui.find({ key: 'toggle' }))?.props).toMatchObject({
     action: 'app:toggleDiffPreSession',
   })
@@ -279,21 +275,26 @@ test('a forked skill the engine runs with no agent.spawn shows once it steps', a
 })
 
 test('the pane lists skill runs with the model each ran on', async ($, on) => {
-  const { skill, shows } = await setup($, on)
-  skill.runs = [
-    {
-      skills: ['jira'],
-      model: 'sonnet-5-5',
+  const { shows } = await setup($, on)
+  const type = (text: string) =>
+    $.prompt.submit({ text, wait: false, origin: { kind: 'composer' } })
+  const step = async (turnId: string) => {
+    for await (const _ of $.turn.step({
+      turnId,
+      index: 0,
+      model: 'claude-sonnet-5-5',
       effort: 'low',
-      startedAt: 977_000,
-      endedAt: 1_000_000,
-      result: 'done',
-    },
-    { skills: ['commit'], model: 'sonnet-5-5', effort: 'low', startedAt: 1_000_000 },
-  ]
-  skill.model = 'sonnet-5-5 · low'
+      messageCount: 1,
+    })) {
+    }
+  }
+  await type('/jira list')
+  await step('t1')
+  await $.turn.complete(finish('t1', ''))
+  await type('/commit')
+  await step('t2')
   expect(await shows(new RegExp(`^${SPIN} commit sonnet-5-5 · low 0s$`))).toBe(true)
-  expect(await shows(/^✓ jira sonnet-5-5 · low 23s$/)).toBe(true)
+  expect(await shows(/^✓ jira sonnet-5-5 · low 0s$/)).toBe(true)
   expect(await shows(/^sonnet-5-5 · low$/)).toBe(true)
 })
 

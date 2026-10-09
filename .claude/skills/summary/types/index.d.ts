@@ -34,15 +34,26 @@ export type Alert = {
   agent?: string
 }
 
+export type SkillRun = {
+  skills: string[]
+  model: string
+  effort?: string
+  startedAt: number
+  endedAt?: number
+  result?: 'done' | 'failed' | 'aborted'
+}
+
 declare module 'claude-code' {
   interface PluginState {
-    'agent-status': {
+    summary: {
       agents: AgentRow[]
       now: number
       recent: WorkItem[]
       files: FileTouch[]
       dirty: number
       alerts: Alert[]
+      runs: SkillRun[]
+      model: string
     }
   }
 }

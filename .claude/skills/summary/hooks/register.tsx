@@ -1,29 +1,22 @@
-import type {
-  AgentStatus,
-  EngineInterface,
-  PluginState,
-  Register,
-  TurnCompleteReason,
-} from 'claude-code'
+import type { AgentStatus, EngineInterface, Register, TurnCompleteReason } from 'claude-code'
 import { atom, read, update } from 'claude-code'
 
-import type { AgentRow, Alert, WorkItem } from '../types'
+import type { AgentRow, Alert, SkillRun, WorkItem } from '../types'
 
-type SkillRun = PluginState['skill-badge']['runs'][number]
-
-const agents = atom({ plugin: 'agent-status', key: 'agents' } as const, [])
-const now = atom({ plugin: 'agent-status', key: 'now' } as const, 0)
-const recent = atom({ plugin: 'agent-status', key: 'recent' } as const, [])
-const files = atom({ plugin: 'agent-status', key: 'files' } as const, [])
-const dirty = atom({ plugin: 'agent-status', key: 'dirty' } as const, 0)
-const alerts = atom({ plugin: 'agent-status', key: 'alerts' } as const, [])
-const skillRuns = atom({ plugin: 'skill-badge', key: 'runs' } as const, [])
-const mainModel = atom({ plugin: 'skill-badge', key: 'model' } as const, '')
+const agents = atom({ plugin: 'summary', key: 'agents' } as const, [])
+const now = atom({ plugin: 'summary', key: 'now' } as const, 0)
+const recent = atom({ plugin: 'summary', key: 'recent' } as const, [])
+const files = atom({ plugin: 'summary', key: 'files' } as const, [])
+const dirty = atom({ plugin: 'summary', key: 'dirty' } as const, 0)
+const alerts = atom({ plugin: 'summary', key: 'alerts' } as const, [])
+const skillRuns = atom({ plugin: 'summary', key: 'runs' } as const, [])
+const mainModel = atom({ plugin: 'summary', key: 'model' } as const, '')
 
 const PANE = 'summary'
 const TOGGLE_ACTION = 'app:toggleDiffPreSession'
 const TOGGLE_KEY = 'ctrl+x s'
 const RECENT_MAX = 5
+const RUNS_MAX = 8
 const FILES_MAX = 20
 const FILES_SHOWN = 6
 const ALERTS_MAX = 4
@@ -96,6 +89,13 @@ const STATUS: Record<AgentStatus, AgentRow['status']> = {
 const TURN_END: Record<TurnCompleteReason, AgentRow['status']> = {
   answer: 'done',
   aborted: 'killed',
+  refusal: 'failed',
+  error: 'failed',
+}
+
+const RUN_END: Record<TurnCompleteReason, SkillRun['result']> = {
+  answer: 'done',
+  aborted: 'aborted',
   refusal: 'failed',
   error: 'failed',
 }
@@ -239,6 +239,53 @@ const record = async (
   }
 }
 
+const short = (model: string) => model.replace(/^.*claude-/, '')
+
+const discover = async ($: EngineInterface, id: string, model: string) => {
+  if ((await read($, agents)).some(a => a.id === id)) {
+    return
+  }
+  const info = (await $.agent.list()).find(a => a.id === id)
+  if (info === undefined) {
+    return
+  }
+  const row: AgentRow = {
+    id,
+    label: clip(info.name ?? info.type),
+    model: short(model),
+    description: info.description,
+    startedAt: await $.clock.now(),
+    status: 'running',
+    listed: true,
+    ...(info.name === undefined ? {} : { name: info.name }),
+  }
+  await update($, agents, list => (list.some(a => a.id === id) ? list : [...list, row]))
+  await update($, now, () => row.startedAt)
+}
+
+const isOpenRun = (r: SkillRun | undefined) => r !== undefined && r.result === undefined
+
+const patchOpen = async ($: EngineInterface, fn: (r: SkillRun) => SkillRun) => {
+  const last = (await read($, skillRuns)).at(-1)
+  if (last !== undefined && isOpenRun(last) && JSON.stringify(fn(last)) !== JSON.stringify(last)) {
+    await update($, skillRuns, l => [...l.slice(0, -1), fn(last)])
+  }
+}
+
+const openRun = async ($: EngineInterface, skills: string[], model: string, effort?: string) => {
+  if (isOpenRun((await read($, skillRuns)).at(-1))) {
+    await patchOpen($, r => ({ ...r, skills }))
+    return
+  }
+  const run: SkillRun = {
+    skills,
+    model,
+    ...(effort === undefined ? {} : { effort }),
+    startedAt: await $.clock.now(),
+  }
+  await update($, skillRuns, l => [...l, run].slice(-RUNS_MAX))
+}
+
 const isPaneOpen = async ($: EngineInterface) => (await $.ui.panes()).some(p => p.id === PANE)
 
 const toggle = async ($: EngineInterface) => {
@@ -255,6 +302,7 @@ const isBusy = (list: AgentRow[], runs: SkillRun[], work: WorkItem[]) =>
   work.some(w => w.text === undefined)
 
 export const register: Register = on => {
+  let loaded: string[] = []
   let worked = false
   let ask = ''
   let draining = false
@@ -316,7 +364,7 @@ export const register: Register = on => {
     const row: AgentRow = {
       id: ran.agentId,
       label: clip(e.name ?? e.subagentType),
-      model: ran.model.replace(/^.*claude-/, ''),
+      model: short(ran.model),
       description: e.description,
       startedAt: await $.clock.now(),
       status: 'running',
@@ -329,26 +377,34 @@ export const register: Register = on => {
   })
 
   on('turn.step', async function* ($, e, next) {
-    const id = e.agentId
-    if (id !== undefined && !(await read($, agents)).some(a => a.id === id)) {
-      const info = (await $.agent.list()).find(a => a.id === id)
-      if (info !== undefined) {
-        const row: AgentRow = {
-          id,
-          label: clip(info.name ?? info.type),
-          model: e.model.replace(/^.*claude-/, ''),
-          description: info.description,
-          startedAt: await $.clock.now(),
-          status: 'running',
-          listed: true,
-          ...(info.name === undefined ? {} : { name: info.name }),
-        }
-        await update($, agents, list => (list.some(a => a.id === id) ? list : [...list, row]))
-        await update($, now, () => row.startedAt)
-      }
+    if (e.agentId !== undefined) {
+      await discover($, e.agentId, e.model)
+      return yield* next(e)
+    }
+    const effort = e.effort === undefined ? undefined : String(e.effort)
+    if (loaded.length > 0) {
+      await openRun($, [...loaded], short(e.model), effort)
+    }
+    const step = yield* next(e)
+    const answered = short(step.usage?.model ?? e.model)
+    if (loaded.length > 0) {
+      await patchOpen($, r => ({ ...r, model: answered }))
+    }
+    const tag = [answered, effort].filter(v => v !== undefined).join(' · ')
+    if ((await read($, mainModel)) !== tag) {
+      await update($, mainModel, () => tag)
     }
 
-    return yield* next(e)
+    return step
+  })
+
+  on('tool.call', { tool: 'Skill' }, async (_, e, next) => {
+    const ran = await next(e)
+    if (e.agentId === undefined && ran.deny === undefined && ran.isError !== true) {
+      loaded = [...new Set([...loaded, e.skill])]
+    }
+
+    return ran
   })
 
   on('tool.call', async ($, e, next) => {
@@ -396,6 +452,11 @@ export const register: Register = on => {
       )
     }
     if (id === undefined) {
+      if (loaded.length > 0) {
+        const endedAt = await $.clock.now()
+        await patchOpen($, r => ({ ...r, endedAt, result: RUN_END[e.reason] }))
+        loaded = []
+      }
       if (worked && e.reason === 'answer' && e.answer.trim() !== '') {
         const item: WorkItem = {
           id: e.turnId,
@@ -429,6 +490,9 @@ export const register: Register = on => {
   on('prompt.submit', async ($, e, next) => {
     if (e.turnId === undefined) {
       ask = e.text.slice(0, 1000)
+      const name = /^\/([\w:.-]+)(?=\s|$)/.exec(e.text)?.[1]
+      const isCommand = name !== undefined && (await $.command.list()).some(c => c.name === name)
+      loaded = isCommand ? [name] : []
     }
     if (e.origin.kind === 'composer' || e.origin.kind === 'bridge') {
       await update($, agents, list => list.filter(isLive))
