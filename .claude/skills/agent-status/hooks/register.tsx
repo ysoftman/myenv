@@ -7,18 +7,32 @@ import type {
 } from 'claude-code'
 import { atom, read, update } from 'claude-code'
 
-import type { AgentRow } from '../types'
+import type { AgentRow, Alert, WorkItem } from '../types'
 
 type SkillRun = PluginState['skill-badge']['runs'][number]
 
 const agents = atom({ plugin: 'agent-status', key: 'agents' } as const, [])
 const now = atom({ plugin: 'agent-status', key: 'now' } as const, 0)
+const recent = atom({ plugin: 'agent-status', key: 'recent' } as const, [])
+const files = atom({ plugin: 'agent-status', key: 'files' } as const, [])
+const dirty = atom({ plugin: 'agent-status', key: 'dirty' } as const, 0)
+const alerts = atom({ plugin: 'agent-status', key: 'alerts' } as const, [])
 const skillRuns = atom({ plugin: 'skill-badge', key: 'runs' } as const, [])
 const mainModel = atom({ plugin: 'skill-badge', key: 'model' } as const, '')
 
 const PANE = 'summary'
 const TOGGLE_ACTION = 'app:toggleDiffPreSession'
 const TOGGLE_KEY = 'ctrl+x s'
+const RECENT_MAX = 5
+const FILES_MAX = 20
+const FILES_SHOWN = 6
+const ALERTS_MAX = 4
+const EDIT_TOOLS = new Set(['Edit', 'MultiEdit', 'Write', 'NotebookEdit'])
+const SUMMARY =
+  'You write one-line entries for a log of finished work. Given what the user asked and the ' +
+  "coding assistant's final reply, say what the assistant did in at most 40 characters, in the " +
+  'language of the reply, as a terse phrase. Describe the action taken, not the content it ' +
+  'reported. No quotes, no markdown, no trailing period.'
 
 const C = {
   text: '#cdd6f4',
@@ -40,7 +54,7 @@ const C = {
 }
 
 const SPINNER = '⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
-const SPARK = '✦✧✶✷✸✹✸✷✶✧'
+const PULSE = '◇◈◆◈'
 const GLOW = [C.mauve, C.pink, C.lavender, C.blue, C.sky, C.blue, C.lavender, C.pink]
 
 const ICON: Record<AgentRow['status'], string> = {
@@ -56,6 +70,13 @@ const COLOR: Record<AgentRow['status'], string> = {
   done: C.green,
   failed: C.red,
   killed: C.red,
+}
+const GIT_COLOR: Record<string, string> = {
+  M: C.yellow,
+  A: C.green,
+  D: C.red,
+  R: C.blue,
+  '??': C.teal,
 }
 const RUN: Record<NonNullable<SkillRun['result']>, { icon: string; color: string }> = {
   done: { icon: '✓', color: C.green },
@@ -111,6 +132,113 @@ const patch = async ($: EngineInterface, id: string, fn: (a: AgentRow) => AgentR
   }
 }
 
+const cut = (s: string, n: number) => (s.length > n ? `${s.slice(0, n - 1)}…` : s)
+
+const firstLine = (answer: string) =>
+  cut(
+    answer
+      .split('\n')
+      .map(l =>
+        l
+          .replace(/^[#>*\-\s]+/, '')
+          .replace(/[*`]/g, '')
+          .trim(),
+      )
+      .find(l => l !== '') ?? 'done',
+    60,
+  )
+
+const ago = (ms: number) => {
+  const s = Math.max(0, Math.round(ms / 1000))
+  return s < 60 ? `${s}s` : s < 3600 ? `${Math.floor(s / 60)}m` : `${Math.floor(s / 3600)}h`
+}
+
+const summarize = async ($: EngineInterface, ask: string, answer: string) => {
+  try {
+    const done = await $.model.complete({
+      model: 'haiku',
+      system: SUMMARY,
+      prompt: `User asked:\n${ask}\n\nAssistant replied:\n${answer}`,
+      maxTokens: 60,
+      timeoutMs: 20_000,
+    })
+    const line = done.isAnswered ? done.text.split('\n')[0]?.trim() : undefined
+    return line ? cut(line, 60) : firstLine(answer)
+  } catch {
+    return firstLine(answer)
+  }
+}
+
+const kilo = (n: number) => (n < 1000 ? `${n}` : `${Math.round(n / 1000)}k`)
+
+const tail = (s: string, n: number) => (s.length > n ? `…${s.slice(s.length - n + 1)}` : s)
+
+const pathOf = (e: object) => {
+  const { file_path, notebook_path } = e as { file_path?: unknown; notebook_path?: unknown }
+  const path = file_path ?? notebook_path
+  return typeof path === 'string' ? path : undefined
+}
+
+const refreshGit = async ($: EngineInterface, root: string) => {
+  const run = await $.process
+    .run(['git', '-C', root, 'status', '--porcelain=v1', '--untracked-files=all'], {
+      timeoutMs: 5_000,
+    })
+    .catch(() => undefined)
+  if (run === undefined || run.exitCode !== 0) {
+    return
+  }
+  const status = new Map(
+    run.stdout
+      .split('\n')
+      .filter(l => l.length > 3)
+      .map(l => [l.slice(3).split(' -> ').at(-1) ?? '', l.slice(0, 2).trim()] as const),
+  )
+  if ((await read($, dirty)) !== status.size) {
+    await update($, dirty, () => status.size)
+  }
+  const list = await read($, files)
+  const next = list.map(({ status: _, ...f }) => {
+    const s = f.path.startsWith(`${root}/`) ? status.get(f.path.slice(root.length + 1)) : undefined
+    return s === undefined ? f : { ...f, status: s }
+  })
+  if (JSON.stringify(next) !== JSON.stringify(list)) {
+    await update($, files, () => next)
+  }
+}
+
+const record = async (
+  $: EngineInterface,
+  tool: string,
+  agentId: string | undefined,
+  path: string | undefined,
+  ran: { deny?: string; isError?: true; text?: string },
+) => {
+  const failed = ran.deny !== undefined || ran.isError === true
+  if (!failed && EDIT_TOOLS.has(tool) && path !== undefined) {
+    const stat = await $.fs.stat(path, { resolve: true }).catch(() => undefined)
+    const real = stat?.realPath ?? path
+    await update($, files, list => {
+      const hit = list.find(f => f.path === real)
+      return [
+        { ...hit, path: real, edits: (hit?.edits ?? 0) + 1 },
+        ...list.filter(f => f.path !== real),
+      ].slice(0, FILES_MAX)
+    })
+  }
+  if (failed && tool !== 'SubagentHandback') {
+    const agent =
+      agentId === undefined ? undefined : (await read($, agents)).find(a => a.id === agentId)?.label
+    const alert: Alert = {
+      at: await $.clock.now(),
+      tool,
+      reason: cut(firstLine((ran.deny ?? ran.text ?? '').trim() || 'error'), 120),
+      ...(agent === undefined ? {} : { agent }),
+    }
+    await update($, alerts, list => [alert, ...list].slice(0, ALERTS_MAX))
+  }
+}
+
 const isPaneOpen = async ($: EngineInterface) => (await $.ui.panes()).some(p => p.id === PANE)
 
 const toggle = async ($: EngineInterface) => {
@@ -121,14 +249,45 @@ const toggle = async ($: EngineInterface) => {
   }
 }
 
-const isBusy = (list: AgentRow[], runs: SkillRun[]) =>
-  list.some(a => a.status === 'running') || (runs.length > 0 && runs.at(-1)?.result === undefined)
+const isBusy = (list: AgentRow[], runs: SkillRun[], work: WorkItem[]) =>
+  list.some(a => a.status === 'running') ||
+  (runs.length > 0 && runs.at(-1)?.result === undefined) ||
+  work.some(w => w.text === undefined)
 
 export const register: Register = on => {
+  let worked = false
+  let ask = ''
+  let draining = false
+  let tick = 0
+  let root: string | undefined
+
   on('session.start', async ($, e, next) => {
+    const top = await $.process
+      .run(['git', 'rev-parse', '--show-toplevel'], { timeoutMs: 5_000 })
+      .catch(() => undefined)
+    root = top?.exitCode === 0 ? top.stdout.trim() : undefined
     $.clock.every(100, async () => {
-      if (isBusy(await read($, agents), await read($, skillRuns)) && (await isPaneOpen($))) {
+      tick++
+      const busy = isBusy(await read($, agents), await read($, skillRuns), await read($, recent))
+      if ((busy || tick % 100 === 0) && (await isPaneOpen($))) {
         $.ui.invalidate('ui.render')
+      }
+    })
+    $.clock.every(1500, async () => {
+      const item = (await read($, recent)).find(w => w.text === undefined)
+      if (draining || item === undefined) {
+        return
+      }
+      draining = true
+      try {
+        const text = await summarize($, item.ask ?? '', item.answer ?? '')
+        await update($, recent, list =>
+          list.map(({ ask: _ask, answer: _answer, ...w }) =>
+            w.id === item.id ? { ...w, text } : w,
+          ),
+        )
+      } finally {
+        draining = false
       }
     })
     $.clock.every(1000, async () => {
@@ -194,15 +353,19 @@ export const register: Register = on => {
 
   on('tool.call', async ($, e, next) => {
     const tool = String(e.tool)
-    if (e.agentId === undefined || tool === 'SubagentHandback') {
-      return next(e)
-    }
+    const id = e.agentId
+    worked ||= id === undefined
     const [, ran] = await Promise.all([
-      patch($, e.agentId, a =>
-        a.status === 'running' && a.tool === tool ? undefined : { ...a, status: 'running', tool },
-      ),
+      id === undefined || tool === 'SubagentHandback'
+        ? undefined
+        : patch($, id, a =>
+            a.status === 'running' && a.tool === tool
+              ? undefined
+              : { ...a, status: 'running', tool },
+          ),
       next(e),
     ])
+    await record($, tool, id, pathOf(e), ran)
 
     return ran
   })
@@ -232,13 +395,46 @@ export const register: Register = on => {
         isLive(a) && !a.listed ? { ...a, status: TURN_END[e.reason], endedAt } : undefined,
       )
     }
+    if (id === undefined) {
+      if (worked && e.reason === 'answer' && e.answer.trim() !== '') {
+        const item: WorkItem = {
+          id: e.turnId,
+          at: await $.clock.now(),
+          durationMs: e.durationMs,
+          ...(e.usage === undefined
+            ? {}
+            : {
+                tokens:
+                  e.usage.input_tokens +
+                  e.usage.output_tokens +
+                  e.usage.cache_read_input_tokens +
+                  e.usage.cache_creation_input_tokens,
+              }),
+          ask,
+          answer: e.answer.slice(0, 4000),
+        }
+        await update($, recent, list =>
+          [item, ...list.filter(w => w.id !== item.id)].slice(0, RECENT_MAX),
+        )
+      }
+      if (worked && root !== undefined) {
+        await refreshGit($, root)
+      }
+      worked = false
+    }
 
     return next(e)
   })
 
   on('prompt.submit', async ($, e, next) => {
+    if (e.turnId === undefined) {
+      ask = e.text.slice(0, 1000)
+    }
     if (e.origin.kind === 'composer' || e.origin.kind === 'bridge') {
       await update($, agents, list => list.filter(isLive))
+      if ((await read($, alerts)).length > 0) {
+        await update($, alerts, () => [])
+      }
     }
 
     return next(e)
@@ -266,11 +462,15 @@ export const register: Register = on => {
     const { Box, Button, Text } = $.ui.resolve(e)
     const list = await read($, agents)
     const runs = await read($, skillRuns)
+    const work = await read($, recent)
+    const touched = await read($, files)
+    const uncommitted = await read($, dirty)
+    const warnings = await read($, alerts)
     const tag = await read($, mainModel)
     const t = await $.clock.now()
     const frame = Math.floor(t / 100)
     const spin = SPINNER[frame % SPINNER.length]
-    const busy = isBusy(list, runs)
+    const busy = isBusy(list, runs, work)
     const glow = busy ? (GLOW[frame % GLOW.length] ?? C.mauve) : C.mauve
     const width = Math.max(30, e.props.bodyColumns)
     const rule = width - 2
@@ -278,6 +478,9 @@ export const register: Register = on => {
     const lit = [at, at + 3].map(n => Math.min(rule, Math.max(0, n))) as [number, number]
     const labelWidth = Math.max(0, ...list.map(a => a.label.length))
     const modelWidth = Math.max(0, ...list.map(a => a.model.length))
+    const pathWidth = width - 4 - 3 - 4
+    const shortPath = (p: string) =>
+      root !== undefined && p.startsWith(`${root}/`) ? p.slice(root.length + 1) : p
     const counts = ORDER.map(s => [s, list.filter(a => a.status === s).length] as const)
     const keycap = (k: string) => (
       <Text backgroundColor={C.surface0} color={C.lavender}>{` ${k} `}</Text>
@@ -287,7 +490,7 @@ export const register: Register = on => {
       <Box flexDirection="column" width={width}>
         <Box borderStyle="round" borderColor={glow} paddingX={1} justifyContent="space-between">
           <Text bold color={C.mauve}>
-            <Text color={glow}>{busy ? SPARK[frame % SPARK.length] : '✦'}</Text> summary
+            <Text color={glow}>{busy ? PULSE[frame % PULSE.length] : '◆'}</Text> summary
           </Text>
           <Text color={modelColor(tag)}>{tag}</Text>
         </Box>
@@ -298,6 +501,22 @@ export const register: Register = on => {
             <Text color={C.surface0}>{'━'.repeat(rule - lit[1])}</Text>
           </Text>
         </Box>
+        {warnings.length > 0 && (
+          <Box flexDirection="column" borderStyle="round" borderColor={C.red} paddingX={1}>
+            <Text bold color={C.red}>
+              alerts
+            </Text>
+            {warnings.map(a => (
+              <Text wrap="truncate-end">
+                <Text color={C.red}>✗</Text>{' '}
+                <Text color={C.overlay}>{`${ago(t - a.at)} ago`.padEnd(7)}</Text>{' '}
+                <Text color={C.peach}>{a.tool}</Text>
+                {a.agent !== undefined && <Text color={C.overlay}>{` @${a.agent}`}</Text>}
+                <Text color={C.subtext}>{`  ${a.reason}`}</Text>
+              </Text>
+            ))}
+          </Box>
+        )}
         <Box flexDirection="column" borderStyle="round" borderColor={C.surface1} paddingX={1}>
           <Text bold color={C.blue}>
             skills
@@ -353,6 +572,54 @@ export const register: Register = on => {
               <Text color={C.subtext} dimColor>
                 {a.description}
                 {a.status === 'running' && a.tool !== undefined ? ` · ${a.tool}` : ''}
+              </Text>
+            </Text>
+          ))}
+        </Box>
+        <Box flexDirection="column" borderStyle="round" borderColor={C.surface1} paddingX={1}>
+          <Text>
+            <Text bold color={C.yellow}>
+              files
+            </Text>
+            <Text color={C.overlay}>
+              {`  ${touched.length} edited · ${uncommitted} uncommitted`}
+            </Text>
+          </Text>
+          {touched.length === 0 && <Text color={C.overlay}>no file edited yet</Text>}
+          {touched.slice(0, FILES_SHOWN).map(f => (
+            <Text>
+              <Text color={f.status === undefined ? C.overlay : (GIT_COLOR[f.status] ?? C.peach)}>
+                {(f.status ?? '·').padEnd(2)}
+              </Text>{' '}
+              <Text color={C.overlay}>{`${f.edits}×`.padStart(3)}</Text>{' '}
+              <Text color={C.text}>{tail(shortPath(f.path), pathWidth)}</Text>
+            </Text>
+          ))}
+          {touched.length > FILES_SHOWN && (
+            <Text color={C.overlay}>{`+${touched.length - FILES_SHOWN} more`}</Text>
+          )}
+        </Box>
+        <Box flexDirection="column" borderStyle="round" borderColor={C.surface1} paddingX={1}>
+          <Text bold color={C.green}>
+            recent
+          </Text>
+          {work.length === 0 && <Text color={C.overlay}>no finished work yet</Text>}
+          {work.map(w => (
+            <Text wrap="truncate-end">
+              {w.text === undefined ? (
+                <Text color={C.peach}>{spin}</Text>
+              ) : (
+                <Text color={C.green}>✓</Text>
+              )}{' '}
+              <Text color={C.overlay}>{`${ago(t - w.at)} ago`.padEnd(7)}</Text>{' '}
+              <Text color={C.overlay} dimColor>
+                {elapsed(w.durationMs).padStart(5)}
+              </Text>{' '}
+              <Text color={C.overlay} dimColor>
+                {(w.tokens === undefined ? '' : kilo(w.tokens)).padStart(4)}
+              </Text>{' '}
+              <Text color={w.text === undefined ? C.subtext : C.text}>
+                {w.text ?? 'summarizing…'}
               </Text>
             </Text>
           ))}

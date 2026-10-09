@@ -66,7 +66,21 @@ const setup = async ($: Engine, on: On) => {
       type: 'fork',
     })),
   }))
-  on('tool.call', () => ({ result: 'ok' }))
+  const fail: Record<string, { deny: string } | { isError: true; result: null; text: string }> = {}
+  on('tool.call', (_, e) => fail[String(e.tool)] ?? { result: 'ok' })
+  const git = { status: '' }
+  on('process.run', (_, e) => ({
+    value: {
+      exitCode: 0,
+      stdout: e.argv.includes('rev-parse') ? '/repo\n' : git.status,
+      stderr: '',
+      isStdoutTruncated: false,
+      isStderrTruncated: false,
+    },
+  }))
+  on('fs.stat', (_, e) => ({
+    value: { kind: 'file', size: 0, mtimeMs: 0, isLink: false, realPath: e.path },
+  }))
   on('turn.complete', (_, e) => ({ text: e.answer }))
   on('prompt.submit', (_, e) => ({ text: e.text }))
   // biome-ignore lint/correctness/useYield: a streaming hook must be a generator; this one streams nothing
@@ -87,6 +101,22 @@ const setup = async ($: Engine, on: On) => {
       ? { value: { value: skill[e.key] as never, version: ++version } }
       : next(e),
   )
+  const ai: { text?: string; prompt?: string } = { text: 'summary pane 커밋' }
+  const usage = {
+    input_tokens: 0,
+    output_tokens: 0,
+    cache_creation_input_tokens: 0,
+    cache_read_input_tokens: 0,
+  }
+  on('model.complete', (_, e) => {
+    ai.prompt = e.prompt
+    return {
+      value:
+        ai.text === undefined
+          ? { isAnswered: false, reason: 'empty-reply', usage }
+          : { isAnswered: true, text: ai.text, usage },
+    }
+  })
   const panes: string[] = []
   on('ui.open', (_, e) => {
     panes.push(e.id)
@@ -116,7 +146,7 @@ const setup = async ($: Engine, on: On) => {
     await ui.unmount()
     return found !== undefined
   }
-  return { clock, live, panes, skill, shows, writes }
+  return { ai, clock, fail, git, live, panes, skill, shows, writes }
 }
 
 test('tracks status, name, model and elapsed time per agent', async ($, on) => {
@@ -274,4 +304,88 @@ test('the shimmer sweeps a full cycle without breaking the pane', async ($, on) 
     await clock.advance(100)
     expect(await shows(/^━+$/)).toBe(true)
   }
+})
+
+const finish = (turnId: string, answer: string, reason: 'answer' | 'aborted' = 'answer') =>
+  ({
+    answer,
+    durationMs: 12_000,
+    isAborted: reason === 'aborted',
+    turnId,
+    reason,
+    usage: {
+      input_tokens: 50_000,
+      output_tokens: 8_000,
+      cache_creation_input_tokens: 0,
+      cache_read_input_tokens: 0,
+      model: 'claude-opus-5-5',
+    },
+  }) as const
+
+test('a finished main turn that used tools lands under recent as one summarized line', async ($, on) => {
+  const { ai, clock, shows } = await setup($, on)
+  await $.prompt.submit({ text: '최근 커밋 알려줘', wait: false, origin: { kind: 'composer' } })
+  await $.tool.call({ tool: 'Read', file_path: '/x' })
+  await $.turn.complete(finish('m1', '커밋했습니다: `0a6d2da`\n\n세부 내용'))
+  expect(await shows(new RegExp(`^${SPIN} 0s ago +12s +58k summarizing…$`))).toBe(true)
+
+  await clock.advance(1_500)
+  expect(await shows(/^✓ \d+s ago +12s +58k summary pane 커밋$/)).toBe(true)
+  expect(ai.prompt).toContain('최근 커밋 알려줘')
+  expect(ai.prompt).toContain('커밋했습니다')
+})
+
+test('a reply with no tool use or an interrupted turn adds nothing to recent', async ($, on) => {
+  const { clock, shows } = await setup($, on)
+  await $.turn.complete(finish('m1', '네, 맞습니다.'))
+  await $.tool.call({ tool: 'Read', file_path: '/x' })
+  await $.turn.complete(finish('m2', '', 'aborted'))
+  await clock.advance(1_500)
+  expect(await shows(/^no finished work yet$/)).toBe(true)
+})
+
+test('a summary the model cannot give falls back to the first line of the reply', async ($, on) => {
+  const { ai, clock, shows } = await setup($, on)
+  ai.text = undefined
+  await $.tool.call({ tool: 'Read', file_path: '/x' })
+  await $.turn.complete(finish('m1', '## 커밋했습니다: `0a6d2da`\n본문'))
+  await clock.advance(1_500)
+  expect(await shows(/^✓ \d+s ago +12s +58k 커밋했습니다: 0a6d2da$/)).toBe(true)
+})
+
+test('files lists what the session edited with its git status', async ($, on) => {
+  const { git, shows } = await setup($, on)
+  const edit = { tool: 'Edit', file_path: '/repo/src/a.ts', old_string: 'a', new_string: 'b' }
+  await $.tool.call(edit as never)
+  await $.tool.call(edit as never)
+  await $.tool.call({ tool: 'Write', file_path: '/repo/b.ts', content: '' } as never)
+  await $.tool.call({ tool: 'Read', file_path: '/repo/c.ts' })
+  git.status = ' M src/a.ts\n?? b.ts\n M other.ts\n'
+  await $.turn.complete(finish('m1', 'done'))
+  expect(await shows(/^files {2}2 edited · 3 uncommitted$/)).toBe(true)
+  expect(await shows(/^\?\? +1× b\.ts$/)).toBe(true)
+  expect(await shows(/^M +2× src\/a\.ts$/)).toBe(true)
+  expect(await shows(/c\.ts/)).toBe(false)
+})
+
+test('alerts collect denied and failed tool calls until the next prompt', async ($, on) => {
+  const { fail, shows } = await setup($, on)
+  await $.agent.spawn(spawn('오타 검사', 'typo-checker', { name: 'typo' }))
+  fail.Bash = { deny: 'standalone sleep is blocked' }
+  await $.tool.call({ tool: 'Bash', command: 'sleep 25' } as never)
+  fail.Grep = { isError: true, result: null, text: 'Exit code 2\nrg: bad regex' }
+  await $.tool.call({ tool: 'Grep', pattern: '(', agentId: 'a1' } as never)
+  expect(await shows(/^alerts$/)).toBe(true)
+  expect(await shows(/^✗ \d+s ago +Bash {2}standalone sleep is blocked$/)).toBe(true)
+  expect(await shows(/^✗ \d+s ago +Grep @typo {2}Exit code 2$/)).toBe(true)
+
+  await $.prompt.submit({ text: 'next', wait: false, origin: { kind: 'composer' } })
+  expect(await shows(/^alerts$/)).toBe(false)
+})
+
+test('the header icon pulses only while something runs', async ($, on) => {
+  const { shows } = await setup($, on)
+  expect(await shows(/^◆ summary$/)).toBe(true)
+  await $.agent.spawn(spawn('PR 리뷰', 'reviewer'))
+  expect(await shows(/^[◇◈◆] summary$/)).toBe(true)
 })
