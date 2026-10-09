@@ -25,6 +25,10 @@ return {
     -- },
     -- Customize formatters
     formatters = {
+      biome = {
+        -- biome.json 이 없으면 conform 이 expandtab/shiftwidth 로 --indent-style/--indent-width 를 붙여 CLI 결과와 달라진다.
+        args = { "format", "--stdin-file-path", "$FILENAME" },
+      },
       prettier = {
         tabWidth = 2,
         singleQuote = true,
