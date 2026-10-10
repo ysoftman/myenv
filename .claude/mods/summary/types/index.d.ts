@@ -43,6 +43,39 @@ export type SkillRun = {
 	result?: "done" | "failed" | "aborted";
 };
 
+export type BackgroundTask = {
+	id: string;
+	type: string;
+	status: string;
+	label: string;
+};
+
+export type SessionCron = {
+	id: string;
+	schedule: string;
+	recurring: boolean;
+	prompt: string;
+};
+
+export type Commit = {
+	hash: string;
+	at: number;
+	subject: string;
+};
+
+export type RepoState = {
+	branch?: string;
+	upstream?: string;
+	ahead: number;
+	behind: number;
+	commits: Commit[];
+};
+
+export type TurnMark = {
+	ms: number;
+	ok: boolean;
+};
+
 declare module "claude-code" {
 	interface PluginState {
 		summary: {
@@ -58,6 +91,10 @@ declare module "claude-code" {
 			chord: string;
 			seen: string[];
 			working: number;
+			tasks: BackgroundTask[];
+			crons: SessionCron[];
+			turns: TurnMark[];
+			repo: RepoState;
 		};
 	}
 }

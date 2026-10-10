@@ -1,259 +1,89 @@
-import type {
-	AgentStatus,
-	EngineInterface,
-	ModelUsage,
-	Register,
-	TurnCompleteReason,
-} from "claude-code";
+import type { ClassicHookInputs, EngineInterface, Register } from "claude-code";
 import { atom, read, update } from "claude-code";
-
-import type { AgentRow, Alert, FileTouch, SkillRun, WorkItem } from "../types";
+import type {
+	AgentRow,
+	Alert,
+	BackgroundTask,
+	Commit,
+	FileTouch,
+	RepoState,
+	SessionCron,
+	SkillRun,
+	TurnMark,
+	WorkItem,
+} from "../types";
+import { clip, cut, firstLine, pathOf, short, totalTokens } from "./format";
+import { paneView } from "./pane";
+import {
+	newRain,
+	RAIN,
+	RAIN_MS,
+	RAIN_ROWS,
+	rainCells,
+	rainMessage,
+	rainSpeed,
+} from "./rain";
+import {
+	end,
+	isBusy,
+	isLive,
+	isOpenRun,
+	RUN_END,
+	STATUS,
+	sync,
+	TURN_END,
+} from "./status";
+import { PANE, SHOWN, TOGGLE_ACTION } from "./theme";
 
 const agents = atom({ plugin: "summary", key: "agents" } as const, []);
+
 const now = atom({ plugin: "summary", key: "now" } as const, 0);
+
 const recent = atom({ plugin: "summary", key: "recent" } as const, []);
+
 const files = atom({ plugin: "summary", key: "files" } as const, []);
+
 const dirty = atom({ plugin: "summary", key: "dirty" } as const, 0);
+
 const alerts = atom({ plugin: "summary", key: "alerts" } as const, []);
+
 const skillRuns = atom({ plugin: "summary", key: "runs" } as const, []);
+
 const mainModel = atom({ plugin: "summary", key: "model" } as const, "");
+
 const paneShown = atom({ plugin: "summary", key: "shown" } as const, false);
+
 const chord = atom({ plugin: "summary", key: "chord" } as const, "");
+
 const seen = atom({ plugin: "summary", key: "seen" } as const, []);
+
 // when the main turn in progress began; 0 while Claude is idle
 const working = atom({ plugin: "summary", key: "working" } as const, 0);
 
-const PANE = "summary";
-const TOGGLE_ACTION = "app:toggleDiffPreSession";
-const RECENT_MAX = 5;
-const RUNS_MAX = 8;
+// background work and session crons as the last stop reported them
+const tasks = atom({ plugin: "summary", key: "tasks" } as const, []);
+
+const crons = atom({ plugin: "summary", key: "crons" } as const, []);
+
+const turns = atom({ plugin: "summary", key: "turns" } as const, []);
+
+const repo = atom({ plugin: "summary", key: "repo" } as const, {
+	ahead: 0,
+	behind: 0,
+	commits: [],
+});
+
 const FILES_MAX = 20;
-const FILES_SHOWN = 6;
-const AGENTS_ENDED_SHOWN = 5;
-const ALERTS_MAX = 4;
+
+const TURNS_MAX = 200;
+
 const EDIT_TOOLS = new Set(["Edit", "MultiEdit", "Write", "NotebookEdit"]);
+
 const SUMMARY =
 	"You write one-line entries for a log of finished work. Given what the user asked and the " +
 	"coding assistant's final reply, say what the assistant did in at most 40 characters, in the " +
 	"language of the reply, as a terse phrase. Describe the action taken, not the content it " +
 	"reported. No quotes, no markdown, no trailing period.";
-
-const C = {
-	text: "#cdd6f4",
-	subtext: "#a6adc8",
-	overlay: "#7f849c",
-	surface2: "#585b70",
-	surface1: "#45475a",
-	surface0: "#313244",
-	mauve: "#cba6f7",
-	pink: "#f5c2e7",
-	lavender: "#b4befe",
-	blue: "#89b4fa",
-	sky: "#89dceb",
-	teal: "#94e2d5",
-	green: "#a6e3a1",
-	yellow: "#f9e2af",
-	peach: "#fab387",
-	red: "#f38ba8",
-};
-
-const SPINNER = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏";
-const PULSE = "◇◈◆◈";
-const GLOW = [
-	C.mauve,
-	C.pink,
-	C.lavender,
-	C.blue,
-	C.sky,
-	C.blue,
-	C.lavender,
-	C.pink,
-];
-
-const RAIN = "rain";
-const RAIN_ROWS = 6;
-const RAIN_MS = 33; // ~30 fps
-const RAIN_MAX_SPEED = 3;
-const RAIN_GLYPHS = [
-	..."ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ0123456789",
-].map((g) => g.codePointAt(0) ?? 0x20);
-// head first; a drop's trail always ends on the last color
-const RAIN_FADE = [
-	C.text,
-	C.green,
-	C.green,
-	C.teal,
-	C.teal,
-	C.surface2,
-	C.surface1,
-].map((hex) => Number.parseInt(hex.slice(1), 16));
-const TERMINAL_DEFAULT = 0x01000000;
-
-const hash = (n: number) => {
-	const h = Math.imul(n ^ (n >>> 16), 0x45d9f3b);
-	const k = Math.imul(h ^ (h >>> 16), 0x45d9f3b);
-	return (k ^ (k >>> 16)) >>> 0;
-};
-
-const modelWeight = (model: string) =>
-	model.startsWith("opus") ? 1.5 : model.startsWith("haiku") ? 0.6 : 1;
-
-// How fast the rain falls, a multiple of its base speed: the biggest model at
-// work, +25% an agent running (up to +150%) and the last model call's tokens
-// (x1 at 10k, x1.5 at 100k, x2 from 1M), capped; 0 with no model at work.
-export const rainSpeed = (models: string[], agents: number, tokens: number) =>
-	models.length === 0
-		? 0
-		: Math.min(
-				RAIN_MAX_SPEED,
-				Math.max(...models.map(modelWeight)) *
-					(1 + Math.min(1.5, agents * 0.25)) *
-					(1 + Math.min(1, Math.log10(Math.max(1, tokens / 10_000)) / 2)),
-			);
-
-const totalTokens = (u: ModelUsage) =>
-	u.input_tokens +
-	u.output_tokens +
-	u.cache_read_input_tokens +
-	u.cache_creation_input_tokens;
-
-// Raster cells for the clock at t, all blank when dry. Each column's drop gets
-// its speed (rows a second), trail and gap from the column index, so the clock
-// alone draws it.
-const rainCells = (t: number, columns: number, rows: number, dry = false) => {
-	const words = new Uint32Array(columns * rows * 3).fill(TERMINAL_DEFAULT);
-	for (let c = 0; c < columns; c++) {
-		const trail = 4 + (hash(c * 3 + 1) % (RAIN_FADE.length - 3));
-		const period = rows + trail + (hash(c * 3 + 2) % 12);
-		const speed = 8 + (hash(c * 3) % 9);
-		const head = (Math.floor((t / 1000) * speed) + hash(c * 7 + 5)) % period;
-		for (let r = 0; r < rows; r++) {
-			const d = head - r;
-			const i = (r * columns + c) * 3;
-			if (dry || d < 0 || d >= trail) {
-				words[i] = 0x20;
-				continue;
-			}
-			const flicker = Math.floor(t / (d === 0 ? 50 : 300));
-			words[i] =
-				RAIN_GLYPHS[hash(c * 131 + r * 17 + flicker) % RAIN_GLYPHS.length] ??
-				0x20;
-			words[i + 1] =
-				RAIN_FADE[d === 0 ? 0 : d + RAIN_FADE.length - trail] ??
-				TERMINAL_DEFAULT;
-		}
-	}
-	// the engine's runtime has toBase64 (its Raster docs use it); TS lib lags
-	return (
-		new Uint8Array(words.buffer) as Uint8Array & { toBase64(): string }
-	).toBase64();
-};
-
-const ICON: Record<AgentRow["status"], string> = {
-	running: "●",
-	idle: "○",
-	done: "✓",
-	failed: "✗",
-	killed: "■",
-};
-const COLOR: Record<AgentRow["status"], string> = {
-	running: C.yellow,
-	idle: C.overlay,
-	done: C.green,
-	failed: C.red,
-	killed: C.red,
-};
-const GIT_COLOR: Record<string, string> = {
-	M: C.yellow,
-	A: C.green,
-	D: C.red,
-	R: C.blue,
-	"??": C.teal,
-};
-const RUN: Record<
-	NonNullable<SkillRun["result"]>,
-	{ icon: string; color: string }
-> = {
-	done: { icon: "✓", color: C.green },
-	failed: { icon: "✗", color: C.red },
-	aborted: { icon: "■", color: C.overlay },
-};
-
-const STATUS: Record<AgentStatus, AgentRow["status"]> = {
-	pending: "running",
-	running: "running",
-	waiting: "running",
-	idle: "idle",
-	completed: "done",
-	failed: "failed",
-	killed: "killed",
-};
-const TURN_END: Record<TurnCompleteReason, AgentRow["status"]> = {
-	answer: "done",
-	aborted: "killed",
-	refusal: "failed",
-	error: "failed",
-};
-
-const RUN_END: Record<TurnCompleteReason, SkillRun["result"]> = {
-	answer: "done",
-	aborted: "aborted",
-	refusal: "failed",
-	error: "failed",
-};
-
-const ORDER: AgentRow["status"][] = [
-	"running",
-	"idle",
-	"done",
-	"failed",
-	"killed",
-];
-
-const modelColor = (model: string) =>
-	model.startsWith("opus")
-		? C.peach
-		: model.startsWith("haiku")
-			? C.teal
-			: C.blue;
-
-const LABEL_MAX = 20;
-
-const elapsed = (ms: number) => {
-	const s = Math.max(0, Math.round(ms / 1000));
-	return s < 60
-		? `${s}s`
-		: `${Math.floor(s / 60)}m${String(s % 60).padStart(2, "0")}s`;
-};
-
-const clip = (s: string) =>
-	s.length > LABEL_MAX ? `${s.slice(0, LABEL_MAX - 1)}…` : s;
-
-const isLive = (a: AgentRow) => a.status === "running" || a.status === "idle";
-
-const end = (a: AgentRow, t: number) =>
-	a.status === "running" ? t : (a.endedAt ?? t);
-
-const sync = (
-	a: AgentRow,
-	live: AgentRow["status"] | undefined,
-	t: number,
-): AgentRow => {
-	if (
-		!isLive(a) ||
-		(live === undefined && !a.listed) ||
-		(live === a.status && a.listed)
-	) {
-		return a;
-	}
-	const status = live ?? "done";
-	return {
-		...a,
-		listed: true,
-		status,
-		...(status === "running" ? {} : { endedAt: end(a, t) }),
-	};
-};
 
 const patch = async (
 	$: EngineInterface,
@@ -265,32 +95,6 @@ const patch = async (
 			list.map((a) => (a.id === id ? (fn(a) ?? a) : a)),
 		);
 	}
-};
-
-const cut = (s: string, n: number) =>
-	s.length > n ? `${s.slice(0, n - 1)}…` : s;
-
-const firstLine = (answer: string) =>
-	cut(
-		answer
-			.split("\n")
-			.map((l) =>
-				l
-					.replace(/^[#>*\-\s]+/, "")
-					.replace(/[*`]/g, "")
-					.trim(),
-			)
-			.find((l) => l !== "") ?? "done",
-		60,
-	);
-
-const ago = (ms: number) => {
-	const s = Math.max(0, Math.round(ms / 1000));
-	return s < 60
-		? `${s}s`
-		: s < 3600
-			? `${Math.floor(s / 60)}m`
-			: `${Math.floor(s / 3600)}h`;
 };
 
 const summarize = async ($: EngineInterface, ask: string, answer: string) => {
@@ -309,18 +113,53 @@ const summarize = async ($: EngineInterface, ask: string, answer: string) => {
 	}
 };
 
-const kilo = (n: number) => (n < 1000 ? `${n}` : `${Math.round(n / 1000)}k`);
-
-const tail = (s: string, n: number) =>
-	s.length > n ? `…${s.slice(s.length - n + 1)}` : s;
-
-const pathOf = (e: object) => {
-	const { file_path, notebook_path } = e as {
-		file_path?: unknown;
-		notebook_path?: unknown;
+// "## main...origin/main [ahead 1, behind 2]", the head line of `status -b`,
+// and the last commits: the first `ahead` of them are not pushed yet.
+const refreshRepo = async ($: EngineInterface, root: string, head: string) => {
+	const m =
+		/^## (?:No commits yet on )?(.+?)(?:\.\.\.(\S+))?(?: \[(.*)\])?$/.exec(
+			head,
+		);
+	const count = (word: string) =>
+		Number(new RegExp(`${word} (\\d+)`).exec(m?.[3] ?? "")?.[1] ?? 0);
+	const log = await $.process
+		.run(
+			[
+				"git",
+				"-C",
+				root,
+				"log",
+				"-n",
+				String(SHOWN),
+				"--format=%h%x09%ct%x09%s",
+			],
+			{
+				timeoutMs: 5_000,
+			},
+		)
+		.catch(() => undefined);
+	const commits: Commit[] =
+		log?.exitCode === 0
+			? log.stdout
+					.split("\n")
+					.map((l) => l.split("\t"))
+					.filter((f) => f.length >= 3)
+					.map(([hash = "", at = "0", ...subject]) => ({
+						hash,
+						at: Number(at) * 1000,
+						subject: subject.join("\t"),
+					}))
+			: [];
+	const next: RepoState = {
+		...(m?.[1] === undefined ? {} : { branch: m[1] }),
+		...(m?.[2] === undefined ? {} : { upstream: m[2] }),
+		ahead: count("ahead"),
+		behind: count("behind"),
+		commits,
 	};
-	const path = file_path ?? notebook_path;
-	return typeof path === "string" ? path : undefined;
+	if (JSON.stringify(next) !== JSON.stringify(await read($, repo))) {
+		await update($, repo, () => next);
+	}
 };
 
 const refreshGit = async (
@@ -333,7 +172,15 @@ const refreshGit = async (
 	}
 	const run = await $.process
 		.run(
-			["git", "-C", root, "status", "--porcelain=v1", "--untracked-files=all"],
+			[
+				"git",
+				"-C",
+				root,
+				"status",
+				"--porcelain=v1",
+				"--branch",
+				"--untracked-files=all",
+			],
 			{
 				timeoutMs: 5_000,
 			},
@@ -342,10 +189,11 @@ const refreshGit = async (
 	if (run === undefined || run.exitCode !== 0) {
 		return;
 	}
+	const lines = run.stdout.split("\n");
+	await refreshRepo($, root, lines[0]?.startsWith("## ") ? lines[0] : "");
 	const status = new Map(
-		run.stdout
-			.split("\n")
-			.filter((l) => l.length > 3)
+		lines
+			.filter((l) => l.length > 3 && !l.startsWith("## "))
 			.map(
 				(l) =>
 					[
@@ -419,11 +267,45 @@ const record = async (
 			),
 			...(agent === undefined ? {} : { agent }),
 		};
-		await update($, alerts, (list) => [alert, ...list].slice(0, ALERTS_MAX));
+		await update($, alerts, (list) => [alert, ...list].slice(0, SHOWN));
 	}
 };
 
-const short = (model: string) => model.replace(/^.*claude-/, "");
+type StopInput = ClassicHookInputs["Stop"];
+
+const syncBackground = async (
+	$: EngineInterface,
+	list: StopInput["background_tasks"] = [],
+	scheduled: StopInput["session_crons"] = [],
+) => {
+	const line = (s: string) => cut(s.split("\n")[0] ?? "", 120);
+	// subagents already have their rows under agents
+	const nextTasks: BackgroundTask[] = list
+		.filter((b) => b.type !== "subagent" && b.agent_type === undefined)
+		.map((b) => ({
+			id: b.id,
+			type: b.type,
+			status: b.status,
+			label: line(
+				b.command ??
+					(b.server === undefined
+						? (b.name ?? b.description)
+						: `${b.server} ${b.tool ?? ""}`),
+			),
+		}));
+	const nextCrons: SessionCron[] = scheduled.map((c) => ({
+		id: c.id,
+		schedule: c.schedule,
+		recurring: c.recurring,
+		prompt: line(c.prompt),
+	}));
+	if (JSON.stringify(nextTasks) !== JSON.stringify(await read($, tasks))) {
+		await update($, tasks, () => nextTasks);
+	}
+	if (JSON.stringify(nextCrons) !== JSON.stringify(await read($, crons))) {
+		await update($, crons, () => nextCrons);
+	}
+};
 
 const discover = async ($: EngineInterface, id: string, model: string) => {
 	if ((await read($, agents)).some((a) => a.id === id)) {
@@ -448,9 +330,6 @@ const discover = async ($: EngineInterface, id: string, model: string) => {
 	);
 	await update($, now, () => row.startedAt);
 };
-
-const isOpenRun = (r: SkillRun | undefined) =>
-	r !== undefined && r.result === undefined;
 
 const patchOpen = async ($: EngineInterface, fn: (r: SkillRun) => SkillRun) => {
 	const last = (await read($, skillRuns)).at(-1);
@@ -479,7 +358,7 @@ const openRun = async (
 		...(effort === undefined ? {} : { effort }),
 		startedAt: await $.clock.now(),
 	};
-	await update($, skillRuns, (l) => [...l, run].slice(-RUNS_MAX));
+	await update($, skillRuns, (l) => [...l, run].slice(-SHOWN));
 };
 
 const isPaneShown = async ($: EngineInterface) =>
@@ -536,11 +415,6 @@ const boundKey = async ($: EngineInterface) => {
 	}
 };
 
-const isBusy = (list: AgentRow[], runs: SkillRun[], work: WorkItem[]) =>
-	list.some((a) => a.status === "running") ||
-	(runs.length > 0 && runs.at(-1)?.result === undefined) ||
-	work.some((w) => w.text === undefined);
-
 export const register: Register = (on) => {
 	let loaded: string[] = [];
 	let worked = false;
@@ -548,14 +422,7 @@ export const register: Register = (on) => {
 	let draining = false;
 	let tick = 0;
 	let root: string | undefined;
-	// the mounted Raster's width; a blit for another width is refused
-	let rainColumns = 0;
-	// The rain runs on its own clock so a change of speed does not jump it;
-	// rainPace is rainSpeed's latest, 0 while nothing works.
-	let rainPace = 0;
-	let rainT = 0;
-	let rainAt = 0;
-	let rainDry = true;
+	const rain = newRain();
 	// the tokens the last main model call took
 	let stepTokens = 0;
 	// The hint line's isWorking, the engine's own word on a running turn;
@@ -593,7 +460,7 @@ export const register: Register = (on) => {
 			);
 			const since = await read($, working);
 			const running = list.filter((a) => a.status === "running");
-			rainPace = rainSpeed(
+			rain.pace = rainSpeed(
 				[
 					...(since > 0 ? [await read($, mainModel)] : []),
 					...running.map((a) => a.model),
@@ -609,22 +476,39 @@ export const register: Register = (on) => {
 		// The rain repaints its Raster in place: a redraw of the whole pane folds
 		// to one per 100 ms, a blit runs at the surface's frame rate.
 		$.clock.every(RAIN_MS, async () => {
-			if (rainColumns === 0 || !(await read($, paneShown))) {
+			if (rain.columns === 0 || !(await read($, paneShown))) {
 				return;
 			}
 			const now = await $.clock.now();
-			rainT += Math.min(now - rainAt, 1000) * rainPace;
-			rainAt = now;
-			// idle, one blank blit clears the rain and the next ones skip
-			if (rainPace === 0 && rainDry) {
+			rain.t += Math.min(now - rain.at, 1000) * rain.pace;
+			rain.at = now;
+			// idle, the rain clock stands still and only the message moves
+			if (rain.pace === 0) {
+				if (!rain.wasIdle) {
+					rain.wasIdle = true;
+					rain.idleSince = now;
+				}
+				const message = rainMessage(rain.columns, rain.idleSince, now);
+				if (message === rain.lastMessage) {
+					return;
+				}
+				rain.lastMessage = message;
+				await $.ui
+					.blit({
+						requestId: PANE,
+						key: RAIN,
+						cells: rainCells(rain.t, rain.columns, RAIN_ROWS, message),
+					})
+					.catch(() => undefined);
 				return;
 			}
-			rainDry = rainPace === 0;
+			rain.wasIdle = false;
+			rain.lastMessage = "";
 			await $.ui
 				.blit({
 					requestId: PANE,
 					key: RAIN,
-					cells: rainCells(rainT, rainColumns, RAIN_ROWS, rainDry),
+					cells: rainCells(rain.t, rain.columns, RAIN_ROWS),
 				})
 				.catch(() => undefined);
 		});
@@ -643,6 +527,12 @@ export const register: Register = (on) => {
 				);
 			} finally {
 				draining = false;
+			}
+		});
+		// commits and pushes from another terminal show up too
+		$.clock.every(15_000, async () => {
+			if (await read($, paneShown)) {
+				await refreshGit($, root, false);
 			}
 		});
 		$.clock.every(1000, async () => {
@@ -787,6 +677,8 @@ export const register: Register = (on) => {
 			await refreshGit($, root, true);
 		}
 		if (id === undefined) {
+			const mark: TurnMark = { ms: e.durationMs, ok: e.reason === "answer" };
+			await update($, turns, (list) => [...list, mark].slice(-TURNS_MAX));
 			if (loaded.length > 0) {
 				const endedAt = await $.clock.now();
 				await patchOpen($, (r) => ({
@@ -806,7 +698,7 @@ export const register: Register = (on) => {
 					answer: e.answer.slice(0, 4000),
 				};
 				await update($, recent, (list) =>
-					[item, ...list.filter((w) => w.id !== item.id)].slice(0, RECENT_MAX),
+					[item, ...list.filter((w) => w.id !== item.id)].slice(0, SHOWN),
 				);
 			}
 			if (worked) {
@@ -817,6 +709,18 @@ export const register: Register = (on) => {
 
 		return next(e);
 	});
+
+	// A stop carries the session's background work and crons; a finished task
+	// or a fired cron wakes the session, so the next stop brings the change.
+	on("classic.Stop", async ($, e, next) => {
+		await syncBackground($, e.background_tasks, e.session_crons);
+		return next(e);
+	}).catch((_, e, next) => next(e));
+
+	on("classic.SubagentStop", async ($, e, next) => {
+		await syncBackground($, e.background_tasks, e.session_crons);
+		return next(e);
+	}).catch((_, e, next) => next(e));
 
 	on("prompt.submit", async ($, e, next) => {
 		if (e.turnId === undefined) {
@@ -884,287 +788,27 @@ export const register: Register = (on) => {
 		);
 	});
 
-	on("ui.render", { component: "Pane", requestId: PANE }, async ($, e) => {
-		const els = $.ui.resolve(e);
-		const { Box, Button, Text } = els;
-		const list = await read($, agents);
-		const runs = await read($, skillRuns);
-		const work = await read($, recent);
-		const touched = await read($, files);
-		const uncommitted = await read($, dirty);
-		const warnings = await read($, alerts);
-		const tag = await read($, mainModel);
-		const since = await read($, working);
-		const t = await $.clock.now();
-		const frame = Math.floor(t / 100);
-		const spin = SPINNER[frame % SPINNER.length];
-		const busy = isBusy(list, runs, work);
-		const glow = busy ? (GLOW[frame % GLOW.length] ?? C.mauve) : C.mauve;
-		const width = Math.max(30, e.props.bodyColumns);
-		const rule = width - 2;
-		const at = busy ? (frame % (rule + 6)) - 3 : -3;
-		const lit = [at, at + 3].map((n) => Math.min(rule, Math.max(0, n))) as [
-			number,
-			number,
-		];
-		const ended = list.filter((a) => !isLive(a));
-		const hidden = new Set(
-			ended.slice(0, Math.max(0, ended.length - AGENTS_ENDED_SHOWN)),
-		);
-		const shown = list.filter((a) => !hidden.has(a));
-		const labelWidth = Math.max(0, ...shown.map((a) => a.label.length));
-		const modelWidth = Math.max(0, ...shown.map((a) => a.model.length));
-		const pathWidth = width - 4 - 3 - 4;
-		const shortPath = (p: string) =>
-			root !== undefined && p.startsWith(`${root}/`)
-				? p.slice(root.length + 1)
-				: p;
-		const counts = ORDER.map(
-			(s) => [s, list.filter((a) => a.status === s).length] as const,
-		);
-		if ("Raster" in els) {
-			rainColumns = width;
-		}
-		// docked, the pane fills its height so the rain sits on the bottom edge;
-		// inline, the frame fits the tree and would grow to bodyRows instead
-		const floor =
-			e.props.placement === "dock" ? e.props.scroll.bodyRows : undefined;
-		const keycap = (k: string) => (
-			<Text backgroundColor={C.surface0} color={C.lavender}>{` ${k} `}</Text>
-		);
-
-		return (
-			<Box
-				flexDirection="column"
-				width={width}
-				{...(floor === undefined ? {} : { minHeight: floor })}
-			>
-				<Box paddingX={1} justifyContent="space-between">
-					<Box gap={2}>
-						<Text bold color={C.mauve}>
-							<Text color={glow}>
-								{busy ? PULSE[frame % PULSE.length] : "◆"}
-							</Text>{" "}
-							summary
-						</Text>
-						{since > 0 && (
-							<Text color={C.peach}>{`● working ${elapsed(t - since)}`}</Text>
-						)}
-					</Box>
-					<Text color={modelColor(tag)}>{tag}</Text>
-				</Box>
-				<Box paddingX={1}>
-					<Text>
-						<Text color={C.surface0}>{"━".repeat(lit[0])}</Text>
-						<Text color={C.lavender}>{"━".repeat(lit[1] - lit[0])}</Text>
-						<Text color={C.surface0}>{"━".repeat(rule - lit[1])}</Text>
-					</Text>
-				</Box>
-				{warnings.length > 0 && (
-					<Box
-						flexDirection="column"
-						borderStyle="round"
-						borderColor={C.red}
-						paddingX={1}
-					>
-						<Text bold color={C.red}>
-							alerts
-						</Text>
-						{warnings.map((a) => (
-							<Text wrap="truncate-end">
-								<Text color={C.red}>✗</Text>{" "}
-								<Text color={C.overlay}>
-									{`${ago(t - a.at)} ago`.padEnd(7)}
-								</Text>{" "}
-								<Text color={C.peach}>{a.tool}</Text>
-								{a.agent !== undefined && (
-									<Text color={C.overlay}>{` @${a.agent}`}</Text>
-								)}
-								<Text color={C.subtext}>{`  ${a.reason}`}</Text>
-							</Text>
-						))}
-					</Box>
-				)}
-				<Box
-					flexDirection="column"
-					borderStyle="round"
-					borderColor={C.surface1}
-					paddingX={1}
-				>
-					<Text bold color={C.blue}>
-						skills
-					</Text>
-					{runs.length === 0 ? (
-						<Text color={C.overlay}>no skill yet</Text>
-					) : (
-						[...runs].reverse().map((r) => (
-							<Text wrap="truncate-end">
-								{r.result === undefined ? (
-									<Text color={C.peach}>{spin}</Text>
-								) : (
-									<Text color={RUN[r.result].color}>{RUN[r.result].icon}</Text>
-								)}{" "}
-								<Text
-									bold={r.result === undefined}
-									color={r.result === undefined ? C.text : C.subtext}
-								>
-									{r.skills.join(", ")}
-								</Text>{" "}
-								<Text color={modelColor(r.model)}>
-									{[r.model, r.effort]
-										.filter((v) => v !== undefined)
-										.join(" · ")}
-								</Text>{" "}
-								<Text color={C.overlay}>
-									{elapsed((r.endedAt ?? t) - r.startedAt)}
-								</Text>
-							</Text>
-						))
-					)}
-				</Box>
-				<Box
-					flexDirection="column"
-					borderStyle="round"
-					borderColor={C.surface1}
-					paddingX={1}
-				>
-					<Text>
-						<Text bold color={C.mauve}>
-							agents
-						</Text>
-						{counts
-							.filter(([, n]) => n > 0)
-							.map(([s, n]) => (
-								<Text color={COLOR[s]}>{`  ${ICON[s]} ${n} ${s}`}</Text>
-							))}
-					</Text>
-					{list.length === 0 && <Text color={C.overlay}>no agent running</Text>}
-					{shown.map((a) => (
-						<Text wrap="truncate-end">
-							<Text color={COLOR[a.status]}>
-								{a.status === "running" ? spin : ICON[a.status]}
-							</Text>{" "}
-							<Text color={C.text} dimColor={a.status !== "running"}>
-								{a.label.padEnd(labelWidth)}
-							</Text>{" "}
-							<Text
-								color={modelColor(a.model)}
-								dimColor={a.status !== "running"}
-							>
-								{a.model.padEnd(modelWidth)}
-							</Text>{" "}
-							<Text color={C.overlay} dimColor={a.status !== "running"}>
-								{elapsed(end(a, t) - a.startedAt).padStart(6)}
-							</Text>{" "}
-							<Text color={C.subtext} dimColor>
-								{a.description}
-								{a.status === "running" && a.tool !== undefined
-									? ` · ${a.tool}`
-									: ""}
-							</Text>
-						</Text>
-					))}
-					{hidden.size > 0 && (
-						<Text color={C.overlay}>{`+${hidden.size} more`}</Text>
-					)}
-				</Box>
-				<Box
-					flexDirection="column"
-					borderStyle="round"
-					borderColor={C.surface1}
-					paddingX={1}
-				>
-					<Text>
-						<Text bold color={C.yellow}>
-							files
-						</Text>
-						<Text color={C.overlay}>
-							{`  ${touched.length} edited · ${uncommitted} uncommitted`}
-						</Text>
-					</Text>
-					{touched.length === 0 && (
-						<Text color={C.overlay}>no file edited yet</Text>
-					)}
-					{touched.slice(0, FILES_SHOWN).map((f) => (
-						<Text>
-							<Text
-								color={
-									f.status === undefined
-										? C.overlay
-										: (GIT_COLOR[f.status] ?? C.peach)
-								}
-							>
-								{(f.status ?? "·").padEnd(2)}
-							</Text>{" "}
-							<Text color={C.overlay}>
-								{(f.edits > 0 ? `${f.edits}×` : "·").padStart(3)}
-							</Text>{" "}
-							<Text color={C.text}>{tail(shortPath(f.path), pathWidth)}</Text>
-						</Text>
-					))}
-					{touched.length > FILES_SHOWN && (
-						<Text
-							color={C.overlay}
-						>{`+${touched.length - FILES_SHOWN} more`}</Text>
-					)}
-				</Box>
-				<Box
-					flexDirection="column"
-					borderStyle="round"
-					borderColor={C.surface1}
-					paddingX={1}
-				>
-					<Text bold color={C.green}>
-						recent
-					</Text>
-					{work.length === 0 && (
-						<Text color={C.overlay}>no finished work yet</Text>
-					)}
-					{work.map((w) => (
-						<Text wrap="truncate-end">
-							{w.text === undefined ? (
-								<Text color={C.peach}>{spin}</Text>
-							) : (
-								<Text color={C.green}>✓</Text>
-							)}{" "}
-							<Text color={C.overlay}>{`${ago(t - w.at)} ago`.padEnd(7)}</Text>{" "}
-							<Text color={C.overlay} dimColor>
-								{elapsed(w.durationMs).padStart(5)}
-							</Text>{" "}
-							<Text color={C.overlay} dimColor>
-								{(w.tokens === undefined ? "" : kilo(w.tokens)).padStart(4)}
-							</Text>{" "}
-							<Text color={w.text === undefined ? C.subtext : C.text}>
-								{w.text ?? "summarizing…"}
-							</Text>
-						</Text>
-					))}
-				</Box>
-				<Box paddingX={1} gap={2}>
-					<Button
-						plain
-						key="toggle"
-						action={TOGGLE_ACTION}
-						onPress={() => toggle($, root)}
-					>
-						{keycap(hintOf(await read($, chord)))}
-						<Text color={C.subtext}> close</Text>
-					</Button>
-					<Text>
-						{keycap("ctrl+x tab")}
-						<Text color={C.subtext}> focus</Text>
-					</Text>
-				</Box>
-				<Box flexGrow={1} />
-				{"Raster" in els && (
-					<els.Raster
-						key={RAIN}
-						columns={width}
-						rows={RAIN_ROWS}
-						cells={rainCells(rainT, width, RAIN_ROWS, rainPace === 0)}
-					/>
-				)}
-			</Box>
-		);
-	});
+	on("ui.render", { component: "Pane", requestId: PANE }, async ($, e) =>
+		paneView({
+			e,
+			els: $.ui.resolve(e),
+			t: await $.clock.now(),
+			root,
+			rain,
+			hint: hintOf(await read($, chord)),
+			onToggle: () => toggle($, root),
+			list: await read($, agents),
+			runs: await read($, skillRuns),
+			work: await read($, recent),
+			touched: await read($, files),
+			uncommitted: await read($, dirty),
+			git: await read($, repo),
+			warnings: await read($, alerts),
+			tag: await read($, mainModel),
+			since: await read($, working),
+			bg: await read($, tasks),
+			scheduled: await read($, crons),
+			marks: await read($, turns),
+		}),
+	);
 };

@@ -1,7 +1,8 @@
 import type { AgentStatus, On } from "claude-code";
 import type { Engine } from "claude-code/testing";
 import { expect, mock, test } from "claude-code/testing";
-import { rainSpeed } from "../hooks/register";
+import { nextFire } from "../hooks/cron";
+import { rainSpeed } from "../hooks/rain";
 
 const HINT = {
 	component: "PromptHint",
@@ -86,11 +87,15 @@ const setup = async ($: Engine, on: On) => {
 		{ deny: string } | { isError: true; result: null; text: string }
 	> = {};
 	on("tool.call", (_, e) => fail[String(e.tool)] ?? { result: "ok" });
-	const git = { status: "" };
+	const git = { status: "", log: "" };
 	on("process.run", (_, e) => ({
 		value: {
 			exitCode: 0,
-			stdout: e.argv.includes("rev-parse") ? "/repo\n" : git.status,
+			stdout: e.argv.includes("rev-parse")
+				? "/repo\n"
+				: e.argv.includes("log")
+					? git.log
+					: git.status,
 			stderr: "",
 			isStdoutTruncated: false,
 			isStderrTruncated: false,
@@ -484,12 +489,17 @@ test("matrix rain falls on the bottom edge of the pane only while work runs", as
 		await clock.advance(100);
 	};
 
-	// idle: nothing falls and nothing blits
-	expect(glyphs(String(raster?.props.cells)).every((g) => g === 0x20)).toBe(
-		true,
-	);
-	await clock.advance(300);
-	expect(blits).toHaveLength(0);
+	const row = (cells: string, r: number) =>
+		String.fromCodePoint(...glyphs(cells)).slice(r * 100, (r + 1) * 100);
+	const MESSAGE = "wake up, neo... the matrix resumes when claude works";
+	const still = (a: string, b: string) =>
+		[0, 1, 2, 4, 5].every((r) => row(a, r) === row(b, r));
+
+	// idle from the start: the still rain carries the message, typed in full,
+	// and only its cursor blinks
+	expect(row(String(raster?.props.cells), 3)).toContain(MESSAGE);
+	await clock.advance(1_000);
+	expect(blits.length).toBeLessThanOrEqual(3);
 
 	// a turn running: rain at ~30 fps
 	await working(true);
@@ -505,14 +515,32 @@ test("matrix rain falls on the bottom edge of the pane only while work runs", as
 		),
 	).toBe(true);
 	expect(drops.some((g) => g !== 0x20)).toBe(true);
+	expect(row(blits.at(-1) ?? "", 3)).not.toContain("matrix");
 
-	// the turn ends: one blit clears the rain, then none
+	// the turn ends: the rain stops where it stood and the message types out
+	const before = blits.length;
 	await working(false);
-	await clock.advance(100);
-	const ended = blits.length;
-	await clock.advance(300);
-	expect(blits).toHaveLength(ended);
-	expect(glyphs(blits.at(-1) ?? "").every((g) => g === 0x20)).toBe(true);
+	await clock.advance(400);
+	// working frames never hold the cursor block, so the first that does is idle
+	const firstIdle = blits.findIndex(
+		(b, i) => i >= before && row(b, 3).includes("█"),
+	);
+	const last = blits[firstIdle - 1] ?? "";
+	expect(row(blits.at(-1) ?? "", 3)).toContain("wake up");
+	expect(row(blits.at(-1) ?? "", 3)).not.toContain("claude works");
+	await clock.advance(2_500);
+	const idle = blits.at(-1) ?? "";
+	expect(row(idle, 3)).toContain(MESSAGE);
+	expect(still(idle, last)).toBe(true);
+	// typed out, only the cursor blinks
+	const typed = blits.length;
+	await clock.advance(1_000);
+	expect(blits.length - typed).toBeLessThanOrEqual(3);
+	// idle, the pane still redraws every 10 s: the same still rain
+	await clock.advance(10_000);
+	expect(
+		still(String((await ui.find({ key: "rain" }))?.props.cells), last),
+	).toBe(true);
 	await working(true);
 
 	hidden.add("summary");
@@ -554,6 +582,20 @@ test("the rain falls faster for bigger models, more agents and more tokens", () 
 		rainSpeed(["sonnet-5-5"], 0, 20_000),
 	);
 	expect(rainSpeed(["opus-5-5"], 20, 5_000_000)).toBe(3);
+});
+
+test("nextFire finds a cron's next minute in local time", () => {
+	const at = (month: number, day: number, hour: number, minute: number) =>
+		new Date(2026, month - 1, day, hour, minute).getTime();
+	// Saturday 2026-10-10 15:32:15
+	const now = at(10, 10, 15, 32) + 15_000;
+	expect(nextFire("*/10 * * * *", now)).toBe(at(10, 10, 15, 40));
+	expect(nextFire("37 15 10 10 *", now)).toBe(at(10, 10, 15, 37));
+	expect(nextFire("0 9 * * 1-5", now)).toBe(at(10, 12, 9, 0));
+	expect(nextFire("0 0 * * 0,6", now)).toBe(at(10, 11, 0, 0));
+	expect(nextFire("0 12 15 * 7", now)).toBe(at(10, 11, 12, 0));
+	expect(nextFire("30 15 10 10 *", now)).toBeUndefined();
+	expect(nextFire("bad", now)).toBeUndefined();
 });
 
 const finish = (
@@ -665,7 +707,7 @@ test("files a shell or a finished subagent changed join without an edit count", 
 	expect(await shows(/^\?\? +· bg\.ts$/)).toBe(true);
 });
 
-test("the pane keeps live agents and only the latest finished ones", async ($, on) => {
+test("agents lists the live ones first, then the latest finished, three in all", async ($, on) => {
 	const { clock, live, shows } = await setup($, on);
 	for (let i = 1; i <= 8; i++) {
 		await $.agent.spawn(spawn(`작업${i}`, "general-purpose"));
@@ -676,9 +718,10 @@ test("the pane keeps live agents and only the latest finished ones", async ($, o
 	await clock.advance(1_000);
 	expect(await shows(/^agents {2}● 1 running {2}✓ 7 done$/)).toBe(true);
 	expect(await shows(/작업8/)).toBe(true);
-	expect(await shows(/작업3/)).toBe(true);
-	expect(await shows(/작업2/)).toBe(false);
-	expect(await shows(/^\+2 more$/)).toBe(true);
+	expect(await shows(/작업7/)).toBe(true);
+	expect(await shows(/작업6/)).toBe(true);
+	expect(await shows(/작업5/)).toBe(false);
+	expect(await shows(/^\+5 more$/)).toBe(true);
 });
 
 test("alerts collect denied and failed tool calls until the next prompt", async ($, on) => {
@@ -742,6 +785,189 @@ test("a turn the hint line says is running shows as working, redrawn once a seco
 
 	await hint(false);
 	expect(await shows(/working/)).toBe(false);
+});
+
+test("background always shows, with the tasks and crons the last stop reported", async ($, on) => {
+	on("classic.Stop", () => ({}));
+	const { shows } = await setup($, on);
+	const empty = async () =>
+		(await shows(/^background +0 running · 0 scheduled$/)) &&
+		(await shows(/^no background task or schedule$/));
+	expect(await empty()).toBe(true);
+
+	await $.classic.Stop({
+		stop_hook_active: false,
+		background_tasks: [
+			{
+				id: "b1",
+				type: "shell",
+				status: "running",
+				description: "watch tests",
+				command: "bun test --watch",
+			},
+			{
+				id: "a1",
+				type: "subagent",
+				status: "running",
+				description: "PR check",
+				agent_type: "reviewer",
+			},
+		],
+		session_crons: [
+			{
+				id: "c1",
+				schedule: "*/10 * * * *",
+				recurring: true,
+				prompt: "/loop check deploy",
+			},
+		],
+	});
+	expect(await shows(/^background +1 running · 1 scheduled$/)).toBe(true);
+	expect(await shows(/^● shell +bun test --watch$/)).toBe(true);
+	expect(await shows(/PR check/)).toBe(false);
+	expect(await shows(/^↻ \d\d:\d0 in \d+m +\/loop check deploy$/)).toBe(true);
+
+	await $.classic.Stop({
+		stop_hook_active: false,
+		background_tasks: [],
+		session_crons: [],
+	});
+	expect(await empty()).toBe(true);
+});
+
+test("turns always shows, drawing a sparkline of every main turn's duration", async ($, on) => {
+	const { shows } = await setup($, on);
+	expect(await shows(/^turns$/)).toBe(true);
+	expect(await shows(/^no turn yet$/)).toBe(true);
+	for (const [i, ms] of [1_000, 8_000, 4_000].entries()) {
+		await $.turn.complete({ ...finish(`t${i}`, ""), durationMs: ms });
+	}
+	await $.turn.complete({ ...finish("t9", "", "aborted"), durationMs: 2_000 });
+	expect(await shows(/^▁█▄▂$/)).toBe(true);
+	expect(await shows(/^turns +4 · avg 4s · max 8s$/)).toBe(true);
+	expect(await shows(/^no turn yet$/)).toBe(false);
+	expect(await shows(/^recent$/)).toBe(true);
+});
+
+test("boxes stand in the order of what is easiest to miss", async ($, on) => {
+	await setup($, on);
+	const ui = await $.ui.mount({
+		plugin: "summary",
+		surface: "terminal",
+		...PANE,
+	});
+	const titles = (
+		await ui.findAll({
+			type: "Text",
+			text: /^(recent|agents|background|files|git|skills|turns)$/,
+		})
+	)
+		.filter((t) => t.props.bold === true)
+		.map((t) => t.text);
+	await ui.unmount();
+	expect(titles).toEqual([
+		"recent",
+		"agents",
+		"background",
+		"files",
+		"git",
+		"skills",
+		"turns",
+	]);
+});
+
+test("skills keeps the latest three runs", async ($, on) => {
+	const { shows } = await setup($, on);
+	for (const i of [1, 2, 3, 4, 5]) {
+		await $.prompt.submit({
+			text: "/jira list",
+			wait: false,
+			origin: { kind: "composer" },
+		});
+		for await (const _ of $.turn.step({
+			turnId: `t${i}`,
+			index: 0,
+			model: "claude-sonnet-5-5",
+			messageCount: 1,
+		})) {
+		}
+		await $.turn.complete(finish(`t${i}`, ""));
+	}
+	const ui = await $.ui.mount({
+		plugin: "summary",
+		surface: "terminal",
+		...PANE,
+	});
+	expect(
+		await ui.findAll({ type: "Text", text: /^✓ jira sonnet-5-5/ }),
+	).toHaveLength(3);
+	await ui.unmount();
+	expect(await shows(/^✓ jira/)).toBe(true);
+});
+
+test("git shows the branch, what is uncommitted and the commits not pushed", async ($, on) => {
+	const { clock, git, shows } = await setup($, on);
+	// the mock clock stands at 1000 s
+	git.status = "## main...origin/main [ahead 1]\n M hooks/register.tsx\n";
+	git.log = "8908b32\t880\tadd matrix rain\n4f888fe\t400\tupdate skill\n";
+	await $.command.run({ command: "summary", args: "" } as never);
+	expect(
+		await shows(/^git +main → origin\/main · 1 uncommitted · ↑1 ↓0$/),
+	).toBe(true);
+	expect(await shows(/^↑ 8908b32 +2m add matrix rain$/)).toBe(true);
+	expect(await shows(/^✓ 4f888fe +10m update skill$/)).toBe(true);
+
+	// pushed from another terminal: the pane catches up on its own
+	git.status = "## main...origin/main\n";
+	await clock.advance(15_000);
+	expect(
+		await shows(/^git +main → origin\/main · 0 uncommitted · ↑0 ↓0$/),
+	).toBe(true);
+	expect(await shows(/^✓ 8908b32/)).toBe(true);
+
+	git.status = "## feature\n";
+	await clock.advance(15_000);
+	expect(await shows(/^git +feature \(no upstream\) · 0 uncommitted$/)).toBe(
+		true,
+	);
+});
+
+test("recent, files and background list three rows at most", async ($, on) => {
+	on("classic.Stop", () => ({}));
+	await setup($, on);
+	for (const i of [1, 2, 3, 4, 5]) {
+		await $.tool.call({ tool: "Edit", file_path: `/repo/f${i}.ts` } as never);
+		await $.turn.complete(finish(`m${i}`, `작업 ${i} 끝`));
+	}
+	await $.classic.Stop({
+		stop_hook_active: false,
+		background_tasks: ["a", "b"].map((id) => ({
+			id,
+			type: "shell",
+			status: "running",
+			description: id,
+			command: `watch ${id}`,
+		})),
+		session_crons: ["c", "d"].map((id) => ({
+			id,
+			schedule: "*/10 * * * *",
+			recurring: true,
+			prompt: `/loop ${id}`,
+		})),
+	});
+	const ui = await $.ui.mount({
+		plugin: "summary",
+		surface: "terminal",
+		...PANE,
+	});
+	const rows = async (text: RegExp) =>
+		(await ui.findAll({ type: "Text", text })).length;
+	expect(await rows(/^\S \d+s ago /)).toBe(3);
+	expect(await rows(/1× f\d\.ts$/)).toBe(3);
+	expect(await rows(/^\+2 more$/)).toBe(1);
+	expect(await rows(/^(● shell|↻ )/)).toBe(3);
+	expect(await rows(/^\+1 more$/)).toBe(1);
+	await ui.unmount();
 });
 
 test("/summary opens and closes the pane without a keybinding", async ($, on) => {
