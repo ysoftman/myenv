@@ -350,6 +350,48 @@ test("a pane hidden behind another tab is brought back instead of closed", async
 	await ui.unmount();
 });
 
+test("chips another band mod drew below join the summary chip in one row", async ($, on) => {
+	let pressed = false;
+	on("ui.render", { component: "AbovePrompt" }, ($$, e) => {
+		const { Box, Button, Text } = $$.ui.resolve(e);
+		return (
+			<Box flexDirection="column">
+				<Text>deploy row</Text>
+				<Box key="band-chips" gap={2}>
+					<Button
+						plain
+						key="other"
+						onPress={() => {
+							pressed = true;
+						}}
+					>
+						<Text> ctrl+x k </Text>
+					</Button>
+				</Box>
+			</Box>
+		);
+	});
+	await setup($, on);
+	const ui = await $.ui.mount({
+		plugin: "summary",
+		surface: "terminal",
+		...BAND,
+	});
+	const rows = await ui.findAll({ type: "Box", key: "band-chips" });
+	expect(rows).toHaveLength(1);
+	const children = (rows[0]?.children ?? []) as {
+		type: string;
+		props: { key?: string };
+	}[];
+	expect(
+		children.filter((c) => c.type === "Button").map((c) => c.props.key),
+	).toEqual(["toggle", "other"]);
+	expect(await ui.find({ text: /^deploy row$/ })).toBeDefined();
+	await ui.press({ key: "other", plugin: "test" });
+	expect(pressed).toBe(true);
+	await ui.unmount();
+});
+
 test("a forked skill the engine runs with no agent.spawn shows once it steps", async ($, on) => {
 	const { clock, live, shows } = await setup($, on);
 	live.f1 = "running";
