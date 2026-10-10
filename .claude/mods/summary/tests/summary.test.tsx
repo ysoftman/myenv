@@ -1,6 +1,7 @@
 import type { AgentStatus, On } from "claude-code";
 import type { Engine } from "claude-code/testing";
 import { expect, mock, test } from "claude-code/testing";
+import { rainSpeed } from "../hooks/register";
 
 const HINT = {
 	component: "PromptHint",
@@ -434,6 +435,127 @@ test("the shimmer sweeps a full cycle without breaking the pane", async ($, on) 
 	}
 });
 
+const rainWords = (cells: string) => {
+	const bytes = (
+		Uint8Array as unknown as { fromBase64(s: string): Uint8Array }
+	).fromBase64(cells);
+	return [...new Uint32Array(bytes.buffer)];
+};
+
+test("matrix rain falls on the bottom edge of the pane only while work runs", async ($, on) => {
+	const blits: string[] = [];
+	on("ui.blit", (_, e) => {
+		if ("cells" in e && e.requestId === "summary" && e.key === "rain") {
+			blits.push(e.cells);
+		}
+		return { value: {} };
+	});
+	const { clock, hidden } = await setup($, on);
+	await $.command.run({ command: "summary", args: "" } as never);
+	const ui = await $.ui.mount({
+		plugin: "summary",
+		surface: "terminal",
+		...PANE,
+	});
+	type Node = {
+		type: string;
+		props: Record<string, unknown>;
+		children: Node[];
+	};
+	const root = (await ui.drawn()) as unknown as Node;
+	// docked: the pane takes its full height and a spacer pushes the rain down
+	expect(root.props.minHeight).toBe(PANE.props.scroll.bodyRows);
+	expect(root.children.at(-2)?.props.flexGrow).toBe(1);
+	const raster = root.children.at(-1);
+	expect(raster?.type).toBe("Raster");
+	expect(raster?.props).toMatchObject({ key: "rain", columns: 100, rows: 6 });
+	const glyphs = (cells: string) =>
+		rainWords(cells).filter((_, i) => i % 3 === 0);
+	const words = rainWords(String(raster?.props.cells));
+	expect(words).toHaveLength(100 * 6 * 3);
+	const working = async (isWorking: boolean) => {
+		const hint = await $.ui.mount({
+			plugin: "summary",
+			surface: "terminal",
+			...HINT,
+			props: { ...HINT.props, isWorking },
+		});
+		await hint.unmount();
+		await clock.advance(100);
+	};
+
+	// idle: nothing falls and nothing blits
+	expect(glyphs(String(raster?.props.cells)).every((g) => g === 0x20)).toBe(
+		true,
+	);
+	await clock.advance(300);
+	expect(blits).toHaveLength(0);
+
+	// a turn running: rain at ~30 fps
+	await working(true);
+	const start = blits.length;
+	await clock.advance(300);
+	expect(blits.length - start).toBeGreaterThanOrEqual(8);
+	expect(new Set(blits).size).toBeGreaterThan(1);
+	const drops = glyphs(blits.at(-1) ?? "");
+	expect(
+		drops.every(
+			(g) =>
+				g === 0x20 || (g >= 0xff66 && g <= 0xff9d) || (g >= 0x30 && g <= 0x39),
+		),
+	).toBe(true);
+	expect(drops.some((g) => g !== 0x20)).toBe(true);
+
+	// the turn ends: one blit clears the rain, then none
+	await working(false);
+	await clock.advance(100);
+	const ended = blits.length;
+	await clock.advance(300);
+	expect(blits).toHaveLength(ended);
+	expect(glyphs(blits.at(-1) ?? "").every((g) => g === 0x20)).toBe(true);
+	await working(true);
+
+	hidden.add("summary");
+	await clock.advance(100);
+	const shown = blits.length;
+	await clock.advance(300);
+	expect(blits).toHaveLength(shown);
+	await ui.unmount();
+
+	// inline, the frame fits the tree, so the pane does not stretch
+	const inline = await $.ui.mount({
+		plugin: "summary",
+		surface: "terminal",
+		...PANE,
+		props: { ...PANE.props, placement: "inline" },
+	});
+	expect(
+		((await inline.drawn()) as unknown as Node).props.minHeight,
+	).toBeUndefined();
+	await inline.unmount();
+});
+
+test("the rain falls faster for bigger models, more agents and more tokens", () => {
+	expect(rainSpeed([], 0, 0)).toBe(0);
+	expect(rainSpeed(["haiku-5-5"], 0, 0)).toBeLessThan(
+		rainSpeed(["sonnet-5-5"], 0, 0),
+	);
+	expect(rainSpeed(["sonnet-5-5"], 0, 0)).toBeLessThan(
+		rainSpeed(["opus-5-5 · high"], 0, 0),
+	);
+	// the biggest model running sets the pace
+	expect(rainSpeed(["haiku-5-5", "opus-5-5"], 1, 0)).toBe(
+		rainSpeed(["opus-5-5"], 1, 0),
+	);
+	expect(rainSpeed(["sonnet-5-5"], 3, 0)).toBeGreaterThan(
+		rainSpeed(["sonnet-5-5"], 1, 0),
+	);
+	expect(rainSpeed(["sonnet-5-5"], 0, 200_000)).toBeGreaterThan(
+		rainSpeed(["sonnet-5-5"], 0, 20_000),
+	);
+	expect(rainSpeed(["opus-5-5"], 20, 5_000_000)).toBe(3);
+});
+
 const finish = (
 	turnId: string,
 	answer: string,
@@ -589,6 +711,37 @@ test("the header icon pulses only while something runs", async ($, on) => {
 	expect(await shows(/^◆ summary$/)).toBe(true);
 	await $.agent.spawn(spawn("PR 리뷰", "reviewer"));
 	expect(await shows(/^[◇◈◆] summary$/)).toBe(true);
+});
+
+test("a turn the hint line says is running shows as working, redrawn once a second", async ($, on) => {
+	let invalidations = 0;
+	on("ui.invalidate", (_, e, next) => {
+		invalidations++;
+		return next(e);
+	});
+	const { clock, shows } = await setup($, on);
+	await $.command.run({ command: "summary", args: "" } as never);
+	const hint = async (isWorking: boolean) => {
+		const ui = await $.ui.mount({
+			plugin: "summary",
+			surface: "terminal",
+			...HINT,
+			props: { ...HINT.props, isWorking },
+		});
+		await ui.unmount();
+		await clock.advance(100);
+	};
+	expect(await shows(/working/)).toBe(false);
+
+	await hint(true);
+	invalidations = 0;
+	await clock.advance(3_000);
+	expect(await shows(/^● working 3s$/)).toBe(true);
+	expect(await shows(/^◆ summary$/)).toBe(true);
+	expect(invalidations).toBeLessThanOrEqual(4);
+
+	await hint(false);
+	expect(await shows(/working/)).toBe(false);
 });
 
 test("/summary opens and closes the pane without a keybinding", async ($, on) => {

@@ -1,6 +1,7 @@
 import type {
 	AgentStatus,
 	EngineInterface,
+	ModelUsage,
 	Register,
 	TurnCompleteReason,
 } from "claude-code";
@@ -19,6 +20,8 @@ const mainModel = atom({ plugin: "summary", key: "model" } as const, "");
 const paneShown = atom({ plugin: "summary", key: "shown" } as const, false);
 const chord = atom({ plugin: "summary", key: "chord" } as const, "");
 const seen = atom({ plugin: "summary", key: "seen" } as const, []);
+// when the main turn in progress began; 0 while Claude is idle
+const working = atom({ plugin: "summary", key: "working" } as const, 0);
 
 const PANE = "summary";
 const TOGGLE_ACTION = "app:toggleDiffPreSession";
@@ -66,6 +69,85 @@ const GLOW = [
 	C.lavender,
 	C.pink,
 ];
+
+const RAIN = "rain";
+const RAIN_ROWS = 6;
+const RAIN_MS = 33; // ~30 fps
+const RAIN_MAX_SPEED = 3;
+const RAIN_GLYPHS = [
+	..."ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ0123456789",
+].map((g) => g.codePointAt(0) ?? 0x20);
+// head first; a drop's trail always ends on the last color
+const RAIN_FADE = [
+	C.text,
+	C.green,
+	C.green,
+	C.teal,
+	C.teal,
+	C.surface2,
+	C.surface1,
+].map((hex) => Number.parseInt(hex.slice(1), 16));
+const TERMINAL_DEFAULT = 0x01000000;
+
+const hash = (n: number) => {
+	const h = Math.imul(n ^ (n >>> 16), 0x45d9f3b);
+	const k = Math.imul(h ^ (h >>> 16), 0x45d9f3b);
+	return (k ^ (k >>> 16)) >>> 0;
+};
+
+const modelWeight = (model: string) =>
+	model.startsWith("opus") ? 1.5 : model.startsWith("haiku") ? 0.6 : 1;
+
+// How fast the rain falls, a multiple of its base speed: the biggest model at
+// work, +25% an agent running (up to +150%) and the last model call's tokens
+// (x1 at 10k, x1.5 at 100k, x2 from 1M), capped; 0 with no model at work.
+export const rainSpeed = (models: string[], agents: number, tokens: number) =>
+	models.length === 0
+		? 0
+		: Math.min(
+				RAIN_MAX_SPEED,
+				Math.max(...models.map(modelWeight)) *
+					(1 + Math.min(1.5, agents * 0.25)) *
+					(1 + Math.min(1, Math.log10(Math.max(1, tokens / 10_000)) / 2)),
+			);
+
+const totalTokens = (u: ModelUsage) =>
+	u.input_tokens +
+	u.output_tokens +
+	u.cache_read_input_tokens +
+	u.cache_creation_input_tokens;
+
+// Raster cells for the clock at t, all blank when dry. Each column's drop gets
+// its speed (rows a second), trail and gap from the column index, so the clock
+// alone draws it.
+const rainCells = (t: number, columns: number, rows: number, dry = false) => {
+	const words = new Uint32Array(columns * rows * 3).fill(TERMINAL_DEFAULT);
+	for (let c = 0; c < columns; c++) {
+		const trail = 4 + (hash(c * 3 + 1) % (RAIN_FADE.length - 3));
+		const period = rows + trail + (hash(c * 3 + 2) % 12);
+		const speed = 8 + (hash(c * 3) % 9);
+		const head = (Math.floor((t / 1000) * speed) + hash(c * 7 + 5)) % period;
+		for (let r = 0; r < rows; r++) {
+			const d = head - r;
+			const i = (r * columns + c) * 3;
+			if (dry || d < 0 || d >= trail) {
+				words[i] = 0x20;
+				continue;
+			}
+			const flicker = Math.floor(t / (d === 0 ? 50 : 300));
+			words[i] =
+				RAIN_GLYPHS[hash(c * 131 + r * 17 + flicker) % RAIN_GLYPHS.length] ??
+				0x20;
+			words[i + 1] =
+				RAIN_FADE[d === 0 ? 0 : d + RAIN_FADE.length - trail] ??
+				TERMINAL_DEFAULT;
+		}
+	}
+	// the engine's runtime has toBase64 (its Raster docs use it); TS lib lags
+	return (
+		new Uint8Array(words.buffer) as Uint8Array & { toBase64(): string }
+	).toBase64();
+};
 
 const ICON: Record<AgentRow["status"], string> = {
 	running: "●",
@@ -466,6 +548,19 @@ export const register: Register = (on) => {
 	let draining = false;
 	let tick = 0;
 	let root: string | undefined;
+	// the mounted Raster's width; a blit for another width is refused
+	let rainColumns = 0;
+	// The rain runs on its own clock so a change of speed does not jump it;
+	// rainPace is rainSpeed's latest, 0 while nothing works.
+	let rainPace = 0;
+	let rainT = 0;
+	let rainAt = 0;
+	let rainDry = true;
+	// the tokens the last main model call took
+	let stepTokens = 0;
+	// The hint line's isWorking, the engine's own word on a running turn;
+	// undefined until the line draws after a (re)load.
+	let hintWorking: boolean | undefined;
 
 	on("session.start", async ($, e, next) => {
 		const key = await syncChord($);
@@ -476,20 +571,62 @@ export const register: Register = (on) => {
 		await refreshGit($, root, false);
 		await setShown($, await isPaneShown($));
 		$.clock.every(100, async () => {
+			// a render hook only reads, so the hint line's word lands here
+			if (
+				hintWorking !== undefined &&
+				hintWorking !== (await read($, working)) > 0
+			) {
+				const t = await $.clock.now();
+				await update($, working, () => (hintWorking ? t : 0));
+			}
 			// a click on another pane's tab hides this one without an event
 			await setShown($, await isPaneShown($));
 			if (!(await read($, paneShown))) {
 				return;
 			}
 			tick++;
+			const list = await read($, agents);
 			const busy = isBusy(
-				await read($, agents),
+				list,
 				await read($, skillRuns),
 				await read($, recent),
 			);
-			if (busy || tick % 100 === 0) {
+			const since = await read($, working);
+			const running = list.filter((a) => a.status === "running");
+			rainPace = rainSpeed(
+				[
+					...(since > 0 ? [await read($, mainModel)] : []),
+					...running.map((a) => a.model),
+				],
+				running.length,
+				stepTokens,
+			);
+			// a turn alone redraws once a second for its elapsed time
+			if (busy || tick % (since > 0 ? 10 : 100) === 0) {
 				$.ui.invalidate("ui.render");
 			}
+		});
+		// The rain repaints its Raster in place: a redraw of the whole pane folds
+		// to one per 100 ms, a blit runs at the surface's frame rate.
+		$.clock.every(RAIN_MS, async () => {
+			if (rainColumns === 0 || !(await read($, paneShown))) {
+				return;
+			}
+			const now = await $.clock.now();
+			rainT += Math.min(now - rainAt, 1000) * rainPace;
+			rainAt = now;
+			// idle, one blank blit clears the rain and the next ones skip
+			if (rainPace === 0 && rainDry) {
+				return;
+			}
+			rainDry = rainPace === 0;
+			await $.ui
+				.blit({
+					requestId: PANE,
+					key: RAIN,
+					cells: rainCells(rainT, rainColumns, RAIN_ROWS, rainDry),
+				})
+				.catch(() => undefined);
 		});
 		$.clock.every(1500, async () => {
 			const item = (await read($, recent)).find((w) => w.text === undefined);
@@ -569,6 +706,9 @@ export const register: Register = (on) => {
 			await openRun($, [...loaded], short(e.model), effort);
 		}
 		const step = yield* next(e);
+		if (step.usage !== null) {
+			stepTokens = totalTokens(step.usage);
+		}
 		const answered = short(step.usage?.model ?? e.model);
 		if (loaded.length > 0) {
 			await patchOpen($, (r) => ({ ...r, model: answered }));
@@ -661,15 +801,7 @@ export const register: Register = (on) => {
 					id: e.turnId,
 					at: await $.clock.now(),
 					durationMs: e.durationMs,
-					...(e.usage === undefined
-						? {}
-						: {
-								tokens:
-									e.usage.input_tokens +
-									e.usage.output_tokens +
-									e.usage.cache_read_input_tokens +
-									e.usage.cache_creation_input_tokens,
-							}),
+					...(e.usage === undefined ? {} : { tokens: totalTokens(e.usage) }),
 					ask,
 					answer: e.answer.slice(0, 4000),
 				};
@@ -722,6 +854,7 @@ export const register: Register = (on) => {
 	// band above the prompt stays free. A chord presses only a mounted Button, so
 	// one rides along hidden.
 	on("ui.render", { component: "PromptHint" }, async ($, e, next) => {
+		hintWorking = e.props.isWorking;
 		if (await read($, paneShown)) {
 			return next(e);
 		}
@@ -752,7 +885,8 @@ export const register: Register = (on) => {
 	});
 
 	on("ui.render", { component: "Pane", requestId: PANE }, async ($, e) => {
-		const { Box, Button, Text } = $.ui.resolve(e);
+		const els = $.ui.resolve(e);
+		const { Box, Button, Text } = els;
 		const list = await read($, agents);
 		const runs = await read($, skillRuns);
 		const work = await read($, recent);
@@ -760,6 +894,7 @@ export const register: Register = (on) => {
 		const uncommitted = await read($, dirty);
 		const warnings = await read($, alerts);
 		const tag = await read($, mainModel);
+		const since = await read($, working);
 		const t = await $.clock.now();
 		const frame = Math.floor(t / 100);
 		const spin = SPINNER[frame % SPINNER.length];
@@ -787,22 +922,35 @@ export const register: Register = (on) => {
 		const counts = ORDER.map(
 			(s) => [s, list.filter((a) => a.status === s).length] as const,
 		);
+		if ("Raster" in els) {
+			rainColumns = width;
+		}
+		// docked, the pane fills its height so the rain sits on the bottom edge;
+		// inline, the frame fits the tree and would grow to bodyRows instead
+		const floor =
+			e.props.placement === "dock" ? e.props.scroll.bodyRows : undefined;
 		const keycap = (k: string) => (
 			<Text backgroundColor={C.surface0} color={C.lavender}>{` ${k} `}</Text>
 		);
 
 		return (
-			<Box flexDirection="column" width={width}>
-				<Box
-					borderStyle="round"
-					borderColor={glow}
-					paddingX={1}
-					justifyContent="space-between"
-				>
-					<Text bold color={C.mauve}>
-						<Text color={glow}>{busy ? PULSE[frame % PULSE.length] : "◆"}</Text>{" "}
-						summary
-					</Text>
+			<Box
+				flexDirection="column"
+				width={width}
+				{...(floor === undefined ? {} : { minHeight: floor })}
+			>
+				<Box paddingX={1} justifyContent="space-between">
+					<Box gap={2}>
+						<Text bold color={C.mauve}>
+							<Text color={glow}>
+								{busy ? PULSE[frame % PULSE.length] : "◆"}
+							</Text>{" "}
+							summary
+						</Text>
+						{since > 0 && (
+							<Text color={C.peach}>{`● working ${elapsed(t - since)}`}</Text>
+						)}
+					</Box>
 					<Text color={modelColor(tag)}>{tag}</Text>
 				</Box>
 				<Box paddingX={1}>
@@ -1007,6 +1155,15 @@ export const register: Register = (on) => {
 						<Text color={C.subtext}> focus</Text>
 					</Text>
 				</Box>
+				<Box flexGrow={1} />
+				{"Raster" in els && (
+					<els.Raster
+						key={RAIN}
+						columns={width}
+						rows={RAIN_ROWS}
+						cells={rainCells(rainT, width, RAIN_ROWS, rainPace === 0)}
+					/>
+				)}
 			</Box>
 		);
 	});

@@ -57,6 +57,7 @@ declare module "claude-code" {
 			shown: boolean;
 			chord: string;
 			seen: string[];
+			working: number;
 		};
 	}
 }
