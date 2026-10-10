@@ -131,7 +131,9 @@ const setup = async ($: Engine, on: On) => {
 		};
 	});
 	const panes: string[] = [];
+	const hidden = new Set<string>();
 	on("ui.open", (_, e) => {
+		hidden.delete(e.id);
 		panes.push(e.id);
 		return { value: { isPlaced: true } };
 	});
@@ -143,7 +145,7 @@ const setup = async ($: Engine, on: On) => {
 		value: panes.map((id) => ({
 			id,
 			title: id,
-			isShown: true,
+			isShown: !hidden.has(id),
 			isFocused: false,
 			isPlaced: true,
 		})),
@@ -169,7 +171,7 @@ const setup = async ($: Engine, on: On) => {
 		await ui.unmount();
 		return found !== undefined;
 	};
-	return { ai, clock, fail, git, live, panes, shows, writes };
+	return { ai, clock, fail, git, hidden, live, panes, shows, writes };
 };
 
 test("tracks status, name, model and elapsed time per agent", async ($, on) => {
@@ -323,6 +325,28 @@ test("the band offers the summary toggle only while the pane is closed", async (
 	await $.command.run({ command: "summary", args: "" } as never);
 	expect(panes).toEqual([]);
 	expect(await ui.find({ key: "toggle" })).toBeDefined();
+	await ui.unmount();
+});
+
+test("a pane hidden behind another tab is brought back instead of closed", async ($, on) => {
+	const { clock, hidden, panes } = await setup($, on);
+	const run = () => $.command.run({ command: "summary", args: "" } as never);
+	await run();
+	const ui = await $.ui.mount({
+		plugin: "summary",
+		surface: "terminal",
+		...BAND,
+	});
+	expect(await ui.find({ key: "toggle" })).toBeUndefined();
+
+	hidden.add("summary");
+	await clock.advance(100);
+	expect(await ui.find({ key: "toggle" })).toBeDefined();
+
+	expect((await run()).text).toMatch(/opened/);
+	expect(panes).toEqual(["summary"]);
+	expect(hidden.size).toBe(0);
+	expect(await ui.find({ key: "toggle" })).toBeUndefined();
 	await ui.unmount();
 });
 

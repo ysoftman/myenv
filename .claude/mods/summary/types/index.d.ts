@@ -54,7 +54,7 @@ declare module "claude-code" {
 			alerts: Alert[];
 			runs: SkillRun[];
 			model: string;
-			open: boolean;
+			shown: boolean;
 			chord: string;
 			seen: string[];
 		};

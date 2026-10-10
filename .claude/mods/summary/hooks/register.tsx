@@ -16,7 +16,7 @@ const dirty = atom({ plugin: "summary", key: "dirty" } as const, 0);
 const alerts = atom({ plugin: "summary", key: "alerts" } as const, []);
 const skillRuns = atom({ plugin: "summary", key: "runs" } as const, []);
 const mainModel = atom({ plugin: "summary", key: "model" } as const, "");
-const paneOpen = atom({ plugin: "summary", key: "open" } as const, false);
+const paneShown = atom({ plugin: "summary", key: "shown" } as const, false);
 const chord = atom({ plugin: "summary", key: "chord" } as const, "");
 const seen = atom({ plugin: "summary", key: "seen" } as const, []);
 
@@ -400,12 +400,12 @@ const openRun = async (
 	await update($, skillRuns, (l) => [...l, run].slice(-RUNS_MAX));
 };
 
-const isPaneOpen = async ($: EngineInterface) =>
-	(await $.ui.panes()).some((p) => p.id === PANE);
+const isPaneShown = async ($: EngineInterface) =>
+	(await $.ui.panes()).some((p) => p.id === PANE && p.isShown);
 
-const setOpen = async ($: EngineInterface, isOpen: boolean) => {
-	if ((await read($, paneOpen)) !== isOpen) {
-		await update($, paneOpen, () => isOpen);
+const setShown = async ($: EngineInterface, isShown: boolean) => {
+	if ((await read($, paneShown)) !== isShown) {
+		await update($, paneShown, () => isShown);
 	}
 };
 
@@ -417,14 +417,20 @@ const syncChord = async ($: EngineInterface) => {
 	return key;
 };
 
+// Shown: close. Open behind another pane's tab: the engine only retitles an
+// open id, while a newly opened pane becomes the shown tab, so reopen it.
 const toggle = async ($: EngineInterface, root: string | undefined) => {
-	if (await isPaneOpen($)) {
+	const pane = (await $.ui.panes()).find((p) => p.id === PANE);
+	if (pane?.isShown) {
 		await $.ui.close({ id: PANE });
-		await setOpen($, false);
+		await setShown($, false);
 		return false;
 	}
+	if (pane !== undefined) {
+		await $.ui.close({ id: PANE });
+	}
 	await $.ui.open({ id: PANE, title: "summary", columns: 60 });
-	await setOpen($, true);
+	await setShown($, true);
 	await syncChord($);
 	await refreshGit($, root, false);
 	return true;
@@ -468,9 +474,11 @@ export const register: Register = (on) => {
 			.catch(() => undefined);
 		root = top?.exitCode === 0 ? top.stdout.trim() : undefined;
 		await refreshGit($, root, false);
-		await setOpen($, await isPaneOpen($));
+		await setShown($, await isPaneShown($));
 		$.clock.every(100, async () => {
-			if (!(await read($, paneOpen))) {
+			// a click on another pane's tab hides this one without an event
+			await setShown($, await isPaneShown($));
+			if (!(await read($, paneShown))) {
 				return;
 			}
 			tick++;
@@ -705,13 +713,13 @@ export const register: Register = (on) => {
 
 	on("ui.close", { id: PANE }, async ($, e, next) => {
 		const closed = await next(e);
-		await setOpen($, false);
+		await setShown($, false);
 
 		return closed;
 	}).catch((_, e, next) => next(e));
 
 	on("ui.render", { component: "AbovePrompt" }, async ($, e, next) => {
-		if (e.props.hasSurvey || (await read($, paneOpen))) {
+		if (e.props.hasSurvey || (await read($, paneShown))) {
 			return next(e);
 		}
 		const key = await read($, chord);
