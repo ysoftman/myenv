@@ -74,7 +74,7 @@ band 에 칩 줄을 두면 할 일이 없을 때도 프롬프트 위 한 줄을 
 - band 는 여러 plugin 의 hook 이 위에서 아래로 감싸는 chain 이다. 위 hook 은 `next(e)` 결과(아래가 그린 tree)를 자기 tree 에 넣는다. 그릴 게 없으면 `return next(e)` 하고, `e.props.hasSurvey` 면 양보한다. `next(e)` 결과를 빠뜨리면 아래 mod 가 화면에서 사라진다.
 - plugin tree 가 하나라도 있으면 엔진이 `[-]` 를 붙여 band 한 줄을 차지한다. 숨긴 Button 만 band 에 두어도 빈 줄 + `[-]` 가 남으니, 단축키용 Button 은 band 가 아니라 힌트 줄에 둔다.
 - 자기 pane 이 보이는 동안에는 band 를 그리지 않는다(같은 정보가 pane 에 있으므로).
-- 예전 규칙(단축키 칩을 key `band-chips` Box 에 넣고 위 hook 이 `takeChips` 로 모아 한 줄로 그림)은 다른 band mod 가 아직 쓴다. 새 mod 는 힌트 줄을 쓴다.
+- 예전 규칙(단축키 칩을 key `band-chips` Box 에 넣고 위 hook 이 `takeChips` 로 모아 한 줄로 그림)은 기존 mod 모두 힌트 줄로 옮겨 더 쓰지 않는다.
 - `next(e)` 결과는 plain-data tree(`{ type, props, children }`)다. Box·Button 의 key 는 `props.key` 에 있다. 다른 mod 의 Button 을 옮겨 그려도 그대로 눌린다(테스트로 확인).
 
 ## 다시 그리기와 상태
