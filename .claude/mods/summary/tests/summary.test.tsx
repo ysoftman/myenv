@@ -2,17 +2,10 @@ import type { AgentStatus, On } from "claude-code";
 import type { Engine } from "claude-code/testing";
 import { expect, mock, test } from "claude-code/testing";
 
-const BAND = {
-	component: "AbovePrompt",
-	requestId: "band",
-	props: {
-		hasSurvey: false,
-		isWorking: true,
-		maxRows: 20,
-		bodyColumns: 100,
-		scroll: { offset: 0, bodyRows: 20 },
-		view: {},
-	},
+const HINT = {
+	component: "PromptHint",
+	requestId: "prompt-hint",
+	props: { isDraft: false, isWorking: false, hint: "? for shortcuts" },
 } as const;
 
 const PANE = {
@@ -42,6 +35,23 @@ const spawn = (description: string, subagentType: string, extra: object = {}) =>
 		fork: false,
 		...extra,
 	}) as const;
+
+const bindChord = (on: On) => {
+	on("env.get", () => ({ value: "/home/me" }));
+	on("fs.read", (_, e) => ({
+		value:
+			e.path === "/home/me/.claude/keybindings.json"
+				? JSON.stringify({
+						bindings: [
+							{
+								context: "Global",
+								bindings: { "ctrl+x s": "app:toggleDiffPreSession" },
+							},
+						],
+					})
+				: "",
+	}));
+};
 
 const setup = async ($: Engine, on: On) => {
 	const clock = mock.clock(on, { now: 1_000_000 });
@@ -150,9 +160,9 @@ const setup = async ($: Engine, on: On) => {
 			isPlaced: true,
 		})),
 	}));
-	on("ui.render", { component: "AbovePrompt" }, ($$, e) => {
+	on("ui.render", { component: "PromptHint" }, ($$, e) => {
 		const { Text } = $$.ui.resolve(e);
-		return <Text>below</Text>;
+		return <Text>{e.props.tail ?? ""}</Text>;
 	});
 	const writes: string[] = [];
 	on("state.set", (_, e, next) => {
@@ -303,24 +313,29 @@ test("a stopped or vanished teammate keeps the time it worked", async ($, on) =>
 	expect(await shows(/^agents {2}✓ 1 done {2}■ 1 killed$/)).toBe(true);
 });
 
-test("the band offers the summary toggle only while the pane is closed", async ($, on) => {
+test("the hint line carries the toggle only while the pane is closed", async ($, on) => {
+	bindChord(on);
 	const { panes } = await setup($, on);
 	await $.agent.spawn(spawn("PR 리뷰", "reviewer"));
 	const ui = await $.ui.mount({
 		plugin: "summary",
 		surface: "terminal",
-		...BAND,
+		...HINT,
 	});
+	expect(await ui.find({ text: /^ctrl\+x s summary$/ })).toBeDefined();
 	expect((await ui.find({ key: "toggle" }))?.props).toMatchObject({
 		action: "app:toggleDiffPreSession",
 	});
-	expect(await ui.find({ text: /^below$/ })).toBeDefined();
-	expect(await ui.find({ text: /reviewer/ })).toBeUndefined();
+	expect(
+		(await ui.findAll({ type: "Box" })).some(
+			(b) => (b.props as { display?: string }).display === "none",
+		),
+	).toBe(true);
 
 	await ui.press({ key: "toggle" });
 	expect(panes).toEqual(["summary"]);
 	expect(await ui.find({ key: "toggle" })).toBeUndefined();
-	expect(await ui.find({ text: /^below$/ })).toBeDefined();
+	expect(await ui.find({ text: /summary/ })).toBeUndefined();
 
 	await $.command.run({ command: "summary", args: "" } as never);
 	expect(panes).toEqual([]);
@@ -329,13 +344,14 @@ test("the band offers the summary toggle only while the pane is closed", async (
 });
 
 test("a pane hidden behind another tab is brought back instead of closed", async ($, on) => {
+	bindChord(on);
 	const { clock, hidden, panes } = await setup($, on);
 	const run = () => $.command.run({ command: "summary", args: "" } as never);
 	await run();
 	const ui = await $.ui.mount({
 		plugin: "summary",
 		surface: "terminal",
-		...BAND,
+		...HINT,
 	});
 	expect(await ui.find({ key: "toggle" })).toBeUndefined();
 
@@ -350,45 +366,18 @@ test("a pane hidden behind another tab is brought back instead of closed", async
 	await ui.unmount();
 });
 
-test("chips another band mod drew below join the summary chip in one row", async ($, on) => {
-	let pressed = false;
-	on("ui.render", { component: "AbovePrompt" }, ($$, e) => {
-		const { Box, Button, Text } = $$.ui.resolve(e);
-		return (
-			<Box flexDirection="column">
-				<Text>deploy row</Text>
-				<Box key="band-chips" gap={2}>
-					<Button
-						plain
-						key="other"
-						onPress={() => {
-							pressed = true;
-						}}
-					>
-						<Text> ctrl+x k </Text>
-					</Button>
-				</Box>
-			</Box>
-		);
-	});
+test("a tail a hook above set stays ahead of the toggle hint", async ($, on) => {
+	bindChord(on);
 	await setup($, on);
 	const ui = await $.ui.mount({
 		plugin: "summary",
 		surface: "terminal",
-		...BAND,
+		...HINT,
+		props: { ...HINT.props, tail: "deploy 3/9" },
 	});
-	const rows = await ui.findAll({ type: "Box", key: "band-chips" });
-	expect(rows).toHaveLength(1);
-	const children = (rows[0]?.children ?? []) as {
-		type: string;
-		props: { key?: string };
-	}[];
 	expect(
-		children.filter((c) => c.type === "Button").map((c) => c.props.key),
-	).toEqual(["toggle", "other"]);
-	expect(await ui.find({ text: /^deploy row$/ })).toBeDefined();
-	await ui.press({ key: "other", plugin: "test" });
-	expect(pressed).toBe(true);
+		await ui.find({ text: /^deploy 3\/9 · ctrl\+x s summary$/ }),
+	).toBeDefined();
 	await ui.unmount();
 });
 
@@ -607,9 +596,10 @@ test("/summary opens and closes the pane without a keybinding", async ($, on) =>
 	const ui = await $.ui.mount({
 		plugin: "summary",
 		surface: "terminal",
-		...BAND,
+		...HINT,
 	});
-	expect(await ui.find({ text: /^ \/summary $/ })).toBeDefined();
+	expect(await ui.find({ text: /^\/summary$/ })).toBeDefined();
+	expect(await ui.find({ key: "toggle" })).toBeUndefined();
 	await ui.unmount();
 	expect(
 		(await $.command.run({ command: "summary", args: "" } as never)).text,
@@ -622,27 +612,14 @@ test("/summary opens and closes the pane without a keybinding", async ($, on) =>
 });
 
 test("the toggle hint names the chord bound to the toggle action", async ($, on) => {
-	on("env.get", () => ({ value: "/home/me" }));
-	on("fs.read", (_, e) => ({
-		value:
-			e.path === "/home/me/.claude/keybindings.json"
-				? JSON.stringify({
-						bindings: [
-							{
-								context: "Global",
-								bindings: { "ctrl+x s": "app:toggleDiffPreSession" },
-							},
-						],
-					})
-				: "",
-	}));
+	bindChord(on);
 	await setup($, on);
 	const ui = await $.ui.mount({
 		plugin: "summary",
 		surface: "terminal",
-		...BAND,
+		...HINT,
 	});
-	expect(await ui.find({ text: /^ ctrl\+x s $/ })).toBeDefined();
+	expect(await ui.find({ text: /^ctrl\+x s summary$/ })).toBeDefined();
 	await ui.unmount();
 	expect(
 		(await $.command.run({ command: "summary", args: "" } as never)).text,

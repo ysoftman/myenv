@@ -2,7 +2,6 @@ import type {
 	AgentStatus,
 	EngineInterface,
 	Register,
-	RenderNode,
 	TurnCompleteReason,
 } from "claude-code";
 import { atom, read, update } from "claude-code";
@@ -439,32 +438,6 @@ const toggle = async ($: EngineInterface, root: string | undefined) => {
 
 const hintOf = (key: string) => key || `/${PANE}`;
 
-// Shared with other band mods: each puts its chips in a
-// Box keyed BAND_CHIPS, and the hook above pulls that Box out of the tree below
-// to draw every chip in one row at the bottom of the band.
-const BAND_CHIPS = "band-chips";
-
-const takeChips = (
-	node: RenderNode | undefined,
-): [RenderNode[], RenderNode | undefined] => {
-	if (!node || typeof node === "string" || node.type !== "Box") {
-		return [[], node];
-	}
-	if (node.props?.key === BAND_CHIPS) {
-		return [node.children ?? [], undefined];
-	}
-	let chips: RenderNode[] = [];
-	const children = (node.children ?? []).flatMap((child) => {
-		if (chips.length > 0) {
-			return [child];
-		}
-		const [found, rest] = takeChips(child);
-		chips = found;
-		return rest === undefined ? [] : [rest];
-	});
-	return chips.length > 0 ? [chips, { ...node, children }] : [[], node];
-};
-
 const boundKey = async ($: EngineInterface) => {
 	try {
 		const { bindings = [] } = JSON.parse(
@@ -745,31 +718,34 @@ export const register: Register = (on) => {
 		return closed;
 	}).catch((_, e, next) => next(e));
 
-	on("ui.render", { component: "AbovePrompt" }, async ($, e, next) => {
-		if (e.props.hasSurvey || (await read($, paneShown))) {
+	// The hint under the prompt carries the toggle hint as dim tail text, so the
+	// band above the prompt stays free. A chord presses only a mounted Button, so
+	// one rides along hidden.
+	on("ui.render", { component: "PromptHint" }, async ($, e, next) => {
+		if (await read($, paneShown)) {
 			return next(e);
 		}
 		const key = await read($, chord);
-		const [chips, rest] = takeChips(await next(e));
-		const { Box, Button, Text } = $.ui.resolve(e);
+		const tail = [e.props.tail, key === "" ? `/${PANE}` : `${key} ${PANE}`]
+			.filter(Boolean)
+			.join(" · ");
+		const below = await next({ ...e, props: { ...e.props, tail } });
+		if (key === "") {
+			return below;
+		}
+		const { Box, Button } = $.ui.resolve(e);
 
 		return (
 			<Box flexDirection="column">
-				{rest}
-				<Box key={BAND_CHIPS} gap={2}>
+				{below}
+				<Box display="none">
 					<Button
 						plain
 						key="toggle"
+						label={PANE}
 						action={TOGGLE_ACTION}
 						onPress={() => toggle($, root)}
-					>
-						<Text
-							backgroundColor={C.surface0}
-							color={C.lavender}
-						>{` ${hintOf(key)} `}</Text>
-						<Text color={C.overlay}>{key === "" ? "" : " summary"}</Text>
-					</Button>
-					{chips}
+					/>
 				</Box>
 			</Box>
 		);
