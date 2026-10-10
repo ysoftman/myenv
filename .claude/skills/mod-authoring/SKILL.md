@@ -1,13 +1,13 @@
 ---
 name: mod-authoring
-description: Claude Code mod(함수 hook 플러그인 — pane/패널, 프롬프트 위 band, 단축키 칩, 슬래시 명령)를 만들거나 고칠 때 내장 `plugin-authoring` 스킬과 함께 쓰는 실전 가이드. 패널 탭 표시·전환, keybindings action 단축키 안내, 여러 mod 가 band 를 함께 쓸 때 칩 한 줄 합치기, 테스트 kit 요령, 수정이 반영되지 않을 때 로드 경로 확인을 다룬다. 사용자가 mod, 모드 만들어, 패널, pane, band, 프롬프트 위 한 줄, 단축키 칩, 탭 전환, "reload-plugins 했는데 안 바뀜", `.claude/mods`, `dev-mods`, `register.tsx`, `ui.render`, `$.ui.open` 등을 언급하면 plugin-authoring 과 함께 반드시 사용한다.
+description: Claude Code mod(함수 hook 플러그인 — pane/패널, 프롬프트 위 band, 단축키 칩, 슬래시 명령)를 만들거나 고칠 때 내장 `plugin-authoring` 스킬과 함께 쓰는 실전 가이드. 패널 탭 표시·전환, keybindings action 단축키 안내(프롬프트 아래 힌트 줄 tail), 여러 mod 가 band·힌트 줄을 함께 쓰는 법, 테스트 kit 요령, 수정이 반영되지 않을 때 로드 경로 확인을 다룬다. 사용자가 mod, 모드 만들어, 패널, pane, band, 프롬프트 위 한 줄, 힌트 줄, PromptHint, 단축키 칩, 탭 전환, "reload-plugins 했는데 안 바뀜", `.claude/mods`, `dev-mods`, `register.tsx`, `ui.render`, `$.ui.open` 등을 언급하면 plugin-authoring 과 함께 반드시 사용한다.
 ---
 
 # Mod Authoring
 
 내장 `plugin-authoring` 스킬이 API·타입·예제를 준다면, 이 스킬은 실제 mod(`summary`, 배포 진행 패널 mod)를 만들며 엔진 코드로 확인한 동작과 거기서 나온 패턴을 담는다. 둘을 같이 로드하고, API 세부는 `plugin-authoring` 의 타입 파일(`claude-code.d.ts`)을 grep 해 확인한다.
 
-재사용 코드(토글, 단축키 읽기, band 칩 합치기, 테스트 mock)는 [references/snippets.md](references/snippets.md) 에 있다. 해당 기능을 구현할 때 읽는다.
+재사용 코드(토글, 단축키 읽기, 힌트 줄 단축키, 테스트 mock)는 [references/snippets.md](references/snippets.md) 에 있다. 해당 기능을 구현할 때 읽는다.
 
 ## 작업 순서
 
@@ -48,17 +48,33 @@ description: Claude Code mod(함수 hook 플러그인 — pane/패널, 프롬프
 ## 단축키
 
 - plugin 은 키를 직접 등록할 수 없다. `~/.claude/keybindings.json` 의 `Global` 에서 **평소 엔진 handler 가 없는 action**(예: `app:cycleDiffBase`, `app:toggleDiffPreSession`)에 chord 를 묶고, 그 action 을 단 `Button` 이 chord 를 받는다. 그 action 의 엔진 handler 가 떠 있으면(예: diff 패널이 열림) 엔진 동작이 우선한다는 점을 README 에 적는다.
-- Button 은 **그려져 있을 때만** chord 를 받는다. 그래서 pane 이 보이면 pane 안에, 안 보이면(닫힘·가려짐·대기) band 에 Button 을 둬서 언제나 하나는 mount 되게 한다.
-- 안내는 실제로 바인딩한 사람에게만 보인다: `keybindings.json` 을 읽어 그 action 에 묶인 키를 찾고, 있으면 그 키를 칩·pane 하단·명령 설명에 표시한다. 없으면 칩과 단축키 안내를 감추고, `help` 출력에 설정 방법을 넣고, 토스트에는 슬래시 명령 이름을 쓴다. 키 이름을 코드에 고정하면 설정하지 않은 사람에게 눌러도 안 되는 단축키가 보인다.
+- Button 은 **mount 돼 있을 때만** chord 를 받는다. 어느 render site 든 상관없고(v2.1.296 엔진 코드 확인: Button 컴포넌트가 mount 되며 action 을 등록), `display="none"` Box 안에 숨겨도 mount 는 유지된다. 그래서 pane 이 보이면 pane 안에, 안 보이면(닫힘·가려짐·대기) 프롬프트 아래 힌트 줄에 숨긴 Button 을 둬서 언제나 하나는 mount 되게 한다(아래 "힌트 줄").
+- 안내는 실제로 바인딩한 사람에게만 보인다: `keybindings.json` 을 읽어 그 action 에 묶인 키를 찾고, 있으면 그 키를 힌트 줄·pane 하단·명령 설명에 표시한다. 없으면 단축키 안내와 숨긴 Button 을 빼고, `help` 출력에 설정 방법을 넣고, 토스트에는 슬래시 명령 이름을 쓴다. 키 이름을 코드에 고정하면 설정하지 않은 사람에게 눌러도 안 되는 단축키가 보인다.
 - 다시 읽는 시점은 `session.start`, 자기 명령 실행, 관련 스킬 시작 정도면 충분하다(매 프레임 읽지 않는다). 명령 목록의 설명 문구는 등록 시점 값이라 다음 세션에 바뀐다.
 - README 에는 바인딩 JSON 과 함께 "이미 파일이 있으면 덮어쓰지 말고 `Global` 블록의 `bindings` 에 한 줄만 추가"를 적는다.
 - 엔진 기본 `ctrl+x tab` 은 band·pane 에 포커스를 주고, 그 상태에서 Tab·Enter 로 탭을 고를 수 있다. 바인딩과 무관하게 동작하니 pane 하단 안내에 같이 둬도 된다.
 
+## 힌트 줄(PromptHint): 단축키 안내 자리
+
+band 에 칩 줄을 두면 할 일이 없을 때도 프롬프트 위 한 줄을 늘 차지한다. 단축키 안내는 프롬프트 아래 힌트 줄(`? for shortcuts` 줄) 끝에 흐린 글씨로 붙인다. summary mod 가 이 방식이다.
+
+- `ui.render` 의 `{ component: "PromptHint" }` 에서 `props.tail` 을 채워 `next` 로 넘긴다. 엔진이 원래 줄(pill 포함)을 그대로 그리고 끝에 ` · ` 와 tail 을 dim 으로 붙이며, 줄 끝에서 자르고 4칸 미만이면 뺀다(v2.1.296 엔진 코드 확인). tail 에 구분자를 직접 넣지 않는다.
+- **tail 이어 붙이기 규칙**: 위 hook 이 넘긴 `e.props.tail` 을 지우지 말고 `[e.props.tail, 내 안내].filter(Boolean).join(" · ")` 로 이어 붙인다. 여러 mod 가 끼어도 한 줄로 합쳐진다.
+- chord 용 Button 은 `next(...)` 결과(`{ type: "engine", ref }` 노드 또는 아래 mod 의 tree)와 함께 column Box 로 감싸고, `display="none"` Box 안에 넣는다. 화면에는 안 보이지만 mount 돼 chord 를 받는다.
+- 자기 pane 이 보이는 동안에는 `return next(e)` 로 빠진다(pane 안 Button 이 chord 를 받으므로).
+- 바인딩이 없으면 숨긴 Button 없이 tail 만 둔다(슬래시 명령 이름을 쓰거나 아예 빼기).
+- band 의 `ctrl+x ctrl+a`(`[-]`) 접기는 band tree 를 unmount 해서 거기 둔 Button 의 chord 도 죽는다. 힌트 줄에 두면 이 영향이 없다.
+
+코드는 snippets 의 "힌트 줄 단축키".
+
 ## Band(AbovePrompt) 함께 쓰기
 
+진행 상태처럼 정말 보여 줄 정보가 있을 때만 band 를 쓴다.
+
 - band 는 여러 plugin 의 hook 이 위에서 아래로 감싸는 chain 이다. 위 hook 은 `next(e)` 결과(아래가 그린 tree)를 자기 tree 에 넣는다. 그릴 게 없으면 `return next(e)` 하고, `e.props.hasSurvey` 면 양보한다. `next(e)` 결과를 빠뜨리면 아래 mod 가 화면에서 사라진다.
-- 자기 pane 이 보이는 동안에는 band 를 그리지 않는다(같은 정보·단축키가 pane 에 있으므로).
-- **칩 한 줄 규칙**: 각 mod 는 단축키 칩을 key 가 `band-chips` 인 Box 에 넣는다. 위 hook 은 아래 tree 에서 그 Box 를 찾아 빼내고, 자기 칩 뒤에 이어 붙여 band 맨 아래(프롬프트 바로 위)에 한 줄로 다시 그린다. 어느 mod 가 위에 오든, 사이에 다른 mod 가 끼어도 결과가 같다. 코드는 snippets 의 `takeChips`. 새 mod 도 이 규칙을 따르면 기존 칩 줄에 합류한다.
+- plugin tree 가 하나라도 있으면 엔진이 `[-]` 를 붙여 band 한 줄을 차지한다. 숨긴 Button 만 band 에 두어도 빈 줄 + `[-]` 가 남으니, 단축키용 Button 은 band 가 아니라 힌트 줄에 둔다.
+- 자기 pane 이 보이는 동안에는 band 를 그리지 않는다(같은 정보가 pane 에 있으므로).
+- 예전 규칙(단축키 칩을 key `band-chips` Box 에 넣고 위 hook 이 `takeChips` 로 모아 한 줄로 그림)은 다른 band mod 가 아직 쓴다. 새 mod 는 힌트 줄을 쓴다.
 - `next(e)` 결과는 plain-data tree(`{ type, props, children }`)다. Box·Button 의 key 는 `props.key` 에 있다. 다른 mod 의 Button 을 옮겨 그려도 그대로 눌린다(테스트로 확인).
 
 ## 다시 그리기와 상태

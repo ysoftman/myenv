@@ -7,7 +7,7 @@
 - 보임 기준 토글
 - 탭 전환 감지(폴링)
 - 바인딩된 키 읽기
-- band 칩 한 줄 합치기
+- 힌트 줄 단축키
 - 테스트 mock
 
 ## 보임 기준 토글
@@ -72,7 +72,7 @@ const syncToggleKey = async ($: EngineInterface) => {
 };
 ```
 
-`toggleKey` 가 없으면 칩·단축키 안내를 그리지 않고, `help` 에 설정 방법을 넣는다.
+`toggleKey` 가 없으면 단축키 안내와 숨긴 Button 을 그리지 않고, `help` 에 설정 방법을 넣는다.
 
 ```ts
 const usage = () =>
@@ -88,66 +88,36 @@ const usage = () =>
 	].join("\n");
 ```
 
-## band 칩 한 줄 합치기
+## 힌트 줄 단축키
 
-각 mod 가 같은 helper 를 갖는다(플러그인끼리 코드를 공유할 수 없으므로 복사).
-
-```ts
-import type { RenderNode } from "claude-code";
-
-// band 를 함께 쓰는 mod 들의 규칙: 칩은 key 가 BAND_CHIPS 인 Box 에 넣고, 위 hook 이 아래 tree 에서
-// 그 Box 를 빼내 자기 칩 뒤에 이어 붙여 band 맨 아래에 한 줄로 다시 그린다.
-const BAND_CHIPS = "band-chips";
-
-const takeChips = (
-	node: RenderNode | undefined,
-): [RenderNode[], RenderNode | undefined] => {
-	if (!node || typeof node === "string" || node.type !== "Box")
-		return [[], node];
-	if (node.props?.key === BAND_CHIPS) return [node.children ?? [], undefined];
-	let chips: RenderNode[] = [];
-	const children = (node.children ?? []).flatMap((child) => {
-		if (chips.length) return [child];
-		const [found, rest] = takeChips(child);
-		chips = found;
-		return rest === undefined ? [] : [rest];
-	});
-	return chips.length ? [chips, { ...node, children }] : [[], node];
-};
-```
-
-band hook:
+프롬프트 아래 힌트 줄 끝에 안내를 tail 로 붙이고, chord 를 받을 Button 은 숨겨서 mount 한다. 위 hook 이 넘긴 tail 은 이어 붙인다.
 
 ```tsx
-on("ui.render", { component: "AbovePrompt" }, async ($, e, next) => {
-	// 설문 중이거나, 패널이 보이거나(패널 안 Button 이 단축키를 받음), 바인딩이 없으면 아래에 양보
-	if (e.props.hasSurvey || isShown || !toggleKey) return next(e);
-	const [chips, rest] = takeChips(await next(e));
-	const { Box, Button, Text } = $.ui.resolve(e);
+on("ui.render", { component: "PromptHint" }, async ($, e, next) => {
+	// 패널이 보이면 패널 안 Button 이 단축키를 받는다
+	if (isShown) return next(e);
+	const hint = toggleKey ? `${toggleKey} ${TAB_TITLE}` : "/my-cmd";
+	const tail = [e.props.tail, hint].filter(Boolean).join(" · ");
+	const below = await next({ ...e, props: { ...e.props, tail } });
+	if (!toggleKey) return below;
+	const { Box, Button } = $.ui.resolve(e);
 
 	return (
 		<Box flexDirection="column">
-			{rest}
-			<Box key={BAND_CHIPS} gap={2}>
+			{below}
+			<Box display="none">
 				<Button
 					plain
 					key="toggle"
+					label={TAB_TITLE}
 					action={TOGGLE_ACTION}
 					onPress={() => toggle($)}
-				>
-					<Text backgroundColor="#313244" color="#b4befe">
-						{` ${toggleKey} `}
-					</Text>
-					<Text color="#7f849c"> {TAB_TITLE}</Text>
-				</Button>
-				{chips}
+				/>
 			</Box>
 		</Box>
 	);
 });
 ```
-
-진행 상태 같은 정보 줄이 있으면 `{rest}` 위에 두고, 칩 줄은 항상 맨 아래에 둔다.
 
 ## 테스트 mock
 
@@ -155,16 +125,10 @@ on("ui.render", { component: "AbovePrompt" }, async ($, e, next) => {
 import type { On } from "claude-code";
 import { expect, mock, test } from "claude-code/testing";
 
-const BAND = {
-	component: "AbovePrompt",
-	props: {
-		hasSurvey: false,
-		isWorking: false,
-		maxRows: 3,
-		bodyColumns: 100,
-		scroll: { offset: 0, bodyRows: 3 },
-		view: {},
-	},
+const HINT = {
+	component: "PromptHint",
+	requestId: "prompt-hint",
+	props: { isDraft: false, isWorking: false, hint: "? for shortcuts" },
 } as const;
 
 // 엔진 대신 pane 목록을 메모리로 흉내낸다. 새로 연 pane 은 보이는 탭이 된다.
@@ -218,10 +182,10 @@ test("hidden tab comes back to front", async ($, on) => {
 	const clock = mock.clock(on);
 	bindToggleKey(on);
 	const panes = fakePanes(on);
-	// 아래 hook: 엔진 대신 아무것도 안 그리는 band
-	on("ui.render", { component: "AbovePrompt" }, ($, e) => {
-		const { Box } = $.ui.resolve(e);
-		return <Box key="engine" />;
+	// 아래 hook: 엔진 대신 받은 tail 을 그대로 그려 tail 을 검사할 수 있게 한다
+	on("ui.render", { component: "PromptHint" }, ($, e) => {
+		const { Text } = $.ui.resolve(e);
+		return <Text>{e.props.tail ?? ""}</Text>;
 	});
 	// $.session.start 에 필요한 응답 (타이머가 session.start 에서 걸린다)
 	on("command.register", (_, e) => ({ value: { command: e.name } }));
@@ -237,12 +201,14 @@ test("hidden tab comes back to front", async ($, on) => {
 	panes.isBehind = true;
 	await clock.advance(100);
 	for (const surface of ["terminal", "desktop"] as const) {
-		const ui = await $.ui.mount({ plugin: "my-mod", surface, ...BAND });
-		const rows = await ui.findAll({ type: "Box", key: "band-chips" });
-		expect(rows).toHaveLength(1);
+		const ui = await $.ui.mount({ plugin: "my-mod", surface, ...HINT });
+		expect(await ui.find({ text: /^ctrl\+x k 내 패널$/ })).toBeDefined();
+		expect((await ui.find({ key: "toggle" }))?.props).toMatchObject({
+			action: "app:cycleDiffBase",
+		});
 		await ui.unmount();
 	}
 });
 ```
 
-다른 mod 의 칩 줄을 흉내낼 때는 test hook 이 `<Box key="band-chips"><Button key="other" onPress={...}>...</Button></Box>` 를 그리게 하고, 합쳐진 줄의 Button key 를 `(rows[0]?.children as { type: string; props: { key?: string } }[])` 에서 확인한 뒤 `ui.press({ key: "other", plugin: "test" })` 로 눌러 본다.
+위 hook 이 넘긴 tail 을 이어 붙이는지는 `$.ui.mount({ ...HINT, props: { ...HINT.props, tail: "deploy 3/9" } })` 로 마운트해 `/^deploy 3\/9 · ctrl\+x k 내 패널$/` 를 찾아 확인한다.
