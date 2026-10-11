@@ -87,7 +87,7 @@ const setup = async ($: Engine, on: On) => {
 		string,
 		{ deny: string } | { isError: true; result: null; text: string }
 	> = {};
-	const results: Record<string, { result: object }> = {};
+	const results: Record<string, { result: unknown; isReadOnly?: true }> = {};
 	// a file the test does not date changed during the last tool call
 	let lastCall = 0;
 	const mtimes: Record<string, number> = {};
@@ -110,15 +110,22 @@ const setup = async ($: Engine, on: On) => {
 			isStderrTruncated: false,
 		},
 	}));
-	on("fs.stat", (_, e) => ({
-		value: {
-			kind: "file",
-			size: 0,
-			mtimeMs: mtimes[e.path] ?? lastCall,
-			isLink: false,
-			realPath: e.path,
-		},
-	}));
+	// a stat that answers only once the clock moves a second
+	const slow = new Set<string>();
+	on("fs.stat", async (_, e) => {
+		if (slow.has(e.path)) {
+			await clock.sleep(1_000);
+		}
+		return {
+			value: {
+				kind: "file",
+				size: 0,
+				mtimeMs: mtimes[e.path] ?? lastCall,
+				isLink: false,
+				realPath: e.path,
+			},
+		};
+	});
 	on("turn.complete", (_, e) => ({ text: e.answer }));
 	on("prompt.submit", (_, e) => ({ text: e.text }));
 	// biome-ignore lint/correctness/useYield: a streaming hook must be a generator; this one streams nothing
@@ -218,6 +225,7 @@ const setup = async ($: Engine, on: On) => {
 		panes,
 		results,
 		shows,
+		slow,
 		writes,
 	};
 };
@@ -787,8 +795,142 @@ test("a background shell shows under tasks at once, and its later changes are th
 	await clock.advance(60_000);
 	git.status += "?? late.ts\n";
 	mtimes["/repo/late.ts"] = 1_110_000;
+	mtimes["/repo"] = 1_110_000;
 	await $.turn.complete(finish("m2", "done"));
 	expect(await shows(/late\.ts/)).toBe(false);
+});
+
+test("a refused, read-only or waiting call is no time Claude changed a file", async ($, on) => {
+	const { fail, git, mtimes, results, shows } = await setup($, on);
+	fail.Bash = { deny: "not now" };
+	await $.tool.call({ tool: "Bash", command: "rm -rf build" } as never);
+	delete fail.Bash;
+	results.Grep = { result: "ok", isReadOnly: true };
+	await $.tool.call({ tool: "Grep", pattern: "x" } as never);
+	await $.tool.call({ tool: "AskUserQuestion", questions: [] } as never);
+	// saved in an editor while those ran
+	git.status = "?? mine.ts\n";
+	mtimes["/repo/mine.ts"] = 1_000_000;
+	mtimes["/repo"] = 1_000_000;
+	await $.turn.complete(finish("m1", "done"));
+	expect(await shows(/^files {2}0 edited · 1 uncommitted$/)).toBe(true);
+	expect(await shows(/mine\.ts/)).toBe(false);
+});
+
+test("the time a call waited on a permission prompt is no time it changed a file", async ($, on) => {
+	on("classic.PostToolUse", () => ({}));
+	const { clock, git, mtimes, results, shows } = await setup($, on);
+	results.Bash = {
+		result: {
+			stdout: "",
+			stderr: "",
+			interrupted: false,
+			backgroundTaskId: "b1",
+		},
+	};
+	await $.tool.call({
+		tool: "Bash",
+		command: "bun run dev",
+		run_in_background: true,
+		tool_use_id: "tu1",
+	} as never);
+	await clock.advance(30_000);
+	await $.classic.PostToolUse({
+		tool_name: "Bash",
+		tool_input: {},
+		tool_response: {},
+		tool_use_id: "tu1",
+		duration_ms: 1_000,
+	} as never);
+	await clock.advance(10_000);
+	// mine.ts was saved while the prompt waited, dev.ts once the shell ran
+	git.status = " M mine.ts\n M dev.ts\n";
+	mtimes["/repo/mine.ts"] = 1_010_000;
+	mtimes["/repo/dev.ts"] = 1_035_000;
+	await $.turn.complete(finish("m1", "done"));
+	expect(await shows(/^M +· dev\.ts$/)).toBe(true);
+	expect(await shows(/mine\.ts/)).toBe(false);
+});
+
+test("a file moved into place joins files though it keeps its old mtime", async ($, on) => {
+	const { git, mtimes, shows } = await setup($, on);
+	await $.tool.call({
+		tool: "Bash",
+		command: "git mv a.ts b.ts && mv c.ts d.ts",
+	} as never);
+	git.status = "R  a.ts -> b.ts\n?? d.ts\n?? other/theirs.ts\n";
+	mtimes["/repo/b.ts"] = 1;
+	mtimes["/repo/d.ts"] = 1;
+	mtimes["/repo/other/theirs.ts"] = 1;
+	mtimes["/repo/other"] = 1;
+	await $.turn.complete(finish("m1", "done"));
+	expect(await shows(/^R +· b\.ts$/)).toBe(true);
+	expect(await shows(/^\?\? +· d\.ts$/)).toBe(true);
+	expect(await shows(/theirs\.ts/)).toBe(false);
+});
+
+test("two git reads at once cannot lose a file Claude changed", async ($, on) => {
+	const { clock, git, shows, slow } = await setup($, on);
+	await $.tool.call({ tool: "Bash", command: "touch x.ts" } as never);
+	await clock.advance(5_000);
+	git.status = "?? x.ts\n";
+	slow.add("/repo/x.ts");
+	// a subagent's end and a toggle both read git; the first waits on its stat
+	const first = $.turn.complete({
+		answer: "ok",
+		durationMs: 1_000,
+		isAborted: false,
+		turnId: "t9",
+		agentId: "a9",
+		reason: "answer",
+	});
+	await clock.settle();
+	const second = $.command.run({ command: "summary", args: "" } as never);
+	await clock.settle();
+	await clock.advance(1_000);
+	await Promise.all([first, second]);
+	expect(await shows(/^\?\? +· x\.ts$/)).toBe(true);
+});
+
+test("tasks draws its rows in the order it picks them", async ($, on) => {
+	on("classic.Stop", () => ({}));
+	const { clock, live } = await setup($, on);
+	await $.agent.spawn(spawn("끝난 일", "general-purpose"));
+	live.a1 = "completed";
+	await clock.advance(1_000);
+	await $.classic.Stop({
+		stop_hook_active: false,
+		background_tasks: [
+			{
+				id: "b1",
+				type: "shell",
+				status: "running",
+				description: "watch",
+				command: "watch b",
+			},
+		],
+		session_crons: [
+			{
+				id: "c1",
+				schedule: "*/10 * * * *",
+				recurring: true,
+				prompt: "/loop c",
+			},
+		],
+	});
+	const ui = await $.ui.mount({
+		plugin: "summary",
+		surface: "terminal",
+		...PANE,
+	});
+	const rows = (
+		await ui.findAll({
+			type: "Text",
+			text: /^(● shell|↻ |✓ general-purpose)/,
+		})
+	).map((r) => r.text[0]);
+	await ui.unmount();
+	expect(rows).toEqual(["●", "↻", "✓"]);
 });
 
 test("a shell edit stays the session's when a refresh sees it mid-turn", async ($, on) => {

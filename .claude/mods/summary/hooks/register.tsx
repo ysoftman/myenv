@@ -87,14 +87,23 @@ const TURNS_MAX = 200;
 
 const EDIT_TOOLS = new Set(["Edit", "MultiEdit", "Write", "NotebookEdit"]);
 
-// a subagent's spawn lasts its whole run; its own calls bring their spans
-const NO_SPAN = new Set(["Agent", "Task", "SubagentHandback"]);
+// a subagent's spawn lasts its whole run, its own calls bring their spans;
+// the rest wait on the user, who may be editing meanwhile
+const NO_SPAN = new Set([
+	"Agent",
+	"Task",
+	"SubagentHandback",
+	"Workflow",
+	"AskUserQuestion",
+	"EnterPlanMode",
+	"ExitPlanMode",
+]);
 
 // a file's mtime and the clock may round apart
 const SLACK_MS = 1_000;
 
 // while a tool call of Claude's ran; open while it runs or a shell it left does
-type Span = { from: number; to?: number; id?: string };
+type Span = { from: number; to?: number; id?: string; use?: string };
 
 const line = (s: string) => cut(s.split("\n")[0] ?? "", 120);
 
@@ -181,9 +190,23 @@ const refreshRepo = async ($: EngineInterface, root: string, head: string) => {
 	}
 };
 
+// One read at a time: two at once could prune a span the other still judges by.
+let reading: Promise<unknown> = Promise.resolve();
+
+const refreshGit = (
+	$: EngineInterface,
+	root: string | undefined,
+	spans: Span[],
+) => {
+	const run = reading.then(() => readGit($, root, spans));
+	reading = run.catch(() => undefined);
+	return run;
+};
+
 // A path that turned dirty joins files when it changed while one of Claude's
-// tool calls ran; one gone has no mtime, so any call since the last read does.
-const refreshGit = async (
+// tool calls ran; one gone or moved has no telling mtime, so any call since the
+// last read does.
+const readGit = async (
 	$: EngineInterface,
 	root: string | undefined,
 	spans: Span[],
@@ -232,13 +255,12 @@ const refreshGit = async (
 	if (JSON.stringify(paths) !== JSON.stringify(before)) {
 		await update($, seen, () => paths);
 	}
-	const list = await read($, files);
-	const known = new Set([...before, ...list.map((f) => f.path)]);
+	const known = new Set([
+		...before,
+		...(await read($, files)).map((f) => f.path),
+	]);
 	const fresh = paths.filter(
 		(p) => !known.has(p) && !known.has(`${root}/${p}`),
-	);
-	const stats = await Promise.all(
-		fresh.map((p) => $.fs.stat(`${root}/${p}`).catch(() => undefined)),
 	);
 	const ours = (mtimeMs: number | undefined) =>
 		mtimeMs === undefined
@@ -248,10 +270,36 @@ const refreshGit = async (
 						mtimeMs >= w.from - SLACK_MS &&
 						mtimeMs <= (w.to ?? Number.POSITIVE_INFINITY) + SLACK_MS,
 				);
+	const changed = await Promise.all(
+		fresh.map(async (p) => {
+			const code = status.get(p) ?? "";
+			// git mv, mv and cp -p keep the old mtime
+			if (/[RC]/.test(code)) {
+				return ours(undefined);
+			}
+			const own = await $.fs.stat(`${root}/${p}`).catch(() => undefined);
+			if (own === undefined || ours(own.mtimeMs)) {
+				return ours(own?.mtimeMs);
+			}
+			if (code !== "??") {
+				return false;
+			}
+			// a new path landing in a folder changes the folder
+			const folder = await $.fs
+				.stat(`${root}/${p}`.replace(/\/[^/]*$/, ""))
+				.catch(() => undefined);
+			return folder !== undefined && ours(folder.mtimeMs);
+		}),
+	);
 	const added: FileTouch[] = fresh
-		.filter((_, i) => ours(stats[i]?.mtimeMs))
+		.filter((_, i) => changed[i])
 		.map((p) => ({ path: `${root}/${p}`, edits: 0 }));
-	const next = [...added, ...list]
+	// read again: an Edit may have joined while the stats ran
+	const list = await read($, files);
+	const next = [
+		...added.filter((f) => !list.some((g) => g.path === f.path)),
+		...list,
+	]
 		.slice(0, FILES_MAX)
 		.map(({ status: _, ...f }) => {
 			const s = f.path.startsWith(`${root}/`)
@@ -702,10 +750,12 @@ export const register: Register = (on) => {
 		const tool = String(e.tool);
 		const id = e.agentId;
 		worked ||= id === undefined;
-		const span: Span = { from: await $.clock.now() };
+		const span: Span = { from: await $.clock.now(), use: e.tool_use_id };
 		if (root !== undefined && !NO_SPAN.has(tool)) {
 			spans.push(span);
 		}
+		// a refused or read-only call changed nothing
+		let idle = false;
 		try {
 			const [, ran] = await Promise.all([
 				id === undefined || tool === "SubagentHandback"
@@ -717,11 +767,15 @@ export const register: Register = (on) => {
 						),
 				next(e),
 			]);
+			idle = ran.deny !== undefined || ran.isReadOnly === true;
 			await record($, tool, id, pathOf(e), ran);
 
 			return ran;
 		} finally {
 			span.to = await $.clock.now();
+			if (idle && spans.includes(span)) {
+				spans.splice(spans.indexOf(span), 1);
+			}
 		}
 	}).catch((_, e, next) => next(e));
 
@@ -733,7 +787,7 @@ export const register: Register = (on) => {
 			ran.isError === true ? undefined : ran.result?.backgroundTaskId;
 		if (shell !== undefined) {
 			if (root !== undefined) {
-				spans.push({ from, id: shell });
+				spans.push({ from, id: shell, use: e.tool_use_id });
 			}
 			const row: BackgroundTask = {
 				id: shell,
@@ -831,6 +885,19 @@ export const register: Register = (on) => {
 	// or a fired cron wakes the session, so the next stop brings the change.
 	on("classic.Stop", async ($, e, next) => {
 		await afterStop($, e, spans);
+		return next(e);
+	}).catch((_, e, next) => next(e));
+
+	// the time a call waited on a permission prompt is not its run
+	on("classic.PostToolUse", async ($, e, next) => {
+		if (e.duration_ms !== undefined) {
+			const start = (await $.clock.now()) - e.duration_ms;
+			for (const w of spans) {
+				if (w.use === e.tool_use_id && w.from < start) {
+					w.from = start;
+				}
+			}
+		}
 		return next(e);
 	}).catch((_, e, next) => next(e));
 

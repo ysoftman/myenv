@@ -89,16 +89,15 @@ export const paneView = ({
 	];
 	const spark = marks.slice(-(width - 4));
 	const longest = Math.max(1, ...spark.map((m) => m.ms));
-	// live agents first, then background work, crons and the latest finished
+	// live agents first, then background work, crons and the latest finished,
+	// drawn in that order
+	const finished = list.filter((a) => !isLive(a)).reverse();
 	const keep = new Set<AgentRow | BackgroundTask | SessionCron>(
-		[
-			...list.filter(isLive),
-			...bg,
-			...scheduled,
-			...list.filter((a) => !isLive(a)).reverse(),
-		].slice(0, SHOWN),
+		[...list.filter(isLive), ...bg, ...scheduled, ...finished].slice(0, SHOWN),
 	);
-	const shown = list.filter((a) => keep.has(a));
+	const liveShown = list.filter((a) => isLive(a) && keep.has(a));
+	const doneShown = finished.filter((a) => keep.has(a));
+	const shown = [...liveShown, ...doneShown];
 	const bgShown = bg.filter((b) => keep.has(b));
 	const cronsShown = scheduled.filter((c) => keep.has(c));
 	const more = list.length + bg.length + scheduled.length - keep.size;
@@ -150,6 +149,26 @@ export const paneView = ({
 			? [{ color: C.green, text: "📝 summarizing" }]
 			: []),
 	];
+	const agentRow = (a: AgentRow) => (
+		<Text wrap="truncate-end">
+			<Text color={COLOR[a.status]}>
+				{a.status === "running" ? spin : ICON[a.status]}
+			</Text>{" "}
+			<Text color={C.text} dimColor={a.status !== "running"}>
+				{a.label.padEnd(labelWidth)}
+			</Text>{" "}
+			<Text color={modelColor(a.model)} dimColor={a.status !== "running"}>
+				{a.model.padEnd(modelWidth)}
+			</Text>{" "}
+			<Text color={C.overlay} dimColor={a.status !== "running"}>
+				{elapsed(end(a, t) - a.startedAt).padStart(6)}
+			</Text>{" "}
+			<Text color={C.subtext} dimColor>
+				{a.description}
+				{a.status === "running" && a.tool !== undefined ? ` · ${a.tool}` : ""}
+			</Text>
+		</Text>
+	);
 	const keycap = (k: string) => (
 		<Text backgroundColor={C.surface0} color={C.lavender}>{` ${k} `}</Text>
 	);
@@ -268,28 +287,7 @@ export const paneView = ({
 				{list.length + bg.length + scheduled.length === 0 && (
 					<Text color={C.overlay}>nothing running or scheduled</Text>
 				)}
-				{shown.map((a) => (
-					<Text wrap="truncate-end">
-						<Text color={COLOR[a.status]}>
-							{a.status === "running" ? spin : ICON[a.status]}
-						</Text>{" "}
-						<Text color={C.text} dimColor={a.status !== "running"}>
-							{a.label.padEnd(labelWidth)}
-						</Text>{" "}
-						<Text color={modelColor(a.model)} dimColor={a.status !== "running"}>
-							{a.model.padEnd(modelWidth)}
-						</Text>{" "}
-						<Text color={C.overlay} dimColor={a.status !== "running"}>
-							{elapsed(end(a, t) - a.startedAt).padStart(6)}
-						</Text>{" "}
-						<Text color={C.subtext} dimColor>
-							{a.description}
-							{a.status === "running" && a.tool !== undefined
-								? ` · ${a.tool}`
-								: ""}
-						</Text>
-					</Text>
-				))}
+				{liveShown.map(agentRow)}
 				{bgShown.map((b) => (
 					<Text wrap="truncate-end">
 						<Text color={b.status === "running" ? C.yellow : C.overlay}>
@@ -313,6 +311,7 @@ export const paneView = ({
 						</Text>
 					);
 				})}
+				{doneShown.map(agentRow)}
 				{more > 0 && <Text color={C.overlay}>{`+${more} more`}</Text>}
 			</Box>
 			<Box
