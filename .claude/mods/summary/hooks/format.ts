@@ -6,6 +6,10 @@ export const totalTokens = (u: ModelUsage) =>
 	u.cache_read_input_tokens +
 	u.cache_creation_input_tokens;
 
+// what a turn took in and wrote, leaving out what the prompt cache served
+export const newTokens = (u: ModelUsage) =>
+	u.input_tokens + u.output_tokens + u.cache_creation_input_tokens;
+
 export const LABEL_MAX = 20;
 
 export const elapsed = (ms: number) => {

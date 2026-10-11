@@ -12,7 +12,15 @@ import type {
 	TurnMark,
 	WorkItem,
 } from "../types";
-import { clip, cut, firstLine, pathOf, short, totalTokens } from "./format";
+import {
+	clip,
+	cut,
+	firstLine,
+	newTokens,
+	pathOf,
+	short,
+	totalTokens,
+} from "./format";
 import { paneView } from "./pane";
 import {
 	newRain,
@@ -33,7 +41,7 @@ import {
 	sync,
 	TURN_END,
 } from "./status";
-import { PANE, SHOWN, TOGGLE_ACTION } from "./theme";
+import { PANE, RECENT_SHOWN, SHOWN, TOGGLE_ACTION } from "./theme";
 
 const agents = atom({ plugin: "summary", key: "agents" } as const, []);
 
@@ -78,6 +86,17 @@ const FILES_MAX = 20;
 const TURNS_MAX = 200;
 
 const EDIT_TOOLS = new Set(["Edit", "MultiEdit", "Write", "NotebookEdit"]);
+
+// a subagent's spawn lasts its whole run; its own calls bring their spans
+const NO_SPAN = new Set(["Agent", "Task", "SubagentHandback"]);
+
+// a file's mtime and the clock may round apart
+const SLACK_MS = 1_000;
+
+// while a tool call of Claude's ran; open while it runs or a shell it left does
+type Span = { from: number; to?: number; id?: string };
+
+const line = (s: string) => cut(s.split("\n")[0] ?? "", 120);
 
 const SUMMARY =
 	"You write one-line entries for a log of finished work. Given what the user asked and the " +
@@ -162,14 +181,17 @@ const refreshRepo = async ($: EngineInterface, root: string, head: string) => {
 	}
 };
 
+// A path that turned dirty joins files when it changed while one of Claude's
+// tool calls ran; one gone has no mtime, so any call since the last read does.
 const refreshGit = async (
 	$: EngineInterface,
 	root: string | undefined,
-	adopt: boolean,
+	spans: Span[],
 ) => {
 	if (root === undefined) {
 		return;
 	}
+	const at = await $.clock.now();
 	const run = await $.process
 		.run(
 			[
@@ -212,13 +234,23 @@ const refreshGit = async (
 	}
 	const list = await read($, files);
 	const known = new Set([...before, ...list.map((f) => f.path)]);
-	const fresh = adopt
-		? paths.filter((p) => !known.has(p) && !known.has(`${root}/${p}`))
-		: [];
-	const added: FileTouch[] = fresh.map((p) => ({
-		path: `${root}/${p}`,
-		edits: 0,
-	}));
+	const fresh = paths.filter(
+		(p) => !known.has(p) && !known.has(`${root}/${p}`),
+	);
+	const stats = await Promise.all(
+		fresh.map((p) => $.fs.stat(`${root}/${p}`).catch(() => undefined)),
+	);
+	const ours = (mtimeMs: number | undefined) =>
+		mtimeMs === undefined
+			? spans.length > 0
+			: spans.some(
+					(w) =>
+						mtimeMs >= w.from - SLACK_MS &&
+						mtimeMs <= (w.to ?? Number.POSITIVE_INFINITY) + SLACK_MS,
+				);
+	const added: FileTouch[] = fresh
+		.filter((_, i) => ours(stats[i]?.mtimeMs))
+		.map((p) => ({ path: `${root}/${p}`, edits: 0 }));
 	const next = [...added, ...list]
 		.slice(0, FILES_MAX)
 		.map(({ status: _, ...f }) => {
@@ -230,6 +262,9 @@ const refreshGit = async (
 	if (JSON.stringify(next) !== JSON.stringify(list)) {
 		await update($, files, () => next);
 	}
+	// a file that turns dirty later changes later too, so closed spans go
+	const open = spans.filter((w) => w.to === undefined || w.to >= at);
+	spans.splice(0, spans.length, ...open);
 };
 
 const record = async (
@@ -278,8 +313,7 @@ const syncBackground = async (
 	list: StopInput["background_tasks"] = [],
 	scheduled: StopInput["session_crons"] = [],
 ) => {
-	const line = (s: string) => cut(s.split("\n")[0] ?? "", 120);
-	// subagents already have their rows under agents
+	// subagents already have rows of their own, from agent.spawn
 	const nextTasks: BackgroundTask[] = list
 		.filter((b) => b.type !== "subagent" && b.agent_type === undefined)
 		.map((b) => ({
@@ -304,6 +338,26 @@ const syncBackground = async (
 	}
 	if (JSON.stringify(nextCrons) !== JSON.stringify(await read($, crons))) {
 		await update($, crons, () => nextCrons);
+	}
+};
+
+// a shell the stop no longer reports running closes its span
+const afterStop = async (
+	$: EngineInterface,
+	e: StopInput | ClassicHookInputs["SubagentStop"],
+	spans: Span[],
+) => {
+	await syncBackground($, e.background_tasks, e.session_crons);
+	const running = new Set(
+		(await read($, tasks))
+			.filter((b) => b.status === "running")
+			.map((b) => b.id),
+	);
+	const t = await $.clock.now();
+	for (const w of spans) {
+		if (w.id !== undefined && w.to === undefined && !running.has(w.id)) {
+			w.to = t;
+		}
 	}
 };
 
@@ -380,7 +434,11 @@ const syncChord = async ($: EngineInterface) => {
 
 // Shown: close. Open behind another pane's tab: the engine only retitles an
 // open id, while a newly opened pane becomes the shown tab, so reopen it.
-const toggle = async ($: EngineInterface, root: string | undefined) => {
+const toggle = async (
+	$: EngineInterface,
+	root: string | undefined,
+	spans: Span[],
+) => {
 	const pane = (await $.ui.panes()).find((p) => p.id === PANE);
 	if (pane?.isShown) {
 		await $.ui.close({ id: PANE });
@@ -393,7 +451,7 @@ const toggle = async ($: EngineInterface, root: string | undefined) => {
 	await $.ui.open({ id: PANE, title: "summary", columns: 60 });
 	await setShown($, true);
 	await syncChord($);
-	await refreshGit($, root, false);
+	await refreshGit($, root, spans);
 	return true;
 };
 
@@ -428,6 +486,7 @@ export const register: Register = (on) => {
 	// The hint line's isWorking, the engine's own word on a running turn;
 	// undefined until the line draws after a (re)load.
 	let hintWorking: boolean | undefined;
+	const spans: Span[] = [];
 
 	on("session.start", async ($, e, next) => {
 		const key = await syncChord($);
@@ -435,7 +494,7 @@ export const register: Register = (on) => {
 			.run(["git", "rev-parse", "--show-toplevel"], { timeoutMs: 5_000 })
 			.catch(() => undefined);
 		root = top?.exitCode === 0 ? top.stdout.trim() : undefined;
-		await refreshGit($, root, false);
+		await refreshGit($, root, spans);
 		await setShown($, await isPaneShown($));
 		$.clock.every(100, async () => {
 			// a render hook only reads, so the hint line's word lands here
@@ -532,7 +591,7 @@ export const register: Register = (on) => {
 		// commits and pushes from another terminal show up too
 		$.clock.every(15_000, async () => {
 			if (await read($, paneShown)) {
-				await refreshGit($, root, false);
+				await refreshGit($, root, spans);
 			}
 		});
 		$.clock.every(1000, async () => {
@@ -628,17 +687,47 @@ export const register: Register = (on) => {
 		const tool = String(e.tool);
 		const id = e.agentId;
 		worked ||= id === undefined;
-		const [, ran] = await Promise.all([
-			id === undefined || tool === "SubagentHandback"
-				? undefined
-				: patch($, id, (a) =>
-						a.status === "running" && a.tool === tool
-							? undefined
-							: { ...a, status: "running", tool },
-					),
-			next(e),
-		]);
-		await record($, tool, id, pathOf(e), ran);
+		const span: Span = { from: await $.clock.now() };
+		if (!NO_SPAN.has(tool)) {
+			spans.push(span);
+		}
+		try {
+			const [, ran] = await Promise.all([
+				id === undefined || tool === "SubagentHandback"
+					? undefined
+					: patch($, id, (a) =>
+							a.status === "running" && a.tool === tool
+								? undefined
+								: { ...a, status: "running", tool },
+						),
+				next(e),
+			]);
+			await record($, tool, id, pathOf(e), ran);
+
+			return ran;
+		} finally {
+			span.to = await $.clock.now();
+		}
+	}).catch((_, e, next) => next(e));
+
+	// a shell left running shows at once, and what it changes stays ours
+	on("tool.call", { tool: "Bash" }, async ($, e, next) => {
+		const from = await $.clock.now();
+		const ran = await next(e);
+		const shell =
+			ran.isError === true ? undefined : ran.result?.backgroundTaskId;
+		if (shell !== undefined) {
+			spans.push({ from, id: shell });
+			const row: BackgroundTask = {
+				id: shell,
+				type: "shell",
+				status: "running",
+				label: line(e.command),
+			};
+			await update($, tasks, (list) =>
+				list.some((b) => b.id === shell) ? list : [...list, row],
+			);
+		}
 
 		return ran;
 	}).catch((_, e, next) => next(e));
@@ -650,6 +739,14 @@ export const register: Register = (on) => {
 			return ran;
 		}
 		const t = await $.clock.now();
+		for (const w of spans) {
+			if (w.id === task && w.to === undefined) {
+				w.to = t;
+			}
+		}
+		if ((await read($, tasks)).some((b) => b.id === task)) {
+			await update($, tasks, (list) => list.filter((b) => b.id !== task));
+		}
 		const hit = (a: AgentRow) =>
 			a.status !== "killed" && (a.id === task || a.name === task);
 		if ((await read($, agents)).some(hit)) {
@@ -674,7 +771,7 @@ export const register: Register = (on) => {
 			);
 		}
 		if (id !== undefined) {
-			await refreshGit($, root, true);
+			await refreshGit($, root, spans);
 		}
 		if (id === undefined) {
 			const mark: TurnMark = { ms: e.durationMs, ok: e.reason === "answer" };
@@ -693,16 +790,19 @@ export const register: Register = (on) => {
 					id: e.turnId,
 					at: await $.clock.now(),
 					durationMs: e.durationMs,
-					...(e.usage === undefined ? {} : { tokens: totalTokens(e.usage) }),
+					...(e.usage === undefined ? {} : { tokens: newTokens(e.usage) }),
 					ask,
 					answer: e.answer.slice(0, 4000),
 				};
 				await update($, recent, (list) =>
-					[item, ...list.filter((w) => w.id !== item.id)].slice(0, SHOWN),
+					[item, ...list.filter((w) => w.id !== item.id)].slice(
+						0,
+						RECENT_SHOWN,
+					),
 				);
 			}
 			if (worked) {
-				await refreshGit($, root, true);
+				await refreshGit($, root, spans);
 			}
 			worked = false;
 		}
@@ -713,12 +813,12 @@ export const register: Register = (on) => {
 	// A stop carries the session's background work and crons; a finished task
 	// or a fired cron wakes the session, so the next stop brings the change.
 	on("classic.Stop", async ($, e, next) => {
-		await syncBackground($, e.background_tasks, e.session_crons);
+		await afterStop($, e, spans);
 		return next(e);
 	}).catch((_, e, next) => next(e));
 
 	on("classic.SubagentStop", async ($, e, next) => {
-		await syncBackground($, e.background_tasks, e.session_crons);
+		await afterStop($, e, spans);
 		return next(e);
 	}).catch((_, e, next) => next(e));
 
@@ -742,7 +842,7 @@ export const register: Register = (on) => {
 	}).catch((_, e, next) => next(e));
 
 	on("command.run", { command: PANE }, async ($) => ({
-		text: (await toggle($, root))
+		text: (await toggle($, root, spans))
 			? `summary pane opened (${hintOf(await read($, chord))} to close)`
 			: "summary pane closed",
 	})).catch((_, e, next) => next(e));
@@ -781,7 +881,7 @@ export const register: Register = (on) => {
 						key="toggle"
 						label={PANE}
 						action={TOGGLE_ACTION}
-						onPress={() => toggle($, root)}
+						onPress={() => toggle($, root, spans)}
 					/>
 				</Box>
 			</Box>
@@ -796,7 +896,7 @@ export const register: Register = (on) => {
 			root,
 			rain,
 			hint: hintOf(await read($, chord)),
-			onToggle: () => toggle($, root),
+			onToggle: () => toggle($, root, spans),
 			list: await read($, agents),
 			runs: await read($, skillRuns),
 			work: await read($, recent),

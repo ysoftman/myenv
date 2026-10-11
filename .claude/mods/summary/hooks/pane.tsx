@@ -23,7 +23,6 @@ import {
 	ICON,
 	modelColor,
 	ORDER,
-	PULSE,
 	RUN,
 	SHOWN,
 	SPARK,
@@ -87,22 +86,26 @@ export const paneView = ({
 		number,
 		number,
 	];
-	const typeWidth = Math.max(0, ...bg.map((b) => b.type.length));
 	const spark = marks.slice(-(width - 4));
 	const longest = Math.max(1, ...spark.map((m) => m.ms));
-	// live agents first, then the latest finished
-	const keep = new Set(
-		[...list.filter(isLive), ...list.filter((a) => !isLive(a)).reverse()].slice(
-			0,
-			SHOWN,
-		),
+	// live agents first, then background work, crons and the latest finished
+	const keep = new Set<AgentRow | BackgroundTask | SessionCron>(
+		[
+			...list.filter(isLive),
+			...bg,
+			...scheduled,
+			...list.filter((a) => !isLive(a)).reverse(),
+		].slice(0, SHOWN),
 	);
 	const shown = list.filter((a) => keep.has(a));
-	const bgShown = bg.slice(0, SHOWN);
-	const cronsShown = scheduled.slice(0, SHOWN - bgShown.length);
-	const bgMore =
-		bg.length + scheduled.length - bgShown.length - cronsShown.length;
-	const labelWidth = Math.max(0, ...shown.map((a) => a.label.length));
+	const bgShown = bg.filter((b) => keep.has(b));
+	const cronsShown = scheduled.filter((c) => keep.has(c));
+	const more = list.length + bg.length + scheduled.length - keep.size;
+	const labelWidth = Math.max(
+		0,
+		...shown.map((a) => a.label.length),
+		...bgShown.map((b) => b.type.length),
+	);
 	const modelWidth = Math.max(0, ...shown.map((a) => a.model.length));
 	const pathWidth = width - 4 - 3 - 4;
 	const shortPath = (p: string) =>
@@ -131,9 +134,8 @@ export const paneView = ({
 		>
 			<Box paddingX={1} justifyContent="space-between">
 				<Box gap={2}>
-					<Text bold color={C.mauve}>
-						<Text color={glow}>{busy ? PULSE[frame % PULSE.length] : "◆"}</Text>{" "}
-						summary
+					<Text bold color={glow}>
+						SUMMARY
 					</Text>
 					{since > 0 && (
 						<Text color={C.peach}>{`● working ${elapsed(t - since)}`}</Text>
@@ -174,7 +176,7 @@ export const paneView = ({
 			<Box
 				flexDirection="column"
 				borderStyle="round"
-				borderColor={C.surface1}
+				borderColor={C.green}
 				paddingX={1}
 			>
 				<Text bold color={C.green}>
@@ -183,24 +185,32 @@ export const paneView = ({
 				{work.length === 0 && (
 					<Text color={C.overlay}>no finished work yet</Text>
 				)}
-				{work.map((w) => (
-					<Text wrap="truncate-end">
-						{w.text === undefined ? (
-							<Text color={C.peach}>{spin}</Text>
-						) : (
-							<Text color={C.green}>✓</Text>
-						)}{" "}
-						<Text color={C.overlay}>{`${ago(t - w.at)} ago`.padEnd(7)}</Text>{" "}
-						<Text color={C.overlay} dimColor>
-							{elapsed(w.durationMs).padStart(5)}
-						</Text>{" "}
-						<Text color={C.overlay} dimColor>
-							{(w.tokens === undefined ? "" : kilo(w.tokens)).padStart(4)}
-						</Text>{" "}
-						<Text color={w.text === undefined ? C.subtext : C.text}>
-							{w.text ?? "summarizing…"}
-						</Text>
-					</Text>
+				{work.map((w, i) => (
+					<Box flexDirection="column">
+						<Box gap={1}>
+							{w.text === undefined ? (
+								<Text color={C.peach}>{spin}</Text>
+							) : (
+								<Text color={C.green}>✓</Text>
+							)}
+							<Text
+								bold={i === 0}
+								dimColor={i > 0}
+								color={w.text === undefined ? C.subtext : C.text}
+							>
+								{w.text ?? "summarizing…"}
+							</Text>
+						</Box>
+						<Box paddingLeft={2}>
+							<Text color={C.overlay} dimColor>
+								{[
+									`${ago(t - w.at)} ago`,
+									elapsed(w.durationMs),
+									...(w.tokens === undefined ? [] : [kilo(w.tokens)]),
+								].join(" · ")}
+							</Text>
+						</Box>
+					</Box>
 				))}
 			</Box>
 			<Box
@@ -211,15 +221,21 @@ export const paneView = ({
 			>
 				<Text>
 					<Text bold color={C.mauve}>
-						agents
+						tasks
 					</Text>
 					{counts
 						.filter(([, n]) => n > 0)
 						.map(([s, n]) => (
 							<Text color={COLOR[s]}>{`  ${ICON[s]} ${n} ${s}`}</Text>
 						))}
+					{bg.length > 0 && <Text color={C.sky}>{`  ${bg.length} bg`}</Text>}
+					{scheduled.length > 0 && (
+						<Text color={C.lavender}>{`  ${scheduled.length} scheduled`}</Text>
+					)}
 				</Text>
-				{list.length === 0 && <Text color={C.overlay}>no agent running</Text>}
+				{list.length + bg.length + scheduled.length === 0 && (
+					<Text color={C.overlay}>nothing running or scheduled</Text>
+				)}
 				{shown.map((a) => (
 					<Text wrap="truncate-end">
 						<Text color={COLOR[a.status]}>
@@ -242,33 +258,12 @@ export const paneView = ({
 						</Text>
 					</Text>
 				))}
-				{list.length > shown.length && (
-					<Text color={C.overlay}>{`+${list.length - shown.length} more`}</Text>
-				)}
-			</Box>
-			<Box
-				flexDirection="column"
-				borderStyle="round"
-				borderColor={C.surface1}
-				paddingX={1}
-			>
-				<Text>
-					<Text bold color={C.teal}>
-						background
-					</Text>
-					<Text color={C.overlay}>
-						{`  ${bg.length} running · ${scheduled.length} scheduled`}
-					</Text>
-				</Text>
-				{bg.length === 0 && scheduled.length === 0 && (
-					<Text color={C.overlay}>no background task or schedule</Text>
-				)}
 				{bgShown.map((b) => (
 					<Text wrap="truncate-end">
 						<Text color={b.status === "running" ? C.yellow : C.overlay}>
 							{b.status === "running" ? "●" : "○"}
 						</Text>{" "}
-						<Text color={C.sky}>{b.type.padEnd(typeWidth)}</Text>{" "}
+						<Text color={C.sky}>{b.type.padEnd(labelWidth)}</Text>{" "}
 						<Text color={C.subtext}>{b.label}</Text>
 					</Text>
 				))}
@@ -286,7 +281,7 @@ export const paneView = ({
 						</Text>
 					);
 				})}
-				{bgMore > 0 && <Text color={C.overlay}>{`+${bgMore} more`}</Text>}
+				{more > 0 && <Text color={C.overlay}>{`+${more} more`}</Text>}
 			</Box>
 			<Box
 				flexDirection="column"
@@ -409,11 +404,11 @@ export const paneView = ({
 			>
 				<Text>
 					<Text bold color={C.sky}>
-						turns
+						turn time
 					</Text>
 					{marks.length > 0 && (
 						<Text color={C.overlay}>
-							{`  ${marks.length} · avg ${elapsed(
+							{`  ${marks.length} turn${marks.length === 1 ? "" : "s"} · avg ${elapsed(
 								marks.reduce((n, m) => n + m.ms, 0) / marks.length,
 							)} · max ${elapsed(Math.max(...marks.map((m) => m.ms)))}`}
 						</Text>
