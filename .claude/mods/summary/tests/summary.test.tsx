@@ -1072,6 +1072,30 @@ test("recent lists five rows, files and tasks three at most", async ($, on) => {
 	await ui.unmount();
 });
 
+test("/summary help tells how to bind a shortcut while none is bound", async ($, on) => {
+	const { panes } = await setup($, on);
+	const { text } = await $.command.run({
+		command: "summary",
+		args: "help",
+	} as never);
+	expect(text).toMatch(/^\/summary {2}open or close the summary pane$/m);
+	expect(text).toContain('"ctrl+x s": "app:toggleDiffPreSession"');
+	expect(panes).toEqual([]);
+});
+
+test("/summary help names the bound key and leaves the setup out", async ($, on) => {
+	bindChord(on);
+	await setup($, on);
+	const { text } = await $.command.run({
+		command: "summary",
+		args: "help",
+	} as never);
+	expect(text).toMatch(
+		/^\/summary {2}open or close the summary pane \(ctrl\+x s\)$/m,
+	);
+	expect(text).not.toContain("keybindings.json");
+});
+
 test("/summary opens and closes the pane without a keybinding", async ($, on) => {
 	const { panes } = await setup($, on);
 	const ui = await $.ui.mount({

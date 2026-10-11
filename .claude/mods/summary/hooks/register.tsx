@@ -457,6 +457,20 @@ const toggle = async (
 
 const hintOf = (key: string) => key || `/${PANE}`;
 
+const usage = (key: string) =>
+	[
+		`/${PANE}  open or close the summary pane${key === "" ? "" : ` (${key})`}`,
+		`/${PANE} help  this help`,
+		...(key === ""
+			? [
+					"",
+					'To toggle it with a shortcut, add a line to the "Global" bindings of',
+					`~/.claude/keybindings.json: "ctrl+x s": "${TOGGLE_ACTION}"`,
+					"(see the summary mod README; any other key works too).",
+				]
+			: []),
+	].join("\n");
+
 const boundKey = async ($: EngineInterface) => {
 	try {
 		const { bindings = [] } = JSON.parse(
@@ -615,7 +629,8 @@ export const register: Register = (on) => {
 
 		await $.command.register({
 			name: PANE,
-			description: `Open or close the summary pane${key === "" ? "" : ` (${key})`}`,
+			description: `Open or close the summary pane${key === "" ? "" : ` (${key})`} · help: usage`,
+			argumentHint: "[help]",
 			immediate: true,
 		});
 
@@ -841,11 +856,16 @@ export const register: Register = (on) => {
 		return next(e);
 	}).catch((_, e, next) => next(e));
 
-	on("command.run", { command: PANE }, async ($) => ({
-		text: (await toggle($, root, spans))
-			? `summary pane opened (${hintOf(await read($, chord))} to close)`
-			: "summary pane closed",
-	})).catch((_, e, next) => next(e));
+	on("command.run", { command: PANE }, async ($, e) => {
+		if (e.args.trim() === "help") {
+			return { text: usage(await syncChord($)) };
+		}
+		return {
+			text: (await toggle($, root, spans))
+				? `summary pane opened (${hintOf(await read($, chord))} to close)`
+				: "summary pane closed",
+		};
+	}).catch((_, e, next) => next(e));
 
 	on("ui.close", { id: PANE }, async ($, e, next) => {
 		const closed = await next(e);
