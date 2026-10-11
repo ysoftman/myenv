@@ -14,7 +14,7 @@ import { hhmm, nextFire } from "./cron";
 import { ago, elapsed, kilo, tail } from "./format";
 import type { Rain } from "./rain";
 import { RAIN, RAIN_ROWS, rainCells, rainMessage } from "./rain";
-import { end, isBusy, isLive } from "./status";
+import { end, isBusy, isLive, isOpenRun } from "./status";
 import {
 	C,
 	COLOR,
@@ -123,6 +123,33 @@ export const paneView = ({
 	// inline, the frame fits the tree and would grow to bodyRows instead
 	const floor =
 		e.props.placement === "dock" ? e.props.scroll.bodyRows : undefined;
+	const skill = runs.at(-1);
+	const agentsRunning = list.filter((a) => a.status === "running").length;
+	// what keeps Claude busy, one mark each, in the colors of their boxes
+	const status = [
+		...(since > 0
+			? [{ color: C.peach, text: `⏳ working ${elapsed(t - since)}` }]
+			: []),
+		...(isOpenRun(skill) && skill !== undefined
+			? [
+					{
+						color: C.blue,
+						text: `🔧 ${skill.skills.join(", ")} ${elapsed(t - skill.startedAt)}`,
+					},
+				]
+			: []),
+		...(agentsRunning > 0
+			? [
+					{
+						color: C.mauve,
+						text: `🤖 ${agentsRunning} agent${agentsRunning === 1 ? "" : "s"}`,
+					},
+				]
+			: []),
+		...(work.some((w) => w.text === undefined)
+			? [{ color: C.green, text: "📝 summarizing" }]
+			: []),
+	];
 	const keycap = (k: string) => (
 		<Text backgroundColor={C.surface0} color={C.lavender}>{` ${k} `}</Text>
 	);
@@ -138,8 +165,12 @@ export const paneView = ({
 					<Text bold color={glow}>
 						SUMMARY
 					</Text>
-					{since > 0 && (
-						<Text color={C.peach}>{`● working ${elapsed(t - since)}`}</Text>
+					{status.length > 0 && (
+						<Text wrap="truncate-end">
+							{status.map((m, i) => (
+								<Text color={m.color}>{`${i > 0 ? "  " : ""}${m.text}`}</Text>
+							))}
+						</Text>
 					)}
 				</Box>
 				<Text color={modelColor(tag)}>{tag}</Text>

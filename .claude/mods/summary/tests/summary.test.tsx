@@ -459,6 +459,7 @@ test("the pane lists skill runs with the model each ran on", async ($, on) => {
 	expect(await shows(new RegExp(`^${SPIN} commit sonnet-5-5 · low 0s$`))).toBe(
 		true,
 	);
+	expect(await shows(/^🔧 commit 0s$/)).toBe(true);
 	expect(await shows(/^✓ jira sonnet-5-5 · low 0s$/)).toBe(true);
 	expect(await shows(/^sonnet-5-5 · low$/)).toBe(true);
 });
@@ -662,9 +663,11 @@ test("a finished main turn that used tools lands under recent as one summarized 
 	await $.turn.complete(finish("m1", "커밋했습니다: `0a6d2da`\n\n세부 내용"));
 	expect(await shows(/^summarizing…$/)).toBe(true);
 	expect(await shows(/^0s ago · 12s · 58k$/)).toBe(true);
+	expect(await shows(/^📝 summarizing$/)).toBe(true);
 
 	await clock.advance(1_500);
 	expect(await shows(/^summary pane 커밋$/)).toBe(true);
+	expect(await shows(/📝 summarizing/)).toBe(false);
 	expect(await shows(/^\d+s ago · 12s · 58k$/)).toBe(true);
 	expect(ai.prompt).toContain("최근 커밋 알려줘");
 	expect(ai.prompt).toContain("커밋했습니다");
@@ -848,11 +851,12 @@ test("alerts collect denied and failed tool calls until the next prompt", async 
 });
 
 test("the header glows only while something runs", async ($, on) => {
-	const { clock, header } = await setup($, on);
+	const { clock, header, shows } = await setup($, on);
 	expect(await header()).toBe(C.mauve);
 	await $.agent.spawn(spawn("PR 리뷰", "reviewer"));
 	await clock.advance(100);
 	expect(await header()).not.toBe(C.mauve);
+	expect(await shows(/^🤖 1 agent$/)).toBe(true);
 });
 
 test("a turn the hint line says is running shows as working, redrawn once a second", async ($, on) => {
@@ -878,7 +882,7 @@ test("a turn the hint line says is running shows as working, redrawn once a seco
 	await hint(true);
 	invalidations = 0;
 	await clock.advance(3_000);
-	expect(await shows(/^● working 3s$/)).toBe(true);
+	expect(await shows(/^⏳ working 3s$/)).toBe(true);
 	expect(await header()).toBe(C.mauve);
 	expect(invalidations).toBeLessThanOrEqual(4);
 
