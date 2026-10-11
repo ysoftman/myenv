@@ -183,6 +183,17 @@ jq --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" --argjso
     | .hooks = reduce ([$hooks, $zjhooks][] | to_entries[]) as $e (.hooks // {}; .[$e.key] = ((.[$e.key] // []) + $e.value | unique))
 ' "${SETTINGS_FILE}" >"${tmp}" && mv "${tmp}" "${SETTINGS_FILE}"
 
+# summary mod 토글 단축키. 이미 그 키나 action 이 묶여 있으면 건드리지 않는다.
+KEYBINDINGS_FILE="${HOME}/.claude/keybindings.json"
+[[ -s "${KEYBINDINGS_FILE}" ]] || jq -n '{"$schema": "https://www.schemastore.org/claude-code-keybindings.json", bindings: []}' >"${KEYBINDINGS_FILE}"
+tmp=$(mktemp)
+jq --arg key "ctrl+x s" --arg action "app:toggleDiffPreSession" '
+    if any(.bindings[]?.bindings // {} | to_entries[]; .key == $key or .value == $action) then .
+    elif any(.bindings[]?; .context == "Global") then .bindings |= map(if .context == "Global" then .bindings[$key] = $action else . end)
+    else .bindings = ((.bindings // []) + [{context: "Global", bindings: {($key): $action}}])
+    end
+' "${KEYBINDINGS_FILE}" >"${tmp}" && mv "${tmp}" "${KEYBINDINGS_FILE}"
+
 # Atlassian mcp 설치
 # 인증은 claude code > mcp > atlassian > 웹 로그인
 if claude mcp list 2>&1 | grep -q "atlassian"; then

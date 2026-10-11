@@ -23,6 +23,7 @@ import {
 	ICON,
 	modelColor,
 	ORDER,
+	PANE,
 	RUN,
 	SHOWN,
 	SPARK,
@@ -435,6 +436,7 @@ export const paneView = ({
 					{keycap("ctrl+x tab")}
 					<Text color={C.subtext}> focus</Text>
 				</Text>
+				{keycap(`/${PANE} help`)}
 			</Box>
 			<Box flexGrow={1} />
 			{"Raster" in els && (

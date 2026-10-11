@@ -18,7 +18,7 @@ Claude Code 세션에서 지금 무슨 일이 일어나고 있는지 한 패널�
 - `~/.claude/settings.json` 의 `env.CLAUDE_CODE_PLUGIN_DIRS` 에 이 폴더 경로를 넣는다 (여러 개면 `:` 로 구분).
 - `claude --plugin-dir <이 폴더>` 로 실행한다.
 
-myenv 의 `installclaudecode.sh` 는 `.claude/mods/*` 를 `CLAUDE_CODE_PLUGIN_DIRS` 에 넣어 준다.
+myenv 의 `installclaudecode.sh` 는 `.claude/mods/*` 를 `CLAUDE_CODE_PLUGIN_DIRS` 에 넣고, 아래 단축키도 그 키나 action 이 비어 있을 때만 `keybindings.json` 에 넣어 준다.
 
 Claude Code 2.1.296 에서 확인했다.
 

@@ -58,7 +58,7 @@ description: Claude Code mod(함수 hook 플러그인 — pane/패널, 프롬프
 단축키를 쓰는 mod 는 아래를 **모두** 갖춘다. 하나라도 빠지면 공유받은 사람은 단축키가 있다는 것 자체를 모른다(summary mod 가 처음에 그랬다).
 
 - **`<명령> help`**: 사용법을 보여 주고, 바인딩이 없을 때만 설정 방법(추가할 JSON 한 줄)을 덧붙인다. 실행할 때마다 `keybindings.json` 을 다시 읽어 세션 중에 바인딩해도 바로 반영되게 하고, pane 은 열거나 닫지 않는다.
-- **help 로 찾아가는 길**: 명령 설명 끝에 `· help: 사용법` 을 붙이고 `argumentHint: "[help]"` 를 준다. 바인딩 전에는 힌트 줄과 pane 하단에 키 대신 슬래시 명령이 보이니, 명령 목록에서 help 를 찾게 된다.
+- **help 로 찾아가는 길**: 명령 설명 끝에 `· help: 사용법` 을 붙이고 `argumentHint: "[help]"` 를 준다. pane 하단 안내에도 `<명령> help` 를 늘 둔다(폭이 좁으면 라벨 없이 keycap 만).
 - **키 이름 고정 금지**: `plugin.json` 의 `description` 같은 고정 문구에 키를 쓰지 않는다. 명령 이름(`/<명령>`)을 쓴다.
 - **mod 폴더의 README.md**: 다음을 적는다.
   - 설치: `CLAUDE_CODE_PLUGIN_DIRS` 에 폴더 경로 추가(여러 개면 `:` 구분) 또는 `claude --plugin-dir <폴더>`

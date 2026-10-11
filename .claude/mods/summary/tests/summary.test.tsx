@@ -1073,7 +1073,8 @@ test("recent lists five rows, files and tasks three at most", async ($, on) => {
 });
 
 test("/summary help tells how to bind a shortcut while none is bound", async ($, on) => {
-	const { panes } = await setup($, on);
+	const { panes, shows } = await setup($, on);
+	expect(await shows(/^ \/summary help $/)).toBe(true);
 	const { text } = await $.command.run({
 		command: "summary",
 		args: "help",

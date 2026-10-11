@@ -703,7 +703,7 @@ export const register: Register = (on) => {
 		const id = e.agentId;
 		worked ||= id === undefined;
 		const span: Span = { from: await $.clock.now() };
-		if (!NO_SPAN.has(tool)) {
+		if (root !== undefined && !NO_SPAN.has(tool)) {
 			spans.push(span);
 		}
 		try {
@@ -732,7 +732,9 @@ export const register: Register = (on) => {
 		const shell =
 			ran.isError === true ? undefined : ran.result?.backgroundTaskId;
 		if (shell !== undefined) {
-			spans.push({ from, id: shell });
+			if (root !== undefined) {
+				spans.push({ from, id: shell });
+			}
 			const row: BackgroundTask = {
 				id: shell,
 				type: "shell",
