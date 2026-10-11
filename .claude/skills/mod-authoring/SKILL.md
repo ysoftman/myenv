@@ -7,7 +7,7 @@ description: Claude Code mod(함수 hook 플러그인 — pane/패널, 프롬프
 
 내장 `plugin-authoring` 스킬이 API·타입·예제를 준다면, 이 스킬은 실제 mod(`summary`, 배포 진행 패널 mod)를 만들며 엔진 코드로 확인한 동작과 거기서 나온 패턴을 담는다. 둘을 같이 로드하고, API 세부는 `plugin-authoring` 의 타입 파일(`claude-code.d.ts`)을 grep 해 확인한다.
 
-재사용 코드(토글, 단축키 읽기, 힌트 줄 단축키, 테스트 mock)는 [references/snippets.md](references/snippets.md) 에 있다. 해당 기능을 구현할 때 읽는다.
+재사용 코드(토글, 단축키 읽기, help 명령, 힌트 줄 단축키, 테스트 mock)는 [references/snippets.md](references/snippets.md) 에 있다. 해당 기능을 구현할 때 읽는다.
 
 ## 작업 순서
 
@@ -49,10 +49,26 @@ description: Claude Code mod(함수 hook 플러그인 — pane/패널, 프롬프
 
 - plugin 은 키를 직접 등록할 수 없다. `~/.claude/keybindings.json` 의 `Global` 에서 **평소 엔진 handler 가 없는 action**(예: `app:cycleDiffBase`, `app:toggleDiffPreSession`)에 chord 를 묶고, 그 action 을 단 `Button` 이 chord 를 받는다. 그 action 의 엔진 handler 가 떠 있으면(예: diff 패널이 열림) 엔진 동작이 우선한다는 점을 README 에 적는다.
 - Button 은 **mount 돼 있을 때만** chord 를 받는다. 어느 render site 든 상관없고(v2.1.296 엔진 코드 확인: Button 컴포넌트가 mount 되며 action 을 등록), `display="none"` Box 안에 숨겨도 mount 는 유지된다. 그래서 pane 이 보이면 pane 안에, 안 보이면(닫힘·가려짐·대기) 프롬프트 아래 힌트 줄에 숨긴 Button 을 둬서 언제나 하나는 mount 되게 한다(아래 "힌트 줄").
-- 안내는 실제로 바인딩한 사람에게만 보인다: `keybindings.json` 을 읽어 그 action 에 묶인 키를 찾고, 있으면 그 키를 힌트 줄·pane 하단·명령 설명에 표시한다. 없으면 단축키 안내와 숨긴 Button 을 빼고, `help` 출력에 설정 방법을 넣고, 토스트에는 슬래시 명령 이름을 쓴다. 키 이름을 코드에 고정하면 설정하지 않은 사람에게 눌러도 안 되는 단축키가 보인다.
+- 안내는 실제로 바인딩한 사람에게만 보인다: `keybindings.json` 을 읽어 그 action 에 묶인 키를 찾고, 있으면 그 키를 힌트 줄·pane 하단·명령 설명에 표시한다. 없으면 단축키 안내와 숨긴 Button 을 빼고, 토스트에는 슬래시 명령 이름을 쓰고, 설정 방법은 아래 "설정 가이드"로 알린다. 키 이름을 코드에 고정하면 설정하지 않은 사람에게 눌러도 안 되는 단축키가 보인다.
 - 다시 읽는 시점은 `session.start`, 자기 명령 실행, 관련 스킬 시작 정도면 충분하다(매 프레임 읽지 않는다). 명령 목록의 설명 문구는 등록 시점 값이라 다음 세션에 바뀐다.
-- README 에는 바인딩 JSON 과 함께 "이미 파일이 있으면 덮어쓰지 말고 `Global` 블록의 `bindings` 에 한 줄만 추가"를 적는다.
 - 엔진 기본 `ctrl+x tab` 은 band·pane 에 포커스를 주고, 그 상태에서 Tab·Enter 로 탭을 고를 수 있다. 바인딩과 무관하게 동작하니 pane 하단 안내에 같이 둬도 된다.
+
+### 설정 가이드: 빠뜨리지 않는다
+
+단축키를 쓰는 mod 는 아래를 **모두** 갖춘다. 하나라도 빠지면 공유받은 사람은 단축키가 있다는 것 자체를 모른다(summary mod 가 처음에 그랬다).
+
+- **`<명령> help`**: 사용법을 보여 주고, 바인딩이 없을 때만 설정 방법(추가할 JSON 한 줄)을 덧붙인다. 실행할 때마다 `keybindings.json` 을 다시 읽어 세션 중에 바인딩해도 바로 반영되게 하고, pane 은 열거나 닫지 않는다.
+- **help 로 찾아가는 길**: 명령 설명 끝에 `· help: 사용법` 을 붙이고 `argumentHint: "[help]"` 를 준다. 바인딩 전에는 힌트 줄과 pane 하단에 키 대신 슬래시 명령이 보이니, 명령 목록에서 help 를 찾게 된다.
+- **키 이름 고정 금지**: `plugin.json` 의 `description` 같은 고정 문구에 키를 쓰지 않는다. 명령 이름(`/<명령>`)을 쓴다.
+- **mod 폴더의 README.md**: 다음을 적는다.
+  - 설치: `CLAUDE_CODE_PLUGIN_DIRS` 에 폴더 경로 추가(여러 개면 `:` 구분) 또는 `claude --plugin-dir <폴더>`
+  - 사용: `<명령>`, `<명령> help`
+  - 단축키: 바인딩 JSON, "이미 파일이 있으면 덮어쓰지 말고 `Global` 블록의 `bindings` 에 한 줄만 추가", 빌린 action 의 엔진 handler 가 떠 있으면 그쪽이 우선한다는 점, 다른 키에 묶어도 안내가 그 키를 따른다는 점
+  - 확인한 Claude Code 버전
+- **README 커밋**: mod 가 `.claude` 처럼 gitignore 된 경로에 있으면 새 README 는 `git status` 에 안 보인다. `git add -f` 로 넣는다.
+- **테스트**: `help` 출력을 바인딩 없음(설정 방법 포함, pane 그대로)과 있음(키 표시, 설정 방법 없음) 두 경우로 확인한다.
+
+코드는 snippets 의 "바인딩된 키 읽기"와 "help 명령".
 
 ## 힌트 줄(PromptHint): 단축키 안내 자리
 

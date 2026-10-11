@@ -7,6 +7,7 @@
 - 보임 기준 토글
 - 탭 전환 감지(폴링)
 - 바인딩된 키 읽기
+- help 명령
 - 힌트 줄 단축키
 - 테스트 mock
 
@@ -72,20 +73,53 @@ const syncToggleKey = async ($: EngineInterface) => {
 };
 ```
 
-`toggleKey` 가 없으면 단축키 안내와 숨긴 Button 을 그리지 않고, `help` 에 설정 방법을 넣는다.
+`toggleKey` 가 없으면 단축키 안내와 숨긴 Button 을 그리지 않고, `help` 에 설정 방법을 넣는다(아래 "help 명령").
+
+## help 명령
 
 ```ts
 const usage = () =>
 	[
 		`/my-cmd  패널 열기/닫기${toggleKey ? ` (${toggleKey})` : ""}`,
+		"/my-cmd help  이 도움말",
 		...(toggleKey
 			? []
 			: [
 					"",
 					`단축키로 열고 닫으려면 ~/.claude/keybindings.json 의 "Global" bindings 에`,
-					`"ctrl+x k": "${TOGGLE_ACTION}" 를 추가하세요.`,
+					`"ctrl+x k": "${TOGGLE_ACTION}" 를 추가하세요 (README 참고, 다른 키도 됨).`,
 				]),
 	].join("\n");
+
+on("session.start", async ($, e, next) => {
+	await syncToggleKey($);
+	await $.command.register({
+		name: "my-cmd",
+		description: `패널 열기/닫기${toggleKey ? ` (${toggleKey})` : ""} · help: 사용법`,
+		argumentHint: "[help]",
+		immediate: true,
+	});
+
+	return next(e);
+});
+
+on("command.run", { command: "my-cmd" }, async ($, e) => {
+	// 세션 중에 바인딩했어도 바로 반영되게 다시 읽는다
+	await syncToggleKey($);
+	if (e.args.trim() === "help") return { text: usage() };
+
+	return { text: (await toggle($)) ? "패널 열림" : "패널 닫힘" };
+});
+```
+
+테스트는 바인딩 없음·있음 두 경우를 본다. `keybindings.json` 을 읽는 `fs.read` mock 이 없으면 "바인딩 없음"이 된다.
+
+```ts
+test("help 는 바인딩이 없을 때만 설정 방법을 보여 준다", async ($, on) => {
+	await setup($, on);
+	const { text } = await $.command.run({ command: "my-cmd", args: "help" } as never);
+	expect(text).toContain(`"ctrl+x k": "app:cycleDiffBase"`);
+});
 ```
 
 ## 힌트 줄 단축키
