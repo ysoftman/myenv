@@ -163,10 +163,12 @@ const setup = async ($: Engine, on: On) => {
 		};
 	});
 	const panes: string[] = [];
+	const opened: string[] = [];
 	const hidden = new Set<string>();
 	on("ui.open", (_, e) => {
 		hidden.delete(e.id);
 		panes.push(e.id);
+		opened.push(e.id);
 		return { value: { isPlaced: true } };
 	});
 	on("ui.close", (_, e) => {
@@ -191,7 +193,8 @@ const setup = async ($: Engine, on: On) => {
 		writes.push(e.key);
 		return next(e);
 	});
-	await $.session.start({ cwd: "/", surface: "terminal", isInteractive: true });
+	// not interactive, so the tests start with the pane closed
+	await $.session.start({ cwd: "/", surface: null, isInteractive: false });
 
 	const shows = async (text: RegExp) => {
 		const ui = await $.ui.mount({
@@ -222,6 +225,7 @@ const setup = async ($: Engine, on: On) => {
 		hidden,
 		live,
 		mtimes,
+		opened,
 		panes,
 		results,
 		shows,
@@ -1241,6 +1245,19 @@ test("/summary help names the bound key and leaves the setup out", async ($, on)
 		/^\/summary {2}open or close the summary pane \(ctrl\+x s\)$/m,
 	);
 	expect(text).not.toContain("keybindings.json");
+});
+
+test("an interactive session opens the pane at start, once, not on a reload", async ($, on) => {
+	const { opened, panes } = await setup($, on);
+	expect(opened).toEqual([]);
+	const start = () =>
+		$.session.start({ cwd: "/", surface: "terminal", isInteractive: true });
+	await start();
+	expect(panes).toEqual(["summary"]);
+	await $.command.run({ command: "summary", args: "" } as never);
+	await start();
+	expect(opened).toEqual(["summary"]);
+	expect(panes).toEqual([]);
 });
 
 test("/summary opens and closes the pane without a keybinding", async ($, on) => {

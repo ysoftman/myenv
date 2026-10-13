@@ -95,6 +95,7 @@ declare module "claude-code" {
 			crons: SessionCron[];
 			turns: TurnMark[];
 			repo: RepoState;
+			autoOpened: boolean;
 		};
 	}
 }

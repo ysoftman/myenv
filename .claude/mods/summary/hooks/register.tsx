@@ -63,6 +63,12 @@ const paneShown = atom({ plugin: "summary", key: "shown" } as const, false);
 
 const chord = atom({ plugin: "summary", key: "chord" } as const, "");
 
+// a reload raises session.start again, so the pane opens on its own only once
+const autoOpened = atom(
+	{ plugin: "summary", key: "autoOpened" } as const,
+	false,
+);
+
 const seen = atom({ plugin: "summary", key: "seen" } as const, []);
 
 // when the main turn in progress began; 0 while Claude is idle
@@ -557,6 +563,10 @@ export const register: Register = (on) => {
 			.catch(() => undefined);
 		root = top?.exitCode === 0 ? top.stdout.trim() : undefined;
 		await refreshGit($, root, spans);
+		if (e.isInteractive && !(await read($, autoOpened))) {
+			await update($, autoOpened, () => true);
+			await $.ui.open({ id: PANE, title: "summary", columns: 60 });
+		}
 		await setShown($, await isPaneShown($));
 		$.clock.every(100, async () => {
 			// a render hook only reads, so the hint line's word lands here
