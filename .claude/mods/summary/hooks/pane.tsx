@@ -4,6 +4,7 @@ import type {
 	Alert,
 	BackgroundTask,
 	FileTouch,
+	PullRequest,
 	RepoState,
 	SessionCron,
 	SkillRun,
@@ -12,11 +13,13 @@ import type {
 } from "../types";
 import { hhmm, nextFire } from "./cron";
 import { ago, elapsed, kilo, tail } from "./format";
+import { isMergeable } from "./pr";
 import type { Rain } from "./rain";
 import { RAIN, RAIN_ROWS, rainCells, rainMessage } from "./rain";
 import { end, isBusy, isLive, isOpenRun } from "./status";
 import {
 	C,
+	CHECKS,
 	COLOR,
 	GIT_COLOR,
 	GLOW,
@@ -24,6 +27,7 @@ import {
 	modelColor,
 	ORDER,
 	PANE,
+	REVIEW,
 	RUN,
 	SHOWN,
 	SPARK,
@@ -46,6 +50,7 @@ export type PaneValues = {
 	touched: FileTouch[];
 	uncommitted: number;
 	git: RepoState;
+	pr: PullRequest | null;
 	warnings: Alert[];
 	tag: string;
 	since: number;
@@ -68,6 +73,7 @@ export const paneView = ({
 	touched,
 	uncommitted,
 	git,
+	pr,
 	warnings,
 	tag,
 	since,
@@ -75,7 +81,7 @@ export const paneView = ({
 	scheduled,
 	marks,
 }: PaneValues) => {
-	const { Box, Button, Text } = els;
+	const { Box, Button, Link, Text } = els;
 	const frame = Math.floor(t / 100);
 	const spin = SPINNER[frame % SPINNER.length];
 	const busy = isBusy(list, runs, work);
@@ -169,6 +175,19 @@ export const paneView = ({
 			</Text>
 		</Text>
 	);
+	// a PR read for the branch before a checkout is not this one's
+	const pull = pr !== null && pr.branch === git.branch ? pr : undefined;
+	const prMarks =
+		pull === undefined
+			? []
+			: [
+					...(pull.isDraft ? [{ color: C.overlay, text: "✎ draft" }] : []),
+					REVIEW[pull.review],
+					...(pull.ci === undefined ? [] : [CHECKS[pull.ci]]),
+					...(pull.unresolved > 0
+						? [{ color: C.peach, text: `💬 ${pull.unresolved} unresolved` }]
+						: []),
+				];
 	const keycap = (k: string) => (
 		<Text backgroundColor={C.surface0} color={C.lavender}>{` ${k} `}</Text>
 	);
@@ -372,6 +391,24 @@ export const paneView = ({
 								}`}
 					</Text>
 				</Text>
+				{pull !== undefined && (
+					<Text wrap="truncate-end">
+						<Text color={C.lavender}>{`PR #${pull.number}`}</Text>
+						{prMarks.map((m, i) => (
+							<Text color={m.color}>{`${i === 0 ? " " : " · "}${m.text}`}</Text>
+						))}
+					</Text>
+				)}
+				{pull !== undefined && isMergeable(pull) && (
+					<Box flexDirection="column" paddingLeft={2}>
+						<Text color={C.green} wrap="truncate-end">
+							⇢ ready: merge it in the web UI
+						</Text>
+						<Text color={C.blue}>
+							<Link href={pull.url} />
+						</Text>
+					</Box>
+				)}
 				{git.commits.length === 0 && (
 					<Text color={C.overlay}>no commit yet</Text>
 				)}

@@ -71,6 +71,16 @@ export type RepoState = {
 	commits: Commit[];
 };
 
+export type PullRequest = {
+	branch: string;
+	number: number;
+	url: string;
+	isDraft: boolean;
+	review: "approved" | "changes" | "pending";
+	ci?: "success" | "failure" | "pending";
+	unresolved: number;
+};
+
 export type TurnMark = {
 	ms: number;
 	ok: boolean;
@@ -95,6 +105,7 @@ declare module "claude-code" {
 			crons: SessionCron[];
 			turns: TurnMark[];
 			repo: RepoState;
+			pr: PullRequest | null;
 			autoOpened: boolean;
 		};
 	}

@@ -2,6 +2,7 @@ import type { AgentStatus, On } from "claude-code";
 import type { Engine } from "claude-code/testing";
 import { expect, mock, test } from "claude-code/testing";
 import { nextFire } from "../hooks/cron";
+import { remoteRepo } from "../hooks/pr";
 import { rainSpeed } from "../hooks/rain";
 import { C } from "../hooks/theme";
 
@@ -56,7 +57,18 @@ const bindChord = (on: On) => {
 	}));
 };
 
-const setup = async ($: Engine, on: On) => {
+type Gh = {
+	remote: string;
+	reply: string;
+	exitCode: number;
+	calls: string[][];
+};
+
+const setup = async (
+	$: Engine,
+	on: On,
+	start: { status?: string; gh?: Partial<Gh> } = {},
+) => {
 	const clock = mock.clock(on, { now: 1_000_000 });
 	const live: Record<string, AgentStatus> = {};
 	let n = 0;
@@ -96,20 +108,31 @@ const setup = async ($: Engine, on: On) => {
 		const tool = String(e.tool);
 		return fail[tool] ?? results[tool] ?? { result: "ok" };
 	});
-	const git = { status: "", log: "" };
-	on("process.run", (_, e) => ({
-		value: {
-			exitCode: 0,
-			stdout: e.argv.includes("rev-parse")
-				? "/repo\n"
-				: e.argv.includes("log")
-					? git.log
-					: git.status,
-			stderr: "",
-			isStdoutTruncated: false,
-			isStderrTruncated: false,
-		},
-	}));
+	const git = { status: start.status ?? "", log: "" };
+	const gh: Gh = { remote: "", reply: "", exitCode: 0, calls: [], ...start.gh };
+	on("process.run", (_, e) => {
+		const isGh = e.argv[0] === "gh";
+		if (isGh) {
+			gh.calls.push([...e.argv]);
+		}
+		return {
+			value: {
+				exitCode: isGh ? gh.exitCode : 0,
+				stdout: isGh
+					? gh.reply
+					: e.argv.includes("rev-parse")
+						? "/repo\n"
+						: e.argv.includes("log")
+							? git.log
+							: e.argv.includes("--get-regexp")
+								? gh.remote
+								: git.status,
+				stderr: "",
+				isStdoutTruncated: false,
+				isStderrTruncated: false,
+			},
+		};
+	});
 	// a stat that answers only once the clock moves a second
 	const slow = new Set<string>();
 	on("fs.stat", async (_, e) => {
@@ -220,6 +243,7 @@ const setup = async ($: Engine, on: On) => {
 		ai,
 		clock,
 		fail,
+		gh,
 		git,
 		header,
 		hidden,
@@ -1293,4 +1317,259 @@ test("the toggle hint names the chord bound to the toggle action", async ($, on)
 	expect(
 		(await $.command.run({ command: "summary", args: "" } as never)).text,
 	).toBe("summary pane opened (ctrl+x s to close)");
+});
+
+const GITHUB = "remote.origin.url git@github.com:me/repo.git\n";
+
+const ci = (state: string | null) => ({
+	commits: {
+		nodes: [
+			{ commit: { statusCheckRollup: state === null ? null : { state } } },
+		],
+	},
+});
+
+const prReply = (pr: object = {}, nodes?: object[]) =>
+	JSON.stringify({
+		data: {
+			viewer: { login: "me" },
+			repository: {
+				pullRequests: {
+					nodes: nodes ?? [
+						{
+							number: 12,
+							url: "https://github.com/me/repo/pull/12",
+							isDraft: false,
+							reviewDecision: null,
+							isCrossRepository: false,
+							headRepositoryOwner: { login: "me" },
+							latestReviews: { nodes: [] },
+							reviewThreads: { nodes: [] },
+							...ci(null),
+							...pr,
+						},
+					],
+				},
+			},
+		},
+	});
+
+const paneShows = async ($: Engine, text: RegExp) => {
+	const seen = [];
+	for (const surface of ["terminal", "desktop"] as const) {
+		const ui = await $.ui.mount({ plugin: "summary", surface, ...PANE });
+		seen.push((await ui.find({ text })) !== undefined);
+		await ui.unmount();
+	}
+	expect(seen[0]).toBe(seen[1]);
+	return seen[0];
+};
+
+test("an approved PR whose CI passed says to merge it in the web UI", async ($, on) => {
+	const { clock, gh } = await setup($, on, {
+		status: "## feature...origin/feature\n",
+		gh: {
+			remote: GITHUB,
+			reply: prReply({
+				reviewDecision: "APPROVED",
+				...ci("SUCCESS"),
+				reviewThreads: {
+					nodes: [
+						{ isResolved: false },
+						{ isResolved: true },
+						{ isResolved: false },
+					],
+				},
+			}),
+		},
+	});
+	await clock.settle();
+	expect(gh.calls).toHaveLength(1);
+	expect(gh.calls[0]?.slice(0, 11)).toEqual([
+		"gh",
+		"api",
+		"graphql",
+		"--hostname",
+		"github.com",
+		"-f",
+		"owner=me",
+		"-f",
+		"name=repo",
+		"-f",
+		"branch=feature",
+	]);
+	for (const surface of ["terminal", "desktop"] as const) {
+		const ui = await $.ui.mount({ plugin: "summary", surface, ...PANE });
+		expect(
+			await ui.find({ text: /^PR #12 ✅ approved · CI ✔ · 💬 2 unresolved$/ }),
+		).toBeDefined();
+		expect(
+			await ui.find({ text: /^⇢ ready: merge it in the web UI$/ }),
+		).toBeDefined();
+		const links = await ui.findAll({ type: "Link" });
+		expect(links.map((l) => l.props.href)).toEqual([
+			"https://github.com/me/repo/pull/12",
+		]);
+		await ui.unmount();
+	}
+
+	// no review rule: an approval with no change request is an approval, no CI
+	// is no failure
+	gh.reply = prReply({ latestReviews: { nodes: [{ state: "APPROVED" }] } });
+	await $.tool.call({ tool: "Bash", command: "git push" } as never);
+	await clock.settle();
+	expect(await paneShows($, /^PR #12 ✅ approved$/)).toBe(true);
+	expect(await paneShows($, /merge it in the web UI/)).toBe(true);
+});
+
+test("a change request, a draft or CI not passed shows no merge hint", async ($, on) => {
+	const { clock, gh } = await setup($, on, {
+		status: "## feature\n",
+		gh: { remote: GITHUB },
+	});
+	const cases: [object, RegExp][] = [
+		[
+			{ reviewDecision: "CHANGES_REQUESTED", ...ci("SUCCESS") },
+			/^PR #12 ❌ changes requested · CI ✔$/,
+		],
+		[
+			{
+				latestReviews: {
+					nodes: [{ state: "APPROVED" }, { state: "CHANGES_REQUESTED" }],
+				},
+			},
+			/^PR #12 ❌ changes requested$/,
+		],
+		[
+			{ isDraft: true, reviewDecision: "APPROVED" },
+			/^PR #12 ✎ draft · ✅ approved$/,
+		],
+		[
+			{ reviewDecision: "APPROVED", ...ci("FAILURE") },
+			/^PR #12 ✅ approved · CI ✗ failed$/,
+		],
+		[
+			{ reviewDecision: "APPROVED", ...ci("PENDING") },
+			/^PR #12 ✅ approved · CI ⋯ running$/,
+		],
+		[
+			{ reviewDecision: "REVIEW_REQUIRED", ...ci("SUCCESS") },
+			/^PR #12 👀 review required · CI ✔$/,
+		],
+		[
+			{ latestReviews: { nodes: [{ state: "COMMENTED" }] } },
+			/^PR #12 👀 review required$/,
+		],
+	];
+	for (const [pr, row] of cases) {
+		gh.reply = prReply(pr);
+		await $.tool.call({ tool: "Bash", command: "gh pr view" } as never);
+		await clock.settle();
+		expect(await paneShows($, row)).toBe(true);
+		expect(await paneShows($, /merge it in the web UI/)).toBe(false);
+	}
+});
+
+test("no open PR, a failing gh, someone else's fork or no GitHub remote draws no PR row", async ($, on) => {
+	const { clock, gh } = await setup($, on, {
+		status: "## main...origin/main\n",
+		gh: { remote: GITHUB, reply: prReply({}, []) },
+	});
+	const refresh = async () => {
+		await $.tool.call({ tool: "Bash", command: "gh pr list" } as never);
+		await clock.settle();
+	};
+	await clock.settle();
+	expect(gh.calls).toHaveLength(1);
+	expect(await paneShows($, /PR #/)).toBe(false);
+
+	gh.reply = prReply({
+		isCrossRepository: true,
+		headRepositoryOwner: { login: "stranger" },
+	});
+	await refresh();
+	expect(await paneShows($, /PR #/)).toBe(false);
+
+	// a PR from one's own fork is one's own
+	gh.reply = prReply({
+		isCrossRepository: true,
+		headRepositoryOwner: { login: "me" },
+	});
+	await refresh();
+	expect(await paneShows($, /^PR #12 /)).toBe(true);
+
+	gh.exitCode = 1;
+	gh.reply = "";
+	await refresh();
+	expect(await paneShows($, /PR #/)).toBe(false);
+
+	gh.exitCode = 0;
+	gh.reply = prReply();
+	gh.remote = "remote.origin.url /srv/git/repo.git\n";
+	const calls = gh.calls.length;
+	await refresh();
+	expect(gh.calls).toHaveLength(calls);
+	expect(await paneShows($, /PR #/)).toBe(false);
+});
+
+test("the PR is read at most once a minute at turn ends, at once after a push, gh pr or a checkout", async ($, on) => {
+	const { clock, fail, gh, git, writes } = await setup($, on, {
+		status: "## feature\n",
+		gh: { remote: GITHUB, reply: prReply() },
+	});
+	const bash = async (command: string) => {
+		await $.tool.call({ tool: "Bash", command } as never);
+		await clock.settle();
+	};
+	const end = async (id: string) => {
+		await $.turn.complete(finish(id, "done"));
+		await clock.settle();
+	};
+	await clock.settle();
+	expect(gh.calls).toHaveLength(1);
+	expect(await paneShows($, /^PR #12 👀 review required$/)).toBe(true);
+
+	await end("m1");
+	await clock.advance(59_000);
+	await end("m2");
+	expect(gh.calls).toHaveLength(1);
+	await clock.advance(1_000);
+	await end("m3");
+	expect(gh.calls).toHaveLength(2);
+	// the same PR again writes nothing
+	expect(writes.filter((k) => k === "pr")).toHaveLength(1);
+
+	await bash("git -C /repo push -u origin feature");
+	expect(gh.calls).toHaveLength(3);
+	await bash("gh pr create --fill");
+	expect(gh.calls).toHaveLength(4);
+	await bash("git status");
+	fail.Bash = { deny: "not now" };
+	await bash("git push");
+	delete fail.Bash;
+	expect(gh.calls).toHaveLength(4);
+
+	// checked out elsewhere: the old branch's PR goes at once, the next turn end
+	// reads the new one's
+	git.status = "## other\n";
+	await $.command.run({ command: "summary", args: "" } as never);
+	expect(await paneShows($, /PR #/)).toBe(false);
+	await end("m4");
+	expect(gh.calls).toHaveLength(5);
+	expect(gh.calls[4]).toContain("branch=other");
+	expect(await paneShows($, /^PR #12 /)).toBe(true);
+});
+
+test("the PR is read from the remote gh would pick, on its own host", () => {
+	expect(
+		remoteRepo(
+			"remote.origin.url git@github.example.com:me/fork.git\n" +
+				"remote.upstream.url https://github.example.com/team/repo.git\n",
+		),
+	).toEqual({ host: "github.example.com", owner: "team", name: "repo" });
+	expect(
+		remoteRepo("remote.mine.url ssh://git@github.com:22/me/repo\n"),
+	).toEqual({ host: "github.com", owner: "me", name: "repo" });
+	expect(remoteRepo("remote.origin.url /srv/git/repo.git\n")).toBeUndefined();
+	expect(remoteRepo("")).toBeUndefined();
 });

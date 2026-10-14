@@ -1,4 +1,4 @@
-import type { AgentRow, SkillRun } from "../types";
+import type { AgentRow, PullRequest, SkillRun } from "../types";
 
 export const PANE = "summary";
 
@@ -76,6 +76,24 @@ export const RUN: Record<
 	done: { icon: "✓", color: C.green },
 	failed: { icon: "✗", color: C.red },
 	aborted: { icon: "■", color: C.overlay },
+};
+
+export const REVIEW: Record<
+	PullRequest["review"],
+	{ text: string; color: string }
+> = {
+	approved: { text: "✅ approved", color: C.green },
+	changes: { text: "❌ changes requested", color: C.red },
+	pending: { text: "👀 review required", color: C.yellow },
+};
+
+export const CHECKS: Record<
+	NonNullable<PullRequest["ci"]>,
+	{ text: string; color: string }
+> = {
+	success: { text: "CI ✔", color: C.green },
+	failure: { text: "CI ✗ failed", color: C.red },
+	pending: { text: "CI ⋯ running", color: C.yellow },
 };
 
 export const ORDER: AgentRow["status"][] = [

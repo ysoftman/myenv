@@ -22,6 +22,7 @@ import {
 	totalTokens,
 } from "./format";
 import { paneView } from "./pane";
+import { readPullRequest } from "./pr";
 import {
 	newRain,
 	RAIN,
@@ -87,6 +88,8 @@ const repo = atom({ plugin: "summary", key: "repo" } as const, {
 	commits: [],
 });
 
+const pullRequest = atom({ plugin: "summary", key: "pr" } as const, null);
+
 const FILES_MAX = 20;
 
 const TURNS_MAX = 200;
@@ -107,6 +110,11 @@ const NO_SPAN = new Set([
 
 // a file's mtime and the clock may round apart
 const SLACK_MS = 1_000;
+
+// gh goes over the network, so the PR is read at most once a minute
+const PR_MS = 60_000;
+
+const PR_CHANGE = /\bgit\s+(?:-C\s+\S+\s+)?push\b|\bgh\s+pr\b/;
 
 // while a tool call of Claude's ran; open while it runs or a shell it left does
 type Span = { from: number; to?: number; id?: string; use?: string };
@@ -145,6 +153,36 @@ const summarize = async ($: EngineInterface, ask: string, answer: string) => {
 	} catch {
 		return firstLine(answer);
 	}
+};
+
+let prAt = Number.NEGATIVE_INFINITY;
+let prBranch: string | undefined;
+let prRun: Promise<unknown> = Promise.resolve();
+
+// a checkout reads the new branch's PR without waiting
+const refreshPr = (
+	$: EngineInterface,
+	root: string | undefined,
+	force = false,
+) => {
+	const run = prRun.then(async () => {
+		const { branch } = await read($, repo);
+		const t = await $.clock.now();
+		if (!force && branch === prBranch && t - prAt < PR_MS) {
+			return;
+		}
+		prAt = t;
+		prBranch = branch;
+		const next =
+			root === undefined || branch === undefined
+				? null
+				: await readPullRequest($, root, branch);
+		if (JSON.stringify(next) !== JSON.stringify(await read($, pullRequest))) {
+			await update($, pullRequest, () => next);
+		}
+	});
+	prRun = run.catch(() => undefined);
+	return prRun;
 };
 
 // "## main...origin/main [ahead 1, behind 2]", the head line of `status -b`,
@@ -563,6 +601,7 @@ export const register: Register = (on) => {
 			.catch(() => undefined);
 		root = top?.exitCode === 0 ? top.stdout.trim() : undefined;
 		await refreshGit($, root, spans);
+		void refreshPr($, root);
 		if (e.isInteractive && !(await read($, autoOpened))) {
 			await update($, autoOpened, () => true);
 			await $.ui.open({ id: PANE, title: "summary", columns: 60 });
@@ -809,6 +848,9 @@ export const register: Register = (on) => {
 				list.some((b) => b.id === shell) ? list : [...list, row],
 			);
 		}
+		if (ran.deny === undefined && PR_CHANGE.test(e.command)) {
+			void refreshPr($, root, true);
+		}
 
 		return ran;
 	}).catch((_, e, next) => next(e));
@@ -887,6 +929,7 @@ export const register: Register = (on) => {
 			}
 			worked = false;
 		}
+		void refreshPr($, root);
 
 		return next(e);
 	});
@@ -1002,6 +1045,7 @@ export const register: Register = (on) => {
 			touched: await read($, files),
 			uncommitted: await read($, dirty),
 			git: await read($, repo),
+			pr: await read($, pullRequest),
 			warnings: await read($, alerts),
 			tag: await read($, mainModel),
 			since: await read($, working),
