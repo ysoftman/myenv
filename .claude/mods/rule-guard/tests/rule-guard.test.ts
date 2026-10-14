@@ -50,7 +50,7 @@ const setup = async ($: Engine, on: On, failing: string[] = []) => {
 	const rules = async (args = "") =>
 		(
 			await $.command.run({
-				command: "rules",
+				command: "rule-guard",
 				args,
 				origin: { kind: "composer" },
 				presentation: { isFullscreen: true, columns: 120 },
@@ -78,7 +78,7 @@ test("no-pr-merge blocks merges by gh, the API and MCP tools", async ($, on) => 
 		tool: "mcp__github__merge_pull_request",
 		pull_number: 12,
 	} as never);
-	expect(mcp.deny).toContain("/rules off no-pr-merge");
+	expect(mcp.deny).toContain("/rule-guard off no-pr-merge");
 	for (const cmd of [
 		"gh pr view 12 --json state",
 		"gh pr list",
@@ -265,9 +265,10 @@ test(
 	},
 );
 
-test("/rules lists, toggles and explains the rules", async ($, on) => {
+test("/rule-guard lists, toggles and explains the rules", async ($, on) => {
 	const { bash, rules } = await setup($, on);
 	const list = await rules();
+	expect(list).toMatch(/^\nid\s+상태\s+차단\s+설명/);
 	for (const id of [
 		"no-pr-merge",
 		"no-ai-trailer",
@@ -295,12 +296,43 @@ test("/rules lists, toggles and explains the rules", async ($, on) => {
 	expect(await rules("off")).toContain("알 수 없는 룰 id: (없음)");
 
 	const help = await rules("help");
-	expect(help).toContain("/rules off <id>");
+	expect(help).toMatch(/^\n\/rule-guard\s/);
+	expect(help).toContain("/rule-guard off <id>");
 	expect(help).toContain("bannedWords, bannedPaths");
 	expect(await rules("what")).toContain("알 수 없는 인자: what");
 });
 
-test("/rules is registered with a help hint", async ($, on) => {
+test("/rule-guard output colors status, counts and commands", async ($, on) => {
+	const { bash, rules } = await setup($, on);
+	await bash("grep x y");
+	await rules("off bun-over-npm");
+	for (const surface of ["terminal", "desktop"] as const) {
+		const ui = await $.ui.mount({
+			plugin: "rule-guard",
+			surface,
+			component: "CommandOutput",
+			props: {
+				command: "rule-guard",
+				args: "",
+				text: `${await rules()}\n${await rules("help")}`,
+				isErrored: false,
+			},
+		});
+		const props = async (text: RegExp) =>
+			(await ui.find({ type: "Text", text }))?.props;
+		expect(await props(/^rg-fd$/)).toMatchObject({ color: "suggestion" });
+		expect(await props(/^on$/)).toMatchObject({ color: "success" });
+		expect(await props(/^off$/)).toMatchObject({ color: "warning" });
+		expect(await props(/^설정 안 됨$/)).toMatchObject({ color: "inactive" });
+		expect(await props(/^1$/)).toMatchObject({ color: "error" });
+		expect(await props(/^\/rule-guard help$/)).toMatchObject({
+			color: "suggestion",
+		});
+		await ui.unmount();
+	}
+});
+
+test("/rule-guard is registered with a help hint", async ($, on) => {
 	const { specs } = await setup($, on);
 	expect(specs[0]?.description).toMatch(/· help: 사용법$/);
 	expect(specs[0]?.argumentHint).toBe("[off <id> | on <id> | help]");

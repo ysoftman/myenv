@@ -38,15 +38,15 @@ Claude Code 2.1.299 에서 확인했다.
 
 ## 사용
 
-- `/rules`: 룰마다 id, 상태(on / off / 설정 안 됨), 이 세션 차단 횟수, 설명을 표로 보여 준다. lint 대기 파일이 있으면 목록도 보여 준다.
-- `/rules off <id>`, `/rules on <id>`: 이 세션 동안만 끄고 켠다. 잘못된 id 면 사용 가능한 id 를 알려 준다.
-- `/rules help`: 사용법.
+- `/rule-guard`: 룰마다 id, 상태(on / off / 설정 안 됨), 이 세션 차단 횟수, 설명을 표로 보여 준다. lint 대기 파일이 있으면 목록도 보여 준다.
+- `/rule-guard off <id>`, `/rule-guard on <id>`: 이 세션 동안만 끄고 켠다. 잘못된 id 면 사용 가능한 id 를 알려 준다.
+- `/rule-guard help`: 사용법.
 
-모델은 슬래시 명령을 실행할 수 없어서 룰을 끄는 건 사용자만 할 수 있다. 예를 들어 호환성 문제로 npm 이 꼭 필요하면 `/rules off bun-over-npm` 으로 끈다. 끈 상태와 차단 횟수는 `/reload-plugins` 를 해도 세션 동안 유지되고, 새 세션에서는 다시 모두 켜진다.
+모델은 슬래시 명령을 실행할 수 없어서 룰을 끄는 건 사용자만 할 수 있다. 예를 들어 호환성 문제로 npm 이 꼭 필요하면 `/rule-guard off bun-over-npm` 으로 끈다. 끈 상태와 차단 횟수는 `/reload-plugins` 를 해도 세션 동안 유지되고, 새 세션에서는 다시 모두 켜진다.
 
 ## banned-words 설정
 
-`bannedWords`(쉼표 구분 금지어)와 `bannedPaths`(쉼표 구분 경로 prefix, `~` 사용 가능)를 둘 다 넣어야 동작한다. 하나라도 비어 있으면 `/rules` 에 "설정 안 됨" 으로 나오고 아무것도 막지 않는다. `/config` 메뉴의 rule-guard 항목에서 넣거나 `~/.claude/settings.json` 에 직접 넣는다. 키는 plugin 이름 `rule-guard` 다(엔진은 `rule-guard@inline` 도 읽는다).
+`bannedWords`(쉼표 구분 금지어)와 `bannedPaths`(쉼표 구분 경로 prefix, `~` 사용 가능)를 둘 다 넣어야 동작한다. 하나라도 비어 있으면 `/rule-guard` 에 "설정 안 됨" 으로 나오고 아무것도 막지 않는다. `/config` 메뉴의 rule-guard 항목에서 넣거나 `~/.claude/settings.json` 에 직접 넣는다. 키는 plugin 이름 `rule-guard` 다(엔진은 `rule-guard@inline` 도 읽는다).
 
 ```json
 {

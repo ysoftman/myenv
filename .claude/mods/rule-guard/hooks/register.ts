@@ -1,4 +1,9 @@
-import type { EngineInterface, Register, ToolCallInput } from "claude-code";
+import type {
+	EngineInterface,
+	Register,
+	RenderElement,
+	ToolCallInput,
+} from "claude-code";
 import { atom, read, update } from "claude-code";
 
 const off = atom({ plugin: "rule-guard", key: "off" } as const, []);
@@ -211,15 +216,56 @@ const width = (s: string) =>
 const pad = (s: string, n: number) => s + " ".repeat(Math.max(0, n - width(s)));
 
 const USAGE = [
-	"/rules             룰 목록, on/off, 이 세션 차단 횟수",
-	"/rules off <id>    이 세션 동안 룰 끄기",
-	"/rules on <id>     다시 켜기",
-	"/rules help        이 도움말",
+	"/rule-guard             룰 목록, on/off, 이 세션 차단 횟수",
+	"/rule-guard off <id>    이 세션 동안 룰 끄기",
+	"/rule-guard on <id>     다시 켜기",
+	"/rule-guard help        이 도움말",
 	"",
 	`id: ${RULES.map((r) => r.id).join(", ")}`,
 	"끄기는 이 세션에만 적용된다. 모델은 슬래시 명령을 실행할 수 없어 사용자만 바꿀 수 있다.",
 	"banned-words 는 settings.json 의 pluginConfigs 나 /config 에서 rule-guard 의 bannedWords, bannedPaths(쉼표 구분)를 넣어야 동작한다.",
 ].join("\n");
+
+type Span = [string, Record<string, unknown>?];
+
+const STATUS: Record<string, string> = {
+	on: "success",
+	off: "warning",
+	"설정 안 됨": "inactive",
+};
+
+const ROW = /^(\S+)(\s+)(on|off|설정 안 됨)(\s+)(\d+)(\s+)(.*)$/;
+
+const paint = (line: string): Span[] => {
+	const row = ROW.exec(line);
+	if (row) {
+		const [, id = "", s1 = "", st = "", s2 = "", n = "", s3 = "", desc = ""] =
+			row;
+		return [
+			[id, { color: "suggestion", bold: true }],
+			[s1],
+			[st, { color: STATUS[st] }],
+			[s2],
+			[n, n === "0" ? { dimColor: true } : { color: "error", bold: true }],
+			[s3],
+			[desc],
+		];
+	}
+	if (/^id\s+상태/.test(line)) return [[line, { underline: true }]];
+	if (line.startsWith("lint 대기")) return [[line, { color: "warning" }]];
+	if (line.includes("알 수 없는")) return [[line, { color: "error" }]];
+	const ack = /^(.*이 세션 동안 )(on|off)$/.exec(line);
+	if (ack) {
+		const [, pre = "", st = ""] = ack;
+		return [[pre], [st, { color: STATUS[st], bold: true }]];
+	}
+	const usage = /^(\/rule-guard(?: \w+(?: <id>)?)?)( {2,}.*)$/.exec(line);
+	if (usage) {
+		const [, cmd = "", rest = ""] = usage;
+		return [[cmd, { color: "suggestion" }], [rest]];
+	}
+	return [[line, { dimColor: true }]];
+};
 
 const table = async ($: EngineInterface, isSet: boolean) => {
 	const disabled = await read($, off);
@@ -242,6 +288,7 @@ const table = async ($: EngineInterface, isSet: boolean) => {
 		Math.max(...rows.map((row) => width(row[i] ?? ""))),
 	);
 	return [
+		"",
 		...rows.map((row) =>
 			row
 				.map((cell, i) => (i < 3 ? pad(cell, widths[i] ?? 0) : cell))
@@ -251,7 +298,7 @@ const table = async ($: EngineInterface, isSet: boolean) => {
 			? ["", `lint 대기 ${files.length}개: ${files.join(", ")}`]
 			: []),
 		"",
-		"/rules off <id> · /rules on <id> 로 이 세션 동안 끄고 켠다 · /rules help",
+		"/rule-guard off <id> · /rule-guard on <id> 로 이 세션 동안 끄고 켠다 · /rule-guard help",
 	].join("\n");
 };
 
@@ -267,7 +314,7 @@ export const register: Register = (on, options) => {
 
 	on("session.start", async ($, e, next) => {
 		await $.command.register({
-			name: "rules",
+			name: "rule-guard",
 			description:
 				"rule-guard 룰 목록·상태·차단 횟수, 이 세션 on/off · help: 사용법",
 			argumentHint: "[off <id> | on <id> | help]",
@@ -276,13 +323,13 @@ export const register: Register = (on, options) => {
 		return next(e);
 	}).catch((_, e, next) => next(e));
 
-	on("command.run", { command: "rules" }, async ($, e) => {
+	on("command.run", { command: "rule-guard" }, async ($, e) => {
 		const [verb = "", id = ""] = e.args.trim().split(/\s+/);
 		if (verb === "") {
 			return { text: await table($, isSet) };
 		}
 		if (verb === "help") {
-			return { text: USAGE };
+			return { text: `\n${USAGE}` };
 		}
 		if (verb !== "on" && verb !== "off") {
 			return { text: `알 수 없는 인자: ${e.args.trim()}\n\n${USAGE}` };
@@ -299,6 +346,31 @@ export const register: Register = (on, options) => {
 		);
 		return { text: `${id}: 이 세션 동안 ${verb}` };
 	});
+
+	on(
+		"ui.render",
+		{ component: "CommandOutput", props: { command: "rule-guard" } },
+		async ($, e) => {
+			const { Box, Text } = $.ui.resolve(e);
+			const lines = e.props.text
+				.split("\n")
+				.map((line) =>
+					h(
+						Text,
+						null,
+						...(line === ""
+							? [" "]
+							: paint(line).map(([s, p]) => h(Text, p ?? null, s))),
+					),
+				);
+			return h(
+				Box,
+				{ flexDirection: "row" },
+				h(Text, { dimColor: true }, "  ⎿  "),
+				h(Box, { flexDirection: "column" }, ...lines),
+			) as RenderElement;
+		},
+	);
 
 	on("tool.call", async ($, e, next) => {
 		const tool = String(e.tool);
@@ -325,7 +397,7 @@ export const register: Register = (on, options) => {
 				}));
 				$.ui.toast(`🛡 ${rule.id}`);
 				return {
-					deny: `rule-guard ${rule.id}: ${why} 이 세션에서 이 룰을 끄려면 사용자에게 /rules off ${rule.id} 를 요청하라.`,
+					deny: `rule-guard ${rule.id}: ${why} 이 세션에서 이 룰을 끄려면 사용자에게 /rule-guard off ${rule.id} 를 요청하라.`,
 				};
 			}
 		}
