@@ -32,7 +32,6 @@ import {
 	SHOWN,
 	SPARK,
 	SPINNER,
-	TOGGLE_ACTION,
 } from "./theme";
 
 // Everything the pane draws, read by register (only it may touch $).
@@ -495,7 +494,7 @@ export const paneView = ({
 				)}
 			</Box>
 			<Box paddingX={1} gap={2}>
-				<Button plain key="toggle" action={TOGGLE_ACTION} onPress={onToggle}>
+				<Button plain key="toggle" onPress={onToggle}>
 					{keycap(hint)}
 					<Text color={C.subtext}> close</Text>
 				</Button>

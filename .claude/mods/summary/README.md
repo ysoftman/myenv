@@ -37,7 +37,7 @@ approve 됐고 draft 가 아니며 CI 가 통과했거나 없으면 `⇢ ready: 
 - `~/.claude/settings.json` 의 `env.CLAUDE_CODE_PLUGIN_DIRS` 에 이 폴더 경로를 넣는다 (여러 개면 `:` 로 구분).
 - `claude --plugin-dir <이 폴더>` 로 실행한다.
 
-myenv 의 `installclaudecode.sh` 는 `.claude/mods/*` 를 `CLAUDE_CODE_PLUGIN_DIRS` 에 넣고, 아래 단축키도 그 키나 action 이 비어 있을 때만 `keybindings.json` 에 넣어 준다.
+myenv 의 `installclaudecode.sh` 는 `.claude/mods/*` 를 `CLAUDE_CODE_PLUGIN_DIRS` 에 넣고, 아래 단축키도 그 키나 action 이 비어 있을 때만 `keybindings.json` 에 넣어 준다(예전 `app:toggleDiffPreSession` 바인딩은 옮겨 준다).
 
 Claude Code 2.1.296 에서 확인했다 (PR 줄은 2.1.299).
 
@@ -45,22 +45,22 @@ Claude Code 2.1.296 에서 확인했다 (PR 줄은 2.1.299).
 
 Claude 를 시작하면 패널이 바로 열린다. 다만 엔진은 요청 없이 연 패널을 터미널이 144칸(전에 열어 두고 손으로 닫지 않았다면 110칸) 이상일 때만 그린다. 그보다 좁으면 터미널을 넓히거나 `/summary` 를 실행할 때 보인다. `/reload-plugins` 때는 다시 열지 않는다.
 
-- `/summary`: 패널 열기/닫기
+- `/summary`: 패널 열기/닫기. 다른 탭에 가려져 있으면 닫지 않고 앞으로 꺼낸다. 출력은 남기지 않는다.
 - `/summary help`: 사용법. 단축키를 설정하지 않았으면 설정 방법도 보여 준다.
 
 ## 단축키
 
-plugin 은 단축키를 직접 등록할 수 없어, 각자 `~/.claude/keybindings.json` 에 추가해야 한다. 평소 비어 있는 엔진 action `app:toggleDiffPreSession` 을 빌려 쓰므로, diff 패널이 열려 있을 때는 diff 패널의 원래 동작이 우선한다.
+plugin 은 단축키를 직접 등록할 수 없어, 각자 `~/.claude/keybindings.json` 에 추가해야 한다. `command:<이름>` action 은 그 슬래시 명령을 입력한 것처럼 실행하므로 `/summary` 를 키에 묶는다.
 
 ```json
 {
   "$schema": "https://www.schemastore.org/claude-code-keybindings.json",
   "bindings": [
-    { "context": "Global", "bindings": { "ctrl+x s": "app:toggleDiffPreSession" } }
+    { "context": "Chat", "bindings": { "ctrl+x s": "command:summary" } }
   ]
 }
 ```
 
-이미 `keybindings.json` 이 있으면 파일을 덮어쓰지 말고, 기존 `"context": "Global"` 블록의 `bindings` 에 `"ctrl+x s": "app:toggleDiffPreSession"` 한 줄만 추가한다.
+이미 `keybindings.json` 이 있으면 파일을 덮어쓰지 말고, `"context": "Chat"` 블록의 `bindings` 에 `"ctrl+x s": "command:summary"` 한 줄만 추가한다(블록이 없으면 추가한다). 예전에 넣은 `"Global"` 의 `"ctrl+x s": "app:toggleDiffPreSession"` 은 지운다.
 
 바인딩하기 전에는 패널 하단과 프롬프트 아래 힌트 줄에 `/summary` 가 보이고, 바인딩하면 그 키가 보인다. 다른 키에 묶어도 그 키가 안내에 표시된다.

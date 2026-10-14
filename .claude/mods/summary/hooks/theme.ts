@@ -2,8 +2,6 @@ import type { AgentRow, PullRequest, SkillRun } from "../types";
 
 export const PANE = "summary";
 
-export const TOGGLE_ACTION = "app:toggleDiffPreSession";
-
 // rows each box lists at most, so the pane fits a terminal's height
 export const SHOWN = 3;
 export const RECENT_SHOWN = 5;

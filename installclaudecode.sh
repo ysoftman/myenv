@@ -183,15 +183,18 @@ jq --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" --argjso
     | .hooks = reduce ([$hooks, $zjhooks][] | to_entries[]) as $e (.hooks // {}; .[$e.key] = ((.[$e.key] // []) + $e.value | unique))
 ' "${SETTINGS_FILE}" >"${tmp}" && mv "${tmp}" "${SETTINGS_FILE}"
 
-# summary mod 토글 단축키. 이미 그 키나 action 이 묶여 있으면 건드리지 않는다.
+# mod 패널 토글 단축키: Chat 문맥에서 슬래시 명령을 실행한다(command:<이름>).
+# 예전 summary 바인딩(app:toggleDiffPreSession)은 지우고, 이미 그 키나 action 이 묶여 있으면 건드리지 않는다.
 KEYBINDINGS_FILE="${HOME}/.claude/keybindings.json"
 [[ -s "${KEYBINDINGS_FILE}" ]] || jq -n '{"$schema": "https://www.schemastore.org/claude-code-keybindings.json", bindings: []}' >"${KEYBINDINGS_FILE}"
 tmp=$(mktemp)
-jq --arg key "ctrl+x s" --arg action "app:toggleDiffPreSession" '
-    if any(.bindings[]?.bindings // {} | to_entries[]; .key == $key or .value == $action) then .
-    elif any(.bindings[]?; .context == "Global") then .bindings |= map(if .context == "Global" then .bindings[$key] = $action else . end)
-    else .bindings = ((.bindings // []) + [{context: "Global", bindings: {($key): $action}}])
-    end
+jq --argjson add '{"ctrl+x s": "command:summary", "ctrl+x r": "command:rule-guard-pane"}' '
+    .bindings = ((.bindings // []) | map(if .context == "Global" and .bindings["ctrl+x s"] == "app:toggleDiffPreSession" then .bindings |= del(.["ctrl+x s"]) else . end))
+    | reduce ($add | to_entries[]) as $b (.;
+        if any(.bindings[].bindings // {} | to_entries[]; .key == $b.key or .value == $b.value) then .
+        elif any(.bindings[]; .context == "Chat") then .bindings |= map(if .context == "Chat" then .bindings[$b.key] = $b.value else . end)
+        else .bindings += [{context: "Chat", bindings: {($b.key): $b.value}}]
+        end)
 ' "${KEYBINDINGS_FILE}" >"${tmp}" && mv "${tmp}" "${KEYBINDINGS_FILE}"
 
 # Atlassian mcp 설치

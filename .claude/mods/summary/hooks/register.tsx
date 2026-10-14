@@ -42,7 +42,7 @@ import {
 	sync,
 	TURN_END,
 } from "./status";
-import { PANE, RECENT_SHOWN, SHOWN, TOGGLE_ACTION } from "./theme";
+import { PANE, RECENT_SHOWN, SHOWN } from "./theme";
 
 const agents = atom({ plugin: "summary", key: "agents" } as const, []);
 
@@ -556,8 +556,8 @@ const usage = (key: string) =>
 		...(key === ""
 			? [
 					"",
-					'To toggle it with a shortcut, add a line to the "Global" bindings of',
-					`~/.claude/keybindings.json: "ctrl+x s": "${TOGGLE_ACTION}"`,
+					'To toggle it with a shortcut, add a line to the "Chat" bindings of',
+					`~/.claude/keybindings.json: "ctrl+x s": "command:${PANE}"`,
 					"(see the summary mod README; any other key works too).",
 				]
 			: []),
@@ -571,9 +571,8 @@ const boundKey = async ($: EngineInterface) => {
 			bindings?: { context?: string; bindings?: Record<string, unknown> }[];
 		};
 		return bindings
-			.filter((b) => b.context === "Global")
 			.flatMap((b) => Object.entries(b.bindings ?? {}))
-			.find(([, action]) => action === TOGGLE_ACTION)?.[0];
+			.find(([, action]) => action === `command:${PANE}`)?.[0];
 	} catch {
 		return undefined;
 	}
@@ -982,11 +981,9 @@ export const register: Register = (on) => {
 		if (e.args.trim() === "help") {
 			return { text: usage(await syncChord($)) };
 		}
-		return {
-			text: (await toggle($, root, spans))
-				? `summary pane opened (${hintOf(await read($, chord))} to close)`
-				: "summary pane closed",
-		};
+		// no text, so a "command:summary" shortcut leaves nothing in the transcript
+		await toggle($, root, spans);
+		return {};
 	}).catch((_, e, next) => next(e));
 
 	on("ui.close", { id: PANE }, async ($, e, next) => {
@@ -997,8 +994,7 @@ export const register: Register = (on) => {
 	}).catch((_, e, next) => next(e));
 
 	// The hint under the prompt carries the toggle hint as dim tail text, so the
-	// band above the prompt stays free. A chord presses only a mounted Button, so
-	// one rides along hidden.
+	// band above the prompt stays free.
 	on("ui.render", { component: "PromptHint" }, async ($, e, next) => {
 		hintWorking = e.props.isWorking;
 		if (await read($, paneShown)) {
@@ -1008,26 +1004,7 @@ export const register: Register = (on) => {
 		const tail = [e.props.tail, key === "" ? `/${PANE}` : `${key} ${PANE}`]
 			.filter(Boolean)
 			.join(" · ");
-		const below = await next({ ...e, props: { ...e.props, tail } });
-		if (key === "") {
-			return below;
-		}
-		const { Box, Button } = $.ui.resolve(e);
-
-		return (
-			<Box flexDirection="column">
-				{below}
-				<Box display="none">
-					<Button
-						plain
-						key="toggle"
-						label={PANE}
-						action={TOGGLE_ACTION}
-						onPress={() => toggle($, root, spans)}
-					/>
-				</Box>
-			</Box>
-		);
+		return next({ ...e, props: { ...e.props, tail } });
 	});
 
 	on("ui.render", { component: "Pane", requestId: PANE }, async ($, e) =>

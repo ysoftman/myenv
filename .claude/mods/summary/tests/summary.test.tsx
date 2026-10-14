@@ -48,8 +48,8 @@ const bindChord = (on: On) => {
 				? JSON.stringify({
 						bindings: [
 							{
-								context: "Global",
-								bindings: { "ctrl+x s": "app:toggleDiffPreSession" },
+								context: "Chat",
+								bindings: { "ctrl+x s": "command:summary" },
 							},
 						],
 					})
@@ -397,23 +397,15 @@ test("the hint line carries the toggle only while the pane is closed", async ($,
 		...HINT,
 	});
 	expect(await ui.find({ text: /^ctrl\+x s summary$/ })).toBeDefined();
-	expect((await ui.find({ key: "toggle" }))?.props).toMatchObject({
-		action: "app:toggleDiffPreSession",
-	});
-	expect(
-		(await ui.findAll({ type: "Box" })).some(
-			(b) => (b.props as { display?: string }).display === "none",
-		),
-	).toBe(true);
-
-	await ui.press({ key: "toggle" });
-	expect(panes).toEqual(["summary"]);
 	expect(await ui.find({ key: "toggle" })).toBeUndefined();
+
+	await $.command.run({ command: "summary", args: "" } as never);
+	expect(panes).toEqual(["summary"]);
 	expect(await ui.find({ text: /summary/ })).toBeUndefined();
 
 	await $.command.run({ command: "summary", args: "" } as never);
 	expect(panes).toEqual([]);
-	expect(await ui.find({ key: "toggle" })).toBeDefined();
+	expect(await ui.find({ text: /^ctrl\+x s summary$/ })).toBeDefined();
 	await ui.unmount();
 });
 
@@ -427,16 +419,17 @@ test("a pane hidden behind another tab is brought back instead of closed", async
 		surface: "terminal",
 		...HINT,
 	});
-	expect(await ui.find({ key: "toggle" })).toBeUndefined();
+	const hint = /^ctrl\+x s summary$/;
+	expect(await ui.find({ text: hint })).toBeUndefined();
 
 	hidden.add("summary");
 	await clock.advance(100);
-	expect(await ui.find({ key: "toggle" })).toBeDefined();
+	expect(await ui.find({ text: hint })).toBeDefined();
 
-	expect((await run()).text).toMatch(/opened/);
+	expect((await run()).text).toBeUndefined();
 	expect(panes).toEqual(["summary"]);
 	expect(hidden.size).toBe(0);
-	expect(await ui.find({ key: "toggle" })).toBeUndefined();
+	expect(await ui.find({ text: hint })).toBeUndefined();
 	await ui.unmount();
 });
 
@@ -1254,7 +1247,7 @@ test("/summary help tells how to bind a shortcut while none is bound", async ($,
 		args: "help",
 	} as never);
 	expect(text).toMatch(/^\/summary {2}open or close the summary pane$/m);
-	expect(text).toContain('"ctrl+x s": "app:toggleDiffPreSession"');
+	expect(text).toContain('"ctrl+x s": "command:summary"');
 	expect(panes).toEqual([]);
 });
 
@@ -1294,17 +1287,18 @@ test("/summary opens and closes the pane without a keybinding", async ($, on) =>
 	expect(await ui.find({ text: /^\/summary$/ })).toBeDefined();
 	expect(await ui.find({ key: "toggle" })).toBeUndefined();
 	await ui.unmount();
+	// no text, so a "command:summary" shortcut leaves nothing in the transcript
 	expect(
 		(await $.command.run({ command: "summary", args: "" } as never)).text,
-	).toBe("summary pane opened (/summary to close)");
+	).toBeUndefined();
 	expect(panes).toEqual(["summary"]);
 	expect(
 		(await $.command.run({ command: "summary", args: "" } as never)).text,
-	).toMatch(/closed/);
+	).toBeUndefined();
 	expect(panes).toEqual([]);
 });
 
-test("the toggle hint names the chord bound to the toggle action", async ($, on) => {
+test("the toggle hint names the chord bound to command:summary", async ($, on) => {
 	bindChord(on);
 	await setup($, on);
 	const ui = await $.ui.mount({
@@ -1314,9 +1308,13 @@ test("the toggle hint names the chord bound to the toggle action", async ($, on)
 	});
 	expect(await ui.find({ text: /^ctrl\+x s summary$/ })).toBeDefined();
 	await ui.unmount();
-	expect(
-		(await $.command.run({ command: "summary", args: "" } as never)).text,
-	).toBe("summary pane opened (ctrl+x s to close)");
+	const pane = await $.ui.mount({
+		plugin: "summary",
+		surface: "terminal",
+		...PANE,
+	});
+	expect(await pane.find({ text: /^ ctrl\+x s $/ })).toBeDefined();
+	await pane.unmount();
 });
 
 const GITHUB = "remote.origin.url git@github.com:me/repo.git\n";
