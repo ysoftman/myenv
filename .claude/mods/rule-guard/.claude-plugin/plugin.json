@@ -1,0 +1,20 @@
+{
+  "name": "rule-guard",
+  "version": "0.1.0",
+  "description": "Block tool calls that break the global CLAUDE.md rules (PR merge, AI trailers, npm, grep/find, commit before lint, banned words); list and toggle them with /rules",
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "bannedWords": {
+      "type": "string",
+      "title": "Banned words",
+      "description": "Comma-separated words that must not appear in edits under bannedPaths or in commit/PR/issue text there (case-insensitive). Empty turns the banned-words rule off.",
+      "default": ""
+    },
+    "bannedPaths": {
+      "type": "string",
+      "title": "Banned paths",
+      "description": "Comma-separated path prefixes (~ allowed) the banned-words rule guards. Empty turns the banned-words rule off.",
+      "default": ""
+    }
+  }
+}
