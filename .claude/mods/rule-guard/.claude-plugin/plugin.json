@@ -1,7 +1,7 @@
 {
   "name": "rule-guard",
   "version": "0.1.0",
-  "description": "Block tool calls that break the global CLAUDE.md rules (PR merge, AI trailers, npm, grep/find, commit before lint, banned words); list and toggle them with /rules",
+  "description": "Block tool calls that break the global CLAUDE.md rules (PR merge, AI trailers, npm, grep/find, commit before lint, banned words); list and toggle them with /rule-guard or its pane",
   "types": "./types/index.d.ts",
   "userConfig": {
     "bannedWords": {

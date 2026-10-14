@@ -39,10 +39,32 @@ Claude Code 2.1.299 에서 확인했다.
 ## 사용
 
 - `/rule-guard`: 룰마다 id, 상태(on / off / 설정 안 됨), 이 세션 차단 횟수, 설명을 표로 보여 준다. lint 대기 파일이 있으면 목록도 보여 준다.
+- `/rule-guard-pane`: 같은 상태를 패널로 열고 닫는다. 전체 화면이면 대화 기록 오른쪽에 붙고, 아니면 프롬프트 위에 뜬다. 상태가 바뀌면 패널도 바로 바뀐다. 다른 탭에 가려져 있으면 닫지 않고 앞으로 꺼낸다. 출력은 남기지 않는다.
 - `/rule-guard off <id>`, `/rule-guard on <id>`: 이 세션 동안만 끄고 켠다. 잘못된 id 면 사용 가능한 id 를 알려 준다.
-- `/rule-guard help`: 사용법.
+- `/rule-guard help`: 사용법. 단축키가 없으면 설정 방법도 보여 준다.
 
 모델은 슬래시 명령을 실행할 수 없어서 룰을 끄는 건 사용자만 할 수 있다. 예를 들어 호환성 문제로 npm 이 꼭 필요하면 `/rule-guard off bun-over-npm` 으로 끈다. 끈 상태와 차단 횟수는 `/reload-plugins` 를 해도 세션 동안 유지되고, 새 세션에서는 다시 모두 켜진다.
+
+## 패널 단축키
+
+`keybindings.json` 의 `command:<이름>` action 은 그 슬래시 명령을 입력한 것처럼 실행한다. action 에는 인자를 넣을 수 없어서 인자 없는 `/rule-guard-pane` 을 따로 둔다. `~/.claude/keybindings.json` 에 다음을 넣는다. 파일이 이미 있으면 덮어쓰지 말고 `"Chat"` 블록의 `bindings` 에 한 줄만 추가한다(없으면 블록을 추가한다).
+
+```json
+{
+  "bindings": [
+    {
+      "context": "Chat",
+      "bindings": {
+        "ctrl+x r": "command:rule-guard-pane"
+      }
+    }
+  ]
+}
+```
+
+- 다른 키에 묶어도 된다. 힌트 줄·패널·`help`·명령 목록 안내가 그 키를 따른다.
+- 바인딩이 있으면 프롬프트 아래 힌트 줄 끝에 `ctrl+x r rule-guard` 가 보인다.
+- 엔진 action 을 빌리지 않으므로 diff 패널과 겹치지 않는다.
 
 ## banned-words 설정
 
@@ -68,7 +90,7 @@ Claude Code 2.1.299 에서 확인했다.
 ```sh
 claude plugin validate .
 claude plugin test .
-biome check --write hooks/register.ts tests/rule-guard.test.ts types/index.d.ts
+biome check --write hooks/register.tsx tests/rule-guard.test.tsx types/index.d.ts
 ```
 
 타입 체크는 mod 가 한 번 로드돼 `.claude-plugin/types/` 가 생긴 뒤 `bunx -p typescript tsc -p .` 로 한다.

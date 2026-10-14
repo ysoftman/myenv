@@ -6,6 +6,7 @@ declare module "claude-code" {
 			off: string[];
 			blocked: BlockCounts;
 			pending: string[];
+			chord: string;
 		};
 	}
 }

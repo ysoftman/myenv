@@ -8,10 +8,70 @@ const LINKS: [string, string][] = [
 	["/home/me/.claude/skills", "/repo/.claude/skills"],
 ];
 
-const setup = async ($: Engine, on: On, failing: string[] = []) => {
+const PANE = {
+	component: "Pane",
+	requestId: "rule-guard",
+	props: {
+		title: "rule-guard",
+		isFocused: false,
+		bodyColumns: 44,
+		placement: "dock",
+		scroll: { offset: 0, bodyRows: 40 },
+		view: {},
+	},
+} as const;
+
+const HINT = {
+	component: "PromptHint",
+	requestId: "prompt-hint",
+	props: { isDraft: false, isWorking: false, hint: "? for shortcuts" },
+} as const;
+
+const setup = async ($: Engine, on: On, failing: string[] = [], key = "") => {
 	const toasts: string[] = [];
 	const ran: string[] = [];
 	const specs: { description: string; argumentHint?: string }[] = [];
+	// the engine's panes, in memory: a newly opened pane is the shown tab
+	const panes = { isOpen: false, isBehind: false };
+	on("ui.open", () => {
+		panes.isOpen = true;
+		panes.isBehind = false;
+		return { value: { isPlaced: true as const } };
+	});
+	on("ui.close", () => {
+		panes.isOpen = false;
+		return { value: undefined };
+	});
+	on("ui.panes", () => ({
+		value: panes.isOpen
+			? [
+					{
+						id: "rule-guard",
+						title: "rule-guard",
+						isShown: !panes.isBehind,
+						isFocused: false,
+						isPlaced: true,
+					},
+				]
+			: [],
+	}));
+	if (key !== "") {
+		on("fs.read", () => ({
+			value: JSON.stringify({
+				bindings: [
+					{
+						context: "Chat",
+						bindings: { [key]: "command:rule-guard-pane" },
+					},
+				],
+			}),
+		}));
+	}
+	// the engine's hint line: draws the tail it is handed
+	on("ui.render", { component: "PromptHint" }, ($, e) => {
+		const { Text } = $.ui.resolve(e);
+		return <Text>{e.props.tail ?? ""}</Text>;
+	});
 	on("session.start", (_, e) => ({ cwd: e.cwd }));
 	on("command.register", (_, e) => {
 		specs.push(e);
@@ -56,7 +116,16 @@ const setup = async ($: Engine, on: On, failing: string[] = []) => {
 				presentation: { isFullscreen: true, columns: 120 },
 			})
 		).text ?? "";
-	return { toasts, ran, specs, bash, write, rules };
+	const pane = async () =>
+		(
+			await $.command.run({
+				command: "rule-guard-pane",
+				args: "",
+				origin: { kind: "composer" },
+				presentation: { isFullscreen: true, columns: 120 },
+			})
+		).text;
+	return { toasts, ran, specs, panes, bash, write, rules, pane };
 };
 
 const heredoc = (body: string) =>
@@ -328,6 +397,9 @@ test("/rule-guard output colors status, counts and commands", async ($, on) => {
 		expect(await props(/^\/rule-guard help$/)).toMatchObject({
 			color: "suggestion",
 		});
+		expect(await props(/^\/rule-guard-pane$/)).toMatchObject({
+			color: "suggestion",
+		});
 		await ui.unmount();
 	}
 });
@@ -336,6 +408,94 @@ test("/rule-guard is registered with a help hint", async ($, on) => {
 	const { specs } = await setup($, on);
 	expect(specs[0]?.description).toMatch(/· help: 사용법$/);
 	expect(specs[0]?.argumentHint).toBe("[off <id> | on <id> | help]");
+});
+
+test("/rule-guard-pane toggles the pane and prints nothing", async ($, on) => {
+	const { specs, panes, pane } = await setup($, on);
+	expect(specs[1]?.description).toBe("rule-guard 패널 열기/닫기");
+	expect(await pane()).toBeUndefined();
+	expect(panes.isOpen).toBe(true);
+	expect(await pane()).toBeUndefined();
+	expect(panes.isOpen).toBe(false);
+
+	// behind another tab: reopened in front, not closed
+	await pane();
+	panes.isBehind = true;
+	await pane();
+	expect(panes).toMatchObject({ isOpen: true, isBehind: false });
+});
+
+test("the pane draws the rules in the summary pane's style", async ($, on) => {
+	const { bash, write, rules, pane } = await setup($, on, [], "ctrl+x r");
+	await bash("grep x y");
+	await rules("off bun-over-npm");
+	await write("/repo/src/a.ts");
+	await pane();
+	for (const surface of ["terminal", "desktop"] as const) {
+		const ui = await $.ui.mount({ plugin: "rule-guard", surface, ...PANE });
+		const props = async (text: RegExp) =>
+			(await ui.find({ type: "Text", text }))?.props;
+		expect(await props(/^RULE-GUARD$/)).toMatchObject({
+			bold: true,
+			color: "#cba6f7",
+		});
+		expect(await ui.find({ text: /^4 on · 1 off · 차단 1$/ })).toBeDefined();
+		expect(await props(/^━+$/)).toMatchObject({ color: "#45475a" });
+		expect(
+			(await ui.findAll({ type: "Box" })).filter(
+				(b) => b.props.borderStyle === "round",
+			),
+		).toHaveLength(2);
+		expect(await props(/^rg-fd +$/)).toMatchObject({ color: "#89b4fa" });
+		expect(await props(/^on +$/)).toMatchObject({ color: "#a6e3a1" });
+		expect(await props(/^off +$/)).toMatchObject({ color: "#f9e2af" });
+		expect(await props(/^설정 안 됨$/)).toMatchObject({ color: "#7f849c" });
+		expect(await props(/^1$/)).toMatchObject({ color: "#f38ba8" });
+		expect(await props(/grep\/find 대신 rg\/fd/)).toMatchObject({
+			color: "#a6adc8",
+		});
+		expect(await props(/^lint 대기 1$/)).toMatchObject({ color: "#f9e2af" });
+		expect(await ui.find({ text: /^\/repo\/src\/a\.ts$/ })).toBeDefined();
+		expect(await props(/^ ctrl\+x r $/)).toMatchObject({
+			color: "#b4befe",
+			backgroundColor: "#313244",
+		});
+		await ui.unmount();
+	}
+});
+
+test("a bound key shows in help, the command list and the hint line", async ($, on) => {
+	const { specs, rules } = await setup($, on, [], "ctrl+x r");
+	expect(specs[1]?.description).toBe("rule-guard 패널 열기/닫기 (ctrl+x r)");
+	const help = await rules("help");
+	expect(help).toContain("패널 열기/닫기 (ctrl+x r)");
+	expect(help).not.toContain("keybindings.json");
+	for (const surface of ["terminal", "desktop"] as const) {
+		const ui = await $.ui.mount({
+			plugin: "rule-guard",
+			surface,
+			...HINT,
+			props: { ...HINT.props, tail: "deploy 3/9" },
+		});
+		expect(
+			await ui.find({ text: /^deploy 3\/9 · ctrl\+x r rule-guard$/ }),
+		).toBeDefined();
+		await ui.unmount();
+	}
+});
+
+test("without a bound key help shows how to bind one", async ($, on) => {
+	const { rules } = await setup($, on);
+	const help = await rules("help");
+	expect(help).toContain('"ctrl+x r": "command:rule-guard-pane"');
+	expect(help).toMatch(/^\/rule-guard-pane +패널 열기\/닫기$/m);
+	const ui = await $.ui.mount({
+		plugin: "rule-guard",
+		surface: "terminal",
+		...HINT,
+	});
+	expect(await ui.find({ text: /rule-guard/ })).toBeUndefined();
+	await ui.unmount();
 });
 
 test("shell drops quoted text and heredoc bodies", () => {
