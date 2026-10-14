@@ -1,14 +1,14 @@
 # Mod 재사용 코드
 
-`summary`(`~/workspace/myenv/.claude/mods/summary`)와 배포 진행 패널 mod 에서 쓰는 코드를 정리했다. 전체 맥락은 summary mod 의 `register.tsx` 와 `tests/` 를 본다.
+`summary`(`~/workspace/myenv/.claude/mods/summary`)와 `rule-guard`(`~/workspace/myenv/.claude/mods/rule-guard`) mod 에서 쓰는 코드를 정리했다. 전체 맥락은 두 mod 의 `register.tsx` 와 `tests/` 를 본다.
 
 ## 목차
 
 - 보임 기준 토글
 - 탭 전환 감지(폴링)
 - 바인딩된 키 읽기
-- help 명령
-- 힌트 줄 단축키
+- help 명령과 단축키 명령
+- 힌트 줄 단축키 안내
 - 테스트 mock
 
 ## 보임 기준 토글
@@ -35,7 +35,7 @@ const toggle = async ($: EngineInterface) => {
 
 ## 탭 전환 감지(폴링)
 
-탭 클릭에는 이벤트가 없어서 타이머로 확인한다. 바뀔 때만 다시 그린다.
+탭 클릭에는 이벤트가 없어서 타이머로 확인한다. 바뀔 때만 다시 그린다. 패널이 보일 때 힌트 줄 안내를 빼는 데 쓴다. 안내를 늘 두면(rule-guard 방식) 필요 없다.
 
 ```ts
 on("session.start", async ($, e, next) => {
@@ -51,9 +51,10 @@ on("session.start", async ($, e, next) => {
 
 ## 바인딩된 키 읽기
 
+단축키는 `~/.claude/keybindings.json` 의 `"Chat"` 문맥에 `"ctrl+x m": "command:my-cmd"` 로 묶는다. 키가 `/my-cmd` 를 입력한 것처럼 실행한다. 문맥은 따지지 않고 그 action 에 묶인 키를 찾는다.
+
 ```ts
-// 평소 엔진 handler 가 없는 action 을 빌린다
-const TOGGLE_ACTION = "app:cycleDiffBase";
+const CMD = "my-cmd";
 let toggleKey: string | undefined;
 
 const syncToggleKey = async ($: EngineInterface) => {
@@ -64,51 +65,54 @@ const syncToggleKey = async ($: EngineInterface) => {
 			bindings?: { context?: string; bindings?: Record<string, unknown> }[];
 		};
 		toggleKey = bindings
-			.filter((b) => b.context === "Global")
 			.flatMap((b) => Object.entries(b.bindings ?? {}))
-			.find(([, action]) => action === TOGGLE_ACTION)?.[0];
+			.find(([, action]) => action === `command:${CMD}`)?.[0];
 	} catch {
 		toggleKey = undefined;
 	}
 };
 ```
 
-`toggleKey` 가 없으면 단축키 안내와 숨긴 Button 을 그리지 않고, `help` 에 설정 방법을 넣는다(아래 "help 명령").
+`toggleKey` 가 없으면 단축키 안내 대신 `/my-cmd` 를 쓰고, `help` 에 설정 방법을 넣는다(아래 "help 명령과 단축키 명령"). render 가 읽는 값이면 모듈 변수 대신 `$.state` atom 에 둔다(summary·rule-guard 의 `chord`).
 
-## help 명령
+## help 명령과 단축키 명령
+
+`command:` action 은 인자를 넣을 수 없으니, 인자 없는 `/my-cmd` 가 토글이어야 한다. 토글하는 명령이 따로 있어야 하면 `my-cmd-pane` 처럼 인자 없는 명령을 하나 더 등록한다(rule-guard 의 `/rule-guard-pane`).
 
 ```ts
 const usage = () =>
 	[
-		`/my-cmd  패널 열기/닫기${toggleKey ? ` (${toggleKey})` : ""}`,
-		"/my-cmd help  이 도움말",
+		`/${CMD}  패널 열기/닫기${toggleKey ? ` (${toggleKey})` : ""}`,
+		`/${CMD} help  이 도움말`,
 		...(toggleKey
 			? []
 			: [
 					"",
-					`단축키로 열고 닫으려면 ~/.claude/keybindings.json 의 "Global" bindings 에`,
-					`"ctrl+x k": "${TOGGLE_ACTION}" 를 추가하세요 (README 참고, 다른 키도 됨).`,
+					'단축키로 열고 닫으려면 ~/.claude/keybindings.json 의 "Chat" bindings 에',
+					`"ctrl+x m": "command:${CMD}" 를 추가하세요 (README 참고, 다른 키도 됨).`,
 				]),
 	].join("\n");
 
 on("session.start", async ($, e, next) => {
 	await syncToggleKey($);
 	await $.command.register({
-		name: "my-cmd",
+		name: CMD,
 		description: `패널 열기/닫기${toggleKey ? ` (${toggleKey})` : ""} · help: 사용법`,
 		argumentHint: "[help]",
+		// 턴이 도는 중에 단축키를 눌러도 바로 실행
 		immediate: true,
 	});
 
 	return next(e);
 });
 
-on("command.run", { command: "my-cmd" }, async ($, e) => {
+on("command.run", { command: CMD }, async ($, e) => {
 	// 세션 중에 바인딩했어도 바로 반영되게 다시 읽는다
 	await syncToggleKey($);
 	if (e.args.trim() === "help") return { text: usage() };
-
-	return { text: (await toggle($)) ? "패널 열림" : "패널 닫힘" };
+	await toggle($);
+	// text 를 주면 단축키를 누를 때마다 대화 기록에 출력이 남는다
+	return {};
 });
 ```
 
@@ -118,38 +122,22 @@ on("command.run", { command: "my-cmd" }, async ($, e) => {
 test("help 는 바인딩이 없을 때만 설정 방법을 보여 준다", async ($, on) => {
 	await setup($, on);
 	const { text } = await $.command.run({ command: "my-cmd", args: "help" } as never);
-	expect(text).toContain(`"ctrl+x k": "app:cycleDiffBase"`);
+	expect(text).toContain(`"ctrl+x m": "command:my-cmd"`);
 });
 ```
 
-## 힌트 줄 단축키
+## 힌트 줄 단축키 안내
 
-프롬프트 아래 힌트 줄 끝에 안내를 tail 로 붙이고, chord 를 받을 Button 은 숨겨서 mount 한다. 위 hook 이 넘긴 tail 은 이어 붙인다.
+프롬프트 아래 힌트 줄 끝에 안내를 tail 로 붙인다. 위 hook 이 넘긴 tail 은 이어 붙인다. 키는 `command:` 바인딩이 받으므로 Button 을 숨겨 둘 필요가 없다.
 
 ```tsx
 on("ui.render", { component: "PromptHint" }, async ($, e, next) => {
-	// 패널이 보이면 패널 안 Button 이 단축키를 받는다
+	// 패널이 보이면 패널 하단에 같은 안내가 있다
 	if (isShown) return next(e);
-	const hint = toggleKey ? `${toggleKey} ${TAB_TITLE}` : "/my-cmd";
+	const hint = toggleKey ? `${toggleKey} ${TAB_TITLE}` : `/${CMD}`;
 	const tail = [e.props.tail, hint].filter(Boolean).join(" · ");
-	const below = await next({ ...e, props: { ...e.props, tail } });
-	if (!toggleKey) return below;
-	const { Box, Button } = $.ui.resolve(e);
 
-	return (
-		<Box flexDirection="column">
-			{below}
-			<Box display="none">
-				<Button
-					plain
-					key="toggle"
-					label={TAB_TITLE}
-					action={TOGGLE_ACTION}
-					onPress={() => toggle($)}
-				/>
-			</Box>
-		</Box>
-	);
+	return next({ ...e, props: { ...e.props, tail } });
 });
 ```
 
@@ -193,7 +181,7 @@ const fakePanes = (on: On) => {
 	return state;
 };
 
-// keybindings.json 에 토글 action 을 묶어 둔 사용자
+// keybindings.json 의 Chat 문맥에 /my-cmd 를 묶어 둔 사용자
 const bindToggleKey = (on: On) => {
 	on("env.get", () => ({ value: "/home/me" }));
 	on("fs.read", (_, e) => ({
@@ -202,8 +190,8 @@ const bindToggleKey = (on: On) => {
 				? JSON.stringify({
 						bindings: [
 							{
-								context: "Global",
-								bindings: { "ctrl+x k": "app:cycleDiffBase" },
+								context: "Chat",
+								bindings: { "ctrl+x m": "command:my-cmd" },
 							},
 						],
 					})
@@ -226,23 +214,25 @@ test("hidden tab comes back to front", async ($, on) => {
 	on("session.start", (_, e) => ({ cwd: e.cwd }));
 	await $.session.start({ cwd: "/", surface: "terminal", isInteractive: true });
 
-	await $.command.run({
-		command: "my-cmd",
-		args: "",
-		origin: { kind: "composer" },
-		presentation: { isFullscreen: true, columns: 200 },
-	});
+	// 단축키(command:my-cmd)와 같은 경로: 인자 없는 실행, 출력 없음
+	const run = () =>
+		$.command.run({
+			command: "my-cmd",
+			args: "",
+			origin: { kind: "composer" },
+			presentation: { isFullscreen: true, columns: 200 },
+		});
+	expect((await run()).text).toBeUndefined();
 	panes.isBehind = true;
 	await clock.advance(100);
 	for (const surface of ["terminal", "desktop"] as const) {
 		const ui = await $.ui.mount({ plugin: "my-mod", surface, ...HINT });
-		expect(await ui.find({ text: /^ctrl\+x k 내 패널$/ })).toBeDefined();
-		expect((await ui.find({ key: "toggle" }))?.props).toMatchObject({
-			action: "app:cycleDiffBase",
-		});
+		expect(await ui.find({ text: /^ctrl\+x m 내 패널$/ })).toBeDefined();
 		await ui.unmount();
 	}
+	await run();
+	expect(panes).toMatchObject({ isOpen: true, isBehind: false });
 });
 ```
 
-위 hook 이 넘긴 tail 을 이어 붙이는지는 `$.ui.mount({ ...HINT, props: { ...HINT.props, tail: "deploy 3/9" } })` 로 마운트해 `/^deploy 3\/9 · ctrl\+x k 내 패널$/` 를 찾아 확인한다.
+위 hook 이 넘긴 tail 을 이어 붙이는지는 `$.ui.mount({ ...HINT, props: { ...HINT.props, tail: "deploy 3/9" } })` 로 마운트해 `/^deploy 3\/9 · ctrl\+x m 내 패널$/` 를 찾아 확인한다.
