@@ -219,10 +219,11 @@ const width = (s: string) =>
 
 const pad = (s: string, n: number) => s + " ".repeat(Math.max(0, n - width(s)));
 
-const usage = (key: string) =>
+const usage = (key: string, tabKeys: string) =>
 	[
 		"/rule-guard             룰 목록, on/off, 이 세션 차단 횟수",
 		`/${PANE_COMMAND}        패널 열기/닫기${key === "" ? "" : ` (${key})`}`,
+		...(tabKeys === "" ? [] : [`${pad(tabKeys, 24)}이전/다음 패널 탭`]),
 		"/rule-guard off <id>    이 세션 동안 룰 끄기",
 		"/rule-guard on <id>     다시 켜기",
 		"/rule-guard help        이 도움말",
@@ -230,13 +231,24 @@ const usage = (key: string) =>
 		`id: ${RULES.map((r) => r.id).join(", ")}`,
 		"끄기는 이 세션에만 적용된다. 모델은 슬래시 명령을 실행할 수 없어 사용자만 바꿀 수 있다.",
 		"banned-words 는 settings.json 의 pluginConfigs 나 /config 에서 rule-guard 의 bannedWords, bannedPaths(쉼표 구분)를 넣어야 동작한다.",
-		...(key === ""
-			? [
+		...(key !== "" && tabKeys !== ""
+			? []
+			: [
 					"",
-					'단축키로 패널을 열고 닫으려면 ~/.claude/keybindings.json 의 "Chat" bindings 에',
-					`"ctrl+x r": "command:${PANE_COMMAND}" 를 추가한다 (README 참고, 다른 키도 된다).`,
-				]
-			: []),
+					"단축키는 mod 가 등록하지 않는다. ~/.claude/keybindings.json 에 직접 추가한다(기존 블록에 합친다, README 참고):",
+					...(key === ""
+						? [
+								`  "Chat":   "ctrl+x r": "command:${PANE_COMMAND}"   패널 열기/닫기`,
+							]
+						: []),
+					...(tabKeys === ""
+						? [
+								'  "Global": "ctrl+<": "pane:previous", "ctrl+>": "pane:next"   이전/다음 패널 탭',
+								'            터미널에 따라 "ctrl+shift+," / "ctrl+shift+." 도 함께 묶는다',
+							]
+						: []),
+					"다른 키에 묶어도 되고, 안내는 묶은 키를 따른다.",
+				]),
 	].join("\n");
 
 const boundKeys = async ($: EngineInterface) => {
@@ -431,10 +443,12 @@ export const register: Register = (on, options) => {
 			return { text: await table($, isSet) };
 		}
 		if (verb === "help") {
-			return { text: `\n${usage(key)}` };
+			return { text: `\n${usage(key, await read($, tabs))}` };
 		}
 		if (verb !== "on" && verb !== "off") {
-			return { text: `알 수 없는 인자: ${e.args.trim()}\n\n${usage(key)}` };
+			return {
+				text: `알 수 없는 인자: ${e.args.trim()}\n\n${usage(key, await read($, tabs))}`,
+			};
 		}
 		if (!RULES.some((r) => r.id === id)) {
 			return {

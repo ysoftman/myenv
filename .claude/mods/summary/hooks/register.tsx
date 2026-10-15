@@ -560,18 +560,30 @@ const toggle = async (
 
 const hintOf = (key: string) => key || `/${PANE}`;
 
-const usage = (key: string) =>
+const usage = (key: string, tabKeys: string) =>
 	[
 		`/${PANE}  open or close the summary pane${key === "" ? "" : ` (${key})`}`,
 		`/${PANE} help  this help`,
-		...(key === ""
-			? [
+		...(tabKeys === "" ? [] : [`${tabKeys}  previous/next pane tab`]),
+		...(key !== "" && tabKeys !== ""
+			? []
+			: [
 					"",
-					'To toggle it with a shortcut, add a line to the "Chat" bindings of',
-					`~/.claude/keybindings.json: "ctrl+x s": "command:${PANE}"`,
-					"(see the summary mod README; any other key works too).",
-				]
-			: []),
+					"Shortcuts are not registered by the mod. Add them to ~/.claude/keybindings.json",
+					"yourself, merging into the existing blocks (see the summary mod README):",
+					...(key === ""
+						? [
+								`  "Chat":   "ctrl+x s": "command:${PANE}"   open/close the pane`,
+							]
+						: []),
+					...(tabKeys === ""
+						? [
+								'  "Global": "ctrl+<": "pane:previous", "ctrl+>": "pane:next"   pane tabs',
+								'            also "ctrl+shift+," / "ctrl+shift+." if your terminal sends those',
+							]
+						: []),
+					"Any other key works too; the hints follow the key you bind.",
+				]),
 	].join("\n");
 
 const boundKeys = async ($: EngineInterface) => {
@@ -988,7 +1000,7 @@ export const register: Register = (on) => {
 
 	on("command.run", { command: PANE }, async ($, e) => {
 		if (e.args.trim() === "help") {
-			return { text: usage(await syncChord($)) };
+			return { text: usage(await syncChord($), await read($, tabs)) };
 		}
 		// no text, so a "command:summary" shortcut leaves nothing in the transcript
 		await toggle($, root, spans);

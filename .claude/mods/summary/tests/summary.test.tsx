@@ -51,6 +51,10 @@ const bindChord = (on: On) => {
 								context: "Chat",
 								bindings: { "ctrl+x s": "command:summary" },
 							},
+							{
+								context: "Global",
+								bindings: { "ctrl+<": "pane:previous", "ctrl+>": "pane:next" },
+							},
 						],
 					})
 				: "",
@@ -1249,7 +1253,9 @@ test("/summary help tells how to bind a shortcut while none is bound", async ($,
 		args: "help",
 	} as never);
 	expect(text).toMatch(/^\/summary {2}open or close the summary pane$/m);
+	expect(text).toContain("Shortcuts are not registered by the mod");
 	expect(text).toContain('"ctrl+x s": "command:summary"');
+	expect(text).toContain('"ctrl+<": "pane:previous", "ctrl+>": "pane:next"');
 	expect(panes).toEqual([]);
 });
 
@@ -1263,6 +1269,7 @@ test("/summary help names the bound key and leaves the setup out", async ($, on)
 	expect(text).toMatch(
 		/^\/summary {2}open or close the summary pane \(ctrl\+x s\)$/m,
 	);
+	expect(text).toMatch(/^ctrl\+< ctrl\+> {2}previous\/next pane tab$/m);
 	expect(text).not.toContain("keybindings.json");
 });
 

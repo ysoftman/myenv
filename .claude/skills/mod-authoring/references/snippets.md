@@ -91,12 +91,22 @@ const usage = () =>
 	[
 		`/${CMD}  패널 열기/닫기${toggleKey ? ` (${toggleKey})` : ""}`,
 		`/${CMD} help  이 도움말`,
-		...(toggleKey
+		...(tabKeys === "" ? [] : [`${tabKeys}  이전/다음 패널 탭`]),
+		...(toggleKey && tabKeys !== ""
 			? []
 			: [
 					"",
-					'단축키로 열고 닫으려면 ~/.claude/keybindings.json 의 "Chat" bindings 에',
-					`"ctrl+x m": "command:${CMD}" 를 추가하세요 (README 참고, 다른 키도 됨).`,
+					"단축키는 mod 가 등록하지 않습니다. ~/.claude/keybindings.json 에 직접 추가하세요(기존 블록에 합치기, README 참고):",
+					...(toggleKey
+						? []
+						: [`  "Chat":   "ctrl+x m": "command:${CMD}"   패널 열기/닫기`]),
+					...(tabKeys !== ""
+						? []
+						: [
+								'  "Global": "ctrl+<": "pane:previous", "ctrl+>": "pane:next"   이전/다음 패널 탭',
+								'            터미널에 따라 "ctrl+shift+," / "ctrl+shift+." 도 함께 묶기',
+							]),
+					"다른 키에 묶어도 되고, 안내는 묶은 키를 따릅니다.",
 				]),
 	].join("\n");
 
@@ -129,7 +139,9 @@ on("command.run", { command: CMD }, async ($, e) => {
 test("help 는 바인딩이 없을 때만 설정 방법을 보여 준다", async ($, on) => {
 	await setup($, on);
 	const { text } = await $.command.run({ command: "my-cmd", args: "help" } as never);
+	expect(text).toContain("단축키는 mod 가 등록하지 않습니다");
 	expect(text).toContain(`"ctrl+x m": "command:my-cmd"`);
+	expect(text).toContain(`"ctrl+<": "pane:previous", "ctrl+>": "pane:next"`);
 });
 ```
 

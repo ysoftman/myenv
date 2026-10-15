@@ -56,7 +56,7 @@ mod 단축키는 **슬래시 명령을 `keybindings.json` 의 `command:` action 
 - 키를 받으려고 Button 을 숨겨 둘 필요가 없다. 엔진 action 빌리기(평소 비어 있는 `app:toggleDiffPreSession` 같은 diff 패널 action 을 Button `action` 에 다는 예전 방식)는 쓰지 않는다. diff 패널이 열려 있으면 원래 동작이 우선하고, 그 action 의 엔진 기본 키(`app:cycleDiffBase` 의 `ctrl+x b`)에도 반응하며, 기본 키 없는 빈 action 도 더 남아 있지 않다.
 - 안내는 실제로 바인딩한 사람에게만 보인다: `keybindings.json` 을 읽어 `command:<명령>` 에 묶인 키(문맥 무관)를 찾고, 있으면 그 키를 힌트 줄·pane 하단·명령 설명에 표시한다. 없으면 단축키 안내 대신 슬래시 명령 이름을 쓰고, 설정 방법은 아래 "설정 가이드"로 알린다. 키 이름을 코드에 고정하면 설정하지 않은 사람에게 눌러도 안 되는 단축키가 보인다.
 - 다시 읽는 시점은 `session.start`, 자기 명령 실행, 관련 스킬 시작 정도면 충분하다(매 프레임 읽지 않는다). 명령 목록의 설명 문구는 등록 시점 값이라 다음 세션에 바뀐다.
-- myenv 의 `installclaudecode.sh` 가 mod 단축키를 `keybindings.json` 에 넣는다(그 키나 action 이 이미 있으면 건너뜀). 새 mod 에 단축키를 만들면 거기 `--argjson add` 목록에도 추가한다.
+- myenv 의 `installclaudecode.sh` 가 mod 단축키(토글 키와 탭 이동 키)를 `keybindings.json` 에 넣는다. action 이 이미 묶여 있으면 그 action 을, 키가 이미 쓰이면 그 키를 건너뛴다. 새 mod 에 단축키를 만들면 거기 `--argjson add` 목록에 `{"context", "action", "keys": [...]}` 한 항목을 추가한다.
 - 엔진 기본 `ctrl+x tab` 은 band·pane 에 포커스를 주고, 그 상태에서 Tab·Enter 로 탭을 고를 수 있다. 바인딩과 무관하게 동작하니 pane 하단 안내에 같이 둬도 된다.
 - pane 하단 단축키 설명은 **영어로 짧게** 쓴다(`close`, `open/close`, `focus`, `tabs`). help·명령 설명은 mod 의 언어를 따른다.
 - **탭 이동 공통 단축키**: `"Global"` 블록에 `"ctrl+<": "pane:previous"`, `"ctrl+>": "pane:next"` 를 묶는다. 터미널이 shift 문장부호를 바뀐 문자(`<`)로 보내면 엔진은 shift 를 빼고 `ctrl+<` 로 맞추고, `,`+shift 로 보내면 `ctrl+shift+,` 로 맞춘다. 그래서 `ctrl+shift+,`/`ctrl+shift+.` 도 함께 묶는다.
@@ -66,7 +66,7 @@ mod 단축키는 **슬래시 명령을 `keybindings.json` 의 `command:` action 
 
 단축키를 쓰는 mod 는 아래를 **모두** 갖춘다. 하나라도 빠지면 공유받은 사람은 단축키가 있다는 것 자체를 모른다(summary mod 가 처음에 그랬다).
 
-- **`<명령> help`**: 사용법을 보여 주고, 바인딩이 없을 때만 설정 방법(추가할 JSON 한 줄)을 덧붙인다. 실행할 때마다 `keybindings.json` 을 다시 읽어 세션 중에 바인딩해도 바로 반영되게 하고, pane 은 열거나 닫지 않는다.
+- **`<명령> help`**: 사용법을 보여 주고, 묶인 탭 이동 키가 있으면 그 줄도 넣는다. 토글 키나 탭 이동 키 중 빠진 게 있으면 "단축키는 mod 가 등록하지 않으니 `~/.claude/keybindings.json` 에 직접 추가한다(기존 블록에 합친다)"는 안내와 빠진 것만 문맥별 JSON 한 줄씩(`"Chat"` 토글, `"Global"` 탭 이동과 `ctrl+shift+,`/`.` 메모) 덧붙인다. 다 묶여 있으면 이 안내를 빼고 `keybindings.json` 도 언급하지 않는다. 실행할 때마다 `keybindings.json` 을 다시 읽어 세션 중에 바인딩해도 바로 반영되게 하고, pane 은 열거나 닫지 않는다.
 - **help 로 찾아가는 길**: 명령 설명 끝에 `· help: 사용법` 을 붙이고 `argumentHint: "[help]"` 를 준다. pane 하단 안내에도 `<명령> help` 를 늘 둔다(폭이 좁으면 라벨 없이 keycap 만).
 - **키 이름 고정 금지**: `plugin.json` 의 `description` 같은 고정 문구에 키를 쓰지 않는다. 명령 이름(`/<명령>`)을 쓴다.
 - **mod 폴더의 README.md**: 다음을 적는다.

@@ -475,6 +475,7 @@ test("a bound key shows in help, the command list and the hint line", async ($, 
 	expect(specs[1]?.description).toBe("rule-guard 패널 열기/닫기 (ctrl+x r)");
 	const help = await rules("help");
 	expect(help).toContain("패널 열기/닫기 (ctrl+x r)");
+	expect(help).toMatch(/^ctrl\+< ctrl\+> +이전\/다음 패널 탭$/m);
 	expect(help).not.toContain("keybindings.json");
 	for (const surface of ["terminal", "desktop"] as const) {
 		const ui = await $.ui.mount({
@@ -493,7 +494,9 @@ test("a bound key shows in help, the command list and the hint line", async ($, 
 test("without a bound key help shows how to bind one", async ($, on) => {
 	const { rules } = await setup($, on);
 	const help = await rules("help");
+	expect(help).toContain("단축키는 mod 가 등록하지 않는다");
 	expect(help).toContain('"ctrl+x r": "command:rule-guard-pane"');
+	expect(help).toContain('"ctrl+<": "pane:previous", "ctrl+>": "pane:next"');
 	expect(help).toMatch(/^\/rule-guard-pane +패널 열기\/닫기$/m);
 	const ui = await $.ui.mount({
 		plugin: "rule-guard",
