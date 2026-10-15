@@ -8,6 +8,7 @@ declare module "claude-code" {
 			pending: string[];
 			chord: string;
 			tabs: string;
+			autoOpened: boolean;
 		};
 	}
 }

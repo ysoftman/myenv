@@ -429,6 +429,18 @@ test("/rule-guard-pane toggles the pane and prints nothing", async ($, on) => {
 	expect(panes).toMatchObject({ isOpen: true, isBehind: false });
 });
 
+test("an interactive session opens the pane at start, once, not on a reload", async ($, on) => {
+	const { panes, pane } = await setup($, on);
+	expect(panes.isOpen).toBe(false);
+	const start = () =>
+		$.session.start({ cwd: "/repo", surface: "terminal", isInteractive: true });
+	await start();
+	expect(panes.isOpen).toBe(true);
+	await pane();
+	await start();
+	expect(panes.isOpen).toBe(false);
+});
+
 test("the pane draws the rules in the summary pane's style", async ($, on) => {
 	const { bash, write, rules, pane } = await setup($, on, [], "ctrl+x r");
 	await bash("grep x y");

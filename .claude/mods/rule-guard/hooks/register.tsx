@@ -12,6 +12,12 @@ const chord = atom({ plugin: "rule-guard", key: "chord" } as const, "");
 
 const tabs = atom({ plugin: "rule-guard", key: "tabs" } as const, "");
 
+// a reload raises session.start again, so the pane opens on its own only once
+const autoOpened = atom(
+	{ plugin: "rule-guard", key: "autoOpened" } as const,
+	false,
+);
+
 const PANE = "rule-guard";
 
 // keybindings.json runs it as "command:rule-guard-pane", which takes no arguments
@@ -426,6 +432,10 @@ export const register: Register = (on, options) => {
 			description: `rule-guard 패널 열기/닫기${key === "" ? "" : ` (${key})`}`,
 			immediate: true,
 		});
+		if (e.isInteractive && !(await read($, autoOpened))) {
+			await update($, autoOpened, () => true);
+			await $.ui.open({ id: PANE, title: PANE, columns: 44 });
+		}
 		return next(e);
 	}).catch((_, e, next) => next(e));
 
