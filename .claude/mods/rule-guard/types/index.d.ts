@@ -7,6 +7,7 @@ declare module "claude-code" {
 			blocked: BlockCounts;
 			pending: string[];
 			chord: string;
+			tabs: string;
 		};
 	}
 }

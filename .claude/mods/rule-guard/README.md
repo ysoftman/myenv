@@ -64,6 +64,7 @@ Claude Code 2.1.299 에서 확인했다.
 
 - 다른 키에 묶어도 된다. 힌트 줄·패널·`help`·명령 목록 안내가 그 키를 따른다.
 - 바인딩이 있으면 프롬프트 아래 힌트 줄 끝에 `ctrl+x r rule-guard` 가 보인다.
+- 패널 탭 이동은 엔진 action `pane:previous`/`pane:next` 를 `"Global"` 블록에 묶는다(예: `"ctrl+<": "pane:previous"`, `"ctrl+>": "pane:next"`, 터미널에 따라 `ctrl+shift+,`/`ctrl+shift+.` 도 함께). 묶으면 패널 하단에 `tabs` 로 보인다.
 - 엔진 action 을 빌리지 않으므로 diff 패널과 겹치지 않는다.
 
 ## banned-words 설정

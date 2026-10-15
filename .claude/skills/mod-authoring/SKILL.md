@@ -42,6 +42,7 @@ description: Claude Code mod(함수 hook 플러그인 — pane/패널, 프롬프
 - `$.ui.panes()` 는 **자기 plugin 의 pane 만** 준다. `isShown` = 지금 보이는 탭, `isPlaced: false` = 좁은 터미널에서 대기 중(사람이 요청하지 않은 open 은 144칸, 한 번 연 id 는 110칸 미만이면 대기). 대기 중인 pane 은 `isShown` 도 false 다.
 - **가려진 탭의 pane 은 render 되지 않는다.** 그 안의 Button 도 사라진다.
 - 탭을 클릭해 전환해도 이벤트가 없다. `$.clock.every` 에서 `$.ui.panes()` 를 폴링해 보임 여부가 바뀔 때만 상태를 갱신하고 다시 그린다.
+- 탭 이동은 엔진 action `pane:previous`/`pane:next` 가 한다(2.1.300 확인). 모든 plugin 의 열린 pane 을 순서대로 돌고 끝에서 처음으로 돌아온다. `Global` 문맥에서 pane 이 2개 이상일 때만 동작하고 **기본 키가 없다**. mod 가 다른 plugin 의 탭을 넘길 API 는 없으니(`$.ui.panes()` 는 자기 것만) mod 를 만들지 말고 이 action 을 바인딩한다(아래 "단축키").
 
 토글은 "열림" 이 아니라 "보임" 기준으로 짠다: 보이면 닫고, 열려 있지만 가려졌거나 대기 중이면 닫았다 다시 열고, 없으면 연다. 열림 기준으로 짜면 가려진 탭에서 단축키를 눌렀을 때 앞으로 나오지 않고 닫혀 버린다. 코드는 snippets 의 "보임 기준 토글".
 
@@ -57,6 +58,9 @@ mod 단축키는 **슬래시 명령을 `keybindings.json` 의 `command:` action 
 - 다시 읽는 시점은 `session.start`, 자기 명령 실행, 관련 스킬 시작 정도면 충분하다(매 프레임 읽지 않는다). 명령 목록의 설명 문구는 등록 시점 값이라 다음 세션에 바뀐다.
 - myenv 의 `installclaudecode.sh` 가 mod 단축키를 `keybindings.json` 에 넣는다(그 키나 action 이 이미 있으면 건너뜀). 새 mod 에 단축키를 만들면 거기 `--argjson add` 목록에도 추가한다.
 - 엔진 기본 `ctrl+x tab` 은 band·pane 에 포커스를 주고, 그 상태에서 Tab·Enter 로 탭을 고를 수 있다. 바인딩과 무관하게 동작하니 pane 하단 안내에 같이 둬도 된다.
+- pane 하단 단축키 설명은 **영어로 짧게** 쓴다(`close`, `open/close`, `focus`, `tabs`). help·명령 설명은 mod 의 언어를 따른다.
+- **탭 이동 공통 단축키**: `"Global"` 블록에 `"ctrl+<": "pane:previous"`, `"ctrl+>": "pane:next"` 를 묶는다. 터미널이 shift 문장부호를 바뀐 문자(`<`)로 보내면 엔진은 shift 를 빼고 `ctrl+<` 로 맞추고, `,`+shift 로 보내면 `ctrl+shift+,` 로 맞춘다. 그래서 `ctrl+shift+,`/`ctrl+shift+.` 도 함께 묶는다.
+- pane 하단 단축키 안내에는 `pane:previous`/`pane:next` 에 묶인 키도 토글 키와 같은 방식(묶였을 때만)으로 읽어 표시한다(summary·rule-guard `tabs`, 배포 진행 패널 `prev tab`/`next tab`). 하단 한 줄에 안내가 넘치면 `flexWrap="wrap"` 과 `columnGap` 으로 다음 줄로 넘긴다(`gap` 은 줄 사이도 벌린다). 코드는 snippets 의 "바인딩된 키 읽기".
 
 ### 설정 가이드: 빠뜨리지 않는다
 

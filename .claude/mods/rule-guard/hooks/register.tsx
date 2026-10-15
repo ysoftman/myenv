@@ -10,6 +10,8 @@ const unlinted = atom({ plugin: "rule-guard", key: "pending" } as const, []);
 
 const chord = atom({ plugin: "rule-guard", key: "chord" } as const, "");
 
+const tabs = atom({ plugin: "rule-guard", key: "tabs" } as const, "");
+
 const PANE = "rule-guard";
 
 // keybindings.json runs it as "command:rule-guard-pane", which takes no arguments
@@ -237,25 +239,32 @@ const usage = (key: string) =>
 			: []),
 	].join("\n");
 
-const boundKey = async ($: EngineInterface) => {
+const boundKeys = async ($: EngineInterface) => {
 	try {
 		const { bindings = [] } = JSON.parse(
 			await $.fs.read(`${await $.env.get("HOME")}/.claude/keybindings.json`),
 		) as {
 			bindings?: { context?: string; bindings?: Record<string, unknown> }[];
 		};
-		return bindings
-			.flatMap((b) => Object.entries(b.bindings ?? {}))
-			.find(([, action]) => action === `command:${PANE_COMMAND}`)?.[0];
+		return bindings.flatMap((b) => Object.entries(b.bindings ?? {}));
 	} catch {
-		return undefined;
+		return [];
 	}
 };
 
 const syncChord = async ($: EngineInterface) => {
-	const key = (await boundKey($)) ?? "";
+	const bound = await boundKeys($);
+	const keyOf = (action: string) =>
+		bound.find(([, a]) => a === action)?.[0] ?? "";
+	const key = keyOf(`command:${PANE_COMMAND}`);
 	if ((await read($, chord)) !== key) {
 		await update($, chord, () => key);
+	}
+	const tabKeys = [keyOf("pane:previous"), keyOf("pane:next")]
+		.filter(Boolean)
+		.join(" ");
+	if ((await read($, tabs)) !== tabKeys) {
+		await update($, tabs, () => tabKeys);
 	}
 	return key;
 };
@@ -476,6 +485,7 @@ export const register: Register = (on, options) => {
 		const rules = await statusOf($, isSet);
 		const files = await read($, unlinted);
 		const key = await read($, chord);
+		const tabKeys = await read($, tabs);
 		const columns = Math.max(30, e.props.bodyColumns);
 		const idWidth = Math.max(...rules.map((r) => width(r.id)));
 		const count = (s: string) => rules.filter((r) => r.status === s).length;
@@ -545,11 +555,17 @@ export const register: Register = (on, options) => {
 						))}
 					</Box>
 				)}
-				<Box paddingX={1} gap={2}>
+				<Box paddingX={1} columnGap={2} flexWrap="wrap">
 					{key !== "" && (
 						<Text>
 							{keycap(key)}
-							<Text color={C.subtext}> 닫기</Text>
+							<Text color={C.subtext}> close</Text>
+						</Text>
+					)}
+					{tabKeys !== "" && (
+						<Text>
+							{keycap(tabKeys)}
+							<Text color={C.subtext}> tabs</Text>
 						</Text>
 					)}
 					{keycap("/rule-guard off|on <id>")}

@@ -56,6 +56,8 @@ on("session.start", async ($, e, next) => {
 ```ts
 const CMD = "my-cmd";
 let toggleKey: string | undefined;
+// 엔진 action pane:previous/pane:next(모든 plugin pane 탭 이동)에 묶인 키
+let tabKeys = "";
 
 const syncToggleKey = async ($: EngineInterface) => {
 	try {
@@ -64,16 +66,21 @@ const syncToggleKey = async ($: EngineInterface) => {
 		) as {
 			bindings?: { context?: string; bindings?: Record<string, unknown> }[];
 		};
-		toggleKey = bindings
-			.flatMap((b) => Object.entries(b.bindings ?? {}))
-			.find(([, action]) => action === `command:${CMD}`)?.[0];
+		const bound = bindings.flatMap((b) => Object.entries(b.bindings ?? {}));
+		const keyOf = (action: string) =>
+			bound.find(([, a]) => a === action)?.[0];
+		toggleKey = keyOf(`command:${CMD}`);
+		tabKeys = [keyOf("pane:previous"), keyOf("pane:next")]
+			.filter(Boolean)
+			.join(" ");
 	} catch {
 		toggleKey = undefined;
+		tabKeys = "";
 	}
 };
 ```
 
-`toggleKey` 가 없으면 단축키 안내 대신 `/my-cmd` 를 쓰고, `help` 에 설정 방법을 넣는다(아래 "help 명령과 단축키 명령"). render 가 읽는 값이면 모듈 변수 대신 `$.state` atom 에 둔다(summary·rule-guard 의 `chord`).
+`toggleKey` 가 없으면 단축키 안내 대신 `/my-cmd` 를 쓰고, `help` 에 설정 방법을 넣는다(아래 "help 명령과 단축키 명령"). `tabKeys` 는 비어 있지 않을 때만 pane 하단에 탭 이동 안내로 그린다. render 가 읽는 값이면 모듈 변수 대신 `$.state` atom 에 둔다(summary·rule-guard 의 `chord`, `tabs`).
 
 ## help 명령과 단축키 명령
 

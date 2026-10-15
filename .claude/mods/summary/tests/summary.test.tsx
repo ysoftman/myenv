@@ -1243,6 +1243,7 @@ test("recent lists five rows, files and agents & jobs three at most", async ($, 
 test("/summary help tells how to bind a shortcut while none is bound", async ($, on) => {
 	const { panes, shows } = await setup($, on);
 	expect(await shows(/^ \/summary help $/)).toBe(true);
+	expect(await shows(/^ tabs$/)).toBe(false);
 	const { text } = await $.command.run({
 		command: "summary",
 		args: "help",
@@ -1263,6 +1264,23 @@ test("/summary help names the bound key and leaves the setup out", async ($, on)
 		/^\/summary {2}open or close the summary pane \(ctrl\+x s\)$/m,
 	);
 	expect(text).not.toContain("keybindings.json");
+});
+
+test("the pane footer names the keys bound to pane:previous and pane:next", async ($, on) => {
+	on("env.get", () => ({ value: "/home/me" }));
+	on("fs.read", () => ({
+		value: JSON.stringify({
+			bindings: [
+				{
+					context: "Global",
+					bindings: { "ctrl+<": "pane:previous", "ctrl+>": "pane:next" },
+				},
+			],
+		}),
+	}));
+	const { shows } = await setup($, on);
+	expect(await shows(/^ ctrl\+< ctrl\+> $/)).toBe(true);
+	expect(await shows(/^ tabs$/)).toBe(true);
 });
 
 test("an interactive session opens the pane at start, once, not on a reload", async ($, on) => {

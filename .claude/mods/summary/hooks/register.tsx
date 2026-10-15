@@ -64,6 +64,8 @@ const paneShown = atom({ plugin: "summary", key: "shown" } as const, false);
 
 const chord = atom({ plugin: "summary", key: "chord" } as const, "");
 
+const tabs = atom({ plugin: "summary", key: "tabs" } as const, "");
+
 // a reload raises session.start again, so the pane opens on its own only once
 const autoOpened = atom(
 	{ plugin: "summary", key: "autoOpened" } as const,
@@ -517,9 +519,18 @@ const setShown = async ($: EngineInterface, isShown: boolean) => {
 };
 
 const syncChord = async ($: EngineInterface) => {
-	const key = (await boundKey($)) ?? "";
+	const bound = await boundKeys($);
+	const keyOf = (action: string) =>
+		bound.find(([, a]) => a === action)?.[0] ?? "";
+	const key = keyOf(`command:${PANE}`);
 	if ((await read($, chord)) !== key) {
 		await update($, chord, () => key);
+	}
+	const tabKeys = [keyOf("pane:previous"), keyOf("pane:next")]
+		.filter(Boolean)
+		.join(" ");
+	if ((await read($, tabs)) !== tabKeys) {
+		await update($, tabs, () => tabKeys);
 	}
 	return key;
 };
@@ -563,18 +574,16 @@ const usage = (key: string) =>
 			: []),
 	].join("\n");
 
-const boundKey = async ($: EngineInterface) => {
+const boundKeys = async ($: EngineInterface) => {
 	try {
 		const { bindings = [] } = JSON.parse(
 			await $.fs.read(`${await $.env.get("HOME")}/.claude/keybindings.json`),
 		) as {
 			bindings?: { context?: string; bindings?: Record<string, unknown> }[];
 		};
-		return bindings
-			.flatMap((b) => Object.entries(b.bindings ?? {}))
-			.find(([, action]) => action === `command:${PANE}`)?.[0];
+		return bindings.flatMap((b) => Object.entries(b.bindings ?? {}));
 	} catch {
-		return undefined;
+		return [];
 	}
 };
 
@@ -1015,6 +1024,7 @@ export const register: Register = (on) => {
 			root,
 			rain,
 			hint: hintOf(await read($, chord)),
+			tabKeys: await read($, tabs),
 			onToggle: () => toggle($, root, spans),
 			list: await read($, agents),
 			runs: await read($, skillRuns),

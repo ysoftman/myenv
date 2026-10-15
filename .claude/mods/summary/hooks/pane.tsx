@@ -42,6 +42,7 @@ export type PaneValues = {
 	root: string | undefined;
 	rain: Rain;
 	hint: string;
+	tabKeys: string;
 	onToggle: () => unknown;
 	list: AgentRow[];
 	runs: SkillRun[];
@@ -65,6 +66,7 @@ export const paneView = ({
 	root,
 	rain,
 	hint,
+	tabKeys,
 	onToggle,
 	list,
 	runs,
@@ -493,7 +495,7 @@ export const paneView = ({
 					</Text>
 				)}
 			</Box>
-			<Box paddingX={1} gap={2}>
+			<Box paddingX={1} columnGap={2} flexWrap="wrap">
 				<Button plain key="toggle" onPress={onToggle}>
 					{keycap(hint)}
 					<Text color={C.subtext}> close</Text>
@@ -502,6 +504,12 @@ export const paneView = ({
 					{keycap("ctrl+x tab")}
 					<Text color={C.subtext}> focus</Text>
 				</Text>
+				{tabKeys !== "" && (
+					<Text>
+						{keycap(tabKeys)}
+						<Text color={C.subtext}> tabs</Text>
+					</Text>
+				)}
 				{keycap(`/${PANE} help`)}
 			</Box>
 			<Box flexGrow={1} />

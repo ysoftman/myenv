@@ -99,6 +99,7 @@ declare module "claude-code" {
 			model: string;
 			shown: boolean;
 			chord: string;
+			tabs: string;
 			seen: string[];
 			working: number;
 			tasks: BackgroundTask[];

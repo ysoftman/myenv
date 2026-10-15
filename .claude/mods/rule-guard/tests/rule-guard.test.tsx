@@ -63,6 +63,10 @@ const setup = async ($: Engine, on: On, failing: string[] = [], key = "") => {
 						context: "Chat",
 						bindings: { [key]: "command:rule-guard-pane" },
 					},
+					{
+						context: "Global",
+						bindings: { "ctrl+<": "pane:previous", "ctrl+>": "pane:next" },
+					},
 				],
 			}),
 		}));
@@ -460,6 +464,8 @@ test("the pane draws the rules in the summary pane's style", async ($, on) => {
 			color: "#b4befe",
 			backgroundColor: "#313244",
 		});
+		expect(await ui.find({ text: /^ ctrl\+< ctrl\+> $/ })).toBeDefined();
+		expect(await ui.find({ text: /^ tabs$/ })).toBeDefined();
 		await ui.unmount();
 	}
 });
@@ -496,6 +502,13 @@ test("without a bound key help shows how to bind one", async ($, on) => {
 	});
 	expect(await ui.find({ text: /rule-guard/ })).toBeUndefined();
 	await ui.unmount();
+	const pane = await $.ui.mount({
+		plugin: "rule-guard",
+		surface: "terminal",
+		...PANE,
+	});
+	expect(await pane.find({ text: /^ tabs$/ })).toBeUndefined();
+	await pane.unmount();
 });
 
 test("shell drops quoted text and heredoc bodies", () => {
