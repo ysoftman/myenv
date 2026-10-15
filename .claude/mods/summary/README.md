@@ -6,7 +6,7 @@ Claude Code 세션에서 지금 무슨 일이 일어나고 있는지 한 패널�
 | --- | --- |
 | 헤더 | 진행 중인 일: ⏳ 메인 턴, 🔧 스킬, 🤖 서브에이전트, 📝 recent 요약 생성 |
 | recent | 끝난 턴마다 한 줄 요약 (haiku), 경과·소요 시간, 토큰 |
-| tasks | 서브에이전트, background shell, session cron |
+| agents & jobs | 서브에이전트, background shell, session cron |
 | files | 세션이 고친 파일과 git 상태 (`1×` Edit 횟수, `·` shell·서브에이전트가 바꾼 파일) |
 | git | 브랜치, upstream, ahead/behind, 최근 커밋, 현재 브랜치의 열린 PR (아래 "PR 줄") |
 | skills | 실행한 스킬과 모델 |

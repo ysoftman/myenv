@@ -271,7 +271,7 @@ test("tracks status, name, model and elapsed time per agent", async ($, on) => {
 	for (const surface of ["terminal", "desktop"] as const) {
 		const ui = await $.ui.mount({ plugin: "summary", surface, ...PANE });
 		expect(
-			await ui.find({ text: /^tasks {2}● 1 running {2}✓ 1 done$/ }),
+			await ui.find({ text: /^agents & jobs {2}● 1 running {2}✓ 1 done$/ }),
 		).toBeDefined();
 		expect(
 			await ui.find({
@@ -384,7 +384,7 @@ test("a stopped or vanished teammate keeps the time it worked", async ($, on) =>
 	await clock.advance(2_000);
 	expect(await shows(/■ idler +haiku-5-5 +3s/)).toBe(true);
 	expect(await shows(/✓ scout +haiku-5-5 +3s/)).toBe(true);
-	expect(await shows(/^tasks {2}✓ 1 done {2}■ 1 killed$/)).toBe(true);
+	expect(await shows(/^agents & jobs {2}✓ 1 done {2}■ 1 killed$/)).toBe(true);
 });
 
 test("the hint line carries the toggle only while the pane is closed", async ($, on) => {
@@ -787,7 +787,7 @@ test("a file someone else changed between Claude's tool calls stays out of files
 	expect(await shows(/mine\.ts/)).toBe(false);
 });
 
-test("a background shell shows under tasks at once, and its later changes are the session's", async ($, on) => {
+test("a background shell shows under agents & jobs at once, and its later changes are the session's", async ($, on) => {
 	const { clock, git, mtimes, results, shows } = await setup($, on);
 	results.Bash = {
 		result: {
@@ -802,7 +802,7 @@ test("a background shell shows under tasks at once, and its later changes are th
 		command: "bun test --watch",
 		run_in_background: true,
 	} as never);
-	expect(await shows(/^tasks {2}1 bg$/)).toBe(true);
+	expect(await shows(/^agents & jobs {2}1 bg$/)).toBe(true);
 	expect(await shows(/^● shell +bun test --watch$/)).toBe(true);
 
 	await clock.advance(60_000);
@@ -812,7 +812,7 @@ test("a background shell shows under tasks at once, and its later changes are th
 	expect(await shows(/^\?\? +· snap\.ts$/)).toBe(true);
 
 	await $.tool.call({ tool: "TaskStop", task_id: "b1" });
-	expect(await shows(/^tasks$/)).toBe(true);
+	expect(await shows(/^agents & jobs$/)).toBe(true);
 	await clock.advance(60_000);
 	git.status += "?? late.ts\n";
 	mtimes["/repo/late.ts"] = 1_110_000;
@@ -913,7 +913,7 @@ test("two git reads at once cannot lose a file Claude changed", async ($, on) =>
 	expect(await shows(/^\?\? +· x\.ts$/)).toBe(true);
 });
 
-test("tasks draws its rows in the order it picks them", async ($, on) => {
+test("agents & jobs draws its rows in the order it picks them", async ($, on) => {
 	on("classic.Stop", () => ({}));
 	const { clock, live } = await setup($, on);
 	await $.agent.spawn(spawn("끝난 일", "general-purpose"));
@@ -971,7 +971,7 @@ test("a shell edit stays the session's when a refresh sees it mid-turn", async (
 	expect(await shows(/^\?\? +· late\.ts$/)).toBe(true);
 });
 
-test("tasks lists the live agents first, then the latest finished, three in all", async ($, on) => {
+test("agents & jobs lists the live agents first, then the latest finished, three in all", async ($, on) => {
 	const { clock, live, shows } = await setup($, on);
 	for (let i = 1; i <= 8; i++) {
 		await $.agent.spawn(spawn(`작업${i}`, "general-purpose"));
@@ -980,7 +980,7 @@ test("tasks lists the live agents first, then the latest finished, three in all"
 		live[`a${i}`] = "completed";
 	}
 	await clock.advance(1_000);
-	expect(await shows(/^tasks {2}● 1 running {2}✓ 7 done$/)).toBe(true);
+	expect(await shows(/^agents & jobs {2}● 1 running {2}✓ 7 done$/)).toBe(true);
 	expect(await shows(/작업8/)).toBe(true);
 	expect(await shows(/작업7/)).toBe(true);
 	expect(await shows(/작업6/)).toBe(true);
@@ -1053,11 +1053,12 @@ test("a turn the hint line says is running shows as working, redrawn once a seco
 	expect(await shows(/working/)).toBe(false);
 });
 
-test("tasks also lists the background work and crons the last stop reported", async ($, on) => {
+test("agents & jobs also lists the background work and crons the last stop reported", async ($, on) => {
 	on("classic.Stop", () => ({}));
 	const { shows } = await setup($, on);
 	const empty = async () =>
-		(await shows(/^tasks$/)) && (await shows(/^nothing running or scheduled$/));
+		(await shows(/^agents & jobs$/)) &&
+		(await shows(/^nothing running or scheduled$/));
 	expect(await empty()).toBe(true);
 
 	await $.classic.Stop({
@@ -1087,7 +1088,7 @@ test("tasks also lists the background work and crons the last stop reported", as
 			},
 		],
 	});
-	expect(await shows(/^tasks {2}1 bg {2}1 scheduled$/)).toBe(true);
+	expect(await shows(/^agents & jobs {2}1 bg {2}1 scheduled$/)).toBe(true);
 	expect(await shows(/^● shell +bun test --watch$/)).toBe(true);
 	expect(await shows(/PR check/)).toBe(false);
 	expect(await shows(/^↻ \d\d:\d0 in \d+m +\/loop check deploy$/)).toBe(true);
@@ -1124,7 +1125,7 @@ test("boxes stand in the order of what is easiest to miss", async ($, on) => {
 	const titles = (
 		await ui.findAll({
 			type: "Text",
-			text: /^(recent|tasks|files|git|skills|turn time)$/,
+			text: /^(recent|agents & jobs|files|git|skills|turn time)$/,
 		})
 	)
 		.filter((t) => t.props.bold === true)
@@ -1132,7 +1133,7 @@ test("boxes stand in the order of what is easiest to miss", async ($, on) => {
 	await ui.unmount();
 	expect(titles).toEqual([
 		"recent",
-		"tasks",
+		"agents & jobs",
 		"files",
 		"git",
 		"skills",
@@ -1196,7 +1197,7 @@ test("git shows the branch, what is uncommitted and the commits not pushed", asy
 	);
 });
 
-test("recent lists five rows, files and tasks three at most", async ($, on) => {
+test("recent lists five rows, files and agents & jobs three at most", async ($, on) => {
 	on("classic.Stop", () => ({}));
 	await setup($, on);
 	for (const i of [1, 2, 3, 4, 5, 6, 7]) {

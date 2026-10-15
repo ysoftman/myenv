@@ -290,7 +290,7 @@ export const paneView = ({
 			>
 				<Text>
 					<Text bold color={C.mauve}>
-						tasks
+						{"agents & jobs"}
 					</Text>
 					{counts
 						.filter(([, n]) => n > 0)
