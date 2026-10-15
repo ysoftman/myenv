@@ -44,7 +44,7 @@ layout {
 
             format_left   "#[bg=$bg0,fg=$sapphire]#[bg=$sapphire,fg=$crust] {session} #[bg=$bg0]{mode}#[bg=$bg0] {tabs}"
             format_center "{notifications}"
-            format_right "{command_claude}{command_codex}{command_cpu}{command_mem}{command_disk}{command_user}{datetime}"
+            format_right "{command_claude}{command_codex}{command_gemini}{command_agy}{command_crush}{command_opencode}{command_cpu}{command_mem}{command_disk}{command_user}{datetime}"
             format_space  "#[bg=$bg0]"
             format_hide_on_overlength "true"
             format_precedence "lrc"
@@ -88,7 +88,7 @@ layout {
             notification_show_interval "10"
 
             // claude_zjstatus_hook.sh: Claude Code hook 으로 세션별 상태를 쓰고, render 인자로 그 상태를 아이콘으로 출력한다. 세션이 없으면 위젯 숨김.
-            // interval 최소 단위가 1초라 working spinner 는 1fps 로 돈다.
+            // interval 최소 단위가 1초라 working 아이콘은 1초마다 깜박인다. 아래 AI 위젯도 깜박임 때문에 interval 1 로 둔다.
             command_claude_command           "bash -c \"${myenv_path}/zellij/claude_zjstatus_hook.sh render\""
             command_claude_format            "{stdout}"
             command_claude_interval          "1"
@@ -101,6 +101,31 @@ layout {
             command_codex_interval          "1"
             command_codex_rendermode        "dynamic"
             command_codex_hideonemptystdout "true"
+
+            // gemini/agy/crush/opencode_zjstatus.sh: 실행 중인 프로세스의 cwd 이름을 상태 아이콘과 함께 출력한다(hook 없이 CPU 사용량으로 working/idle 판단). 프로세스가 없으면 위젯 숨김.
+            command_gemini_command           "bash -c \"${myenv_path}/zellij/gemini_zjstatus.sh\""
+            command_gemini_format            "{stdout}"
+            command_gemini_interval          "1"
+            command_gemini_rendermode        "dynamic"
+            command_gemini_hideonemptystdout "true"
+
+            command_agy_command           "bash -c \"${myenv_path}/zellij/agy_zjstatus.sh\""
+            command_agy_format            "{stdout}"
+            command_agy_interval          "1"
+            command_agy_rendermode        "dynamic"
+            command_agy_hideonemptystdout "true"
+
+            command_crush_command           "bash -c \"${myenv_path}/zellij/crush_zjstatus.sh\""
+            command_crush_format            "{stdout}"
+            command_crush_interval          "1"
+            command_crush_rendermode        "dynamic"
+            command_crush_hideonemptystdout "true"
+
+            command_opencode_command           "bash -c \"${myenv_path}/zellij/opencode_zjstatus.sh\""
+            command_opencode_format            "{stdout}"
+            command_opencode_interval          "1"
+            command_opencode_rendermode        "dynamic"
+            command_opencode_hideonemptystdout "true"
 
             // interval in seconds, between two command runs
             // Set to "0" for running the command once. Only non-negative integers are allowed.
