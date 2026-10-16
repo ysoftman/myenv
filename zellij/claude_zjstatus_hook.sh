@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # 인자 없음: Claude Code hook. 세션별 상태 파일("<proj> <working|idle|blocked>")을 쓴다.
-# render: zjstatus command_claude 위젯(rendermode dynamic). 상태 파일을 아이콘으로 출력한다. ~/.claude/sessions 에 없는(죽은) 세션 파일은 지운다.
+# render: zjstatus command_status 위젯(status_zjstatus.sh)의 claude 부분. 상태 파일을 아이콘으로 출력한다. ~/.claude/sessions 에 없는(죽은) 세션 파일은 지운다.
 #   세션마다 "아이콘 프로젝트" 를 출력한다. working: 아이콘이 1초마다 $surface1 과 번갈아 깜박임, idle: 아이콘 색 고정, blocked(권한 대기): 빨간 아이콘
 # shellcheck disable=SC2016  # $surface1 등은 zjstatus 색 변수라 리터럴로 출력한다.
 dir=/tmp/claude-zjstatus

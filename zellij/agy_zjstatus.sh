@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# zjstatus command_agy 위젯(rendermode dynamic). 실행 중인 agy(Antigravity CLI) 프로세스의 cwd 이름을 상태 아이콘과 함께 출력한다. 프로세스가 없으면 위젯 숨김.
+# zjstatus command_status 위젯(status_zjstatus.sh)의 agy 부분. 실행 중인 agy(Antigravity CLI) 프로세스의 cwd 이름을 상태 아이콘과 함께 출력한다. 프로세스가 없으면 출력 없음.
 #   agy hook 은 PreToolUse/PostToolUse/SessionStart 뿐이라 턴 종료를 알 수 없어, 직전 샘플 이후 초당 CPU 시간이 busy 를 넘으면 working 으로 본다(작업 중 spinner 가 TUI 를 계속 다시 그린다).
 #   마지막으로 넘은 뒤 4초까지는 working 유지. 탭마다 도는 zjstatus 가 같은 샘플 파일을 쓰므로 2초가 안 된 샘플이면 그 결과를 재사용한다.
 #   세션마다 "아이콘 프로젝트" 를 출력한다. working: 아이콘이 1초마다 $surface1 과 번갈아 깜박임, idle: 아이콘 색 고정

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# zjstatus command_gemini 위젯(rendermode dynamic). 실행 중인 Gemini CLI 프로세스의 cwd 이름을 상태 아이콘과 함께 출력한다. 프로세스가 없으면 위젯 숨김.
+# zjstatus command_status 위젯(status_zjstatus.sh)의 gemini 부분. 실행 중인 Gemini CLI 프로세스의 cwd 이름을 상태 아이콘과 함께 출력한다. 프로세스가 없으면 출력 없음.
 #   hook 을 설치하지 않으므로 직전 샘플 이후 초당 CPU 시간이 busy 를 넘으면 working 으로 본다(작업 중 spinner 가 TUI 를 계속 다시 그린다).
 #   gemini 는 node 자식 프로세스를 하나 더 띄워 cwd 별로 CPU 를 합친다. 마지막으로 넘은 뒤 4초까지는 working 유지.
 #   탭마다 도는 zjstatus 가 같은 샘플 파일을 쓰므로 2초가 안 된 샘플이면 그 결과를 재사용한다.
