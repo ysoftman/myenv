@@ -31,6 +31,14 @@ return {
   config = function()
     -- calling `setup` is optional for customization
     local actions = require("fzf-lua.actions")
+    -- live_grep 은 명령이 opts._cmd 에만 있어 기본 헤더 라벨이 토글 상태를 반영하지 못한다
+    local function toggle_header(flag, on, off)
+      return function(o)
+        return (o.cmd or o._cmd or ""):match(vim.pesc(flag)) and on or off
+      end
+    end
+    local ignore_header = toggle_header("--no-ignore", "toggle gitignore [OFF]", "toggle gitignore [ON]")
+    local hidden_header = toggle_header("--hidden", "toggle hidden [ON]", "toggle hidden [OFF]")
     require("fzf-lua").setup({
       winopts = {
         preview = {
@@ -99,9 +107,9 @@ return {
             require("trouble.sources.fzf").add(selected, opts)
           end,
           ["alt-Q"] = actions.file_sel_to_ll,
-          ["alt-i"] = { actions.toggle_ignore },
+          ["alt-i"] = { fn = actions.toggle_ignore, header = ignore_header },
           -- ["alt-h"] = { actions.toggle_hidden }, -- zellij 키와 겹칩
-          ["alt-d"] = { actions.toggle_hidden },
+          ["alt-d"] = { fn = actions.toggle_hidden, header = hidden_header },
         },
       },
       fzf_opts = {
@@ -152,7 +160,7 @@ return {
           -- inherits from 'actions.files', here we can override
           -- or set bind to 'false' to disable a default action
           -- action to toggle `--no-ignore`, requires fd or rg installed
-          ["ctrl-g"] = { actions.toggle_ignore },
+          ["ctrl-g"] = { fn = actions.toggle_ignore, header = ignore_header },
           -- uncomment to override `actions.file_edit_or_qf`
           --   ["enter"]     = actions.file_edit,
           -- custom actions are available too
@@ -202,7 +210,7 @@ return {
           -- this action toggles between 'grep' and 'live_grep'
           ["ctrl-g"] = { actions.grep_lgrep },
           -- uncomment to enable '.gitignore' toggle for grep
-          ["ctrl-r"] = { actions.toggle_ignore },
+          ["ctrl-r"] = { fn = actions.toggle_ignore, header = ignore_header },
         },
         no_header = false, -- hide grep|cwd header?
         no_header_i = false, -- hide interactive header?
