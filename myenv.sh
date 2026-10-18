@@ -11,14 +11,14 @@ os_name=$(uname -o | tr '[:upper:]' '[:lower:]')
 os_name_kernel_release=$(uname -r | awk '{print tolower($0)}')
 declare -x myenv_path
 declare current_shell="bash"
-if [[ $(ps -p $$ -o command | sed -e 1d) == *"bash"* ]]; then
-    current_shell="bash"
+# if [[ $(ps -p $$ -o command | sed -e 1d) == *"bash"* ]]; 속도를 높이기 위해 매번 ps 실행을 피하자.
+if [[ -n $ZSH_VERSION ]]; then
+    current_shell="zsh"
+    myenv_path=$(dirname "$0")
+elif [[ -n $BASH_VERSION ]]; then
     shopt -s expand_aliases
     myenv_path=$(readlink -f "${BASH_SOURCE[0]}")
     myenv_path=${myenv_path%/*}
-elif [[ $(ps -p $$ -o command | sed -e 1d) == *"zsh"* ]]; then
-    current_shell="zsh"
-    myenv_path=$(dirname "$0")
 fi
 
 function tidy_path {
@@ -29,6 +29,8 @@ function tidy_path {
         elif [[ $p == '/usr/local/bin' ]]; then
             continue
         elif [[ $p == "${HOME}/.cargo/bin" ]]; then
+            continue
+        elif [[ $p == "${HOME}/.local/bin" ]]; then
             continue
         elif [[ $p == "${GOPATH}" ]]; then
             continue
@@ -43,7 +45,7 @@ function tidy_path {
     # PATH 환경변수 처음이나 마지막에 구분자(:)가 있거나
     # PATH 중간에 :: 부분이 있어야 한다.
     # ./a.sh 대신 a.sh 실행 가능해야 한다.
-    # apple silicon 용 brew (/opt/homebrew) 를 우선 실행할 수 있도록 한다.
+    # 우선 실행되도록 할 것들의 경로를 먼저 설정한다.
     export PATH=$HOME/.cargo/bin:$HOME/.local/bin:$GOPATH/bin:/opt/homebrew/bin:/opt/homebrew/opt/curl/bin:/usr/local/go/bin:/usr/local/bin::$temp_path
 }
 
@@ -65,11 +67,6 @@ function set_path_and_vars {
     export ANSIBLE_NOCOWS=1 # disable cowsay message when using ansible
     # matplotlib on wsl
     export DISPLAY=localhost:0.0
-
-    # mac 에선 yarn bin /opt/homebrew/bin 으로 설정되어 있어 tidy_path 실행전에 선언
-    local yarn_global_bin
-    yarn_global_bin=$(yarn global bin 2>/dev/null)
-    export PATH=$yarn_global_bin:$PATH
 
     # 수동 nvim 설치경로
     export PATH=$HOME/nvim-linux64/bin:$PATH
@@ -491,10 +488,11 @@ function set_zsh_plugin {
     # oh-my-zsh 로딩전(또는 위 zsh-plugin 로딩전) 사용하면 *.zsh 같은 glob 커맨드에서 에러가 발생하니 oh-my-zsh 로딩 후에 사용해야 한다.
     if [ -f "$HOME/.zprezto/modules/completion/init.zsh" ]; then
         source "$HOME/.zprezto/modules/completion/init.zsh"
+    else
+        # 자동완성 기능 활성화, compdef 등 사용을 위해서 필요(oh-my-zsh, Prezto 에서는 자동 사용)
+        autoload -Uz compinit
+        compinit
     fi
-    # 자동완성 기능 활성화, compdef 등 사용을 위해서 필요(oh-my-zsh, Prezto 에서는 자동 사용)
-    autoload -Uz compinit
-    compinit
 }
 
 # oh-my-posh 훅제거
@@ -593,7 +591,7 @@ if [[ $current_shell == "zsh" ]]; then
     if [[ $os_name == *"android"* ]]; then
         source_ohmyzsh
     else
-        tidy_path # .local/bin/oh-my-posh 를 찾을 수 있도록
+        export PATH=$HOME/.local/bin:$PATH # ~/.local/bin/oh-my-posh 를 찾을 수 있도록
         if command -v oh-my-posh >/dev/null 2>&1; then
             source_ohmyposh
         elif command -v starship >/dev/null 2>&1; then
@@ -657,7 +655,7 @@ fi
 if which pyenv >/dev/null 2>&1; then
     # PATH 앞에 ~/.pyenv/shims 를 설정해서 pyenv 를 우선 사용하도록 한다.
     export PYENV_ROOT="$HOME/.pyenv"
-    eval "$(pyenv init -)"
+    eval "$(pyenv init - --no-rehash $current_shell)"
     # .pyenv-shiim(stake lock file) 이 남아 있어 에러가 발생하는 경우 삭제
     # rm -f /Users/ysoftman/.pyenv/shims/.pyenv-shim
 fi
