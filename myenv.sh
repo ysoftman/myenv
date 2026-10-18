@@ -694,7 +694,7 @@ function welcome_message() {
     fi
 
     if which xfetch >/dev/null 2>&1; then
-        # kitty 지원 여부 질의에 대한 터미널 응답이 화면에 echo 되지 않게 한다.
+        # xfetch 수행시 kitty 지원 여부 질의에 대한 터미널 응답이 화면에 echo 되지 않게 한다.
         local stty_saved
         stty_saved=$(stty -g)
         stty -echo
