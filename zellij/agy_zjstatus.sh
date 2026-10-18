@@ -54,6 +54,6 @@ while read -r proj s; do
     [[ -n $proj ]] || continue
     c='$mauve'
     [[ $s == working ]] && c=${colors[$(date +%s) % 2]}
-    out+='#[bg=$bg0,fg='"$c"']󰑣 #[bg=$bg0,fg=$text]'"$proj "
+    out+='#[bg=$bg0,fg='"$c"']󱓞 #[bg=$bg0,fg=$text]'"$proj  "
 done <<<"$states"
 printf '%s' "$out"

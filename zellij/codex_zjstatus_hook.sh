@@ -29,12 +29,12 @@ if [[ $1 == render ]]; then
             blocked) c='$red' ;;
             *) c='$sky' ;;
         esac
-        out+='#[bg=$bg0,fg='"$c"']󰞷 #[bg=$bg0,fg=$text]'"$proj "
+        out+='#[bg=$bg0,fg='"$c"']󰞷 #[bg=$bg0,fg=$text]'"$proj  "
     done
     for proj in $live; do
         [[ $seen == *" $proj "* ]] && continue
         seen+="$proj "
-        out+='#[bg=$bg0,fg=$sky]󰞷 #[bg=$bg0,fg=$text]'"$proj "
+        out+='#[bg=$bg0,fg=$sky]󰞷 #[bg=$bg0,fg=$text]'"$proj  "
     done
     printf '%s' "$out"
     exit 0

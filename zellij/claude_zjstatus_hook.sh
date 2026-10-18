@@ -20,7 +20,7 @@ if [[ $1 == render ]]; then
             blocked) c='$red' ;;
             *) c='$peach' ;;
         esac
-        sessions+='#[bg=$bg0,fg='"$c"']󰚩 #[bg=$bg0,fg=$text]'"$proj "
+        sessions+='#[bg=$bg0,fg='"$c"']󰚩 #[bg=$bg0,fg=$text]'"$proj  "
     done
     [[ -n $sessions ]] || exit 0
     printf '%s' "$sessions"
