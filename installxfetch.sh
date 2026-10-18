@@ -13,3 +13,7 @@ for dir in assets configs; do
             curl -fsSL "$url" -o ~/.config/xfetch/logos/"$(basename "$url")"
         done
 done
+
+xfetch effects install decrypt
+xfetch effects install glitch
+xfetch effects list

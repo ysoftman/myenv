@@ -1,93 +1,94 @@
 {
-    "layout": "section",
-    // "layout": "pacman",
-    // "layout": "side-block",
-    "modules": [
-        {
-            "type": "group",
-            "title": "Hardware",
-            "modules": [
-                "hostname",
-                "cpu",
-                "gpu",
-                "memory",
-                "swap",
-                "disk",
-                "battery"
-            ]
-        },
-        {
-            "type": "group",
-            "title": "Software",
-            "modules": [
-                "os",
-                "kernel",
-                "packages",
-                "shell",
-                "wm",
-                "terminal",
-                "local_ip"
-            ]
-        },
-        {
-            "type": "group",
-            "title": "Session",
-            "modules": ["user", "uptime", "datetime"]
-        },
-        "palette"
-    ],
-    "show_colors": true,
-    "icons": {
-        "hostname": "",
-        "cpu": "",
-        "gpu": "󰍹",
-        "memory": "",
-        "swap": "�",
-        "disk": "󰋊",
-        "battery": "",
-        "os": "",
-        "kernel": "",
-        "packages": "",
-        "shell": "",
-        "wm": "",
-        "terminal": "",
-        "local_ip": "󰩟",
-        "user": "",
-        "uptime": "󰔛",
-        "datetime": "",
-        "palette": "",
-        "hardware": "",
-        "software": "",
-        "session": ""
-    },
-    "colors": {
-        "hostname": "Green",
-        "cpu": "Green",
-        "gpu": "Green",
-        "memory": "Green",
-        "swap": "Green",
-        "disk": "Green",
-        "battery": "Green",
-        "os": "Yellow",
-        "kernel": "Yellow",
-        "packages": "Yellow",
-        "shell": "Yellow",
-        "wm": "Yellow",
-        "terminal": "Yellow",
-        "local_ip": "Yellow",
-        "user": "Magenta",
-        "uptime": "Magenta",
-        "datetime": "Magenta",
-        "palette": "White"
-    },
-    "palette_style": "circles",
-    "logo_animation": {
-        "plugin": "animate-logo",
-        "style": "frame",
-        "fps": 30,
-        "duration_ms": 1000,
-        "loop": false,
-        // frame(=== 로 구분되는) .txt 파일
-        "frames_path": "~/.config/xfetch/logos/matrix_rain.txt"
-    }
+	"layout": "section",
+	// "layout": "pacman",
+	// "layout": "side-block",
+	"modules": [
+		{
+			"type": "group",
+			"title": "Hardware",
+			"modules": ["hostname", "cpu", "gpu", "memory", "swap", "disk", "battery"]
+		},
+		{
+			"type": "group",
+			"title": "Software",
+			"modules": [
+				"os",
+				"kernel",
+				"packages",
+				"shell",
+				"wm",
+				"terminal",
+				"local_ip"
+			]
+		},
+		{
+			"type": "group",
+			"title": "Session",
+			"modules": ["user", "uptime", "datetime"]
+		},
+		"palette"
+	],
+	"show_colors": true,
+	"icons": {
+		"hostname": "",
+		"cpu": "",
+		"gpu": "󰍹",
+		"memory": "",
+		"swap": "�",
+		"disk": "󰋊",
+		"battery": "",
+		"os": "",
+		"kernel": "",
+		"packages": "",
+		"shell": "",
+		"wm": "",
+		"terminal": "",
+		"local_ip": "󰩟",
+		"user": "",
+		"uptime": "󰔛",
+		"datetime": "",
+		"palette": "",
+		"hardware": "",
+		"software": "",
+		"session": ""
+	},
+	"colors": {
+		"hostname": "Green",
+		"cpu": "Green",
+		"gpu": "Green",
+		"memory": "Green",
+		"swap": "Green",
+		"disk": "Green",
+		"battery": "Green",
+		"os": "Yellow",
+		"kernel": "Yellow",
+		"packages": "Yellow",
+		"shell": "Yellow",
+		"wm": "Yellow",
+		"terminal": "Yellow",
+		"local_ip": "Yellow",
+		"user": "Magenta",
+		"uptime": "Magenta",
+		"datetime": "Magenta",
+		"palette": "White"
+	},
+	"palette_style": "circles",
+	"logo_animation": {
+		"plugin": "animate-logo",
+		"style": "frame",
+		"fps": 30,
+		"duration_ms": 1000,
+		"loop": false,
+		// frame(=== 로 구분되는) .txt 파일
+		"frames_path": "~/.config/xfetch/logos/matrix_rain.txt"
+		// "frames_path": "~/.config/xfetch/logos/decryptfull.txt"
+		// "frames_path": "~/.config/xfetch/logos/decrypt.txt"
+		// "frames_path": "~/.config/xfetch/logos/blink.txt"
+	},
+	"effects": {
+		"plugin": "decrypt",
+		// "plugin": "glitch",
+		"fps": 30,
+		"duration_ms": 1000
+	}
 }
