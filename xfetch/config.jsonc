@@ -73,6 +73,13 @@
 		"palette": "White"
 	},
 	"palette_style": "circles",
+	// 이미지 로고를 쓰면 xfetch가 logo_animation과 effects를 둘 다 건너뜁니다
+	// "logo_kitty": true,
+	// "logo_path": "~/workspace/myenv/xelloss.jpg",
+	// "logo_type": "image",
+	// "logo_width": 50,
+	// "logo_height": null,
+	// "logo_gap": 0,
 	"logo_animation": {
 		"plugin": "animate-logo",
 		"style": "frame",

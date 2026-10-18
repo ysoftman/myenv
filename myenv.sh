@@ -694,7 +694,17 @@ function welcome_message() {
     fi
 
     if which xfetch >/dev/null 2>&1; then
-        xfetch
+        # kitty 지원 여부 질의에 대한 터미널 응답이 화면에 echo 되지 않게 한다.
+        local stty_saved
+        stty_saved=$(stty -g)
+        stty -echo
+        if [[ $term_program_name == "ghostty" ]]; then
+            # xfetch 는 KITTY_WINDOW_ID 존재 여부로 kitty 이미지 프로토콜 사용을 판단한다.
+            KITTY_WINDOW_ID=${KITTY_WINDOW_ID:-1} xfetch
+        else
+            xfetch
+        fi
+        stty "$stty_saved"
     elif which fastfetch >/dev/null 2>&1; then
         logo_args=""
         if [[ $term_program_name == *"iterm"* || $term_program_name == *"wezterm"* ]]; then
