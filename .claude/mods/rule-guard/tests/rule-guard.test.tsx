@@ -455,7 +455,7 @@ test("the pane draws the rules in the summary pane's style", async ($, on) => {
 			bold: true,
 			color: "#cba6f7",
 		});
-		expect(await ui.find({ text: /^4 on · 1 off · 차단 1$/ })).toBeDefined();
+		expect(await ui.find({ text: /^4 on · 1 off · 1 blocked$/ })).toBeDefined();
 		expect(await props(/^━+$/)).toMatchObject({ color: "#45475a" });
 		expect(
 			(await ui.findAll({ type: "Box" })).filter(
@@ -466,7 +466,8 @@ test("the pane draws the rules in the summary pane's style", async ($, on) => {
 		expect(await props(/^on +$/)).toMatchObject({ color: "#a6e3a1" });
 		expect(await props(/^off +$/)).toMatchObject({ color: "#f9e2af" });
 		expect(await props(/^설정 안 됨$/)).toMatchObject({ color: "#7f849c" });
-		expect(await props(/^1$/)).toMatchObject({ color: "#f38ba8" });
+		expect(await props(/^blocked 1$/)).toMatchObject({ color: "#f38ba8" });
+		expect(await ui.find({ text: /^blocked 0$/ })).toBeDefined();
 		expect(await props(/grep\/find 대신 rg\/fd/)).toMatchObject({
 			color: "#a6adc8",
 		});

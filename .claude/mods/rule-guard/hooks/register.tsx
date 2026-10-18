@@ -524,7 +524,7 @@ export const register: Register = (on, options) => {
 						RULE-GUARD
 					</Text>
 					<Text color={C.subtext}>
-						{`${count("on")} on · ${count("off")} off · 차단 ${total}`}
+						{`${count("on")} on · ${count("off")} off · ${total} blocked`}
 					</Text>
 				</Box>
 				<Box paddingX={1}>
@@ -553,7 +553,7 @@ export const register: Register = (on, options) => {
 									bold={r.count > 0}
 									color={r.count > 0 ? C.red : C.overlay}
 								>
-									{String(r.count)}
+									{`blocked ${r.count}`}
 								</Text>
 							</Text>
 							<Box paddingLeft={2}>
