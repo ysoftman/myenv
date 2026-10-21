@@ -7,6 +7,7 @@
 - 보임 기준 토글
 - 탭 전환 감지(폴링)
 - 바인딩된 키 읽기
+- pane 하단 설정 안내
 - help 명령과 단축키 명령
 - 힌트 줄 단축키 안내
 - 테스트 mock
@@ -80,7 +81,39 @@ const syncToggleKey = async ($: EngineInterface) => {
 };
 ```
 
-`toggleKey` 가 없으면 단축키 안내 대신 `/my-cmd` 를 쓰고, `help` 에 설정 방법을 넣는다(아래 "help 명령과 단축키 명령"). `tabKeys` 는 비어 있지 않을 때만 pane 하단에 탭 이동 안내로 그린다. render 가 읽는 값이면 모듈 변수 대신 `$.state` atom 에 둔다(summary·rule-guard 의 `chord`, `tabs`).
+`toggleKey` 가 없으면 단축키 안내 대신 `/my-cmd` 를 쓰고, pane 하단과 `help` 에 설정 방법을 넣는다(아래 "pane 하단 설정 안내", "help 명령과 단축키 명령"). `tabKeys` 는 비어 있지 않을 때만 pane 하단에 탭 이동 안내로 그린다. render 가 읽는 값이면 모듈 변수 대신 `$.state` atom 에 둔다(summary·rule-guard 의 `chord`, `tabs`).
+
+## pane 하단 설정 안내
+
+pane 하단 단축키 줄 바로 아래에 둔다. 빠진 키의 줄만 그리고, 다 묶이면 블록이 사라진다. Claude 는 pane 을 볼 수 없으니 요청 문구는 README 를 가리키고, README 의 바인딩 JSON 에 `"Chat"`·`"Global"` 키를 모두 넣어 둔다. 줄이 잘리지 않게 `wrap="truncate-end"` 는 주지 않는다.
+
+```tsx
+{(!toggleKey || tabKeys === "") && (
+	<Box flexDirection="column" paddingX={1}>
+		<Text color={C.yellow}>
+			{'⚠ 단축키 미설정 · Claude 에게 "my-cmd mod README 대로 단축키 설정해줘" 라고 해도 된다'}
+		</Text>
+		<Text color={C.subtext}>
+			직접 넣으려면 ~/.claude/keybindings.json 에 (기존 블록에 합친다):
+		</Text>
+		{!toggleKey && (
+			<Text color={C.subtext}>{`  "Chat": "ctrl+x m": "command:${CMD}"`}</Text>
+		)}
+		{tabKeys === "" && (
+			<Text color={C.subtext}>
+				{'  "Global": "ctrl+<": "pane:previous", "ctrl+>": "pane:next"'}
+			</Text>
+		)}
+		{tabKeys === "" && (
+			<Text color={C.subtext}>
+				{'  터미널에 따라 "ctrl+shift+," / "ctrl+shift+." 도 함께 묶는다'}
+			</Text>
+		)}
+	</Box>
+)}
+```
+
+테스트는 바인딩 없음(`⚠ 단축키 미설정`, Claude 요청 문구, Chat·Global 줄이 보임), 일부만 묶임(빠진 줄만 보임), 다 묶임(블록 없음) 세 경우를 본다.
 
 ## help 명령과 단축키 명령
 
@@ -96,7 +129,7 @@ const usage = () =>
 			? []
 			: [
 					"",
-					"단축키는 mod 가 등록하지 않습니다. ~/.claude/keybindings.json 에 직접 추가하세요(기존 블록에 합치기, README 참고):",
+					'단축키는 mod 가 등록하지 않습니다. Claude 에게 "my-cmd mod README 대로 단축키 설정해줘" 라고 하거나 ~/.claude/keybindings.json 에 직접 추가하세요(기존 블록에 합치기):',
 					...(toggleKey
 						? []
 						: [`  "Chat":   "ctrl+x m": "command:${CMD}"   패널 열기/닫기`]),
