@@ -144,9 +144,6 @@ bindkey '^R' fzf-history-widget
 [ -f ~/.local/bin/mise ] && eval "$(~/.local/bin/mise activate zsh)"
 [ -f /opt/homebrew/bin/mise ] && eval "$(/opt/homebrew/bin/mise activate zsh)"
 
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/local/bin/mc mc
-
 # --alias : prints alias for current shell, fuck() 함수 내용 출력
 # eval $(thefuck --alias)
 
@@ -166,11 +163,11 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/ysoftman/workspace/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ysoftman/workspace/google-cloud-sdk/path.zsh.inc'; fi
-if [ -x "($command -v brew)" ] && [ -f "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc" ]; then source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"; fi
+if [ -x "$(command -v brew)" ] && [ -f "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc" ]; then source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/ysoftman/workspace/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ysoftman/workspace/google-cloud-sdk/completion.zsh.inc'; fi
-if [ -x "($command -v brew)" ] && [ -f "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc" ]; then source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"; fi
+if [ -x "$(command -v brew)" ] && [ -f "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc" ]; then source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"; fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
