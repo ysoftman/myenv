@@ -56,13 +56,22 @@ plugin 은 단축키를 직접 등록할 수 없어, 각자 `~/.claude/keybindin
 {
   "$schema": "https://www.schemastore.org/claude-code-keybindings.json",
   "bindings": [
-    { "context": "Chat", "bindings": { "ctrl+x s": "command:summary" } }
+    { "context": "Chat", "bindings": { "ctrl+x s": "command:summary" } },
+    {
+      "context": "Global",
+      "bindings": {
+        "ctrl+<": "pane:previous",
+        "ctrl+shift+,": "pane:previous",
+        "ctrl+>": "pane:next",
+        "ctrl+shift+.": "pane:next"
+      }
+    }
   ]
 }
 ```
 
-이미 `keybindings.json` 이 있으면 파일을 덮어쓰지 말고, `"context": "Chat"` 블록의 `bindings` 에 `"ctrl+x s": "command:summary"` 한 줄만 추가한다(블록이 없으면 추가한다). 예전에 넣은 `"Global"` 의 `"ctrl+x s": "app:toggleDiffPreSession"` 은 지운다.
+이미 `keybindings.json` 이 있으면 파일을 덮어쓰지 말고, `"Chat"`·`"Global"` 블록의 `bindings` 에 위 줄만 추가한다(블록이 없으면 추가하고, 이미 다른 키에 묶은 action 이나 다른 action 에 쓰는 키는 건너뛴다). 예전에 넣은 `"Global"` 의 `"ctrl+x s": "app:toggleDiffPreSession"` 은 지운다.
 
-바인딩하기 전에는 패널 하단과 프롬프트 아래 힌트 줄에 `/summary` 가 보이고, 바인딩하면 그 키가 보인다. 다른 키에 묶어도 그 키가 안내에 표시된다.
+바인딩하기 전에는 패널 하단과 프롬프트 아래 힌트 줄에 `/summary` 가 보이고, 바인딩하면 그 키가 보인다. 빠진 바인딩이 있으면 패널 하단에 넣을 줄과 함께 설정 안내가 나온다. Claude 에게 "set up shortcuts per the summary mod README"(또는 "summary mod README 대로 단축키 설정해줘") 라고 하면 위 바인딩을 대신 넣어 준다. 다른 키에 묶어도 그 키가 안내에 표시된다.
 
 패널 탭 이동은 엔진 action `pane:previous`/`pane:next` 로 한다. 모든 mod 의 패널을 순서대로 돌고, 기본 키가 없어 `"Global"` 블록에 `"ctrl+<": "pane:previous"`, `"ctrl+>": "pane:next"` 처럼 묶는다(터미널에 따라 `ctrl+shift+,`/`ctrl+shift+.` 로 들어오므로 함께 묶어 둔다). 묶으면 패널 하단에 그 키가 `tabs` 로 보인다.

@@ -241,7 +241,7 @@ const usage = (key: string, tabKeys: string) =>
 			? []
 			: [
 					"",
-					"단축키는 mod 가 등록하지 않는다. ~/.claude/keybindings.json 에 직접 추가한다(기존 블록에 합친다, README 참고):",
+					'단축키는 mod 가 등록하지 않는다. Claude 에게 "rule-guard mod README 대로 단축키 설정해줘" 라고 하거나 ~/.claude/keybindings.json 에 직접 추가한다(기존 블록에 합친다):',
 					...(key === ""
 						? [
 								`  "Chat":   "ctrl+x r": "command:${PANE_COMMAND}"   패널 열기/닫기`,
@@ -594,6 +594,35 @@ export const register: Register = (on, options) => {
 					)}
 					{keycap("/rule-guard off|on <id>")}
 				</Box>
+				{(key === "" || tabKeys === "") && (
+					<Box flexDirection="column" paddingX={1}>
+						<Text color={C.yellow}>
+							{
+								'⚠ 단축키 미설정 · Claude 에게 "rule-guard mod README 대로 단축키 설정해줘" 라고 해도 된다'
+							}
+						</Text>
+						<Text color={C.subtext}>
+							직접 넣으려면 ~/.claude/keybindings.json 에 (기존 블록에 합친다):
+						</Text>
+						{key === "" && (
+							<Text color={C.subtext}>
+								{`  "Chat": "ctrl+x r": "command:${PANE_COMMAND}"`}
+							</Text>
+						)}
+						{tabKeys === "" && (
+							<Text color={C.subtext}>
+								{'  "Global": "ctrl+<": "pane:previous", "ctrl+>": "pane:next"'}
+							</Text>
+						)}
+						{tabKeys === "" && (
+							<Text color={C.subtext}>
+								{
+									'  터미널에 따라 "ctrl+shift+," / "ctrl+shift+." 도 함께 묶는다'
+								}
+							</Text>
+						)}
+					</Box>
+				)}
 			</Box>
 		);
 	});

@@ -1248,12 +1248,19 @@ test("/summary help tells how to bind a shortcut while none is bound", async ($,
 	const { panes, shows } = await setup($, on);
 	expect(await shows(/^ \/summary help $/)).toBe(true);
 	expect(await shows(/^ tabs$/)).toBe(false);
+	// the pane footer says how to set the shortcuts up, Claude included
+	expect(await shows(/^⚠ shortcuts not set · you can ask Claude/)).toBe(true);
+	expect(await shows(/"Chat": "ctrl\+x s": "command:summary"/)).toBe(true);
+	expect(await shows(/"Global": "ctrl\+<": "pane:previous"/)).toBe(true);
 	const { text } = await $.command.run({
 		command: "summary",
 		args: "help",
 	} as never);
 	expect(text).toMatch(/^\/summary {2}open or close the summary pane$/m);
 	expect(text).toContain("Shortcuts are not registered by the mod");
+	expect(text).toContain(
+		'Ask Claude "set up shortcuts per the summary mod README"',
+	);
 	expect(text).toContain('"ctrl+x s": "command:summary"');
 	expect(text).toContain('"ctrl+<": "pane:previous", "ctrl+>": "pane:next"');
 	expect(panes).toEqual([]);
@@ -1261,7 +1268,7 @@ test("/summary help tells how to bind a shortcut while none is bound", async ($,
 
 test("/summary help names the bound key and leaves the setup out", async ($, on) => {
 	bindChord(on);
-	await setup($, on);
+	const { shows } = await setup($, on);
 	const { text } = await $.command.run({
 		command: "summary",
 		args: "help",
@@ -1271,6 +1278,7 @@ test("/summary help names the bound key and leaves the setup out", async ($, on)
 	);
 	expect(text).toMatch(/^ctrl\+< ctrl\+> {2}previous\/next pane tab$/m);
 	expect(text).not.toContain("keybindings.json");
+	expect(await shows(/shortcuts not set/)).toBe(false);
 });
 
 test("the pane footer names the keys bound to pane:previous and pane:next", async ($, on) => {
@@ -1288,6 +1296,9 @@ test("the pane footer names the keys bound to pane:previous and pane:next", asyn
 	const { shows } = await setup($, on);
 	expect(await shows(/^ ctrl\+< ctrl\+> $/)).toBe(true);
 	expect(await shows(/^ tabs$/)).toBe(true);
+	// only the toggle key is still missing, so only its line is suggested
+	expect(await shows(/"Chat": "ctrl\+x s"/)).toBe(true);
+	expect(await shows(/"Global": "ctrl\+<"/)).toBe(false);
 });
 
 test("an interactive session opens the pane at start, once, not on a reload", async ($, on) => {

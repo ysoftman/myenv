@@ -47,7 +47,7 @@ Claude Code 2.1.299 에서 확인했다.
 
 ## 패널 단축키
 
-`keybindings.json` 의 `command:<이름>` action 은 그 슬래시 명령을 입력한 것처럼 실행한다. action 에는 인자를 넣을 수 없어서 인자 없는 `/rule-guard-pane` 을 따로 둔다. `~/.claude/keybindings.json` 에 다음을 넣는다. 파일이 이미 있으면 덮어쓰지 말고 `"Chat"` 블록의 `bindings` 에 한 줄만 추가한다(없으면 블록을 추가한다).
+`keybindings.json` 의 `command:<이름>` action 은 그 슬래시 명령을 입력한 것처럼 실행한다. action 에는 인자를 넣을 수 없어서 인자 없는 `/rule-guard-pane` 을 따로 둔다. `~/.claude/keybindings.json` 에 다음을 넣는다. 파일이 이미 있으면 덮어쓰지 말고 `"Chat"`·`"Global"` 블록의 `bindings` 에 위 줄만 추가한다(없으면 블록을 추가하고, 이미 다른 키에 묶은 action 이나 다른 action 에 쓰는 키는 건너뛴다).
 
 ```json
 {
@@ -57,6 +57,15 @@ Claude Code 2.1.299 에서 확인했다.
       "bindings": {
         "ctrl+x r": "command:rule-guard-pane"
       }
+    },
+    {
+      "context": "Global",
+      "bindings": {
+        "ctrl+<": "pane:previous",
+        "ctrl+shift+,": "pane:previous",
+        "ctrl+>": "pane:next",
+        "ctrl+shift+.": "pane:next"
+      }
     }
   ]
 }
@@ -64,6 +73,7 @@ Claude Code 2.1.299 에서 확인했다.
 
 - 다른 키에 묶어도 된다. 힌트 줄·패널·`help`·명령 목록 안내가 그 키를 따른다.
 - 바인딩이 있으면 프롬프트 아래 힌트 줄 끝에 `ctrl+x r rule-guard` 가 보인다.
+- 빠진 바인딩이 있으면 패널 하단에 넣을 줄과 함께 설정 안내가 나온다. Claude 에게 "rule-guard mod README 대로 단축키 설정해줘" 라고 하면 위 바인딩을 대신 넣어 준다.
 - 패널 탭 이동은 엔진 action `pane:previous`/`pane:next` 를 `"Global"` 블록에 묶는다(예: `"ctrl+<": "pane:previous"`, `"ctrl+>": "pane:next"`, 터미널에 따라 `ctrl+shift+,`/`ctrl+shift+.` 도 함께). 묶으면 패널 하단에 `tabs` 로 보인다.
 - 엔진 action 을 빌리지 않으므로 diff 패널과 겹치지 않는다.
 

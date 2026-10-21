@@ -512,6 +512,36 @@ export const paneView = ({
 				)}
 				{keycap(`/${PANE} help`)}
 			</Box>
+			{/* hint falls back to the slash command while no key is bound */}
+			{(hint === `/${PANE}` || tabKeys === "") && (
+				<Box flexDirection="column" paddingX={1}>
+					<Text color={C.yellow}>
+						{
+							'⚠ shortcuts not set · you can ask Claude "set up shortcuts per the summary mod README"'
+						}
+					</Text>
+					<Text color={C.subtext}>
+						or add to ~/.claude/keybindings.json (merge into existing blocks):
+					</Text>
+					{hint === `/${PANE}` && (
+						<Text color={C.subtext}>
+							{`  "Chat": "ctrl+x s": "command:${PANE}"`}
+						</Text>
+					)}
+					{tabKeys === "" && (
+						<Text color={C.subtext}>
+							{'  "Global": "ctrl+<": "pane:previous", "ctrl+>": "pane:next"'}
+						</Text>
+					)}
+					{tabKeys === "" && (
+						<Text color={C.subtext}>
+							{
+								'  also "ctrl+shift+," / "ctrl+shift+." if your terminal sends those'
+							}
+						</Text>
+					)}
+				</Box>
+			)}
 			<Box flexGrow={1} />
 			{"Raster" in els && (
 				<els.Raster

@@ -479,6 +479,7 @@ test("the pane draws the rules in the summary pane's style", async ($, on) => {
 		});
 		expect(await ui.find({ text: /^ ctrl\+< ctrl\+> $/ })).toBeDefined();
 		expect(await ui.find({ text: /^ tabs$/ })).toBeDefined();
+		expect(await ui.find({ text: /단축키 미설정/ })).toBeUndefined();
 		await ui.unmount();
 	}
 });
@@ -508,6 +509,9 @@ test("without a bound key help shows how to bind one", async ($, on) => {
 	const { rules } = await setup($, on);
 	const help = await rules("help");
 	expect(help).toContain("단축키는 mod 가 등록하지 않는다");
+	expect(help).toContain(
+		'Claude 에게 "rule-guard mod README 대로 단축키 설정해줘"',
+	);
 	expect(help).toContain('"ctrl+x r": "command:rule-guard-pane"');
 	expect(help).toContain('"ctrl+<": "pane:previous", "ctrl+>": "pane:next"');
 	expect(help).toMatch(/^\/rule-guard-pane +패널 열기\/닫기$/m);
@@ -524,6 +528,16 @@ test("without a bound key help shows how to bind one", async ($, on) => {
 		...PANE,
 	});
 	expect(await pane.find({ text: /^ tabs$/ })).toBeUndefined();
+	// the pane footer says how to set the shortcuts up, Claude included
+	expect(
+		await pane.find({ text: /^⚠ 단축키 미설정 · Claude 에게 "rule-guard mod/ }),
+	).toBeDefined();
+	expect(
+		await pane.find({ text: /"Chat": "ctrl\+x r": "command:rule-guard-pane"/ }),
+	).toBeDefined();
+	expect(
+		await pane.find({ text: /"Global": "ctrl\+<": "pane:previous"/ }),
+	).toBeDefined();
 	await pane.unmount();
 });
 

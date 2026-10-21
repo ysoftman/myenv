@@ -569,8 +569,8 @@ const usage = (key: string, tabKeys: string) =>
 			? []
 			: [
 					"",
-					"Shortcuts are not registered by the mod. Add them to ~/.claude/keybindings.json",
-					"yourself, merging into the existing blocks (see the summary mod README):",
+					'Shortcuts are not registered by the mod. Ask Claude "set up shortcuts per the summary mod README",',
+					"or add them to ~/.claude/keybindings.json yourself, merging into the existing blocks:",
 					...(key === ""
 						? [
 								`  "Chat":   "ctrl+x s": "command:${PANE}"   open/close the pane`,
