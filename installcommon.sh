@@ -8,7 +8,8 @@ pkgs_aptget='zsh vim neovim curl git tig tmux cmake universal-ctags fortune cows
 # arch
 pkgs_pacman='zsh vim curl git tig tmux cmake ctags fortune-mod cowsay figlet cmatrix python ruby go man dnsutils screenfetch fastfetch lolcat lsd eza git-delta alacritty bandwhich bat binsider bottom cargo-watch difftastic diskonaut diskus dust fd gitui gping grex hexyl hyperfine jless llmfit lychee mise nushell numbat oha onefetch presenterm procs qsv ripgrep ruff rumdl sd skim tealdeer termscp termusic tokei trippy ttysvr typos uv xan zellij zenith zoxide'
 # mac
-pkgs_brew='zsh vim neovim curl zoxide lsd eza rust git-delta ripgrep bat duf lolcat cowsay jq fastfetch alacritty bandwhich binsider bottom cargo-watch cfonts difftastic diskonaut diskus diskwatch dust fd feroxbuster gitui gping grex herdr hexyl hwatch hyperfine jless llmfit lychee mcat mdcat mise netwatch nushell numbat oha onefetch presenterm procs qsv ruff rumdl scooter sd sk syswatch tealdeer termscp termusic tokei trippy typos-cli uv xan zellij zenith'
+# alacritty 는 공증(notarization)을 안 해 Gatekeeper 검사 실패로 brew cask 가 2026-09-01 disabled 되어 제외, installcargo.sh 로 설치 (https://github.com/alacritty/alacritty/issues/8749)
+pkgs_brew='zsh vim neovim curl zoxide lsd eza rust git-delta ripgrep bat duf lolcat cowsay jq fastfetch bandwhich binsider bottom cargo-watch cfonts difftastic diskonaut diskus diskwatch dust fd feroxbuster gitui gping grex herdr hexyl hwatch hyperfine jless llmfit lychee mcat mdcat mise netwatch nushell numbat oha onefetch presenterm procs qsv ruff rumdl scooter sd sk syswatch tealdeer termscp termusic tokei trippy typos-cli uv xan zellij zenith'
 sudo_cmd='sudo'
 
 if [[ $(uname -o 2>/dev/null) == 'Android' ]]; then
