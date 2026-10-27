@@ -135,7 +135,7 @@ resize_mode = ["ctrl+n"]
 # resize_pane_down = ""   # optional, e.g. "ctrl+shift+alt+down"
 # resize_pane_up = ""     # optional, e.g. "ctrl+shift+alt+up"
 # resize_pane_right = ""  # optional, e.g. "ctrl+shift+alt+right"
-toggle_sidebar = ["prefix+b", "alt+s"]
+toggle_sidebar = ["prefix+b"]
 
 # Navigate-mode movement. These local shortcuts win while navigate mode is open.
 # They are independent from focus_pane_*. Do not include prefix+, esc, enter, tab, or 1..9 here.
@@ -186,13 +186,13 @@ sidebar_width = 26
 sidebar_min_width = 26
 
 # Maximum sidebar width when expanded (columns)
-# sidebar_max_width = 36
+sidebar_max_width = 36
 
 # Start with the sidebar collapsed. Changes take effect on the next launch.
-# sidebar_start_collapsed = false
+sidebar_start_collapsed = false
 
 # Collapsed sidebar presentation: "compact" keeps the narrow status rail, "hidden" uses zero width.
-# sidebar_collapsed_mode = "compact"
+sidebar_collapsed_mode = "compact"
 
 # Terminal width at or below which Herdr uses the mobile single-column layout.
 # Increase this for foldables, tablets, or wide phone terminals.
@@ -286,7 +286,7 @@ show_agent_labels_on_pane_borders = true
 
 # Accent color for highlights, borders, and navigation UI.
 # Accepts: hex (#89b4fa), named colors (cyan, blue, magenta), or rgb(r,g,b)
-# accent = "cyan"
+accent = "#ff9e3b"
 
 # Expanded agent rows. Built-ins are state_icon, state_text, machine, workspace, tab,
 # pane, agent, terminal_title, and terminal_title_stripped.
