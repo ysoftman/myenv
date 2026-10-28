@@ -307,14 +307,13 @@ for plugin in "${USER_PLUGINS[@]}"; do
     fi
 done
 
-# taste-skill 설치 (https://github.com/leonxlnx/taste-skill)
-# marketplace/plugin 이 아닌 skills CLI(skills add) 로 설치하는 저장소다.
-if [[ -d "${HOME}/.claude/skills/design-taste-frontend" ]]; then
-    echo "taste-skill이 이미 설치되어 있습니다. 스킵합니다."
-else
-    echo "taste-skill을 설치합니다..."
-    bunx skills add https://github.com/leonxlnx/taste-skill --skill "design-taste-frontend" -g -a claude-code -y
-fi
+# marketplace/plugin 이 아닌 https://www.skills.sh/ 에 관리하는 skills CLI(skills add) 로 설치하는 저장소다.
+# 전체 일괄 업데이트시 bunx skills update -g
+echo "taste-skill을 설치(업데이트)합니다..."
+bunx skills add https://github.com/leonxlnx/taste-skill --skill "design-taste-frontend" -g -a claude-code -y
+
+echo "find-skills를 설치(업데이트)합니다..."
+bunx skills add https://github.com/vercel-labs/skills --skill "find-skills" -g -a claude-code -y
 
 # local LLM 연결해서 사용할 경우
 # 환경변수 파일 생성
