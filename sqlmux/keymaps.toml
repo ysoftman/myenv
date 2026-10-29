@@ -20,7 +20,7 @@ leader = ","
 # "<C-s>" = "value.save"  # Write back and close
 # "<Esc>" = "value.leave"  # Value editor: leave
 # zellij 와 C-s 가 겹쳐서 M-s 로 변경 (nvim 저장 키와 동일)
-"<M-s>" = "value.save"  # Write back and close
+"<M-s>" = "value.save" # Write back and close
 
 # While a right-click menu is open
 [keys.menu]
@@ -60,12 +60,12 @@ leader = ","
 # "<C-o>" = "palette.preview.focus"  # Focus the preview
 # "<C-e>" = "quicksql.edit"  # Edit in a query
 # zellij 와 C-t, C-e, C-b 가 겹쳐서 M-t, M-e, M-b 로 변경
-"<M-t>" = "palette.open.tab"  # Open
-"<M-e>" = "quicksql.edit"  # Edit in a query
-"<M-b>" = "palette.preview.up"  # Scroll the preview up
+"<M-t>" = "palette.open.tab"   # Open
+"<M-e>" = "quicksql.edit"      # Edit in a query
+"<M-b>" = "palette.preview.up" # Scroll the preview up
 # nvim telescope <c-j>/<c-k> 선택 이동과 동일
-"<C-j>" = "palette.down"  # Down
-"<C-k>" = "palette.up"  # Up
+"<C-j>" = "palette.down" # Down
+"<C-k>" = "palette.up"   # Up
 
 # While the palette's preview has the focus: the rest is its read only editor's
 [keys.palettepreview]
@@ -86,8 +86,8 @@ leader = ","
 # "<C-t>" = "form.test"  # Test connection
 # "<Esc>" = "conns.close"  # Close
 # zellij 와 C-s, C-t 가 겹쳐서 M-s, M-t 로 변경 (M-s 는 nvim 저장 키와 동일)
-"<M-s>" = "form.save"  # Save
-"<M-t>" = "form.test"  # Test connection
+"<M-s>" = "form.save" # Save
+"<M-t>" = "form.test" # Test connection
 
 # The connection form's group field with its list of groups; the form's keys come after
 [keys.groups]
@@ -108,8 +108,8 @@ leader = ","
 # "<C-t>" = "form.test"  # Test connection
 # "<Esc>" = "form.cancel"  # Cancel
 # zellij 와 C-s, C-t 가 겹쳐서 M-s, M-t 로 변경 (M-s 는 nvim 저장 키와 동일)
-"<M-s>" = "form.save"  # Save
-"<M-t>" = "form.test"  # Test connection
+"<M-s>" = "form.save" # Save
+"<M-t>" = "form.test" # Test connection
 
 # A flash-style jump going on: other characters are the pattern, a label jumps
 [keys.jump]
@@ -130,7 +130,7 @@ leader = ","
 # "<C-f>" = "where.star"  # Favorite / unfavorite
 # "<Esc>" = "where.close"  # Close dropdown
 # zellij 와 C-e 가 겹쳐서 M-e 로 변경
-"<M-e>" = "where.edit"  # Put in the input
+"<M-e>" = "where.edit" # Put in the input
 
 # While the ORDER list is open
 [keys.order]
@@ -237,7 +237,7 @@ leader = ","
 # "y" = "grid.select.yank"  # Copy the selected records as JSON
 # "<Esc>" = "grid.select.clear"  # Clear the selection / end VISUAL
 # nvim 비주얼 모드 <M-c> 클립보드 복사와 동일
-"<M-c>" = "grid.select.yank"  # Copy the selected records as JSON
+"<M-c>" = "grid.select.yank" # Copy the selected records as JSON
 
 # The result area, over the grid
 [keys.result]
@@ -307,7 +307,9 @@ leader = ","
 # ":" = "palette.open"  # Command palette
 # ";" = "palette.sql"  # Quick SQL
 # nvim FzfLua <a-f> 커서 단어 검색과 동일 (* 와 같은 동작)
-"<M-f>" = "grid.filter.cell"  # Filter by this value
+"<M-f>" = "grid.filter.cell" # Filter by this value
+# nvim u(undo) 와 동일 (r 도 그대로 동작, 커서가 있는 칸만 되돌림)
+"u" = "grid.revert" # Undo this cell's change
 # "" = "grid.ddl.column"  # Column definition
 # "" = "grid.ddl.table"  # Table DDL
 # "" = "grid.order.toggle"  # Reverse the sort
@@ -354,7 +356,7 @@ leader = ","
 # "s" = "jump.start"  # Jump to a character on the screen
 # "gs" = "query.schema"  # Switch schema
 # nvim(LazyVim) <leader>cf 포맷과 동일
-"<Leader>cf" = "query.format"  # Format the whole query
+"<Leader>cf" = "query.format" # Format the whole query
 # "" = "query.conn"  # Switch connection…
 # "" = "query.external"  # Edit in $EDITOR
 # "" = "query.rename"  # Rename query…
@@ -373,7 +375,7 @@ leader = ","
 # "<C-j>" = "pane.focus.down"  # Focus down
 # "<C-k>" = "pane.focus.up"  # Focus up
 # nvim 에서 <C-l> 을 FzfLua buffers 로 쓰는 것과 동일 (오른쪽 pane 이동은 <C-w>l)
-"<C-l>" = "palette.tab"  # Palette: Tab
+"<C-l>" = "palette.tab" # Palette: Tab
 # "<Leader>s" = "session.list"  # Session list
 # "<Leader>)" = "session.next"  # Next session
 # "<Leader>(" = "session.prev"  # Previous session
@@ -398,59 +400,59 @@ leader = ","
 # "<Leader>wn" = "tab.move.next"  # Move tab to the next pane
 # "<Leader>wp" = "tab.move.prev"  # Move tab to the previous pane
 # tmux root 바인딩(M-h/j/k/l, M-Up/Down, M-n, M-x)과 동일
-"<M-h>" = "pane.focus.left"  # Focus left
-"<M-j>" = "pane.focus.down"  # Focus down
-"<M-k>" = "pane.focus.up"  # Focus up
-"<M-l>" = "pane.focus.right"  # Focus right
-"<M-Down>" = "pane.focus.down"  # Focus down
-"<M-Up>" = "pane.focus.up"  # Focus up
-"<M-n>" = "pane.split.right"  # Split right
-"<M-x>" = "pane.close"  # Close pane
+"<M-h>" = "pane.focus.left"    # Focus left
+"<M-j>" = "pane.focus.down"    # Focus down
+"<M-k>" = "pane.focus.up"      # Focus up
+"<M-l>" = "pane.focus.right"   # Focus right
+"<M-Down>" = "pane.focus.down" # Focus down
+"<M-Up>" = "pane.focus.up"     # Focus up
+"<M-n>" = "pane.split.right"   # Split right
+"<M-x>" = "pane.close"         # Close pane
 # nvim <C-w> 창 이동/분할/닫기와 동일 (zellij/tmux 가 C-h 를 가져가도 동작)
 "<C-w>h" = "pane.focus.left"  # Focus left
 "<C-w>j" = "pane.focus.down"  # Focus down
-"<C-w>k" = "pane.focus.up"  # Focus up
-"<C-w>l" = "pane.focus.right"  # Focus right
+"<C-w>k" = "pane.focus.up"    # Focus up
+"<C-w>l" = "pane.focus.right" # Focus right
 "<C-w>w" = "pane.focus.next"  # Next pane
-"<C-w>v" = "pane.split.right"  # Split right
-"<C-w>s" = "pane.split.below"  # Split below
-"<C-w>c" = "pane.close"  # Close pane
-"<C-w>q" = "pane.close"  # Close pane
+"<C-w>v" = "pane.split.right" # Split right
+"<C-w>s" = "pane.split.below" # Split below
+"<C-w>c" = "pane.close"       # Close pane
+"<C-w>q" = "pane.close"       # Close pane
 # nvim(LazyVim) <C-방향키> 창 크기 조절과 동일
-"<C-Up>" = "pane.resize.up"  # Resize up
-"<C-Down>" = "pane.resize.down"  # Resize down
-"<C-Left>" = "pane.resize.left"  # Resize left
-"<C-Right>" = "pane.resize.right"  # Resize right
+"<C-Up>" = "pane.resize.up"       # Resize up
+"<C-Down>" = "pane.resize.down"   # Resize down
+"<C-Left>" = "pane.resize.left"   # Resize left
+"<C-Right>" = "pane.resize.right" # Resize right
 # nvim(LazyVim) <leader>-, <leader>|, <leader>wd, <leader>wm 창 키와 동일
-"<Leader>-" = "pane.split.below"  # Split below
-"<Leader>|" = "pane.split.right"  # Split right
-"<Leader>wd" = "pane.close"  # Close pane
-"<Leader>wm" = "pane.zoom"  # Zoom / restore
+"<Leader>-" = "pane.split.below" # Split below
+"<Leader>|" = "pane.split.right" # Split right
+"<Leader>wd" = "pane.close"      # Close pane
+"<Leader>wm" = "pane.zoom"       # Zoom / restore
 # nvim(LazyVim) <leader><tab> 탭 키와 동일 (sqlmux window = nvim tab)
-"<Leader><Tab><Tab>" = "window.new"  # New window
-"<Leader><Tab>]" = "window.next"  # Next window
-"<Leader><Tab>[" = "window.prev"  # Previous window
-"<Leader><Tab>d" = "window.close"  # Close window
-"<Leader><Tab>l" = "window.last"  # Last window
+"<Leader><Tab><Tab>" = "window.new" # New window
+"<Leader><Tab>]" = "window.next"    # Next window
+"<Leader><Tab>[" = "window.prev"    # Previous window
+"<Leader><Tab>d" = "window.close"   # Close window
+"<Leader><Tab>l" = "window.last"    # Last window
 # nvim(LazyVim) 버퍼 키 <leader>bd, <leader>, 와 동일 (sqlmux tab = nvim buffer)
-"<Leader>bd" = "tab.quit"  # Close tab, and the pane / window with it when empty
-"<Leader>," = "palette.tab"  # Palette: Tab
+"<Leader>bd" = "tab.quit"   # Close tab, and the pane / window with it when empty
+"<Leader>," = "palette.tab" # Palette: Tab
 # nvim(LazyVim) <leader>e, neo-tree <leader>tt 탐색기 토글과 동일
 "<Leader>e" = "tree.toggle"  # Show / hide the schema tree
-"<Leader>tt" = "tree.toggle"  # Show / hide the schema tree
+"<Leader>tt" = "tree.toggle" # Show / hide the schema tree
 # nvim(LazyVim) <leader><space>, <leader>ff, FzfLua <a-t> 파일 찾기와 동일
-"<Leader><Space>" = "palette.table"  # Palette: table
-"<Leader>ff" = "palette.table"  # Palette: table
-"<M-t>" = "palette.table"  # Palette: table
+"<Leader><Space>" = "palette.table" # Palette: table
+"<Leader>ff" = "palette.table"      # Palette: table
+"<M-t>" = "palette.table"           # Palette: table
 # nvim(LazyVim) <leader>fn 새 파일과 동일
-"<Leader>fn" = "query.new"  # New query
+"<Leader>fn" = "query.new" # New query
 # nvim(LazyVim) <leader>uC 컬러스킴 선택과 동일
-"<Leader>uC" = "theme.switch"  # Switch theme…
+"<Leader>uC" = "theme.switch" # Switch theme…
 # zellij 와 C-p 가 겹쳐서 <Leader>: 로 변경 (nvim(LazyVim) <leader>: 와 같은 키)
-"<Leader>:" = "palette.open"  # Command palette
+"<Leader>:" = "palette.open" # Command palette
 # tmux prefix 기본 바인딩(&, $)과 동일
-"<Leader>&" = "window.close"  # Close window
-"<Leader>$" = "session.rename"  # Rename session…
+"<Leader>&" = "window.close"   # Close window
+"<Leader>$" = "session.rename" # Rename session…
 # "" = "cell.default"  # Set DEFAULT
 # "" = "cell.null"  # Set NULL
 # "" = "conn.manage"  # Manage connections…
@@ -487,8 +489,8 @@ leader = ","
 # "<C-s>" = "save"  # Save
 # "<C-c>" = "cancel"  # Cancel / press twice to quit
 # zellij 와 C-s, C-p 가 겹쳐서 M-s, M-p 로 변경 (M-s 는 nvim 저장 키와 동일)
-"<M-s>" = "save"  # Save
-"<M-p>" = "palette.open"  # Command palette
+"<M-s>" = "save"         # Save
+"<M-p>" = "palette.open" # Command palette
 
 # User maps: a key → a run of keys (noremap). [map.normal] is for every pane; one like the below only in the grid
 # [map.grid.normal]
