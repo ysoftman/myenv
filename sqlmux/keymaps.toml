@@ -1,0 +1,495 @@
+# sqlmux 키 바인딩 (~/.config/sqlmux/keymaps.toml)
+# leader 는 nvim mapleader 와 같은 , 를 쓰고, 창/탭/버퍼/찾기 키는 nvim(LazyVim) 설정에 맞춤.
+# direct 키: ~/.tmux.conf 의 root 바인딩(M-h/j/k/l, M-Up/Down, M-n, M-x)과 동일. tmux/zellij/herdr 안에서는 그쪽이 먼저 가져간다.
+# tmux/zellij 가 가져가는 C-s/p/t/e/b 는 같은 글자의 M-<키> 를 추가 (M-s 저장은 nvim 과 동일).
+# 짧은 키가 긴 키의 앞부분이면 timeoutlen 만큼 기다리므로 grid 의 ], [ 와 겹치는 ]b, [b 는 넣지 않음.
+# 변경 후 확인: sqlmux keys --check (잘못된 action 이름이나 prefix 겹침은 잡지 못함)
+[keys]
+# nvim mapleader 와 동일하게 , 사용
+leader = ","
+
+# While a confirm box is open
+[keys.confirm]
+# "y" = "confirm.yes"  # OK
+# "<CR>" = "confirm.yes"  # OK
+# "n" = "confirm.no"  # Cancel
+# "<Esc>" = "confirm.no"  # Cancel
+
+# While the value editor's box is open: C-s writes back and closes, the rest is its vim
+[keys.value]
+# "<C-s>" = "value.save"  # Write back and close
+# "<Esc>" = "value.leave"  # Value editor: leave
+# zellij 와 C-s 가 겹쳐서 M-s 로 변경 (nvim 저장 키와 동일)
+"<M-s>" = "value.save"  # Write back and close
+
+# While a right-click menu is open
+[keys.menu]
+# "j" = "menu.down"  # Down
+# "<Down>" = "menu.down"  # Down
+# "k" = "menu.up"  # Up
+# "<Up>" = "menu.up"  # Up
+# "<CR>" = "menu.run"  # Run
+# "<Esc>" = "menu.close"  # Close menu
+
+# While the table's DDL is shown
+[keys.ddl]
+# "j" = "ddl.down"  # Down
+# "<Down>" = "ddl.down"  # Down
+# "k" = "ddl.up"  # Up
+# "<Up>" = "ddl.up"  # Up
+# "<C-d>" = "ddl.page.down"  # Scroll down
+# "<C-u>" = "ddl.page.up"  # Scroll up
+# "gg" = "ddl.top"  # To the top
+# "G" = "ddl.bottom"  # To the bottom
+# "<Esc>" = "ddl.close"  # Close
+
+# While the palette is open
+[keys.palette]
+# "<Up>" = "palette.up"  # Up
+# "<Down>" = "palette.down"  # Down
+# "<C-p>" = "palette.up"  # Up
+# "<C-n>" = "palette.down"  # Down
+# "<CR>" = "palette.run"  # Run
+# "<Esc>" = "palette.close"  # Close the palette
+# "<Tab>" = "palette.scope.next"  # Next scope
+# "<S-Tab>" = "palette.scope.prev"  # Previous scope
+# "<C-t>" = "palette.open.tab"  # Open
+# "<C-y>" = "quicksql.copy"  # Copy result
+# "<C-f>" = "palette.preview.down"  # Scroll the preview down
+# "<C-b>" = "palette.preview.up"  # Scroll the preview up
+# "<C-o>" = "palette.preview.focus"  # Focus the preview
+# "<C-e>" = "quicksql.edit"  # Edit in a query
+# zellij 와 C-t, C-e, C-b 가 겹쳐서 M-t, M-e, M-b 로 변경
+"<M-t>" = "palette.open.tab"  # Open
+"<M-e>" = "quicksql.edit"  # Edit in a query
+"<M-b>" = "palette.preview.up"  # Scroll the preview up
+# nvim telescope <c-j>/<c-k> 선택 이동과 동일
+"<C-j>" = "palette.down"  # Down
+"<C-k>" = "palette.up"  # Up
+
+# While the palette's preview has the focus: the rest is its read only editor's
+[keys.palettepreview]
+# "<Esc>" = "palette.preview.leave"  # Back to the list
+
+# While the connection manager's list has the keys
+[keys.conns]
+# "j" = "conns.down"  # Down
+# "<Down>" = "conns.down"  # Down
+# "k" = "conns.up"  # Up
+# "<Up>" = "conns.up"  # Up
+# "<Tab>" = "conns.form"  # Edit
+# "l" = "conns.form"  # Edit
+# "<Right>" = "conns.form"  # Edit
+# "<CR>" = "conns.form"  # Edit
+# "x" = "conns.delete"  # Delete connection
+# "<C-s>" = "form.save"  # Save
+# "<C-t>" = "form.test"  # Test connection
+# "<Esc>" = "conns.close"  # Close
+# zellij 와 C-s, C-t 가 겹쳐서 M-s, M-t 로 변경 (M-s 는 nvim 저장 키와 동일)
+"<M-s>" = "form.save"  # Save
+"<M-t>" = "form.test"  # Test connection
+
+# The connection form's group field with its list of groups; the form's keys come after
+[keys.groups]
+# "<Tab>" = "form.group.tab"  # Take the group / next field
+# "<CR>" = "form.group.enter"  # Take the group / save
+# "<Down>" = "form.group.next"  # Next group
+# "<C-n>" = "form.group.next"  # Next group
+# "<Up>" = "form.group.prev"  # Previous group
+# "<C-p>" = "form.group.prev"  # Previous group
+# "<Esc>" = "form.group.close"  # Close the group list
+
+# While the connection form is open
+[keys.form]
+# "<Tab>" = "form.next"  # Next item
+# "<S-Tab>" = "form.prev"  # Previous item
+# "<CR>" = "form.save"  # Save
+# "<C-s>" = "form.save"  # Save
+# "<C-t>" = "form.test"  # Test connection
+# "<Esc>" = "form.cancel"  # Cancel
+# zellij 와 C-s, C-t 가 겹쳐서 M-s, M-t 로 변경 (M-s 는 nvim 저장 키와 동일)
+"<M-s>" = "form.save"  # Save
+"<M-t>" = "form.test"  # Test connection
+
+# A flash-style jump going on: other characters are the pattern, a label jumps
+[keys.jump]
+# "<Esc>" = "jump.cancel"  # Leave the jump
+# "<BS>" = "jump.back"  # Jump: delete a character
+# "<CR>" = "jump.confirm"  # Jump to the nearest match
+
+# While the WHERE history / favorites dropdown is open
+[keys.where]
+# "<C-n>" = "where.down"  # Down
+# "<Tab>" = "where.down"  # Down
+# "<Down>" = "where.down"  # Down
+# "<C-p>" = "where.up"  # Up
+# "<S-Tab>" = "where.up"  # Up
+# "<Up>" = "where.up"  # Up
+# "<CR>" = "where.apply"  # Run the WHERE
+# "<C-e>" = "where.edit"  # Put in the input
+# "<C-f>" = "where.star"  # Favorite / unfavorite
+# "<Esc>" = "where.close"  # Close dropdown
+# zellij 와 C-e 가 겹쳐서 M-e 로 변경
+"<M-e>" = "where.edit"  # Put in the input
+
+# While the ORDER list is open
+[keys.order]
+# "j" = "order.down"  # Down
+# "k" = "order.up"  # Up
+# "<Space>" = "order.toggle"  # Add to the sort, or reverse it
+# "a" = "order.remove"  # Remove from the sort
+# "A" = "order.clear"  # Clear the sort
+# "<CR>" = "order.only"  # Sort by this column alone
+# "/" = "order.filter"  # Filter columns
+# "<Esc>" = "order.close"  # Close ORDER
+
+# While the COLS list is open
+[keys.cols]
+# "j" = "cols.down"  # Down
+# "k" = "cols.up"  # Up
+# "J" = "cols.move.down"  # Move the column down
+# "K" = "cols.move.up"  # Move the column up
+# "<Space>" = "cols.toggle"  # Show / hide this column
+# "a" = "cols.all"  # Show all
+# "A" = "cols.none"  # Hide all
+# "/" = "cols.filter"  # Filter columns
+# "<Esc>" = "cols.close"  # Close COLS
+
+# While the LIMIT or another dropdown is open
+[keys.dropdown]
+# "<Up>" = "dropdown.up"  # Up
+# "<Down>" = "dropdown.down"  # Down
+# "<C-p>" = "dropdown.up"  # Up
+# "<C-n>" = "dropdown.down"  # Down
+# "<CR>" = "dropdown.select"  # Select
+# "<Esc>" = "dropdown.close"  # Close dropdown
+
+# While the session list is open
+[keys.sessions]
+# "j" = "sessions.down"  # Down
+# "k" = "sessions.up"  # Up
+# "l" = "sessions.expand"  # Expand
+# "h" = "sessions.collapse"  # Collapse
+# "<CR>" = "sessions.attach"  # attach
+# "n" = "sessions.new"  # New session
+# "x" = "sessions.kill"  # Close session
+# "$" = "sessions.rename"  # Rename session
+# "<Esc>" = "sessions.close"  # Close list
+
+# While the completion list is up (↵ and esc are the input's)
+[keys.complete]
+# "<Tab>" = "complete.down"  # Next candidate
+# "<C-n>" = "complete.down"  # Next candidate
+# "<Down>" = "complete.down"  # Next candidate
+# "<S-Tab>" = "complete.up"  # Previous candidate
+# "<C-p>" = "complete.up"  # Previous candidate
+# "<Up>" = "complete.up"  # Previous candidate
+
+# While a cell of a row added and not saved is edited, over the options / segments overlay
+[keys.newrow]
+# "<Tab>" = "cell.field.next"  # Next field
+# "<S-Tab>" = "cell.field.prev"  # Previous field
+
+# A cell that is not a time, its options overlay open and with options
+[keys.options]
+# "<Tab>" = "cell.option.next"  # Next option
+# "<C-n>" = "cell.option.next"  # Next option
+# "<Down>" = "cell.option.next"  # Next option
+# "<S-Tab>" = "cell.option.prev"  # Previous option
+# "<C-p>" = "cell.option.prev"  # Previous option
+# "<Up>" = "cell.option.prev"  # Previous option
+
+# A time cell, its segments overlay open
+[keys.segments]
+# "<Tab>" = "cell.segment.next"  # Next segment
+# "<S-Tab>" = "cell.segment.prev"  # Previous segment
+# "<Up>" = "cell.up"  # Segment up
+# "<Down>" = "cell.down"  # Segment down
+# "<C-n>" = "cell.option.next"  # Next option
+# "<C-p>" = "cell.option.prev"  # Previous option
+
+# While the key help (?) is open
+[keys.keyhelp]
+# "<Esc>" = "keyhelp.close"  # Close key help
+# "<BS>" = "keyhelp.back"  # Up a level
+# "<C-d>" = "keyhelp.scroll.down"  # Scroll down
+# "<C-u>" = "keyhelp.scroll.up"  # Scroll up
+
+# While a cell is edited
+[keys.cell]
+# "<CR>" = "cell.accept"  # Accept this cell
+# "<Esc>" = "cell.done"  # End editing
+
+# In any input
+[keys.input]
+# "<C-r>" = "where.history"  # History / favorites
+# "<C-f>" = "where.star"  # Favorite / unfavorite
+
+# The WHERE input in NORMAL
+[keys.wherenormal]
+# "<CR>" = "where.run"  # Run
+# "/" = "where.history"  # History / favorites
+# "<Esc>" = "where.leave"  # Back to the grid
+
+# Records marked, or VISUAL on a table: over grid / result; its keys are complete, no timeoutlen to wait
+[keys.select]
+# "d" = "grid.select.delete"  # Mark the selected records for deletion
+# "y" = "grid.select.yank"  # Copy the selected records as JSON
+# "<Esc>" = "grid.select.clear"  # Clear the selection / end VISUAL
+# nvim 비주얼 모드 <M-c> 클립보드 복사와 동일
+"<M-c>" = "grid.select.yank"  # Copy the selected records as JSON
+
+# The result area, over the grid
+[keys.result]
+# "P" = "result.pin"  # Pin result
+# "q" = "result.close"  # Close result
+# "x" = "result.close"  # Close result
+# "R" = "result.rerun"  # Run again
+# "]" = "result.page.next"  # Next page of the result
+# "[" = "result.page.prev"  # Previous page of the result
+# "" = "result.export"  # Export…
+
+# The focus on the grid (NORMAL)
+[keys.grid]
+# "h" = "grid.left"  # Left
+# "j" = "grid.down"  # Down
+# "k" = "grid.up"  # Up
+# "l" = "grid.right"  # Right
+# "<Left>" = "grid.left"  # Left
+# "<Down>" = "grid.down"  # Down
+# "<Up>" = "grid.up"  # Up
+# "<Right>" = "grid.right"  # Right
+# "<Tab>" = "grid.right"  # Right
+# "<S-Tab>" = "grid.left"  # Left
+# "gg" = "grid.top"  # First row
+# "G" = "grid.bottom"  # Last row
+# "0" = "grid.first"  # First column
+# "^" = "grid.first"  # First column
+# "<C-r>" = "where.history"  # History / favorites
+# "$" = "grid.last"  # Last column
+# "<CR>" = "grid.edit"  # Edit cell
+# "i" = "grid.edit"  # Edit cell
+# "r" = "grid.revert"  # Undo this cell's change
+# "o" = "grid.row.add"  # Add a row
+# "dd" = "grid.row.delete"  # Mark / unmark this row for deletion
+# "R" = "grid.refresh"  # Refresh
+# "T" = "grid.transpose"  # Transpose
+# "x" = "tab.close"  # Close tab
+# "/" = "grid.where"  # WHERE condition
+# "go" = "grid.order"  # ORDER
+# "gl" = "grid.limit"  # LIMIT
+# "gp" = "grid.page"  # PAGE
+# "gc" = "grid.cols"  # COLS
+# "ge" = "grid.export"  # Export…
+# "gs" = "grid.order.cycle"  # Sort by this column
+# "gS" = "grid.order.add"  # Add to sorting
+# "gj" = "grid.view.json"  # View as JSON
+# "*" = "grid.filter.cell"  # Filter by this value
+# "e" = "grid.value"  # Open in the value editor
+# "O" = "grid.value"  # Open in the value editor
+# "fv" = "grid.filter.cell"  # Filter by this value
+# "fc" = "grid.col.hide"  # Hide this column
+# ">" = "grid.col.wider"  # Widen this column
+# "<lt>" = "grid.col.narrower"  # Narrow this column
+# "=" = "grid.col.fit"  # Column widths back to automatic
+# "fe" = "grid.export"  # Export…
+# "]" = "grid.page.next"  # Next page
+# "[" = "grid.page.prev"  # Previous page
+# "s" = "jump.start"  # Jump to a character on the screen
+# "m" = "grid.select.toggle"  # Mark / unmark this record
+# "v" = "grid.select.visual"  # VISUAL: extend the selection
+# "V" = "grid.select.unset"  # Unselect a range
+# "yy" = "grid.yank.row"  # Copy row
+# "yl" = "grid.yank"  # Copy cell
+# "p" = "grid.paste"  # Paste as a new row
+# "yi" = "grid.yank.insert"  # Copy as INSERT
+# "Y" = "grid.yank.json"  # Copy as JSON
+# ":" = "palette.open"  # Command palette
+# ";" = "palette.sql"  # Quick SQL
+# nvim FzfLua <a-f> 커서 단어 검색과 동일 (* 와 같은 동작)
+"<M-f>" = "grid.filter.cell"  # Filter by this value
+# "" = "grid.ddl.column"  # Column definition
+# "" = "grid.ddl.table"  # Table DDL
+# "" = "grid.order.toggle"  # Reverse the sort
+# "" = "grid.refresh.auto"  # Auto refresh
+# "" = "grid.stop"  # Stop
+
+# The focus on the schema tree (NORMAL)
+[keys.tree]
+# "j" = "tree.down"  # Down
+# "k" = "tree.up"  # Up
+# "gg" = "tree.top"  # First item
+# "G" = "tree.bottom"  # Last item
+# "l" = "tree.expand"  # Expand
+# "h" = "tree.collapse"  # Collapse / up a level
+# "<Down>" = "tree.down"  # Down
+# "<Up>" = "tree.up"  # Up
+# "<Right>" = "tree.expand"  # Expand
+# "<Left>" = "tree.collapse"  # Collapse / up a level
+# "<CR>" = "tree.open"  # Open
+# "t" = "tree.open.tab"  # Open
+# "/" = "tree.filter"  # Filter
+# "R" = "tree.refresh"  # Refresh the tables
+# "dd" = "tree.delete"  # Delete query file, table or view
+# "s" = "jump.start"  # Jump to a character on the screen
+# ":" = "palette.open"  # Command palette
+# ";" = "palette.sql"  # Quick SQL
+# "" = "tree.pick"  # Pick databases / schemas…
+
+# A grid's JSON view: the rest is its read only editor's
+[keys.jsonview]
+# "<Esc>" = "json.leave"  # Back to the grid
+# "q" = "json.leave q"  # Back to the grid
+# "gj" = "grid.view.json"  # View as JSON
+# "Y" = "json.yank"  # Copy the whole JSON
+# "s" = "jump.start"  # Jump to a character on the screen
+
+# A query in INSERT
+[keys.queryinsert]
+# "<C-r>" = "query.history"  # Query history…
+
+# A query's NORMAL / VISUAL
+[keys.query]
+# "<CR>" = "query.run"  # Run
+# "s" = "jump.start"  # Jump to a character on the screen
+# "gs" = "query.schema"  # Switch schema
+# nvim(LazyVim) <leader>cf 포맷과 동일
+"<Leader>cf" = "query.format"  # Format the whole query
+# "" = "query.conn"  # Switch connection…
+# "" = "query.external"  # Edit in $EDITOR
+# "" = "query.rename"  # Rename query…
+
+# The landing page: a new tab, a pane with no tab
+[keys.landing]
+# "t" = "tab.table"  # Open a table
+# "c" = "query.new"  # New query
+# "x" = "tab.close"  # Close tab
+# ":" = "palette.open"  # Command palette
+# ";" = "palette.sql"  # Quick SQL
+
+# NORMAL mode, the focus in any pane
+[keys.normal]
+# "<C-h>" = "pane.focus.left"  # Focus left
+# "<C-j>" = "pane.focus.down"  # Focus down
+# "<C-k>" = "pane.focus.up"  # Focus up
+# nvim 에서 <C-l> 을 FzfLua buffers 로 쓰는 것과 동일 (오른쪽 pane 이동은 <C-w>l)
+"<C-l>" = "palette.tab"  # Palette: Tab
+# "<Leader>s" = "session.list"  # Session list
+# "<Leader>)" = "session.next"  # Next session
+# "<Leader>(" = "session.prev"  # Previous session
+# "<Leader>L" = "session.last"  # Last session
+# "<Leader>c" = "window.new"  # New window
+# "<Leader>n" = "window.next"  # Next window
+# "<Leader>p" = "window.prev"  # Previous window
+# "<Leader>l" = "window.last"  # Last window
+# "<Leader>%" = "pane.split.right"  # Split right
+# "<Leader>\"" = "pane.split.below"  # Split below
+# "<Leader>z" = "pane.zoom"  # Zoom / restore
+# "<Leader>x" = "pane.close"  # Close pane
+# "<Leader>q" = "pane.number"  # Jump by number
+# nvim(LazyVim) <leader>b 는 버퍼 그룹이라 기본값 tree.toggle 해제 (<Leader>e, <Leader>tt 로 이동)
+"<Leader>b" = ""
+# "<Leader>r" = "result.toggle"  # Show / hide the results
+# "?" = "keyhelp.open"  # Key help
+# "<Leader>?" = "keyhelp.open"  # Key help
+# "<Esc>" = "pane.error.close"  # Close error bar
+# "gt" = "tab.next"  # Next tab
+# "gT" = "tab.prev"  # Previous tab
+# "<Leader>wn" = "tab.move.next"  # Move tab to the next pane
+# "<Leader>wp" = "tab.move.prev"  # Move tab to the previous pane
+# tmux root 바인딩(M-h/j/k/l, M-Up/Down, M-n, M-x)과 동일
+"<M-h>" = "pane.focus.left"  # Focus left
+"<M-j>" = "pane.focus.down"  # Focus down
+"<M-k>" = "pane.focus.up"  # Focus up
+"<M-l>" = "pane.focus.right"  # Focus right
+"<M-Down>" = "pane.focus.down"  # Focus down
+"<M-Up>" = "pane.focus.up"  # Focus up
+"<M-n>" = "pane.split.right"  # Split right
+"<M-x>" = "pane.close"  # Close pane
+# nvim <C-w> 창 이동/분할/닫기와 동일 (zellij/tmux 가 C-h 를 가져가도 동작)
+"<C-w>h" = "pane.focus.left"  # Focus left
+"<C-w>j" = "pane.focus.down"  # Focus down
+"<C-w>k" = "pane.focus.up"  # Focus up
+"<C-w>l" = "pane.focus.right"  # Focus right
+"<C-w>w" = "pane.focus.next"  # Next pane
+"<C-w>v" = "pane.split.right"  # Split right
+"<C-w>s" = "pane.split.below"  # Split below
+"<C-w>c" = "pane.close"  # Close pane
+"<C-w>q" = "pane.close"  # Close pane
+# nvim(LazyVim) <C-방향키> 창 크기 조절과 동일
+"<C-Up>" = "pane.resize.up"  # Resize up
+"<C-Down>" = "pane.resize.down"  # Resize down
+"<C-Left>" = "pane.resize.left"  # Resize left
+"<C-Right>" = "pane.resize.right"  # Resize right
+# nvim(LazyVim) <leader>-, <leader>|, <leader>wd, <leader>wm 창 키와 동일
+"<Leader>-" = "pane.split.below"  # Split below
+"<Leader>|" = "pane.split.right"  # Split right
+"<Leader>wd" = "pane.close"  # Close pane
+"<Leader>wm" = "pane.zoom"  # Zoom / restore
+# nvim(LazyVim) <leader><tab> 탭 키와 동일 (sqlmux window = nvim tab)
+"<Leader><Tab><Tab>" = "window.new"  # New window
+"<Leader><Tab>]" = "window.next"  # Next window
+"<Leader><Tab>[" = "window.prev"  # Previous window
+"<Leader><Tab>d" = "window.close"  # Close window
+"<Leader><Tab>l" = "window.last"  # Last window
+# nvim(LazyVim) 버퍼 키 <leader>bd, <leader>, 와 동일 (sqlmux tab = nvim buffer)
+"<Leader>bd" = "tab.quit"  # Close tab, and the pane / window with it when empty
+"<Leader>," = "palette.tab"  # Palette: Tab
+# nvim(LazyVim) <leader>e, neo-tree <leader>tt 탐색기 토글과 동일
+"<Leader>e" = "tree.toggle"  # Show / hide the schema tree
+"<Leader>tt" = "tree.toggle"  # Show / hide the schema tree
+# nvim(LazyVim) <leader><space>, <leader>ff, FzfLua <a-t> 파일 찾기와 동일
+"<Leader><Space>" = "palette.table"  # Palette: table
+"<Leader>ff" = "palette.table"  # Palette: table
+"<M-t>" = "palette.table"  # Palette: table
+# nvim(LazyVim) <leader>fn 새 파일과 동일
+"<Leader>fn" = "query.new"  # New query
+# nvim(LazyVim) <leader>uC 컬러스킴 선택과 동일
+"<Leader>uC" = "theme.switch"  # Switch theme…
+# zellij 와 C-p 가 겹쳐서 <Leader>: 로 변경 (nvim(LazyVim) <leader>: 와 같은 키)
+"<Leader>:" = "palette.open"  # Command palette
+# tmux prefix 기본 바인딩(&, $)과 동일
+"<Leader>&" = "window.close"  # Close window
+"<Leader>$" = "session.rename"  # Rename session…
+# "" = "cell.default"  # Set DEFAULT
+# "" = "cell.null"  # Set NULL
+# "" = "conn.manage"  # Manage connections…
+# "" = "conn.new"  # New connection…
+# "" = "key.delete"  # Delete the key
+# "" = "key.rename"  # Rename the key
+# "" = "key.ttl"  # Set the key's TTL
+# "" = "layout.open"  # Open layout
+# "" = "layout.save"  # Save layout as…
+# "" = "palette.command"  # Palette: command
+# "" = "palette.session"  # Command palette: sessions
+# "" = "palette.window"  # Palette: window
+# "" = "quit"  # Quit
+# "" = "session.close"  # Close session
+# "" = "session.new"  # New session
+# "" = "tab.new"  # New tab
+# "" = "tab.reopen"  # Reopen the closed tab
+# "" = "tab.save.close"  # Save and close tab
+# "" = "table.alter.add_column"  # Add column…
+# "" = "table.alter.add_index"  # Add index…
+# "" = "table.alter.drop_column"  # Drop column…
+# "" = "table.alter.drop_index"  # Drop index…
+# "" = "table.alter.rename"  # Rename table…
+# "" = "tips.next"  # Next tip
+# "" = "tips.show"  # All tips…
+# "" = "tx.commit"  # Commit
+# "" = "tx.mode"  # Manual commit
+# "" = "tx.rollback"  # Roll back
+# "" = "window.rename"  # Rename window
+
+# Always, in an input too
+[keys.global]
+# "<C-p>" = "palette.open"  # Command palette
+# "<C-s>" = "save"  # Save
+# "<C-c>" = "cancel"  # Cancel / press twice to quit
+# zellij 와 C-s, C-p 가 겹쳐서 M-s, M-p 로 변경 (M-s 는 nvim 저장 키와 동일)
+"<M-s>" = "save"  # Save
+"<M-p>" = "palette.open"  # Command palette
+
+# User maps: a key → a run of keys (noremap). [map.normal] is for every pane; one like the below only in the grid
+# [map.grid.normal]
+# "J" = "5j"
