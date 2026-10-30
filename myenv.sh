@@ -468,15 +468,14 @@ function set_zsh_plugin {
     if [ -d "$HOME/.zsh/zsh-completions/src" ]; then
         fpath+=("$HOME/.zsh/zsh-completions/src")
     fi
-    # fpath 앞쪽에 잡혀 있던 예전 Intel Homebrew 의
-    # /usr/local/share/zsh/site-functions/_git 이 먼저 로딩되는데, 이건 bash
-    # completion 래퍼라 브랜치/ref 이름을 자체적으로 prefix 필터링해서
-    # zsh 의 matcher-list (대소문자 무시 매칭)가 먹지 않는다.
-    # zsh 가 직접 제공하는 네이티브 _git (compadd 기반) 이 들어있는
-    # 디렉터리를 fpath 맨 앞에 두어 이쪽을 먼저 쓰도록 하여
+    # fpath 앞쪽에 잡혀 있던 예전 Intel Homebrew 의 /usr/local/share/zsh/site-functions/_git 이 먼저 로딩되는데,
+    # 이건 bash completion 래퍼라 브랜치/ref 이름을 자체적으로 prefix 필터링해서 zsh 의 matcher-list (대소문자 무시 매칭)가 먹지 않는다.
+    # zsh 가 직접 제공하는 네이티브 _git (compadd 기반) 이 들어있는 디렉터리를 fpath 맨 앞에 두어 이쪽을 먼저 쓰도록 하여
     # git checkout <TAB> 등에서도 대소문자 구분 없이 후보가 뜨도록 한다.
     if [ -d "/opt/homebrew/opt/zsh/share/zsh/functions" ]; then
-        fpath=("/opt/homebrew/opt/zsh/share/zsh/functions" "${fpath[@]}")
+        # _git 파일에 _tig () { _git-log } 설정이 동작 하지 않아 zsh-completions(_tig 설정이 없어 일반 파일 리스트 완성)을 우선사용하도한다.
+        # fpath=("/opt/homebrew/opt/zsh/share/zsh/functions" "${fpath[@]}")
+        fpath+=("/opt/homebrew/opt/zsh/share/zsh/functions")
     fi
     if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
         source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
