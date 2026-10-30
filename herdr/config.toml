@@ -67,10 +67,11 @@ auto_switch = false
 # manifest_check = true
 
 [keys]
-# direct 키: ~/.tmux.conf 의 root 바인딩(M-<키>)과 동일한 alt+<키>만 사용.
-# prefix 키: tmux 기본 바인딩(c , & o ; % " r z d [ 1..9)에 맞춤.
-# tmux 의 M-h/M-l 끝 pane 에서 탭 이동, M-n 자동 분할 방향, 레이아웃(M-. , = \ - [ ]),
-# sync-panes 는 herdr 에 대응 동작이 없어 생략.
+# zellij(config.kdl) 기준으로 맞춤.
+# prefix 키: zellij tmux 모드(ctrl+b 후 " % , [ c h j k l n o p x z d)와 동일.
+# direct 키: zellij normal 모드의 alt+h/j/k/l/arrows/n/1..9, ctrl+n(resize), ctrl+s(scroll→copy mode).
+# herdr 는 prefix 모드가 하나뿐이라 zellij 의 ctrl+p/t/h/e/g 모드, ctrl+q, alt+[ ] + - = 는 생략.
+# alt+x, alt+r 은 zellij 에 없지만 겹치지 않아 tmux 와 같이 유지.
 # Prefix key to enter prefix mode (default: "ctrl+b")
 # Examples: "ctrl+b", "f12", "esc", "-"
 # Action bindings use explicit syntax: "prefix+n" requires the prefix;
@@ -87,7 +88,7 @@ prefix = "ctrl+b"
 detach = ["prefix+d"]
 reload_config = ["prefix+r", "alt+r"]
 # open_notification_target = "prefix+o"
-# tmux 에 없는 herdr 전용 동작은 기존 direct 키 유지.
+# zellij 에 없는 herdr 전용 동작은 기존 direct 키 유지.
 workspace_picker = ["prefix+w", "alt+w"]
 # goto = "prefix+g"
 # new_workspace = "prefix+shift+n"
@@ -114,10 +115,11 @@ close_tab = ["prefix+ampersand"]
 # rename_pane = "prefix+shift+p"
 # edit_scrollback = "prefix+e"
 # clear_pane = ""                  # unbound; e.g. "prefix+ctrl+k"
-focus_pane_left = ["prefix+h", "prefix+left", "alt+h"]
+copy_mode = ["prefix+[", "ctrl+s"]
+focus_pane_left = ["prefix+h", "prefix+left", "alt+h", "alt+left"]
 focus_pane_down = ["prefix+j", "prefix+down", "alt+j", "alt+down"]
 focus_pane_up = ["prefix+k", "prefix+up", "alt+k", "alt+up"]
-focus_pane_right = ["prefix+l", "prefix+right", "alt+l"]
+focus_pane_right = ["prefix+l", "prefix+right", "alt+l", "alt+right"]
 swap_pane_left = ["prefix+shift+h"]
 swap_pane_down = ["prefix+shift+j"]
 swap_pane_up = ["prefix+shift+k"]
@@ -129,7 +131,7 @@ split_vertical = ["prefix+v", "prefix+%", "alt+n"]
 split_horizontal = ["prefix+minus", 'prefix+"']
 close_pane = ["prefix+x", "alt+x"]
 # zoom = "prefix+z"       # legacy alias: fullscreen
-# resize 는 tmux 와 같은 ctrl+n, prefix+r 은 tmux 처럼 설정 reload.
+# resize 는 zellij 와 같은 ctrl+n, prefix+r 은 설정 reload.
 resize_mode = ["ctrl+n"]
 # resize_pane_left = ""   # optional, e.g. "ctrl+shift+alt+left" resizes without entering resize mode
 # resize_pane_down = ""   # optional, e.g. "ctrl+shift+alt+down"
