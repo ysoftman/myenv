@@ -468,14 +468,12 @@ function set_zsh_plugin {
     if [ -d "$HOME/.zsh/zsh-completions/src" ]; then
         fpath+=("$HOME/.zsh/zsh-completions/src")
     fi
-    # fpath 앞쪽에 잡혀 있던 예전 Intel Homebrew 의 /usr/local/share/zsh/site-functions/_git 이 먼저 로딩되는데,
+    # brew git 이 설치한 /opt/homebrew/share/zsh/site-functions/_git 이 먼저 로딩되는데,
     # 이건 bash completion 래퍼라 브랜치/ref 이름을 자체적으로 prefix 필터링해서 zsh 의 matcher-list (대소문자 무시 매칭)가 먹지 않는다.
     # zsh 가 직접 제공하는 네이티브 _git (compadd 기반) 이 들어있는 디렉터리를 fpath 맨 앞에 두어 이쪽을 먼저 쓰도록 하여
     # git checkout <TAB> 등에서도 대소문자 구분 없이 후보가 뜨도록 한다.
     if [ -d "/opt/homebrew/opt/zsh/share/zsh/functions" ]; then
-        # _git 파일에 _tig () { _git-log } 설정이 동작 하지 않아 zsh-completions(_tig 설정이 없어 일반 파일 리스트 완성)을 우선사용하도한다.
-        # fpath=("/opt/homebrew/opt/zsh/share/zsh/functions" "${fpath[@]}")
-        fpath+=("/opt/homebrew/opt/zsh/share/zsh/functions")
+        fpath=("/opt/homebrew/opt/zsh/share/zsh/functions" "${fpath[@]}")
     fi
     if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
         source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
@@ -492,6 +490,11 @@ function set_zsh_plugin {
         autoload -Uz compinit
         compinit
     fi
+    # brew 로 tig 를 설치하면 /opt/homebrew/share/zsh/site-functions/_tig (tig 의 contrib/tig-completion.zsh) 가 등록되는데,
+    # 이건 brew git 의 bash 래퍼 _git 전용이라 네이티브 _git 에서는 tig <TAB> 후보가 안 나오고,
+    # 이 _tig 가 등록돼 있으면 네이티브 _git 파일의 (( $+functions[_tig] )) || _tig () { _git-log } 정의도 건너뛰게 된다.
+    # compinit 이 등록한 이 _tig 를 unfunction 하면 네이티브 _git 파일의 _tig () { _git-log } 가 사용된다.
+    unfunction _tig 2>/dev/null
 }
 
 # oh-my-posh 훅제거
