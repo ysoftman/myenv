@@ -2,15 +2,15 @@
 
 """
 AI 코딩 도구 사용량 조회
-- 한도: codex / claude / agy 의 사용률, 리셋까지 남은 시간
+- 한도: claude / codex / agy 의 사용률, 리셋까지 남은 시간
 - 사용량: opencode / crush 의 최근 N일 메시지·토큰·비용 (한도·리셋은 provider 쪽 정보라 로컬에서 알 수 없다)
 색상은 터미널 출력일 때만 쓴다. NO_COLOR 로 끄고, CLICOLOR_FORCE=1 로 강제한다(watch -c, less -R 등).
 
-- codex: 최근 세션 로그(~/.codex/sessions)의 rate_limits 스냅샷. 마지막 codex 실행 시점 값이라 다른 기기·웹 사용분이 빠질 수 있다.
-  리셋 시각이 지난 창은 0% 로 보고, limit_id "premium" 처럼 창 정보가 없는 스냅샷은 건너뛴다.
 - claude: `claude -p /usage` 실시간 조회 (로컬 명령이라 모델 호출 없음). 구조화된 출력이 없어 텍스트를 파싱한다.
   MCP 서버와 settings(hooks 포함)를 끄고 세션도 저장하지 않는다. --bare 는 OAuth 를 읽지 않아 구독 사용량이 안 나온다.
   세션을 저장하지 않아도 cwd 별 ~/.claude/projects/<cwd> 디렉토리를 만들어서 홈에서 실행한다.
+- codex: 최근 세션 로그(~/.codex/sessions)의 rate_limits 스냅샷. 마지막 codex 실행 시점 값이라 다른 기기·웹 사용분이 빠질 수 있다.
+  리셋 시각이 지난 창은 0% 로 보고, limit_id "premium" 처럼 창 정보가 없는 스냅샷은 건너뛴다.
 - agy: `agy -p /usage` 실시간 조회 (모델 호출 없음). agy 1.2.2+ 는 내장 language server 에 CSRF 토큰을 강제해서 직접 호출할 수 없다.
   아직 안 쓴 bucket(남은 100%)의 reset_time 은 호출할 때마다 "지금 + 창 길이"라 표시하지 않는다.
 - opencode / crush: 로컬 SQLite 를 읽기 전용으로 집계한다. MSGS 는 assistant 메시지 수다.
@@ -272,7 +272,7 @@ def spin(stop):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="codex / claude / agy 한도와 opencode / crush 사용량 조회")
+    parser = argparse.ArgumentParser(description="claude / codex / agy 한도와 opencode / crush 사용량 조회")
     parser.add_argument("days", nargs="?", type=int, default=7, help="opencode / crush 집계 기간(일), 기본 7")
     days = parser.parse_args().days
     if days < 0:
@@ -293,7 +293,7 @@ def main():
             )
             agy = ex.submit(run, ["agy", "-p", "/usage", "--output-format", "json", "--print-timeout", "60s"])
             usage = safe(opencode_row, since) + safe(crush_row, since)
-            limits = safe(codex_rows) + safe(claude_rows, claude.result()) + safe(agy_rows, agy.result())
+            limits = safe(claude_rows, claude.result()) + safe(codex_rows) + safe(agy_rows, agy.result())
     finally:
         stop.set()
         if spinner.is_alive():
