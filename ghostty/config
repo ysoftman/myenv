@@ -59,6 +59,8 @@ window-step-resize = true
 
 # Empty values reset the configuration to the default value
 font-family = "FiraCode Nerd Font"
+# 한글을 위한 대체(fallbacks)폰트
+font-family = "D2Coding"
 font-size = 16
 # ligature 비활성화
 # calt: 문맥 치환 (FiraCode 는 ->, => 등 코딩 리가처를 calt 로 구현하므로 -calt 필수)
