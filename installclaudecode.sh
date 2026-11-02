@@ -318,6 +318,9 @@ bunx skills add https://github.com/vercel-labs/skills --skill "find-skills" -g -
 echo "herdr skill을 설치(업데이트)합니다..."
 bunx skills add https://github.com/herdrdev/herdr --skill "herdr" -g -a claude-code -y
 
+echo "ego-browser skill을 설치(업데이트)합니다..."
+bunx skills add https://github.com/citrolabs/ego-lite --skill "ego-browser" -g -a claude-code -y
+
 # local LLM 연결해서 사용할 경우
 # 환경변수 파일 생성
 ENV_FILE=".local_llm_env_for_claude_code"
