@@ -183,6 +183,12 @@ jq --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" --argjso
     | .hooks = reduce ([$hooks, $zjhooks][] | to_entries[]) as $e (.hooks // {}; .[$e.key] = ((.[$e.key] // []) + $e.value | unique))
 ' "${SETTINGS_FILE}" >"${tmp}" && mv "${tmp}" "${SETTINGS_FILE}"
 
+# rtk(rust token killer): Bash 명령 출력을 줄여 토큰을 아끼는 PreToolUse hook 과 RTK.md 를 전역 설정에 추가한다.
+if command -v rtk &>/dev/null; then
+    echo "rtk hook 을 설정합니다..."
+    rtk init -g --auto-patch
+fi
+
 # mod 단축키: 패널 토글(Chat 문맥 command:<이름>)과 모든 mod 패널 탭 이동(Global 문맥 pane:previous/pane:next).
 # 예전 summary 바인딩(app:toggleDiffPreSession)은 지우고, action 이 이미 묶여 있으면 그 action 은, 키가 이미 쓰이면 그 키는 건드리지 않는다.
 KEYBINDINGS_FILE="${HOME}/.claude/keybindings.json"
