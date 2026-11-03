@@ -462,7 +462,7 @@ test("the pane draws the rules in the summary pane's style", async ($, on) => {
 			(await ui.findAll({ type: "Box" })).filter(
 				(b) => b.props.borderStyle === "round",
 			),
-		).toHaveLength(2);
+		).toHaveLength(3);
 		expect(await props(/^rg-fd +$/)).toMatchObject({ color: "#89b4fa" });
 		expect(await props(/^on +$/)).toMatchObject({ color: "#a6e3a1" });
 		expect(await props(/^off +$/)).toMatchObject({ color: "#f9e2af" });
@@ -580,6 +580,34 @@ test("/rule-guard and the pane show settings hooks and their runs", async ($, on
 		expect(await ui.find({ text: /^ran 2$/ })).toBeDefined();
 		expect(await ui.find({ text: /^ran -$/ })).toBeDefined();
 		expect(await ui.find({ text: /^rtk hook claude$/ })).toBeDefined();
+		await ui.unmount();
+	}
+});
+
+test("/rule-guard and the pane show what each mod hooks", async ($, on) => {
+	// what plugin.register recorded as the other mods loaded
+	on("state.get", { key: "mods" }, () => ({
+		value: {
+			value: {
+				summary: { tier: "user", events: ["session.start", "ui.render"] },
+			},
+			version: 1,
+		},
+	}));
+	const { rules, pane } = await setup($, on);
+	const list = await rules();
+	expect(list).toMatch(/^plugin\s+tier\s+events$/m);
+	expect(list).toMatch(/^rule-guard\s+user\s+session\.start, .*tool\.call/m);
+	expect(list).toMatch(/^summary\s+user\s+session\.start, ui\.render$/m);
+
+	await pane();
+	for (const surface of ["terminal", "desktop"] as const) {
+		const ui = await $.ui.mount({ plugin: "rule-guard", surface, ...PANE });
+		expect(await ui.find({ text: /^mods$/ })).toBeDefined();
+		expect(await ui.find({ text: /^summary$/ })).toBeDefined();
+		expect(
+			await ui.find({ text: /^session\.start, ui\.render$/ }),
+		).toBeDefined();
 		await ui.unmount();
 	}
 });

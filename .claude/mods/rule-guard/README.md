@@ -53,6 +53,12 @@ Claude Code 2.1.299 에서 확인했다.
 - 다른 event 는 `-` 로 나온다. Team·Enterprise 조직에서는 내장 `cc-plugin-sec-default` 가 `classic.*` 이벤트를 사용자 plugin 너머로 보내서 mod 가 볼 수 없다(2.1.317 엔진 코드로 확인).
 - matcher 는 엔진처럼 맞춘다: 비었거나 `*` 면 전부, 영문·숫자·`_`·`|` 만이면 이름 목록, 그 밖엔 정규식.
 
+그 아래 `mod hook` 표(패널은 `mods`)에는 mod 가 `on(...)` 으로 거는 이벤트를 plugin, tier 와 함께 보여 준다. `plugin.register` 이벤트가 로드되는 module 마다 넘겨 주는 `uses.events` 를 모은 것이다.
+
+- rule-guard 보다 먼저 로드된 mod 는 보이지 않는다. rule-guard 자신은 `plugin.register` 로 보이지 않아서 코드에 적은 목록으로 보여 준다.
+- 다른 mod 의 hook 이 실행됐는지는 알 수 없어서 실행 횟수는 없다.
+- `plugin.register` 를 걸면 `/reload-plugins` 때 바뀐 module 만이 아니라 모든 module 의 `session.start` 가 다시 돈다.
+
 ## 패널 단축키
 
 `keybindings.json` 의 `command:<이름>` action 은 그 슬래시 명령을 입력한 것처럼 실행한다. action 에는 인자를 넣을 수 없어서 인자 없는 `/rule-guard` 가 패널 토글이다. `~/.claude/keybindings.json` 에 다음을 넣는다. 파일이 이미 있으면 덮어쓰지 말고 `"Chat"`·`"Global"` 블록의 `bindings` 에 위 줄만 추가한다(없으면 블록을 추가하고, 이미 다른 키에 묶은 action 이나 다른 action 에 쓰는 키는 건너뛴다).

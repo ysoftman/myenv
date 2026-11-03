@@ -11,6 +11,18 @@ const unlinted = atom({ plugin: "rule-guard", key: "pending" } as const, []);
 // tool calls that reached the engine, by "<classic event>:<tool>"
 const hookRuns = atom({ plugin: "rule-guard", key: "hookRuns" } as const, {});
 
+// what each mod loaded after this one hooks, by plugin name
+const mods = atom({ plugin: "rule-guard", key: "mods" } as const, {});
+
+// plugin.register never shows a module itself
+const OWN_EVENTS = [
+	"session.start",
+	"plugin.register",
+	"command.run",
+	"ui.render",
+	"tool.call",
+];
+
 const chord = atom({ plugin: "rule-guard", key: "chord" } as const, "");
 
 const tabs = atom({ plugin: "rule-guard", key: "tabs" } as const, "");
@@ -345,10 +357,12 @@ const paint = (line: string): Span[] => {
 			[desc],
 		];
 	}
-	if (/^(?:id\s+상태|event\s+실행)/.test(line)) {
+	if (/^(?:id\s+상태|event\s+실행|plugin\s+tier)/.test(line)) {
 		return [[line, { underline: true }]];
 	}
-	if (line.startsWith("hook 사용 현황")) return [[line, { bold: true }]];
+	if (/^(?:hook 사용 현황|mod hook):/.test(line)) {
+		return [[line, { bold: true }]];
+	}
 	const hook = /^([A-Z][A-Za-z]+)(\s.*)$/.exec(line);
 	if (hook) {
 		const [, ev = "", rest = ""] = hook;
@@ -435,6 +449,12 @@ export const hooksOf = async ($: EngineInterface) => {
 	);
 };
 
+export const modsOf = async ($: EngineInterface) =>
+	Object.entries({
+		[$.plugin.name]: { tier: "user", events: OWN_EVENTS },
+		...(await read($, mods)),
+	}).map(([name, m]) => ({ name, ...m }));
+
 const oneLine = (s: string, n: number) => {
 	const line = s.split("\n")[0] ?? "";
 	return line.length > n || s.includes("\n") ? `${line.slice(0, n)}…` : line;
@@ -443,6 +463,13 @@ const oneLine = (s: string, n: number) => {
 const table = async ($: EngineInterface, isSet: boolean) => {
 	const files = await read($, unlinted);
 	const hooks = await hooksOf($);
+	const modRows = [
+		["plugin", "tier", "events"],
+		...(await modsOf($)).map((m) => [m.name, m.tier, m.events.join(", ")]),
+	];
+	const modWidths = [0, 1].map((i) =>
+		Math.max(...modRows.map((row) => width(row[i] ?? ""))),
+	);
 	const hookRows = [
 		["event", "실행", "matcher", "command"],
 		...hooks.map((h) => [
@@ -489,6 +516,13 @@ const table = async ($: EngineInterface, isSet: boolean) => {
 				]
 			: []),
 		"",
+		"mod hook: 로드된 mod 가 on(...) 으로 거는 이벤트, 실행 횟수는 셀 수 없다",
+		...modRows.map((row) =>
+			row
+				.map((cell, i) => (i < 2 ? pad(cell, modWidths[i] ?? 0) : cell))
+				.join("  "),
+		),
+		"",
 		"/rule-guard off <id> · /rule-guard on <id> 로 이 세션 동안 끄고 켠다 · /rule-guard help",
 	].join("\n");
 };
@@ -517,6 +551,19 @@ export const register: Register = (on, options) => {
 		}
 		return next(e);
 	}).catch((_, e, next) => next(e));
+
+	// records only: a failure is skipped and the module joins anyway
+	on("plugin.register", async ($, e, next) => {
+		const events = [...e.uses.events];
+		const was = (await read($, mods))[e.name];
+		if (was?.tier !== e.tier || was.events.join() !== events.join()) {
+			await update($, mods, (m) => ({
+				...m,
+				[e.name]: { tier: e.tier, events },
+			}));
+		}
+		return next(e);
+	});
 
 	on("command.run", { command: "rule-guard" }, async ($, e) => {
 		const [verb = "", id = ""] = e.args.trim().split(/\s+/);
@@ -586,6 +633,7 @@ export const register: Register = (on, options) => {
 		const rules = await statusOf($, isSet);
 		const files = await read($, unlinted);
 		const hooks = await hooksOf($);
+		const modList = await modsOf($);
 		const key = await read($, chord);
 		const tabKeys = await read($, tabs);
 		const columns = Math.max(30, e.props.bodyColumns);
@@ -676,6 +724,32 @@ export const register: Register = (on, options) => {
 						))}
 					</Box>
 				)}
+				<Box
+					flexDirection="column"
+					borderStyle="round"
+					borderColor={C.surface1}
+					paddingX={1}
+				>
+					<Text bold color={C.lavender}>
+						mods
+					</Text>
+					{modList.map((m) => (
+						<Box flexDirection="column">
+							<Text wrap="truncate-end">
+								<Text bold color={C.blue}>
+									{m.name}
+								</Text>
+								{"  "}
+								<Text color={C.overlay}>{m.tier}</Text>
+							</Text>
+							<Box paddingLeft={2}>
+								<Text color={C.subtext} wrap="wrap">
+									{m.events.join(", ")}
+								</Text>
+							</Box>
+						</Box>
+					))}
+				</Box>
 				{files.length > 0 && (
 					<Box
 						flexDirection="column"
