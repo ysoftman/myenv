@@ -38,16 +38,24 @@ Claude Code 2.1.299 에서 확인했다.
 
 ## 사용
 
-- `/rule-guard`: 룰마다 id, 상태(on / off / 설정 안 됨), 이 세션 차단 횟수, 설명을 표로 보여 준다. lint 대기 파일이 있으면 목록도 보여 준다.
-- `/rule-guard-pane`: 같은 상태를 패널로 열고 닫는다. 전체 화면이면 대화 기록 오른쪽에 붙고, 아니면 프롬프트 위에 뜬다. 상태가 바뀌면 패널도 바로 바뀐다. 다른 탭에 가려져 있으면 닫지 않고 앞으로 꺼낸다. 출력은 남기지 않는다. Claude 를 시작하면 패널이 바로 열린다(터미널이 좁으면 대기, `/reload-plugins` 때는 다시 열지 않음).
+- `/rule-guard`: 룰 상태를 패널로 열고 닫는다. 전체 화면이면 대화 기록 오른쪽에 붙고, 아니면 프롬프트 위에 뜬다. 상태가 바뀌면 패널도 바로 바뀐다. 다른 탭에 가려져 있으면 닫지 않고 앞으로 꺼낸다. 출력은 남기지 않는다. Claude 를 시작하면 패널이 바로 열린다(터미널이 좁으면 대기, `/reload-plugins` 때는 다시 열지 않음).
+- `/rule-guard list`: 룰마다 id, 상태(on / off / 설정 안 됨), 이 세션 차단 횟수, 설명을 표로 보여 준다. lint 대기 파일이 있으면 목록도 보여 준다. settings 에 hook 이 있으면 hook 사용 현황(아래)도 보여 준다.
 - `/rule-guard off <id>`, `/rule-guard on <id>`: 이 세션 동안만 끄고 켠다. 잘못된 id 면 사용 가능한 id 를 알려 준다.
 - `/rule-guard help`: 사용법. 단축키가 없으면 설정 방법도 보여 준다.
 
 모델은 슬래시 명령을 실행할 수 없어서 룰을 끄는 건 사용자만 할 수 있다. 예를 들어 호환성 문제로 npm 이 꼭 필요하면 `/rule-guard off bun-over-npm` 으로 끈다. 끈 상태와 차단 횟수는 `/reload-plugins` 를 해도 세션 동안 유지되고, 새 세션에서는 다시 모두 켜진다.
 
+## hook 사용 현황
+
+`/rule-guard list` 와 패널에 settings(user·project·local·policy 를 합친 값)의 `hooks` 를 event, 이 세션 실행 횟수, matcher, command 순으로 보여 준다. plugin 이 `hooks.json` 으로 넣은 hook 은 settings 에 없어서 나오지 않는다.
+
+- 실행 횟수는 `PreToolUse`, `PostToolUse`, `PostToolUseFailure` 만 센다. rule-guard 가 보는 tool 호출 중 엔진까지 간 것을 tool 이름으로 matcher 에 맞춰 센다. 성공하면 `PostToolUse`, 실패하면 `PostToolUseFailure` 로, 거부되면 `PreToolUse` 만 센다. rule-guard 가 막은 호출은 세지 않는다.
+- 다른 event 는 `-` 로 나온다. Team·Enterprise 조직에서는 내장 `cc-plugin-sec-default` 가 `classic.*` 이벤트를 사용자 plugin 너머로 보내서 mod 가 볼 수 없다(2.1.317 엔진 코드로 확인).
+- matcher 는 엔진처럼 맞춘다: 비었거나 `*` 면 전부, 영문·숫자·`_`·`|` 만이면 이름 목록, 그 밖엔 정규식.
+
 ## 패널 단축키
 
-`keybindings.json` 의 `command:<이름>` action 은 그 슬래시 명령을 입력한 것처럼 실행한다. action 에는 인자를 넣을 수 없어서 인자 없는 `/rule-guard-pane` 을 따로 둔다. `~/.claude/keybindings.json` 에 다음을 넣는다. 파일이 이미 있으면 덮어쓰지 말고 `"Chat"`·`"Global"` 블록의 `bindings` 에 위 줄만 추가한다(없으면 블록을 추가하고, 이미 다른 키에 묶은 action 이나 다른 action 에 쓰는 키는 건너뛴다).
+`keybindings.json` 의 `command:<이름>` action 은 그 슬래시 명령을 입력한 것처럼 실행한다. action 에는 인자를 넣을 수 없어서 인자 없는 `/rule-guard` 가 패널 토글이다. `~/.claude/keybindings.json` 에 다음을 넣는다. 파일이 이미 있으면 덮어쓰지 말고 `"Chat"`·`"Global"` 블록의 `bindings` 에 위 줄만 추가한다(없으면 블록을 추가하고, 이미 다른 키에 묶은 action 이나 다른 action 에 쓰는 키는 건너뛴다).
 
 ```json
 {
@@ -55,7 +63,7 @@ Claude Code 2.1.299 에서 확인했다.
     {
       "context": "Chat",
       "bindings": {
-        "ctrl+x r": "command:rule-guard-pane"
+        "ctrl+x r": "command:rule-guard"
       }
     },
     {

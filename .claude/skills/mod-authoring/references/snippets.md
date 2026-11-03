@@ -117,7 +117,7 @@ pane 하단 단축키 줄 바로 아래에 둔다. 빠진 키의 줄만 그리�
 
 ## help 명령과 단축키 명령
 
-`command:` action 은 인자를 넣을 수 없으니, 인자 없는 `/my-cmd` 가 토글이어야 한다. 토글하는 명령이 따로 있어야 하면 `my-cmd-pane` 처럼 인자 없는 명령을 하나 더 등록한다(rule-guard 의 `/rule-guard-pane`).
+`command:` action 은 인자를 넣을 수 없으니, 인자 없는 `/my-cmd` 가 토글이어야 한다. 표 같은 출력은 `/my-cmd list` 처럼 인자로 옮긴다(rule-guard 는 `/rule-guard` 가 토글, `/rule-guard list` 가 표).
 
 ```ts
 const usage = () =>

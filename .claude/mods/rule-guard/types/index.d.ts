@@ -5,6 +5,7 @@ declare module "claude-code" {
 		"rule-guard": {
 			off: string[];
 			blocked: BlockCounts;
+			hookRuns: BlockCounts;
 			pending: string[];
 			chord: string;
 			tabs: string;

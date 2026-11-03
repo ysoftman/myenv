@@ -8,6 +8,9 @@ const blocked = atom({ plugin: "rule-guard", key: "blocked" } as const, {});
 // files edited since the last lint/format run
 const unlinted = atom({ plugin: "rule-guard", key: "pending" } as const, []);
 
+// tool calls that reached the engine, by "<classic event>:<tool>"
+const hookRuns = atom({ plugin: "rule-guard", key: "hookRuns" } as const, {});
+
 const chord = atom({ plugin: "rule-guard", key: "chord" } as const, "");
 
 const tabs = atom({ plugin: "rule-guard", key: "tabs" } as const, "");
@@ -19,9 +22,6 @@ const autoOpened = atom(
 );
 
 const PANE = "rule-guard";
-
-// keybindings.json runs it as "command:rule-guard-pane", which takes no arguments
-const PANE_COMMAND = "rule-guard-pane";
 
 const EDIT_TOOLS = new Set(["Edit", "MultiEdit", "Write", "NotebookEdit"]);
 
@@ -227,8 +227,8 @@ const pad = (s: string, n: number) => s + " ".repeat(Math.max(0, n - width(s)));
 
 const usage = (key: string, tabKeys: string) =>
 	[
-		"/rule-guard             룰 목록, on/off, 이 세션 차단 횟수",
-		`/${PANE_COMMAND}        패널 열기/닫기${key === "" ? "" : ` (${key})`}`,
+		`/rule-guard             패널 열기/닫기${key === "" ? "" : ` (${key})`}`,
+		"/rule-guard list        룰 목록, on/off, 이 세션 차단 횟수, hook 사용 현황",
 		...(tabKeys === "" ? [] : [`${pad(tabKeys, 24)}이전/다음 패널 탭`]),
 		"/rule-guard off <id>    이 세션 동안 룰 끄기",
 		"/rule-guard on <id>     다시 켜기",
@@ -243,9 +243,7 @@ const usage = (key: string, tabKeys: string) =>
 					"",
 					'단축키는 mod 가 등록하지 않는다. Claude 에게 "rule-guard mod README 대로 단축키 설정해줘" 라고 하거나 ~/.claude/keybindings.json 에 직접 추가한다(기존 블록에 합친다):',
 					...(key === ""
-						? [
-								`  "Chat":   "ctrl+x r": "command:${PANE_COMMAND}"   패널 열기/닫기`,
-							]
+						? [`  "Chat":   "ctrl+x r": "command:rule-guard"   패널 열기/닫기`]
 						: []),
 					...(tabKeys === ""
 						? [
@@ -274,7 +272,7 @@ const syncChord = async ($: EngineInterface) => {
 	const bound = await boundKeys($);
 	const keyOf = (action: string) =>
 		bound.find(([, a]) => a === action)?.[0] ?? "";
-	const key = keyOf(`command:${PANE_COMMAND}`);
+	const key = keyOf(`command:rule-guard`);
 	if ((await read($, chord)) !== key) {
 		await update($, chord, () => key);
 	}
@@ -347,7 +345,15 @@ const paint = (line: string): Span[] => {
 			[desc],
 		];
 	}
-	if (/^id\s+상태/.test(line)) return [[line, { underline: true }]];
+	if (/^(?:id\s+상태|event\s+실행)/.test(line)) {
+		return [[line, { underline: true }]];
+	}
+	if (line.startsWith("hook 사용 현황")) return [[line, { bold: true }]];
+	const hook = /^([A-Z][A-Za-z]+)(\s.*)$/.exec(line);
+	if (hook) {
+		const [, ev = "", rest = ""] = hook;
+		return [[ev, { color: "suggestion" }], [rest]];
+	}
 	if (line.startsWith("lint 대기")) return [[line, { color: "warning" }]];
 	if (line.includes("알 수 없는")) return [[line, { color: "error" }]];
 	const ack = /^(.*이 세션 동안 )(on|off)$/.exec(line);
@@ -379,8 +385,76 @@ const statusOf = async ($: EngineInterface, isSet: boolean) => {
 	}));
 };
 
+// the classic events a tool call raises, the only ones a mod sees run here:
+// cc-plugin-sec-default sends classic.* past user plugins
+const TOOL_EVENTS = new Set([
+	"PreToolUse",
+	"PostToolUse",
+	"PostToolUseFailure",
+]);
+
+// the engine's matcher: empty or * all, letters and | a list, else a regex
+const matches = (m: string, v: string) => {
+	if (m === "" || m === "*") return true;
+	if (/^[\w|]+$/.test(m)) return m.split("|").includes(v);
+	try {
+		return new RegExp(m).test(v);
+	} catch {
+		return false;
+	}
+};
+
+type HookGroup = {
+	matcher?: string;
+	hooks?: { type?: string; command?: string; url?: string; prompt?: string }[];
+};
+
+export const hooksOf = async ($: EngineInterface) => {
+	const cfg = (await $.settings
+		.read({ key: "hooks" })
+		.catch(() => undefined)) as Record<string, unknown> | undefined;
+	const runs = await read($, hookRuns);
+	return Object.entries(cfg ?? {}).flatMap(([event, groups]) =>
+		(Array.isArray(groups) ? (groups as HookGroup[]) : []).flatMap(
+			({ matcher = "", hooks = [] }) =>
+				hooks.map((h) => ({
+					event,
+					matcher: matcher || "*",
+					cmd: String(h.command ?? h.url ?? h.prompt ?? h.type ?? ""),
+					runs: TOOL_EVENTS.has(event)
+						? Object.entries(runs)
+								.filter(
+									([k]) =>
+										k.startsWith(`${event}:`) &&
+										matches(matcher, k.slice(event.length + 1)),
+								)
+								.reduce((n, [, c]) => n + c, 0)
+						: undefined,
+				})),
+		),
+	);
+};
+
+const oneLine = (s: string, n: number) => {
+	const line = s.split("\n")[0] ?? "";
+	return line.length > n || s.includes("\n") ? `${line.slice(0, n)}…` : line;
+};
+
 const table = async ($: EngineInterface, isSet: boolean) => {
 	const files = await read($, unlinted);
+	const hooks = await hooksOf($);
+	const hookRows = [
+		["event", "실행", "matcher", "command"],
+		...hooks.map((h) => [
+			h.event,
+			h.runs === undefined ? "-" : String(h.runs),
+			h.matcher,
+			oneLine(h.cmd, 60),
+		]),
+	];
+	const hookWidths = [0, 1, 2].map((i) =>
+		Math.max(...hookRows.map((row) => width(row[i] ?? ""))),
+	);
 	const rows = [
 		["id", "상태", "차단", "설명"],
 		...(await statusOf($, isSet)).map((r) => [
@@ -403,6 +477,17 @@ const table = async ($: EngineInterface, isSet: boolean) => {
 		...(files.length > 0
 			? ["", `lint 대기 ${files.length}개: ${files.join(", ")}`]
 			: []),
+		...(hooks.length > 0
+			? [
+					"",
+					"hook 사용 현황: settings 의 hooks, 실행은 이 세션 tool 이벤트만 센다",
+					...hookRows.map((row) =>
+						row
+							.map((cell, i) => (i < 3 ? pad(cell, hookWidths[i] ?? 0) : cell))
+							.join("  "),
+					),
+				]
+			: []),
 		"",
 		"/rule-guard off <id> · /rule-guard on <id> 로 이 세션 동안 끄고 켠다 · /rule-guard help",
 	].join("\n");
@@ -422,14 +507,8 @@ export const register: Register = (on, options) => {
 		const key = await syncChord($);
 		await $.command.register({
 			name: "rule-guard",
-			description:
-				"rule-guard 룰 목록·상태·차단 횟수, 이 세션 on/off · help: 사용법",
-			argumentHint: "[off <id> | on <id> | help]",
-			immediate: true,
-		});
-		await $.command.register({
-			name: PANE_COMMAND,
-			description: `rule-guard 패널 열기/닫기${key === "" ? "" : ` (${key})`}`,
+			description: `rule-guard 패널 열기/닫기${key === "" ? "" : ` (${key})`} · list: 룰·hook 표, off/on <id>: 이 세션 룰 끄고 켜기 · help: 사용법`,
+			argumentHint: "[list | off <id> | on <id> | help]",
 			immediate: true,
 		});
 		if (e.isInteractive && !(await read($, autoOpened))) {
@@ -439,17 +518,15 @@ export const register: Register = (on, options) => {
 		return next(e);
 	}).catch((_, e, next) => next(e));
 
-	// no text, so the shortcut leaves nothing in the transcript
-	on("command.run", { command: PANE_COMMAND }, async ($) => {
-		await syncChord($);
-		await toggle($);
-		return {};
-	});
-
 	on("command.run", { command: "rule-guard" }, async ($, e) => {
 		const [verb = "", id = ""] = e.args.trim().split(/\s+/);
 		const key = await syncChord($);
+		// no text, so the shortcut leaves nothing in the transcript
 		if (verb === "") {
+			await toggle($);
+			return {};
+		}
+		if (verb === "list") {
 			return { text: await table($, isSet) };
 		}
 		if (verb === "help") {
@@ -508,9 +585,11 @@ export const register: Register = (on, options) => {
 		const { Box, Text } = $.ui.resolve(e);
 		const rules = await statusOf($, isSet);
 		const files = await read($, unlinted);
+		const hooks = await hooksOf($);
 		const key = await read($, chord);
 		const tabKeys = await read($, tabs);
 		const columns = Math.max(30, e.props.bodyColumns);
+		const evWidth = Math.max(0, ...hooks.map((hook) => width(hook.event)));
 		const idWidth = Math.max(...rules.map((r) => width(r.id)));
 		const count = (s: string) => rules.filter((r) => r.status === s).length;
 		const total = rules.reduce((n, r) => n + r.count, 0);
@@ -562,6 +641,41 @@ export const register: Register = (on, options) => {
 						</Box>
 					))}
 				</Box>
+				{hooks.length > 0 && (
+					<Box
+						flexDirection="column"
+						borderStyle="round"
+						borderColor={C.surface1}
+						paddingX={1}
+					>
+						<Text bold color={C.lavender}>
+							hooks
+						</Text>
+						{hooks.map((hook) => (
+							<Box flexDirection="column">
+								<Text wrap="truncate-end">
+									<Text bold color={C.blue}>
+										{pad(hook.event, evWidth)}
+									</Text>
+									{"  "}
+									<Text
+										bold={(hook.runs ?? 0) > 0}
+										color={(hook.runs ?? 0) > 0 ? C.green : C.overlay}
+									>
+										{`ran ${hook.runs ?? "-"}`}
+									</Text>
+									{"  "}
+									<Text color={C.yellow}>{hook.matcher}</Text>
+								</Text>
+								<Box paddingLeft={2}>
+									<Text color={C.subtext} wrap="truncate-end">
+										{oneLine(hook.cmd, columns)}
+									</Text>
+								</Box>
+							</Box>
+						))}
+					</Box>
+				)}
 				{files.length > 0 && (
 					<Box
 						flexDirection="column"
@@ -606,7 +720,7 @@ export const register: Register = (on, options) => {
 						</Text>
 						{key === "" && (
 							<Text color={C.subtext}>
-								{`  "Chat": "ctrl+x r": "command:${PANE_COMMAND}"`}
+								{`  "Chat": "ctrl+x r": "command:rule-guard"`}
 							</Text>
 						)}
 						{tabKeys === "" && (
@@ -657,6 +771,17 @@ export const register: Register = (on, options) => {
 			}
 		}
 		const ran = await next(e);
+		const after =
+			ran.deny !== undefined
+				? []
+				: [ran.isError ? "PostToolUseFailure" : "PostToolUse"];
+		await update($, hookRuns, (n) => {
+			const m = { ...n };
+			for (const ev of ["PreToolUse", ...after]) {
+				m[`${ev}:${tool}`] = (m[`${ev}:${tool}`] ?? 0) + 1;
+			}
+			return m;
+		});
 		if (ran.deny !== undefined) {
 			return ran;
 		}

@@ -51,7 +51,7 @@ description: Claude Code mod(함수 hook 플러그인 — pane/패널, 프롬프
 mod 단축키는 **슬래시 명령을 `keybindings.json` 의 `command:` action 에 묶는 방식**으로 만든다. summary·rule-guard 가 이 방식이다(2.1.299 에서 확인).
 
 - plugin 은 키를 직접 등록할 수 없다. Button 의 `action` 도 엔진 action 이름만 받는다. 대신 `~/.claude/keybindings.json` 의 **`"Chat"` 문맥**에 `"ctrl+x s": "command:summary"` 처럼 슬래시 명령을 묶으면, 그 키가 명령을 입력한 것처럼 실행한다.
-- action 은 `^command:[a-zA-Z0-9:\-_]+$` 형식만 받아 **인자를 넣을 수 없다**. 인자 없이 실행했을 때 토글하는 명령을 묶는다: bare `/<명령>` 이 토글이면 그대로(`command:summary`), 아니면 `/<mod>-pane` 같은 인자 없는 명령을 따로 등록한다(`command:rule-guard-pane`). 명령 이름은 영문·숫자·`_`·`-` 만 된다.
+- action 은 `^command:[a-zA-Z0-9:\-_]+$` 형식만 받아 **인자를 넣을 수 없다**. 인자 없이 실행했을 때 토글하는 명령을 묶는다: bare `/<명령>` 을 토글로 두고 그대로 묶는다(`command:summary`, `command:rule-guard`). 표 같은 출력은 `list` 같은 인자로 옮긴다. 명령을 하나 더 만드는 `/<mod>-pane` 방식은 명령 목록만 늘린다는 의견이 있어 쓰지 않는다. 명령 이름은 영문·숫자·`_`·`-` 만 된다.
 - 토글 명령은 `{}`(text 없음)를 돌려준다. text 를 주면 키를 누를 때마다 대화 기록에 출력이 남는다. `immediate: true` 로 등록해 턴이 도는 중에도 바로 실행되게 한다.
 - 키를 받으려고 Button 을 숨겨 둘 필요가 없다. 엔진 action 빌리기(평소 비어 있는 `app:toggleDiffPreSession` 같은 diff 패널 action 을 Button `action` 에 다는 예전 방식)는 쓰지 않는다. diff 패널이 열려 있으면 원래 동작이 우선하고, 그 action 의 엔진 기본 키(`app:cycleDiffBase` 의 `ctrl+x b`)에도 반응하며, 기본 키 없는 빈 action 도 더 남아 있지 않다.
 - 안내는 실제로 바인딩한 사람에게만 보인다: `keybindings.json` 을 읽어 `command:<명령>` 에 묶인 키(문맥 무관)를 찾고, 있으면 그 키를 힌트 줄·pane 하단·명령 설명에 표시한다. 없으면 단축키 안내 대신 슬래시 명령 이름을 쓰고, 설정 방법은 아래 "설정 가이드"로 알린다. 키 이름을 코드에 고정하면 설정하지 않은 사람에게 눌러도 안 되는 단축키가 보인다.

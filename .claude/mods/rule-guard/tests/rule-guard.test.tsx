@@ -61,7 +61,7 @@ const setup = async ($: Engine, on: On, failing: string[] = [], key = "") => {
 				bindings: [
 					{
 						context: "Chat",
-						bindings: { [key]: "command:rule-guard-pane" },
+						bindings: { [key]: "command:rule-guard" },
 					},
 					{
 						context: "Global",
@@ -111,7 +111,7 @@ const setup = async ($: Engine, on: On, failing: string[] = [], key = "") => {
 		(await $.tool.call({ tool: "Bash", command })).deny;
 	const write = async (file_path: string, content = "x") =>
 		(await $.tool.call({ tool: "Write", file_path, content })).deny;
-	const rules = async (args = "") =>
+	const rules = async (args = "list") =>
 		(
 			await $.command.run({
 				command: "rule-guard",
@@ -123,7 +123,7 @@ const setup = async ($: Engine, on: On, failing: string[] = [], key = "") => {
 	const pane = async () =>
 		(
 			await $.command.run({
-				command: "rule-guard-pane",
+				command: "rule-guard",
 				args: "",
 				origin: { kind: "composer" },
 				presentation: { isFullscreen: true, columns: 120 },
@@ -401,7 +401,7 @@ test("/rule-guard output colors status, counts and commands", async ($, on) => {
 		expect(await props(/^\/rule-guard help$/)).toMatchObject({
 			color: "suggestion",
 		});
-		expect(await props(/^\/rule-guard-pane$/)).toMatchObject({
+		expect(await props(/^\/rule-guard list$/)).toMatchObject({
 			color: "suggestion",
 		});
 		await ui.unmount();
@@ -411,12 +411,13 @@ test("/rule-guard output colors status, counts and commands", async ($, on) => {
 test("/rule-guard is registered with a help hint", async ($, on) => {
 	const { specs } = await setup($, on);
 	expect(specs[0]?.description).toMatch(/· help: 사용법$/);
-	expect(specs[0]?.argumentHint).toBe("[off <id> | on <id> | help]");
+	expect(specs[0]?.argumentHint).toBe("[list | off <id> | on <id> | help]");
 });
 
-test("/rule-guard-pane toggles the pane and prints nothing", async ($, on) => {
+test("bare /rule-guard toggles the pane and prints nothing", async ($, on) => {
 	const { specs, panes, pane } = await setup($, on);
-	expect(specs[1]?.description).toBe("rule-guard 패널 열기/닫기");
+	expect(specs).toHaveLength(1);
+	expect(specs[0]?.description).toMatch(/^rule-guard 패널 열기\/닫기 · list: /);
 	expect(await pane()).toBeUndefined();
 	expect(panes.isOpen).toBe(true);
 	expect(await pane()).toBeUndefined();
@@ -486,7 +487,9 @@ test("the pane draws the rules in the summary pane's style", async ($, on) => {
 
 test("a bound key shows in help, the command list and the hint line", async ($, on) => {
 	const { specs, rules } = await setup($, on, [], "ctrl+x r");
-	expect(specs[1]?.description).toBe("rule-guard 패널 열기/닫기 (ctrl+x r)");
+	expect(specs[0]?.description).toMatch(
+		/^rule-guard 패널 열기\/닫기 \(ctrl\+x r\) · list: /,
+	);
 	const help = await rules("help");
 	expect(help).toContain("패널 열기/닫기 (ctrl+x r)");
 	expect(help).toMatch(/^ctrl\+< ctrl\+> +이전\/다음 패널 탭$/m);
@@ -512,9 +515,9 @@ test("without a bound key help shows how to bind one", async ($, on) => {
 	expect(help).toContain(
 		'Claude 에게 "rule-guard mod README 대로 단축키 설정해줘"',
 	);
-	expect(help).toContain('"ctrl+x r": "command:rule-guard-pane"');
+	expect(help).toContain('"ctrl+x r": "command:rule-guard"');
 	expect(help).toContain('"ctrl+<": "pane:previous", "ctrl+>": "pane:next"');
-	expect(help).toMatch(/^\/rule-guard-pane +패널 열기\/닫기$/m);
+	expect(help).toMatch(/^\/rule-guard +패널 열기\/닫기$/m);
 	const ui = await $.ui.mount({
 		plugin: "rule-guard",
 		surface: "terminal",
@@ -533,12 +536,52 @@ test("without a bound key help shows how to bind one", async ($, on) => {
 		await pane.find({ text: /^⚠ 단축키 미설정 · Claude 에게 "rule-guard mod/ }),
 	).toBeDefined();
 	expect(
-		await pane.find({ text: /"Chat": "ctrl\+x r": "command:rule-guard-pane"/ }),
+		await pane.find({ text: /"Chat": "ctrl\+x r": "command:rule-guard"$/ }),
 	).toBeDefined();
 	expect(
 		await pane.find({ text: /"Global": "ctrl\+<": "pane:previous"/ }),
 	).toBeDefined();
 	await pane.unmount();
+});
+
+test("/rule-guard and the pane show settings hooks and their runs", async ($, on) => {
+	const cmd = (command: string) => [{ type: "command", command }];
+	on("settings.read", () => ({
+		value: {
+			hooks: {
+				PreToolUse: [
+					{ hooks: cmd("zj.sh") },
+					{ matcher: "Bash", hooks: cmd("rtk hook claude") },
+					{ matcher: "Skill", hooks: cmd("jq -c x") },
+				],
+				PostToolUseFailure: [
+					{ matcher: "mcp__jenkins-.*", hooks: cmd("jq fail") },
+				],
+				SessionStart: [{ hooks: cmd("start.sh") }],
+			},
+		},
+	}));
+	const { bash, rules, pane } = await setup($, on, ["mcp__jenkins-x__job"]);
+	await bash("ls");
+	// denied by rule-guard before the engine: no hook runs for it
+	await bash("grep x y");
+	await $.tool.call({ tool: "mcp__jenkins-x__job" } as never);
+	const list = await rules();
+	expect(list).toMatch(/PreToolUse\s+2\s+\*\s+zj\.sh/);
+	expect(list).toMatch(/PreToolUse\s+1\s+Bash\s+rtk hook claude/);
+	expect(list).toMatch(/PreToolUse\s+0\s+Skill\s+jq -c x/);
+	expect(list).toMatch(/PostToolUseFailure\s+1\s+mcp__jenkins-\.\*\s+jq fail/);
+	expect(list).toMatch(/SessionStart\s+-\s+\*\s+start\.sh/);
+
+	await pane();
+	for (const surface of ["terminal", "desktop"] as const) {
+		const ui = await $.ui.mount({ plugin: "rule-guard", surface, ...PANE });
+		expect(await ui.find({ text: /^hooks$/ })).toBeDefined();
+		expect(await ui.find({ text: /^ran 2$/ })).toBeDefined();
+		expect(await ui.find({ text: /^ran -$/ })).toBeDefined();
+		expect(await ui.find({ text: /^rtk hook claude$/ })).toBeDefined();
+		await ui.unmount();
+	}
 });
 
 test("shell drops quoted text and heredoc bodies", () => {

@@ -196,11 +196,12 @@ KEYBINDINGS_FILE="${HOME}/.claude/keybindings.json"
 tmp=$(mktemp)
 jq --argjson add '[
     {"context": "Chat", "action": "command:summary", "keys": ["ctrl+x s"]},
-    {"context": "Chat", "action": "command:rule-guard-pane", "keys": ["ctrl+x r"]},
+    {"context": "Chat", "action": "command:rule-guard", "keys": ["ctrl+x r"]},
     {"context": "Global", "action": "pane:previous", "keys": ["ctrl+<", "ctrl+shift+,"]},
     {"context": "Global", "action": "pane:next", "keys": ["ctrl+>", "ctrl+shift+."]}
 ]' '
     .bindings = ((.bindings // []) | map(if .context == "Global" and .bindings["ctrl+x s"] == "app:toggleDiffPreSession" then .bindings |= del(.["ctrl+x s"]) else . end))
+    | .bindings |= map(if .bindings then .bindings |= with_entries(if .value == "command:rule-guard-pane" then .value = "command:rule-guard" else . end) else . end)
     | reduce $add[] as $g (.;
         if any(.bindings[].bindings // {} | to_entries[]; .value == $g.action) then .
         else reduce $g.keys[] as $k (.;
