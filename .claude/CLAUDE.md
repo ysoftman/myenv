@@ -100,3 +100,5 @@ Claude 관련 설정 파일(CLAUDE.md, AGENTS.md, `.claude/agents/*.md`, `.claud
 - 스킬 frontmatter에 `model`/`effort`가 지정돼 있으면 지정된 값을 함께 표시한다. 지정이 없으면 생략한다(세션 모델 그대로 동작).
 - model/effort 값을 모르면 추측으로 표시하지 말고 해당 SKILL.md frontmatter를 확인한 뒤 표시한다.
 - 예: "`commit` 스킬로 처리합니다 (model: sonnet, effort: low)", "`commit`, `pr` 스킬로 처리합니다".
+
+@RTK.md
