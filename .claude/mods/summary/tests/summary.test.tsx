@@ -71,7 +71,7 @@ type Gh = {
 const setup = async (
 	$: Engine,
 	on: On,
-	start: { status?: string; gh?: Partial<Gh> } = {},
+	start: { status?: string; gh?: Partial<Gh>; ps?: string } = {},
 ) => {
 	const clock = mock.clock(on, { now: 1_000_000 });
 	const live: Record<string, AgentStatus> = {};
@@ -124,13 +124,15 @@ const setup = async (
 				exitCode: isGh ? gh.exitCode : 0,
 				stdout: isGh
 					? gh.reply
-					: e.argv.includes("rev-parse")
-						? "/repo\n"
-						: e.argv.includes("log")
-							? git.log
-							: e.argv.includes("--get-regexp")
-								? gh.remote
-								: git.status,
+					: e.argv[0] === "sh"
+						? (start.ps ?? "claude\n")
+						: e.argv.includes("rev-parse")
+							? "/repo\n"
+							: e.argv.includes("log")
+								? git.log
+								: e.argv.includes("--get-regexp")
+									? gh.remote
+									: git.status,
 				stderr: "",
 				isStdoutTruncated: false,
 				isStderrTruncated: false,
@@ -1312,6 +1314,16 @@ test("an interactive session opens the pane at start, once, not on a reload", as
 	await start();
 	expect(opened).toEqual(["summary"]);
 	expect(panes).toEqual([]);
+});
+
+test("a split-pane teammate leaves the pane closed at start", async ($, on) => {
+	const { panes } = await setup($, on, {
+		ps: "claude --agent-id scout@team --parent-session-id s1\n",
+	});
+	await $.session.start({ cwd: "/", surface: "terminal", isInteractive: true });
+	expect(panes).toEqual([]);
+	await $.command.run({ command: "summary", args: "" } as never);
+	expect(panes).toEqual(["summary"]);
 });
 
 test("/summary opens and closes the pane without a keybinding", async ($, on) => {

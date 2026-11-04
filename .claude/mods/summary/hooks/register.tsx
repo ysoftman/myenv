@@ -599,6 +599,15 @@ const boundKeys = async ($: EngineInterface) => {
 	}
 };
 
+const isTeammate = async ($: EngineInterface) =>
+	/\s--agent-id\s/.test(
+		(
+			await $.process
+				.run(["sh", "-c", "ps -o args= -p $PPID"], { timeoutMs: 5_000 })
+				.catch(() => undefined)
+		)?.stdout ?? "",
+	);
+
 export const register: Register = (on) => {
 	let loaded: string[] = [];
 	let worked = false;
@@ -624,7 +633,9 @@ export const register: Register = (on) => {
 		void refreshPr($, root);
 		if (e.isInteractive && !(await read($, autoOpened))) {
 			await update($, autoOpened, () => true);
-			await $.ui.open({ id: PANE, title: "summary", columns: 60 });
+			if (!(await isTeammate($))) {
+				await $.ui.open({ id: PANE, title: "summary", columns: 60 });
+			}
 		}
 		await setShown($, await isPaneShown($));
 		$.clock.every(100, async () => {
