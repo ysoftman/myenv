@@ -599,8 +599,10 @@ const boundKeys = async ($: EngineInterface) => {
 	}
 };
 
-const isTeammate = async ($: EngineInterface) =>
-	/\s--agent-id\s/.test(
+// a teammate (--agent-id) or an agent started in a side pane (--agent <name>),
+// not --agents, which only defines agents for the session
+const isSideAgent = async ($: EngineInterface) =>
+	/\s--agent(-id)?[\s=]/.test(
 		(
 			await $.process
 				.run(["sh", "-c", "ps -o args= -p $PPID"], { timeoutMs: 5_000 })
@@ -633,7 +635,7 @@ export const register: Register = (on) => {
 		void refreshPr($, root);
 		if (e.isInteractive && !(await read($, autoOpened))) {
 			await update($, autoOpened, () => true);
-			if (!(await isTeammate($))) {
+			if (!(await isSideAgent($))) {
 				await $.ui.open({ id: PANE, title: "summary", columns: 60 });
 			}
 		}

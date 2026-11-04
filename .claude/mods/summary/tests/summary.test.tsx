@@ -1326,6 +1326,20 @@ test("a split-pane teammate leaves the pane closed at start", async ($, on) => {
 	expect(panes).toEqual(["summary"]);
 });
 
+test("an agent started in a side pane leaves the pane closed at start", async ($, on) => {
+	const { panes } = await setup($, on, { ps: "claude --agent reviewer\n" });
+	await $.session.start({ cwd: "/", surface: "terminal", isInteractive: true });
+	expect(panes).toEqual([]);
+});
+
+test("--agents agent definitions still open the pane at start", async ($, on) => {
+	const { panes } = await setup($, on, {
+		ps: `claude --agents {"x":{"prompt":"p"}}\n`,
+	});
+	await $.session.start({ cwd: "/", surface: "terminal", isInteractive: true });
+	expect(panes).toEqual(["summary"]);
+});
+
 test("/summary opens and closes the pane without a keybinding", async ($, on) => {
 	const { panes } = await setup($, on);
 	const ui = await $.ui.mount({
