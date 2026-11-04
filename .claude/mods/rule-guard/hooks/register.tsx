@@ -527,6 +527,17 @@ const table = async ($: EngineInterface, isSet: boolean) => {
 	].join("\n");
 };
 
+// a teammate (--agent-id) or an agent started in a side pane (--agent <name>),
+// not --agents, which only defines agents for the session (as in summary)
+const isSideAgent = async ($: EngineInterface) =>
+	/\s--agent(-id)?[\s=]/.test(
+		(
+			await $.process
+				.run(["sh", "-c", "ps -o args= -p $PPID"], { timeoutMs: 5_000 })
+				.catch(() => undefined)
+		)?.stdout ?? "",
+	);
+
 export const register: Register = (on, options) => {
 	const list = (v: unknown) =>
 		String(v ?? "")
@@ -547,7 +558,9 @@ export const register: Register = (on, options) => {
 		});
 		if (e.isInteractive && !(await read($, autoOpened))) {
 			await update($, autoOpened, () => true);
-			await $.ui.open({ id: PANE, title: PANE, columns: 44 });
+			if (!(await isSideAgent($))) {
+				await $.ui.open({ id: PANE, title: PANE, columns: 44 });
+			}
 		}
 		return next(e);
 	}).catch((_, e, next) => next(e));

@@ -442,6 +442,40 @@ test("an interactive session opens the pane at start, once, not on a reload", as
 	expect(panes.isOpen).toBe(false);
 });
 
+// what `ps -o args= -p $PPID` prints for the session's own claude process
+const startedAs = async ($: Engine, on: On, args: string) => {
+	on("process.run", () => ({
+		value: {
+			exitCode: 0,
+			stdout: args,
+			stderr: "",
+			isStdoutTruncated: false,
+			isStderrTruncated: false,
+		},
+	}));
+	const { panes } = await setup($, on);
+	await $.session.start({
+		cwd: "/repo",
+		surface: "terminal",
+		isInteractive: true,
+	});
+	return panes.isOpen;
+};
+
+test("a split-pane teammate leaves the pane closed at start", async ($, on) => {
+	expect(await startedAs($, on, "claude --agent-id fx@team\n")).toBe(false);
+});
+
+test("an agent started in a side pane leaves the pane closed at start", async ($, on) => {
+	expect(await startedAs($, on, "claude --agent claude\n")).toBe(false);
+});
+
+test("--agents agent definitions still open the pane at start", async ($, on) => {
+	expect(await startedAs($, on, `claude --agents {"x":{"prompt":"p"}}\n`)).toBe(
+		true,
+	);
+});
+
 test("the pane draws the rules in the summary pane's style", async ($, on) => {
 	const { bash, write, rules, pane } = await setup($, on, [], "ctrl+x r");
 	await bash("grep x y");
