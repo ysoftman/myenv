@@ -278,6 +278,7 @@ USER_MARKETPLACES=(
     "cathrynlavery/diagram-design"
     "hoobnn/hoobnn-agent-mods"
     "patch-gg/pixelfx"
+    "cth9191/animate"
 )
 for mp in "${USER_MARKETPLACES[@]}"; do
     mp_name="${mp##*/}"
@@ -306,6 +307,7 @@ USER_PLUGINS=(
     "diagram-design@diagram-design"
     "spinner@hoobnn-agent-mods"
     "pixelfx@pixelfx"
+    "animate@animate"
 )
 for plugin in "${USER_PLUGINS[@]}"; do
     if claude plugins list 2>&1 | grep -q "${plugin%%@*}"; then
