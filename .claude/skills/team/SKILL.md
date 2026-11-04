@@ -1,6 +1,6 @@
 ---
 name: team
-description: Start a temporary agent team for collaborative work, with at most 5 total agents including the main agent. Keep the main agent focused on user interaction, coordination, monitoring, and final integration while delegating independent work to teammates whenever feasible. Use proactively when a task can be split across independent files, modules, or concerns. Also trigger when the user asks to work on multiple things at once, speed up a large task, or mentions "팀", "병렬", "parallel", "동시에", "나눠서".
+description: Start a temporary agent team for collaborative work. Keep the main agent focused on user interaction, coordination, monitoring, and final integration while delegating independent work to teammates whenever feasible. Use proactively when a task can be split across independent files, modules, or concerns. Also trigger when the user asks to work on multiple things at once, speed up a large task, or mentions "팀", "병렬", "parallel", "동시에", "나눠서".
 argument-hint: [병렬로 처리할 작업 설명]
 allowed-tools: Agent, ListAgents, SendMessage, TaskCreate, TaskUpdate, TaskList, TaskGet, TaskStop, Bash(git status:*), Bash(git diff:*), Bash(rg:*)
 ---
@@ -30,7 +30,6 @@ Input: $ARGUMENTS
 
 ## 작업 방침
 
-- **최대 teammate 4명** (메인 포함 5 에이전트). 스폰 직전 `ListAgents` 로 인원수를 세고 생성 후에도 4명을 넘기지 않는지 확인한다. 이 확인을 건너뛴 생성은 규칙 위반으로 본다.
 - **재사용 우선.** `ListAgents` 에 idle 이거나 완료된 teammate 가 있으면 `SendMessage` 로 재브리핑한다. 새로 만들 때는 왜 재사용하지 않는지 응답에 한 줄 밝힌다(역할 불일치, ownership 충돌, 독립 판단 필요 등).
 - **메인은 위임에 집중.** 메인의 기본 역할은 사용자 응답, 조율, 모니터링, 최종 통합이다. 파일을 수정하는 요청이면 크기와 무관하게 위임이 기본값 — "간단해 보여서 직접 처리"는 허용하지 않는다. 메인이 직접 맡는 경우는 아래로 한정한다.
   - 한두 문장으로 끝나는 답변, 상태 보고, ownership/backlog 조정
@@ -67,7 +66,7 @@ subtask 마다 순서대로:
 
 1. `TaskCreate` 로 작업을 만든다
 2. `ListAgents` 로 재사용 가능한 teammate 를 찾는다 — 있으면 `SendMessage` 로 새 브리프를 보낸다
-3. 없거나 역할상 재사용이 부적절할 때만 `Agent` 로 새로 만든다 (`name` 필수, 4명 한도 확인)
+3. 없거나 역할상 재사용이 부적절할 때만 `Agent` 로 새로 만든다 (`name` 필수)
 4. `TaskUpdate` 로 `owner` 를 해당 teammate name 으로 배정한다
 
 teammate 는 현재 대화 이력을 전혀 공유하지 않는다. 방금 합류한 동료에게 브리핑하듯 아래 구조로 쓴다. 컨텍스트가 부족하면 엉뚱한 방향으로 작업하거나 되묻느라 시간을 버린다.
@@ -88,7 +87,7 @@ teammate 는 현재 대화 이력을 전혀 공유하지 않는다. 방금 합�
 
 ### 3. 연속 스케줄링
 
-subtask 가 4개를 넘으면 4명까지만 배정하고 나머지는 backlog 에 둔다. batch 전체가 끝날 때까지 기다리지 않는다 — 하나가 완료되면 변경 파일, 실패 여부, ownership 충돌 가능성만 짧게 확인한 뒤 backlog 에서 의존성 없는 다음 subtask 를 즉시 `SendMessage` 로 배정한다.
+선행 작업에 의존해 바로 시작할 수 없는 subtask 는 backlog 에 둔다. batch 전체가 끝날 때까지 기다리지 않는다 — 하나가 완료되면 변경 파일, 실패 여부, ownership 충돌 가능성만 짧게 확인한 뒤 backlog 에서 의존성 없는 다음 subtask 를 즉시 `SendMessage` 로 배정한다.
 
 `TaskList`/`TaskGet` 으로 주기적으로 확인해 idle teammate 가 queued subtask 를 두고 놀지 않게 한다. idle teammate 와 queued subtask 가 동시에 있는데 배정하지 않는 것은 예외 상황이므로 충돌·의존성·실패 같은 구체적 이유를 사용자에게 설명한다.
 
