@@ -33,5 +33,5 @@ elif [[ $os_name == *"darwin"* ]]; then
     brew install mise
 fi
 
-mise use -g node@latest
+mise use -g bun@latest
 mise use -g python@latest
