@@ -173,3 +173,8 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 # zsh 프로파일링할때 사용
 #zprof
+
+
+# ego lite 프로세스가 뜰떄 .zshrc 파일에 아래 경로가 없으면 추가한다.
+export PATH="$HOME/.local/bin:$PATH"
+
