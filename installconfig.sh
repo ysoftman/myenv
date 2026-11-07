@@ -95,8 +95,6 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ${HOME}/.wezterm.lua ] && unlink ${HOME}/.wezterm.lua
 [ -h ${HOME}/.claude/CLAUDE.md ] && unlink ${HOME}/.claude/CLAUDE.md
 [ -h ${HOME}/.claude/statusline-command.sh ] && unlink ${HOME}/.claude/statusline-command.sh
-[ -h ${HOME}/.claude/agents ] && unlink ${HOME}/.claude/agents
-[ -h ${HOME}/.claude/skills ] && unlink ${HOME}/.claude/skills
 [ -h ${HOME}/.codex/AGENTS.md ] && unlink ${HOME}/.codex/AGENTS.md
 [ -h ${HOME}/.codex/skills ] && unlink ${HOME}/.codex/skills
 [ -h ${HOME}/.omo/omo.jsonc ] && unlink ${HOME}/.omo/omo.jsonc
@@ -138,8 +136,6 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -f ${HOME}/.wezterm.lua ] && mv -fv ${HOME}/.wezterm.lua ${HOME}/.wezterm.lua.bak
 [ -f ${HOME}/.claude/CLAUDE.md ] && mv -fv ${HOME}/.claude/CLAUDE.md ${HOME}/.claude/CLAUDE.md.bak
 [ -f ${HOME}/.claude/statusline-command.sh ] && mv -fv ${HOME}/.claude/statusline-command.sh ${HOME}/.claude/statusline-command.sh.bak
-[ -d ${HOME}/.claude/agents ] && mv -fv ${HOME}/.claude/agents ${HOME}/.claude/agents.bak
-[ -d ${HOME}/.claude/skills ] && mv -fv ${HOME}/.claude/skills ${HOME}/.claude/skills.bak
 [ -f ${HOME}/.codex/AGENTS.md ] && mv -fv ${HOME}/.codex/AGENTS.md ${HOME}/.codex/AGENTS.md.bak
 [ -d ${HOME}/.codex/skills ] && mv -fv ${HOME}/.codex/skills ${HOME}/.codex/skills.bak
 [ -f ${HOME}/.omo/omo.jsonc ] && mv -fv ${HOME}/.omo/omo.jsonc ${HOME}/.omo/omo.jsonc.bak
@@ -181,11 +177,8 @@ ln -sfv ${PWD}/wezterm/.wezterm.lua ${HOME}/.wezterm.lua
 mkdir -p ${HOME}/.claude
 ln -sfv ${PWD}/.claude/CLAUDE.md ${HOME}/.claude/CLAUDE.md
 ln -sfv ${PWD}/.claude/statusline-command.sh ${HOME}/.claude/statusline-command.sh
-ln -sfv ${PWD}/.claude/agents ${HOME}/.claude/agents
-ln -sfv ${PWD}/.claude/skills ${HOME}/.claude/skills
 mkdir -p ${HOME}/.codex
 ln -sfv ${PWD}/.codex/AGENTS.md ${HOME}/.codex/AGENTS.md
-ln -sfv ${PWD}/.claude/skills ${HOME}/.codex/skills
 mkdir -p ${HOME}/.omo && ln -sfv ${PWD}/opencode/omo.jsonc ${HOME}/.omo/omo.jsonc
 [ -d ${XDG_CONFIG_HOME} ] && mkdir -p ${XDG_CONFIG_HOME}/crush && ln -sfv ${PWD}/crush/crushrc ${XDG_CONFIG_HOME}/crush/crushrc
 [ -d ${XDG_CONFIG_HOME} ] && mkdir -p ${XDG_CONFIG_HOME}/opencode && ln -sfv ${PWD}/opencode/opencode.json ${XDG_CONFIG_HOME}/opencode/opencode.json

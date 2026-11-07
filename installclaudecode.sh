@@ -51,12 +51,6 @@ ZJSTATUS_HOOKS=$(jq -nc --arg cmd "${myenv_path}/zellij/claude_zjstatus_hook.sh"
     | (["SessionStart", "UserPromptSubmit", "PreToolUse", "PostToolUse", "Stop", "SessionEnd"] | map({(.): [{hooks: [$h]}]}) | add)
     + {Notification: [{matcher: "permission_prompt|idle_prompt", hooks: [$h]}]}
 ')
-# mod(function hook 플러그인)는 .claude/mods/<name> 에 두고 CLAUDE_CODE_PLUGIN_DIRS(':' 구분)로 로드한다.
-MOD_DIRS=("${myenv_path}"/.claude/mods/*)
-PLUGIN_DIRS=$(
-    IFS=:
-    echo "${MOD_DIRS[*]}"
-)
 PERMISSIONS_ALLOW='[
       "Bash(/bin/bash *)",
       "Bash(/usr/bin/ruby *)",
@@ -171,10 +165,10 @@ PERMISSIONS_ALLOW='[
 echo "Claude Code 설정을 적용합니다..."
 [[ -s "${SETTINGS_FILE}" ]] || echo '{}' >"${SETTINGS_FILE}"
 tmp=$(mktemp)
-jq --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" --argjson spinner "${SPINNER_VERBS}" --argjson hooks "${HOOKS}" --argjson zjhooks "${ZJSTATUS_HOOKS}" --arg plugindirs "${PLUGIN_DIRS}" '
+jq --arg cmd "${STATUSLINE_CMD}" --argjson allow "${PERMISSIONS_ALLOW}" --argjson spinner "${SPINNER_VERBS}" --argjson hooks "${HOOKS}" --argjson zjhooks "${ZJSTATUS_HOOKS}" '
     .statusLine = {type: "command", command: $cmd}
     | .env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1"
-    | .env.CLAUDE_CODE_PLUGIN_DIRS = $plugindirs
+    | del(.env.CLAUDE_CODE_PLUGIN_DIRS)
     | .env.MCP_TIMEOUT = "30000"
     | .env.MCP_TOOL_TIMEOUT = "60000"
     | .permissions.allow = ((.permissions.allow // []) + $allow | unique)
@@ -279,6 +273,7 @@ USER_MARKETPLACES=(
     "hoobnn/hoobnn-agent-mods"
     "patch-gg/pixelfx"
     "cth9191/animate"
+    "ysoftman/claude-kit"
 )
 for mp in "${USER_MARKETPLACES[@]}"; do
     mp_name="${mp##*/}"
@@ -308,9 +303,12 @@ USER_PLUGINS=(
     "spinner@hoobnn-agent-mods"
     "pixelfx@pixelfx"
     "animate@animate"
+    "kit@claude-kit"
+    "rule-guard@claude-kit"
+    "summary@claude-kit"
 )
 for plugin in "${USER_PLUGINS[@]}"; do
-    if claude plugins list 2>&1 | grep -q "${plugin%%@*}"; then
+    if claude plugins list 2>&1 | grep -q " ${plugin%%@*}@"; then
         echo "플러그인 ${plugin}이(가) 이미 설치되어 있습니다. 스킵합니다."
     else
         echo "플러그인 ${plugin}을(를) 설치합니다..."
@@ -320,6 +318,9 @@ done
 
 # marketplace/plugin 이 아닌 https://www.skills.sh/ 에 관리하는 skills CLI(skills add) 로 설치하는 저장소다.
 # 전체 일괄 업데이트시 bunx skills update -g
+echo "claude-kit skills를 설치(업데이트)합니다..."
+bunx skills add https://github.com/ysoftman/claude-kit --skill '*' -g -a claude-code -y
+
 echo "taste-skill을 설치(업데이트)합니다..."
 bunx skills add https://github.com/leonxlnx/taste-skill --skill "design-taste-frontend" -g -a claude-code -y
 

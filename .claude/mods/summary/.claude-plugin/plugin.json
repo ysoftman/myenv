@@ -1,6 +1,0 @@
-{
-  "name": "summary",
-  "version": "0.1.0",
-  "description": "Toggle a summary pane (/summary) of skill runs, subagents and teammates, edited files, failed tool calls and recent work",
-  "types": "./types/index.d.ts"
-}
