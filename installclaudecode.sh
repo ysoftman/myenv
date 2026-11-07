@@ -303,9 +303,9 @@ USER_PLUGINS=(
     "spinner@hoobnn-agent-mods"
     "pixelfx@pixelfx"
     "animate@animate"
-    "ysoftman-claude-kit@ysoftman-claude-kit"
-    "rule-guard@ysoftman-claude-kit"
-    "summary@ysoftman-claude-kit"
+    "ysoftman-agents@ysoftman-claude-skills"
+    "rule-guard@ysoftman-claude-skills"
+    "summary@ysoftman-claude-skills"
 )
 for plugin in "${USER_PLUGINS[@]}"; do
     if claude plugins list 2>&1 | grep -q " ${plugin%%@*}@"; then
