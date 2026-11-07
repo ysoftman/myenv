@@ -361,11 +361,11 @@ fi
 
 # claude code 에서는 openAI api 호환이 되지 않아 중간에 litellm(proxy) 서버를 둬야 한다.
 # litellm[proxy] 로 기본 + 프록시 실행에 필요한 추가 패키지들(backoff, uvicorn, fastapi 등)을 함께 설치
-if python3 -c "import litellm" &>/dev/null; then
+if command -v litellm &>/dev/null; then
     echo "litellm이 이미 설치되어 있습니다. 스킵합니다."
 else
     echo "litellm[proxy]를 설치합니다..."
-    uv pip install 'litellm[proxy]' --system
+    uv tool install 'litellm[proxy]' --python 3.14
 fi
 
 echo "모든 설치가 완료되었습니다."
