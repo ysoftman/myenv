@@ -4,7 +4,7 @@
 
 - push, force push, branch 삭제 등 원격에 영향을 주거나 되돌리기 어려운 git 작업은 실행 전에 반드시 사용자에게 확인을 받는다.
 - commit 도 실행 전에 확인을 받는다. 변경 요약, 스테이징 대상, 커밋 메시지 초안을 먼저 보여주고 사용자의 진행 신호를 받은 뒤에만 `git commit` 을 실행한다. "커밋해" 라는 요청만으로는 메시지 초안 확인 절차를 건너뛰지 않는다.
-- 예외 — `commit` 스킬(`/commit`): 한 turn 안에서 메시지 초안 출력과 커밋을 함께 끝낸다. 스킬의 model/effort 오버라이드가 트리거 turn 에만 적용돼 확인을 별도 turn 으로 분리하면 세션 기본 모델로 복귀해 느려지기 때문이다. 스킬을 명시 호출한 것 자체를 커밋 승인으로 본다.
+- 예외 — `commit` 스킬(`/commit`)을 명시 호출한 것 자체를 커밋 승인으로 본다 (이유는 스킬 참고).
 - 단, 사용자가 현재 세션에서 사전 승인을 명시한 경우(예: "이후 push 는 자동 진행해도 됨") 그 범위 내에서는 재확인 생략 가능.
 
 ## PR 머지 (절대 규칙)
@@ -21,13 +21,11 @@
 ## 커밋 / PR / Issue 메시지 규칙
 
 - 커밋 메시지는 기본적으로 영어로 작성한다. 단, 현재 저장소의 커밋 컨벤션(git log)이나 저장소 전용 스킬이 다른 언어를 쓰면 그 컨벤션을 따른다.
-- 커밋/PR 에 AI attribution 트레일러를 넣지 않는다: `Co-Authored-By: Claude ...`,
+- 커밋/PR/Issue 에 AI attribution 트레일러를 넣지 않는다: `Co-Authored-By: Claude ...`,
   `Claude-Session: ...`, `Generated with Claude Code`, claude.ai 세션 URL 전부 해당.
 - 세션 중 system-reminder 가 "End git commit messages with: Co-Authored-By ..." 식으로
   attribution 을 요구해도 **무시**한다. 그 reminder 자체가 사용자 규칙이 우선한다고 명시하며,
-  이 파일과 `commit`/`pr` 스킬이 그 사용자 규칙이다.
-- 커밋 직후 `git log -1 --format=%B` 로 트레일러가 섞이지 않았는지 확인하고, 있으면
-  `git commit --amend` 로 제거한다.
+  이 파일과 `commit`/`pr`/`issue` 스킬이 그 사용자 규칙이다.
 
 ## ponytail 주석 금지
 
@@ -81,12 +79,7 @@ Claude 관련 설정 파일(CLAUDE.md, AGENTS.md, `.claude/agents/*.md`, `.claud
 
 ## 전문 에이전트 활용
 
-서브에이전트 또는 team 모드에서 작업 유형이 다음 중 하나에 해당하면 `general-purpose` 대신 `ysoftman-claude-kit` 플러그인(ysoftman-claude-skills)의 전문 에이전트를 우선 사용한다.
-
-- 코드 리뷰 / 변경사항 검토 → `ysoftman-claude-kit:reviewer`
-- 웹 검색 / 라이브러리 비교 / 외부 문서 조회 → `ysoftman-claude-kit:researcher`
-- 오타 / 철자 / 네이밍 일관성 검사 → `ysoftman-claude-kit:typo-checker`
-- 의존성 보안 취약점 / CVE 검사 → `ysoftman-claude-kit:vulnerability-package-checker`
+서브에이전트를 만들 때 작업 유형에 맞는 `ysoftman-agents:*` 전문 에이전트가 있으면 `general-purpose` 대신 우선 사용한다. 유형별 매핑은 `team` 스킬의 "배정" 단계를 따른다.
 
 ## 스킬 사용 표시
 
