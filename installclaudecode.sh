@@ -273,7 +273,7 @@ USER_MARKETPLACES=(
     "hoobnn/hoobnn-agent-mods"
     "patch-gg/pixelfx"
     "cth9191/animate"
-    "ysoftman/claude-kit"
+    "ysoftman/ysoftman-claude-skills"
 )
 for mp in "${USER_MARKETPLACES[@]}"; do
     mp_name="${mp##*/}"
@@ -303,9 +303,9 @@ USER_PLUGINS=(
     "spinner@hoobnn-agent-mods"
     "pixelfx@pixelfx"
     "animate@animate"
-    "kit@claude-kit"
-    "rule-guard@claude-kit"
-    "summary@claude-kit"
+    "ysoftman-claude-kit@ysoftman-claude-kit"
+    "rule-guard@ysoftman-claude-kit"
+    "summary@ysoftman-claude-kit"
 )
 for plugin in "${USER_PLUGINS[@]}"; do
     if claude plugins list 2>&1 | grep -q " ${plugin%%@*}@"; then
@@ -318,8 +318,8 @@ done
 
 # marketplace/plugin 이 아닌 https://www.skills.sh/ 에 관리하는 skills CLI(skills add) 로 설치하는 저장소다.
 # 전체 일괄 업데이트시 bunx skills update -g
-echo "claude-kit skills를 설치(업데이트)합니다..."
-bunx skills add https://github.com/ysoftman/claude-kit --skill '*' -g -a claude-code -y
+echo "ysoftman-claude-skills skills를 설치(업데이트)합니다..."
+bunx skills add https://github.com/ysoftman/ysoftman-claude-skills --skill '*' -g -a claude-code -y
 
 echo "taste-skill을 설치(업데이트)합니다..."
 bunx skills add https://github.com/leonxlnx/taste-skill --skill "design-taste-frontend" -g -a claude-code -y

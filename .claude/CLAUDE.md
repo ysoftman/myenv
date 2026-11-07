@@ -41,7 +41,7 @@
 
 ## mod 작성 스타일
 
-- mod(`claude-kit/plugins/`, dev-mods) 의 TS/TSX 코드는 `plugin-authoring` 예제 스타일(작은따옴표, 세미콜론 없음, 2-space)을 따르지 않고 처음부터 biome 기본 포맷(tab, 큰따옴표, 세미콜론, 폭 80)으로 작성한다.
+- mod(`ysoftman-claude-kit/plugins/`, dev-mods) 의 TS/TSX 코드는 `plugin-authoring` 예제 스타일(작은따옴표, 세미콜론 없음, 2-space)을 따르지 않고 처음부터 biome 기본 포맷(tab, 큰따옴표, 세미콜론, 폭 80)으로 작성한다.
 - 포맷은 플래그 없이 `biome check --write <파일>` 로 적용한다.
 
 ## 작업 명세 확인
@@ -86,12 +86,12 @@ Claude 관련 설정 파일(CLAUDE.md, AGENTS.md, `.claude/agents/*.md`, `.claud
 
 ## 전문 에이전트 활용
 
-서브에이전트 또는 team 모드에서 작업 유형이 다음 중 하나에 해당하면 `general-purpose` 대신 `kit` 플러그인(claude-kit)의 전문 에이전트를 우선 사용한다.
+서브에이전트 또는 team 모드에서 작업 유형이 다음 중 하나에 해당하면 `general-purpose` 대신 `ysoftman-claude-kit` 플러그인(ysoftman-claude-skills)의 전문 에이전트를 우선 사용한다.
 
-- 코드 리뷰 / 변경사항 검토 → `kit:reviewer`
-- 웹 검색 / 라이브러리 비교 / 외부 문서 조회 → `kit:researcher`
-- 오타 / 철자 / 네이밍 일관성 검사 → `kit:typo-checker`
-- 의존성 보안 취약점 / CVE 검사 → `kit:vulnerability-package-checker`
+- 코드 리뷰 / 변경사항 검토 → `ysoftman-claude-kit:reviewer`
+- 웹 검색 / 라이브러리 비교 / 외부 문서 조회 → `ysoftman-claude-kit:researcher`
+- 오타 / 철자 / 네이밍 일관성 검사 → `ysoftman-claude-kit:typo-checker`
+- 의존성 보안 취약점 / CVE 검사 → `ysoftman-claude-kit:vulnerability-package-checker`
 
 ## 스킬 사용 표시
 
