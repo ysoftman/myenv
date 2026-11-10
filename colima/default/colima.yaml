@@ -50,6 +50,11 @@ kubernetes:
   
   # Additional args to pass to k3s https://docs.k3s.io/cli/server
   # Default: traefik is disabled
+  # 재부팅 후 exited k8s_* 컨테이너가 남는 이유:
+  # kubelet GC 는 기본값(maximum-dead-containers-per-container=1)에 따라 컨테이너마다 죽은 인스턴스 1개를 지우지 않고 둔다.
+  # kubectl logs --previous 를 쓸 수 있게 하려는 동작이다.
+  # 남기지 않으려면(--previous 로그 포기) 아래 인자를 추가하고 colima restart
+  #   - --kubelet-arg=maximum-dead-containers-per-container=0
   k3sArgs: []
   
   # Kubernetes port to listen on
