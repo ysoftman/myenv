@@ -333,6 +333,10 @@ bunx skills add https://github.com/herdrdev/herdr --skill "herdr" -g -a claude-c
 echo "ego-browser skill을 설치(업데이트)합니다..."
 bunx skills add https://github.com/citrolabs/ego-lite --skill "ego-browser" -g -a claude-code -y
 
+# https://github.com/meta/astryx
+echo "astryx CLI를 설치(업데이트)합니다..."
+bun install -g @astryxdesign/cli
+
 # local LLM 연결해서 사용할 경우
 # 환경변수 파일 생성
 ENV_FILE=".local_llm_env_for_claude_code"
