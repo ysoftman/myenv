@@ -212,7 +212,7 @@ if claude mcp list 2>&1 | grep -q "atlassian"; then
     echo "Atlassian MCP 서버가 이미 설정되어 있습니다. 스킵합니다."
 else
     echo "Atlassian MCP 서버를 설치합니다..."
-    claude mcp add -s user --transport http atlassian https://mcp.atlassian.com/v1/mcp
+    claude mcp add -s user --transport http atlassian https://mcp.atlassian.com/v2/mcp
     echo "완료. claude code > mcp > atlassian 에서 웹 로그인하세요."
 fi
 
