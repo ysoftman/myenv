@@ -24,3 +24,5 @@ node_modules/
 
 # codex
 .codex
+
+**/.claude/settings.local.json
