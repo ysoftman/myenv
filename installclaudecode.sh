@@ -274,10 +274,10 @@ USER_MARKETPLACES=(
     "patch-gg/pixelfx"
     "cth9191/animate"
     "ysoftman/ysoftman-claude-skills"
+    "cursor/plugins"
 )
 for mp in "${USER_MARKETPLACES[@]}"; do
-    mp_name="${mp##*/}"
-    if claude plugin marketplace list 2>&1 | grep -q "${mp_name}"; then
+    if claude plugin marketplace list 2>&1 | grep -qF "(${mp})"; then
         echo "Marketplace ${mp}이(가) 이미 설정되어 있습니다. 스킵합니다."
     else
         echo "Marketplace ${mp}을(를) 추가합니다..."
@@ -306,6 +306,7 @@ USER_PLUGINS=(
     "ysoftman-agents@ysoftman-claude-skills"
     "rule-guard@ysoftman-claude-skills"
     "summary@ysoftman-claude-skills"
+    "pstack@cursor-plugins"
 )
 for plugin in "${USER_PLUGINS[@]}"; do
     if claude plugins list 2>&1 | grep -q " ${plugin%%@*}@"; then
