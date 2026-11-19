@@ -288,12 +288,10 @@ function set_kube_prompt {
         echo "duplicate \$(kube_ps1) in \$PS1"
         return
     fi
-    # brew install kube-ps1 로 설치시 최신 버전아님
-    #kube_ps1_path="/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-    kube_ps1_path="${myenv_path}/kube-ps1.sh"
+    kube_ps1_path="${HOMEBREW_PREFIX:-$(brew --prefix 2>/dev/null)}/opt/kube-ps1/share/kube-ps1.sh"
     if [ -f "${kube_ps1_path}" ]; then
         source "${kube_ps1_path}"
-        export KUBE_PS1_SYMBOL_USE_IMG=true
+        export KUBE_PS1_SYMBOL_CUSTOM=img
         # ohmyzsh 'bira' prompt 사용시 첫 glyph 문자로 시작하는 경우 자리 유지하기
         if [[ $PS1 == "╭─"* ]]; then
             PS1=${PS1//╭─/}
