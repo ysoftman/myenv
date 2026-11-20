@@ -114,6 +114,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -h ${XDG_CONFIG_HOME}/kitty ] && unlink ${XDG_CONFIG_HOME}/kitty
 [ -h ${XDG_CONFIG_HOME}/lsd ] && unlink ${XDG_CONFIG_HOME}/lsd
 [ -h ${XDG_CONFIG_HOME}/mc ] && unlink ${XDG_CONFIG_HOME}/mc
+[ -h ${XDG_CONFIG_HOME}/serie ] && unlink ${XDG_CONFIG_HOME}/serie
 [ -h ${XDG_CONFIG_HOME}/zellij ] && unlink ${XDG_CONFIG_HOME}/zellij
 [ -h ${XDG_CONFIG_HOME}/xfetch/config.jsonc ] && unlink ${XDG_CONFIG_HOME}/xfetch/config.jsonc
 [ -h ${XDG_CONFIG_HOME}/starship.toml ] && unlink ${XDG_CONFIG_HOME}/starship.toml
@@ -154,6 +155,7 @@ mkdir -p ${XDG_CONFIG_HOME}
 [ -d ${XDG_CONFIG_HOME}/kitty ] && mv -fv ${XDG_CONFIG_HOME}/kitty ${XDG_CONFIG_HOME}/kitty.bak
 [ -d ${XDG_CONFIG_HOME}/lsd ] && mv -fv ${XDG_CONFIG_HOME}/lsd ${XDG_CONFIG_HOME}/lsd.bak
 [ -d ${XDG_CONFIG_HOME}/mc ] && mv -fv ${XDG_CONFIG_HOME}/mc ${XDG_CONFIG_HOME}/mc.bak
+[ -d ${XDG_CONFIG_HOME}/serie ] && mv -fv ${XDG_CONFIG_HOME}/serie ${XDG_CONFIG_HOME}/serie.bak
 [ -d ${XDG_CONFIG_HOME}/zellij ] && mv -fv ${XDG_CONFIG_HOME}/zellij ${XDG_CONFIG_HOME}/zellij.bak
 [ -f ${XDG_CONFIG_HOME}/xfetch/config.jsonc ] && mv -fv ${XDG_CONFIG_HOME}/xfetch/config.jsonc ${XDG_CONFIG_HOME}/xfetch/config.jsonc
 [ -f ${XDG_CONFIG_HOME}/starship.toml ] && mv -fv ${XDG_CONFIG_HOME}/starship.toml ${XDG_CONFIG_HOME}/starship.toml.bak
@@ -197,6 +199,7 @@ git clone --depth 1 https://github.com/hackr-sh/ghostty-shaders ${XDG_CONFIG_HOM
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/kitty ${XDG_CONFIG_HOME}/kitty
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/lsd ${XDG_CONFIG_HOME}/lsd
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/mc ${XDG_CONFIG_HOME}/mc
+[ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/serie ${XDG_CONFIG_HOME}/serie
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/zellij ${XDG_CONFIG_HOME}/zellij
 [ -d ${XDG_CONFIG_HOME} ] && mkdir -p ${XDG_CONFIG_HOME}/xfetch && ln -sfv ${PWD}/xfetch/config.jsonc ${XDG_CONFIG_HOME}/xfetch/config.jsonc
 [ -d ${XDG_CONFIG_HOME} ] && ln -sfv ${PWD}/starship/starship.toml ${XDG_CONFIG_HOME}/starship.toml
