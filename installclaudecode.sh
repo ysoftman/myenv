@@ -263,17 +263,12 @@ fi
 # marketplace 추가
 # claude-plugins-official marketplace 는 기본 포함
 USER_MARKETPLACES=(
-    "backnotprop/plannotator"
-    "anthropics/skills"
-    "simple10/agents-observe"
     "nextlevelbuilder/ui-ux-pro-max-skill"
-    "forrestchang/andrej-karpathy-skills"
     "DietrichGebert/ponytail"
     "cathrynlavery/diagram-design"
     "patch-gg/pixelfx"
     "cth9191/animate"
     "ysoftman/ysoftman-claude-skills"
-    "cursor/plugins"
 )
 for mp in "${USER_MARKETPLACES[@]}"; do
     if claude plugin marketplace list 2>&1 | grep -qF "(${mp})"; then
@@ -289,14 +284,9 @@ done
 USER_PLUGINS=(
     "gopls-lsp@claude-plugins-official"
     "rust-analyzer-lsp@claude-plugins-official"
-    "ralph-loop@claude-plugins-official"
-    "plannotator@plannotator"
-    "skill-creator@claude-plugins-official"
     "slack@claude-plugins-official"
-    "example-skills@anthropic-agent-skills"
-    "agents-observe"
+    "superpowers@claude-plugins-official"
     "ui-ux-pro-max@ui-ux-pro-max-skill"
-    "andrej-karpathy-skills@karpathy-skills"
     "ponytail@ponytail"
     "diagram-design@diagram-design"
     "pixelfx@pixelfx"
@@ -304,7 +294,6 @@ USER_PLUGINS=(
     "ysoftman-agents@ysoftman-claude-skills"
     "rule-guard@ysoftman-claude-skills"
     "summary@ysoftman-claude-skills"
-    "pstack@cursor-plugins"
 )
 for plugin in "${USER_PLUGINS[@]}"; do
     if claude plugins list 2>&1 | grep -q " ${plugin%%@*}@"; then
