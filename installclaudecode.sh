@@ -183,7 +183,7 @@ if command -v rtk &>/dev/null; then
     rtk init -g --auto-patch
 fi
 
-# mod 단축키: 패널 토글(Chat 문맥 command:<이름>)과 모든 mod 패널 탭 이동(Global 문맥 pane:previous/pane:next).
+# mod 단축키: 패널 토글(Chat 문맥 command:<이름>), 모든 mod 패널 숨기기/보이기(command:panes)와 모든 mod 패널 탭 이동(Global 문맥 pane:previous/pane:next).
 # 예전 summary 바인딩(app:toggleDiffPreSession)은 지우고, action 이 이미 묶여 있으면 그 action 은, 키가 이미 쓰이면 그 키는 건드리지 않는다.
 KEYBINDINGS_FILE="${HOME}/.claude/keybindings.json"
 [[ -s "${KEYBINDINGS_FILE}" ]] || jq -n '{"$schema": "https://www.schemastore.org/claude-code-keybindings.json", bindings: []}' >"${KEYBINDINGS_FILE}"
@@ -191,6 +191,7 @@ tmp=$(mktemp)
 jq --argjson add '[
     {"context": "Chat", "action": "command:summary", "keys": ["ctrl+x s"]},
     {"context": "Chat", "action": "command:rule-guard", "keys": ["ctrl+x r"]},
+    {"context": "Chat", "action": "command:panes", "keys": ["ctrl+x h"]},
     {"context": "Global", "action": "pane:previous", "keys": ["ctrl+<", "ctrl+shift+,"]},
     {"context": "Global", "action": "pane:next", "keys": ["ctrl+>", "ctrl+shift+."]}
 ]' '
